@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paramita · Meditación y sabiduría de los Himalayas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- marca JS activo cuanto antes (evita el parpadeo de los revelados al entrar en vista) -->
+<script>document.documentElement.classList.add('js')</script>
+<!-- GSAP · ScrollTrigger (zoom-out de la Frase) + Flip (grid de cursos) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js" defer></script>
+<style>
+@layer tokens, base, fluid, bar, menu, cta, hero, sections, extras, modal, footer, responsive;
+
+@layer tokens{
+  :root{
+    /* ── PALETA RECALENTADA: hueso, pergamino, tierra lavada (sin grises ni azules fríos de fondo) ── */
+    --lino:#FBF7EF;       /* hueso cálido */
+    --arena:#F6EEE0;      /* pergamino suave */
+    --arcilla:#EFE4D2;    /* tierra lavada */
+    --calido-zen:#F1E6D2; /* fondo del hero + hover de cursos/eventos */
+    --card:#FFFDF8;       /* blanco cálido (no #FFF puro) */
+    --antracita:#211E1A;  /* tinta cálida */
+    --texto-suave:#5A554E; --hair:rgba(40,33,26,.10);
+    --azul-oscuro:#105EA9; --azul-sutil:#00C7E5; --dorado:#FFB400;
+    --base-bg:#FAF6F0;    /* fondo base del lienzo de fluido + fallback sin WebGL */
+    --display:"Fraunces",Georgia,serif;
+    --body:"Hanken Grotesk",system-ui,sans-serif;
+    --ease:cubic-bezier(0.22,1,0.36,1);
+    --t-slow:.95s var(--ease); --t-med:.55s var(--ease); --t-fast:.26s var(--ease);
+    --bar-h:80px;
+    --logo-mask:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20612.3%20181.4%27%3E%3Cg%20fill%3D%27black%27%3E%3Cpath%20d%3D%27M225.4%2C64c15.5%2C0%2C24.8%2C7%2C24.8%2C18.8s-8.5%2C19.7-22.9%2C20c-1.3%2C0-2.4%2C0-3.1%2C0l-.2-1.3c6.7-2.8%2C9.4-7.7%2C9.4-18.6s-3.9-15.8-11.9-15.8h-1.4v44.4c0%2C5.1%2C1.3%2C8.5%2C3.9%2C10.3v1.3h-23v-1.3c2.5-1.7%2C3.9-5.1%2C3.9-10.3v-35.7c0-5.2-1.3-8.7-3.9-10.3v-1.3h24.5Z%27%2F%3E%3Cpath%20d%3D%27M295.1%2C118.2v1.6c-3.2%2C2.7-5.5%2C3.9-10.5%2C3.9s-7.3-1.9-8.9-5.7c-3.2%2C3.8-7.6%2C5.7-13%2C5.7s-12-4.8-12-11.6%2C1.9-8.2%2C5.7-10.6c3.8-2.4%2C8.4-3.7%2C13.7-3.7s3.2%2C0%2C4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5%2C0-4.5.9-5.7%2C2.6%2C1.5%2C1.3%2C2.2%2C3%2C2.2%2C5%2C0%2C3.9-2.5%2C6.7-6.5%2C6.7s-6.5-2.7-6.5-6.5%2C1.6-5.8%2C4.8-7.7c3.2-1.9%2C7.3-2.9%2C12.1-2.9%2C10.3%2C0%2C15.4%2C2.5%2C17.7%2C7.2%2C1.7%2C3.2%2C2%2C6.2%2C2%2C11v18c0%2C2.9%2C1.6%2C4.4%2C4.6%2C4.4h1.5ZM274.6%2C101c-6.3%2C0-9.5%2C3.6-9.5%2C9.5s1.9%2C6.7%2C5.4%2C6.7%2C3.2-.6%2C4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z%27%2F%3E%3Cpath%20d%3D%27M506.7%2C116.4c-3.4%2C4.5-9%2C7.4-14.6%2C7.4-8.1%2C0-11.6-4.7-11.6-14.4v-27.9h-5.5v-4.2c6.7-2.5%2C13.5-6.9%2C17-14h3v13.9l9.8-1-.8%2C5.2h-9v26.2c0%2C6%2C1.8%2C9%2C5.6%2C9s3.2-.4%2C5.3-1.3l.8%2C1.1Z%27%2F%3E%3Cpath%20d%3D%27M552.4%2C118.2v1.6c-3.2%2C2.7-5.5%2C3.9-10.5%2C3.9s-7.3-1.9-8.9-5.7c-3.2%2C3.8-7.6%2C5.7-13%2C5.7s-12-4.8-12-11.6%2C1.9-8.2%2C5.7-10.6c3.8-2.4%2C8.4-3.7%2C13.7-3.7s3.2%2C0%2C4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5%2C0-4.5.9-5.7%2C2.6%2C1.5%2C1.3%2C2.2%2C3%2C2.2%2C5%2C0%2C3.9-2.5%2C6.7-6.5%2C6.7s-6.5-2.7-6.5-6.5%2C1.6-5.8%2C4.8-7.7c3.2-1.9%2C7.3-2.9%2C12.1-2.9%2C10.3%2C0%2C15.4%2C2.5%2C17.7%2C7.2%2C1.7%2C3.2%2C2%2C6.2%2C2%2C11v18c0%2C2.9%2C1.6%2C4.4%2C4.6%2C4.4h1.5ZM531.8%2C101c-6.3%2C0-9.5%2C3.6-9.5%2C9.5s1.9%2C6.7%2C5.4%2C6.7%2C3.2-.6%2C4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z%27%2F%3E%3Cpath%20d%3D%27M367.7%2C118.2c-3.1%2C0-4.6-1.5-4.6-4.4v-18c0-4.8-.3-7.9-2-11-2.3-4.6-7.4-7.2-17.7-7.2s-2.4%2C0-4.1.4c.7.9%2C1.2%2C1.6%2C1.7%2C2.6.5-.1.8-.2%2C2-.2%2C2.5%2C0%2C4.2%2C1.1%2C5%2C3.2.4%2C1.3.7%2C4.7.7%2C10.2v4.4c-1.3-.2-2.8-.3-4.5-.3-5.3%2C0-10%2C1.2-13.7%2C3.7-3.8%2C2.4-5.7%2C6-5.7%2C10.6%2C0%2C6.7%2C4.7%2C11.6%2C12%2C11.6s9.8-1.9%2C13-5.7c1.7%2C3.8%2C4.6%2C5.7%2C8.9%2C5.7s7.4-1.2%2C10.5-3.9v-1.6h-1.5ZM344.5%2C117.2c-3.5%2C0-5.4-2.9-5.4-6.7%2C0-5.9%2C3.2-9.5%2C9.5-9.5v10.8c0%2C1.3%2C0%2C2.5.3%2C3.5-1.1%2C1.3-2.6%2C1.9-4.3%2C1.9Z%27%2F%3E%3Cpath%20d%3D%27M444.2%2C111.4v-18.2c0-10.5-3-15.5-11.6-15.5s-12.5%2C3.4-16.4%2C8.8c-1.2-5.9-4.9-8.8-11-8.8s-11.5%2C2.9-15.8%2C8.8v-9.2c-4.9%2C1.8-10.9%2C3.5-18.2%2C5h-.1v1.4l1%2C.6c1.3.7%2C2.9%2C3.3%2C2.9%2C6.6v20.7c0%2C5.1-1.4%2C8.5-4.3%2C10.3v1.3h22.6v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-22.9c2.2-1.1%2C4.5-1.7%2C6.7-1.7%2C4.2%2C0%2C6.3%2C2.4%2C6.3%2C7.3v17.2c0%2C5.2-1.3%2C8.7-3.9%2C10.3v1.3h22.2v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-18.8c0-1.5%2C0-2.9-.3-4.2%2C1.7-1%2C3.8-1.5%2C6.3-1.5%2C4.6%2C0%2C6.9%2C2.4%2C6.9%2C7.3v17.2c0%2C5.2-1.3%2C8.7-3.9%2C10.3v1.3h22.6v-1.3c-2.9-2-4.3-5.5-4.3-10.3Z%27%2F%3E%3Cpath%20d%3D%27M330.8%2C77.6c-5.3%2C0-12.3%2C4.5-15.5%2C9.7v-10.1c-5%2C1.8-10.9%2C3.6-18.3%2C5v1.3l1%2C.6c1.3.7%2C2.9%2C3.3%2C2.9%2C6.6v20.7c0%2C5.1-1.4%2C8.5-4.3%2C10.3v1.3h24.8v-1.3c-4-1.8-6-5.3-6-10.3v-21.5c2.4-2.4%2C6.6-3.6%2C8.6-3.8.3%2C3.9%2C3.2%2C7.2%2C7.1%2C7.2s7.7-3.3%2C7.7-8-3.1-7.7-7.9-7.7Z%27%2F%3E%3Cpath%20d%3D%27M468.9%2C70.6c3.4-3.2%2C3.4-8.7%2C0-11.9-3.2-3.4-8.7-3.4-11.9%2C0-3.2%2C3.2-3.2%2C8.7%2C0%2C11.9%2C3.2%2C3.2%2C8.7%2C3.2%2C11.9%2C0Z%27%2F%3E%3Cpath%20d%3D%27M452.4%2C83.8v1.3l1%2C.5c1.3.8%2C2.9%2C3.4%2C2.9%2C6.7v19.1c0%2C5.1-1.4%2C8.5-4.3%2C10.3v1.3h23v-1.3c-2.9-2-4.3-5.5-4.3-10.3v-32.7c-4.9%2C1.8-10.9%2C3.6-18.3%2C5Z%27%2F%3E%3Ccircle%20cx%3D%27112.1%27%20cy%3D%2758.6%27%20r%3D%2710.1%27%2F%3E%3Cpath%20d%3D%27M94%2C67.6s2%2C5.3%2C8%2C10c6%2C4.7%2C8.6%2C10%2C9%2C20.3s.5%2C24.3.5%2C24.3c0%2C0-3.8-10.5-4.8-13.6s-4.2-15.9-9.7-21-7.9-5.6-7.9-5.6c0%2C0%2C1.1-8.3%2C4.9-14.4Z%27%2F%3E%3Cpath%20d%3D%27M130.3%2C67.6s-2%2C5.3-8%2C10c-6%2C4.7-8.6%2C10-9%2C20.3-.4%2C10.3-.5%2C24.3-.5%2C24.3%2C0%2C0%2C3.8-10.5%2C4.8-13.6%2C1-3.1%2C4.2-15.9%2C9.7-21%2C4.7-4.4%2C7.9-5.6%2C7.9-5.6%2C0%2C0-1.1-8.3-4.9-14.4Z%27%2F%3E%3Cpath%20d%3D%27M74.3%2C74.8s2.6%2C4.3%2C5.7%2C5.6%2C11.6%2C4.7%2C15.5%2C8.6c3.9%2C3.9%2C11%2C25.5%2C11%2C25.5%2C0%2C0-3.6-5.7-13-9.7%2C0%2C0-5.3-2.1-9.7-2.6s-5.9-1.9-7.3-4.9-4.1-13.9-2.2-22.4Z%27%2F%3E%3Cpath%20d%3D%27M149.9%2C74.8s-2.6%2C4.3-5.7%2C5.6-11.6%2C4.7-15.5%2C8.6-11%2C25.5-11%2C25.5c0%2C0%2C3.6-5.7%2C13-9.7%2C0%2C0%2C5.3-2.1%2C9.7-2.6%2C4.4-.5%2C5.9-1.9%2C7.3-4.9s4.1-13.9%2C2.2-22.4Z%27%2F%3E%3Cpath%20d%3D%27M109.8%2C124s-8.4-29.3-49.1-17.5c0%2C0%2C5.7.7%2C9.9%2C6%2C4.2%2C5.3%2C7.4%2C11.2%2C18%2C10.2%2C10.5-1%2C17.4-1.3%2C21.2%2C1.3Z%27%2F%3E%3Cpath%20d%3D%27M114.4%2C124s8.4-29.3%2C49.1-17.5c0%2C0-5.7.7-9.9%2C6s-7.4%2C11.2-18%2C10.2c-10.5-1-17.4-1.3-21.2%2C1.3Z%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  }
+}
+
+@layer base{
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;background:var(--base-bg)}
+  body{background:var(--base-bg);color:var(--antracita);font-family:var(--body);
+    font-weight:300;line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--azul-oscuro);color:#fff}
+  :focus-visible{outline:2px solid var(--azul-oscuro);outline-offset:4px;border-radius:4px}
+  h1,h2,h3{font-family:var(--display);font-optical-sizing:auto;font-weight:300;line-height:1.06;letter-spacing:-.02em}
+  em{font-style:italic;color:var(--azul-oscuro)}
+  .eyebrow{font-family:var(--body);font-weight:600;font-size:.74rem;
+    letter-spacing:.32em;text-transform:uppercase;color:var(--dorado)}
+  .wrap{width:min(1240px,90vw);margin-inline:auto}
+  .measure{max-width:62ch}
+  .t-link{position:relative;display:inline-flex;align-items:center;gap:.5em;
+    font-family:var(--body);font-weight:600;font-size:1.02rem;letter-spacing:.005em;
+    color:var(--antracita);cursor:pointer;background:none;border:none;padding:.2em 0;
+    transition:gap var(--t-med),letter-spacing var(--t-med)}
+  .t-link .txt{
+    background-image:linear-gradient(100deg,var(--azul-oscuro),var(--azul-sutil) 45%,var(--dorado));
+    background-size:0% 100%;background-repeat:no-repeat;background-position:left;
+    -webkit-background-clip:text;background-clip:text;transition:background-size var(--t-slow)}
+  .t-link .arw{transition:transform var(--t-med);color:var(--azul-oscuro)}
+  .t-link:hover .txt,.t-link:focus-visible .txt{background-size:100% 100%;-webkit-text-fill-color:transparent;color:transparent}
+  .t-link:hover,.t-link:focus-visible{gap:.85em;letter-spacing:.015em}
+  .t-link:hover .arw{transform:translateX(3px)}
+  @supports not ((-webkit-background-clip:text) or (background-clip:text)){
+    .t-link:hover .txt,.t-link:focus-visible .txt{color:var(--azul-oscuro)}
+  }
+}
+
+/* ═══════════════ FONDO GLOBAL: FLUIDO WebGL (refracción de luz) ═══════════════
+   El lienzo vive DETRÁS de todo el contenido (z-index 0) y no captura eventos
+   (pointer-events:none), por lo que textos, botones, enlaces y menú siguen 100%
+   interactivos. El shader pinta el lino vivo #FAF6F0 + una veladura líquida azul→
+   dorado de opacidad máxima 0.18. Si no hay WebGL, el lienzo se oculta y queda el
+   color de fondo base del body. */
+@layer fluid{
+  #fluido{position:fixed;inset:0;width:100vw;height:100vh;display:block;
+    z-index:0;pointer-events:none}
+  @media (prefers-reduced-motion:reduce){#fluido{display:none}}
+}
+
+/* ═══════════════ BARRA · STICKY GLASS ═══════════════ */
+@layer bar{
+  .bar{position:sticky;top:0;z-index:100;
+    background:color-mix(in oklch,var(--arena) 70%,transparent);
+    -webkit-backdrop-filter:saturate(150%) blur(14px);backdrop-filter:saturate(150%) blur(14px);
+    border-bottom:1px solid transparent;
+    transition:border-color var(--t-med),background var(--t-med),box-shadow var(--t-med)}
+  .bar.scrolled{background:color-mix(in oklch,var(--arena) 90%,transparent);
+    border-color:var(--hair);box-shadow:0 12px 44px -30px rgba(40,33,26,.45)}
+  .bar-inner{display:flex;align-items:center;gap:1.5rem;height:var(--bar-h);transition:height var(--t-med)}
+
+  .logo{flex:none;display:inline-flex;align-items:center;padding:.3rem;margin-left:-.3rem;border-radius:10px}
+  .logo-wave{display:block;width:150px;aspect-ratio:612.3/181.4;
+    background:linear-gradient(100deg,var(--azul-oscuro) 0%,var(--azul-sutil) 25%,var(--dorado) 50%,
+      var(--azul-sutil) 75%,var(--azul-oscuro) 100%);
+    background-size:200% 100%;animation:flow 11s linear infinite;
+    -webkit-mask:var(--logo-mask) no-repeat center/contain;mask:var(--logo-mask) no-repeat center/contain;
+    transition:filter var(--t-slow), width var(--t-med);will-change:background-position}
+  @keyframes flow{to{background-position:200% 0}}
+  .bar:hover .logo-wave{animation-duration:3.4s;filter:saturate(1.25) brightness(1.04)}
+  .logo-fallback{display:none;width:150px;height:auto}
+  @supports not ((-webkit-mask:var(--logo-mask)) or (mask:var(--logo-mask))){
+    .logo-wave{display:none}.logo-fallback{display:block}}
+  @supports (animation-timeline:scroll()){
+    @media (prefers-reduced-motion:no-preference){
+      .bar-inner{animation:condense linear both;animation-timeline:scroll(root block);animation-range:0 110px}
+      @keyframes condense{to{height:62px}}
+      .logo-wave{animation:flow 11s linear infinite, shrink linear both;
+        animation-timeline:auto, scroll(root block);animation-range:auto, 0 110px}
+      @keyframes shrink{to{width:122px}}}}
+}
+
+/* ═══════════════ MENÚ ═══════════════ */
+@layer menu{
+  .menu{margin-left:auto;display:flex;align-items:center;gap:1.4rem}
+  .links{list-style:none;display:flex;align-items:center;gap:.3rem}
+  .links>li{position:relative}
+  .navlink{--w:400;position:relative;display:inline-flex;align-items:center;gap:.4rem;
+    font-family:var(--body);font-size:.96rem;font-weight:var(--w);letter-spacing:-.005em;
+    color:var(--antracita);background:none;border:none;cursor:pointer;padding:.55rem .55rem;border-radius:8px;
+    transition:font-weight var(--t-fast),color var(--t-med),opacity var(--t-med)}
+  .navlink::after{content:"";position:absolute;left:50%;right:50%;bottom:.28rem;height:1.6px;border-radius:2px;
+    background:linear-gradient(90deg,var(--azul-oscuro),var(--azul-sutil),var(--dorado));
+    transition:left var(--t-med),right var(--t-med)}
+  .navlink:hover,.navlink:focus-visible{--w:600;color:var(--azul-oscuro)}
+  .navlink:hover::after,.navlink:focus-visible::after{left:.55rem;right:.55rem}
+  .bar:has(.navlink:hover) .navlink:not(:hover){opacity:.4}
+  .caret{width:.5em;height:.5em;border-right:1.7px solid currentColor;border-bottom:1.7px solid currentColor;
+    transform:rotate(45deg) translateY(-1px);transition:transform var(--t-med);opacity:.6}
+  .has-sub:hover .caret,.has-sub:focus-within .caret{transform:rotate(-135deg) translateY(-1px)}
+  .div{width:1px;height:24px;background:var(--hair);flex:none}
+  .sub{position:absolute;top:calc(100% + 2px);left:50%;translate:-50% 10px;
+    min-width:236px;padding:.45rem;list-style:none;display:grid;gap:.1rem;
+    background:color-mix(in oklch,var(--card) 88%,transparent);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);
+    border:1px solid var(--hair);border-radius:16px;overflow:hidden;
+    box-shadow:0 28px 64px -34px rgba(40,33,26,.5);
+    opacity:0;pointer-events:none;transition:opacity var(--t-med),translate var(--t-med)}
+  .sub::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;
+    background:linear-gradient(90deg,var(--azul-sutil),var(--dorado))}
+  .has-sub:hover .sub,.has-sub:focus-within .sub{opacity:1;pointer-events:auto;translate:-50% 0}
+  .has-sub.end .sub{left:auto;right:0;translate:0 10px}
+  .has-sub.end:hover .sub,.has-sub.end:focus-within .sub{translate:0 0}
+  .sub a{display:grid;gap:.05rem;padding:.65rem .8rem;border-radius:11px;transition:background var(--t-fast),padding var(--t-fast)}
+  .sub a:hover{background:var(--arcilla);padding-left:1rem}
+  .sub strong{font-weight:500;font-size:.92rem;color:var(--antracita)}
+  .sub span{font-size:.76rem;color:var(--texto-suave)}
+  .nt{display:none}.burger{display:none}
+}
+
+/* ═══════════════ CTAs ═══════════════ */
+@layer cta{
+  .ctas{display:flex;align-items:center;gap:.7rem}
+  .btn-contacto{font-size:.95rem;font-weight:500;color:var(--texto-suave);
+    padding:.55rem 1.05rem;border-radius:99px;border:1px solid var(--hair);
+    transition:color var(--t-med),border-color var(--t-med),background var(--t-med)}
+  .btn-contacto:hover{color:var(--azul-oscuro);border-color:color-mix(in oklch,var(--azul-oscuro) 45%,transparent);
+    background:color-mix(in oklch,var(--azul-sutil) 14%,transparent)}
+  .btn-amigo{position:relative;isolation:isolate;overflow:hidden;font-size:.96rem;font-weight:600;color:#fff;
+    letter-spacing:.005em;padding:.66rem 1.45rem;border-radius:99px;
+    box-shadow:0 12px 28px -14px var(--azul-oscuro), inset 0 1px 0 rgba(255,255,255,.28);
+    transition:transform var(--t-med),box-shadow var(--t-med),letter-spacing var(--t-med)}
+  @supports (corner-shape:superellipse(2)){.btn-amigo{border-radius:20px;corner-shape:superellipse(2.4)}}
+  .btn-amigo::before{content:"";position:absolute;inset:0;z-index:-1;
+    background:linear-gradient(100deg,var(--azul-oscuro),var(--azul-sutil),var(--dorado),var(--azul-sutil),var(--azul-oscuro));
+    background-size:200% 100%;animation:flow 8s linear infinite}
+  .btn-amigo::after{content:"";position:absolute;inset:0;z-index:-1;
+    background:linear-gradient(105deg,transparent 32%,rgba(255,255,255,.55) 50%,transparent 68%);
+    translate:-130% 0;transition:translate var(--t-slow)}
+  .btn-amigo:hover{transform:translateY(-2px);letter-spacing:.02em;
+    box-shadow:0 18px 36px -14px var(--azul-oscuro), inset 0 1px 0 rgba(255,255,255,.4)}
+  .btn-amigo:hover::after{translate:130% 0}
+  .bar:hover .btn-amigo::before{animation-duration:3.4s}
+}
+
+/* ═══════════════ HERO · cálido ═══════════════ */
+@layer hero{
+  .hero{position:relative;z-index:2;width:100%;min-height:calc(100svh - var(--bar-h));
+    display:grid;align-content:start;padding-top:clamp(2rem,7vh,5rem);padding-bottom:clamp(3rem,9vh,7rem);
+    background:radial-gradient(120% 85% at 80% -12%, var(--calido-zen), transparent 62%)}
+  .hero__inner{width:min(1240px,90vw);margin-inline:auto}  /* columna de texto alineada con la barra */
+  .hero .eyebrow{margin-bottom:1.5rem}
+  .hero h1{font-size:clamp(2.7rem,7.4vw,6rem);max-width:16ch;text-wrap:balance}
+  .hero .lede{margin-top:1.7rem;max-width:50ch;color:var(--texto-suave);font-size:clamp(1.05rem,2vw,1.22rem)}
+  .hero .actions{margin-top:2.6rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+  .hero .meta{font-size:.84rem;color:var(--texto-suave);display:flex;align-items:center;gap:.6rem}
+  .hero .meta b{font-weight:600;color:var(--antracita)}
+  .pulse{width:7px;height:7px;border-radius:99px;background:var(--dorado);flex:none;
+    box-shadow:0 0 0 0 color-mix(in oklch,var(--dorado) 60%,transparent);animation:beat 2.6s var(--ease) infinite}
+  @keyframes beat{0%{box-shadow:0 0 0 0 color-mix(in oklch,var(--dorado) 55%,transparent)}
+    70%{box-shadow:0 0 0 9px transparent}100%{box-shadow:0 0 0 0 transparent}}
+
+  /* ── HERO · vídeo de fondo + texto rotador (anti-CLS, portado del hero-preview) ── */
+  .hero{isolation:isolate;overflow:hidden}
+  .hero > *{position:relative;z-index:2}              /* contenido siempre por delante */
+  .hero__bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+  .hero__bg-video{width:100%;height:100%;object-fit:cover;object-position:center right;
+    opacity:.62;mix-blend-mode:multiply;transition:opacity var(--t-slow)}
+  /* fallback animado si el vídeo no carga */
+  .hero__bg-fallback{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.85;
+    background:
+      radial-gradient(70% 60% at 78% 50%, color-mix(in oklch, var(--dorado) 24%, transparent), transparent 70%),
+      radial-gradient(60% 70% at 95% 80%, color-mix(in oklch, var(--azul-sutil) 18%, transparent), transparent 65%),
+      conic-gradient(from 200deg at 80% 40%, color-mix(in oklch, var(--azul-oscuro) 12%, transparent), color-mix(in oklch, var(--dorado) 14%, transparent), color-mix(in oklch, var(--arcilla) 80%, transparent));
+    filter:blur(40px) saturate(1.1);animation:fallbackFlow 18s var(--ease) infinite alternate}
+  @keyframes fallbackFlow{0%{transform:scale(1.05) translate(0,0)}100%{transform:scale(1.12) translate(-2%,1%)}}
+  /* velo cálido VERTICAL (arriba→abajo): refuerza el contraste del pretítulo y el título grande */
+  .hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:
+      linear-gradient(180deg, color-mix(in oklch, var(--arena) 90%, transparent) 0%,
+        color-mix(in oklch, var(--arena) 64%, transparent) 26%, transparent 58%),
+      linear-gradient(180deg, transparent 60%, color-mix(in oklch, var(--arena) 60%, transparent) 100%)}
+  /* MÓVIL: el vídeo vertical (banner-movil) se encuadra centrado y el velo superior es algo más firme */
+  @media (max-width:768px){
+    .hero__bg-video{object-position:center}
+    .hero::after{background:
+      linear-gradient(180deg, color-mix(in oklch, var(--arena) 95%, transparent) 0%,
+        color-mix(in oklch, var(--arena) 70%, transparent) 30%, transparent 62%),
+      linear-gradient(180deg, transparent 64%, color-mix(in oklch, var(--arena) 64%, transparent) 100%)}}
+  /* rotador de palabras · crossfade contemplativo (sin CLS) */
+  .rotator{display:inline-grid;vertical-align:baseline;text-align:left}
+  .rotator__word{grid-area:1/1;opacity:0;transform:translateY(.12em);white-space:nowrap;
+    transition:opacity 1.1s var(--ease), transform 1.1s var(--ease);
+    font-style:italic;color:var(--azul-oscuro);font-family:var(--display);font-weight:300;
+    pointer-events:none;will-change:opacity,transform}
+  .rotator__word.is-active{opacity:1;transform:none;pointer-events:auto;
+    transition:opacity .85s var(--ease) .15s, transform .9s var(--ease) .15s}
+  /* toggle de audio del vídeo de fondo */
+  .hero__sound{position:absolute;z-index:3;right:clamp(1rem,3vw,2rem);bottom:clamp(1rem,3vw,2rem);
+    width:44px;height:44px;border-radius:99px;display:grid;place-items:center;cursor:pointer;
+    color:var(--texto-suave);background:color-mix(in oklch, var(--lino) 70%, transparent);
+    border:1px solid var(--hair);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    transition:background var(--t-med), color var(--t-med), transform var(--t-med),
+               border-color var(--t-med), box-shadow var(--t-med)}
+  .hero__sound:hover{background:var(--card);color:var(--azul-oscuro);transform:translateY(-1px);
+    border-color:color-mix(in oklch, var(--azul-oscuro) 30%, transparent);
+    box-shadow:0 8px 20px -10px rgba(40,33,26,.25)}
+  .hero__sound svg{width:18px;height:18px;display:block;transition:transform var(--t-fast)}
+  .hero__sound .icon-on{display:none}.hero__sound .icon-off{display:block}
+  .hero__sound.is-on .icon-on{display:block}.hero__sound.is-on .icon-off{display:none}
+  .hero__sound.is-on{color:var(--azul-oscuro);
+    border-color:color-mix(in oklch, var(--azul-oscuro) 30%, transparent);
+    background:color-mix(in oklch, var(--azul-sutil) 12%, var(--card))}
+  .hero__sound:focus-visible{outline-offset:6px}
+  @media (prefers-reduced-motion:reduce){
+    .rotator__word{transition:opacity .3s linear;transform:none}
+    .hero__bg-fallback{animation:none}.hero__bg-video{display:none}}
+  @media (max-width:768px){
+    .hero__bg-video{object-position:center center}
+    .hero::after{background:linear-gradient(180deg,
+      color-mix(in oklch, var(--arena) 55%, transparent) 0%, transparent 28%,
+      color-mix(in oklch, var(--arena) 75%, transparent) 100%)}
+    .rotator__word{white-space:normal}}
+}
+
+/* ═══════════════ SECCIONES ═══════════════ */
+@layer sections{
+  .section{position:relative;z-index:2;padding-block:clamp(4.5rem,11vh,8rem)}
+  .s-head{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:3rem}
+  .s-head h2{font-size:clamp(2rem,4.5vw,3.3rem);max-width:18ch;text-wrap:balance}
+  .s-head .eyebrow{display:block;margin-bottom:1rem}
+  .s-head p{max-width:38ch;color:var(--texto-suave);font-size:1rem}
+
+  /* ── CROWDFUNDING · foto clara + degradado de marca infinito (igual que logo y botón) ── */
+  .band{position:relative;z-index:2;isolation:isolate;overflow:hidden;color:#fff;
+    border-radius:28px;padding:clamp(2.6rem,6vw,5rem);margin-block:clamp(2rem,5vh,3.5rem);min-height:54vh;
+    display:grid;align-content:center;
+    /* foto local SIN oscurecer; debajo, degradado cálido claro de respaldo si img/ falta */
+    background:
+      url("img/imagen-muestra-crowfunding.jpg") center/cover no-repeat,
+      linear-gradient(120deg,var(--arcilla),var(--calido-zen))}
+  @supports (corner-shape:superellipse(2)){.band{border-radius:40px;corner-shape:superellipse(3)}}
+  /* degradado de marca INFINITO E INTERACTIVO sobre la foto · idéntico al del logo y
+     al botón "Hazte amigo" (mismos colores 100deg, palindrómico, animación flow).
+     mix-blend-mode:multiply deja ver la foto y mantiene el texto blanco legible. */
+  .band::before{content:"";position:absolute;inset:0;z-index:-1;mix-blend-mode:multiply;opacity:.8;
+    background:linear-gradient(100deg,
+      var(--azul-oscuro),var(--azul-sutil),var(--dorado),var(--azul-sutil),var(--azul-oscuro));
+    background-size:200% 100%;animation:flow 8s linear infinite}
+  .band:hover::before{animation-duration:3.4s}   /* interactivo: acelera al pasar (como el logo) */
+  .band .eyebrow{color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.45)}
+  .band h2{font-family:var(--display);font-weight:300;font-size:clamp(1.9rem,4.4vw,3.2rem);
+    line-height:1.05;max-width:18ch;margin:1.1rem 0 .4rem;text-wrap:balance;
+    text-shadow:0 2px 28px rgba(0,0,0,.55),0 1px 4px rgba(0,0,0,.4)}
+  .band h2 em{color:#fff;font-style:italic}
+  .band p{max-width:46ch;color:#fff;margin-bottom:2rem;
+    text-shadow:0 2px 22px rgba(0,0,0,.5),0 1px 3px rgba(0,0,0,.4)}
+  /* botón alineado al ancho del bloque de texto superior (46ch) */
+  .band .btn-claro{display:flex;width:100%;max-width:46ch;align-items:center;justify-content:space-between;
+    gap:.6em;font-weight:600;font-size:1rem;
+    color:var(--azul-oscuro);background:#fff;padding:.9rem 1.6rem;border-radius:99px;
+    transition:transform var(--t-med),box-shadow var(--t-med);box-shadow:0 16px 40px -18px rgba(0,0,0,.5)}
+  @supports (corner-shape:superellipse(2)){.band .btn-claro{border-radius:22px;corner-shape:superellipse(2.4)}}
+  .band .btn-claro:hover{transform:translateY(-2px);box-shadow:0 22px 50px -18px rgba(0,0,0,.55)}
+
+  /* ── CURSOS / NOTICIAS / EVENTOS · franja-imagen que se expande en hover ── */
+  .idx{border-top:1px solid var(--hair)}
+  .course{position:relative;display:block;border-bottom:1px solid var(--hair);overflow:hidden;
+    transition:background var(--t-slow)}
+  .course:hover{background:var(--calido-zen)}                 /* hover cálido, no frío */
+  /* el "slit": franja parcial; crece de forma orgánica con la curva premium */
+  .course .slit{position:relative;height:74px;overflow:hidden;transition:height var(--t-slow)}
+  .course:hover .slit,.course:focus-within .slit{height:240px}
+  .course .pic{position:absolute;inset:0;background-size:cover;background-position:center 38%;
+    transform:scale(1.14);transition:transform var(--t-slow)}
+  .course:hover .pic,.course:focus-within .pic{transform:scale(1)}
+  .course .pic::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 40%,rgba(28,18,10,.45))}
+  /* fila de contenido bajo la franja */
+  .course .row{display:grid;grid-template-columns:9.5rem 1fr auto;gap:1.2rem 2rem;align-items:center;
+    padding:1.2rem .6rem 1.4rem;transition:padding var(--t-med)}
+  .course:hover .row{padding-inline:1.2rem}
+  .course .when{font-size:.82rem;color:var(--texto-suave);line-height:1.45}
+  .course .when b{display:block;font-weight:600;color:var(--antracita);font-size:.86rem}
+  .course h3{font-family:var(--display);font-weight:400;font-size:clamp(1.3rem,2.6vw,1.8rem);
+    letter-spacing:-.015em;line-height:1.12;transition:color var(--t-med)}
+  .course:hover h3{color:var(--azul-oscuro)}
+  .tags{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;justify-self:end}
+  .tag{font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+    padding:.32em .7em;border-radius:99px;border:1px solid var(--hair);color:var(--texto-suave);white-space:nowrap}
+  .tag.free{color:var(--azul-oscuro);border-color:color-mix(in oklch,var(--azul-oscuro) 35%,transparent)}
+  .tag.soon{color:#9a6b00;border-color:color-mix(in oklch,var(--dorado) 55%,transparent);
+    background:color-mix(in oklch,var(--dorado) 14%,transparent)}
+  .idx-foot{margin-top:2.4rem}
+  .idx-foot--center{text-align:center}
+  /* ── TRAZO DIVISOR entre bloques · se dibuja con el scroll (stroke-dasharray/offset) ── */
+  .trazo-divisor{position:relative;z-index:2;width:min(1100px,92vw);margin:clamp(1rem,4vh,3rem) auto;
+    pointer-events:none}
+  .trazo-divisor svg{width:100%;height:auto;display:block;overflow:visible}
+  .trazo-divisor__path{fill:none;stroke:url(#divGrad);stroke-width:2.4;
+    stroke-linecap:round;stroke-linejoin:round;opacity:.72;will-change:stroke-dashoffset}
+  @media (max-width:640px){.trazo-divisor__path{stroke-width:3.2}}   /* trazo algo más visible en móvil */
+  @media (prefers-reduced-motion:reduce){.trazo-divisor__path{stroke-dashoffset:0!important}}
+
+  /* ── MISIÓN + VÍDEO premium ── */
+  .mission{position:relative;z-index:2;padding-block:clamp(4.5rem,11vh,8rem);
+    background:linear-gradient(180deg,transparent,var(--arcilla) 30%,var(--arcilla) 70%,transparent)}
+  .mission-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4rem);align-items:center}
+  .mission .eyebrow{margin-bottom:1.6rem}
+  .mission .quote{font-family:var(--display);font-weight:300;font-size:clamp(1.7rem,3.6vw,2.7rem);
+    line-height:1.18;letter-spacing:-.015em;max-width:20ch}
+  .mission .quote em{font-style:italic}
+  .mission .body{margin-top:1.6rem;max-width:50ch;color:var(--texto-suave);font-size:1.02rem}
+  .mission .signed{margin-top:1.8rem;display:flex;align-items:center;gap:.8rem;font-size:.86rem;color:var(--texto-suave)}
+  .mission .signed .line{width:38px;height:1px;background:var(--azul-oscuro)}
+  /* contenedor de vídeo premium (poster local + trigger a modal) */
+  .video{position:relative;aspect-ratio:4/3;border-radius:24px;overflow:hidden;cursor:pointer;isolation:isolate;
+    box-shadow:0 40px 80px -40px rgba(40,33,26,.5)}
+  @supports (corner-shape:superellipse(2)){.video{border-radius:34px;corner-shape:superellipse(3)}}
+  .video .poster{position:absolute;inset:0;background:
+    url("img/bienvenida-paramita.jpg") center/cover no-repeat,
+    linear-gradient(135deg,#3a2a1a,#5a3d22);transition:transform var(--t-slow);transform:scale(1.04)}
+  .video:hover .poster{transform:scale(1.1)}
+  .video::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(28,18,10,.5),transparent 60%)}
+  .video .play{position:absolute;inset:0;z-index:2;display:grid;place-items:center}
+  .video .play span{width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,.92);
+    display:grid;place-items:center;transition:transform var(--t-med),background var(--t-med)}
+  .video:hover .play span{transform:scale(1.08);background:#fff}
+  .video .play span::after{content:"";border-left:24px solid var(--azul-oscuro);
+    border-top:14px solid transparent;border-bottom:14px solid transparent;margin-left:6px}
+  .video figcaption{position:absolute;z-index:2;left:1.4rem;bottom:1.2rem;color:#fff;font-size:.9rem;
+    font-weight:500;text-shadow:0 1px 16px rgba(0,0,0,.4)}
+
+  /* ── BLOG · TARJETAS EN CAPAS (efecto 01 de ejemplo-efectos-00) ──
+     Barra-imagen que crece en hover + título "fantasma" que asoma por detrás (capas).
+     Entrada en cascada al hacer scroll (stagger por JS, sin chocar con el hover). */
+  .blog{position:relative;z-index:2}
+  .grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.4rem;margin-top:2.4rem}
+  html.js .efx-card:not(.efx-in){opacity:0;transform:translateY(28px)}
+  .efx-card{position:relative;display:block;background:var(--card);border:1px solid var(--hair);
+    border-radius:20px;overflow:hidden;will-change:transform,opacity;
+    transition:opacity .7s var(--ease),transform .7s var(--ease),background var(--t-slow),box-shadow var(--t-slow)}
+  @supports (corner-shape:superellipse(2)){.efx-card{border-radius:26px;corner-shape:superellipse(2.6)}}
+  .efx-card.efx-in:hover,.efx-card.efx-in:focus-visible{background:color-mix(in oklch,var(--arena) 70%,transparent);transform:translateY(-4px);
+    box-shadow:0 30px 60px -34px rgba(33,33,33,.4)}
+  /* barra-imagen: altura reducida, crece en hover */
+  .efx-card .bar-img{position:relative;height:82px;overflow:hidden;border-bottom:1px solid var(--hair);
+    transition:height var(--t-slow)}
+  .efx-card:hover .bar-img,.efx-card:focus-visible .bar-img{height:208px}
+  .efx-card .bar-img .pic{position:absolute;inset:0;background-size:cover;background-position:center;
+    transform:scale(1.12);transition:transform var(--t-slow)}
+  .efx-card:hover .bar-img .pic{transform:scale(1)}
+  /* capa tipográfica: glifo display que asoma POR DETRÁS de la imagen */
+  .efx-card .ghost{position:absolute;top:54px;left:1.2rem;z-index:0;font-family:var(--display);
+    font-style:italic;font-size:2.6rem;color:var(--azul-oscuro);opacity:.14;pointer-events:none;
+    transition:opacity var(--t-slow),top var(--t-slow)}
+  .efx-card:hover .ghost{opacity:.07;top:30px}
+  .efx-card .body{position:relative;z-index:1;padding:1.3rem 1.3rem 1.5rem}
+  .efx-card .kicker{font-family:var(--body);font-size:.7rem;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--azul-oscuro)}
+  .efx-card h3{font-family:var(--display);font-weight:400;font-size:1.3rem;line-height:1.16;
+    letter-spacing:-.01em;margin:.55rem 0 .5rem;text-wrap:balance}
+  .efx-card .body p{color:var(--texto-suave);font-size:.92rem;line-height:1.5}
+  /* enlace sutil "Leer más" dentro de cada tarjeta */
+  .efx-card__more{display:inline-flex;align-items:center;gap:.4em;margin-top:1rem;
+    font-family:var(--body);font-weight:600;font-size:.86rem;color:var(--azul-oscuro);
+    transition:gap var(--t-med),color var(--t-med)}
+  .efx-card__more span{transition:transform var(--t-med)}
+  .efx-card:hover .efx-card__more,.efx-card__more:hover{color:var(--dorado)}
+  .efx-card__more:hover{gap:.7em}
+  .efx-card__more:hover span{transform:translateX(3px)}
+  .efx-card .num{position:absolute;top:14px;right:16px;z-index:2;font-family:var(--body);
+    font-size:.74rem;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+  @media (prefers-reduced-motion:reduce){html.js .efx-card{opacity:1;transform:none}}
+}
+
+/* ═══════════════ EXTRAS · vídeo cinemático + bloques nuevos ═══════════════ */
+@layer extras{
+  /* ── REVELADO DE ENTRADA · pretítulos y títulos de cada sección (fade-in-up) ──
+     Sólo se ocultan si hay JS (clase .js en <html>), para no romper sin JavaScript.
+     El observador alterna .is-in al entrar/salir → revelado BIDIRECCIONAL (sube y baja). */
+  html.js [data-reveal]{opacity:0;transform:translateY(26px);
+    transition:opacity .9s var(--ease) var(--rd,0s), transform .9s var(--ease) var(--rd,0s)}
+  html.js [data-reveal="2"]{--rd:.12s}
+  html.js [data-reveal].is-in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    html.js [data-reveal]{opacity:1;transform:none;transition:none}}
+
+  /* ── BIENVENIDOS · intro centrada + VÍDEO CINEMÁTICO (mission_video, portado del Efecto 11) ──
+     El vídeo arranca recortado en una elipse central y se EXPANDE al hacer scroll
+     (scroll-driven). Sin soporte de scroll-timeline, se muestra ya expandido. */
+  .bienvenidos{position:relative;z-index:2;padding-block:clamp(4rem,9vh,7rem)}
+  .mission__intro{max-width:720px;margin:0 auto clamp(2.4rem,5vh,3.6rem);text-align:center}
+  .mission__intro .eyebrow{display:block;margin-bottom:1.1rem}
+  .mission__titulo{font-family:var(--display);font-weight:300;
+    font-size:clamp(1.9rem,4.6vw,3rem);line-height:1.12;letter-spacing:-.02em;
+    max-width:22ch;margin-inline:auto;text-wrap:balance}
+  .mission__titulo em{font-style:italic;color:var(--azul-oscuro)}
+  .mission__texto{margin-top:1.4rem;font-size:1.02rem;color:var(--texto-suave);
+    max-width:54ch;margin-inline:auto}
+  .mission__signed{margin-top:1.6rem;display:inline-flex;align-items:center;gap:.8rem;
+    font-size:.86rem;color:var(--texto-suave)}
+  .mission__signed .line{width:38px;height:1px;background:var(--azul-oscuro)}
+
+  .mission__video-wrap{max-width:1180px;margin:0 auto}
+  .mission__video{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;
+    border-radius:18px;cursor:pointer;isolation:isolate;background:#0c0a08;
+    will-change:clip-path,transform;
+    /* estado base = EXPANDIDO (fallback sin scroll-timeline) */
+    clip-path:ellipse(78% 115% at 50% 50%);
+    box-shadow:0 40px 80px -40px rgba(40,33,26,.5)}
+  @supports (corner-shape:superellipse(2)){.mission__video{border-radius:30px;corner-shape:superellipse(3)}}
+  .mission__media{position:absolute;inset:0;width:100%;height:100%;will-change:transform;
+    background:
+      url("img/bienvenida-paramita.jpg") center/cover no-repeat,
+      radial-gradient(120% 90% at 30% 20%, rgba(255,180,0,.20), transparent 55%),
+      radial-gradient(120% 120% at 80% 90%, rgba(16,94,169,.35), transparent 60%),
+      linear-gradient(160deg,#2a1f14 0%,#0a0806 100%);
+    background-blend-mode:multiply,normal,normal,normal}
+  .mission__media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .mission__overlay{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:20px;
+    background:linear-gradient(to top, rgba(10,8,6,.4), transparent 60%)}
+  .mission__play{width:92px;height:92px;border-radius:50%;display:grid;place-items:center;
+    background:rgba(250,246,240,.16);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    border:1px solid rgba(250,246,240,.4);transition:transform var(--t-med),background var(--t-fast)}
+  .mission__video:hover .mission__play{transform:scale(1.08);background:rgba(255,180,0,.9)}
+  .mission__play::after{content:"";width:0;height:0;margin-left:6px;
+    border-top:13px solid transparent;border-bottom:13px solid transparent;
+    border-left:21px solid var(--lino);transition:border-left-color var(--t-fast)}
+  .mission__video:hover .mission__play::after{border-left-color:var(--antracita)}
+  .mission__caption{font-family:var(--display);font-style:italic;font-weight:300;line-height:1.15;
+    font-size:clamp(1.2rem,2.6vw,1.8rem);color:#fff;text-align:center;text-shadow:0 2px 18px rgba(0,0,0,.4)}
+  /* MÓVIL: botón de Play (y su círculo) más pequeño + interlineado del caption más compacto */
+  @media (max-width:768px){
+    .mission__play{width:58px;height:58px}
+    .mission__play::after{margin-left:4px;border-top-width:8px;border-bottom-width:8px;border-left-width:13px}
+    .mission__caption{line-height:1.0}
+    .mission__overlay{gap:12px}}
+  /* expansión cinematográfica scroll-driven (degradación elegante igual que la barra) */
+  @supports (animation-timeline:view()){
+    @media (prefers-reduced-motion:no-preference){
+      .mission__video{animation:maskGrow linear both;animation-timeline:view();
+        animation-range:entry 8% cover 42%}
+      @keyframes maskGrow{from{clip-path:ellipse(34% 46% at 50% 50%)}
+        to{clip-path:ellipse(78% 115% at 50% 50%)}}
+      .mission__media{animation:mediaSettle linear both;animation-timeline:view();
+        animation-range:entry 8% cover 40%}
+      @keyframes mediaSettle{from{transform:scale(1.12)}to{transform:scale(1)}}
+    }
+  }
+
+  /* ── FRASE · ZOOM-OUT DESDE GIGANTE (efecto-02 · sección 2) · controlado por scroll ── */
+  .zen-frase{position:relative;z-index:2;min-height:auto;overflow:hidden;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:.55rem;padding:clamp(2rem,5vh,4rem) 6vw 0;text-align:center}   /* sin padding inferior: pega con el bloque siguiente */
+  .zen-frase__inner{position:relative;z-index:2;display:flex;flex-direction:column;
+    align-items:center;gap:1rem;max-width:min(900px,92vw)}
+  .zen-frase__eyebrow{font-family:var(--body);font-weight:600;font-size:.78rem;
+    letter-spacing:.3em;text-transform:uppercase;color:var(--dorado);white-space:nowrap}
+  .zen-frase__titulo{font-family:var(--display);font-weight:300;
+    font-size:clamp(2rem,6.4vw,5rem);line-height:1.04;letter-spacing:-.015em;
+    transform-origin:center center;will-change:transform,opacity,filter;
+    /* texto con degradado de marca palindrómico (sin costura al fluir) */
+    background:linear-gradient(100deg,var(--azul-oscuro),var(--azul-sutil),var(--dorado),var(--azul-sutil),var(--azul-oscuro));
+    background-size:200% 100%;-webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;animation:flow 14s linear infinite}
+  .zen-frase__titulo span{display:block}   /* rompe EXACTAMENTE en dos líneas */
+  @supports not ((-webkit-background-clip:text) or (background-clip:text)){
+    .zen-frase__titulo{color:var(--azul-oscuro);-webkit-text-fill-color:currentColor}}
+  /* indicador de scroll · clase EXACTA solicitada (con guion bajo), ahora estático y compacto */
+  .zen-intro_scroll-hint{position:static;display:flex;flex-direction:column;align-items:center;gap:8px;
+    margin-top:clamp(2rem,5vh,3.6rem);   /* DESCIENDE más separado de la frase de arriba */
+    font-family:var(--body);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--texto-suave);animation:hintBob 2s var(--ease) infinite}
+  .zen-intro_scroll-hint::after{content:"";display:block;width:1px;height:30px;
+    background:linear-gradient(to bottom,var(--texto-suave),transparent)}
+  @keyframes hintBob{0%,100%{transform:translateY(0);opacity:.65}50%{transform:translateY(6px);opacity:1}}
+  @media (prefers-reduced-motion:reduce){
+    .zen-intro_scroll-hint{animation:none}.zen-frase__titulo{animation:none}}
+
+  /* ── CURSOS · GRID FLIP (efecto-09) · al pasar el cursor o enfocar, la tarjeta crece a 2×2
+       y las vecinas se reorganizan suavemente con la API Flip de GSAP ── */
+  .flip-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:14px;
+    max-width:900px;margin-inline:0}   /* alineado a la IZQUIERDA con el título y el botón */
+  .flip-celda{position:relative;aspect-ratio:1/1;border-radius:16px;overflow:hidden;display:block;
+    background:var(--antracita);border:1px solid var(--hair);will-change:transform;isolation:isolate}
+  @supports (corner-shape:superellipse(2)){.flip-celda{border-radius:22px;corner-shape:superellipse(2.6)}}
+  /* imagen al 50% por defecto; pasa al 100% en hover / activo / expandido (sin background-color amarillo) */
+  .flip-celda__pic{position:absolute;inset:0;background-size:cover;background-position:center 38%;
+    transform:scale(1.06);opacity:.5;transition:all .3s ease}
+  .flip-celda:hover .flip-celda__pic,.flip-celda:focus-visible .flip-celda__pic,
+  .flip-celda:active .flip-celda__pic,.flip-celda.is-expanded .flip-celda__pic{transform:scale(1);opacity:1}
+  /* feedback de escala en móvil/touch (estado activo) sin reflujo de rejilla */
+  @media (hover:none){.flip-celda:active{transform:scale(1.04);z-index:5}}
+  .flip-celda__pic::after{content:"";position:absolute;inset:0;transition:opacity var(--t-med);opacity:.45;
+    background:linear-gradient(to top,rgba(20,14,8,.85) 0%,rgba(20,14,8,.28) 44%,transparent 72%)}
+  .flip-celda.is-expanded .flip-celda__pic::after{opacity:1}
+  .flip-celda__num{position:absolute;top:14px;left:16px;z-index:3;font-family:var(--body);
+    font-size:11px;letter-spacing:.12em;color:rgba(255,255,255,.9);text-shadow:0 1px 10px rgba(0,0,0,.5)}
+  /* INFO VISIBLE EN ESTADO BASE: el título y las etiquetas se ven sin necesidad de hover/expandir */
+  .flip-celda__overlay{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;
+    justify-content:flex-end;align-items:flex-start;text-align:left;
+    gap:.5rem;padding:20px;opacity:1}
+  .flip-celda__cat{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--dorado);text-shadow:0 1px 10px rgba(0,0,0,.6)}   /* fechas en AMARILLO corporativo */
+  .flip-celda__titulo{font-family:var(--display);font-weight:400;color:#fff;
+    font-size:clamp(1rem,1.3vw,1.32rem);line-height:1.12;letter-spacing:-.01em;
+    text-shadow:0 2px 14px rgba(0,0,0,.55)}
+  /* la descripción larga (tarjeta 06) se reserva para el estado expandido para no saturar el cuadrado */
+  .flip-celda__desc{display:none;color:rgba(255,255,255,.9);font-size:.85rem;line-height:1.45;
+    max-width:34ch;text-align:left;text-shadow:0 1px 10px rgba(0,0,0,.5)}
+  .flip-celda.is-expanded .flip-celda__desc{display:block}
+  .flip-celda .tags{margin-top:.2rem}
+  .flip-celda .tag{color:#fff;border-color:rgba(255,255,255,.42)}
+  .flip-celda .tag.free{color:#fff;border-color:rgba(255,255,255,.6)}
+  .flip-celda .tag.soon{color:#fff;border-color:color-mix(in oklch,var(--dorado) 70%,#fff);
+    background:color-mix(in oklch,var(--dorado) 32%,transparent)}
+  .flip-celda.is-expanded{grid-column:span 2;grid-row:span 2;z-index:5}
+  @media (max-width:980px){.flip-grid{grid-template-columns:repeat(3,1fr);max-width:640px}}
+  @media (max-width:720px){.flip-grid{grid-template-columns:repeat(2,1fr);max-width:460px}}
+  /* móvil / sin hover: rejilla estática y legible (sin FLIP), con la info siempre visible */
+  @media (hover:none){
+    .flip-celda__overlay{opacity:1}
+    .flip-celda__pic::after{opacity:1}
+    .flip-celda__titulo{transform:none}}
+  @media (max-width:560px){.flip-grid{grid-template-columns:1fr;gap:12px}
+    .flip-celda{aspect-ratio:16/10}}
+
+  /* ── PARTICIPACIÓN · invitación a colaborar (NUEVO BLOQUE estructural) ── */
+  .participa-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:center}
+  .participa .vias{display:grid;gap:.2rem}
+  .participa .via{display:flex;align-items:baseline;gap:1rem;padding:1.3rem .4rem;
+    border-top:1px solid var(--hair);
+    transition:padding var(--t-med),color var(--t-med),background var(--t-med),border-radius var(--t-med)}
+  .participa .via:last-child{border-bottom:1px solid var(--hair)}
+  .participa .via:hover{padding-left:1.1rem;color:var(--azul-oscuro)}
+  /* destacado AUTOMÁTICO cíclico (sin necesidad de hover); el hover real lo pausa por JS */
+  .participa .via.is-auto{padding-left:1.1rem;color:var(--azul-oscuro);border-radius:14px;
+    background:color-mix(in oklch,var(--azul-sutil) 9%,transparent)}
+  .participa .via.is-auto .n{color:var(--dorado)}
+  .participa .via .n{font-family:var(--body);font-size:.78rem;font-weight:600;
+    letter-spacing:.14em;color:var(--texto-suave);flex:none;min-width:2.4ch}
+  .participa .via h3{font-family:var(--display);font-weight:400;
+    font-size:clamp(1.3rem,2.6vw,1.8rem);line-height:1.14;letter-spacing:-.015em}
+  .participa .via p{margin-top:.35rem;font-size:.96rem;color:var(--texto-suave);max-width:42ch}
+  @media (max-width:860px){.participa-grid{grid-template-columns:1fr;gap:2.4rem}}
+
+  /* ── TESTIMONIOS · CARRUSEL HORIZONTAL INFINITO (auto + pausa al hover/touch + swipe) ── */
+  .testimonios{position:relative;z-index:2;padding-block:clamp(3.5rem,9vh,6.5rem)}
+  .tcarousel{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;
+    cursor:grab;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+  .tcarousel::-webkit-scrollbar{display:none}
+  .tcarousel:active{cursor:grabbing}
+  /* padding vertical de seguridad: la sombra del estado destacado (~56px) cabe holgada
+     dentro de los 64px de padding, por lo que NO la recorta el overflow del carrusel */
+  .ttrack{display:flex;gap:1.4rem;width:max-content;padding:4rem clamp(1rem,5vw,3rem);align-items:stretch}
+  .tcard{flex:0 0 clamp(290px,40vw,500px);display:flex;flex-direction:column;justify-content:space-between;
+    gap:1.4rem;background:var(--card);border:1px solid var(--hair);border-radius:20px;
+    padding:1.9rem 2rem;opacity:.72;
+    transition:opacity var(--t-med),transform var(--t-med),box-shadow var(--t-med),border-color var(--t-med)}
+  @supports (corner-shape:superellipse(2)){.tcard{border-radius:26px;corner-shape:superellipse(2.6)}}
+  /* destacado al pasar el cursor o mantener el dedo */
+  .tcard:hover,.tcard.is-active{opacity:1;transform:scale(1.035);
+    border-color:color-mix(in oklch,var(--azul-oscuro) 24%,transparent);
+    box-shadow:0 30px 60px -34px rgba(40,33,26,.45)}
+  .tcard blockquote{font-family:var(--display);font-weight:300;
+    font-size:clamp(1.15rem,1.7vw,1.5rem);line-height:1.42;letter-spacing:-.005em;
+    color:var(--antracita);text-wrap:pretty}
+  .tcard blockquote::before{content:"“";font-size:2.4rem;line-height:0;color:var(--dorado);
+    vertical-align:-.35em;margin-right:.12em}
+  .tcard figcaption{font-size:.86rem;color:var(--texto-suave)}
+  .tcard figcaption b{display:block;font-weight:600;color:var(--antracita);
+    font-family:var(--body);font-size:.96rem;margin-bottom:.12rem}
+  /* indicadores laterales sutiles (degradado de borde) */
+  .tcarousel-wrap{position:relative}
+  .tcarousel-wrap::before,.tcarousel-wrap::after{content:"";position:absolute;top:0;bottom:0;width:clamp(2rem,6vw,5rem);
+    z-index:2;pointer-events:none}
+  .tcarousel-wrap::before{left:0;background:linear-gradient(90deg,var(--base-bg),transparent)}
+  .tcarousel-wrap::after{right:0;background:linear-gradient(270deg,var(--base-bg),transparent)}
+  @media (prefers-reduced-motion:reduce){.tcard{transition:none}}
+
+  /* ── CTA FINAL · zoom-stage del texto + ornamentos SVG dibujados por scroll (efecto-05-06) ── */
+  .cta-final{position:relative;z-index:2;padding-top:clamp(2.25rem,5vh,4rem);
+    padding-bottom:clamp(5rem,12vh,8.5rem);text-align:center;overflow:hidden}
+  /* todo el contenido por encima de los ornamentos */
+  .cta-final > :not(.cta-orn){position:relative;z-index:1}
+  .cta-final .eyebrow{display:block;margin-bottom:1.6rem}
+  /* ornamentos abstractos laterales: trazo que se dibuja con el scroll (NO sobre el texto) */
+  .cta-orn{position:absolute;top:50%;transform:translateY(-50%);height:min(80%,520px);width:auto;
+    z-index:0;pointer-events:none;opacity:.5}
+  .cta-orn--left{left:clamp(.5rem,5vw,5rem)}
+  .cta-orn--right{right:clamp(.5rem,5vw,5rem);transform:translateY(-50%) scaleX(-1)}
+  .cta-orn__path{fill:none;stroke:url(#ctaOrnGrad);stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round;
+    will-change:stroke-dashoffset}
+  .cta-orn__dot{fill:var(--dorado)}
+  /* texto principal con revelado zoom-stage (escala atada al scroll) */
+  .zoom-word{font-family:var(--display);font-weight:300;font-size:clamp(2.6rem,9vw,6.5rem);
+    line-height:1.0;letter-spacing:-.02em;color:var(--antracita);
+    will-change:transform,opacity;transform-origin:center center}
+  .zoom-word span{display:block}
+  .zoom-word span:nth-child(2){font-style:italic;color:var(--azul-oscuro)}
+  .cta-sub{margin:1.8rem auto 0;max-width:52ch;color:var(--texto-suave);font-size:1.05rem;line-height:1.6}
+  /* en escritorio la frase completa va en UNA sola línea horizontal */
+  @media (min-width:900px){.cta-sub{max-width:none;white-space:nowrap}}
+  .cta-final .actions{margin-top:2.6rem;display:flex;justify-content:center;
+    align-items:center;gap:clamp(1.4rem,4vw,2.6rem);flex-wrap:wrap}
+  /* MÓVIL: los ornamentos se mantienen VISIBLES, más pequeños y pegados a los bordes
+     (sin invadir el texto central) */
+  @media (max-width:760px){
+    .cta-orn{height:min(62%,340px);opacity:.42}
+    .cta-orn--left{left:-4px}
+    .cta-orn--right{right:-4px}}
+}
+
+/* ═══════════════ MODAL VÍDEO ═══════════════ */
+@layer modal{
+  .vmodal{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:5vw;
+    background:rgba(28,18,10,.62);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    opacity:0;pointer-events:none;transition:opacity var(--t-med)}
+  .vmodal.open{opacity:1;pointer-events:auto}
+  .vmodal .frame{width:min(960px,100%);aspect-ratio:16/9;border-radius:18px;overflow:hidden;
+    background:#000;transform:scale(.94);transition:transform var(--t-slow)}
+  .vmodal.open .frame{transform:scale(1)}
+  .vmodal video,.vmodal iframe{width:100%;height:100%;border:0;display:block;object-fit:cover}
+  .vmodal .x{position:absolute;top:1.4rem;right:1.4rem;width:44px;height:44px;border-radius:50%;
+    background:rgba(255,255,255,.92);color:var(--antracita);font-size:1.4rem;display:grid;place-items:center;
+    cursor:pointer;border:none;transition:transform var(--t-med)}
+  .vmodal .x:hover{transform:rotate(90deg)}
+}
+
+/* ═══════════════ PIE · estética "PRACTIQUEMOS JUNTOS" (oscuro + físicas) ═══════════════ */
+@layer footer{
+  /* INVERSIÓN: el hero pasa a azul claro corporativo; la info inferior conserva su fondo oscuro */
+  .foot{position:relative;z-index:2;background:var(--azul-sutil);color:var(--lino);overflow:hidden}
+  /* zona hero con lienzo de figuras físicas detrás del titular */
+  .foot__hero{position:relative;min-height:clamp(46vh,58vh,68vh);display:grid;place-items:center;
+    text-align:center;padding:clamp(3rem,8vh,6rem) 1.2rem}
+  .foot__canvas{position:absolute;inset:0;z-index:1;display:block}
+  .foot__hero > div{position:relative;z-index:2;pointer-events:none}
+  /* texto del hero en oscuro: legible sobre el nuevo fondo azul claro */
+  .foot__h{font-family:var(--display);font-weight:300;font-size:clamp(2.4rem,8vw,5.5rem);
+    line-height:1.02;letter-spacing:-.02em;color:var(--antracita)}
+  .foot__h em{font-style:italic;color:var(--lino);   /* "juntos" en beige claro de los fondos */
+    text-shadow:0 1px 14px rgba(33,30,26,.28)}        /* sombra sutil → legible sobre el azul claro */
+  .foot__hint{margin-top:1rem;color:color-mix(in oklch,var(--antracita) 62%,transparent);font-size:.85rem}
+  /* información del pie, fusionada sobre el fondo oscuro */
+  .foot__info{position:relative;z-index:2;border-top:1px solid rgba(250,246,240,.12);
+    padding-block:clamp(3rem,7vh,4.5rem);background:color-mix(in oklch,var(--antracita) 88%,#000)}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:3rem 2rem;align-items:start}
+  .foot .logo-wave{width:170px;animation-duration:14s}
+  .foot .tagline{margin-top:1.3rem;max-width:34ch;color:rgba(250,246,240,.62);font-size:.98rem}
+  .foot h4{font-family:var(--body);font-weight:600;font-size:.74rem;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--dorado);margin-bottom:1.1rem}   /* amarillo: alto contraste WCAG sobre oscuro */
+  .foot a.fl{display:block;padding:.28rem 0;color:var(--lino);font-size:.96rem;width:max-content;
+    transition:color var(--t-med),padding var(--t-med)}
+  .foot a.fl:hover{color:var(--dorado);padding-left:.4rem}
+  .foot address{font-style:normal;color:rgba(250,246,240,.62);font-size:.94rem;line-height:1.85}
+  .foot address b{color:var(--lino);font-weight:600}
+  .social{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem;pointer-events:auto}
+  .social a{display:inline-flex;align-items:center;gap:.5em;font-size:.84rem;color:rgba(250,246,240,.7);
+    border:1px solid rgba(250,246,240,.18);padding:.42rem .85rem;border-radius:99px;
+    transition:color var(--t-med),border-color var(--t-med),background var(--t-med),transform var(--t-med)}
+  .social a:hover{color:var(--dorado);border-color:color-mix(in oklch,var(--dorado) 50%,transparent);
+    background:color-mix(in oklch,var(--dorado) 12%,transparent);transform:translateY(-1px)}
+  .ico{width:16px;height:16px;flex:none;display:block}
+  .ico *{vector-effect:non-scaling-stroke}
+  .foot-base{margin-top:3rem;padding-top:1.6rem;border-top:1px solid rgba(250,246,240,.12);
+    display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.8rem;color:rgba(250,246,240,.5)}
+}
+
+/* ═══════════════ RESPONSIVE ═══════════════ */
+@layer responsive{
+  @media (max-width:980px){
+    .burger{display:inline-flex;flex-direction:column;gap:5px;margin-left:auto;width:44px;height:44px;
+      align-items:center;justify-content:center;border-radius:11px;cursor:pointer}
+    .burger span{width:22px;height:2px;background:var(--antracita);border-radius:2px;
+      transition:transform var(--t-med),opacity var(--t-med)}
+    .nt:checked~.burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .nt:checked~.burger span:nth-child(2){opacity:0}
+    .nt:checked~.burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .menu{position:absolute;top:100%;left:0;right:0;margin:0;flex-direction:column;align-items:stretch;gap:.2rem;
+      padding:1rem 5vw 1.6rem;background:color-mix(in oklch,var(--arena) 97%,transparent);
+      -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--hair);
+      box-shadow:0 26px 50px -32px rgba(40,33,26,.5);opacity:0;translate:0 -12px;display:none;
+      transition:opacity var(--t-med),translate var(--t-med),display var(--t-med) allow-discrete}
+    .nt:checked~.menu{display:flex;opacity:1;translate:0 0}
+    @starting-style{.nt:checked~.menu{opacity:0;translate:0 -12px}}
+    .links{flex-direction:column;align-items:stretch;gap:.1rem;width:100%}
+    .navlink{width:100%;justify-content:space-between;padding:.85rem .35rem;font-size:1.05rem}
+    .navlink::after{display:none}
+    .div{display:none}
+    .sub,.has-sub.end .sub{position:static;translate:0;opacity:1;pointer-events:auto;min-width:0;box-shadow:none;
+      left:auto;right:auto;background:var(--arcilla);margin:.2rem 0 .4rem;-webkit-backdrop-filter:none;backdrop-filter:none}
+    .ctas{flex-direction:column;align-items:stretch;gap:.6rem;margin-top:.8rem}
+    .btn-contacto,.btn-amigo{text-align:center;padding-block:.95rem}
+    .bar:has(.navlink:hover) .navlink:not(:hover){opacity:1}
+  }
+  @media (max-width:860px){
+    .mission-grid{grid-template-columns:1fr;gap:2.5rem}
+    .video{aspect-ratio:16/10}
+  }
+  @media (max-width:680px){
+    .course .row{grid-template-columns:1fr;gap:.6rem;padding-block:1.1rem}
+    .course .when{order:-1}.tags{justify-self:start}
+    .post{flex-direction:column;gap:.4rem}
+    .blog-float{display:none}                 /* en móvil sin cursor, se omite la imagen flotante */
+    .foot-grid{grid-template-columns:1fr;gap:2.4rem}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms!important;animation-iteration-count:1!important;
+      transition-duration:.001ms!important;scroll-behavior:auto}
+    .logo-wave{background-position:40% 0}.band::before{animation:none}
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- FONDO GLOBAL · lienzo del fluido WebGL (capa de fondo, no interactiva).
+     Pinta el lino vivo + refracción de luz azul→dorado. Si no hay WebGL, se oculta
+     y queda el color de fondo base del body (#FAF6F0). -->
+<canvas id="fluido" aria-hidden="true"></canvas>
+
+<header class="bar">
+  <div class="bar-inner wrap">
+    <a class="logo" href="/" aria-label="Paramita · inicio">
+      <span class="logo-wave" role="img" aria-label="Paramita"></span>
+      <svg class="logo-fallback" viewBox="0 0 612.3 181.4" role="img" aria-label="Paramita" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#0d539f"><path d="M225.4,64c15.5,0,24.8,7,24.8,18.8s-8.5,19.7-22.9,20c-1.3,0-2.4,0-3.1,0l-.2-1.3c6.7-2.8,9.4-7.7,9.4-18.6s-3.9-15.8-11.9-15.8h-1.4v44.4c0,5.1,1.3,8.5,3.9,10.3v1.3h-23v-1.3c2.5-1.7,3.9-5.1,3.9-10.3v-35.7c0-5.2-1.3-8.7-3.9-10.3v-1.3h24.5Z"/><path d="M295.1,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM274.6,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M506.7,116.4c-3.4,4.5-9,7.4-14.6,7.4-8.1,0-11.6-4.7-11.6-14.4v-27.9h-5.5v-4.2c6.7-2.5,13.5-6.9,17-14h3v13.9l9.8-1-.8,5.2h-9v26.2c0,6,1.8,9,5.6,9s3.2-.4,5.3-1.3l.8,1.1Z"/><path d="M552.4,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM531.8,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M367.7,118.2c-3.1,0-4.6-1.5-4.6-4.4v-18c0-4.8-.3-7.9-2-11-2.3-4.6-7.4-7.2-17.7-7.2s-2.4,0-4.1.4c.7.9,1.2,1.6,1.7,2.6.5-.1.8-.2,2-.2,2.5,0,4.2,1.1,5,3.2.4,1.3.7,4.7.7,10.2v4.4c-1.3-.2-2.8-.3-4.5-.3-5.3,0-10,1.2-13.7,3.7-3.8,2.4-5.7,6-5.7,10.6,0,6.7,4.7,11.6,12,11.6s9.8-1.9,13-5.7c1.7,3.8,4.6,5.7,8.9,5.7s7.4-1.2,10.5-3.9v-1.6h-1.5ZM344.5,117.2c-3.5,0-5.4-2.9-5.4-6.7,0-5.9,3.2-9.5,9.5-9.5v10.8c0,1.3,0,2.5.3,3.5-1.1,1.3-2.6,1.9-4.3,1.9Z"/><path d="M444.2,111.4v-18.2c0-10.5-3-15.5-11.6-15.5s-12.5,3.4-16.4,8.8c-1.2-5.9-4.9-8.8-11-8.8s-11.5,2.9-15.8,8.8v-9.2c-4.9,1.8-10.9,3.5-18.2,5h-.1v1.4l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h22.6v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-22.9c2.2-1.1,4.5-1.7,6.7-1.7,4.2,0,6.3,2.4,6.3,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.2v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-18.8c0-1.5,0-2.9-.3-4.2,1.7-1,3.8-1.5,6.3-1.5,4.6,0,6.9,2.4,6.9,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.6v-1.3c-2.9-2-4.3-5.5-4.3-10.3Z"/><path d="M330.8,77.6c-5.3,0-12.3,4.5-15.5,9.7v-10.1c-5,1.8-10.9,3.6-18.3,5v1.3l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h24.8v-1.3c-4-1.8-6-5.3-6-10.3v-21.5c2.4-2.4,6.6-3.6,8.6-3.8.3,3.9,3.2,7.2,7.1,7.2s7.7-3.3,7.7-8-3.1-7.7-7.9-7.7Z"/><path d="M468.9,70.6c3.4-3.2,3.4-8.7,0-11.9-3.2-3.4-8.7-3.4-11.9,0-3.2,3.2-3.2,8.7,0,11.9,3.2,3.2,8.7,3.2,11.9,0Z"/><path d="M452.4,83.8v1.3l1,.5c1.3.8,2.9,3.4,2.9,6.7v19.1c0,5.1-1.4,8.5-4.3,10.3v1.3h23v-1.3c-2.9-2-4.3-5.5-4.3-10.3v-32.7c-4.9,1.8-10.9,3.6-18.3,5Z"/></g>
+        <g fill="#1cb1da"><circle cx="112.1" cy="58.6" r="10.1"/><path d="M94,67.6s2,5.3,8,10c6,4.7,8.6,10,9,20.3s.5,24.3.5,24.3c0,0-3.8-10.5-4.8-13.6s-4.2-15.9-9.7-21-7.9-5.6-7.9-5.6c0,0,1.1-8.3,4.9-14.4Z"/><path d="M130.3,67.6s-2,5.3-8,10c-6,4.7-8.6,10-9,20.3-.4,10.3-.5,24.3-.5,24.3,0,0,3.8-10.5,4.8-13.6,1-3.1,4.2-15.9,9.7-21,4.7-4.4,7.9-5.6,7.9-5.6,0,0-1.1-8.3-4.9-14.4Z"/></g>
+        <g fill="#0689c2"><path d="M74.3,74.8s2.6,4.3,5.7,5.6,11.6,4.7,15.5,8.6c3.9,3.9,11,25.5,11,25.5,0,0-3.6-5.7-13-9.7,0,0-5.3-2.1-9.7-2.6s-5.9-1.9-7.3-4.9-4.1-13.9-2.2-22.4Z"/><path d="M149.9,74.8s-2.6,4.3-5.7,5.6-11.6,4.7-15.5,8.6-11,25.5-11,25.5c0,0,3.6-5.7,13-9.7,0,0,5.3-2.1,9.7-2.6,4.4-.5,5.9-1.9,7.3-4.9s4.1-13.9,2.2-22.4Z"/></g>
+        <g fill="#0d539f"><path d="M109.8,124s-8.4-29.3-49.1-17.5c0,0,5.7.7,9.9,6,4.2,5.3,7.4,11.2,18,10.2,10.5-1,17.4-1.3,21.2,1.3Z"/><path d="M114.4,124s8.4-29.3,49.1-17.5c0,0-5.7.7-9.9,6s-7.4,11.2-18,10.2c-10.5-1-17.4-1.3-21.2,1.3Z"/></g>
+      </svg>
+    </a>
+
+    <input class="nt" id="nt" type="checkbox" hidden>
+    <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
+
+    <nav class="menu" aria-label="Principal">
+      <ul class="links">
+        <li><a class="navlink" href="https://cursos.paramita.org/home">Cursos</a></li>
+        <li><a class="navlink" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a></li>
+        <li class="has-sub">
+          <a class="navlink" href="#actividades" aria-haspopup="true">Actividades <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub" role="menu" aria-label="Actividades">
+            <li role="none"><a role="menuitem" href="#calendario"><strong>Calendario</strong><span>Sesiones y retiros</span></a></li>
+            <li role="none"><a role="menuitem" href="#visita"><strong>Visita el centro</strong><span>Ven a conocernos</span></a></li>
+          </ul>
+        </li>
+        <li class="has-sub end">
+          <a class="navlink" href="#sobre-nosotros" aria-haspopup="true">Sobre nosotros <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub" role="menu" aria-label="Sobre nosotros">
+            <li role="none"><a role="menuitem" href="#blog"><strong>Blog</strong><span>Artículos y enseñanzas</span></a></li>
+            <li role="none"><a role="menuitem" href="#maestros"><strong>Maestros</strong><span>Quién guía la práctica</span></a></li>
+            <li role="none"><a role="menuitem" href="#faq"><strong>Preguntas frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
+          </ul>
+        </li>
+        <li class="has-sub end">
+          <a class="navlink" href="#participa" aria-haspopup="true">Participa <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub" role="menu" aria-label="Participa">
+            <li role="none"><a role="menuitem" href="#grupos"><strong>Grupos</strong><span>Practica en comunidad</span></a></li>
+            <li role="none"><a role="menuitem" href="#contribuye"><strong>Contribuye</strong><span>Apoya el proyecto</span></a></li>
+            <li role="none"><a role="menuitem" href="#voluntariado"><strong>Voluntariado</strong><span>Ofrece tu tiempo</span></a></li>
+          </ul>
+        </li>
+      </ul>
+      <span class="div" aria-hidden="true"></span>
+      <div class="ctas">
+        <a class="btn-contacto" href="#contacto">Contacto</a>
+        <a class="btn-amigo" href="#amigo">Hazte amigo</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ╔═══ 2 · HERO ═══╗  Vídeo de fondo a pantalla completa + rotador de palabras -->
+  <section class="hero" id="hero">
+
+    <!-- Vídeo de fondo responsive a sangre (edge-to-edge), cargado por JS según viewport -->
+    <div class="hero__bg" aria-hidden="true">
+      <div class="hero__bg-fallback"></div>
+      <video class="hero__bg-video" id="hero-bg-video"
+             autoplay loop muted playsinline preload="metadata"></video>
+    </div>
+
+    <div class="wrap hero__inner">
+      <p class="eyebrow" data-reveal="1">Sistema completo de meditación</p>
+
+      <h1 data-reveal="2">
+        Despierta tu
+        <span class="rotator" role="text" aria-label="sabiduría interior, mejor versión, naturaleza más profunda, potencial ilimitado, paz interior, claridad interior, mente y corazón">
+          <em class="rotator__word is-active">sabiduría interior.</em>
+          <em class="rotator__word">mejor versión.</em>
+          <em class="rotator__word">naturaleza más profunda.</em>
+          <em class="rotator__word">potencial ilimitado.</em>
+          <em class="rotator__word">paz interior.</em>
+          <em class="rotator__word">claridad interior.</em>
+          <em class="rotator__word">mente y tu corazón.</em>
+        </span>
+      </h1>
+
+      <p class="lede">Aprende a vivir con equilibrio e integra cada aspecto de tu vida —la mente, el corazón, lo cotidiano— en un único camino de desarrollo personal y espiritual.</p>
+
+      <div class="actions">
+        <a class="t-link" href="https://cursos.paramita.org/home">
+          <span class="txt">Aprende a meditar</span><span class="arw" aria-hidden="true">→</span>
+        </a>
+        <span class="meta"><span class="pulse" aria-hidden="true"></span>Próximo curso: <b>La Rueda de las Armas Afiladas · 27 jun</b></span>
+      </div>
+    </div>
+
+    <!-- Toggle de audio del vídeo de fondo (requiere gesto del usuario) -->
+    <button class="hero__sound" id="hero-sound-toggle" type="button"
+            aria-label="Activar sonido del fondo" aria-pressed="false" title="Activar sonido">
+      <svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 5 6 9H2v6h4l5 4z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/>
+      </svg>
+      <svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+      </svg>
+    </button>
+  </section>
+
+  <!-- ╔═══ 3 · BIENVENIDOS A PARAMITA ═══╗  Anclaje de realidad + VÍDEO CINEMÁTICO (mission_video) -->
+  <section class="bienvenidos wrap" id="sobre-nosotros" aria-labelledby="biv-t">
+    <div class="mission__intro">
+      <span class="eyebrow" data-reveal="1">Bienvenidos a Paramita</span>
+      <h2 class="mission__titulo" id="biv-t" data-reveal="2">Un puente entre la sabiduría de los Himalayas y el mundo <em>hispanohablante</em>.</h2>
+      <p class="mission__texto">Un colectivo internacional de grupos budistas que crea espacios para compartir la meditación y las enseñanzas del Buddha. Formaciones y retiros en el Centro Budista Sakya, Alicante, y cursos en línea para todos los niveles.</p>
+      <div class="mission__signed"><span class="line" aria-hidden="true"></span>Centro Budista Sakya · Alicante, España</div>
+    </div>
+
+    <div class="mission__video-wrap">
+      <div class="mission__video" id="missionVideo" role="button" tabindex="0" aria-label="Reproducir vídeo institucional de Paramita">
+        <div class="mission__media" id="missionMedia" aria-hidden="true"></div>
+        <div class="mission__overlay">
+          <div class="mission__play" aria-hidden="true"></div>
+          <p class="mission__caption">Conoce Paramita<br>en dos minutos</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔═══ 4 · FRASE ═══╗  ZOOM-OUT DESDE GIGANTE (efecto-02 · sección 2) · scrub por scroll -->
+  <section class="zen-frase" id="frase" aria-label="El Camino hacia la Orilla de la Liberación">
+    <div class="zen-frase__inner">
+      <p class="zen-frase__eyebrow">Centro Budista Paramita</p>
+      <h2 class="zen-frase__titulo" id="fraseZoom"><span>El Camino hacia</span><span>la Orilla de la Liberación</span></h2>
+    </div>
+    <div class="zen-intro_scroll-hint">Desciende</div>
+  </section>
+
+  <!-- ╔═══ 5 · NOTICIAS, EVENTOS Y CURSOS ═══╗  franja-imagen que se expande en hover -->
+  <section class="section wrap" id="cursos" aria-labelledby="cur-t">
+    <div class="s-head">
+      <div><span class="eyebrow" data-reveal="1">Cursos y eventos</span>
+        <h2 id="cur-t" data-reveal="2">La sabiduría más profunda, al alcance de tu mano.</h2></div>
+      <p>Pasa el cursor —o enfoca con el teclado— sobre cualquier tarjeta: crece y las demás se reorganizan con armonía.</p>
+    </div>
+
+    <div class="flip-grid" id="cursosGrid" role="list">
+      <a class="flip-celda" id="flip-1" href="#rueda" role="listitem">
+        <div class="flip-celda__pic" style="background-image:url('img/curso-1.jpg')"></div>
+        <span class="flip-celda__num">01</span>
+        <div class="flip-celda__overlay">
+          <span class="flip-celda__cat">27 jun · 2026</span>
+          <h3 class="flip-celda__titulo">La Rueda de las Armas Afiladas</h3>
+          <div class="tags"><span class="tag free">Gratuito</span><span class="tag">Online</span></div>
+        </div>
+      </a>
+      <a class="flip-celda" id="flip-2" href="#emi4" role="listitem">
+        <div class="flip-celda__pic" style="background-image:url('img/curso-2.jpg')"></div>
+        <span class="flip-celda__num">02</span>
+        <div class="flip-celda__overlay">
+          <span class="flip-celda__cat">21 sep · 2026</span>
+          <h3 class="flip-celda__titulo">EMI 4 · Sabiduría y Descubrimiento</h3>
+          <div class="tags"><span class="tag">Online</span></div>
+        </div>
+      </a>
+      <a class="flip-celda" id="flip-3" href="#perlas" role="listitem">
+        <div class="flip-celda__pic" style="background-image:url('img/curso-3.jpg')"></div>
+        <span class="flip-celda__num">03</span>
+        <div class="flip-celda__overlay">
+          <span class="flip-celda__cat">2 may · 2026</span>
+          <h3 class="flip-celda__titulo">Perlas de Sabiduría (Parte 5)</h3>
+          <div class="tags"><span class="tag free">Gratuito</span><span class="tag">Online</span></div>
+        </div>
+      </a>
+      <a class="flip-celda" id="flip-4" href="#bodhi2" role="listitem">
+        <div class="flip-celda__pic" style="background-image:url('img/curso-4.jpg')"></div>
+        <span class="flip-celda__num">04</span>
+        <div class="flip-celda__overlay">
+          <span class="flip-celda__cat">21 sep · 2026</span>
+          <h3 class="flip-celda__titulo">El Camino del Bodhisattva (Parte 2)</h3>
+          <div class="tags"><span class="tag">Online</span></div>
+        </div>
+      </a>
+      <a class="flip-celda" id="flip-5" href="#emi1" role="listitem">
+        <div class="flip-celda__pic" style="background-image:url('img/curso-5.jpg')"></div>
+        <span class="flip-celda__num">05</span>
+        <div class="flip-celda__overlay">
+          <span class="flip-celda__cat">Fecha</span>
+          <h3 class="flip-celda__titulo">EMI 1 · Calma y Lucidez</h3>
+          <div class="tags"><span class="tag">Online</span></div>
+        </div>
+      </a>
+      <a class="flip-celda" id="flip-6" href="#retiro" role="listitem">
+        <div class="flip-celda__pic" style="background-image:url('img/curso-6.jpg')"></div>
+        <span class="flip-celda__num">06</span>
+        <div class="flip-celda__overlay">
+          <span class="flip-celda__cat">9–12 oct · 2026</span>
+          <h3 class="flip-celda__titulo">Retiro de Meditación</h3>
+          <p class="flip-celda__desc">Profundiza en los fundamentos esenciales del camino budista de la mano de Khenpo Rinchen Gyaltsen.</p>
+          <div class="tags"><span class="tag">Presencial</span><span class="tag">Online</span></div>
+        </div>
+      </a>
+    </div>
+
+    <div class="idx-foot">
+      <a class="t-link" href="https://cursos.paramita.org/home">
+        <span class="txt">Ver todos los cursos</span><span class="arw" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <!-- ░░ TRAZO DIVISOR · se dibuja con el scroll (stroke-dasharray/offset · vanilla rAF) ░░ -->
+  <div class="trazo-divisor" aria-hidden="true">
+    <svg viewBox="0 0 1200 140" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <linearGradient id="divGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="var(--azul-oscuro)"/>
+          <stop offset=".5" stop-color="var(--azul-sutil)"/>
+          <stop offset="1" stop-color="var(--dorado)"/>
+        </linearGradient>
+      </defs>
+      <path class="trazo-divisor__path"
+        d="M0 70 C 120 10, 240 10, 360 70 S 600 130, 720 70 S 960 10, 1080 70 S 1320 130, 1200 70"/>
+    </svg>
+  </div>
+
+  <!-- ╔═══ 6 · PARTICIPACIÓN ═══╗  NUEVO BLOQUE estructural · vías para implicarse -->
+  <section class="section wrap participa" id="participa" aria-labelledby="par-t">
+    <div class="participa-grid">
+      <div>
+        <span class="eyebrow" data-reveal="1">Participa</span>
+        <h2 id="par-t" data-reveal="2" style="font-size:clamp(2rem,4.5vw,3.3rem);max-width:16ch;margin-top:1rem">Hay muchas formas de <em>caminar juntos</em>.</h2>
+        <p style="margin-top:1.4rem;max-width:42ch;color:var(--texto-suave)">Cada gesto sostiene la comunidad. Encuentra la manera que resuene contigo y súmate al proyecto.</p>
+        <div class="idx-foot" style="margin-top:2rem">
+          <a class="t-link" href="#contribuye"><span class="txt">Descubre cómo colaborar</span><span class="arw" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="vias">
+        <!-- TODO · enlazar cada vía a su página real cuando exista -->
+        <a class="via" href="#grupos"><span class="n">01</span><div><h3>Practica en comunidad</h3><p>Únete a un grupo de meditación, presencial u online, y sostén tu práctica acompañado.</p></div></a>
+        <a class="via" href="#voluntariado"><span class="n">02</span><div><h3>Ofrece tu tiempo</h3><p>El voluntariado mantiene vivo el centro: desde la acogida hasta la traducción de enseñanzas.</p></div></a>
+        <a class="via" href="#contribuye"><span class="n">03</span><div><h3>Apoya el proyecto</h3><p>Tu aportación libre hace posible que las enseñanzas sigan siendo accesibles para todos.</p></div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔═══ 7 · CROWDFUNDING ═══╗  Centro de Retiros Paramita -->
+  <div class="wrap">
+    <section class="band" aria-labelledby="cf-t">
+      <p class="eyebrow" data-reveal="1">Crowdfunding · Centro de Retiros Paramita</p>
+      <h2 id="cf-t" data-reveal="2">Construyamos juntos un <em>refugio de Dharma</em>.</h2>
+      <p>Un lugar donde la práctica encuentra silencio y la comunidad encuentra hogar. Tu aportación levanta, piedra a piedra, un espacio de retiro abierto a todos.</p>
+      <a class="btn-claro" href="#sueno">Unirme a este sueño compartido <span aria-hidden="true">→</span></a>
+    </section>
+  </div>
+
+  <!-- ╔═══ 8 · TESTIMONIOS ═══╗  Carrusel horizontal infinito · auto + pausa al hover/touch + swipe -->
+  <section class="testimonios" id="testimonios" aria-label="Testimonios de la comunidad">
+    <div class="s-head wrap">
+      <div><span class="eyebrow" data-reveal="1">Testimonios</span>
+        <h2 id="test-t" data-reveal="2">Voces de quienes ya caminan.</h2></div>
+      <p>Se desplazan solas; pasa el cursor o mantén el dedo para detenerlas, o desliza para avanzar.</p>
+    </div>
+    <div class="tcarousel-wrap">
+      <div class="tcarousel" id="tcarousel" tabindex="0" role="region" aria-label="Citas de practicantes (desplazamiento horizontal)">
+        <div class="ttrack" id="ttrack">
+          <figure class="tcard"><blockquote>Aprendí a escucharme de una manera nueva, sin exigencia y con más confianza.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2022</figcaption></figure>
+          <figure class="tcard"><blockquote>Este espacio me ayudó a encontrar más presencia en medio del ritmo cotidiano.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2021</figcaption></figure>
+          <figure class="tcard"><blockquote>Llegué buscando respuestas y encontré una práctica que me acompaña cada día.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2024</figcaption></figure>
+          <figure class="tcard"><blockquote>Aquí descubrí que el bienestar no era algo que alcanzar, sino algo que podía cultivar.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2023</figcaption></figure>
+          <figure class="tcard"><blockquote>La práctica me ha enseñado a relacionarme con mis desafíos con más claridad y amabilidad.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2020</figcaption></figure>
+          <figure class="tcard"><blockquote>Encontré una comunidad donde puedo crecer a mi propio ritmo y sentirme acompañado.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2022</figcaption></figure>
+          <figure class="tcard"><blockquote>Cada encuentro me recuerda la importancia de detenerme, respirar y volver a lo esencial.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2021</figcaption></figure>
+          <figure class="tcard"><blockquote>Lo que empezó como curiosidad se convirtió en una forma de estar más presente en mi vida.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2024</figcaption></figure>
+          <figure class="tcard"><blockquote>He encontrado herramientas sencillas que transforman la manera en que vivo mi día a día.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2023</figcaption></figure>
+          <figure class="tcard"><blockquote>Aquí aprendí que la calma no depende de las circunstancias, sino de cómo me relaciono con ellas.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2022</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔═══ 9 · ARTÍCULOS DEL BLOG ═══╗  Tarjetas en capas (barra-imagen que crece + glifo de fondo) -->
+  <section class="section wrap blog" id="blog" aria-labelledby="art-t">
+    <div class="s-head">
+      <div><span class="eyebrow" data-reveal="1">Diario</span><h2 id="art-t" data-reveal="2">Artículos destacados</h2></div>
+      <p>Pasa el cursor por cada tarjeta: la imagen crece y el título asoma desde el fondo.</p>
+    </div>
+    <div class="grid-cards" id="blogCards">
+      <article class="efx-card">
+        <div class="bar-img"><div class="pic" style="background-image:url('img/blog-1-color.jpg'),linear-gradient(135deg,#FFB400,#FA7A1E)"></div></div>
+        <span class="ghost" aria-hidden="true">慧</span>
+        <span class="num">01</span>
+        <div class="body">
+          <span class="kicker">Maestras del linaje</span>
+          <h3>Mandarava: la mujer que emergió del fuego</h3>
+          <p>La historia de una de las grandes maestras tántricas y su camino de realización.</p>
+          <a class="efx-card__more" href="#mandarava">Leer más <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+      <article class="efx-card">
+        <div class="bar-img"><div class="pic" style="background-image:url('img/blog-2-color.jpg'),linear-gradient(135deg,#105ea9,#00c7e5)"></div></div>
+        <span class="ghost" aria-hidden="true">道</span>
+        <span class="num">02</span>
+        <div class="body">
+          <span class="kicker">Caminos</span>
+          <h3>Vajrayana: cómo recorrer el camino tántrico</h3>
+          <p>Una introducción serena al vehículo del diamante y sus métodos de transformación.</p>
+          <a class="efx-card__more" href="#vajrayana">Leer más <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+      <article class="efx-card">
+        <div class="bar-img"><div class="pic" style="background-image:url('img/blog-3-color.jpg'),linear-gradient(135deg,#0b3f72,#105ea9)"></div></div>
+        <span class="ghost" aria-hidden="true">源</span>
+        <span class="num">03</span>
+        <div class="body">
+          <span class="kicker">Fundadores</span>
+          <h3>Sachen Kunga Ñingpo, el primer maestro Sakya</h3>
+          <p>El origen del linaje Sakya y la transmisión que aún nos acompaña hoy.</p>
+          <a class="efx-card__more" href="#sachen">Leer más <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+      <article class="efx-card">
+        <div class="bar-img"><div class="pic" style="background-image:url('img/blog-4-color.jpg'),linear-gradient(135deg,#105ea9,#0b3f72)"></div></div>
+        <span class="ghost" aria-hidden="true">壇</span>
+        <span class="num">04</span>
+        <div class="body">
+          <span class="kicker">Filosofía</span>
+          <h3>Ofrenda de Mandala: el método supremo para acumular mérito</h3>
+          <p>Todo lo que necesitas saber antes de recibir la transmisión de la Ofrenda de Mandala, la quinta práctica fundamental no común del Ngondro de la Tradición Sakya.</p>
+          <a class="efx-card__more" href="#mandala">Leer más <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    </div>
+
+    <div class="idx-foot idx-foot--center">
+      <a class="t-link" href="https://paramita.org/blog/">
+        <span class="txt">Ver todos los artículos</span><span class="arw" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <!-- ╔═══ 10 · CTA FINAL ═══╗  Texto con zoom-stage + ornamentos SVG dibujados por scroll -->
+  <section class="cta-final wrap" id="amigo" aria-labelledby="cta-t">
+    <!-- ornamentos abstractos laterales (el trazo se dibuja con el scroll, NO sobre el texto) -->
+    <svg class="cta-orn cta-orn--left" id="ctaOrnL" viewBox="0 0 120 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <defs>
+        <linearGradient id="ctaOrnGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="var(--azul-oscuro)"/>
+          <stop offset=".55" stop-color="var(--azul-sutil)"/>
+          <stop offset="1" stop-color="var(--dorado)"/>
+        </linearGradient>
+      </defs>
+      <path class="cta-orn__path" d="M70 6 C24 96 104 188 52 286 S6 470 78 594"/>
+      <circle class="cta-orn__dot" cx="52" cy="286" r="4"/>
+    </svg>
+    <svg class="cta-orn cta-orn--right" id="ctaOrnR" viewBox="0 0 120 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <path class="cta-orn__path" d="M70 6 C24 96 104 188 52 286 S6 470 78 594"/>
+      <circle class="cta-orn__dot" cx="52" cy="286" r="4"/>
+    </svg>
+
+    <span class="eyebrow" data-reveal="1">Da el primer paso</span>
+    <h2 class="zoom-word" id="cta-t"><span>Respira.</span><span>Observa.</span><span>Suelta.</span></h2>
+    <p class="cta-sub">Empieza hoy, a tu ritmo. Aprende a meditar o acompáñanos como amigo de Paramita.</p>
+    <div class="actions">
+      <a class="t-link" href="#hazte-amigo">
+        <span class="txt">Hazte amigo</span><span class="arw" aria-hidden="true">→</span>
+      </a>
+      <a class="t-link" href="https://cursos.paramita.org/home">
+        <span class="txt">Aprende a meditar</span><span class="arw" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- modal de vídeo -->
+<div class="vmodal" id="vmodal" role="dialog" aria-modal="true" aria-label="Vídeo institucional">
+  <button class="x" id="vclose" aria-label="Cerrar vídeo">✕</button>
+  <div class="frame" id="vframe"></div>
+</div>
+
+<!-- PIE -->
+<footer class="foot" id="contacto">
+  <!-- Hero "Practiquemos juntos" con figuras físicas interactivas (cursor/clic/touch) -->
+  <div class="foot__hero">
+    <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
+    <div>
+      <h2 class="foot__h">Practiquemos <em>juntos</em>.</h2>
+      <p class="foot__hint">Pasa el cursor o toca entre las figuras.</p>
+    </div>
+  </div>
+  <!-- Información del pie, fusionada dentro del envoltorio oscuro -->
+  <div class="foot__info">
+    <div class="wrap">
+      <div class="foot-grid">
+      <div>
+        <span class="logo-wave" role="img" aria-label="Paramita"></span>
+        <p class="tagline">Meditación y enseñanzas del Buddha, como puente entre los Himalayas y el mundo hispanohablante.</p>
+        <div class="social">
+          <a href="#facebook" aria-label="Facebook"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M13.7 8.3c-1.5-.3-2.6.3-2.6 2V17"/><path d="M9.7 11.7h3.6"/></svg>Facebook</a>
+          <a href="#youtube" aria-label="YouTube"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4.2"/><path d="M10.4 9.4 15 12l-4.6 2.6z"/></svg>YouTube</a>
+          <a href="#instagram" aria-label="Instagram"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="16.8" cy="7.2" r=".7" fill="currentColor" stroke="none"/></svg>Instagram</a>
+          <a href="#spotify" aria-label="Spotify"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.4 9.7c3-.9 6.6-.6 9.1.9"/><path d="M8 12.6c2.4-.7 5.2-.4 7.2.8"/><path d="M8.6 15.4c1.9-.5 4-.3 5.6.6"/></svg>Spotify</a>
+        </div>
+      </div>
+      <div>
+        <h4>Navegar</h4>
+        <a class="fl" href="https://cursos.paramita.org/home">Cursos</a>
+        <a class="fl" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a>
+        <a class="fl" href="#actividades">Actividades</a>
+        <a class="fl" href="#sobre-nosotros">Sobre nosotros</a>
+        <a class="fl" href="#participa">Participa</a>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <address>
+          <b>Dirección</b><br>Av. de Comtat, 1 Bis, buzón 207<br>Pedreguer (Muntanya de la Sella)<br>03750 Alicante, España<br><br>
+          <b>Teléfono</b> (+34) 965 760 777<br>
+          <a class="fl" href="mailto:secretaria@paramita.org">secretaria@paramita.org</a>
+          <a class="fl" href="mailto:soporte@paramita.org">soporte@paramita.org</a><br>
+          <b>Horario</b> L–V · 10–13 h y 15–17 h
+        </address>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>© 2026 Fundación Paramita. Todos los seres, libres del sufrimiento.</span>
+      <span>Centro Budista Sakya · Alicante</span>
+    </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   1 · UI BASE · barra sticky + imagen flotante del blog + modal de vídeo
+   ════════════════════════════════════════════════════════════════ */
+(() => {
+  const bar=document.querySelector('.bar');
+  const fine=matchMedia('(hover:hover)').matches;
+  const calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* Barra sticky: estado de cristal opaco al desplazar */
+  let sraf=0;
+  const onScroll=()=>{ if(sraf) return; sraf=requestAnimationFrame(()=>{
+    bar.classList.toggle('scrolled', window.scrollY>8); sraf=0; }); };
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* ── Blog · tarjetas en capas: entrada en cascada (stagger) al entrar en vista ── */
+  (function blogCascade(){
+    const cards=[...document.querySelectorAll('.efx-card')];
+    if(!cards.length) return;
+    if(calm){ cards.forEach(c=>c.classList.add('efx-in')); return; }
+    const io=new IntersectionObserver((ents)=>{
+      ents.forEach(en=>{
+        if(en.isIntersecting){
+          const i=Math.max(0, cards.indexOf(en.target));
+          setTimeout(()=>en.target.classList.add('efx-in'), i*110);
+          io.unobserve(en.target);
+        }
+      });
+    }, {threshold:.18});
+    cards.forEach(c=>io.observe(c));
+  })();
+
+  /* ── Modal de vídeo · disparado desde el vídeo cinematográfico de Bienvenidos ── */
+  const trigger=document.getElementById('missionVideo');
+  const vmodal=document.getElementById('vmodal');
+  const vframe=document.getElementById('vframe'), vclose=document.getElementById('vclose');
+  if(trigger && vmodal){
+    const openV=()=>{
+      vframe.innerHTML=`<video controls autoplay playsinline poster="img/bienvenida-paramita.jpg">
+        <source src="img/bienvenida-paramita.mp4" type="video/mp4"></video>`;
+      vmodal.classList.add('open'); vclose.focus();
+    };
+    const closeV=()=>{ vmodal.classList.remove('open'); vframe.innerHTML=''; trigger.focus(); };
+    trigger.addEventListener('click', openV);
+    trigger.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();openV();} });
+    vclose.addEventListener('click', closeV);
+    vmodal.addEventListener('click', e=>{ if(e.target===vmodal) closeV(); });
+    addEventListener('keydown', e=>{ if(e.key==='Escape' && vmodal.classList.contains('open')) closeV(); });
+  }
+})();
+
+
+/* ════════════════════════════════════════════════════════════════
+   2 · HERO · rotador de palabras + vídeo de fondo responsive
+   ════════════════════════════════════════════════════════════════ */
+(()=>{
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Rotador de palabras (crossfade contemplativo, sin CLS) */
+  const rotator = document.querySelector('.rotator');
+  if (rotator && !reduce){
+    const words = [...rotator.querySelectorAll('.rotator__word')];
+    let i = 0;
+    setInterval(()=>{
+      words[i].classList.remove('is-active');
+      i = (i + 1) % words.length;
+      words[i].classList.add('is-active');
+    }, 3600);                                         // 3.6s por palabra · respiración Paramita
+  }
+
+  /* Vídeo de fondo responsive */
+  const v = document.getElementById('hero-bg-video');
+  if (!v) return;
+
+  const isMobile = matchMedia('(max-width: 768px)').matches;
+  const src = isMobile ? 'img/banner-movil-home-2026.mp4' : 'img/banner-home-home-2026.mp4';
+  const source = document.createElement('source');
+  source.src = src; source.type = 'video/mp4';
+  v.appendChild(source);
+
+  v.muted = true; v.volume = 0.3; v.load();
+  const tryPlay = () => v.play().catch(()=>{ /* autoplay bloqueado, silencio */ });
+  tryPlay();
+
+  v.addEventListener('error', () => { v.style.display = 'none'; }, { once:true });
+  matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', e => {
+    e.matches ? v.pause() : tryPlay();
+  });
+  document.addEventListener('visibilitychange', () => {
+    document.hidden ? v.pause() : tryPlay();
+  }, { passive:true });
+
+  /* Toggle de audio (requiere gesto del usuario) */
+  const soundBtn = document.getElementById('hero-sound-toggle');
+  if (soundBtn){
+    const TARGET_VOL = 0.3, FADE_MS = 600;
+    const fadeVolume = (to) => {
+      const from = v.volume, start = performance.now();
+      const step = (now) => {
+        const t = Math.min(1, (now - start) / FADE_MS);
+        v.volume = from + (to - from) * t;
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    soundBtn.addEventListener('click', () => {
+      const turningOn = v.muted;
+      if (turningOn){
+        v.volume = 0; v.muted = false; v.play().catch(()=>{});
+        fadeVolume(TARGET_VOL);
+        soundBtn.classList.add('is-on');
+        soundBtn.setAttribute('aria-pressed','true');
+        soundBtn.setAttribute('aria-label','Silenciar sonido del fondo');
+        soundBtn.title = 'Silenciar';
+      } else {
+        fadeVolume(0);
+        setTimeout(() => { v.muted = true; }, FADE_MS);
+        soundBtn.classList.remove('is-on');
+        soundBtn.setAttribute('aria-pressed','false');
+        soundBtn.setAttribute('aria-label','Activar sonido del fondo');
+        soundBtn.title = 'Activar sonido';
+      }
+    });
+  }
+})();
+
+
+/* ════════════════════════════════════════════════════════════════
+   3 · REVELADO DE ENTRADA · pretítulos y títulos de cada sección
+   ─ Vanilla IntersectionObserver (fade-in-up). Independiente de GSAP.
+   ════════════════════════════════════════════════════════════════ */
+(function initReveal() {
+  const items = document.querySelectorAll('[data-reveal]');
+  if (!items.length) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    items.forEach(el => el.classList.add('is-in')); return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      // Bidireccional: añade .is-in al entrar y la quita al salir → la animación se
+      // reproduce tanto al bajar como al subir (no solo una vez). No se hace unobserve.
+      e.target.classList.toggle('is-in', e.isIntersecting);
+    });
+  }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
+  items.forEach(el => io.observe(el));
+})();
+
+
+/* ════════════════════════════════════════════════════════════════
+   4 · EFECTOS GSAP · Zoom-out de la Frase (efecto-02) + Grid FLIP de
+       Cursos (efecto-09). Se inicializan en DOMContentLoaded, momento
+       en que los scripts diferidos de GSAP ya están cargados.
+   ─ Si GSAP no está disponible (CDN bloqueado) o hay reduced-motion,
+     todo degrada con elegancia: el contenido se ve en su estado final.
+   ════════════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGSAP = typeof window.gsap !== 'undefined';
+
+  /* ── 4a · FRASE · ZOOM-OUT DESDE GIGANTE (scrub vinculado al scroll) ── */
+  (function initZoomFrase() {
+    const titulo = document.getElementById('fraseZoom');
+    if (!titulo) return;
+    // Sin GSAP o con reduced-motion: dejar el título en su estado final (ya visible por CSS).
+    if (!hasGSAP || reduce) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // El titular arranca GIGANTE y desenfocado, y se asienta a tamaño real ACOMPAÑANDO al scroll.
+    // scrub:true → la animación sigue al usuario en ambos sentidos (sube/baja), de forma fluida e infinita.
+    gsap.fromTo('#fraseZoom',
+      { scale: 2.8, opacity: 0, filter: 'blur(10px)' },
+      { scale: 1, opacity: 1, filter: 'blur(0px)', ease: 'none',
+        scrollTrigger: { trigger: '#frase', start: 'top bottom', end: 'center center', scrub: true }
+      });
+    // El antetítulo aparece/desaparece reversiblemente al entrar y salir del bloque.
+    gsap.fromTo('.zen-frase__eyebrow',
+      { opacity: 0, y: 14 },
+      { opacity: 1, y: 0, duration: 1.1, ease: 'power3.out',
+        scrollTrigger: { trigger: '#frase', start: 'top 70%', toggleActions: 'play reverse play reverse' }
+      });
+  })();
+
+  /* ── 4b · CURSOS · GRID FLIP (API Flip de GSAP) ──
+     Hover/foco expande una celda a 2×2; las vecinas se reubican con
+     auto-placement del grid y FLIP anima ese reflujo suavemente.
+     En táctil (sin hover) la rejilla queda estática y legible (CSS). */
+  (function initFlipGrid() {
+    const grid = document.getElementById('cursosGrid');
+    if (!grid) return;
+    const celdas = grid.querySelectorAll('.flip-celda');
+    const touch = matchMedia('(hover:none)').matches;
+
+    // Sin GSAP/Flip, reduced-motion o táctil: no animamos (el CSS ya deja todo usable).
+    if (!hasGSAP || reduce || touch || typeof window.Flip === 'undefined') return;
+
+    gsap.registerPlugin(Flip);
+    let activa = null;
+
+    function expandir(celda) {
+      if (celda === activa) return;
+      const estado = Flip.getState(celdas, { props: 'borderRadius' });
+      if (activa) activa.classList.remove('is-expanded');
+      celda.classList.add('is-expanded');
+      activa = celda;
+      Flip.from(estado, {
+        duration: 0.65, ease: 'power3.inOut', stagger: 0.012, absolute: false,
+        onEnter: el => gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 })
+      });
+    }
+    function colapsar() {
+      if (!activa) return;
+      const estado = Flip.getState(celdas, { props: 'borderRadius' });
+      activa.classList.remove('is-expanded');
+      activa = null;
+      Flip.from(estado, { duration: 0.55, ease: 'power3.inOut', stagger: 0.01 });
+    }
+
+    celdas.forEach(celda => {
+      celda.addEventListener('mouseenter', () => expandir(celda));
+      celda.addEventListener('focus', () => expandir(celda));
+      // Evitar navegar accidentalmente al primer clic: el enlace sigue activo,
+      // pero el foco/hover ya muestra la información antes de pulsar.
+    });
+    grid.addEventListener('mouseleave', colapsar);
+  })();
+
+  /* ── 4c · CTA · ORNAMENTOS SVG DIBUJADOS POR SCROLL (efecto-05-06) ──
+     Trazos abstractos laterales (NO el texto) que se dibujan con el scroll.
+     Sin GSAP/reduced-motion: se muestran ya dibujados. */
+  (function initOrnamentos() {
+    const paths = document.querySelectorAll('.cta-orn__path');
+    if (!paths.length) return;
+    paths.forEach(p => {
+      const L = p.getTotalLength();
+      p.style.strokeDasharray = L;
+      p.style.strokeDashoffset = L;          // arranca invisible
+      if (!hasGSAP || reduce) { p.style.strokeDashoffset = 0; return; }
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.to(p, {
+        strokeDashoffset: 0, ease: 'none',
+        scrollTrigger: { trigger: '#amigo', start: 'top 85%', end: 'bottom 45%', scrub: 1.2 }
+      });
+    });
+  })();
+
+  /* ── 4d · CTA · TEXTO PRINCIPAL con revelado zoom-stage (ejemplo-efectos-00) ──
+     La escala se ata al progreso del scroll (scrub). Sin GSAP/reduce: tamaño normal. */
+  (function initZoomCTA() {
+    const word = document.querySelector('.zoom-word');
+    if (!word) return;
+    if (!hasGSAP || reduce) return;
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.fromTo('.zoom-word',
+      { scale: .62, autoAlpha: .35 },
+      { scale: 1, autoAlpha: 1, ease: 'none',
+        scrollTrigger: { trigger: '#amigo', start: 'top bottom', end: 'center center', scrub: 1 }
+      });
+  })();
+
+  /* ── Recalcular posiciones cuando todo ha cargado (fuentes, imágenes y clones del
+     carrusel cambian la altura): evita que los triggers queden desfasados y que el
+     zoom parezca animar "solo al refrescar". ── */
+  if (hasGSAP && window.ScrollTrigger) {
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
+  }
+});
+
+
+/* ════════════════════════════════════════════════════════════════
+   5 · EFECTO 11 · FLUIDO WebGL COMO REFRACCIÓN ÓPTICA (FONDO GLOBAL)
+   ─ El ratón/dedo inyecta SOLO vectores de velocidad (no color).
+   ─ El agua se manifiesta como una caricia de luz translúcida sobre el
+     lino #FAF6F0, que se desvanece rápido (disipación alta = viscosidad).
+   ─ Texturas en LINEAR + fallback robusto FLOAT→HALF_FLOAT→UNSIGNED_BYTE.
+   ─ Accesibilidad: no arranca con prefers-reduced-motion.
+   ─ Resiliencia: si no hay WebGL, oculta el lienzo y queda el fondo base.
+   ─ Soporte táctil: mapea touchmove sin errores.
+   ════════════════════════════════════════════════════════════════ */
+(function initFluido() {
+  'use strict';
+  const canvas = document.getElementById('fluido');
+  if (!canvas) return;
+
+  // Accesibilidad: si el usuario desactiva animaciones, NO arrancamos la simulación.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    canvas.style.display = 'none';
+    return;
+  }
+
+  const gl = canvas.getContext('webgl', { premultipliedAlpha: false, alpha: true })
+          || canvas.getContext('experimental-webgl');
+  // Resiliencia: sin WebGL, ocultamos el lienzo y queda el fondo base del body.
+  if (!gl) { canvas.style.display = 'none'; return; }
+
+  const extFloat  = gl.getExtension('OES_texture_float');
+  const extHalf   = gl.getExtension('OES_texture_half_float');
+  const extLinF   = gl.getExtension('OES_texture_float_linear');
+  const extLinHF  = gl.getExtension('OES_texture_half_float_linear');
+
+  // ── Parámetros (valores exactos de la especificación) ──
+  const SIM         = 256;     // resolución de simulación (prioriza rendimiento)
+  const DISSIP      = 0.95;    // evaporación rápida del fluido
+  const SPLAT_SIGMA = 0.0009;  // radio del cursor (hilo milimétrico)
+  const VEL_SCALE   = 7.0;     // intensidad del vector de velocidad inyectado
+  const ADVECT      = 3.4;     // arrastre del fluido sobre sí mismo
+  const DISTORT     = 0.010;   // distorsión óptica de refracción
+  const LINO = [0.980, 0.965, 0.941];   // #FAF6F0
+  let W, H, dpr;
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width  = Math.floor(W * dpr);
+    canvas.height = Math.floor(H * dpr);
+    canvas.style.width  = W + 'px';
+    canvas.style.height = H + 'px';
+  }
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  function compile(type, src) {
+    const sh = gl.createShader(type);
+    gl.shaderSource(sh, src); gl.compileShader(sh);
+    if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) console.error(gl.getShaderInfoLog(sh));
+    return sh;
+  }
+  function program(vs, fs) {
+    const p = gl.createProgram();
+    gl.attachShader(p, compile(gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, compile(gl.FRAGMENT_SHADER, fs));
+    gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) console.error(gl.getProgramInfoLog(p));
+    return p;
+  }
+
+  const quad = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,-1, 1,1, -1,1]), gl.STATIC_DRAW);
+
+  const VS = `
+    attribute vec2 a_pos;
+    varying vec2 vUv;
+    void main(){ vUv = a_pos*0.5+0.5; gl_Position = vec4(a_pos,0.0,1.0); }
+  `;
+
+  /* SIMULACIÓN: campo de velocidad codificado en 0.5 (sirve en byte y float) */
+  const FS_SIM = `
+    precision highp float;
+    varying vec2 vUv;
+    uniform sampler2D u_field;
+    uniform vec2  u_texel;
+    uniform vec2  u_mouse;
+    uniform vec2  u_mouseVel;
+    uniform float u_force;
+    uniform float u_aspect;
+    uniform float u_dissip;
+    uniform float u_sigma;
+    uniform float u_advect;
+
+    void main() {
+      vec2 v = (texture2D(u_field, vUv).xy - 0.5) * 2.0;
+      vec2 back = vUv - v * u_texel * u_advect;
+      vec2 vb = (texture2D(u_field, back).xy - 0.5) * 2.0;
+      vb *= u_dissip;
+      vec2 d = vUv - u_mouse; d.x *= u_aspect;
+      float g = exp(-dot(d,d) / u_sigma);
+      vb += u_mouseVel * g * u_force;
+      vb = clamp(vb, -1.0, 1.0);
+      gl_FragColor = vec4(vb * 0.5 + 0.5, 0.0, 1.0);
+    }
+  `;
+
+  /* VISUALIZACIÓN: fondo lino vivo + VELADURA CROMÁTICA translúcida.
+     Azul-sutil en velocidades bajas/medias → dorado en picos de aceleración.
+     Opacidad máxima 0.18 (seda de color que no tapa textos ni fondo). */
+  const FS_DISP = `
+    precision highp float;
+    varying vec2 vUv;
+    uniform sampler2D u_field;
+    uniform vec2  u_texel;
+    uniform vec3  u_bg;
+    uniform float u_time;
+    uniform float u_aspect;
+
+    vec3 fondo(vec2 uv) {
+      vec3 col = u_bg;
+      vec2 a = vec2(uv.x * u_aspect, uv.y);
+      float warm = exp(-distance(a, vec2(0.32*u_aspect + sin(u_time*0.05)*0.04, 0.30)) * 2.2);
+      col += vec3(0.030, 0.020, -0.004) * warm;
+      float cool = exp(-distance(a, vec2(0.74*u_aspect + cos(u_time*0.04)*0.05, 0.74)) * 2.4);
+      col += vec3(-0.010, 0.008, 0.028) * cool;
+      float vig = smoothstep(1.15, 0.2, distance(uv, vec2(0.5)));
+      col *= 0.985 + vig * 0.03;
+      return col;
+    }
+
+    void main() {
+      vec2 fluidData = (texture2D(u_field, vUv).xy - 0.5) * 2.0;
+      float speed = length(fluidData);
+
+      // Distorsión de lente cristalina ultra-fina
+      vec2 distortedUv = vUv + fluidData * ${'$' + '{0}'};
+      vec3 base = fondo(distortedUv);
+
+      // Paleta sagrada de Paramita
+      vec3 colorAzul   = vec3(0.0, 0.78, 0.89);  // #00C7E5
+      vec3 colorDorado = vec3(1.0, 0.70, 0.0);   // #FFB400
+
+      float colorMixFactor = smoothstep(0.10, 0.60, speed);
+      vec3 fluidColor = mix(colorAzul, colorDorado, colorMixFactor);
+
+      float sx = length((texture2D(u_field, vUv + vec2(u_texel.x,0.0)).xy-0.5)*2.0)
+               - length((texture2D(u_field, vUv - vec2(u_texel.x,0.0)).xy-0.5)*2.0);
+      float sy = length((texture2D(u_field, vUv + vec2(0.0,u_texel.y)).xy-0.5)*2.0)
+               - length((texture2D(u_field, vUv - vec2(0.0,u_texel.y)).xy-0.5)*2.0);
+      float relieve = (abs(sx)+abs(sy));
+
+      // Alpha proporcional a la densidad física, opacidad máxima 0.18
+      float alpha = smoothstep(0.005, 0.5, speed) * 0.14 + relieve * 0.9;
+      alpha = clamp(alpha, 0.0, 0.18);
+
+      vec3 finalColor = mix(base, fluidColor, alpha);
+      gl_FragColor = vec4(finalColor, 1.0);
+    }
+  `.replace('${0}', String(DISTORT));
+
+  const progSim  = program(VS, FS_SIM);
+  const progDisp = program(VS, FS_DISP);
+
+  function bindQuad(p) {
+    const loc = gl.getAttribLocation(p, 'a_pos');
+    gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  }
+
+  /* Texturas + framebuffers con FALLBACK robusto (FLOAT→HALF→BYTE) */
+  function tryType(type, lin) {
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    const f = lin ? gl.LINEAR : gl.NEAREST;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, SIM, SIM, 0, gl.RGBA, type, null);
+    const fbo = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    const ok = gl.checkFramebufferStatus(gl.FRAMEBUFFER) === gl.FRAMEBUFFER_COMPLETE;
+    return { tex, fbo, ok };
+  }
+  let TIPO, FILTRO_LIN;
+  (function elegir() {
+    const cands = [];
+    if (extFloat) cands.push([gl.FLOAT, !!extLinF]);
+    if (extHalf)  cands.push([extHalf.HALF_FLOAT_OES, !!extLinHF]);
+    cands.push([gl.UNSIGNED_BYTE, true]);
+    for (const [t, l] of cands) {
+      const r = tryType(t, l);
+      gl.deleteTexture(r.tex); gl.deleteFramebuffer(r.fbo);
+      if (r.ok) { TIPO = t; FILTRO_LIN = l; return; }
+    }
+    TIPO = gl.UNSIGNED_BYTE; FILTRO_LIN = true;
+  })();
+
+  function createTarget() {
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    const f = FILTRO_LIN ? gl.LINEAR : gl.NEAREST;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, SIM, SIM, 0, gl.RGBA, TIPO, null);
+    const fbo = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    return { tex, fbo };
+  }
+  let A = createTarget();
+  let B = createTarget();
+  [A, B].forEach(t => {
+    gl.bindFramebuffer(gl.FRAMEBUFFER, t.fbo);
+    gl.viewport(0,0,SIM,SIM);
+    gl.clearColor(0.5, 0.5, 0.0, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+  });
+
+  // Estado del ratón / dedo
+  let mx = 0.5, my = 0.5, pmx = 0.5, pmy = 0.5;
+  let active = false, force = 0;
+
+  window.addEventListener('mousemove', e => {
+    mx = e.clientX / W; my = 1.0 - e.clientY / H; active = true;
+  }, { passive: true });
+  window.addEventListener('mouseleave', () => { active = false; });
+  // Soporte táctil (sin errores en consola si no hay toques)
+  window.addEventListener('touchmove', e => {
+    const t = e.touches && e.touches[0];
+    if (!t) return;
+    mx = t.clientX / W; my = 1.0 - t.clientY / H; active = true;
+  }, { passive: true });
+  window.addEventListener('touchend', () => { active = false; }, { passive: true });
+
+  const texel = [1/SIM, 1/SIM];
+  const uS = ['u_field','u_texel','u_mouse','u_mouseVel','u_force','u_aspect','u_dissip','u_sigma','u_advect']
+    .reduce((o,k)=>(o[k]=gl.getUniformLocation(progSim,k),o),{});
+  const uD = ['u_field','u_texel','u_bg','u_time','u_aspect']
+    .reduce((o,k)=>(o[k]=gl.getUniformLocation(progDisp,k),o),{});
+
+  const t0 = performance.now();
+  let running = true;
+  function loop() {
+    if (!running) return;
+    let vx = (mx - pmx) * VEL_SCALE;
+    let vy = (my - pmy) * VEL_SCALE;
+    pmx = mx; pmy = my;
+    force += ((active ? 1 : 0) - force) * 0.15;
+
+    // PASO 1 · simulación
+    gl.bindFramebuffer(gl.FRAMEBUFFER, B.fbo);
+    gl.viewport(0, 0, SIM, SIM);
+    gl.disable(gl.BLEND);
+    gl.useProgram(progSim);
+    bindQuad(progSim);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, A.tex);
+    gl.uniform1i(uS.u_field, 0);
+    gl.uniform2f(uS.u_texel, texel[0], texel[1]);
+    gl.uniform2f(uS.u_mouse, mx, my);
+    gl.uniform2f(uS.u_mouseVel, vx, vy);
+    gl.uniform1f(uS.u_force, force);
+    gl.uniform1f(uS.u_aspect, W / H);
+    gl.uniform1f(uS.u_dissip, DISSIP);
+    gl.uniform1f(uS.u_sigma, SPLAT_SIGMA);
+    gl.uniform1f(uS.u_advect, ADVECT);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+    const tmp = A; A = B; B = tmp;
+
+    // PASO 2 · visualización (fondo vivo)
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.disable(gl.BLEND);
+    gl.useProgram(progDisp);
+    bindQuad(progDisp);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, A.tex);
+    gl.uniform1i(uD.u_field, 0);
+    gl.uniform2f(uD.u_texel, texel[0], texel[1]);
+    gl.uniform3f(uD.u_bg, LINO[0], LINO[1], LINO[2]);
+    gl.uniform1f(uD.u_time, (performance.now() - t0) / 1000);
+    gl.uniform1f(uD.u_aspect, W / H);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  // Rendimiento: pausar el bucle cuando la pestaña no está visible
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { running = false; }
+    else if (!running) { running = true; requestAnimationFrame(loop); }
+  }, { passive: true });
+
+  // Si el usuario activa "reduce motion" en caliente, detenemos y ocultamos
+  window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', e => {
+    if (e.matches) { running = false; canvas.style.display = 'none'; }
+  });
+})();
+
+
+/* ════════════════════════════════════════════════════════════════
+   5b · PARTICIPACIÓN · DESTACADO AUTOMÁTICO CÍCLICO (idle orgánico)
+   ─ Las tres vías se resaltan secuencialmente por sí solas (sin hover).
+   ─ Si el usuario pasa el cursor, se pausa y manda la interacción real.
+   ─ Respeta prefers-reduced-motion (no cicla).
+   ════════════════════════════════════════════════════════════════ */
+(function initParticipaAuto() {
+  const list = document.querySelector('.participa .vias');
+  if (!list) return;
+  const vias = [...list.querySelectorAll('.via')];
+  if (!vias.length) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let i = 0, paused = false;
+  const clear = () => vias.forEach(v => v.classList.remove('is-auto'));
+  const tick = () => {
+    if (paused) return;
+    clear();
+    vias[i].classList.add('is-auto');
+    i = (i + 1) % vias.length;
+  };
+  // el hover del usuario tiene prioridad: pausa el ciclo y limpia el destacado automático
+  list.addEventListener('pointerenter', () => { paused = true; clear(); });
+  list.addEventListener('pointerleave', () => { paused = false; });
+  tick();
+  setInterval(tick, 2200);   // ~2,2 s por tarjeta → ritmo contemplativo
+})();
+
+
+/* ════════════════════════════════════════════════════════════════
+   5c · TRAZO DIVISOR · "dibujo" del stroke SVG vinculado al scroll
+   ─ Vanilla: getTotalLength() + stroke-dasharray/offset.
+   ─ El listener de scroll se acopla SOLO cuando el divisor está en
+     vista (IntersectionObserver) y se actualiza con requestAnimationFrame
+     (sin jank, sin librerías). Reduced-motion → trazo ya dibujado.
+   ════════════════════════════════════════════════════════════════ */
+(function initTrazoDivisor() {
+  const paths = [...document.querySelectorAll('.trazo-divisor__path')];
+  if (!paths.length) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  paths.forEach(p => {
+    const L = p.getTotalLength();
+    p.dataset.len = L;
+    p.style.strokeDasharray = L;
+    p.style.strokeDashoffset = reduce ? 0 : L;   // arranca sin dibujar
+  });
+  if (reduce) return;
+
+  const active = new Set();
+  let ticking = false;
+
+  function update() {
+    ticking = false;
+    const vh = innerHeight;
+    active.forEach(p => {
+      const r = p.closest('.trazo-divisor').getBoundingClientRect();
+      // progreso 0→1 conforme el divisor asciende por el viewport (bidireccional)
+      const prog = Math.max(0, Math.min(1, (vh - r.top) / (vh * 0.85)));
+      p.style.strokeDashoffset = parseFloat(p.dataset.len) * (1 - prog);
+    });
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const p = e.target.querySelector('.trazo-divisor__path');
+      e.isIntersecting ? active.add(p) : active.delete(p);
+    });
+    if (active.size) { addEventListener('scroll', onScroll, { passive: true }); update(); }
+    else removeEventListener('scroll', onScroll);
+  }, { threshold: 0, rootMargin: '12% 0px 12% 0px' });
+
+  document.querySelectorAll('.trazo-divisor').forEach(d => io.observe(d));
+})();
+
+
+/* ════════════════════════════════════════════════════════════════
+   6 · TESTIMONIOS · CARRUSEL HORIZONTAL INFINITO
+   ─ Auto-avance suave (rAF). Pausa al hover/touch + tarjeta destacada.
+   ─ Scroll lateral manual: swipe táctil nativo + rueda/Shift-rueda.
+   ─ Bucle infinito clonando el set una vez (reset sin costura).
+   ════════════════════════════════════════════════════════════════ */
+(function initCarrusel() {
+  const car = document.getElementById('tcarousel');
+  const track = document.getElementById('ttrack');
+  if (!car || !track) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Duplicar las tarjetas una vez para un bucle continuo
+  const originales = [...track.children];
+  originales.forEach(card => {
+    const clon = card.cloneNode(true);
+    clon.setAttribute('aria-hidden', 'true');
+    track.appendChild(clon);
+  });
+  const half = () => track.scrollWidth / 2;   // ancho de un set
+
+  let paused = false;
+  const SPEED = 0.55;                          // px por frame (suave y contemplativo)
+
+  function normaliza() {
+    const h = half();
+    if (car.scrollLeft >= h) car.scrollLeft -= h;
+    else if (car.scrollLeft < 0) car.scrollLeft += h;
+  }
+
+  // Auto-avance
+  if (!reduce) {
+    let raf;
+    (function tick() {
+      if (!paused) { car.scrollLeft += SPEED; normaliza(); }
+      raf = requestAnimationFrame(tick);
+    })();
+    document.addEventListener('visibilitychange', () => { paused = document.hidden ? true : paused; }, { passive:true });
+  }
+
+  // Pausa + destacado al pasar el cursor sobre una tarjeta
+  const cards = () => [...track.children];
+  car.addEventListener('pointerover', e => {
+    const card = e.target.closest('.tcard');
+    if (card) { paused = true; card.classList.add('is-active'); }
+  });
+  car.addEventListener('pointerout', e => {
+    const card = e.target.closest('.tcard');
+    if (card) card.classList.remove('is-active');
+    if (!car.matches(':hover')) paused = false;
+  });
+  // Soporte táctil: mantener el dedo detiene y destaca; soltar reanuda
+  car.addEventListener('touchstart', e => {
+    paused = true;
+    const card = e.target.closest('.tcard');
+    if (card) card.classList.add('is-active');
+  }, { passive:true });
+  car.addEventListener('touchend', () => {
+    cards().forEach(c => c.classList.remove('is-active'));
+    setTimeout(() => { paused = false; }, 600);
+  }, { passive:true });
+
+  // Scroll lateral acelerado con rueda / trackpad / Shift+rueda
+  car.addEventListener('wheel', e => {
+    const horizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+    if (horizontal || e.shiftKey) {
+      car.scrollLeft += (e.deltaX || e.deltaY);
+      normaliza();
+      e.preventDefault();              // evita robar el scroll vertical de la página
+    }
+  }, { passive:false });
+
+  // El swipe táctil nativo (overflow-x) ya funciona; mantenemos el bucle al soltar
+  car.addEventListener('scroll', normaliza, { passive:true });
+})();
+
+
+/* ════════════════════════════════════════════════════════════════
+   7 · FOOTER · FIGURAS FÍSICAS (vanilla) · "Practiquemos juntos"
+   ─ Bolas con velocidad + rebote en paredes; el cursor/dedo las repele;
+     clic/tap = impulso. Pausa fuera de vista y en reduced-motion.
+   ════════════════════════════════════════════════════════════════ */
+(function initFooterFisicas() {
+  const cv = document.getElementById('physics');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const zona = cv.parentElement;
+  let W, H, balls = [], mouse = { x:-999, y:-999 }, visible = true, raf = 0;
+  // Sin el azul claro (#00C7E5): se quitan las bolas cian que entorpecían la lectura
+  const COL = ['#FFB400', '#105EA9', '#211E1A', '#F1E6D2'];
+
+  const resize = () => { W = cv.width = zona.clientWidth; H = cv.height = zona.clientHeight; };
+  resize();
+  addEventListener('resize', resize, { passive:true });
+
+  const N = matchMedia('(max-width:640px)').matches ? 16 : 28;   // más esferas decorativas
+  for (let i = 0; i < N; i++) balls.push({
+    x: Math.random()*W, y: Math.random()*H,
+    vx: (Math.random()-.5)*1.2, vy: (Math.random()-.5)*1.2,
+    r: 16 + Math.random()*26, c: COL[i % COL.length],
+    ph: Math.random()*Math.PI*2          // fase para la deriva orgánica idle
+  });
+
+  const pos = e => { const r = cv.getBoundingClientRect(); return { x:e.clientX-r.left, y:e.clientY-r.top }; };
+  cv.addEventListener('pointermove', e => { const p = pos(e); mouse.x = p.x; mouse.y = p.y; }, { passive:true });
+  cv.addEventListener('pointerleave', () => { mouse.x = mouse.y = -999; });
+  cv.addEventListener('pointerdown', e => {
+    const p = pos(e);
+    balls.forEach(b => { const dx=b.x-p.x, dy=b.y-p.y, d=Math.hypot(dx,dy)||1;
+      if (d < 170) { b.vx += dx/d*7; b.vy += dy/d*7; } });
+  });
+
+  function frame() {
+    ctx.clearRect(0,0,W,H);
+    const t = performance.now()/1000;
+    balls.forEach(b => {
+      // 1) DERIVA ORGÁNICA IDLE: micro-aceleración en una dirección que rota lentamente,
+      //    distinta para cada esfera → flotan solas, fluido y aleatorio, sin necesidad de hover.
+      const ang = t*0.22 + b.ph;
+      b.vx += Math.cos(ang)*0.02;
+      b.vy += Math.sin(ang*1.3)*0.02;
+      // 2) Repulsión SUAVE del cursor (si está cerca), integrada al movimiento autónomo.
+      const dx=b.x-mouse.x, dy=b.y-mouse.y, d=Math.hypot(dx,dy)||1;
+      if (d < 140) { b.vx += dx/d*0.5; b.vy += dy/d*0.5; }
+      // 3) Fricción ligera + suelo/techo de velocidad: nunca se detienen, pero se mantienen serenas.
+      b.vx *= .99; b.vy *= .99;
+      const sp = Math.hypot(b.vx,b.vy) || 1e-4, MIN=0.3, MAX=5;
+      if (sp < MIN) { b.vx=b.vx/sp*MIN; b.vy=b.vy/sp*MIN; }
+      else if (sp > MAX) { b.vx=b.vx/sp*MAX; b.vy=b.vy/sp*MAX; }
+      b.x += b.vx; b.y += b.vy;
+      // rebote en paredes
+      if (b.x < b.r) { b.x=b.r; b.vx*=-.8; } if (b.x > W-b.r) { b.x=W-b.r; b.vx*=-.8; }
+      if (b.y < b.r) { b.y=b.r; b.vy*=-.8; } if (b.y > H-b.r) { b.y=H-b.r; b.vy*=-.8; }
+      ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
+      ctx.fillStyle=b.c; ctx.globalAlpha=.82; ctx.fill(); ctx.globalAlpha=1;
+    });
+    if (visible) raf = requestAnimationFrame(frame);
+  }
+  // Solo anima cuando el footer está en pantalla (rendimiento)
+  const io = new IntersectionObserver(ents => ents.forEach(en => {
+    visible = en.isIntersecting && !calm;
+    if (visible && !raf) frame();
+    if (!visible && raf) { cancelAnimationFrame(raf); raf = 0; }
+  }), { threshold: .05 });
+  io.observe(zona);
+
+  if (calm) {   // dibujo estático único, sin bucle
+    ctx.clearRect(0,0,W,H);
+    balls.forEach(b => { ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
+      ctx.fillStyle=b.c; ctx.globalAlpha=.82; ctx.fill(); ctx.globalAlpha=1; });
+  }
+})();
+</script>
+</body>
+</html>
