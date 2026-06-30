@@ -181,12 +181,15 @@
     display:grid;align-content:start;padding-top:clamp(2rem,7vh,5rem);padding-bottom:clamp(3rem,9vh,7rem);
     background:radial-gradient(120% 85% at 80% -12%, var(--calido-zen), transparent 62%)}
   .hero__inner{width:min(1240px,90vw);margin-inline:auto}  /* columna de texto alineada con la barra */
-  .hero .eyebrow{margin-bottom:1.5rem}
+  /* pretítulo legible (especialmente en móvil): color oscuro de marca + peso + halo sutil */
+  .hero .eyebrow{margin-bottom:1.5rem;font-weight:700;color:var(--azul-oscuro);
+    text-shadow:0 1px 2px rgba(255,255,255,.5)}
   .hero h1{font-size:clamp(2.7rem,7.4vw,6rem);max-width:16ch;text-wrap:balance}
   .hero .lede{margin-top:1.7rem;max-width:50ch;color:var(--texto-suave);font-size:clamp(1.05rem,2vw,1.22rem)}
   .hero .actions{margin-top:2.6rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
-  .hero .meta{font-size:.84rem;color:var(--texto-suave);display:flex;align-items:center;gap:.6rem}
-  .hero .meta b{font-weight:600;color:var(--antracita)}
+  /* texto destacado "Próximo curso… 27 jun" notablemente más grande */
+  .hero .meta{font-size:clamp(1rem,1.7vw,1.22rem);color:var(--texto-suave);display:flex;align-items:center;gap:.6rem}
+  .hero .meta b{font-weight:700;color:var(--antracita)}
   .pulse{width:7px;height:7px;border-radius:99px;background:var(--dorado);flex:none;
     box-shadow:0 0 0 0 color-mix(in oklch,var(--dorado) 60%,transparent);animation:beat 2.6s var(--ease) infinite}
   @keyframes beat{0%{box-shadow:0 0 0 0 color-mix(in oklch,var(--dorado) 55%,transparent)}
@@ -206,19 +209,19 @@
       conic-gradient(from 200deg at 80% 40%, color-mix(in oklch, var(--azul-oscuro) 12%, transparent), color-mix(in oklch, var(--dorado) 14%, transparent), color-mix(in oklch, var(--arcilla) 80%, transparent));
     filter:blur(40px) saturate(1.1);animation:fallbackFlow 18s var(--ease) infinite alternate}
   @keyframes fallbackFlow{0%{transform:scale(1.05) translate(0,0)}100%{transform:scale(1.12) translate(-2%,1%)}}
-  /* velo cálido VERTICAL (arriba→abajo): capa de contraste sobre la imagen y bajo el texto */
+  /* capa de contraste: degradado IZQUIERDA→DERECHA (bajo la columna de texto) + velo superior suave */
   .hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
     background:
-      linear-gradient(180deg, color-mix(in oklch, var(--arena) 94%, transparent) 0%,
-        color-mix(in oklch, var(--arena) 72%, transparent) 28%, transparent 62%),
-      linear-gradient(180deg, transparent 60%, color-mix(in oklch, var(--arena) 60%, transparent) 100%)}
-  /* MÓVIL: el vídeo vertical (banner-movil) se encuadra centrado y el velo superior es algo más firme */
+      linear-gradient(to right, color-mix(in oklch, var(--arena) 90%, transparent) 0%,
+        color-mix(in oklch, var(--arena) 56%, transparent) 30%, transparent 64%),
+      linear-gradient(180deg, color-mix(in oklch, var(--arena) 70%, transparent) 0%, transparent 42%)}
+  /* MÓVIL: vídeo vertical centrado; el texto va arriba, así que el velo acompaña desde arriba e izquierda */
   @media (max-width:768px){
     .hero__bg-video{object-position:center}
     .hero::after{background:
       linear-gradient(180deg, color-mix(in oklch, var(--arena) 95%, transparent) 0%,
-        color-mix(in oklch, var(--arena) 70%, transparent) 30%, transparent 62%),
-      linear-gradient(180deg, transparent 64%, color-mix(in oklch, var(--arena) 64%, transparent) 100%)}}
+        color-mix(in oklch, var(--arena) 66%, transparent) 32%, transparent 64%),
+      linear-gradient(to right, color-mix(in oklch, var(--arena) 70%, transparent) 0%, transparent 60%)}}
   /* rotador de palabras · crossfade contemplativo (sin CLS) */
   .rotator{display:inline-grid;vertical-align:baseline;text-align:left}
   .rotator__word{grid-area:1/1;opacity:0;transform:translateY(.12em);white-space:nowrap;
@@ -249,9 +252,6 @@
     .hero__bg-fallback{animation:none}.hero__bg-video{display:none}}
   @media (max-width:768px){
     .hero__bg-video{object-position:center center}
-    .hero::after{background:linear-gradient(180deg,
-      color-mix(in oklch, var(--arena) 55%, transparent) 0%, transparent 28%,
-      color-mix(in oklch, var(--arena) 75%, transparent) 100%)}
     .rotator__word{white-space:normal}}
 }
 
@@ -339,7 +339,10 @@
   .trazo-divisor svg{width:100%;height:auto;display:block;overflow:visible}
   .trazo-divisor__path{fill:none;stroke:url(#divGrad);stroke-width:4.5;
     stroke-linecap:round;stroke-linejoin:round;opacity:.95;will-change:stroke-dashoffset}
-  @media (max-width:640px){.trazo-divisor__path{stroke-width:5.5}}   /* más grueso en móvil */
+  @media (max-width:720px){
+    .trazo-divisor{margin-block:clamp(1rem,3.2vh,2.2rem)}
+    .trazo-divisor svg{transform:translate3d(0,0,0) scale(1.55);transform-origin:center center}
+    .trazo-divisor__path{stroke-width:3}}   /* ×1.55 → grosor visual ~4.6, flor mucho más grande */
   @media (prefers-reduced-motion:reduce){.trazo-divisor__path{stroke-dashoffset:0!important}}
 
   /* ── MISIÓN + VÍDEO premium ── */
@@ -477,9 +480,8 @@
     .mission__play::after{margin-left:4px;border-top-width:8px;border-bottom-width:8px;border-left-width:13px}
     .mission__caption{line-height:1.0}
     .mission__overlay{gap:12px;background:linear-gradient(to top, rgba(10,8,6,.55), transparent 62%)}
-    /* relación de aspecto más inmersiva + máscara, sombra y bordes del desktop */
-    .mission__video{aspect-ratio:4/5;clip-path:ellipse(98% 108% at 50% 50%);
-      box-shadow:0 26px 54px -28px rgba(40,33,26,.55)}}
+    /* misma VIÑETA cinematográfica que desktop: hereda la máscara base (ellipse) y su transición scroll-driven */
+    .mission__video{aspect-ratio:4/5;box-shadow:0 26px 54px -28px rgba(40,33,26,.55)}}
   /* expansión cinematográfica scroll-driven (degradación elegante igual que la barra) */
   @supports (animation-timeline:view()){
     @media (prefers-reduced-motion:no-preference){
@@ -532,7 +534,7 @@
   /* estado POR DEFECTO: opacidad 50% + filtro AZUL overlay (multiply) sobre la imagen */
   .flip-celda__pic{position:absolute;inset:0;background-size:cover;background-position:center 38%;
     background-color:var(--azul-oscuro);background-blend-mode:multiply;
-    transform:scale(1.06);opacity:.5;transition:all .3s ease}
+    transform:scale(1.06);opacity:.5;transition:transform .3s ease,opacity .3s ease}  /* solo GPU */
   /* estado ACTIVO/seleccionado: crece, opacidad 100% y SE ELIMINA por completo el filtro azul */
   .flip-celda:hover .flip-celda__pic,.flip-celda:focus-visible .flip-celda__pic,
   .flip-celda:active .flip-celda__pic,.flip-celda.is-expanded .flip-celda__pic{
@@ -566,6 +568,8 @@
   @media (max-width:980px){.flip-grid{grid-template-columns:repeat(3,1fr);max-width:640px}}
   /* MÓVIL: 2 columnas por defecto; al seleccionar, la tarjeta ocupa TODA la fila y crece */
   @media (max-width:720px){.flip-grid{grid-template-columns:repeat(2,1fr);max-width:520px;gap:12px}
+    .flip-celda{aspect-ratio:3/4}                                 /* RECTANGULARES (no cuadradas) en móvil */
+    .flip-celda__overlay{padding:16px 16px 18px;gap:.45rem}       /* texto holgado y sin cortes */
     .flip-celda.is-expanded{grid-column:1 / -1;grid-row:auto;aspect-ratio:16/10}}
   /* móvil / sin hover: la información de las tarjetas siempre visible */
   @media (hover:none){
@@ -624,6 +628,10 @@
   .tcarousel-wrap::before{left:0;background:linear-gradient(90deg,var(--base-bg),transparent)}
   .tcarousel-wrap::after{right:0;background:linear-gradient(270deg,var(--base-bg),transparent)}
   @media (prefers-reduced-motion:reduce){.tcard{transition:none}}
+  /* MÓVIL: menos aire vertical (sobre todo abajo) para compactar el bloque */
+  @media (max-width:640px){
+    .testimonios{padding-top:clamp(2.5rem,7vh,4rem);padding-bottom:clamp(.5rem,2vh,1.5rem)}
+    .ttrack{padding-top:2.4rem;padding-bottom:2.4rem}}
 
   /* ── CTA FINAL · zoom-stage del texto + ornamentos SVG dibujados por scroll (efecto-05-06) ── */
   .cta-final{position:relative;z-index:2;padding-top:clamp(2.25rem,5vh,4rem);
@@ -702,6 +710,9 @@
   .foot a.fl:hover{color:var(--dorado);padding-left:.4rem}
   .foot address{font-style:normal;color:rgba(250,246,240,.62);font-size:.94rem;line-height:1.85}
   .foot address b{color:var(--lino);font-weight:600}
+  /* enlaces de email del footer en azul claro corporativo */
+  .foot a.fl[href^="mailto:"]{color:var(--azul-sutil)}
+  .foot a.fl[href^="mailto:"]:hover{color:color-mix(in oklch,var(--azul-sutil) 70%,#fff)}
   .social{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem;pointer-events:auto}
   .social a{display:inline-flex;align-items:center;gap:.5em;font-size:.84rem;color:rgba(250,246,240,.7);
     border:1px solid rgba(250,246,240,.18);padding:.42rem .85rem;border-radius:99px;
@@ -1265,10 +1276,11 @@
   if (!v) return;
 
   const isMobile = matchMedia('(max-width: 768px)').matches;
-  const src = isMobile ? 'img/banner-movil-home-2026.mp4' : 'img/banner-home-home-2026.mp4';
-  const source = document.createElement('source');
-  source.src = src; source.type = 'video/mp4';
-  v.appendChild(source);
+  // Rutas optimizadas .webm (primario) con respaldo .mp4
+  const base = isMobile ? 'img/banner-movil-home-2026' : 'img/banner-home-home-2026';
+  const webm = document.createElement('source'); webm.src = base + '.webm'; webm.type = 'video/webm';
+  const mp4  = document.createElement('source'); mp4.src  = base + '.mp4';  mp4.type  = 'video/mp4';
+  v.appendChild(webm); v.appendChild(mp4);
 
   v.muted = true; v.volume = 0.3; v.load();
   const tryPlay = () => v.play().catch(()=>{ /* autoplay bloqueado, silencio */ });
@@ -1281,6 +1293,13 @@
   document.addEventListener('visibilitychange', () => {
     document.hidden ? v.pause() : tryPlay();
   }, { passive:true });
+
+  // PAUSA AUTOMÁTICA al salir del viewport (IntersectionObserver); reanuda al volver a entrar
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver((ents) => {
+      ents.forEach(e => { e.isIntersecting ? tryPlay() : v.pause(); });
+    }, { threshold: 0.15 }).observe(v);
+  }
 
   /* Toggle de audio (requiere gesto del usuario) */
   const soundBtn = document.getElementById('hero-sound-toggle');
@@ -1869,20 +1888,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const half = () => track.scrollWidth / 2;   // ancho de un set
 
   let paused = false;
-  const SPEED = 0.55;                          // px por frame (suave y contemplativo)
+  const SPEED = 0.6;                          // px por frame (suave y contemplativo)
+  // Acumulador en coma flotante: en móvil scrollLeft se trunca a entero y `+= 0.55`
+  // se perdía (el carrusel quedaba estático). Guardamos la posición real aquí.
+  let pos = 0;
+  const wrap = () => { const h = half(); if (h > 0) pos = ((pos % h) + h) % h; };
 
-  function normaliza() {
-    const h = half();
-    if (car.scrollLeft >= h) car.scrollLeft -= h;
-    else if (car.scrollLeft < 0) car.scrollLeft += h;
-  }
-
-  // Auto-avance
+  // Auto-avance continuo
   if (!reduce) {
-    let raf;
     (function tick() {
-      if (!paused) { car.scrollLeft += SPEED; normaliza(); }
-      raf = requestAnimationFrame(tick);
+      if (!paused) { pos += SPEED; wrap(); car.scrollLeft = pos; }
+      requestAnimationFrame(tick);
     })();
     document.addEventListener('visibilitychange', () => { paused = document.hidden ? true : paused; }, { passive:true });
   }
@@ -1914,13 +1930,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const horizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
     if (horizontal || e.shiftKey) {
       car.scrollLeft += (e.deltaX || e.deltaY);
-      normaliza();
       e.preventDefault();              // evita robar el scroll vertical de la página
     }
   }, { passive:false });
 
-  // El swipe táctil nativo (overflow-x) ya funciona; mantenemos el bucle al soltar
-  car.addEventListener('scroll', normaliza, { passive:true });
+  // Resincroniza el acumulador cuando el usuario desplaza manualmente (swipe/rueda),
+  // ignorando nuestros propios writes del auto-avance.
+  car.addEventListener('scroll', () => {
+    if (Math.abs(car.scrollLeft - pos) < 1.5) return;
+    pos = car.scrollLeft; wrap();
+  }, { passive:true });
 })();
 
 
@@ -1984,22 +2003,4 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
       ctx.fillStyle=b.c; ctx.globalAlpha=.82; ctx.fill(); ctx.globalAlpha=1;
     });
-    if (visible) raf = requestAnimationFrame(frame);
-  }
-  // Solo anima cuando el footer está en pantalla (rendimiento)
-  const io = new IntersectionObserver(ents => ents.forEach(en => {
-    visible = en.isIntersecting && !calm;
-    if (visible && !raf) frame();
-    if (!visible && raf) { cancelAnimationFrame(raf); raf = 0; }
-  }), { threshold: .05 });
-  io.observe(zona);
-
-  if (calm) {   // dibujo estático único, sin bucle
-    ctx.clearRect(0,0,W,H);
-    balls.forEach(b => { ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
-      ctx.fillStyle=b.c; ctx.globalAlpha=.82; ctx.fill(); ctx.globalAlpha=1; });
-  }
-})();
-</script>
-</body>
-</html>
+    
