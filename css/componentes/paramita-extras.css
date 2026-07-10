@@ -1,0 +1,1116 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-extras.css — Bloques secundarios de la home
+   ───────────────────────────────────────────────────────────────────────────
+   Extraído en Fase 3 · Paso 10 del @layer extras de paramita-styles.css
+   (líneas 628-874 del original). El más grande del sistema.
+
+   SEIS SUBSISTEMAS CONVIVIENDO
+   ────────────────────────────
+   Este archivo agrupa seis bloques temáticos distintos que en el prototipo
+   original vivían en la misma @layer. Se conservan juntos porque son los
+   bloques «que dan cuerpo» a la home después de las secciones principales.
+
+     1 · [data-reveal]        sistema de revelado bidireccional al scroll
+     2 · .bienvenidos         vídeo cinemático con maskGrow scroll-driven
+     3 · .zen-frase           título gigante contemplativo
+     4 · .flip-grid           cursos con Grid Flip (integra GSAP)
+     5 · .participa           vías de participación con destacado cíclico
+     6 · .tcarousel + .tcard  carrusel horizontal de testimonios
+     7 · .cta-final           CTA con zoom-word + ornamentos SVG
+
+   CINCO DECISIONES IDENTITARIAS · Fase 0.1
+   ────────────────────────────────────────
+
+   Decisión A · El .zen-frase__titulo entra en familia identitaria
+   ══════════════════════════════════════════════════════════════
+   El título gigante contemplativo tiene un degradado que fluye. La Regla 1
+   del contrato de quietud dice «texto en lectura no se mueve», pero la
+   Fase 0.1 hizo EXCEPCIÓN EXPLÍCITA para este caso:
+
+     «el título gigante zen-frase puede tener flujo identitario si el
+      degradado se aplica al fondo del texto sin desplazar el trazo»
+
+   Se conecta al ritmo --dur-identidad-descanso (32.5s, 1.3× del logo)
+   porque es una frase contemplativa que respira lentamente.
+
+   Decisión B · hintBob sobrevive con matiz
+   ════════════════════════════════════════
+   La Fase 0.1 lo declaró «no identitario, pero puede quedarse como ayuda
+   funcional que desaparece al primer scroll». La lógica de desaparecer
+   vive en JS. Aquí conservo la animación pero cambio el tempo:
+     · Original:  animation: hintBob 2s var(--ease) infinite
+     · Fase 0.1:  animation: hintBob var(--dur-ambiental) var(--ease-ambiental) infinite
+
+   3s en lugar de 2s hace el vaivén más contemplativo. NO se conecta al
+   interruptor global — es UX funcional, no identitario.
+
+   Decisión C · maskGrow y mediaSettle se conservan íntegros
+   ═════════════════════════════════════════════════════════
+   La Auditoría de Movimiento los marcó como «los dos gestos que mejor
+   encarnan la metáfora del cruce» — literalmente una elipse que se abre.
+   Se conservan tal como estaban, solo tokenizando los rangos:
+     · animation-range: entry 8% cover 42%  →  var(--scroll-revelacion)
+
+   Decisión D · Sistema [data-reveal] tokenizado
+   ═════════════════════════════════════════════
+   El delay hardcoded --rd:.12s se conserva (es un stagger específico).
+   La duración .9s pasa a --dur-deliberado (700ms, ligeramente más rápido
+   pero coherente con la escala del sistema).
+
+   Decisión E · Grid Flip · sin cambios estructurales
+   ══════════════════════════════════════════════════
+   El .flip-celda no toca el sistema respiratorio ni identitario — es
+   puramente scroll-driven + hover-driven (familia B). Solo sustituyo
+   los tokens antiguos.
+
+   TOKENS ANTIGUOS SUSTITUIDOS
+   ───────────────────────────
+   --t-med  →  --t-defecto     (transiciones estándar)
+   --t-fast →  --t-hover       (transiciones rápidas de mission__play,
+                                 tarjetas del carrusel)
+   --ease   →  --ease-llegada  (revelados, animaciones scroll-driven)
+
+   RELACIÓN CON EL JAVASCRIPT
+   ──────────────────────────
+   Este archivo depende de JS para varios comportamientos:
+     · html.js         indica que hay JS, activa revelados
+     · [data-reveal]   observador con IntersectionObserver
+     · .is-in          clase que aplica el observador
+     · .flip-celda.is-expanded   API Flip de GSAP
+     · .tcard.is-active         carrusel autoplay controlado por JS
+     · .participa .via.is-auto  destacado cíclico controlado por JS
+     · .zen-intro_scroll-hint   se retira tras el primer scroll
+
+   Cuando organicemos /js/ en Fase 2 avanzada, cada uno de estos irá a
+   su archivo dedicado.
+
+   RUTAS DE IMÁGENES
+   ─────────────────
+   La ruta de la imagen del vídeo cinemático (bienvenida-paramita.jpg)
+   se ha actualizado a ../../assets/img/ como en los componentes previos.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer extras {
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     1 · SISTEMA [data-reveal] · revelado bidireccional al scroll
+     ─────────────────────────────────────────────────────────────────────
+     Elementos con data-reveal aparecen con fade-in-up al entrar y con
+     fade-out-down al salir del viewport. El JS añade/quita la clase
+     .is-in según la visibilidad.
+
+     Solo se activa si html.js existe · progressive enhancement.
+     ═════════════════════════════════════════════════════════════════════ */
+
+  html.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity var(--dur-deliberado) var(--ease-llegada) var(--rd, 0s),
+                transform var(--dur-deliberado) var(--ease-llegada) var(--rd, 0s);
+  }
+
+  /* Delay escalonado para segundos elementos · el stagger específico se
+     conserva del original */
+  html.js [data-reveal="2"] {
+    --rd: 0.12s;
+  }
+
+  html.js [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     2 · BIENVENIDOS · intro centrada + vídeo cinemático (Efecto 11)
+     ─────────────────────────────────────────────────────────────────────
+     El vídeo arranca recortado en una elipse central y SE EXPANDE al
+     hacer scroll (scroll-driven). Sin soporte de scroll-timeline, se
+     muestra ya expandido.
+
+     Es uno de los dos gestos que la auditoría de movimiento marcó como
+     «los mejores del sistema» — encarna literalmente la metáfora del
+     cruce: una elipse que se abre.
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .bienvenidos {
+    position: relative;
+    z-index: 2;
+    padding-block: var(--espacio-umbral);
+  }
+
+  .mission__intro {
+    max-width: 720px;
+    margin: 0 auto clamp(2.4rem, 5vh, 3.6rem);
+    text-align: center;
+  }
+
+  .mission__intro .eyebrow {
+    display: block;
+    margin-bottom: var(--espacio-elemento);
+  }
+
+  .mission__titulo {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(1.9rem, 4.6vw, 3rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    max-width: 22ch;
+    margin-inline: auto;
+    text-wrap: balance;
+  }
+
+  .mission__titulo em {
+    font-style: italic;
+    color: var(--azul-oscuro);
+  }
+
+  .mission__texto {
+    margin-top: var(--espacio-grupo);
+    font-size: 1.02rem;
+    color: var(--texto-suave);
+    max-width: 54ch;
+    margin-inline: auto;
+  }
+
+  .mission__signed {
+    margin-top: var(--espacio-grupo);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espacio-elemento);
+    font-size: 0.86rem;
+    color: var(--texto-suave);
+  }
+
+  .mission__signed .line {
+    width: 38px;
+    height: 1px;
+    background: var(--azul-oscuro);
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     VÍDEO CINEMÁTICO · con expansión scroll-driven
+     ───────────────────────────────────────────────────────────────────── */
+
+  .mission__video-wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  /* Estado base = EXPANDIDO (fallback sin scroll-timeline) */
+  .mission__video {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 18px;
+    cursor: pointer;
+    isolation: isolate;
+    background: #0c0a08;
+    will-change: clip-path, transform;
+    clip-path: ellipse(78% 115% at 50% 50%);
+    box-shadow: 0 40px 80px -40px rgba(40, 33, 26, 0.5);
+  }
+
+  @supports (corner-shape: superellipse(2)) {
+    .mission__video {
+      border-radius: 30px;
+      corner-shape: superellipse(3);
+    }
+  }
+
+  /* Media del vídeo · imagen de fondo con blend modes */
+  .mission__media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+    background:
+      url("../../assets/img/bienvenida-paramita.jpg") center/cover no-repeat,
+      radial-gradient(120% 90% at 30% 20%, rgba(255, 180, 0, 0.20), transparent 55%),
+      radial-gradient(120% 120% at 80% 90%, rgba(16, 94, 169, 0.35), transparent 60%),
+      linear-gradient(160deg, #2a1f14 0%, #0a0806 100%);
+    background-blend-mode: multiply, normal, normal, normal;
+  }
+
+  .mission__media video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Overlay con play button + caption */
+  .mission__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background: linear-gradient(to top,
+      rgba(10, 8, 6, 0.4),
+      transparent 60%);
+  }
+
+  .mission__play {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(250, 246, 240, 0.16);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(250, 246, 240, 0.4);
+    transition: transform var(--t-defecto),
+                background var(--t-hover);
+  }
+
+  .mission__video:hover .mission__play {
+    transform: scale(1.08);
+    background: rgba(255, 180, 0, 0.9);
+  }
+
+  /* Triángulo con borders · más eficiente que un SVG */
+  .mission__play::after {
+    content: "";
+    width: 0;
+    height: 0;
+    margin-left: 6px;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+    border-left: 21px solid var(--lino);
+    transition: border-left-color var(--t-hover);
+  }
+
+  .mission__video:hover .mission__play::after {
+    border-left-color: var(--antracita);
+  }
+
+  .mission__caption {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.15;
+    font-size: clamp(1.2rem, 2.6vw, 1.8rem);
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
+  }
+
+  /* MÓVIL · play button más pequeño, caption compacto, aspect-ratio inmersivo */
+  @media (max-width: 768px) {
+    .mission__play {
+      width: 58px;
+      height: 58px;
+    }
+    .mission__play::after {
+      margin-left: 4px;
+      border-top-width: 8px;
+      border-bottom-width: 8px;
+      border-left-width: 13px;
+    }
+    .mission__caption {
+      line-height: 1.0;
+    }
+    .mission__overlay {
+      gap: 12px;
+      background: linear-gradient(to top,
+        rgba(10, 8, 6, 0.55),
+        transparent 62%);
+    }
+    /* Relación de aspecto más inmersiva + máscara del desktop */
+    .mission__video {
+      aspect-ratio: 4 / 5;
+      clip-path: ellipse(98% 108% at 50% 50%);
+      box-shadow: 0 26px 54px -28px rgba(40, 33, 26, 0.55);
+    }
+  }
+
+  /* EXPANSIÓN CINEMATOGRÁFICA scroll-driven · DECISIÓN C DE FASE 0.1
+     El gesto que mejor encarna la metáfora del cruce. Conservado íntegro,
+     solo tokenizando el rango de scroll. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+
+      .mission__video {
+        animation: maskGrow linear both;
+        animation-timeline: view();
+        animation-range: var(--scroll-revelacion);
+      }
+
+      @keyframes maskGrow {
+        from { clip-path: ellipse(34% 46% at 50% 50%); }
+        to   { clip-path: ellipse(78% 115% at 50% 50%); }
+      }
+
+      .mission__media {
+        animation: mediaSettle linear both;
+        animation-timeline: view();
+        animation-range: var(--scroll-revelacion);
+      }
+
+      @keyframes mediaSettle {
+        from { transform: scale(1.12); }
+        to   { transform: scale(1); }
+      }
+
+    }
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     3 · ZEN-FRASE · título gigante contemplativo
+     ─────────────────────────────────────────────────────────────────────
+     DECISIÓN A DE FASE 0.1 · Excepción explícita a la Regla 1
+     («texto en lectura no se mueve»).
+
+     El degradado se aplica al fondo del texto (background-clip: text)
+     sin desplazar el trazo. Se conecta al ritmo de descanso (32.5s) —
+     el más lento del sistema, apropiado para una frase contemplativa.
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .zen-frase {
+    position: relative;
+    z-index: 2;
+    min-height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espacio-atomo);
+    padding: clamp(2rem, 5vh, 4rem) 6vw 0;
+    text-align: center;
+    /* Sin padding inferior · pega con el bloque siguiente */
+  }
+
+  .zen-frase__inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espacio-elemento);
+    max-width: min(900px, 92vw);
+  }
+
+  .zen-frase__eyebrow {
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--dorado);
+    white-space: nowrap;
+  }
+
+  /* Título con degradado identitario que fluye · Fase 0.1
+     animation-iteration-count: infinite justificado — excepción explícita
+     del contrato de quietud para el zen-frase. Ritmo de descanso porque
+     es una frase contemplativa. */
+  .zen-frase__titulo {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(2rem, 6.4vw, 5rem);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    transform-origin: center center;
+    will-change: transform, opacity, filter;
+
+    /* Texto con degradado de marca palindrómico (sin costura al fluir) */
+    background: linear-gradient(100deg,
+      var(--azul-oscuro),
+      var(--azul-sutil),
+      var(--dorado),
+      var(--azul-sutil),
+      var(--azul-oscuro));
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    animation: flow var(--dur-identidad-descanso)
+                    var(--ease-identidad-flujo)
+                    infinite;
+  }
+
+  .zen-frase__titulo span {
+    display: block;   /* Rompe EXACTAMENTE en dos líneas */
+  }
+
+  /* Fallback sin background-clip: text */
+  @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+    .zen-frase__titulo {
+      color: var(--azul-oscuro);
+      -webkit-text-fill-color: currentColor;
+    }
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     SCROLL HINT · indicador funcional
+     ─────────────────────────────────────────────────────────────────────
+     DECISIÓN B DE FASE 0.1 · UX funcional que desaparece al primer scroll.
+     La lógica de retirada vive en JS. NO conectada al interruptor
+     identitario porque no es familia identitaria.
+     ───────────────────────────────────────────────────────────────────── */
+
+  .zen-intro_scroll-hint {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: clamp(2rem, 5vh, 3.6rem);
+    font-family: var(--body);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+
+    /* animation-iteration-count: infinite justificado — UX funcional
+       (indicador de scroll). El JS lo retira al primer scroll del usuario. */
+    animation: hintBob var(--dur-ambiental)
+                       var(--ease-ambiental)
+                       infinite;
+  }
+
+  .zen-intro_scroll-hint::after {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 30px;
+    background: linear-gradient(to bottom,
+      var(--texto-suave),
+      transparent);
+  }
+
+  @keyframes hintBob {
+    0%, 100% {
+      transform: translateY(0);
+      opacity: 0.65;
+    }
+    50% {
+      transform: translateY(6px);
+      opacity: 1;
+    }
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     4 · FLIP-GRID · cursos con Grid Flip (Efecto 09)
+     ─────────────────────────────────────────────────────────────────────
+     Grid de 4 columnas donde una celda crece a 2×2 en hover/focus/tap y
+     las vecinas se reorganizan suavemente. El movimiento fluido lo hace
+     la API Flip de GSAP (JS). Este CSS solo declara los estados y las
+     transiciones locales de la celda.
+
+     DECISIÓN E · sin cambios identitarios · movimiento familia B.
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .flip-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 14px;
+    max-width: 900px;
+    margin-inline: 0;   /* Alineado a la izquierda con el título */
+  }
+
+  .flip-celda {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: 16px;
+    overflow: hidden;
+    display: block;
+    background: var(--antracita);
+    border: 1px solid var(--hair);
+    will-change: transform;
+    isolation: isolate;
+  }
+
+  @supports (corner-shape: superellipse(2)) {
+    .flip-celda {
+      border-radius: 22px;
+      corner-shape: superellipse(2.6);
+    }
+  }
+
+  /* Estado por defecto · opacidad 50% + filtro AZUL overlay (multiply) */
+  .flip-celda__pic {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 38%;
+    background-color: var(--azul-oscuro);
+    background-blend-mode: multiply;
+    transform: scale(1.06);
+    opacity: 0.5;
+    transition: all 0.3s ease;
+  }
+
+  /* Estado activo/seleccionado · crece, opacidad 100%, sin filtro */
+  .flip-celda:hover .flip-celda__pic,
+  .flip-celda:focus-visible .flip-celda__pic,
+  .flip-celda:active .flip-celda__pic,
+  .flip-celda.is-expanded .flip-celda__pic {
+    transform: scale(1);
+    opacity: 1;
+    background-color: transparent;
+    background-blend-mode: normal;
+  }
+
+  /* Feedback de escala en móvil/touch (sin reflujo de rejilla) */
+  @media (hover: none) {
+    .flip-celda:active {
+      transform: scale(1.04);
+      z-index: 5;
+    }
+  }
+
+  /* Velo inferior para contraste del texto */
+  .flip-celda__pic::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transition: opacity var(--t-defecto);
+    opacity: 0.45;
+    background: linear-gradient(to top,
+      rgba(20, 14, 8, 0.85) 0%,
+      rgba(20, 14, 8, 0.28) 44%,
+      transparent 72%);
+  }
+
+  .flip-celda.is-expanded .flip-celda__pic::after {
+    opacity: 1;
+  }
+
+  /* Número decorativo · esquina superior izquierda */
+  .flip-celda__num {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    z-index: 3;
+    font-family: var(--body);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Overlay con título y tags · visibles en estado base */
+  .flip-celda__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    text-align: left;
+    gap: var(--espacio-atomo);
+    padding: var(--espacio-elemento);
+    opacity: 1;
+  }
+
+  .flip-celda__cat {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dorado);
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.6);
+  }
+
+  .flip-celda__titulo {
+    font-family: var(--display);
+    font-weight: 400;
+    color: #fff;
+    font-size: clamp(1rem, 1.3vw, 1.32rem);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+  }
+
+  /* Descripción larga · solo en estado expandido */
+  .flip-celda__desc {
+    display: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.85rem;
+    line-height: 1.45;
+    max-width: 34ch;
+    text-align: left;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .flip-celda.is-expanded .flip-celda__desc {
+    display: block;
+  }
+
+  .flip-celda .tags {
+    margin-top: 0.2rem;
+  }
+
+  .flip-celda .tag {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.42);
+  }
+
+  .flip-celda .tag.free {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .flip-celda .tag.soon {
+    color: #fff;
+    border-color: color-mix(in oklch, var(--dorado) 70%, #fff);
+    background: color-mix(in oklch, var(--dorado) 32%, transparent);
+  }
+
+  /* Estado expandido · ocupa 2×2 */
+  .flip-celda.is-expanded {
+    grid-column: span 2;
+    grid-row: span 2;
+    z-index: 5;
+  }
+
+  /* Responsive · el grid se reduce en anchos menores */
+  @media (max-width: 980px) {
+    .flip-grid {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 640px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .flip-grid {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 520px;
+      gap: 12px;
+    }
+    .flip-celda.is-expanded {
+      grid-column: 1 / -1;
+      grid-row: auto;
+      aspect-ratio: 16 / 10;
+    }
+  }
+
+  /* Móvil sin hover · información siempre visible */
+  @media (hover: none) {
+    .flip-celda__overlay {
+      opacity: 1;
+    }
+    .flip-celda__titulo {
+      transform: none;
+    }
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     5 · PARTICIPA · vías de participación con destacado cíclico
+     ─────────────────────────────────────────────────────────────────────
+     Lista de vías de colaboración. Cada .via tiene hover propio, pero
+     también un destacado AUTOMÁTICO cíclico (.is-auto) controlado por JS
+     que ilumina cada vía por turnos. El hover real del usuario pausa el
+     ciclo.
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .participa-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  .participa .vias {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .participa .via {
+    display: flex;
+    align-items: baseline;
+    gap: var(--espacio-elemento);
+    padding: var(--espacio-elemento) var(--espacio-atomo);
+    border-top: 1px solid var(--hair);
+    transition: padding var(--t-defecto),
+                color var(--t-defecto),
+                background var(--t-defecto),
+                border-radius var(--t-defecto);
+  }
+
+  .participa .via:last-child {
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .participa .via:hover {
+    padding-left: var(--espacio-elemento);
+    color: var(--azul-oscuro);
+  }
+
+  /* Destacado automático cíclico · el JS aplica .is-auto por turnos */
+  .participa .via.is-auto {
+    padding-left: var(--espacio-elemento);
+    color: var(--azul-oscuro);
+    border-radius: 14px;
+    background: color-mix(in oklch, var(--azul-sutil) 9%, transparent);
+  }
+
+  .participa .via.is-auto .n {
+    color: var(--dorado);
+  }
+
+  .participa .via .n {
+    font-family: var(--body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--texto-suave);
+    flex: none;
+    min-width: 2.4ch;
+  }
+
+  .participa .via h3 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+    line-height: 1.14;
+    letter-spacing: -0.015em;
+  }
+
+  .participa .via p {
+    margin-top: var(--espacio-atomo);
+    font-size: 0.96rem;
+    color: var(--texto-suave);
+    max-width: 42ch;
+  }
+
+  @media (max-width: 860px) {
+    .participa-grid {
+      grid-template-columns: 1fr;
+      gap: var(--espacio-contenido);
+    }
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     6 · TESTIMONIOS · carrusel horizontal infinito
+     ─────────────────────────────────────────────────────────────────────
+     Carrusel con auto-play + pausa en hover/touch + swipe libre. El JS
+     controla el desplazamiento y aplica .is-active a la tarjeta destacada.
+
+     El movimiento del scroll horizontal NO es infinite CSS — el JS
+     recoloca las tarjetas al llegar al final. No entra en familia
+     identitaria porque es UX funcional convocada.
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .testimonios {
+    position: relative;
+    z-index: 2;
+    padding-block: var(--espacio-umbral);
+  }
+
+  .tcarousel {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  .tcarousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tcarousel:active {
+    cursor: grabbing;
+  }
+
+  /* Padding vertical de seguridad · la sombra del estado destacado
+     (~56px) cabe holgada dentro de los 64px de padding · overflow no
+     la recorta */
+  .ttrack {
+    display: flex;
+    gap: var(--espacio-grupo);
+    width: max-content;
+    padding: var(--espacio-contemplativo) clamp(1rem, 5vw, 3rem);
+    align-items: stretch;
+  }
+
+  .tcard {
+    flex: 0 0 clamp(290px, 40vw, 500px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--espacio-grupo);
+    background: var(--card);
+    border: 1px solid var(--hair);
+    border-radius: 20px;
+    padding: var(--espacio-contenido);
+    opacity: 0.72;
+    transition: opacity var(--t-defecto),
+                transform var(--t-defecto),
+                box-shadow var(--t-defecto),
+                border-color var(--t-defecto);
+  }
+
+  @supports (corner-shape: superellipse(2)) {
+    .tcard {
+      border-radius: 26px;
+      corner-shape: superellipse(2.6);
+    }
+  }
+
+  /* Destacado al pasar el cursor o al ser activada por JS */
+  .tcard:hover,
+  .tcard.is-active {
+    opacity: 1;
+    transform: scale(1.035);
+    border-color: color-mix(in oklch, var(--azul-oscuro) 24%, transparent);
+    box-shadow: 0 30px 60px -34px rgba(40, 33, 26, 0.45);
+  }
+
+  .tcard blockquote {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(1.15rem, 1.7vw, 1.5rem);
+    line-height: 1.42;
+    letter-spacing: -0.005em;
+    color: var(--antracita);
+    text-wrap: pretty;
+  }
+
+  /* Comilla decorativa · glifo grande dorado */
+  .tcard blockquote::before {
+    content: "\201C";
+    font-size: 2.4rem;
+    line-height: 0;
+    color: var(--dorado);
+    vertical-align: -0.35em;
+    margin-right: 0.12em;
+  }
+
+  .tcard figcaption {
+    font-size: 0.86rem;
+    color: var(--texto-suave);
+  }
+
+  .tcard figcaption b {
+    display: block;
+    font-weight: 600;
+    color: var(--antracita);
+    font-family: var(--body);
+    font-size: 0.96rem;
+    margin-bottom: 0.12rem;
+  }
+
+  /* Indicadores laterales sutiles · degradado de borde
+     Sombras que crean la ilusión de que las tarjetas «entran y salen» */
+  .tcarousel-wrap {
+    position: relative;
+  }
+
+  .tcarousel-wrap::before,
+  .tcarousel-wrap::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(2rem, 6vw, 5rem);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .tcarousel-wrap::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--base-bg), transparent);
+  }
+
+  .tcarousel-wrap::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--base-bg), transparent);
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     7 · CTA-FINAL · zoom-word + ornamentos SVG (Efecto 05-06)
+     ─────────────────────────────────────────────────────────────────────
+     Bloque final de la home. Texto grande que hace zoom con el scroll,
+     rodeado de dos ornamentos SVG que se dibujan progresivamente al
+     hacer scroll. Los ornamentos usan stroke-dashoffset animado por JS.
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .cta-final {
+    position: relative;
+    z-index: 2;
+    padding-top: var(--espacio-umbral);
+    padding-bottom: var(--espacio-orilla);
+    text-align: center;
+    overflow: hidden;
+  }
+
+  /* Todo el contenido por encima de los ornamentos */
+  .cta-final > :not(.cta-orn) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-final .eyebrow {
+    display: block;
+    margin-bottom: var(--espacio-grupo);
+  }
+
+  /* Ornamentos abstractos laterales · trazo dibujado por scroll */
+  .cta-orn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: min(80%, 520px);
+    width: auto;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .cta-orn--left {
+    left: clamp(0.5rem, 5vw, 5rem);
+  }
+
+  .cta-orn--right {
+    right: clamp(0.5rem, 5vw, 5rem);
+    transform: translateY(-50%) scaleX(-1);
+  }
+
+  .cta-orn__path {
+    fill: none;
+    stroke: url(#ctaOrnGrad);
+    stroke-width: 3.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    will-change: stroke-dashoffset;
+  }
+
+  .cta-orn__dot {
+    fill: var(--dorado);
+  }
+
+  /* Texto principal · revelado zoom-stage atado al scroll */
+  .zoom-word {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(2.6rem, 9vw, 6.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--antracita);
+    will-change: transform, opacity;
+    transform-origin: center center;
+  }
+
+  .zoom-word span {
+    display: block;
+  }
+
+  /* Segunda línea en cursiva azul · patrón consistente con hero */
+  .zoom-word span:nth-child(2) {
+    font-style: italic;
+    color: var(--azul-oscuro);
+  }
+
+  .cta-sub {
+    margin: var(--espacio-contenido) auto 0;
+    max-width: 52ch;
+    color: var(--texto-suave);
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  /* Escritorio · la frase va en una sola línea horizontal */
+  @media (min-width: 900px) {
+    .cta-sub {
+      max-width: none;
+      white-space: nowrap;
+    }
+  }
+
+  .cta-final .actions {
+    margin-top: var(--espacio-contenido);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(1.4rem, 4vw, 2.6rem);
+    flex-wrap: wrap;
+  }
+
+  /* Móvil · ornamentos más pequeños pegados a los bordes */
+  @media (max-width: 760px) {
+    .cta-orn {
+      height: min(62%, 340px);
+      opacity: 0.42;
+    }
+    .cta-orn--left {
+      left: -4px;
+    }
+    .cta-orn--right {
+      right: -4px;
+    }
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     REDUCED-MOTION
+     ─────────────────────────────────────────────────────────────────────
+     Contrato de quietud · Fase 2 y Fase 0.1:
+
+     · [data-reveal] · los elementos aparecen en su estado final sin
+       transición ni desplazamiento.
+     · .mission__video · el gesto maskGrow no se activa (el @supports
+       está envuelto en @media prefers-reduced-motion: no-preference).
+       El vídeo se queda en su estado expandido base.
+     · .zen-frase__titulo · el degradado se detiene por la salvaguarda
+       global. El fondo queda en su posición inicial 0% 0.
+     · .zen-intro_scroll-hint · el vaivén se detiene explícitamente.
+     · .tcard · las transiciones se anulan (hover sigue funcionando
+       instantáneo).
+     ═════════════════════════════════════════════════════════════════════ */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    html.js [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .zen-intro_scroll-hint {
+      animation: none;
+    }
+
+    .zen-frase__titulo {
+      animation: none;
+    }
+
+    .tcard {
+      transition: none;
+    }
+
+  }
+
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FIN de paramita-extras.css
+   ═══════════════════════════════════════════════════════════════════════════ */

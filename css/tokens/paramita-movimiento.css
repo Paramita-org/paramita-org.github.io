@@ -1,0 +1,391 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-movimiento.css — Sistema de movimiento · Fase 2 v2
+   ───────────────────────────────────────────────────────────────────────────
+   Este archivo implementa el vocabulario de movimiento del sistema.
+   Depende de las decisiones tomadas en Fase 0 (el cruce como acto) y
+   Fase 0.1 (el sistema respira · reformulación de la regla).
+
+   ARQUITECTURA EN CUATRO CAPAS
+   ────────────────────────────
+   1 · Primitivos           valores numéricos, sin significado semántico
+   2 · Semánticos           tokens con intención declarada
+   3 · Familia identitaria  movimiento ambiental del sistema (Fase 0.1)
+   4 · Contrato de quietud  reglas + comportamiento con reduced-motion
+
+   PRINCIPIO RECTOR
+   ────────────────
+   En Paramita el sistema respira. Un flujo ambiental lento, identitario,
+   atraviesa gestos concretos del sitio como el agua atraviesa el paisaje.
+   Todo lo demás es movimiento convocado por el usuario (scroll, hover,
+   focus, click).
+
+   REVERSIBILIDAD
+   ──────────────
+   La familia identitaria (respiración del sistema) se puede detener en
+   TODO el sitio con un solo cambio: la variable --identidad-estado.
+   Ver la capa 3 y el documento Paramita_Fase_0_1_Reformulacion.html
+   para los detalles de la marcha atrás.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+@layer tokens {
+  :root {
+
+    /* ═════════════════════════════════════════════════════════════════════
+       CAPA 1 · PRIMITIVOS
+       ─────────────────────────────────────────────────────────────────────
+       Valores crudos. Nunca deben usarse directamente en un componente —
+       un componente que escribe `transition: var(--dur-400ms)` se salta el
+       sistema. Debe usar el token semántico correspondiente.
+       ═════════════════════════════════════════════════════════════════════ */
+
+    /* Duraciones · escala contemplativa
+       Seis peldaños que absorben las 15 duraciones únicas del prototipo. */
+    --dur-80ms:    80ms;    /* micro                                       */
+    --dur-200ms:  200ms;    /* rápido                                      */
+    --dur-400ms:  400ms;    /* estándar                                    */
+    --dur-700ms:  700ms;    /* deliberado                                  */
+    --dur-1200ms: 1200ms;   /* cinematográfico                             */
+    --dur-3000ms: 3000ms;   /* ambiental — uso restringido                 */
+    --dur-respiro:  25s;    /* respiratorio identitario · Fase 0.1
+                               PROVISIONAL — se calibra visualmente cuando
+                               enlacemos el index (25s como punto medio entre
+                               los 11s del prototipo y los 40s de la reflexión
+                               teórica de la Fase 0.1) */
+
+    /* Curvas de easing · cuatro intenciones */
+
+    --curva-llegada:    cubic-bezier(0.22, 1, 0.36, 1);
+    /* out-quart. Desacelera con decisión y se asienta. Encarna la forma
+       que tiene un elemento de LLEGAR a reposo. Curva por defecto. */
+
+    --curva-salida:     cubic-bezier(0.64, 0, 0.78, 0);
+    /* in-quart. Acelera hacia afuera. Un elemento que se va debe irse
+       rápido; quedarse en pantalla es lo lento. */
+
+    --curva-ambiental:  cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    /* sinusoidal. Sin picos ni valles — respirar. Para movimientos en
+       bucle permitidos por el contrato de quietud (capa 4). */
+
+    --curva-umbral:     cubic-bezier(0.87, 0, 0.13, 1);
+    /* ease-in-out cuártica. Entrada dramática — el gesto mismo del cruce.
+       Solo para transiciones grandes: apertura de sección, revelación del
+       héroe, cambio de página. NO para hovers ni feedback. */
+
+    /* Rangos de scroll · cuándo empieza y acaba un scroll-driven */
+
+    --rango-fijacion:    0 110px;
+    /* Para animation-timeline: scroll() — vinculado al scroll de página.
+       La navbar y el logo terminan su gesto de fijación al pasar 110px. */
+
+    --rango-revelacion:  entry 8% cover 42%;
+    /* Para animation-timeline: view() — vinculado a la propia visibilidad
+       del elemento. Es el rango del patrón maskGrow/mediaSettle. */
+
+    --rango-emergencia:  entry 0% cover 30%;
+    /* Variante corta: el gesto acaba antes, para elementos secundarios. */
+
+    --rango-lento:       entry 15% cover 80%;
+    /* Variante larga: el gesto se extiende durante casi todo el paso del
+       elemento por el viewport. Para revelaciones cinematográficas. */
+
+  }
+}
+
+
+@layer tokens {
+  :root {
+
+    /* ═════════════════════════════════════════════════════════════════════
+       CAPA 2 · SEMÁNTICOS
+       ─────────────────────────────────────────────────────────────────────
+       Estos son los tokens que los componentes DEBEN usar. Cada uno
+       declara una intención — el «por qué» — no un valor.
+       ═════════════════════════════════════════════════════════════════════ */
+
+    /* DURACIONES SEMÁNTICAS */
+
+    --dur-micro: var(--dur-80ms);
+    /* Feedback instantáneo — el cambio que confirma que el usuario tocó
+       algo. Cambio de color al hacer click, aparición del focus ring.
+       Tan rápido que el usuario no lo percibe como movimiento sino como
+       respuesta. */
+
+    --dur-rapido: var(--dur-200ms);
+    /* Hovers, tooltips, aparición de submenús, cambios de estado en
+       controles pequeños. Perceptible pero no hace esperar al usuario. */
+
+    --dur-estandar: var(--dur-400ms);
+    /* La duración por defecto del sistema. Cualquier transición para la
+       que no haya razón explícita de ser distinta usa este valor. */
+
+    --dur-deliberado: var(--dur-700ms);
+    /* Revelaciones al entrar en viewport, apertura de secciones, cambios
+       de estado importantes. Es el tempo natural de un sitio contemplativo. */
+
+    --dur-cinematografico: var(--dur-1200ms);
+    /* Solo para los dos o tres gestos más grandes de cada página. La
+       apertura del vídeo misión, la entrada del título gigante, la
+       transición entre secciones enteras. */
+
+    --dur-ambiental: var(--dur-3000ms);
+    /* Movimiento en bucle — RESERVADO. Solo puede usarse si el gesto está
+       justificado en el comentario del componente y respeta el contrato
+       de quietud (capa 4). No es lo mismo que el respiratorio identitario. */
+
+    /* EASINGS SEMÁNTICOS */
+
+    --ease-llegada: var(--curva-llegada);
+    /* Elementos que entran al viewport, revelaciones, tarjetas que
+       aparecen. Easing por defecto para cualquier gesto de aparición. */
+
+    --ease-salida: var(--curva-salida);
+    /* Elementos que se van — menús que se cierran, modales que
+       desaparecen. Nunca usar --ease-llegada para salidas. */
+
+    --ease-ambiental: var(--curva-ambiental);
+    /* Solo para movimientos en bucle permitidos (incluida la respiración
+       identitaria del sistema). */
+
+    --ease-umbral: var(--curva-umbral);
+    /* El paso del cruce. Solo para transiciones dramáticas de sección o
+       revelaciones cinematográficas. */
+
+    /* COMPUESTOS · duración + easing preparados */
+
+    --t-feedback:      var(--dur-micro)          var(--ease-llegada);
+    --t-hover:         var(--dur-rapido)         var(--ease-llegada);
+    --t-defecto:       var(--dur-estandar)       var(--ease-llegada);
+    --t-revelacion:    var(--dur-deliberado)     var(--ease-llegada);
+    --t-cinematica:    var(--dur-cinematografico) var(--ease-umbral);
+    --t-salida:        var(--dur-estandar)       var(--ease-salida);
+    --t-salida-rapida: var(--dur-rapido)         var(--ease-salida);
+
+    /* RANGOS DE SCROLL SEMÁNTICOS */
+
+    --scroll-fijacion:   var(--rango-fijacion);
+    --scroll-revelacion: var(--rango-revelacion);
+    --scroll-emergencia: var(--rango-emergencia);
+    --scroll-lento:      var(--rango-lento);
+
+  }
+}
+
+
+@layer tokens {
+  :root {
+
+    /* ═════════════════════════════════════════════════════════════════════
+       ALIASES RETROCOMPATIBLES · uso temporal
+       ─────────────────────────────────────────────────────────────────────
+       El prototipo actual (paramita-styles.css) usa nombres antiguos de
+       tokens de motion. Estos aliases los mapean a los nuevos tokens
+       semánticos para que el sitio siga funcionando durante Fase 2 sin
+       tener que reescribir todos los componentes de golpe.
+
+       TAREA FASE 3
+       ────────────
+       A medida que extraigamos componentes de paramita-styles.css a
+       /componentes/, sustituiremos los nombres antiguos por los nuevos
+       en cada componente. Cuando ningún componente los use, este bloque
+       entero se elimina.
+
+       No usar estos aliases en código nuevo. Un archivo nuevo que
+       escriba var(--t-fast) está incumpliendo el sistema.
+       ═════════════════════════════════════════════════════════════════════ */
+
+    --ease:            var(--ease-llegada);
+    --ease-directo:    var(--ease-llegada);
+    --t-microfeedback: var(--t-feedback);
+    --t-fast:          var(--t-hover);
+    --t-med:           var(--t-defecto);
+    --t-slow:          var(--t-revelacion);
+
+  }
+}
+
+
+@layer tokens {
+  :root {
+
+    /* ═════════════════════════════════════════════════════════════════════
+       CAPA 3 · FAMILIA IDENTITARIA (Fase 0.1)
+       ─────────────────────────────────────────────────────────────────────
+       El sistema respira. Un flujo ambiental lento, identitario, presente
+       en el logo y en gestos concretos del sitio como el agua atraviesa el
+       paisaje.
+
+       INTERRUPTOR GLOBAL
+       ──────────────────
+       La variable --identidad-estado controla si el flujo identitario está
+       activo o congelado en TODO el sistema. Cambiar aquí de "activo" a
+       "reposo" detiene la respiración en todo el sitio sin tocar ningún
+       componente.
+
+       Ver Paramita_Fase_0_1_Reformulacion.html para los tres niveles de
+       reversibilidad documentados.
+       ═════════════════════════════════════════════════════════════════════ */
+
+    --identidad-estado: activo;
+    /* activo | reposo
+       activo: el degradado identitario fluye en elementos identitarios.
+       reposo: se congela el flujo, los colores estáticos se conservan. */
+
+    --dur-identidad-flujo:  var(--dur-respiro);
+    --ease-identidad-flujo: var(--ease-ambiental);
+    /* Duración y easing del flujo identitario. 25s (provisional) es un
+       compromiso entre los 11s del prototipo original y los 40s teóricos
+       de la Fase 0.1 (imperceptible individualmente, presente en la
+       acumulación). Se calibra visualmente cuando enlacemos el index. */
+
+    /* Ritmos proporcionales · elementos identitarios secundarios
+       ─────────────────────────────────────────────────────────
+       Cada elemento identitario respira con su propio ritmo dentro del
+       rango contemplativo. Ver a todos los elementos sincronizados sería
+       antinatural — como si fueran un solo objeto. La proporcionalidad
+       garantiza que un único ajuste de --dur-respiro reajuste todos los
+       ritmos manteniendo su relación.
+
+       · Logo principal (barra):   1.0× → 25s     · elemento canónico
+       · Botón amigo:              0.7× → 17.5s   · más ágil, es un botón
+       · Logo del footer:          1.3× → 32.5s   · más lento, es descanso
+       · Banda de cursos:          0.9× → 22.5s   · casi el mismo que el logo */
+
+    --dur-identidad-agil:      calc(var(--dur-respiro) * 0.7);
+    --dur-identidad-secundaria: calc(var(--dur-respiro) * 0.9);
+    --dur-identidad-descanso:  calc(var(--dur-respiro) * 1.3);
+
+    /* USO EN COMPONENTES IDENTITARIOS · plantilla obligatoria
+       ─────────────────────────────────────────────────────────
+       Cualquier componente que use la respiración identitaria debe
+       declararlo con este patrón para participar del interruptor global:
+
+         .logo-wave {
+           background-image: var(--degradado-marca-h);
+           background-size: 200% 100%;
+           animation: flujo-identitario
+                      var(--dur-identidad-flujo)
+                      var(--ease-identidad-flujo)
+                      infinite;  ⎯ excepción justificada: Fase 0.1
+         }
+
+         @keyframes flujo-identitario {
+           to { background-position: 200% 0; }
+         }                                                              */
+
+  }
+
+  /* Cuando el sistema está en reposo, la duración del flujo se anula.
+     El elemento conserva sus colores estáticos — solo deja de fluir. */
+  :root[style*="--identidad-estado: reposo"] {
+    --dur-identidad-flujo: 0s;
+  }
+
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CAPA 4 · CONTRATO DE QUIETUD
+   ═══════════════════════════════════════════════════════════════════════════
+
+   Esta capa NO produce tokens — declara las reglas que gobiernan el uso de
+   todos los anteriores. Un archivo CSS no puede hacerlas cumplir; se
+   documentan aquí para que cualquier persona que trabaje con estos tokens
+   las tenga delante.
+
+   Las reglas 4 y 5 fueron reformuladas en Fase 0.1 para dar cabida a la
+   familia ambiental identitaria (capa 3).
+
+   ═══════════════════════════════════════════════════════════════════════════
+
+   REGLA 1 · Texto en lectura no se mueve.
+   ────────────────────────────────────────
+   Cualquier bloque de texto para lectura (párrafos, títulos con más de
+   cinco palabras, listas, citas) permanece estático mientras el usuario
+   está en la sección. Puede animarse al ENTRAR en vista, pero una vez
+   presente no vuelve a moverse.
+
+   Excepción única: el título gigante zen-frase puede tener flujo
+   identitario si el degradado se aplica al fondo del texto sin desplazar
+   el trazo. Debe cumplir además la regla 3.
+
+   REGLA 2 · Ningún elemento late en bucle para reclamar atención.
+   ───────────────────────────────────────────────────────────────
+   Prohibido cualquier gesto que se repita en el tiempo con fin de que el
+   usuario mire un elemento concreto. Un botón importante se revela al
+   entrar en viewport, se destaca por color y peso, pero no pulsa.
+
+   La distinción clave (Fase 0.1): flujo ≠ pulso.
+     · Flujo: colores/formas se desplazan atravesando el elemento         → permitido en familia identitaria
+     · Pulso: elemento aparece/desaparece en el mismo sitio               → prohibido siempre
+
+   REGLA 3 · Máximo dos elementos en movimiento simultáneo en el viewport.
+   ───────────────────────────────────────────────────────────────────────
+   Cuando el usuario está mirando una sección, no puede haber más de dos
+   gestos animados a la vez. Se aplica sobre lo que el usuario VE, no
+   sobre lo declarado en CSS. La regla obliga a orquestar.
+
+   REGLA 4 · Animaciones infinitas: prohibidas por defecto — excepto familia identitaria.
+   ─────────────────────────────────────────────────────────────────────────────────────
+   `animation-iteration-count: infinite` no puede aparecer sin un
+   comentario en la misma línea que justifique por qué el gesto no puede
+   ser finito.
+
+   La familia ambiental identitaria (capa 3) es una categoría de excepción
+   documentada. Cualquier otro caso requiere justificación explícita.
+
+   REGLA 5 · Dos familias de movimiento, con criterios claros. (Fase 0.1)
+   ──────────────────────────────────────────────────────────────────────
+   Familia A · Ambiental identitaria (respiración del sistema):
+     · Imperceptible en el ritmo individual, presente en la acumulación
+     · Encarna la travesía, no la interrumpe (flujo, no pulso)
+     · No compite con contenido en lectura
+   Solo si un gesto cumple los TRES criterios, entra en esta familia.
+
+   Familia B · Convocada por el usuario:
+     · Scroll, hover, focus, click, carga inicial (una vez)
+     · Todo lo que no sea ambiental identitario cae aquí por defecto
+
+   ═════════════════════════════════════════════════════════════════════════
+
+   CONTRATO CON prefers-reduced-motion
+   ═════════════════════════════════════════════════════════════════════════
+   Todo componente que use tokens de movimiento DEBE declarar su
+   comportamiento cuando la preferencia está activa.
+
+   Patrón obligatorio dentro de cualquier componente que anime:
+
+     .mi-componente {
+       transition: opacity var(--t-revelacion);
+       opacity: 0;
+     }
+     .mi-componente.visible { opacity: 1; }
+
+     @media (prefers-reduced-motion: reduce) {
+       .mi-componente { transition: none; opacity: 1; }
+     }
+
+   El elemento debe llegar a su ESTADO FINAL sin recorrido animado — no
+   quedarse a medias, no ocultarse.
+
+   ═══════════════════════════════════════════════════════════════════════ */
+
+
+/* Salvaguarda global — captura cualquier animación no gestionada
+   explícitamente. Debe ser la ÚLTIMA regla del archivo. */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FIN de paramita-movimiento.css
+   ═══════════════════════════════════════════════════════════════════════════ */

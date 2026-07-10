@@ -1,0 +1,331 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-responsive.css — Adaptaciones responsive · ARCHIVO TEMPORAL
+   ───────────────────────────────────────────────────────────────────────────
+   Extraído en Fase 3 · Paso 4 del @layer responsive de paramita-styles.css
+   (líneas 934-975 del original).
+
+   ═══════════════════════════════════════════════════════════════════════════
+   ESTADO ACTUAL · Final de Fase 3 (Paso 11 completado)
+   ═══════════════════════════════════════════════════════════════════════════
+
+   Este archivo se DEJA INTACTO conscientemente al terminar Fase 3.
+   El objetivo del paso 11 fue documentarlo bien, no distribuirlo, para
+   priorizar el paso 12 (enlazar el index y verificar la web).
+
+   Las media queries que contiene siguen siendo NECESARIAS para que el
+   sitio funcione correctamente en móvil y tablet. No borrar el archivo
+   ni eliminar sus reglas hasta que se distribuyan a los componentes.
+
+   ═══════════════════════════════════════════════════════════════════════════
+   MAPA DE DESTINO · para la Fase 3.5 o Fase 4
+   ═══════════════════════════════════════════════════════════════════════════
+
+   Cuando el sitio esté verificado visualmente y estable, este archivo se
+   desmonta distribuyendo cada bloque a su componente correspondiente:
+
+   ┌─────────────────────────────┬──────────────────────────────────────────┐
+   │ Bloque actual               │ Destino final                            │
+   ├─────────────────────────────┼──────────────────────────────────────────┤
+   │ @media (max-width: 980px)   │                                          │
+   │   .burger, .burger span     │ → paramita-bar.css                       │
+   │   .menu, .nt:checked~.menu  │ → paramita-menu.css                      │
+   │   .links, .navlink, .div    │ → paramita-menu.css                      │
+   │   .sub, .has-sub.end .sub   │ → paramita-menu.css                      │
+   │   .ctas, .btn-contacto      │ → paramita-cta.css                       │
+   │   .btn-amigo                │ → paramita-cta.css                       │
+   │   .bar:has(...)             │ → paramita-bar.css                       │
+   ├─────────────────────────────┼──────────────────────────────────────────┤
+   │ @media (max-width: 860px)   │                                          │
+   │   .mission-grid, .video     │ → paramita-sections.css                  │
+   ├─────────────────────────────┼──────────────────────────────────────────┤
+   │ @media (max-width: 680px)   │                                          │
+   │   .course, .tags            │ → paramita-sections.css                  │
+   │   .post, .blog-float        │ → paramita-sections.css                  │
+   │   .foot-grid                │ → paramita-footer.css                    │
+   └─────────────────────────────┴──────────────────────────────────────────┘
+
+   Con esa distribución completada, este archivo queda vacío y se elimina.
+
+   ═══════════════════════════════════════════════════════════════════════════
+   MIGRACIÓN A MOBILE-FIRST · pendiente de decisión posterior
+   ═══════════════════════════════════════════════════════════════════════════
+
+   Este archivo se escribió con `@media (max-width: ...)` porque el
+   prototipo original era desktop-first. La prioridad declarada del
+   proyecto es MOBILE-FIRST — el CSS base debe ser el de móvil (sin media
+   queries) y `@media (min-width: 768px)` / `@media (min-width: 1024px)`
+   añaden lo que aparece al ensanchar.
+
+   Cuando cada componente absorba su responsive (según el mapa de arriba),
+   es el momento natural de INVERTIR la lógica.
+
+   Los breakpoints están declarados como tokens semánticos en
+   paramita-layout.css:
+
+     --bp-tablet:     768px
+     --bp-escritorio: 1024px
+
+   Los breakpoints actuales (980, 860, 680) son diferentes a los del
+   sistema. Al migrar a mobile-first, unificar:
+     · 980 → --bp-tablet (768) o --bp-escritorio (1024) según convenga
+     · 860 → --bp-tablet (768)
+     · 680 → un breakpoint por debajo de --bp-tablet (~640px)
+
+   ═══════════════════════════════════════════════════════════════════════════
+   TOKENS ANTIGUOS SUSTITUIDOS
+   ───────────────────────────
+   --t-med  →  --t-defecto  (transiciones del burger y del menú móvil)
+
+   REDUCED-MOTION
+   ──────────────
+   El bloque global @media (prefers-reduced-motion: reduce) que existía
+   en el original SE ELIMINÓ en Paso 4 porque duplica la salvaguarda de
+   paramita-movimiento.css.
+
+   Los overrides específicos (.logo-wave y .band::before) que quedaban
+   aquí se han absorbido en sus componentes:
+     · .logo-wave → paramita-bar.css (absorbido en Paso 5)
+     · .band::before → paramita-sections.css (absorbido en Paso 9)
+
+   Este archivo ya NO contiene reglas de reduced-motion.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer responsive {
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     MEDIA · max-width 980px
+     ─────────────────────────────────────────────────────────────────────
+     Punto donde el navbar de escritorio se transforma en menú hamburguesa.
+
+     TODO Fase 3 · migrar a:
+       · .burger, .burger span         → paramita-bar.css
+       · .menu, .nt:checked~.menu      → paramita-menu.css
+       · .links, .navlink, .div, .sub  → paramita-menu.css
+       · .ctas, .btn-contacto, .btn-amigo → paramita-cta.css
+       · .bar:has(...)                 → paramita-bar.css
+     ───────────────────────────────────────────────────────────────────── */
+
+  @media (max-width: 980px) {
+
+    /* Botón hamburguesa · aparece solo en móvil */
+    .burger {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-left: auto;
+      width: 44px;
+      height: 44px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 11px;
+      cursor: pointer;
+    }
+
+    .burger span {
+      width: 22px;
+      height: 2px;
+      background: var(--antracita);
+      border-radius: 2px;
+      transition: transform var(--t-defecto),
+                  opacity var(--t-defecto);
+    }
+
+    /* Animación del burger a X cuando el menú está abierto */
+    .nt:checked ~ .burger span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .nt:checked ~ .burger span:nth-child(2) {
+      opacity: 0;
+    }
+    .nt:checked ~ .burger span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Menú desplegable móvil · sale desde debajo de la barra */
+    .menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      margin: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.2rem;
+      padding: var(--espacio-elemento) 5vw var(--espacio-grupo);
+      background: color-mix(in oklch, var(--arena) 97%, transparent);
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--hair);
+      box-shadow: 0 26px 50px -32px rgba(40, 33, 26, 0.5);
+      opacity: 0;
+      translate: 0 -12px;
+      display: none;
+      transition: opacity var(--t-defecto),
+                  translate var(--t-defecto),
+                  display var(--t-defecto) allow-discrete;
+    }
+
+    .nt:checked ~ .menu {
+      display: flex;
+      opacity: 1;
+      translate: 0 0;
+    }
+
+    /* @starting-style · el menú entra desde arriba con opacidad 0 */
+    @starting-style {
+      .nt:checked ~ .menu {
+        opacity: 0;
+        translate: 0 -12px;
+      }
+    }
+
+    /* Enlaces del menú móvil · apilados verticalmente */
+    .links {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.1rem;
+      width: 100%;
+    }
+
+    .navlink {
+      width: 100%;
+      justify-content: space-between;
+      padding: 0.85rem 0.35rem;
+      font-size: 1.05rem;
+    }
+
+    /* En móvil ocultamos las decoraciones · underline animada y divisor */
+    .navlink::after {
+      display: none;
+    }
+
+    .div {
+      display: none;
+    }
+
+    /* Submenús · en móvil ocupan el flujo, no flotan */
+    .sub,
+    .has-sub.end .sub {
+      position: static;
+      translate: 0;
+      opacity: 1;
+      pointer-events: auto;
+      min-width: 0;
+      box-shadow: none;
+      left: auto;
+      right: auto;
+      background: var(--arcilla);
+      margin: 0.2rem 0 0.4rem;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+
+    /* CTAs · apiladas al final del menú móvil */
+    .ctas {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+    }
+
+    .btn-contacto,
+    .btn-amigo {
+      text-align: center;
+      padding-block: 0.95rem;
+    }
+
+    /* Desactivar la atenuación de otros navlinks al hacer hover en móvil */
+    .bar:has(.navlink:hover) .navlink:not(:hover) {
+      opacity: 1;
+    }
+
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     MEDIA · max-width 860px
+     ─────────────────────────────────────────────────────────────────────
+     Punto donde la sección misión pasa a columna única.
+
+     TODO Fase 3 · migrar a paramita-sections.css
+     ───────────────────────────────────────────────────────────────────── */
+
+  @media (max-width: 860px) {
+
+    .mission-grid {
+      grid-template-columns: 1fr;
+      gap: var(--s-5);
+    }
+
+    .video {
+      aspect-ratio: 16 / 10;
+    }
+
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     MEDIA · max-width 680px
+     ─────────────────────────────────────────────────────────────────────
+     Punto donde las tarjetas de curso, posts y footer se apilan.
+
+     TODO Fase 3 · migrar a:
+       · .course, .tags               → paramita-sections.css
+       · .post, .blog-float           → paramita-sections.css (o extras)
+       · .foot-grid                   → paramita-footer.css
+     ───────────────────────────────────────────────────────────────────── */
+
+  @media (max-width: 680px) {
+
+    /* Tarjetas de curso · fecha va primero (order:-1) */
+    .course .row {
+      grid-template-columns: 1fr;
+      gap: var(--espacio-atomo);
+      padding-block: var(--espacio-elemento);
+    }
+
+    .course .when {
+      order: -1;
+    }
+
+    .tags {
+      justify-self: start;
+    }
+
+    /* Posts del blog · columna única */
+    .post {
+      flex-direction: column;
+      gap: var(--espacio-atomo);
+    }
+
+    /* En móvil sin cursor, se omite la imagen flotante del blog */
+    .blog-float {
+      display: none;
+    }
+
+    /* Footer · columna única */
+    .foot-grid {
+      grid-template-columns: 1fr;
+      gap: var(--espacio-contenido);
+    }
+
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     REDUCED-MOTION
+     ─────────────────────────────────────────────────────────────────────
+     No hay reglas de reduced-motion en este archivo · todos los
+     overrides específicos se han absorbido en sus componentes. Ver la
+     cabecera para el rastro histórico.
+
+     La salvaguarda global vive en paramita-movimiento.css.
+     ───────────────────────────────────────────────────────────────────── */
+
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FIN de paramita-responsive.css
+   ═══════════════════════════════════════════════════════════════════════════ */

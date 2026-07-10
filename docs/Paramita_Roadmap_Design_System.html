@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paramita · Roadmap del Sistema de Diseño</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200..700;1,9..144,200..400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap');
+
+  :root {
+    --lino:    #FAF6F0;
+    --arena:   #F6EEE0;
+    --arcilla: #EFE4D2;
+    --tinta:   #211E1A;
+    --suave:   #5A554E;
+    --pelo:    rgba(33,30,26,0.08);
+    --azul:    #105EA9;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--lino);
+    color: var(--tinta);
+    font-family: 'Hanken Grotesk', 'Helvetica Neue', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--tinta);
+    color: #FBF7EF;
+    padding: 5rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 40px;
+    background: var(--lino);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+  .hero-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(251,247,239,0.35);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: #FBF7EF;
+    margin-bottom: 1.5rem;
+    max-width: 18ch;
+  }
+  .hero-intro {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: rgba(251,247,239,0.6);
+    max-width: 58ch;
+    margin-bottom: 2.5rem;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .stat { }
+  .stat-n {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: #FBF7EF;
+    line-height: 1;
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    color: rgba(251,247,239,0.35);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ── AVISO IMPORTANTE ── */
+  .aviso {
+    max-width: 860px;
+    margin: 3rem auto 0;
+    padding: 0 3rem;
+  }
+  .aviso-inner {
+    background: rgba(16,94,169,0.06);
+    border: 1px solid rgba(16,94,169,0.2);
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .aviso-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .aviso-text {
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: var(--tinta);
+  }
+  .aviso-text strong { color: var(--azul); }
+
+  /* ── CONTENIDO PRINCIPAL ── */
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 3rem 5rem;
+  }
+
+  /* ── FASE ── */
+  .fase {
+    margin-bottom: 4rem;
+    position: relative;
+  }
+  .fase:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 1.4rem;
+    top: 3.8rem;
+    bottom: -2.5rem;
+    width: 1px;
+    background: var(--arcilla);
+  }
+
+  .fase-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+  .fase-dot {
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1rem;
+    font-weight: 300;
+    position: relative;
+    z-index: 1;
+  }
+  .fase-meta { flex: 1; padding-top: 0.3rem; }
+  .fase-eyebrow {
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+    display: block;
+  }
+  .fase-titulo {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.45rem;
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--tinta);
+    margin-bottom: 0.2rem;
+  }
+  .fase-tiempo {
+    font-size: 0.7rem;
+    color: var(--suave);
+    letter-spacing: 0.08em;
+  }
+
+  .fase-body {
+    padding-left: 4.2rem;
+  }
+
+  .fase-por-que {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--tinta);
+    margin-bottom: 1.2rem;
+    max-width: 64ch;
+  }
+
+  .fase-que-hace {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--suave);
+    margin-bottom: 1.4rem;
+    max-width: 62ch;
+  }
+
+  /* Items de la fase */
+  .fase-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 1.4rem;
+  }
+  .fase-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    background: var(--arena);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    line-height: 1.55;
+  }
+  .item-icon {
+    flex-shrink: 0;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    margin-top: 0.05rem;
+  }
+  .item-text { color: var(--tinta); }
+  .item-text strong { font-weight: 600; display: block; margin-bottom: 0.1rem; }
+  .item-text span { color: var(--suave); font-size: 0.8rem; }
+
+  /* Bloque de salida */
+  .fase-salida {
+    border-left: 2px solid var(--arcilla);
+    padding: 0.6rem 1rem;
+    margin-top: 0.5rem;
+  }
+  .salida-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--suave);
+    margin-bottom: 0.3rem;
+    display: block;
+  }
+  .salida-text {
+    font-size: 0.83rem;
+    line-height: 1.6;
+    color: var(--tinta);
+  }
+
+  /* Separador entre fases del mismo nivel */
+  .subfase-sep {
+    height: 1px;
+    background: var(--arcilla);
+    margin: 1.5rem 0;
+  }
+
+  /* ── COLORES POR FASE ── */
+  .f0  { --fc: #211E1A; --fct: #FBF7EF; --fce: rgba(33,30,26,0.5); }
+  .f1a { --fc: #8B2500; --fct: #FBF7EF; --fce: rgba(139,37,0,0.5); }
+  .f1b { --fc: #2C5282; --fct: #FBF7EF; --fce: rgba(44,82,130,0.5); }
+  .f1c { --fc: #1E6B4A; --fct: #FBF7EF; --fce: rgba(30,107,74,0.5); }
+  .f2  { --fc: #5A3E8A; --fct: #FBF7EF; --fce: rgba(90,62,138,0.5); }
+  .f3  { --fc: #7A5A1A; --fct: #FBF7EF; --fce: rgba(122,90,26,0.5); }
+  .f4  { --fc: #3A3A3A; --fct: #FBF7EF; --fce: rgba(58,58,58,0.5); }
+
+  .fase-dot  { background: var(--fc); color: var(--fct); }
+  .fase-eyebrow { color: var(--fce); }
+
+  .item-icon { background: color-mix(in oklch, var(--fc) 12%, transparent); color: var(--fc); }
+  .fase-salida { border-color: var(--fc); opacity: 0.7; }
+
+  /* ── TIMELINE VISUAL ── */
+  .timeline-strip {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.4rem;
+    background: var(--arena);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 3rem 0 4rem;
+  }
+  .tl-item { text-align: center; }
+  .tl-bar {
+    height: 6px;
+    border-radius: 3px;
+    margin-bottom: 0.6rem;
+  }
+  .tl-label {
+    font-size: 0.62rem;
+    color: var(--suave);
+    line-height: 1.4;
+    letter-spacing: 0.05em;
+  }
+  .tl-label strong { display: block; color: var(--tinta); font-size: 0.68rem; }
+
+  /* ── CIERRE ── */
+  .cierre {
+    background: var(--tinta);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-top: 2rem;
+  }
+  .cierre h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: #FBF7EF;
+    margin-bottom: 1rem;
+  }
+  .cierre p {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: rgba(251,247,239,0.6);
+    max-width: 60ch;
+    margin-bottom: 0.8rem;
+  }
+  .cierre p:last-child { margin-bottom: 0; }
+  .cierre strong { color: rgba(251,247,239,0.9); }
+
+  @media (max-width: 640px) {
+    .hero { padding: 3rem 1.5rem 3.5rem; }
+    .wrap { padding: 2rem 1.5rem 4rem; }
+    .aviso { padding: 0 1.5rem; }
+    .fase-body { padding-left: 0; margin-top: 1rem; }
+    .fase:not(:last-child)::after { display: none; }
+    .timeline-strip { grid-template-columns: 1fr 1fr; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-eyebrow">Fundación Paramita · Rediseño web</span>
+  <h1>Cómo se construye el nuevo sistema de diseño</h1>
+  <p class="hero-intro">Un sistema de diseño no se construye de una vez. Se construye en capas, desde lo más conceptual hasta lo más técnico, en un orden que importa: cada capa depende de la anterior. Este documento explica qué se hace en cada fase, por qué en ese orden, y qué produce cada una.</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-n">4</span>
+      <span class="stat-label">Fases principales</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">7</span>
+      <span class="stat-label">Entregas concretas</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">~3</span>
+      <span class="stat-label">Semanas de trabajo</span>
+    </div>
+  </div>
+</div>
+
+<!-- AVISO -->
+<div class="aviso">
+  <div class="aviso-inner">
+    <span class="aviso-icon">↳</span>
+    <p class="aviso-text"><strong>El orden no es arbitrario.</strong> Saltarse la Fase 0 para empezar por los tokens de color es el error más común — y el que explica por qué el sistema actual funciona técnicamente pero no tiene alma. Cada fase produce las decisiones que la siguiente necesita para no improvisar.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- TIMELINE -->
+  <div class="timeline-strip">
+    <div class="tl-item">
+      <div class="tl-bar" style="background:#211E1A;"></div>
+      <div class="tl-label"><strong>Fase 0</strong>1 tarde</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-bar" style="background:#8B2500;"></div>
+      <div class="tl-label"><strong>Fase 1a</strong>2–3 días</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-bar" style="background:#2C5282;"></div>
+      <div class="tl-label"><strong>Fase 1b</strong>1–2 días</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-bar" style="background:#1E6B4A;"></div>
+      <div class="tl-label"><strong>Fase 1c</strong>1 día</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-bar" style="background:#5A3E8A;"></div>
+      <div class="tl-label"><strong>Fase 2</strong>2–3 días</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-bar" style="background:#7A5A1A;"></div>
+      <div class="tl-label"><strong>Fase 3</strong>iterativo</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-bar" style="background:#3A3A3A;"></div>
+      <div class="tl-label"><strong>Fase 4</strong>continuo</div>
+    </div>
+  </div>
+
+  <!-- ══ FASE 0 ══ -->
+  <div class="fase f0">
+    <div class="fase-header">
+      <div class="fase-dot">0</div>
+      <div class="fase-meta">
+        <span class="fase-eyebrow">Antes de tocar ningún token</span>
+        <h2 class="fase-titulo">La idea rectora</h2>
+        <span class="fase-tiempo">1 tarde · Reunión con Khenpo</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <p class="fase-por-que">Esta es la única fase que no produce código ni tokens. Produce algo más valioso: la filosofía que genera todos los demás. Sin ella, cada decisión posterior será arbitraria, y un sistema arbitrario es imposible de mantener y extender.</p>
+      <p class="fase-que-hace">El sistema actual fue construido al revés — primero la página, luego se extrajeron los valores. Por eso documenta bien lo que hay pero no puede decir por qué tiene que ser así y no de otra manera. La Fase 0 invierte ese orden: primero la idea, luego los valores que la encarnan.</p>
+      <div class="fase-items">
+        <div class="fase-item">
+          <div class="item-icon">✦</div>
+          <div class="item-text">
+            <strong>La metáfora rectora</strong>
+            <span>Elegir cuál de las tres lecturas de pāramitā define la experiencia del visitante. Esta decisión genera la lógica del movimiento, del espacio y del color.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">✦</div>
+          <div class="item-text">
+            <strong>El visitante principal</strong>
+            <span>Definir a quién habla el sitio en primer lugar. No para excluir a los demás, sino para que el diseño tenga un punto de vista claro en lugar de intentar ser todo para todos.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">✦</div>
+          <div class="item-text">
+            <strong>Las decisiones de paleta, movimiento y voz</strong>
+            <span>Validar con Khenpo qué colores de la tradición Sakya deben estar presentes, qué tipo de movimiento es compatible con los valores de la fundación, y qué tono de voz nunca debe aparecer.</span>
+          </div>
+        </div>
+      </div>
+      <div class="fase-salida">
+        <span class="salida-label">Entrega</span>
+        <span class="salida-text">Documento de decisiones con 13 líneas completadas — el contrato conceptual del proyecto. Cada token que se cree a partir de aquí deberá poder rastrearse hasta una de esas líneas.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FASE 1a ══ -->
+  <div class="fase f1a">
+    <div class="fase-header">
+      <div class="fase-dot">1a</div>
+      <div class="fase-meta">
+        <span class="fase-eyebrow">Fundamentos visuales · Primera capa</span>
+        <h2 class="fase-titulo">Color en OKLCH desde la tradición Sakya</h2>
+        <span class="fase-tiempo">2–3 días</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <p class="fase-por-que">El color es la primera capa visible del sistema y la que más impacta en la percepción emocional. Hay que construirla bien desde el principio porque todos los componentes heredarán de ella — cambiarla después tiene un coste enorme.</p>
+      <p class="fase-que-hace">El sistema actual almacena todos los colores en hexadecimal, un formato de 2012 que recorta el rango cromático disponible en pantallas modernas y hace imposible la interpolación perceptualmente uniforme. OKLCH es el formato correcto para 2025–2026: permite acceder a toda la gama de la pantalla y garantiza que las escalas de color sean visualmente coherentes.</p>
+      <div class="fase-items">
+        <div class="fase-item">
+          <div class="item-icon">◐</div>
+          <div class="item-text">
+            <strong>Migrar los primitivos de color a OKLCH</strong>
+            <span>Convertir lino, arena, arcilla y antracita al nuevo formato. Medir su luminosidad perceptual y corregir la rampa para que sea realmente monótona.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">◐</div>
+          <div class="item-text">
+            <strong>Definir los nuevos acentos desde la tradición Sakya</strong>
+            <span>Bermellón luminoso, índigo medio y oro metálico — validados en la Fase 0. Nombrarlos como materiales, no como funciones: --sindura, --indigo, --kasyaya.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">◐</div>
+          <div class="item-text">
+            <strong>Añadir los colores de estado que hoy no existen</strong>
+            <span>Error, éxito, advertencia y desactivado. Sin estos cuatro colores el sitio no puede tener formularios accesibles. Es una deuda crítica del sistema actual.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">◐</div>
+          <div class="item-text">
+            <strong>Construir el tema oscuro como lógica propia</strong>
+            <span>No invertir la paleta clara — eso siempre produce resultados incorrectos. El modo oscuro necesita su propio conjunto de tokens semánticos, pensado para fondos oscuros desde el principio.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">◐</div>
+          <div class="item-text">
+            <strong>Verificar contraste WCAG 2.2 AA en todos los pares</strong>
+            <span>Los dos acentos actuales (#00C7E5 y #FFB400) fallan como texto sobre superficies claras. Cada par del nuevo sistema tiene que superar 4.5:1 antes de considerarse listo.</span>
+          </div>
+        </div>
+      </div>
+      <div class="fase-salida">
+        <span class="salida-label">Entrega</span>
+        <span class="salida-text">Archivo tokens-color.css con primitivos en OKLCH, aliases semánticos para light y dark, colores de estado completos, y tabla de contraste verificada.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FASE 1b ══ -->
+  <div class="fase f1b">
+    <div class="fase-header">
+      <div class="fase-dot">1b</div>
+      <div class="fase-meta">
+        <span class="fase-eyebrow">Fundamentos visuales · Segunda capa</span>
+        <h2 class="fase-titulo">Tipografía y ejes variables tokenizados</h2>
+        <span class="fase-tiempo">1–2 días</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <p class="fase-por-que">La pareja tipográfica Fraunces × Hanken Grotesk es la decisión más sólida del sistema actual y no se cambia. Lo que sí falta es convertir los ejes de la fuente variable en un vocabulario con intención — porque ahí está la herramienta expresiva más potente del sistema, sin usar.</p>
+      <p class="fase-que-hace">Fraunces tiene ejes de peso, tamaño óptico y dos ejes propios (SOFT y WONK) que permiten transformar su carácter tipográfico desde frío hasta orgánico. Ninguno de estos ejes está mapeado a tokens en el sistema actual. Animar el eje SOFT de Fraunces en el scroll — que la tipografía se "ablande" conforme el usuario baja — es el movimiento de firma que fusiona la ambición técnica con la metáfora contemplativa.</p>
+      <div class="fase-items">
+        <div class="fase-item">
+          <div class="item-icon">Aa</div>
+          <div class="item-text">
+            <strong>Completar la escala tipográfica</strong>
+            <span>Documentar el ratio entre pasos y añadir los peldaños que faltan: label, overline, code/mono, h4. Con sus valores de interlineado, tracking y medida máxima de línea.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">Aa</div>
+          <div class="item-text">
+            <strong>Mapear los ejes variables a tokens semánticos</strong>
+            <span>--wght-contemplativo: 300 · --wght-presencia: 500 · --wght-asertivo: 700 · --soft-reposo: 0 · --soft-apertura: 100. Cada token con su intención escrita.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">Aa</div>
+          <div class="item-text">
+            <strong>Definir la animación de ejes en scroll</strong>
+            <span>Usar @property + animation-timeline para que el peso y el SOFT de Fraunces se transformen conforme el usuario avanza por la página. Este es el movimiento de firma del sitio.</span>
+          </div>
+        </div>
+      </div>
+      <div class="fase-salida">
+        <span class="salida-label">Entrega</span>
+        <span class="salida-text">Archivo tokens-tipografia.css con escala completa, tokens de ejes variables, y el snippet de animación de firma listo para integrar en el hero.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FASE 1c ══ -->
+  <div class="fase f1c">
+    <div class="fase-header">
+      <div class="fase-dot">1c</div>
+      <div class="fase-meta">
+        <span class="fase-eyebrow">Fundamentos visuales · Tercera capa</span>
+        <h2 class="fase-titulo">Espaciado en base 8px y grid de 12 columnas</h2>
+        <span class="fase-tiempo">1 día</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <p class="fase-por-que">El sistema actual usa una unidad base de 3.2px que no es compatible con ninguna librería de componentes, ningún set de iconos y la memoria muscular de cualquier desarrollador. Cada vez que alguien implementa algo nuevo, improvisa los paddings porque la escala oficial no encaja. Cambiar la base a 8px cuesta un día y evita meses de inconsistencias.</p>
+      <p class="fase-que-hace">Además de rebazar el espaciado, esta fase define el grid de columnas que hoy no existe. Sin un grid compartido, cada sección multi-columna es una decisión nueva — y el resultado es que layouts que deberían parecer parte del mismo sistema parecen independientes.</p>
+      <div class="fase-items">
+        <div class="fase-item">
+          <div class="item-icon">⊞</div>
+          <div class="item-text">
+            <strong>Escala de espaciado con base 8px</strong>
+            <span>8 / 16 / 24 / 32 / 48 / 64 / 96px. Los tokens macro (section-y, container, measure) se conservan — son correctos. Los tokens micro se reescriben.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">⊞</div>
+          <div class="item-text">
+            <strong>Tokens de espaciado semánticos</strong>
+            <span>--espacio-umbral, --espacio-contemplativo, --espacio-contenido. El espacio en blanco como expresión de la metáfora rectora, no solo como separación funcional.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">⊞</div>
+          <div class="item-text">
+            <strong>Grid de 12 columnas</strong>
+            <span>Definir una sola vez: ancho de contenedor, canaletes, márgenes y tres breakpoints semánticos (móvil / tablet / escritorio). Colapsar los siete breakpoints casi idénticos del sistema actual.</span>
+          </div>
+        </div>
+      </div>
+      <div class="fase-salida">
+        <span class="salida-label">Entrega</span>
+        <span class="salida-text">Archivo tokens-layout.css con escala de espaciado, tokens semánticos, grid documentado y breakpoints reducidos a tres niveles claros.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FASE 2 ══ -->
+  <div class="fase f2">
+    <div class="fase-header">
+      <div class="fase-dot">2</div>
+      <div class="fase-meta">
+        <span class="fase-eyebrow">Sistema de animación</span>
+        <h2 class="fase-titulo">Sistema de movimiento completo</h2>
+        <span class="fase-tiempo">2–3 días</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <p class="fase-por-que">El sistema actual tiene un solo easing y tres duraciones numéricas. Eso es suficiente para un sitio genérico — no para uno que quiere ser una referencia de diseño web contemplativo. El movimiento es donde el mandato técnico y el contemplativo tienen que fusionarse, y ahora mismo se alternan.</p>
+      <p class="fase-que-hace">La ejecución de movimiento en la página actual es sofisticada — scroll-driven nativo, WebGL fluid, clip-path en scroll. El problema no es la técnica sino que cada efecto se decidió de forma independiente, sin una filosofía que los unifique. El sistema de movimiento codifica esa filosofía para que todos los efectos presentes y futuros hablen el mismo idioma.</p>
+      <div class="fase-items">
+        <div class="fase-item">
+          <div class="item-icon">◌</div>
+          <div class="item-text">
+            <strong>Familia de easings con intención declarada</strong>
+            <span>--ease-llegada (desacelera, se asienta) · --ease-salida (acelera, se va) · --ease-ambiental (suave, sin pico) · --ease-umbral (entrada dramática). Cada curva con su descripción de por qué existe.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">◌</div>
+          <div class="item-text">
+            <strong>Escala de duraciones contemplativa</strong>
+            <span>Micro (80ms) · Rápido (200ms) · Estándar (400ms) · Deliberado (700ms) · Cinematográfico (1200ms) · Ambiental (3000ms+). Las duraciones largas como tokens de primera clase, no hardcoded en keyframes.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">◌</div>
+          <div class="item-text">
+            <strong>Jerarquía de scroll: qué mueve, qué sigue, qué está quieto</strong>
+            <span>Documentar qué elementos usan CSS animation-timeline, cuáles GSAP ScrollTrigger y cuáles IntersectionObserver — y por qué. Sin esta regla cada componente nuevo toma una decisión diferente.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">◌</div>
+          <div class="item-text">
+            <strong>La regla de quietud — lo que no debe animarse</strong>
+            <span>La decisión más contemplativa del sistema: texto en estado de lectura, superficies de contenido durante el scroll activo, más de dos elementos simultáneos en el viewport. La quietud como elección activa.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">◌</div>
+          <div class="item-text">
+            <strong>Resolver el gradiente infinito</strong>
+            <span>Implementar la decisión tomada en la Fase 0: eliminarlo, convertirlo en un reveal de una sola vez, o reducirlo a un único elemento con intención clara.</span>
+          </div>
+        </div>
+      </div>
+      <div class="fase-salida">
+        <span class="salida-label">Entrega</span>
+        <span class="salida-text">Archivo tokens-movimiento.css con easings, duraciones, y la regla de quietud escrita. Más un documento de una página que explica la jerarquía de scroll para cualquier desarrollador que se incorpore.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FASE 3 ══ -->
+  <div class="fase f3">
+    <div class="fase-header">
+      <div class="fase-dot">3</div>
+      <div class="fase-meta">
+        <span class="fase-eyebrow">Capa de componentes</span>
+        <h2 class="fase-titulo">Componentes por orden de riesgo</h2>
+        <span class="fase-tiempo">Iterativo — empezar por los más críticos</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <p class="fase-por-que">No todos los componentes tienen el mismo riesgo. Construir primero el carrusel de testimonios cuando todavía no existe un sistema de formularios es una prioridad invertida — el carrusel es visible, los formularios son donde la fundación capta practicantes y donaciones.</p>
+      <p class="fase-que-hace">El orden de construcción sigue el riesgo de improvisación: cuanto más probable sea que un desarrollador reimplemente el componente de forma diferente en cada página, antes hay que definirlo.</p>
+      <div class="fase-items">
+        <div class="fase-item">
+          <div class="item-icon">①</div>
+          <div class="item-text">
+            <strong>Sistema de formularios completo — primero</strong>
+            <span>Input, textarea, select, checkbox, radio, label, grupo de campos, mensajes de validación, estados error/éxito/cargando. Sin esto el embudo de conversión no existe.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">②</div>
+          <div class="item-text">
+            <strong>Modal con &lt;dialog&gt; nativo y focus trap — segundo</strong>
+            <span>El modal actual no atrapa el foco ni usa el elemento nativo del navegador. Es un fallo de accesibilidad que afecta a usuarios de teclado y lectores de pantalla.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">③</div>
+          <div class="item-text">
+            <strong>Sistema de cards con base compartida — tercero</strong>
+            <span>Las tres cards actuales (flip, blog, testimonial) no tienen base común. Definir un card-base del que las tres hereden evita que cada nueva card empiece desde cero.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">④</div>
+          <div class="item-text">
+            <strong>Patrón de scroll-reveal reutilizable — cuarto</strong>
+            <span>Hoy está reimplementado por componente. Convertirlo en un behavior del sistema (data-reveal con opciones) garantiza coherencia y reduce el código.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">⑤</div>
+          <div class="item-text">
+            <strong>GDPR / cookies y selector de idioma — quinto</strong>
+            <span>La fundación opera en la UE: el banner de cookies es un requisito legal. El selector de idioma (es / en / ca) es necesario antes de lanzar.</span>
+          </div>
+        </div>
+      </div>
+      <div class="fase-salida">
+        <span class="salida-label">Entrega</span>
+        <span class="salida-text">Cada componente como archivo independiente con HTML, CSS y estados documentados. No un monolito — piezas que cualquier desarrollador puede usar por separado.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FASE 4 ══ -->
+  <div class="fase f4">
+    <div class="fase-header">
+      <div class="fase-dot">4</div>
+      <div class="fase-meta">
+        <span class="fase-eyebrow">Capa de conocimiento</span>
+        <h2 class="fase-titulo">Documentación de intención integrada</h2>
+        <span class="fase-tiempo">Continuo — desde la Fase 1a en adelante</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <p class="fase-por-que">Un sistema de diseño sin documentación de intención no existe realmente — existe un conjunto de valores que alguien copió de un archivo y nadie sabe por qué tienen ese número y no otro. La documentación no es el manual que se escribe al final: es la segunda mitad de cada decisión.</p>
+      <p class="fase-que-hace">Para cada token, componente o patrón: el valor y el porqué. No solo <code style="background:var(--arena);padding:0.1rem 0.4rem;border-radius:4px;font-size:0.82rem;">--ease-llegada: cubic-bezier(0.22, 1, 0.36, 1)</code> sino "esta curva desacelera con decisión y se asienta — la forma que tiene el movimiento de llegar a reposo, no de frenarse. Es el easing por defecto para cualquier elemento que entra en el viewport porque llegar es el gesto central de la metáfora del cruce."</p>
+      <div class="fase-items">
+        <div class="fase-item">
+          <div class="item-icon">✎</div>
+          <div class="item-text">
+            <strong>Cada token con su intención escrita junto al valor</strong>
+            <span>En el mismo archivo CSS, como comentario inmediatamente encima. No en un documento separado que nadie abre.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">✎</div>
+          <div class="item-text">
+            <strong>Cada componente con su estado de uso y sus límites</strong>
+            <span>Cuándo usar este componente, cuándo no usarlo, qué variantes existen y cuáles no deben crearse. Los límites son tan importantes como las instrucciones.</span>
+          </div>
+        </div>
+        <div class="fase-item">
+          <div class="item-icon">✎</div>
+          <div class="item-text">
+            <strong>Un README del sistema que cualquiera pueda leer en 10 minutos</strong>
+            <span>La metáfora rectora, los cinco principios de diseño, la paleta en tres líneas, y el enlace a cada archivo. La puerta de entrada para cualquier persona nueva que trabaje en el proyecto.</span>
+          </div>
+        </div>
+      </div>
+      <div class="fase-salida">
+        <span class="salida-label">Entrega</span>
+        <span class="salida-text">No hay una entrega final — la documentación crece con el sistema. La señal de que está funcionando: un desarrollador nuevo puede implementar una sección nueva sin preguntar nada.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CIERRE -->
+  <div class="cierre">
+    <h2>Por qué este orden y no otro</h2>
+    <p>La Fase 0 produce la idea. La Fase 1 la convierte en valores visuales. La Fase 2 la convierte en comportamiento temporal. La Fase 3 la convierte en piezas reutilizables. La Fase 4 garantiza que todo eso pueda transmitirse.</p>
+    <p>Cada fase tiene un producto concreto que la siguiente consume. Si se salta una, la siguiente improvisa — y la improvisación se acumula hasta que el sistema pierde coherencia sin que nadie pueda señalar exactamente dónde ocurrió.</p>
+    <p><strong>El sistema actual es el resultado de haber saltado la Fase 0.</strong> Todo lo que se construye a partir de aquí tiene la oportunidad de ser diferente: no más técnico, sino más verdadero.</p>
+  </div>
+
+</div><!-- /wrap -->
+</body>
+</html>

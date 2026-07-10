@@ -1,0 +1,198 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-layout.css — Tokens de espaciado, grid y dimensiones
+   ───────────────────────────────────────────────────────────────────────────
+   Base: 8px (lengua franca del diseño digital).
+   Escala: 8/16/24/32/48/64/96/128px.
+   Tokens semánticos que traducen «el cruce como acto» al espacio.
+
+   Este archivo se amplió en Fase 2 · Paso 2 para incluir las dimensiones
+   fijas del sistema (--bar-h, --target-min) que antes vivían en
+   paramita-tokens.css. Todas las dimensiones no-tipográficas viven ahora
+   aquí.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer tokens {
+  :root {
+
+    /* ─────────────────────────────────────────────────────────────────────
+       ESCALA BASE · múltiplos de 8
+       ───────────────────────────────────────────────────────────────────── */
+
+    --s-0:   0;
+    --s-1:   0.5rem;   /*   8px */
+    --s-2:   1rem;     /*  16px */
+    --s-3:   1.5rem;   /*  24px */
+    --s-4:   2rem;     /*  32px */
+    --s-5:   3rem;     /*  48px */
+    --s-6:   4rem;     /*  64px */
+    --s-7:   6rem;     /*  96px */
+    --s-8:   8rem;     /* 128px */
+    --s-9:  12rem;     /* 192px — solo casos extremos */
+
+
+    /* ═════════════════════════════════════════════════════════════════════
+       TOKENS SEMÁNTICOS · el espacio como narrativa del cruce
+       ═════════════════════════════════════════════════════════════════════ */
+
+    /* Espacio entre elementos hermanos */
+    --espacio-atomo:      var(--s-1);  /* icono ↔ texto, chip ↔ chip           */
+    --espacio-elemento:   var(--s-2);  /* label ↔ input, párrafo ↔ párrafo    */
+    --espacio-grupo:      var(--s-3);  /* tarjeta ↔ tarjeta, campo ↔ campo    */
+
+    /* Espacio de contenido dentro de un bloque */
+    --espacio-contenido:      var(--s-4);   /* padding interior de tarjetas   */
+    --espacio-contemplativo:  var(--s-6);   /* aire de lectura profunda       */
+
+    /* Espacio de umbral · transición entre momentos
+       Los grandes son fluidos: el ritmo de sección respira con el viewport.
+       Los pequeños (átomo → contemplativo) se mantienen fijos porque son
+       relaciones internas de componente, no ritmo de la travesía. */
+    --espacio-umbral:      clamp(3rem,  7vh,  6rem);       /* ~48→96px  · antes de CTA, entre bloques */
+    --espacio-orilla:      clamp(4rem,  10vh, 8rem);       /* ~64→128px · separación entre secciones */
+    --espacio-otro-lado:   clamp(6rem,  14vh, 12rem);      /* ~96→192px · respiro extremo, casos raros */
+
+
+    /* ═════════════════════════════════════════════════════════════════════
+       CONTENEDOR · el ancho útil de la travesía
+       ═════════════════════════════════════════════════════════════════════ */
+
+    --contenedor-max:      1200px;                          /* ancho máximo   */
+    --contenedor-lectura:  720px;                           /* textos largos  */
+    --contenedor-padding:  clamp(1.25rem, 5vw, 2.5rem);     /* márgenes fluidos */
+
+
+    /* ═════════════════════════════════════════════════════════════════════
+       GRID DE 12 COLUMNAS · retícula compartida
+       Todas las secciones multi-columna se apoyan sobre esta cuadrícula.
+       ═════════════════════════════════════════════════════════════════════ */
+
+    --grid-columnas:  12;
+    --grid-gap:       var(--s-3);       /* 24px, canalete estándar            */
+    --grid-gap-amplio: var(--s-4);      /* 32px, para retículas espaciosas    */
+
+
+    /* ═════════════════════════════════════════════════════════════════════
+       BREAKPOINTS · tres niveles semánticos
+       Reducidos desde los 7 breakpoints casi idénticos del sistema anterior.
+       Nombres por contexto de uso.
+       ═════════════════════════════════════════════════════════════════════ */
+
+    --bp-tablet:     768px;   /* ≥ tablet vertical                            */
+    --bp-escritorio: 1024px;  /* ≥ portátil/escritorio                        */
+
+    /* Uso en CSS:
+       @media (min-width: 768px)  { ... }    tablet+
+       @media (min-width: 1024px) { ... }    escritorio+ */
+
+
+    /* ═════════════════════════════════════════════════════════════════════
+       DIMENSIONES FIJAS · componentes concretos
+       Movidas desde paramita-tokens.css en Fase 2 · Paso 2 para que todas
+       las dimensiones no-tipográficas vivan en un solo archivo.
+       ═════════════════════════════════════════════════════════════════════ */
+
+    --bar-h:       80px;   /* altura de la barra de navegación (navbar)     */
+    --target-min:  44px;   /* área táctil mínima · WCAG 2.5.5               */
+
+  }
+}
+
+
+@layer base {
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     CONTENEDORES · las dos anchuras útiles
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  .wrap,
+  .contenedor {
+    width: min(var(--contenedor-max), 100% - var(--contenedor-padding) * 2);
+    margin-inline: auto;
+  }
+
+  .wrap-lectura,
+  .contenedor-lectura {
+    width: min(var(--contenedor-lectura), 100% - var(--contenedor-padding) * 2);
+    margin-inline: auto;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     SECCIONES · ritmo vertical del cruce
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  .section {
+    padding-block: var(--espacio-orilla);
+  }
+
+  .section-umbral {
+    padding-block: var(--espacio-umbral);
+  }
+
+  .section-contemplativa {
+    padding-block: var(--espacio-otro-lado);
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     GRID DE 12 COLUMNAS
+     Uso en HTML:
+       <div class="grid">
+         <div class="col-span-6">...</div>
+         <div class="col-span-6">...</div>
+       </div>
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-columnas), 1fr);
+    gap: var(--grid-gap);
+  }
+
+  .grid-amplio {
+    gap: var(--grid-gap-amplio);
+  }
+
+  /* Móvil: todas las columnas ocupan 12 (apiladas) */
+  [class*="col-span-"] {
+    grid-column: span 12;
+  }
+
+  /* Tablet+: respetar el span solicitado */
+  @media (min-width: 768px) {
+    .col-span-1  { grid-column: span 1;  }
+    .col-span-2  { grid-column: span 2;  }
+    .col-span-3  { grid-column: span 3;  }
+    .col-span-4  { grid-column: span 4;  }
+    .col-span-5  { grid-column: span 5;  }
+    .col-span-6  { grid-column: span 6;  }
+    .col-span-7  { grid-column: span 7;  }
+    .col-span-8  { grid-column: span 8;  }
+    .col-span-9  { grid-column: span 9;  }
+    .col-span-10 { grid-column: span 10; }
+    .col-span-11 { grid-column: span 11; }
+    .col-span-12 { grid-column: span 12; }
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     UTILIDADES DE ESPACIADO · casos concretos
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  .stack > * + *          { margin-top: var(--espacio-elemento); }
+  .stack-grupo > * + *    { margin-top: var(--espacio-grupo); }
+  .stack-umbral > * + *   { margin-top: var(--espacio-umbral); }
+
+  .cluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espacio-elemento);
+    align-items: center;
+  }
+
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FIN de paramita-layout.css
+   ═══════════════════════════════════════════════════════════════════════════ */

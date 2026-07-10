@@ -4,20 +4,58 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Paramita · Meditación y sabiduría de los Himalayas</title>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     FUENTES · Fraunces (variable) × Hanken Grotesk (variable)
+     ═══════════════════════════════════════════════════════════════════════ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<!-- Paramita · Sistema de diseño Fase 1 · sistema único, sin CSS embebido -->
-<link rel="stylesheet" href="css/paramita-tokens.css">
-<link rel="stylesheet" href="css/paramita-tipografia.css">
-<link rel="stylesheet" href="css/paramita-layout.css">
-<link rel="stylesheet" href="css/paramita-styles.css">
-<!-- marca JS activo cuanto antes (evita el parpadeo de los revelados al entrar en vista) -->
+
+<!-- Marca JS activo cuanto antes · evita el parpadeo de los revelados al entrar en vista -->
 <script>document.documentElement.classList.add('js')</script>
+
 <!-- GSAP · ScrollTrigger (zoom-out de la Frase) + Flip (grid de cursos) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js" defer></script>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     SISTEMA DE DISEÑO PARAMITA · CSS en orden estricto de carga
+     ───────────────────────────────────────────────────────────────────────
+     El orden es CRÍTICO — cambiarlo rompe el sistema:
+       1 · reset       normaliza los navegadores
+       2 · tokens      declara todas las variables CSS
+       3 · base        aplica los tokens a elementos HTML nativos
+       4 · componentes usa los tokens en componentes concretos
+     ═══════════════════════════════════════════════════════════════════════ -->
+
+<!-- 1 · Reset · normalización de navegadores -->
+<link rel="stylesheet" href="css/base/paramita-reset.css">
+
+<!-- 2 · Tokens · variables del sistema (color, tipografía, layout, movimiento) -->
+<link rel="stylesheet" href="css/tokens/paramita-color.css">
+<link rel="stylesheet" href="css/tokens/paramita-tipografia.css">
+<link rel="stylesheet" href="css/tokens/paramita-layout.css">
+<link rel="stylesheet" href="css/tokens/paramita-movimiento.css">
+
+<!-- 3 · Base · defaults del proyecto (body, títulos, enlaces, selección) -->
+<link rel="stylesheet" href="css/base/paramita-base.css">
+
+<!-- 4 · Componentes · cada pieza del sitio en su archivo
+       El orden entre componentes NO es crítico gracias al @layer declarado
+       en cada archivo, pero se mantiene por legibilidad. -->
+<link rel="stylesheet" href="css/componentes/paramita-fluido.css">
+<link rel="stylesheet" href="css/componentes/paramita-bar.css">
+<link rel="stylesheet" href="css/componentes/paramita-menu.css">
+<link rel="stylesheet" href="css/componentes/paramita-cta.css">
+<link rel="stylesheet" href="css/componentes/paramita-hero.css">
+<link rel="stylesheet" href="css/componentes/paramita-sections.css">
+<link rel="stylesheet" href="css/componentes/paramita-extras.css">
+<link rel="stylesheet" href="css/componentes/paramita-modal.css">
+<link rel="stylesheet" href="css/componentes/paramita-footer.css">
+<link rel="stylesheet" href="css/componentes/paramita-responsive.css">
+
 </head>
 <body>
 
@@ -167,7 +205,7 @@
 
     <div class="flip-grid" id="cursosGrid" role="list">
       <a class="flip-celda" id="flip-1" href="#rueda" role="listitem">
-        <div class="flip-celda__pic" style="background-image:url('img/curso-1.jpg')"></div>
+        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-1.jpg')"></div>
         <span class="flip-celda__num">01</span>
         <div class="flip-celda__overlay">
           <span class="flip-celda__cat">27 jun · 2026</span>
@@ -176,7 +214,7 @@
         </div>
       </a>
       <a class="flip-celda" id="flip-2" href="#emi4" role="listitem">
-        <div class="flip-celda__pic" style="background-image:url('img/curso-2.jpg')"></div>
+        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-2.jpg')"></div>
         <span class="flip-celda__num">02</span>
         <div class="flip-celda__overlay">
           <span class="flip-celda__cat">21 sep · 2026</span>
@@ -185,7 +223,7 @@
         </div>
       </a>
       <a class="flip-celda" id="flip-3" href="#perlas" role="listitem">
-        <div class="flip-celda__pic" style="background-image:url('img/curso-3.jpg')"></div>
+        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-3.jpg')"></div>
         <span class="flip-celda__num">03</span>
         <div class="flip-celda__overlay">
           <span class="flip-celda__cat">2 may · 2026</span>
@@ -194,7 +232,7 @@
         </div>
       </a>
       <a class="flip-celda" id="flip-4" href="#bodhi2" role="listitem">
-        <div class="flip-celda__pic" style="background-image:url('img/curso-4.jpg')"></div>
+        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-4.jpg')"></div>
         <span class="flip-celda__num">04</span>
         <div class="flip-celda__overlay">
           <span class="flip-celda__cat">21 sep · 2026</span>
@@ -203,7 +241,7 @@
         </div>
       </a>
       <a class="flip-celda" id="flip-5" href="#emi1" role="listitem">
-        <div class="flip-celda__pic" style="background-image:url('img/curso-5.jpg')"></div>
+        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-5.jpg')"></div>
         <span class="flip-celda__num">05</span>
         <div class="flip-celda__overlay">
           <span class="flip-celda__cat">EMI 1 · Disponible</span>
@@ -212,7 +250,7 @@
         </div>
       </a>
       <a class="flip-celda" id="flip-6" href="#retiro" role="listitem">
-        <div class="flip-celda__pic" style="background-image:url('img/curso-6.jpg')"></div>
+        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-6.jpg')"></div>
         <span class="flip-celda__num">06</span>
         <div class="flip-celda__overlay">
           <span class="flip-celda__cat">9–12 oct · 2026 · Fundamentos del Despertar</span>
@@ -307,7 +345,7 @@
     </div>
     <div class="grid-cards" id="blogCards">
       <article class="efx-card">
-        <div class="bar-img"><div class="pic" style="background-image:url('img/blog-1-color.jpg'),linear-gradient(135deg,#FFB400,#FA7A1E)"></div></div>
+        <div class="bar-img"><div class="pic" style="background-image:url('assets/img/blog-1-color.jpg'),linear-gradient(135deg,#FFB400,#FA7A1E)"></div></div>
         <span class="ghost" aria-hidden="true">慧</span>
         <span class="num">01</span>
         <div class="body">
@@ -318,7 +356,7 @@
         </div>
       </article>
       <article class="efx-card">
-        <div class="bar-img"><div class="pic" style="background-image:url('img/blog-2-color.jpg'),linear-gradient(135deg,#105ea9,#00c7e5)"></div></div>
+        <div class="bar-img"><div class="pic" style="background-image:url('assets/img/blog-2-color.jpg'),linear-gradient(135deg,#105ea9,#00c7e5)"></div></div>
         <span class="ghost" aria-hidden="true">道</span>
         <span class="num">02</span>
         <div class="body">
@@ -329,7 +367,7 @@
         </div>
       </article>
       <article class="efx-card">
-        <div class="bar-img"><div class="pic" style="background-image:url('img/blog-3-color.jpg'),linear-gradient(135deg,#0b3f72,#105ea9)"></div></div>
+        <div class="bar-img"><div class="pic" style="background-image:url('assets/img/blog-3-color.jpg'),linear-gradient(135deg,#0b3f72,#105ea9)"></div></div>
         <span class="ghost" aria-hidden="true">源</span>
         <span class="num">03</span>
         <div class="body">
@@ -340,7 +378,7 @@
         </div>
       </article>
       <article class="efx-card">
-        <div class="bar-img"><div class="pic" style="background-image:url('img/blog-4-color.jpg'),linear-gradient(135deg,#105ea9,#0b3f72)"></div></div>
+        <div class="bar-img"><div class="pic" style="background-image:url('assets/img/blog-4-color.jpg'),linear-gradient(135deg,#105ea9,#0b3f72)"></div></div>
         <span class="ghost" aria-hidden="true">壇</span>
         <span class="num">04</span>
         <div class="body">
@@ -487,8 +525,8 @@
   const vframe=document.getElementById('vframe'), vclose=document.getElementById('vclose');
   if(trigger && vmodal){
     const openV=()=>{
-      vframe.innerHTML=`<video controls autoplay playsinline poster="img/bienvenida-paramita.jpg">
-        <source src="img/bienvenida-paramita.mp4" type="video/mp4"></video>`;
+      vframe.innerHTML=`<video controls autoplay playsinline poster="assets/img/bienvenida-paramita.jpg">
+        <source src="assets/img/bienvenida-paramita.mp4" type="video/mp4"></video>`;
       vmodal.classList.add('open'); vclose.focus();
     };
     const closeV=()=>{ vmodal.classList.remove('open'); vframe.innerHTML=''; trigger.focus(); };
@@ -524,7 +562,7 @@
   if (!v) return;
 
   const isMobile = matchMedia('(max-width: 768px)').matches;
-  const src = isMobile ? 'img/banner-movil-home-2026.mp4' : 'img/banner-home-home-2026.mp4';
+  const src = isMobile ? 'assets/img/banner-movil-home-2026.mp4' : 'assets/img/banner-home-home-2026.mp4';
   const source = document.createElement('source');
   source.src = src; source.type = 'video/mp4';
   v.appendChild(source);

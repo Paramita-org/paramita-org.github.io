@@ -1,0 +1,288 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-footer.css — Pie de página «practiquemos juntos»
+   ───────────────────────────────────────────────────────────────────────────
+   Extraído en Fase 3 · Paso 3 del @layer footer de paramita-styles.css
+   (líneas 893-932 del original).
+
+   ESTRUCTURA VISUAL
+   ─────────────────
+   El footer tiene DOS zonas apiladas:
+
+   1 · .foot__hero      zona superior sobre --azul-sutil, con un canvas de
+                        físicas detrás del titular «practiquemos juntos».
+                        Título grande en antracita (contraste sobre azul),
+                        con la palabra «juntos» en lino con sombra sutil.
+
+   2 · .foot__info      zona inferior sobre antracita oscurecido con la
+                        información del pie: logo, tagline, enlaces,
+                        dirección, redes sociales, base legal.
+
+   TOKENS ANTIGUOS SUSTITUIDOS
+   ───────────────────────────
+   --t-med  →  --t-defecto     (transiciones de color, padding, borde,
+                                 background, transform en enlaces y redes)
+
+   HALLAZGO IDENTITARIO · Fase 0.1
+   ───────────────────────────────
+   El logo del footer (.foot .logo-wave) sobrescribe la duración base de
+   la animación identitaria a 14s (la del navbar es 11s). Esto significa
+   que el respiratorio identitario aplica al logo en TODAS sus apariciones,
+   con ritmos ligeramente distintos según el contexto.
+
+   Cuando extraigamos el componente del logo a su propio archivo, esta
+   sobrescritura se mantendrá aquí como enlace entre componentes.
+
+   RELACIÓN CON EL JAVASCRIPT
+   ──────────────────────────
+   El .foot__canvas es un <canvas> con una simulación de físicas (formas
+   que se atraen ligeramente al cursor). El JS asociado vivirá en
+   /js/comportamientos/footer-fisicas.js cuando organicemos /js/.
+
+   El JS respeta prefers-reduced-motion (no arranca el bucle).
+
+   NOTAS DE ACCESIBILIDAD
+   ──────────────────────
+   · El color .foot h4 en --dorado sobre oscuro pasa WCAG 2.2 AA con
+     amplitud (contraste ~7.5:1). Verificado en Fase 1a.
+   · Los enlaces .foot a.fl heredan --lino sobre oscuro, con contraste
+     muy alto. En hover pasan a --dorado, también accesible.
+   · Los enlaces sociales usan rgba(250,246,240,.7) — contraste ~5.2:1,
+     que pasa AA para texto no-grande.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer footer {
+
+  /* ─────────────────────────────────────────────────────────────────────
+     CONTENEDOR PRINCIPAL
+     El footer ocupa toda la anchura, con dos capas verticales apiladas.
+     ───────────────────────────────────────────────────────────────────── */
+
+  .foot {
+    position: relative;
+    z-index: 2;
+    background: var(--azul-sutil);
+    color: var(--lino);
+    overflow: hidden;
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     ZONA HERO · «practiquemos juntos»
+     Titular grande sobre el canvas de físicas.
+     ───────────────────────────────────────────────────────────────────── */
+
+  .foot__hero {
+    position: relative;
+    min-height: clamp(46vh, 58vh, 68vh);
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: clamp(3rem, 8vh, 6rem) 1.2rem;
+  }
+
+  /* Canvas de físicas · vive detrás del titular */
+  .foot__canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+  }
+
+  /* El contenido del hero está por encima del canvas · pointer-events:none
+     permite interactuar con el canvas desde toda la zona */
+  .foot__hero > div {
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Título grande · antracita sobre azul claro para máxima legibilidad */
+  .foot__h {
+    font-family: var(--display);
+    font-weight: var(--wght-contemplativo);
+    font-size: clamp(2.4rem, 8vw, 5.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--antracita);
+  }
+
+  /* «juntos» en cursiva sobre lino claro con sombra sutil */
+  .foot__h em {
+    font-style: italic;
+    color: var(--lino);
+    text-shadow: 0 1px 14px rgba(33, 30, 26, 0.28);
+  }
+
+  .foot__hint {
+    margin-top: var(--espacio-elemento);
+    color: color-mix(in oklch, var(--antracita) 62%, transparent);
+    font-size: 0.85rem;
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     ZONA INFO · pie de página oscuro con la información
+     ───────────────────────────────────────────────────────────────────── */
+
+  .foot__info {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid rgba(250, 246, 240, 0.12);
+    padding-block: var(--espacio-umbral);
+    background: color-mix(in oklch, var(--antracita) 88%, #000);
+  }
+
+  /* Retícula de tres columnas · logo+tagline, enlaces, contacto+social */
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: var(--s-5) var(--espacio-contenido);
+    align-items: start;
+  }
+
+  /* Logo del footer · SOBRESCRITURA IDENTITARIA · Fase 0.1
+     El respiratorio del logo dura 14s aquí (11s en el navbar). La lógica
+     completa del logo animado vive en /componentes/paramita-bar.css o en
+     un futuro /componentes/paramita-logo.css. */
+  .foot .logo-wave {
+    width: 170px;
+    animation-duration: 14s;
+  }
+
+  .foot .tagline {
+    margin-top: var(--espacio-elemento);
+    max-width: 34ch;
+    color: rgba(250, 246, 240, 0.62);
+    font-size: 0.98rem;
+  }
+
+  /* Encabezados de columna · dorado para contraste sobre oscuro */
+  .foot h4 {
+    font-family: var(--body);
+    font-weight: var(--wght-asertivo);
+    font-size: 0.74rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--dorado);
+    margin-bottom: var(--espacio-elemento);
+  }
+
+  /* Enlaces del footer · desplazamiento sutil hacia la derecha en hover */
+  .foot a.fl {
+    display: block;
+    padding: 0.28rem 0;
+    color: var(--lino);
+    font-size: 0.96rem;
+    width: max-content;
+    transition: color var(--t-defecto),
+                padding var(--t-defecto);
+  }
+
+  .foot a.fl:hover {
+    color: var(--dorado);
+    padding-left: 0.4rem;
+  }
+
+  /* Dirección · gris cálido con acento en lino para lo importante */
+  .foot address {
+    font-style: normal;
+    color: rgba(250, 246, 240, 0.62);
+    font-size: 0.94rem;
+    line-height: 1.85;
+  }
+
+  .foot address b {
+    color: var(--lino);
+    font-weight: var(--wght-asertivo);
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     REDES SOCIALES · píldoras con borde
+     ───────────────────────────────────────────────────────────────────── */
+
+  .social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espacio-atomo);
+    margin-top: var(--espacio-grupo);
+    pointer-events: auto;
+  }
+
+  .social a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.84rem;
+    color: rgba(250, 246, 240, 0.7);
+    border: 1px solid rgba(250, 246, 240, 0.18);
+    padding: 0.42rem 0.85rem;
+    border-radius: 99px;
+    transition: color var(--t-defecto),
+                border-color var(--t-defecto),
+                background var(--t-defecto),
+                transform var(--t-defecto);
+  }
+
+  .social a:hover {
+    color: var(--dorado);
+    border-color: color-mix(in oklch, var(--dorado) 50%, transparent);
+    background: color-mix(in oklch, var(--dorado) 12%, transparent);
+    transform: translateY(-1px);
+  }
+
+  /* Iconos de redes · SVG con stroke que no se escala */
+  .ico {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    display: block;
+  }
+
+  .ico * {
+    vector-effect: non-scaling-stroke;
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     BASE LEGAL · última línea del footer
+     ───────────────────────────────────────────────────────────────────── */
+
+  .foot-base {
+    margin-top: var(--s-5);
+    padding-top: var(--espacio-grupo);
+    border-top: 1px solid rgba(250, 246, 240, 0.12);
+    display: flex;
+    justify-content: space-between;
+    gap: var(--espacio-elemento);
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: rgba(250, 246, 240, 0.5);
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     REDUCED-MOTION
+     ─────────────────────────────────────────────────────────────────────
+     Contrato de quietud · Fase 2:
+     - Los hovers de enlaces y redes ocurren sin transición.
+     - El desplazamiento hacia arriba de los enlaces sociales (transform:
+       translateY(-1px)) sigue funcionando pero sin animación.
+     - La animación identitaria del logo (.logo-wave) se congela porque
+       el interruptor global --identidad-estado ya se anula con la
+       salvaguarda global de paramita-movimiento.css.
+     ───────────────────────────────────────────────────────────────────── */
+
+  @media (prefers-reduced-motion: reduce) {
+    .foot a.fl,
+    .social a {
+      transition: none;
+    }
+  }
+
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FIN de paramita-footer.css
+   ═══════════════════════════════════════════════════════════════════════════ */
