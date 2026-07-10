@@ -148,7 +148,7 @@
     transition:border-color var(--t-med),background var(--t-med),box-shadow var(--t-med)}
   .bar.scrolled{background:color-mix(in oklch,var(--arena) 90%,transparent);
     border-color:var(--hair);box-shadow:0 12px 44px -30px rgba(40,33,26,.45)}
-  .bar-inner{display:flex;align-items:center;gap:1.5rem;height:var(--bar-h);transition:height var(--t-med)}
+  .bar-inner{display:flex;align-items:center;gap:var(--espacio-grupo);height:var(--bar-h);transition:height var(--t-med)}
 
   .logo{flex:none;display:inline-flex;align-items:center;padding:.3rem;margin-left:-.3rem;border-radius:10px}
   .logo-wave{display:block;width:150px;aspect-ratio:612.3/181.4;
@@ -173,7 +173,7 @@
 
 /* ═══════════════ MENÚ ═══════════════ */
 @layer menu{
-  .menu{margin-left:auto;display:flex;align-items:center;gap:1.4rem}
+  .menu{margin-left:auto;display:flex;align-items:center;gap:var(--espacio-grupo)}
   .links{list-style:none;display:flex;align-items:center;gap:.3rem}
   .links>li{position:relative}
   .navlink{--w:400;position:relative;display:inline-flex;align-items:center;gap:.4rem;
@@ -460,15 +460,17 @@
 
 /* ═══════════════ SECCIONES ═══════════════ */
 @layer sections{
-  .section{position:relative;z-index:2;padding-block:clamp(4.5rem,11vh,8rem)}
-  .s-head{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:3rem}
+  .section{position:relative;z-index:2;padding-block:var(--espacio-orilla)}
+  .s-head{display:flex;align-items:flex-end;justify-content:space-between;
+    gap:var(--espacio-contenido);flex-wrap:wrap;margin-bottom:var(--s-5)}
   .s-head h2{font-size:clamp(2rem,4.5vw,3.3rem);max-width:18ch;text-wrap:balance}
-  .s-head .eyebrow{display:block;margin-bottom:1rem}
+  .s-head .eyebrow{display:block;margin-bottom:var(--espacio-elemento)}
   .s-head p{max-width:38ch;color:var(--texto-suave);font-size:1rem}
 
   /* ── CROWDFUNDING · foto clara + degradado de marca infinito (igual que logo y botón) ── */
   .band{position:relative;z-index:2;isolation:isolate;overflow:hidden;color:#fff;
-    border-radius:28px;padding:clamp(2.6rem,6vw,5rem);margin-block:clamp(2rem,5vh,3.5rem);min-height:54vh;
+    border-radius:28px;padding:clamp(2.6rem,6vw,5rem);
+    margin-block:var(--espacio-contenido);min-height:54vh;
     display:grid;align-content:center;
     /* foto local SIN oscurecer; debajo, degradado cálido claro de respaldo si img/ falta */
     background:
@@ -493,10 +495,10 @@
   .band:hover::before{animation-duration:3.4s}   /* interactivo: acelera al pasar (como el logo) */
   .band .eyebrow{color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.45)}
   .band h2{font-family:var(--display);font-weight:300;font-size:clamp(1.9rem,4.4vw,3.2rem);
-    line-height:1.05;max-width:18ch;margin:1.1rem 0 .4rem;text-wrap:balance;
+    line-height:1.05;max-width:18ch;margin:var(--espacio-elemento) 0 var(--espacio-atomo);text-wrap:balance;
     text-shadow:0 2px 28px rgba(0,0,0,.55),0 1px 4px rgba(0,0,0,.4)}
   .band h2 em{color:#fff;font-style:italic}
-  .band p{max-width:46ch;color:#fff;margin-bottom:2rem;
+  .band p{max-width:46ch;color:#fff;margin-bottom:var(--espacio-contenido);
     text-shadow:0 2px 22px rgba(0,0,0,.5),0 1px 3px rgba(0,0,0,.4)}
   /* botón alineado al ancho del bloque de texto superior (46ch) */
   .band .btn-claro{display:flex;width:100%;max-width:46ch;align-items:center;justify-content:space-between;
@@ -520,21 +522,23 @@
   .course .pic::after{content:"";position:absolute;inset:0;
     background:linear-gradient(180deg,transparent 40%,rgba(28,18,10,.45))}
   /* fila de contenido bajo la franja */
-  .course .row{display:grid;grid-template-columns:9.5rem 1fr auto;gap:1.2rem 2rem;align-items:center;
-    padding:1.2rem .6rem 1.4rem;transition:padding var(--t-med)}
-  .course:hover .row{padding-inline:1.2rem}
+  .course .row{display:grid;grid-template-columns:9.5rem 1fr auto;
+    gap:var(--espacio-elemento) var(--espacio-contenido);align-items:center;
+    padding:var(--espacio-elemento) var(--espacio-atomo) var(--espacio-elemento);
+    transition:padding var(--t-med)}
+  .course:hover .row{padding-inline:var(--espacio-elemento)}
   .course .when{font-size:.82rem;color:var(--texto-suave);line-height:1.45}
   .course .when b{display:block;font-weight:600;color:var(--antracita);font-size:.86rem}
   .course h3{font-family:var(--display);font-weight:400;font-size:clamp(1.3rem,2.6vw,1.8rem);
     letter-spacing:-.015em;line-height:1.12;transition:color var(--t-med)}
   .course:hover h3{color:var(--azul-oscuro)}
-  .tags{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;justify-self:end}
+  .tags{display:flex;flex-wrap:wrap;gap:var(--espacio-atomo);align-items:center;justify-self:end}
   .tag{font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
     padding:.32em .7em;border-radius:99px;border:1px solid var(--hair);color:var(--texto-suave);white-space:nowrap}
   .tag.free{color:var(--azul-oscuro);border-color:color-mix(in oklch,var(--azul-oscuro) 35%,transparent)}
   .tag.soon{color:#9a6b00;border-color:color-mix(in oklch,var(--dorado) 55%,transparent);
     background:color-mix(in oklch,var(--dorado) 14%,transparent)}
-  .idx-foot{margin-top:2.4rem}
+  .idx-foot{margin-top:var(--espacio-contenido)}
   .idx-foot--center{text-align:center}
   /* ── TRAZO DIVISOR (flor de loto) · a sangre · degradado de marca del CTA · se dibuja con el scroll ── */
   .trazo-divisor{position:relative;z-index:2;width:100vw;margin-inline:calc(50% - 50vw);
@@ -546,15 +550,17 @@
   @media (prefers-reduced-motion:reduce){.trazo-divisor__path{stroke-dashoffset:0!important}}
 
   /* ── MISIÓN + VÍDEO premium ── */
-  .mission{position:relative;z-index:2;padding-block:clamp(4.5rem,11vh,8rem);
+  .mission{position:relative;z-index:2;padding-block:var(--espacio-orilla);
     background:linear-gradient(180deg,transparent,var(--arcilla) 30%,var(--arcilla) 70%,transparent)}
-  .mission-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4rem);align-items:center}
-  .mission .eyebrow{margin-bottom:1.6rem}
+  .mission-grid{display:grid;grid-template-columns:1.05fr .95fr;
+    gap:clamp(2rem,5vw,4rem);align-items:center}
+  .mission .eyebrow{margin-bottom:var(--espacio-grupo)}
   .mission .quote{font-family:var(--display);font-weight:300;font-size:clamp(1.7rem,3.6vw,2.7rem);
     line-height:1.18;letter-spacing:-.015em;max-width:20ch}
   .mission .quote em{font-style:italic}
-  .mission .body{margin-top:1.6rem;max-width:50ch;color:var(--texto-suave);font-size:1.02rem}
-  .mission .signed{margin-top:1.8rem;display:flex;align-items:center;gap:.8rem;font-size:.86rem;color:var(--texto-suave)}
+  .mission .body{margin-top:var(--espacio-grupo);max-width:50ch;color:var(--texto-suave);font-size:1.02rem}
+  .mission .signed{margin-top:var(--espacio-contenido);display:flex;align-items:center;
+    gap:var(--espacio-elemento);font-size:.86rem;color:var(--texto-suave)}
   .mission .signed .line{width:38px;height:1px;background:var(--azul-oscuro)}
   /* contenedor de vídeo premium (poster local + trigger a modal) */
   .video{position:relative;aspect-ratio:4/3;border-radius:24px;overflow:hidden;cursor:pointer;isolation:isolate;
@@ -571,14 +577,15 @@
   .video:hover .play span{transform:scale(1.08);background:#fff}
   .video .play span::after{content:"";border-left:24px solid var(--azul-oscuro);
     border-top:14px solid transparent;border-bottom:14px solid transparent;margin-left:6px}
-  .video figcaption{position:absolute;z-index:2;left:1.4rem;bottom:1.2rem;color:#fff;font-size:.9rem;
-    font-weight:500;text-shadow:0 1px 16px rgba(0,0,0,.4)}
+  .video figcaption{position:absolute;z-index:2;left:var(--espacio-grupo);bottom:var(--espacio-elemento);
+    color:#fff;font-size:.9rem;font-weight:500;text-shadow:0 1px 16px rgba(0,0,0,.4)}
 
   /* ── BLOG · TARJETAS EN CAPAS (efecto 01 de ejemplo-efectos-00) ──
      Barra-imagen que crece en hover + título "fantasma" que asoma por detrás (capas).
      Entrada en cascada al hacer scroll (stagger por JS, sin chocar con el hover). */
   .blog{position:relative;z-index:2}
-  .grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.4rem;margin-top:2.4rem}
+  .grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+    gap:var(--espacio-grupo);margin-top:var(--espacio-contenido)}
   html.js .efx-card:not(.efx-in){opacity:0;transform:translateY(28px)}
   .efx-card{position:relative;display:block;background:var(--card);border:1px solid var(--hair);
     border-radius:20px;overflow:hidden;will-change:transform,opacity;
@@ -594,18 +601,18 @@
     transform:scale(1.12);transition:transform var(--t-slow)}
   .efx-card:hover .bar-img .pic{transform:scale(1)}
   /* capa tipográfica: glifo display que asoma POR DETRÁS de la imagen */
-  .efx-card .ghost{position:absolute;top:54px;left:1.2rem;z-index:0;font-family:var(--display);
+  .efx-card .ghost{position:absolute;top:54px;left:var(--espacio-elemento);z-index:0;font-family:var(--display);
     font-style:italic;font-size:2.6rem;color:var(--azul-oscuro);opacity:.14;pointer-events:none;
     transition:opacity var(--t-slow),top var(--t-slow)}
   .efx-card:hover .ghost{opacity:.07;top:30px}
-  .efx-card .body{position:relative;z-index:1;padding:1.3rem 1.3rem 1.5rem}
+  .efx-card .body{position:relative;z-index:1;padding:var(--espacio-elemento) var(--espacio-elemento) var(--espacio-grupo)}
   .efx-card .kicker{font-family:var(--body);font-size:.7rem;font-weight:600;letter-spacing:.12em;
     text-transform:uppercase;color:var(--azul-oscuro)}
   .efx-card h3{font-family:var(--display);font-weight:400;font-size:1.3rem;line-height:1.16;
-    letter-spacing:-.01em;margin:.55rem 0 .5rem;text-wrap:balance}
+    letter-spacing:-.01em;margin:var(--espacio-atomo) 0;text-wrap:balance}
   .efx-card .body p{color:var(--texto-suave);font-size:.92rem;line-height:1.5}
   /* enlace sutil "Leer más" dentro de cada tarjeta */
-  .efx-card__more{display:inline-flex;align-items:center;gap:.4em;margin-top:1rem;
+  .efx-card__more{display:inline-flex;align-items:center;gap:.4em;margin-top:var(--espacio-elemento);
     font-family:var(--body);font-weight:600;font-size:.86rem;color:var(--azul-oscuro);
     transition:gap var(--t-med),color var(--t-med)}
   .efx-card__more span{transition:transform var(--t-med)}
@@ -632,17 +639,17 @@
   /* ── BIENVENIDOS · intro centrada + VÍDEO CINEMÁTICO (mission_video, portado del Efecto 11) ──
      El vídeo arranca recortado en una elipse central y se EXPANDE al hacer scroll
      (scroll-driven). Sin soporte de scroll-timeline, se muestra ya expandido. */
-  .bienvenidos{position:relative;z-index:2;padding-block:clamp(4rem,9vh,7rem)}
+  .bienvenidos{position:relative;z-index:2;padding-block:var(--espacio-umbral)}
   .mission__intro{max-width:720px;margin:0 auto clamp(2.4rem,5vh,3.6rem);text-align:center}
-  .mission__intro .eyebrow{display:block;margin-bottom:1.1rem}
+  .mission__intro .eyebrow{display:block;margin-bottom:var(--espacio-elemento)}
   .mission__titulo{font-family:var(--display);font-weight:300;
     font-size:clamp(1.9rem,4.6vw,3rem);line-height:1.12;letter-spacing:-.02em;
     max-width:22ch;margin-inline:auto;text-wrap:balance}
   .mission__titulo em{font-style:italic;color:var(--azul-oscuro)}
-  .mission__texto{margin-top:1.4rem;font-size:1.02rem;color:var(--texto-suave);
+  .mission__texto{margin-top:var(--espacio-grupo);font-size:1.02rem;color:var(--texto-suave);
     max-width:54ch;margin-inline:auto}
-  .mission__signed{margin-top:1.6rem;display:inline-flex;align-items:center;gap:.8rem;
-    font-size:.86rem;color:var(--texto-suave)}
+  .mission__signed{margin-top:var(--espacio-grupo);display:inline-flex;align-items:center;
+    gap:var(--espacio-elemento);font-size:.86rem;color:var(--texto-suave)}
   .mission__signed .line{width:38px;height:1px;background:var(--azul-oscuro)}
 
   .mission__video-wrap{max-width:1180px;margin:0 auto}
@@ -699,9 +706,9 @@
   /* ── FRASE · ZOOM-OUT DESDE GIGANTE (efecto-02 · sección 2) · controlado por scroll ── */
   .zen-frase{position:relative;z-index:2;min-height:auto;overflow:hidden;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:.55rem;padding:clamp(2rem,5vh,4rem) 6vw 0;text-align:center}   /* sin padding inferior: pega con el bloque siguiente */
+    gap:var(--espacio-atomo);padding:clamp(2rem,5vh,4rem) 6vw 0;text-align:center}   /* sin padding inferior: pega con el bloque siguiente */
   .zen-frase__inner{position:relative;z-index:2;display:flex;flex-direction:column;
-    align-items:center;gap:1rem;max-width:min(900px,92vw)}
+    align-items:center;gap:var(--espacio-elemento);max-width:min(900px,92vw)}
   .zen-frase__eyebrow{font-family:var(--body);font-weight:600;font-size:.78rem;
     letter-spacing:.3em;text-transform:uppercase;color:var(--dorado);white-space:nowrap}
   .zen-frase__titulo{font-family:var(--display);font-weight:300;
@@ -750,7 +757,7 @@
   /* INFO VISIBLE EN ESTADO BASE: el título y las etiquetas se ven sin necesidad de hover/expandir */
   .flip-celda__overlay{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;
     justify-content:flex-end;align-items:flex-start;text-align:left;
-    gap:.5rem;padding:20px;opacity:1}
+    gap:var(--espacio-atomo);padding:var(--espacio-elemento);opacity:1}
   .flip-celda__cat{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
     color:var(--dorado);text-shadow:0 1px 10px rgba(0,0,0,.6)}   /* fechas en AMARILLO corporativo */
   .flip-celda__titulo{font-family:var(--display);font-weight:400;color:#fff;
@@ -778,34 +785,36 @@
   /* ── PARTICIPACIÓN · invitación a colaborar (NUEVO BLOQUE estructural) ── */
   .participa-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:center}
   .participa .vias{display:grid;gap:.2rem}
-  .participa .via{display:flex;align-items:baseline;gap:1rem;padding:1.3rem .4rem;
+  .participa .via{display:flex;align-items:baseline;gap:var(--espacio-elemento);
+    padding:var(--espacio-elemento) var(--espacio-atomo);
     border-top:1px solid var(--hair);
     transition:padding var(--t-med),color var(--t-med),background var(--t-med),border-radius var(--t-med)}
   .participa .via:last-child{border-bottom:1px solid var(--hair)}
-  .participa .via:hover{padding-left:1.1rem;color:var(--azul-oscuro)}
+  .participa .via:hover{padding-left:var(--espacio-elemento);color:var(--azul-oscuro)}
   /* destacado AUTOMÁTICO cíclico (sin necesidad de hover); el hover real lo pausa por JS */
-  .participa .via.is-auto{padding-left:1.1rem;color:var(--azul-oscuro);border-radius:14px;
+  .participa .via.is-auto{padding-left:var(--espacio-elemento);color:var(--azul-oscuro);border-radius:14px;
     background:color-mix(in oklch,var(--azul-sutil) 9%,transparent)}
   .participa .via.is-auto .n{color:var(--dorado)}
   .participa .via .n{font-family:var(--body);font-size:.78rem;font-weight:600;
     letter-spacing:.14em;color:var(--texto-suave);flex:none;min-width:2.4ch}
   .participa .via h3{font-family:var(--display);font-weight:400;
     font-size:clamp(1.3rem,2.6vw,1.8rem);line-height:1.14;letter-spacing:-.015em}
-  .participa .via p{margin-top:.35rem;font-size:.96rem;color:var(--texto-suave);max-width:42ch}
-  @media (max-width:860px){.participa-grid{grid-template-columns:1fr;gap:2.4rem}}
+  .participa .via p{margin-top:var(--espacio-atomo);font-size:.96rem;color:var(--texto-suave);max-width:42ch}
+  @media (max-width:860px){.participa-grid{grid-template-columns:1fr;gap:var(--espacio-contenido)}}
 
   /* ── TESTIMONIOS · CARRUSEL HORIZONTAL INFINITO (auto + pausa al hover/touch + swipe) ── */
-  .testimonios{position:relative;z-index:2;padding-block:clamp(3.5rem,9vh,6.5rem)}
+  .testimonios{position:relative;z-index:2;padding-block:var(--espacio-umbral)}
   .tcarousel{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;
     cursor:grab;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
   .tcarousel::-webkit-scrollbar{display:none}
   .tcarousel:active{cursor:grabbing}
   /* padding vertical de seguridad: la sombra del estado destacado (~56px) cabe holgada
      dentro de los 64px de padding, por lo que NO la recorta el overflow del carrusel */
-  .ttrack{display:flex;gap:1.4rem;width:max-content;padding:4rem clamp(1rem,5vw,3rem);align-items:stretch}
+  .ttrack{display:flex;gap:var(--espacio-grupo);width:max-content;
+    padding:var(--espacio-contemplativo) clamp(1rem,5vw,3rem);align-items:stretch}
   .tcard{flex:0 0 clamp(290px,40vw,500px);display:flex;flex-direction:column;justify-content:space-between;
-    gap:1.4rem;background:var(--card);border:1px solid var(--hair);border-radius:20px;
-    padding:1.9rem 2rem;opacity:.72;
+    gap:var(--espacio-grupo);background:var(--card);border:1px solid var(--hair);border-radius:20px;
+    padding:var(--espacio-contenido);opacity:.72;
     transition:opacity var(--t-med),transform var(--t-med),box-shadow var(--t-med),border-color var(--t-med)}
   @supports (corner-shape:superellipse(2)){.tcard{border-radius:26px;corner-shape:superellipse(2.6)}}
   /* destacado al pasar el cursor o mantener el dedo */
@@ -829,11 +838,13 @@
   @media (prefers-reduced-motion:reduce){.tcard{transition:none}}
 
   /* ── CTA FINAL · zoom-stage del texto + ornamentos SVG dibujados por scroll (efecto-05-06) ── */
-  .cta-final{position:relative;z-index:2;padding-top:clamp(2.25rem,5vh,4rem);
-    padding-bottom:clamp(5rem,12vh,8.5rem);text-align:center;overflow:hidden}
+  .cta-final{position:relative;z-index:2;
+    padding-top:var(--espacio-umbral);
+    padding-bottom:var(--espacio-orilla);
+    text-align:center;overflow:hidden}
   /* todo el contenido por encima de los ornamentos */
   .cta-final > :not(.cta-orn){position:relative;z-index:1}
-  .cta-final .eyebrow{display:block;margin-bottom:1.6rem}
+  .cta-final .eyebrow{display:block;margin-bottom:var(--espacio-grupo)}
   /* ornamentos abstractos laterales: trazo que se dibuja con el scroll (NO sobre el texto) */
   .cta-orn{position:absolute;top:50%;transform:translateY(-50%);height:min(80%,520px);width:auto;
     z-index:0;pointer-events:none;opacity:.5}
@@ -848,10 +859,10 @@
     will-change:transform,opacity;transform-origin:center center}
   .zoom-word span{display:block}
   .zoom-word span:nth-child(2){font-style:italic;color:var(--azul-oscuro)}
-  .cta-sub{margin:1.8rem auto 0;max-width:52ch;color:var(--texto-suave);font-size:1.05rem;line-height:1.6}
+  .cta-sub{margin:var(--espacio-contenido) auto 0;max-width:52ch;color:var(--texto-suave);font-size:1.05rem;line-height:1.6}
   /* en escritorio la frase completa va en UNA sola línea horizontal */
   @media (min-width:900px){.cta-sub{max-width:none;white-space:nowrap}}
-  .cta-final .actions{margin-top:2.6rem;display:flex;justify-content:center;
+  .cta-final .actions{margin-top:var(--espacio-contenido);display:flex;justify-content:center;
     align-items:center;gap:clamp(1.4rem,4vw,2.6rem);flex-wrap:wrap}
   /* MÓVIL: los ornamentos se mantienen VISIBLES, más pequeños y pegados a los bordes
      (sin invadir el texto central) */
@@ -871,7 +882,8 @@
     background:#000;transform:scale(.94);transition:transform var(--t-slow)}
   .vmodal.open .frame{transform:scale(1)}
   .vmodal video,.vmodal iframe{width:100%;height:100%;border:0;display:block;object-fit:cover}
-  .vmodal .x{position:absolute;top:1.4rem;right:1.4rem;width:44px;height:44px;border-radius:50%;
+  .vmodal .x{position:absolute;top:var(--espacio-grupo);right:var(--espacio-grupo);
+    width:var(--target-min);height:var(--target-min);border-radius:50%;
     background:rgba(255,255,255,.92);color:var(--antracita);font-size:1.4rem;display:grid;place-items:center;
     cursor:pointer;border:none;transition:transform var(--t-med)}
   .vmodal .x:hover{transform:rotate(90deg)}
@@ -891,21 +903,22 @@
     line-height:1.02;letter-spacing:-.02em;color:var(--antracita)}
   .foot__h em{font-style:italic;color:var(--lino);   /* "juntos" en beige claro de los fondos */
     text-shadow:0 1px 14px rgba(33,30,26,.28)}        /* sombra sutil → legible sobre el azul claro */
-  .foot__hint{margin-top:1rem;color:color-mix(in oklch,var(--antracita) 62%,transparent);font-size:.85rem}
+  .foot__hint{margin-top:var(--espacio-elemento);color:color-mix(in oklch,var(--antracita) 62%,transparent);font-size:.85rem}
   /* información del pie, fusionada sobre el fondo oscuro */
   .foot__info{position:relative;z-index:2;border-top:1px solid rgba(250,246,240,.12);
-    padding-block:clamp(3rem,7vh,4.5rem);background:color-mix(in oklch,var(--antracita) 88%,#000)}
-  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:3rem 2rem;align-items:start}
+    padding-block:var(--espacio-umbral);background:color-mix(in oklch,var(--antracita) 88%,#000)}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;
+    gap:var(--s-5) var(--espacio-contenido);align-items:start}
   .foot .logo-wave{width:170px;animation-duration:14s}
-  .foot .tagline{margin-top:1.3rem;max-width:34ch;color:rgba(250,246,240,.62);font-size:.98rem}
+  .foot .tagline{margin-top:var(--espacio-elemento);max-width:34ch;color:rgba(250,246,240,.62);font-size:.98rem}
   .foot h4{font-family:var(--body);font-weight:600;font-size:.74rem;letter-spacing:.22em;
-    text-transform:uppercase;color:var(--dorado);margin-bottom:1.1rem}   /* amarillo: alto contraste WCAG sobre oscuro */
+    text-transform:uppercase;color:var(--dorado);margin-bottom:var(--espacio-elemento)}   /* amarillo: alto contraste WCAG sobre oscuro */
   .foot a.fl{display:block;padding:.28rem 0;color:var(--lino);font-size:.96rem;width:max-content;
     transition:color var(--t-med),padding var(--t-med)}
   .foot a.fl:hover{color:var(--dorado);padding-left:.4rem}
   .foot address{font-style:normal;color:rgba(250,246,240,.62);font-size:.94rem;line-height:1.85}
   .foot address b{color:var(--lino);font-weight:600}
-  .social{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem;pointer-events:auto}
+  .social{display:flex;flex-wrap:wrap;gap:var(--espacio-atomo);margin-top:var(--espacio-grupo);pointer-events:auto}
   .social a{display:inline-flex;align-items:center;gap:.5em;font-size:.84rem;color:rgba(250,246,240,.7);
     border:1px solid rgba(250,246,240,.18);padding:.42rem .85rem;border-radius:99px;
     transition:color var(--t-med),border-color var(--t-med),background var(--t-med),transform var(--t-med)}
@@ -913,8 +926,8 @@
     background:color-mix(in oklch,var(--dorado) 12%,transparent);transform:translateY(-1px)}
   .ico{width:16px;height:16px;flex:none;display:block}
   .ico *{vector-effect:non-scaling-stroke}
-  .foot-base{margin-top:3rem;padding-top:1.6rem;border-top:1px solid rgba(250,246,240,.12);
-    display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.8rem;color:rgba(250,246,240,.5)}
+  .foot-base{margin-top:var(--s-5);padding-top:var(--espacio-grupo);border-top:1px solid rgba(250,246,240,.12);
+    display:flex;justify-content:space-between;gap:var(--espacio-elemento);flex-wrap:wrap;font-size:.8rem;color:rgba(250,246,240,.5)}
 }
 
 /* ═══════════════ RESPONSIVE ═══════════════ */
@@ -928,7 +941,7 @@
     .nt:checked~.burger span:nth-child(2){opacity:0}
     .nt:checked~.burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
     .menu{position:absolute;top:100%;left:0;right:0;margin:0;flex-direction:column;align-items:stretch;gap:.2rem;
-      padding:1rem 5vw 1.6rem;background:color-mix(in oklch,var(--arena) 97%,transparent);
+      padding:var(--espacio-elemento) 5vw var(--espacio-grupo);background:color-mix(in oklch,var(--arena) 97%,transparent);
       -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--hair);
       box-shadow:0 26px 50px -32px rgba(40,33,26,.5);opacity:0;translate:0 -12px;display:none;
       transition:opacity var(--t-med),translate var(--t-med),display var(--t-med) allow-discrete}
@@ -945,15 +958,15 @@
     .bar:has(.navlink:hover) .navlink:not(:hover){opacity:1}
   }
   @media (max-width:860px){
-    .mission-grid{grid-template-columns:1fr;gap:2.5rem}
+    .mission-grid{grid-template-columns:1fr;gap:var(--s-5)}
     .video{aspect-ratio:16/10}
   }
   @media (max-width:680px){
-    .course .row{grid-template-columns:1fr;gap:.6rem;padding-block:1.1rem}
+    .course .row{grid-template-columns:1fr;gap:var(--espacio-atomo);padding-block:var(--espacio-elemento)}
     .course .when{order:-1}.tags{justify-self:start}
-    .post{flex-direction:column;gap:.4rem}
+    .post{flex-direction:column;gap:var(--espacio-atomo)}
     .blog-float{display:none}                 /* en móvil sin cursor, se omite la imagen flotante */
-    .foot-grid{grid-template-columns:1fr;gap:2.4rem}
+    .foot-grid{grid-template-columns:1fr;gap:var(--espacio-contenido)}
   }
   @media (prefers-reduced-motion:reduce){
     *{animation-duration:.001ms!important;animation-iteration-count:1!important;

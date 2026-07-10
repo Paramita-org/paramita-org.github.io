@@ -33,9 +33,12 @@
     --espacio-contemplativo:  var(--s-6);   /* aire de lectura profunda       */
 
     /* ── Espacio de umbral · transición entre momentos ── */
-    --espacio-umbral:      var(--s-7);      /* antes de CTA, entre bloques    */
-    --espacio-orilla:      var(--s-8);      /* separación entre secciones     */
-    --espacio-otro-lado:   var(--s-9);      /* respiro extremo, casos raros   */
+    /* Los grandes son fluidos: el ritmo de sección respira con el viewport.
+       Los pequeños (átomo → contemplativo) se mantienen fijos porque son
+       relaciones internas de componente, no ritmo de la travesía.        */
+    --espacio-umbral:      clamp(3rem, 7vh, 6rem);        /* ~48→96px  · antes de CTA, entre bloques */
+    --espacio-orilla:      clamp(4rem, 10vh, 8rem);       /* ~64→128px · separación entre secciones */
+    --espacio-otro-lado:   clamp(6rem, 14vh, 12rem);      /* ~96→192px · respiro extremo, casos raros */
 
     /* ═══════════════════════════════════════════════════════════════════
        CONTENEDOR · el ancho útil de la travesía
