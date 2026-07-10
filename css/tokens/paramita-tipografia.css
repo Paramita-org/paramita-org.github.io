@@ -86,7 +86,7 @@
     --texto-h4:         1.35rem;   /* 22-24px — h4, subsecciones              */
     --texto-h3:         1.7rem;    /* 27-30px — h3, títulos de tarjeta        */
     --texto-h2:         clamp(2rem, 4.5vw, 3.4rem);       /* h2 de sección    */
-    --texto-h1:         clamp(2.6rem, 8vw, 5.6rem);       /* hero, gigante    */
+    --texto-h1:         clamp(3rem, 10vw, 5.6rem);         /* hero, gigante — mín. 48px móvil */
     --texto-monumental: clamp(3.6rem, 12vw, 8rem);        /* casos extremos   */
 
     /* Interlineado (line-height) */
@@ -205,11 +205,17 @@
       "SOFT" var(--paramita-soft, 0);
   }
 
-  /* Lede · párrafo de introducción */
+  /* Lede · párrafo de introducción
+     REVISIÓN Fase 4 · legibilidad afinada:
+     Peso subido de contemplativo (300) a presencia (400). En Fraunces
+     italic al 1.2rem sobre fondo cálido, el peso 300 perdía contraste
+     y competía mal con la ligereza del entorno. 400 mantiene el
+     carácter contemplativo pero recupera legibilidad — especialmente
+     crítico en móvil donde el ancho de columna es menor. */
   .lede {
     font-family: var(--display);
     font-style: italic;
-    font-weight: var(--wght-contemplativo);
+    font-weight: var(--wght-presencia);
     font-size: var(--texto-lede);
     line-height: var(--leading-lede);
     max-width: var(--medida-lede);

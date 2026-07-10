@@ -108,26 +108,36 @@
 
 
   /* ─────────────────────────────────────────────────────────────────────
-     HERO__INNER · el grid con gap automático
+     HERO__INNER · el grid con jerarquía por AGRUPACIÓN
      ─────────────────────────────────────────────────────────────────────
-     Contenedor con el ancho del sistema. Todos los hijos directos
-     (eyebrow, h1, lede, actions, meta) se separan automáticamente 24px
-     por el gap del grid. Los estilos individuales NO se ocupan del
-     espaciado entre elementos — el grid gap lo gestiona.
-     ───────────────────────────────────────────────────────────────────── */
+     REVISIÓN Fase 4 · afinado del hero:
+     El diseño anterior usaba `gap: --espacio-grupo` uniforme (24px)
+     entre todos los hijos. Se leía como una lista de 5 bloques igual
+     de importantes, sin jerarquía editorial.
+
+     Nueva arquitectura por PROXIMIDAD (ley Gestalt):
+       · Grupo 1 · eyebrow (contexto de arriba, con su propio aire)
+       · Grupo 2 · H1 (momento identitario, aislado)
+       · Grupo 3 · lede + actions + meta (bloque de lectura + acción)
+
+     El gap por defecto es --espacio-contenido (32px) entre grupos.
+     Los elementos dentro de un mismo grupo se acercan con margin
+     negativo o con override específico. */
 
   .hero__inner {
     width: min(var(--contenedor-max), 100% - var(--contenedor-padding) * 2);
     margin-inline: auto;
 
     display: grid;
-    gap: var(--espacio-grupo);   /* 24px entre todos los hijos */
+    gap: var(--espacio-contenido);   /* 32px · separación entre GRUPOS */
   }
 
 
   /* ─────────────────────────────────────────────────────────────────────
      ELEMENTOS INDIVIDUALES DEL CONTENIDO
      Cada uno solo se ocupa de SÍ mismo, no de su relación con los demás.
+     Los overrides de margin negativo aproximan elementos que pertenecen
+     al mismo grupo semántico (proximidad Gestalt).
      ───────────────────────────────────────────────────────────────────── */
 
   .hero h1 {
@@ -136,27 +146,27 @@
     text-wrap: balance;
   }
 
+  /* Lede · aproximado al H1 (mismo grupo semántico) */
   .hero .lede {
     font-size: var(--texto-lede);
     max-width: var(--medida-lede);
     color: var(--texto-suave);
+    margin-top: calc(var(--espacio-grupo) - var(--espacio-contenido));
   }
 
-  /* Actions · flexbox horizontal
+  /* Actions · flexbox horizontal + aproximación al lede
      ─────────────────────────────────────────────────────────────────
      REVISIÓN Fase 4 · afinado del hero:
-     Se elimina el margin-top extra (--espacio-elemento, 16px). En la
-     revisión con contenido real quedó demostrado que el grid gap de 24px
-     ya proporciona el respiro suficiente antes del CTA. El margen extra
-     abría demasiado el ritmo en escritorio cuando el lede es corto,
-     provocando un vacío proporcional entre lede y actions. El hero
-     vuelve al ritmo constante del sistema (24px entre todos los hijos).
-     ───────────────────────────────────────────────────────────────── */
+     El margin-top calc() sobrescribe el gap del grid_inner para que
+     actions se aproxime al lede (24px en lugar del gap por defecto
+     de 32px entre grupos). Ambos pertenecen al mismo grupo semántico
+     ("qué es y cómo empezar"). */
   .hero .actions {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: var(--espacio-grupo);   /* 24px entre CTA y enlace secundario */
+    gap: var(--espacio-grupo);   /* 24px entre CTA y meta */
+    margin-top: calc(var(--espacio-grupo) - var(--espacio-contenido));
   }
 
   /* Meta · fila con el indicador y la información */
@@ -461,15 +471,27 @@
       object-position: center center;
     }
 
+    /* Velo móvil reforzado · REVISIÓN Fase 4
+       En móvil el texto compite más con el vídeo (menor viewport, más
+       proximidad visual). Densidades subidas de 55%/75% a 65%/85%,
+       y añadida una capa inferior desde el 40% para proteger la zona
+       del lede + CTA (que en móvil está muy cerca de la parte baja
+       del vídeo cuando se ve la rueda del dharma). */
     .hero::after {
       background: linear-gradient(180deg,
-        color-mix(in oklch, var(--arena) 55%, transparent) 0%,
-        transparent 28%,
-        color-mix(in oklch, var(--arena) 75%, transparent) 100%);
+        color-mix(in oklch, var(--arena) 65%, transparent) 0%,
+        color-mix(in oklch, var(--arena) 25%, transparent) 30%,
+        color-mix(in oklch, var(--arena) 45%, transparent) 60%,
+        color-mix(in oklch, var(--arena) 85%, transparent) 100%);
     }
 
+    /* Rotator con más peso en móvil · REVISIÓN Fase 4
+       En Fraunces italic al mín. 3rem (48px), el peso 300 se lee
+       delicado pero pierde presencia frente al peso del H1 recto.
+       500 (firmeza) equilibra la jerarquía del momento identitario. */
     .rotator__word {
       white-space: normal;
+      font-weight: var(--wght-firmeza);
     }
 
   }

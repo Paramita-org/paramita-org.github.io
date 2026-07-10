@@ -239,8 +239,18 @@
      ─────────────────────────────────────────────
      El background es un degradado azul→dorado aplicado SOLO a los 1.5px
      inferiores del elemento (background-size: 200% 1.5px, position:
-     bottom). El doble del ancho horizontal permite animar la posición
-     en hover para simular flujo. */
+     bottom). El doble del ancho horizontal permite animar la posición.
+
+     REVISIÓN Fase 4 · animación permanente
+     ────────────────────────────────────────
+     El subrayado ahora FLUYE permanentemente (motion-forward, familia A
+     ambiental identitaria). Ritmo --dur-identidad-descanso (32.5s,
+     ratio 1.3× sobre logo). Es el más lento del sistema respiratorio:
+     casi imperceptible, pero comunica "esto vive, esto es interactivo"
+     incluso en móvil sin hover.
+
+     Se controla por el interruptor global --identidad-estado (Fase 0.1).
+     En reposo, la animación se pausa. */
   .t-link .txt {
     background-image: linear-gradient(100deg,
       var(--azul-oscuro),
@@ -252,8 +262,19 @@
     background-repeat: no-repeat;
     background-position: 0% 100%;
     padding-bottom: 0.18em;
-    transition: background-position var(--dur-cinematografico) var(--ease-llegada),
-                background-size var(--t-defecto);
+    animation: t-link-flujo var(--dur-identidad-descanso)
+               var(--ease-identidad-flujo) infinite;
+    transition: background-size var(--t-defecto);
+  }
+
+  /* Flujo permanente · desplaza background-position en bucle.
+     El degradado tiene el doble de ancho (200%), así que al mover
+     background-position de 0% a -100% recorre la mitad del degradado
+     y vuelve al inicio sin salto visible (los extremos son iguales:
+     azul-oscuro). */
+  @keyframes t-link-flujo {
+    0%   { background-position:   0% 100%; }
+    100% { background-position: -100% 100%; }
   }
 
   /* Flecha · desplaza en hover · azul-oscuro coherente con el subrayado */
@@ -262,12 +283,14 @@
     color: var(--azul-oscuro);
   }
 
-  /* Hover · el degradado fluye dentro del subrayado + la flecha se
-     desplaza + el subrayado engorda ligeramente (feedback de estado). */
+  /* Hover · el subrayado engorda ligeramente + la flecha se desplaza.
+     La animación permanente NO se pausa en hover — sigue fluyendo, es
+     su firma. Lo que cambia es el peso visual (grosor 1.5px → 2.5px)
+     y el color del texto que se refuerza. */
   .t-link:hover .txt,
   .t-link:focus-visible .txt {
-    background-position: 100% 100%;
-    background-size: 200% 2px;
+    background-size: 200% 2.5px;
+    color: var(--azul-oscuro);
   }
 
   .t-link:hover,
@@ -287,6 +310,137 @@
      sobre .txt (extremadamente raro), el texto sigue siendo legible
      en --antracita. La flecha en --azul-oscuro sigue comunicando
      dirección. La affordance visual se degrada pero no se pierde. */
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     T-LINK--PRIMARIO · variante CTA de HERO con contenedor cálido
+     ─────────────────────────────────────────────────────────────────────
+     REVISIÓN Fase 4 · afinado del hero
+     ─────────────────────────────────────
+     El .t-link estándar funciona bien para enlaces secundarios ("Ver
+     todos los cursos", "Descubre cómo colaborar"). En el HERO, sin
+     embargo, el t-link tiene que competir con el btn-amigo del navbar
+     y liderar la acción principal — un subrayado no basta.
+
+     Esta variante añade un CONTENEDOR CÁLIDO SUTIL:
+       · Fondo arena semi-transparente (visible pero no gritón)
+       · Borde 1px azul-oscuro al 22% (marca perímetro sin encajonar)
+       · Esquinas orgánicas (corner-shape superellipse, como btn-amigo)
+       · Padding generoso (0.85em 1.4em) — objeto tocable en móvil
+
+     La flecha lleva un LATIDO PERMANENTE (traslación horizontal muy
+     sutil, 2px, ritmo lento) — motion-forward, familia ambiental
+     identitaria. Es la firma "vida" del sistema aplicada a esta CTA.
+
+     En HOVER · el degradado azul→dorado invade el contenedor desde
+     la izquierda (0% → 100%), el texto pasa a blanco, la flecha se
+     desplaza. Es el mismo lenguaje del btn-amigo pero más contenido.
+
+     ATENCIÓN · esta variante se aplica con la CLASE .t-link--primario
+     al lado de .t-link. En el HTML del hero se añade:
+       <a class="t-link t-link--primario" ...>
+     ───────────────────────────────────────────────────────────────────── */
+
+  .t-link--primario {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 0.85em 1.4em;
+    border-radius: 99px;
+    border: 1px solid color-mix(in oklch, var(--azul-oscuro) 22%, transparent);
+    background: color-mix(in oklch, var(--arena) 55%, transparent);
+    transition: border-color var(--t-defecto),
+                background var(--t-defecto),
+                gap var(--t-defecto),
+                letter-spacing var(--t-defecto),
+                transform var(--t-defecto),
+                box-shadow var(--t-defecto);
+  }
+
+  /* Esquinas orgánicas · fallback border-radius 99px */
+  @supports (corner-shape: superellipse(2)) {
+    .t-link--primario {
+      border-radius: 22px;
+      corner-shape: superellipse(2.4);
+    }
+  }
+
+  /* Capa base · degradado identitario oculto tras el fondo cálido.
+     En reposo su ancho es 0%, no se ve. En hover crece a 100%. */
+  .t-link--primario::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(100deg,
+      var(--azul-oscuro),
+      var(--azul-sutil),
+      var(--dorado));
+    background-size: 100% 100%;
+    transform: translateX(-100%);
+    transition: transform var(--t-revelacion) var(--ease-llegada);
+  }
+
+  /* Anular el subrayado del .t-link estándar cuando es primario.
+     El contenedor cálido ya afford al usuario que es un botón —
+     el subrayado se vuelve redundante y ensucia visualmente. */
+  .t-link--primario .txt {
+    background-image: none;
+    padding-bottom: 0;
+    color: var(--antracita);
+    transition: color var(--t-defecto);
+  }
+
+  /* Flecha con LATIDO permanente · motion-forward
+     ─────────────────────────────────────────────
+     Traslación horizontal muy sutil (2px de amplitud), ritmo lento
+     (--dur-identidad-agil = 17.5s dividido por un factor).
+     Es el CTA del hero — familia ambiental identitaria.
+
+     La flecha late permanentemente entre 0 y 3px, dando la sensación
+     de "seguir adelante" incluso cuando el usuario no interactúa.
+     Este movimiento SÍ es infinite justificado (Fase 0.1 · familia A). */
+  .t-link--primario .arw {
+    display: inline-block;
+    animation: t-link-primario-latido 2.6s var(--ease-identidad-flujo) infinite;
+    transition: transform var(--t-defecto);
+  }
+
+  @keyframes t-link-primario-latido {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(3px); }
+  }
+
+  /* Hover · el contenedor se activa
+     ─────────────────────────────────
+     El degradado invade el fondo (translateX -100% → 0%), el borde
+     se disuelve porque ya no hace falta (el fondo comunica solo),
+     el texto pasa a blanco, la flecha se desplaza más lejos y su
+     latido se pausa (movimiento convocado tiene prioridad). */
+  .t-link--primario:hover,
+  .t-link--primario:focus-visible {
+    border-color: transparent;
+    background: transparent;
+    letter-spacing: 0.015em;
+    box-shadow: 0 12px 28px -14px var(--azul-oscuro);
+  }
+
+  .t-link--primario:hover::before,
+  .t-link--primario:focus-visible::before {
+    transform: translateX(0);
+  }
+
+  .t-link--primario:hover .txt,
+  .t-link--primario:focus-visible .txt {
+    color: #fff;
+  }
+
+  .t-link--primario:hover .arw,
+  .t-link--primario:focus-visible .arw {
+    animation-play-state: paused;
+    color: #fff;
+    transform: translateX(4px);
+  }
 
 
   /* ─────────────────────────────────────────────────────────────────────
@@ -312,7 +466,11 @@
     .btn-amigo::after,
     .t-link,
     .t-link .txt,
-    .t-link .arw {
+    .t-link .arw,
+    .t-link--primario,
+    .t-link--primario::before,
+    .t-link--primario .txt,
+    .t-link--primario .arw {
       transition: none;
     }
 
@@ -327,12 +485,38 @@
       transform: none;
     }
 
-    /* El subrayado del t-link no fluye en hover (queda estático)
-       pero SÍ engorda ligeramente como feedback visual del estado */
+    /* El subrayado permanente del t-link se congela · Fase 0.1
+       Se mantiene visible (affordance) pero deja de fluir. */
+    .t-link .txt {
+      animation: none;
+    }
+
+    /* En hover, el subrayado engorda como feedback visual del estado
+       (única señal de interacción con motion reducido). */
     .t-link:hover .txt,
     .t-link:focus-visible .txt {
-      background-position: 0% 100%;
-      background-size: 200% 2px;
+      background-size: 200% 2.5px;
+      color: var(--azul-oscuro);
+    }
+
+    /* T-link--primario · anular latido y transiciones
+       ─────────────────────────────────────────────────
+       El latido permanente de la flecha se detiene (animation: none).
+       En hover, el degradado no invade con transición: cambia
+       directamente el fondo a azul-oscuro sólido y el texto a blanco. */
+    .t-link--primario .arw {
+      animation: none;
+      transform: none;
+    }
+
+    .t-link--primario:hover::before,
+    .t-link--primario:focus-visible::before {
+      transform: translateX(0);
+    }
+
+    .t-link--primario:hover .arw,
+    .t-link--primario:focus-visible .arw {
+      transform: none;
     }
 
   }
