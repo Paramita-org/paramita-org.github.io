@@ -142,17 +142,21 @@
     color: var(--texto-suave);
   }
 
-  /* Actions · flexbox horizontal con margen superior extra intencional */
+  /* Actions · flexbox horizontal
+     ─────────────────────────────────────────────────────────────────
+     REVISIÓN Fase 4 · afinado del hero:
+     Se elimina el margin-top extra (--espacio-elemento, 16px). En la
+     revisión con contenido real quedó demostrado que el grid gap de 24px
+     ya proporciona el respiro suficiente antes del CTA. El margen extra
+     abría demasiado el ritmo en escritorio cuando el lede es corto,
+     provocando un vacío proporcional entre lede y actions. El hero
+     vuelve al ritmo constante del sistema (24px entre todos los hijos).
+     ───────────────────────────────────────────────────────────────── */
   .hero .actions {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: var(--espacio-grupo);   /* 24px entre CTA y enlace secundario */
-
-    /* ÚNICA EXCEPCIÓN JUSTIFICADA de margin dentro del hero:
-       Un aire extra antes de los CTAs. El visitante ha leído el hero
-       y ahora se le pide actuar. Ese pequeño respiro es intencional. */
-    margin-top: var(--espacio-elemento);   /* 16px extra */
   }
 
   /* Meta · fila con el indicador y la información */
@@ -287,10 +291,23 @@
     z-index: 1;
     pointer-events: none;
     background:
+      /* Velo lateral izquierdo · REVISIÓN Fase 4 · afinado del hero
+         ─────────────────────────────────────────────────────────
+         Protege la columna del texto (~55% del ancho) del bullicio
+         visual del vídeo (banderas de oración, rueda del dharma).
+         Empieza en un 55% de opacidad de arena en el borde izquierdo
+         y se disipa progresivamente hacia el centro. Fiel a Fase 0.1:
+         se prepara el lienzo, no se maquilla el texto. */
+      linear-gradient(90deg,
+        color-mix(in oklch, var(--arena) 55%, transparent) 0%,
+        color-mix(in oklch, var(--arena) 30%, transparent) 30%,
+        transparent 58%),
+      /* Velo cálido vertical superior (existente) */
       linear-gradient(180deg,
         color-mix(in oklch, var(--arena) 94%, transparent) 0%,
         color-mix(in oklch, var(--arena) 72%, transparent) 28%,
         transparent 62%),
+      /* Velo cálido vertical inferior (existente) */
       linear-gradient(180deg,
         transparent 60%,
         color-mix(in oklch, var(--arena) 60%, transparent) 100%);

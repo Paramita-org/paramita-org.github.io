@@ -194,20 +194,27 @@
 
 
   /* ─────────────────────────────────────────────────────────────────────
-     T-LINK · enlace destacado con degradado clip
+     T-LINK · enlace destacado con SUBRAYADO IDENTITARIO
      ─────────────────────────────────────────────────────────────────────
-     Enlace con texto y flecha (arw). En hover, el texto se rellena con
-     el degradado azul→dorado usando background-clip: text, y la flecha
-     se desplaza a la derecha 3px. Sutil pero elegante — para «leer más»,
-     «ver todos los cursos», etc.
+     REVISIÓN Fase 4 · afinado del hero
+     ─────────────────────────────────────
+     El diseño anterior (text-fill del degradado en hover) tenía un
+     problema de affordance: en reposo el enlace era prácticamente
+     indistinguible del texto plano, y en móvil (sin hover) el usuario
+     nunca descubría la interactividad. Además era el único CTA del
+     sistema sin la firma del degradado identitario.
 
-     Este bloque VIVÍA TEMPORALMENTE en paramita-base.css tras el Paso 2
-     de Fase 2. Se recoge aquí porque conceptualmente es una CTA.
+     Rediseño:
+       · En reposo: subrayado fino (1.5px) con degradado azul→dorado
+         SIEMPRE visible bajo el texto (no bajo la flecha). Actúa como
+         affordance permanente — funciona en móvil sin depender de hover.
+       · En hover: el degradado 'fluye' dentro del subrayado (movimiento
+         convocado, familia B de Fase 0.1) y la flecha se desplaza 3px.
+       · El text-fill anterior se ELIMINA por redundancia con el
+         subrayado — la firma del degradado ya está presente en reposo.
 
-     ACCIÓN REQUERIDA · el bloque .t-link debe eliminarse de
-     paramita-base.css al poner este archivo en producción, o habrá
-     duplicación (aunque no rompe la web, es deuda técnica). Ver el
-     archivo paramita-base.css actualizado que acompaña a este paso.
+     Este cambio unifica el .t-link con el resto del sistema: mismo
+     degradado que el logo, que el btn-amigo y que la firma general.
      ───────────────────────────────────────────────────────────────────── */
 
   .t-link {
@@ -228,32 +235,39 @@
                 letter-spacing var(--t-defecto);
   }
 
-  /* Texto del enlace · el background-image se aplica solo al glifo */
+  /* Texto con subrayado identitario permanente
+     ─────────────────────────────────────────────
+     El background es un degradado azul→dorado aplicado SOLO a los 1.5px
+     inferiores del elemento (background-size: 200% 1.5px, position:
+     bottom). El doble del ancho horizontal permite animar la posición
+     en hover para simular flujo. */
   .t-link .txt {
     background-image: linear-gradient(100deg,
       var(--azul-oscuro),
       var(--azul-sutil) 45%,
-      var(--dorado));
-    background-size: 0% 100%;
+      var(--dorado),
+      var(--azul-sutil) 55%,
+      var(--azul-oscuro));
+    background-size: 200% 1.5px;
     background-repeat: no-repeat;
-    background-position: left;
-    -webkit-background-clip: text;
-    background-clip: text;
-    transition: background-size var(--t-revelacion);
+    background-position: 0% 100%;
+    padding-bottom: 0.18em;
+    transition: background-position var(--dur-cinematografico) var(--ease-llegada),
+                background-size var(--t-defecto);
   }
 
-  /* Flecha · desplaza en hover */
+  /* Flecha · desplaza en hover · azul-oscuro coherente con el subrayado */
   .t-link .arw {
     transition: transform var(--t-defecto);
     color: var(--azul-oscuro);
   }
 
-  /* Hover del enlace · texto se rellena, flecha se desplaza */
+  /* Hover · el degradado fluye dentro del subrayado + la flecha se
+     desplaza + el subrayado engorda ligeramente (feedback de estado). */
   .t-link:hover .txt,
   .t-link:focus-visible .txt {
-    background-size: 100% 100%;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
+    background-position: 100% 100%;
+    background-size: 200% 2px;
   }
 
   .t-link:hover,
@@ -262,18 +276,17 @@
     letter-spacing: 0.015em;
   }
 
-  .t-link:hover .arw {
+  .t-link:hover .arw,
+  .t-link:focus-visible .arw {
     transform: translateX(3px);
   }
 
-  /* Fallback para navegadores sin background-clip: text
-     (raro hoy pero conservado por robustez) */
-  @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-    .t-link:hover .txt,
-    .t-link:focus-visible .txt {
-      color: var(--azul-oscuro);
-    }
-  }
+  /* Fallback tipográfico
+     ─────────────────────
+     Si por algún motivo el navegador no puede pintar el background
+     sobre .txt (extremadamente raro), el texto sigue siendo legible
+     en --antracita. La flecha en --azul-oscuro sigue comunicando
+     dirección. La affordance visual se degrada pero no se pierde. */
 
 
   /* ─────────────────────────────────────────────────────────────────────
@@ -287,10 +300,9 @@
        global de paramita-movimiento.css y el interruptor identitario).
      · El shine del btn-amigo no atraviesa — el elemento shine queda
        fuera de vista pero no anima.
-     · El text-fill del t-link se mantiene en su estado inicial (0%) y
-       no se rellena en hover. El color del texto sí cambia a azul en
-       hover como feedback alternativo (vía :hover normal, no vía
-       transición).
+     · El subrayado identitario del t-link SE MANTIENE (es affordance
+       permanente, no ornamento). Solo se anula el 'flujo' del degradado
+       en hover — el subrayado queda estático en su posición inicial.
      ───────────────────────────────────────────────────────────────────── */
 
   @media (prefers-reduced-motion: reduce) {
@@ -310,16 +322,17 @@
     }
 
     /* La flecha del t-link no se desplaza */
-    .t-link:hover .arw {
+    .t-link:hover .arw,
+    .t-link:focus-visible .arw {
       transform: none;
     }
 
-    /* Fallback de color para el text-fill del t-link */
+    /* El subrayado del t-link no fluye en hover (queda estático)
+       pero SÍ engorda ligeramente como feedback visual del estado */
     .t-link:hover .txt,
     .t-link:focus-visible .txt {
-      background-size: 0% 100%;
-      color: var(--azul-oscuro);
-      -webkit-text-fill-color: currentColor;
+      background-position: 0% 100%;
+      background-size: 200% 2px;
     }
 
   }
