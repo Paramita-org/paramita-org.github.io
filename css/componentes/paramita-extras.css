@@ -548,28 +548,31 @@
     }
   }
 
-  /* Estado por defecto · opacidad 50% + filtro AZUL overlay (multiply) */
+  /* Estado por defecto · imagen visible con opacidad reducida
+     ─────────────────────────────────────────────────────────────
+     RETOQUE v1 · se retira el filtro azul-oscuro con blend multiply
+     que machacaba la imagen. Ahora la celda en reposo conserva
+     luminosidad; el contraste con el estado activo lo aporta la
+     opacidad (0.72 → 1) y la escala. Coherente con el principio
+     «Paramita es luminosa, no oscura». */
   .flip-celda__pic {
     position: absolute;
     inset: 0;
     background-size: cover;
     background-position: center 38%;
-    background-color: var(--azul-oscuro);
-    background-blend-mode: multiply;
     transform: scale(1.06);
-    opacity: 0.5;
-    transition: all 0.3s ease;
+    opacity: 0.72;
+    transition: opacity 0.3s ease,
+                transform 0.3s ease;
   }
 
-  /* Estado activo/seleccionado · crece, opacidad 100%, sin filtro */
+  /* Estado activo/seleccionado · crece a escala 1 y opacidad plena */
   .flip-celda:hover .flip-celda__pic,
   .flip-celda:focus-visible .flip-celda__pic,
   .flip-celda:active .flip-celda__pic,
   .flip-celda.is-expanded .flip-celda__pic {
     transform: scale(1);
     opacity: 1;
-    background-color: transparent;
-    background-blend-mode: normal;
   }
 
   /* Feedback de escala en móvil/touch (sin reflujo de rejilla) */

@@ -51,6 +51,7 @@
 <link rel="stylesheet" href="css/componentes/paramita-cta.css">
 <link rel="stylesheet" href="css/componentes/paramita-hero.css">
 <link rel="stylesheet" href="css/componentes/paramita-sections.css">
+<link rel="stylesheet" href="css/componentes/paramita-cursos.css">
 <link rel="stylesheet" href="css/componentes/paramita-extras.css">
 <link rel="stylesheet" href="css/componentes/paramita-modal.css">
 <link rel="stylesheet" href="css/componentes/paramita-footer.css">
@@ -109,8 +110,8 @@
       </ul>
       <span class="div" aria-hidden="true"></span>
       <div class="ctas">
-        <a class="btn-contacto" href="#contacto">Contacto</a>
-        <a class="btn-amigo" href="#amigo">Hazte amigo</a>
+        <a class="btn-umbral" href="#contacto">Contacto</a>
+        <a class="btn-umbral" href="#amigo">Hazte amigo</a>
       </div>
     </nav>
   </div>
@@ -147,9 +148,7 @@
       <p class="lede">Aprende a vivir con equilibrio e integra cada aspecto de tu vida —la mente, el corazón, lo cotidiano— en un único camino de desarrollo personal y espiritual.</p>
 
       <div class="actions">
-        <a class="t-link t-link--primario" href="https://cursos.paramita.org/home">
-          <span class="txt">Aprende a meditar</span><span class="arw" aria-hidden="true">→</span>
-        </a>
+        <a class="btn-amigo" href="https://cursos.paramita.org/home">Aprende a meditar</a>
         <span class="meta"><span class="pulse" aria-hidden="true"></span>Próximo curso: <b>La Rueda de las Armas Afiladas · 27 jun</b></span>
       </div>
     </div>
@@ -195,73 +194,109 @@
     <div class="zen-intro_scroll-hint">Desciende</div>
   </section>
 
-  <!-- ╔═══ 5 · NOTICIAS, EVENTOS Y CURSOS ═══╗  franja-imagen que se expande en hover -->
+  <!-- ╔═══ 5 · CURSOS, RETIROS Y EVENTOS ═══╗
+       Rejilla editorial · Dirección B (Fase 4).
+       Etiqueta tipológica arriba (curso/retiro/evento/gira) + fecha +
+       título abajo sobre velo degradado. Modalidad y CTA aparecen al
+       activar (hover en desktop, :active táctil en móvil).
+       Reemplaza al sistema FLIP anterior (.flip-grid en paramita-extras.css).
+  -->
   <section class="section wrap" id="cursos" aria-labelledby="cur-t">
     <div class="s-head">
       <div><span class="eyebrow" data-reveal="1">Cursos y eventos</span>
         <h2 id="cur-t" data-reveal="2">La sabiduría más profunda, al alcance de tu mano.</h2></div>
-      <p>Pasa el cursor —o enfoca con el teclado— sobre cualquier tarjeta: crece y las demás se reorganizan con armonía.</p>
+      <p>Formación regular, retiros y encuentros para acompañar tu camino.</p>
     </div>
 
-    <div class="flip-grid" id="cursosGrid" role="list">
-      <a class="flip-celda" id="flip-1" href="#rueda" role="listitem">
-        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-1.jpg')"></div>
-        <span class="flip-celda__num">01</span>
-        <div class="flip-celda__overlay">
-          <span class="flip-celda__cat">27 jun · 2026</span>
-          <h3 class="flip-celda__titulo">La Rueda de las Armas Afiladas</h3>
-          <div class="tags"><span class="tag free">Gratuito</span><span class="tag">Online</span></div>
+    <div class="cursos-grid" role="list">
+
+      <a class="curso-card" href="#rueda" data-tipo="curso" role="listitem">
+        <div class="curso-card__pic" style="background-image:url('assets/img/curso-1.jpg')"></div>
+        <div class="curso-card__veil"></div>
+        <span class="curso-card__tipo">Curso</span>
+        <div class="curso-card__content">
+          <span class="curso-card__fecha">27 jun · 2026</span>
+          <h3 class="curso-card__titulo">La Rueda de las Armas Afiladas</h3>
+          <div class="curso-card__meta">
+            <span class="curso-card__modalidad">Online · Gratuito</span>
+            <span class="curso-card__cta">Ver curso</span>
+          </div>
         </div>
       </a>
-      <a class="flip-celda" id="flip-2" href="#emi4" role="listitem">
-        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-2.jpg')"></div>
-        <span class="flip-celda__num">02</span>
-        <div class="flip-celda__overlay">
-          <span class="flip-celda__cat">21 sep · 2026</span>
-          <h3 class="flip-celda__titulo">EMI 4 · Sabiduría y Descubrimiento</h3>
-          <div class="tags"><span class="tag">Online</span></div>
+
+      <a class="curso-card" href="#emi4" data-tipo="curso" role="listitem">
+        <div class="curso-card__pic" style="background-image:url('assets/img/curso-2.jpg')"></div>
+        <div class="curso-card__veil"></div>
+        <span class="curso-card__tipo">Curso</span>
+        <div class="curso-card__content">
+          <span class="curso-card__fecha">21 sep · 2026</span>
+          <h3 class="curso-card__titulo">EMI 4 · Sabiduría y Descubrimiento</h3>
+          <div class="curso-card__meta">
+            <span class="curso-card__modalidad">Online</span>
+            <span class="curso-card__cta">Ver curso</span>
+          </div>
         </div>
       </a>
-      <a class="flip-celda" id="flip-3" href="#perlas" role="listitem">
-        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-3.jpg')"></div>
-        <span class="flip-celda__num">03</span>
-        <div class="flip-celda__overlay">
-          <span class="flip-celda__cat">2 may · 2026</span>
-          <h3 class="flip-celda__titulo">Perlas de Sabiduría (Parte 5)</h3>
-          <div class="tags"><span class="tag free">Gratuito</span><span class="tag">Online</span></div>
+
+      <a class="curso-card" href="#perlas" data-tipo="curso" role="listitem">
+        <div class="curso-card__pic" style="background-image:url('assets/img/curso-3.jpg')"></div>
+        <div class="curso-card__veil"></div>
+        <span class="curso-card__tipo">Curso</span>
+        <div class="curso-card__content">
+          <span class="curso-card__fecha">2 may · 2026</span>
+          <h3 class="curso-card__titulo">Perlas de Sabiduría (Parte 5)</h3>
+          <div class="curso-card__meta">
+            <span class="curso-card__modalidad">Online · Gratuito</span>
+            <span class="curso-card__cta">Ver curso</span>
+          </div>
         </div>
       </a>
-      <a class="flip-celda" id="flip-4" href="#bodhi2" role="listitem">
-        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-4.jpg')"></div>
-        <span class="flip-celda__num">04</span>
-        <div class="flip-celda__overlay">
-          <span class="flip-celda__cat">21 sep · 2026</span>
-          <h3 class="flip-celda__titulo">El Camino del Bodhisattva (Parte 2)</h3>
-          <div class="tags"><span class="tag soon">Próximamente</span><span class="tag">Online</span></div>
+
+      <a class="curso-card" href="#bodhi2" data-tipo="curso" role="listitem">
+        <div class="curso-card__pic" style="background-image:url('assets/img/curso-4.jpg')"></div>
+        <div class="curso-card__veil"></div>
+        <span class="curso-card__tipo">Curso</span>
+        <div class="curso-card__content">
+          <span class="curso-card__fecha">21 sep · 2026</span>
+          <h3 class="curso-card__titulo">El Camino del Bodhisattva (Parte 2)</h3>
+          <div class="curso-card__meta">
+            <span class="curso-card__modalidad">Online · Próximamente</span>
+            <span class="curso-card__cta">Ver curso</span>
+          </div>
         </div>
       </a>
-      <a class="flip-celda" id="flip-5" href="#emi1" role="listitem">
-        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-5.jpg')"></div>
-        <span class="flip-celda__num">05</span>
-        <div class="flip-celda__overlay">
-          <span class="flip-celda__cat">EMI 1 · Disponible</span>
-          <h3 class="flip-celda__titulo">Calma y Lucidez</h3>
-          <div class="tags"><span class="tag">Online</span></div>
+
+      <a class="curso-card" href="#emi1" data-tipo="evento" role="listitem">
+        <div class="curso-card__pic" style="background-image:url('assets/img/curso-5.jpg')"></div>
+        <div class="curso-card__veil"></div>
+        <span class="curso-card__tipo">Evento</span>
+        <div class="curso-card__content">
+          <span class="curso-card__fecha curso-card__fecha--evergreen">EMI 1 · Disponible</span>
+          <h3 class="curso-card__titulo">Calma y Lucidez</h3>
+          <div class="curso-card__meta">
+            <span class="curso-card__modalidad">Online</span>
+            <span class="curso-card__cta">Ver evento</span>
+          </div>
         </div>
       </a>
-      <a class="flip-celda" id="flip-6" href="#retiro" role="listitem">
-        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-6.jpg')"></div>
-        <span class="flip-celda__num">06</span>
-        <div class="flip-celda__overlay">
-          <span class="flip-celda__cat">9–12 oct · 2026 · Fundamentos del Despertar</span>
-          <h3 class="flip-celda__titulo">Retiro de Meditación</h3>
-          <p class="flip-celda__desc">Profundiza en los fundamentos esenciales del camino budista de la mano de Khenpo Rinchen Gyaltsen.</p>
-          <div class="tags"><span class="tag">Presencial</span><span class="tag">Online</span></div>
+
+      <a class="curso-card" href="#retiro" data-tipo="retiro" role="listitem">
+        <div class="curso-card__pic" style="background-image:url('assets/img/curso-6.jpg')"></div>
+        <div class="curso-card__veil"></div>
+        <span class="curso-card__tipo">Retiro</span>
+        <div class="curso-card__content">
+          <span class="curso-card__fecha">9–12 oct · 2026</span>
+          <h3 class="curso-card__titulo">Retiro de Meditación</h3>
+          <div class="curso-card__meta">
+            <span class="curso-card__modalidad">Presencial y online</span>
+            <span class="curso-card__cta">Ver retiro</span>
+          </div>
         </div>
       </a>
+
     </div>
 
-    <div class="idx-foot">
+    <div class="cursos-foot">
       <a class="t-link" href="https://cursos.paramita.org/home">
         <span class="txt">Ver todos los cursos</span><span class="arw" aria-hidden="true">→</span></a>
     </div>
@@ -419,11 +454,11 @@
     <h2 class="zoom-word" id="cta-t"><span>Respira.</span><span>Observa.</span><span>Suelta.</span></h2>
     <p class="cta-sub">Empieza hoy, a tu ritmo. Aprende a meditar o acompáñanos como amigo de Paramita.</p>
     <div class="actions">
+      <a class="t-link t-link--primario" href="#hazte-amigo">
+        <span class="txt">Hazte amigo</span><span class="arw" aria-hidden="true">→</span>
+      </a>
       <a class="t-link t-link--primario" href="https://cursos.paramita.org/home">
         <span class="txt">Aprende a meditar</span><span class="arw" aria-hidden="true">→</span>
-      </a>
-      <a class="t-link" href="#hazte-amigo">
-        <span class="txt">Hazte amigo</span><span class="arw" aria-hidden="true">→</span>
       </a>
     </div>
   </section>
