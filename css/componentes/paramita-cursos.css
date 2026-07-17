@@ -1,29 +1,42 @@
 /* ═══════════════════════════════════════════════════════════════════════
-   PARAMITA · CURSOS · componente v1.1 (Fase 4)
+   PARAMITA · CURSOS · componente v1.2 (Fase 4)
    ═══════════════════════════════════════════════════════════════════════
    Rejilla editorial de tarjetas de cursos, retiros, eventos y giras.
 
-   DECISIONES DE DISEÑO (cerradas con Jana):
-   ─ Dirección B: imagen protagonista sobre toda la tarjeta con velo
-     degradado. Sin caja blanca inferior. Sin FLIP a 2×2 (se descarta el
-     efecto teatral por incompatibilidad con la calma editorial y por
-     inexistencia en móvil).
-   ─ Etiqueta tipológica arriba: texto en mayúsculas con tracking + un
-     puntito de color. Sin píldora, sin fondo. Código cromático
-     aprendible: curso=azul-sutil, retiro=dorado, evento=blanco,
-     gira=dorado apagado.
-   ─ Modalidad + CTA "Ver curso" aparecen SOLO en hover/focus/:active.
-     En móvil se muestra al :active (toque táctil).
-   ─ Halo dorado sutil en hover/focus/:active. Anticipa el gesto que la
-     v2 usará para "curso seleccionado" (coherencia sistémica).
-   ─ Movimiento familia B (respuesta convocada) exclusivamente.
-     Sin flujos ambient-identitary — la identidad la lleva el trazo
-     divisor de la flor de loto adyacente.
+   ▓ CAMBIO CONCEPTUAL vs v1.1 ▓
+   La v1.1 aplicaba velo OSCURO sobre imagen + texto blanco. Coherente
+   con el patrón "poster editorial" pero contradecía el principio del
+   sistema: «Paramita es luminosa, no oscura».
+   La v1.2 invierte la lógica:
 
-   ORDEN DE CARGA: este archivo se carga DESPUÉS de paramita-sections.css
-   y ANTES de paramita-responsive.css. La sección de cursos convive
-   temporalmente con .flip-celda (legacy) en paramita-extras.css hasta
-   que se valide la migración.
+   · REPOSO   → velos CLAROS parciales (arriba y abajo) sobre la imagen.
+                Texto en var(--azul-oscuro). La tarjeta habla el mismo
+                idioma cromático que el resto de la home. La imagen
+                asoma en la zona central sin obstáculos.
+   · HOVER    → los velos claros se disipan; aparece la foto en plena
+                presencia; el texto se transforma a BLANCO con sombra
+                para leerse sobre la imagen. Gesto conceptual claro:
+                de silencio contemplativo a aparición fotográfica.
+
+   Este contraste inverso es un microrelato: la tarjeta florece cuando
+   se le presta atención, revelando la imagen que estaba
+   protegida-difuminada en reposo.
+
+   DECISIONES ANTERIORES CONSERVADAS (Dirección B):
+   ─ Sin FLIP a 2×2 (descartado por incoherencia con la calma editorial
+     y ausencia en móvil).
+   ─ Etiqueta tipológica arriba: texto + puntito de color, sin píldora.
+   ─ Modalidad + CTA aparecen SOLO al activar.
+   ─ Halo dorado sutil en hover/focus/:active (anticipa la v2).
+   ─ Colores solo de la paleta del sistema:
+     · CURSO   → var(--azul-oscuro)
+     · RETIRO  → dorado con matiz más denso para leerse sobre claro
+     · EVENTO  → var(--azul-oscuro) (diferenciado por etiqueta textual)
+     · GIRA    → color-mix azul+dorado (cruce entre lugares)
+
+   ORDEN DE CARGA: DESPUÉS de paramita-sections.css, ANTES de
+   paramita-responsive.css. Convive con .flip-* (legacy) en
+   paramita-extras.css hasta que se elimine en Fase B.
    ═══════════════════════════════════════════════════════════════════════ */
 
 @layer componentes {
@@ -33,9 +46,7 @@
      1 · CONTENEDOR · rejilla responsive
      ─────────────────────────────────────────────────────────────────────
      Móvil: 1 columna. Tablet: 2 columnas. Escritorio: 3 columnas.
-     Uso auto-fit con minmax para que el propio grid decida cuándo
-     saltar de una a otra según el ancho disponible — más resiliente
-     que media queries duras.
+     auto-fit con minmax delega en el grid la decisión de saltar breakpoint.
      ═════════════════════════════════════════════════════════════════════ */
 
   .cursos-grid {
@@ -53,11 +64,11 @@
 
 
   /* ═════════════════════════════════════════════════════════════════════
-     2 · TARJETA · imagen protagonista con velo degradado
+     2 · TARJETA · reposo luminoso con imagen enmarcada por velos
      ─────────────────────────────────────────────────────────────────────
-     Aspect-ratio 4:5 constante (más cinematográfica que 1:1, respira
-     mejor la información abajo).
-     Todo el elemento es un enlace <a> — accesible, tocable en móvil.
+     Aspect-ratio 4:5. Todo el elemento es un enlace <a>.
+     Fondo base con el tono del sistema para que si tarda en cargar la
+     imagen o falla, no aparezca un cuadrado negro.
      ═════════════════════════════════════════════════════════════════════ */
 
   .curso-card {
@@ -67,8 +78,7 @@
     border-radius: 16px;
     overflow: hidden;
     isolation: isolate;
-    background: var(--azul-oscuro);
-    color: #fff;
+    background: var(--calido-zen, #f5efe4);
     text-decoration: none;
     transition: transform var(--t-defecto),
                 box-shadow var(--t-defecto);
@@ -81,15 +91,16 @@
     }
   }
 
-  /* Estado activo/atendido · hover, focus por teclado, :active táctil.
-     Ligera elevación + halo dorado que anticipa la v2. */
+  /* Estado activo · elevación + halo dorado.
+     El halo anticipa el vocabulario de "curso seleccionado" que la v2
+     desarrollará en profundidad. */
   .curso-card:hover,
   .curso-card:focus-visible,
   .curso-card:active {
     transform: translateY(-3px);
     box-shadow:
-      0 20px 48px -20px rgba(20, 14, 8, 0.5),
-      0 0 0 1px color-mix(in oklch, var(--dorado) 30%, transparent),
+      0 20px 48px -20px rgba(20, 14, 8, 0.42),
+      0 0 0 1px color-mix(in oklch, var(--dorado) 35%, transparent),
       0 0 40px -8px color-mix(in oklch, var(--dorado) 45%, transparent);
   }
 
@@ -97,9 +108,9 @@
   /* ═════════════════════════════════════════════════════════════════════
      3 · IMAGEN · fondo de la tarjeta
      ─────────────────────────────────────────────────────────────────────
-     Reposo: opacidad reducida + zoom leve (scale 1.04).
-     Activo: opacidad plena + escala 1. Mismo patrón que la v1 pero SIN
-     el filtro azul-oscuro machacón (retiro estético ya validado).
+     Reposo: opacidad 0.78 (permite ver la foto pero atenuada, coherente
+     con el reposo luminoso) + escala 1.04.
+     Activo: opacidad 1 + escala 1. La foto emerge en plenitud.
      ═════════════════════════════════════════════════════════════════════ */
 
   .curso-card__pic {
@@ -107,10 +118,10 @@
     inset: 0;
     background-size: cover;
     background-position: center;
-    opacity: 0.82;
+    opacity: 0.78;
     transform: scale(1.04);
-    transition: opacity var(--t-defecto),
-                transform var(--t-defecto);
+    transition: opacity var(--t-revelacion, 0.5s ease),
+                transform var(--t-revelacion, 0.5s ease);
     z-index: 0;
   }
 
@@ -123,49 +134,71 @@
 
 
   /* ═════════════════════════════════════════════════════════════════════
-     4 · VELO · degradado oscuro para contraste del texto
+     4 · VELOS CLAROS · uno arriba, uno abajo, imagen visible en el medio
      ─────────────────────────────────────────────────────────────────────
-     Más denso abajo (donde vive el título), disipándose hacia arriba
-     para no ocultar la imagen entera. Se intensifica ligeramente al
-     activar la tarjeta para preservar contraste cuando aparece el
-     bloque de hover (modalidad + CTA).
+     En reposo protegen la etiqueta tipológica (arriba) y el bloque
+     fecha+título (abajo) con luz cálida del sistema.
+     En hover se disipan casi por completo dejando la foto respirar.
+
+     El color base es --calido-zen (aclarado) para mantener la unidad
+     cromática con la sección circundante.
      ═════════════════════════════════════════════════════════════════════ */
 
-  .curso-card__veil {
+  .curso-card__veil-top {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
     z-index: 1;
-    background: linear-gradient(to top,
-      rgba(15, 20, 30, 0.82) 0%,
-      rgba(15, 20, 30, 0.35) 42%,
-      rgba(15, 20, 30, 0.08) 70%,
-      transparent 88%);
-    transition: background var(--t-defecto);
+    background: linear-gradient(to bottom,
+      rgba(246, 242, 234, 0.88) 0%,
+      rgba(246, 242, 234, 0.5) 55%,
+      transparent 100%);
     pointer-events: none;
+    transition: opacity var(--t-defecto);
   }
 
-  .curso-card:hover .curso-card__veil,
-  .curso-card:focus-visible .curso-card__veil,
-  .curso-card:active .curso-card__veil {
+  .curso-card__veil-bot {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 55%;
+    z-index: 1;
     background: linear-gradient(to top,
-      rgba(15, 20, 30, 0.88) 0%,
-      rgba(15, 20, 30, 0.5) 45%,
-      rgba(15, 20, 30, 0.18) 72%,
-      rgba(15, 20, 30, 0.05) 100%);
+      rgba(246, 242, 234, 0.94) 0%,
+      rgba(246, 242, 234, 0.68) 45%,
+      rgba(246, 242, 234, 0.18) 85%,
+      transparent 100%);
+    pointer-events: none;
+    transition: opacity var(--t-defecto);
+  }
+
+  /* Hover · los velos se atenúan al 15% para que la foto emerja */
+  .curso-card:hover .curso-card__veil-top,
+  .curso-card:focus-visible .curso-card__veil-top,
+  .curso-card:active .curso-card__veil-top,
+  .curso-card:hover .curso-card__veil-bot,
+  .curso-card:focus-visible .curso-card__veil-bot,
+  .curso-card:active .curso-card__veil-bot {
+    opacity: 0.12;
   }
 
 
   /* ═════════════════════════════════════════════════════════════════════
      5 · ETIQUETA TIPOLÓGICA · arriba izquierda
      ─────────────────────────────────────────────────────────────────────
-     Texto en mayúsculas con tracking amplio, precedido por un puntito
-     de color. Sin píldora, sin fondo. Silenciosa pero identificable.
+     Texto en mayúsculas con tracking amplio + puntito de color.
+     En reposo usa colores oscuros del sistema para leerse sobre velo
+     claro. En hover pasa a blanco (con sombra) para leerse sobre foto.
+     El puntito del retiro conserva el dorado del sistema en hover.
 
-     Colores por tipo (data-tipo):
-     · curso   → azul-sutil aclarado (formación regular)
-     · retiro  → dorado cálido      (momento cumbre)
-     · evento  → blanco             (singular, luminoso)
-     · gira    → dorado apagado     (cruce entre lugares)
+     PALETA (solo colores oficiales del sistema Paramita):
+     · curso   → --azul-oscuro (#1F4E8F)
+     · retiro  → dorado saturado (var estable, oscurecida solo para reposo)
+     · evento  → --azul-oscuro
+     · gira    → color-mix azul-oscuro + dorado (cruce)
      ═════════════════════════════════════════════════════════════════════ */
 
   .curso-card__tipo {
@@ -174,17 +207,18 @@
     left: var(--espacio-elemento);
     z-index: 3;
     font-family: var(--body);
-    font-size: 0.68rem;
-    font-weight: 600;
+    font-size: 0.7rem;
+    font-weight: 700;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+    transition: color var(--t-defecto),
+                text-shadow var(--t-defecto);
   }
 
-  /* Puntito de color · mismo tono que el texto */
+  /* Puntito · siempre en el color identitario del tipo, incluso en hover */
   .curso-card__tipo::before {
     content: "";
     display: inline-block;
@@ -196,21 +230,39 @@
     flex-shrink: 0;
   }
 
-  /* Código cromático por tipo */
-  .curso-card[data-tipo="curso"]  .curso-card__tipo { color: #a8c8e0; }
-  .curso-card[data-tipo="retiro"] .curso-card__tipo { color: var(--dorado); }
-  .curso-card[data-tipo="evento"] .curso-card__tipo { color: #ffffff; }
+  /* Colores por tipo · REPOSO (sobre velo claro) */
+  .curso-card[data-tipo="curso"]  .curso-card__tipo { color: var(--azul-oscuro); }
+  .curso-card[data-tipo="retiro"] .curso-card__tipo {
+    color: color-mix(in oklch, var(--dorado) 78%, #2c1e08);
+  }
+  .curso-card[data-tipo="evento"] .curso-card__tipo { color: var(--azul-oscuro); }
   .curso-card[data-tipo="gira"]   .curso-card__tipo {
-    color: color-mix(in oklch, var(--dorado) 70%, #e0d4b8);
+    color: color-mix(in oklch, var(--azul-oscuro) 50%, var(--dorado));
+  }
+
+  /* HOVER · texto blanco con sombra para leerse sobre foto plena */
+  .curso-card:hover .curso-card__tipo,
+  .curso-card:focus-visible .curso-card__tipo,
+  .curso-card:active .curso-card__tipo {
+    color: #fff;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  /* EXCEPCIÓN · el retiro conserva su dorado luminoso al activar
+     (queda más identitario que un blanco genérico) */
+  .curso-card[data-tipo="retiro"]:hover .curso-card__tipo,
+  .curso-card[data-tipo="retiro"]:focus-visible .curso-card__tipo,
+  .curso-card[data-tipo="retiro"]:active .curso-card__tipo {
+    color: var(--dorado);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
   }
 
 
   /* ═════════════════════════════════════════════════════════════════════
-     6 · CONTENIDO · fecha + título abajo
+     6 · CONTENIDO · fecha + título + meta abajo
      ─────────────────────────────────────────────────────────────────────
-     Bloque flexible en la parte inferior con la información principal
-     siempre visible: fecha (o texto evergreen) + título.
-     La modalidad + CTA aparecen dentro con transición al activar.
+     En reposo · color azul-oscuro (sobre velo claro).
+     En hover  · color blanco con sombra (sobre foto plena).
      ═════════════════════════════════════════════════════════════════════ */
 
   .curso-card__content {
@@ -223,6 +275,9 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    color: var(--azul-oscuro);
+    transition: color var(--t-defecto),
+                text-shadow var(--t-defecto);
   }
 
   @media (min-width: 768px) {
@@ -231,55 +286,72 @@
     }
   }
 
+  /* HOVER · todo el bloque a blanco con sombra */
+  .curso-card:hover .curso-card__content,
+  .curso-card:focus-visible .curso-card__content,
+  .curso-card:active .curso-card__content {
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5),
+                 0 1px 3px rgba(0, 0, 0, 0.35);
+  }
+
 
   /* ─────────────────────────────────────────────────────────────────────
      6.1 · Fecha
-     Formato tipográfico en mayúsculas con tracking.
-     Si el curso no tiene fecha fija, se usa .evergreen (cursiva suave).
+     Mayúsculas con tracking. Evergreen en cursiva suave.
+     Opacidad ligeramente menor para dar prioridad visual al título.
      ───────────────────────────────────────────────────────────────────── */
 
   .curso-card__fecha {
     font-family: var(--body);
-    font-size: 0.68rem;
-    font-weight: 500;
+    font-size: 0.7rem;
+    font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    opacity: 0.85;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    opacity: 0.78;
+    transition: opacity var(--t-defecto);
   }
 
   .curso-card__fecha--evergreen {
     text-transform: none;
     font-style: italic;
     letter-spacing: 0.02em;
-    font-size: 0.72rem;
-    opacity: 0.78;
+    font-size: 0.75rem;
+    opacity: 0.72;
+    font-weight: 500;
+  }
+
+  .curso-card:hover .curso-card__fecha,
+  .curso-card:focus-visible .curso-card__fecha,
+  .curso-card:active .curso-card__fecha {
+    opacity: 0.92;
   }
 
 
   /* ─────────────────────────────────────────────────────────────────────
-     6.2 · Título · el protagonista
-     Fraunces / display. Peso 400, tamaño fluido, buen aire de línea.
+     6.2 · Título · protagonista
+     Fraunces. Peso 500 en reposo (denso, con presencia) — funciona
+     mejor sobre velo claro con tipografía serif. En hover sigue igual
+     pero con sombra.
      ───────────────────────────────────────────────────────────────────── */
 
   .curso-card__titulo {
     font-family: var(--display);
-    font-weight: 400;
+    font-weight: 500;
     font-size: clamp(1.15rem, 2.4vw, 1.35rem);
     line-height: 1.18;
     letter-spacing: -0.01em;
     margin: 0;
-    color: #fff;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45),
-                 0 1px 3px rgba(0, 0, 0, 0.35);
+    color: inherit;
     text-wrap: balance;
   }
 
 
   /* ─────────────────────────────────────────────────────────────────────
      6.3 · Meta revelable (modalidad + CTA)
-     Oculto en reposo, aparece al activar con transición.
-     Desktop: hover / focus. Móvil: :active (toque táctil).
+     Oculto en reposo. Aparece al activar deslizándose desde abajo.
+     Desktop: hover/focus. Móvil: :active táctil.
+     Como en hover el fondo es foto plena, va siempre en blanco.
      ───────────────────────────────────────────────────────────────────── */
 
   .curso-card__meta {
@@ -304,25 +376,22 @@
 
   .curso-card__modalidad {
     font-family: var(--body);
-    font-size: 0.68rem;
+    font-size: 0.7rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     opacity: 0.85;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
   }
 
 
   .curso-card__cta {
     font-family: var(--body);
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     font-weight: 500;
     letter-spacing: 0.01em;
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    color: #fff;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
   }
 
   .curso-card__cta::after {
@@ -340,9 +409,7 @@
 
   /* ═════════════════════════════════════════════════════════════════════
      7 · PIE DE SECCIÓN · enlace "Ver todos los cursos"
-     ─────────────────────────────────────────────────────────────────────
-     Hereda el estilo .t-link ya definido en el sistema.
-     Solo asegura el margen superior consistente con la rejilla nueva.
+     Hereda .t-link del sistema. Solo margen superior consistente.
      ═════════════════════════════════════════════════════════════════════ */
 
   .cursos-foot {
@@ -351,17 +418,20 @@
 
 
   /* ═════════════════════════════════════════════════════════════════════
-     8 · REDUCED-MOTION
+     8 · REDUCED-MOTION · contrato de quietud
      ─────────────────────────────────────────────────────────────────────
-     Contrato de quietud: sin transformaciones, sin zoom en imágenes,
-     sin translateY. La meta revelable pasa a mostrarse siempre (para
-     que la información no se oculte a quien no puede activar hover).
+     Sin transformaciones, sin transiciones. La meta revelable pasa a
+     mostrarse siempre y en color oscuro (para que se lea sobre velo
+     claro en reposo, ya que sin hover no llegará al estado activo).
      ═════════════════════════════════════════════════════════════════════ */
 
   @media (prefers-reduced-motion: reduce) {
     .curso-card,
     .curso-card__pic,
-    .curso-card__veil,
+    .curso-card__veil-top,
+    .curso-card__veil-bot,
+    .curso-card__tipo,
+    .curso-card__content,
     .curso-card__meta,
     .curso-card__cta::after {
       transition: none !important;
@@ -375,7 +445,7 @@
 
     .curso-card__pic {
       transform: none;
-      opacity: 0.9;
+      opacity: 0.85;
     }
 
     .curso-card__meta {
