@@ -15,12 +15,10 @@
 <!-- Marca JS activo cuanto antes · evita el parpadeo de los revelados al entrar en vista -->
 <script>document.documentElement.classList.add('js')</script>
 
-<!-- GSAP · ScrollTrigger (zoom-out de la Frase · efecto-02) -->
+<!-- GSAP · ScrollTrigger (zoom-out de la Frase) + Flip (grid de cursos) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-
-<!-- Comportamiento del carrusel v2 de cursos · vanilla, sin dependencias -->
-<script src="js/comportamientos/paramita-cursos-carrusel.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js" defer></script>
 
 <!-- ═══════════════════════════════════════════════════════════════════════
      SISTEMA DE DISEÑO PARAMITA · CSS en orden estricto de carga
@@ -53,8 +51,6 @@
 <link rel="stylesheet" href="css/componentes/paramita-cta.css">
 <link rel="stylesheet" href="css/componentes/paramita-hero.css">
 <link rel="stylesheet" href="css/componentes/paramita-sections.css">
-<link rel="stylesheet" href="css/componentes/paramita-cursos.css">
-<link rel="stylesheet" href="css/componentes/paramita-cursos-carrusel.css">
 <link rel="stylesheet" href="css/componentes/paramita-extras.css">
 <link rel="stylesheet" href="css/componentes/paramita-modal.css">
 <link rel="stylesheet" href="css/componentes/paramita-footer.css">
@@ -152,7 +148,6 @@
 
       <div class="actions">
         <a class="btn-amigo" href="https://cursos.paramita.org/home">Aprende a meditar</a>
-        <span class="meta"><span class="pulse" aria-hidden="true"></span>Próximo curso: <b>La Rueda de las Armas Afiladas · 27 jun</b></span>
       </div>
     </div>
 
@@ -197,212 +192,109 @@
     <div class="zen-intro_scroll-hint">Desciende</div>
   </section>
 
-  <!-- ╔═══ 5 · CURSOS Y RETIROS ═══╗  Rejilla editorial 3×2 (v1.4) · velo oscuro + halo dorado en hover -->
+  <!-- ╔═══ 5 · CURSOS, RETIROS Y EVENTOS ═══╗
+       Rejilla FLIP restaurada · Fase 4 v2 (variante C híbrida).
+       El sistema FLIP (rejilla estática · celda seleccionada crece a 2×2)
+       se conserva por su valor UX/UI. Se rediseña el interior de cada
+       celda con las decisiones editoriales acordadas:
+       · Etiqueta tipológica (curso/retiro/evento/gira) sustituye al número
+       · Velos claros azul-sutil pálido (variante C · imagen visible al centro)
+       · Al expandir, velos se disipan y foto florece; texto pasa a blanco
+       · Descripción larga y CTA "Ver curso" aparecen solo en expandido
+       · Halo dorado sistémico en hover/expandido (anticipa v2 scroll horizontal)
+  -->
   <section class="section wrap" id="cursos" aria-labelledby="cur-t">
     <div class="s-head">
-      <div><span class="eyebrow" data-reveal="1">Cursos y retiros</span>
+      <div><span class="eyebrow" data-reveal="1">Cursos y eventos</span>
         <h2 id="cur-t" data-reveal="2">La sabiduría más profunda, al alcance de tu mano.</h2></div>
-      <p>Todo el catálogo de formaciones, retiros, eventos y giras. Explora libremente.</p>
+      <p>Pasa el cursor —o enfoca con el teclado— sobre cualquier tarjeta: crece y las demás se reorganizan con armonía.</p>
     </div>
 
-    <div class="curso-grid" role="list">
-      <a class="curso-card" href="#rueda" role="listitem">
-        <div class="curso-card__pic" style="background-image:url('assets/img/curso-1.jpg')"></div>
-        <div class="curso-card__veil"></div>
-        <div class="curso-card__body">
-          <span class="curso-card__sello">
-            <span class="curso-card__punto curso-card__punto--gratis" aria-hidden="true"></span>
-            Curso · Gratuito · Online
-          </span>
-          <h3 class="curso-card__titulo">La Rueda de las Armas Afiladas</h3>
-          <span class="curso-card__fecha">27 jun · 2026</span>
-          <span class="curso-card__cta">Ver curso <span aria-hidden="true">→</span></span>
+    <div class="flip-grid" id="cursosGrid" role="list">
+
+      <a class="flip-celda" id="flip-1" href="#rueda" data-tipo="curso" role="listitem">
+        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-1.jpg')"></div>
+        <div class="flip-celda__veil-top"></div>
+        <div class="flip-celda__veil-bot"></div>
+        <span class="flip-celda__tipo">Curso</span>
+        <div class="flip-celda__overlay">
+          <span class="flip-celda__cat">27 jun · 2026</span>
+          <h3 class="flip-celda__titulo">La Rueda de las Armas Afiladas</h3>
+          <p class="flip-celda__desc">Enseñanzas clásicas sobre el modo en que nuestras propias acciones sabias o dañinas retornan a nosotros. Online y gratuito.</p>
+          <span class="flip-celda__cta">Ver curso</span>
         </div>
       </a>
 
-      <a class="curso-card" href="#emi4" role="listitem">
-        <div class="curso-card__pic" style="background-image:url('assets/img/curso-2.jpg')"></div>
-        <div class="curso-card__veil"></div>
-        <div class="curso-card__body">
-          <span class="curso-card__sello">
-            <span class="curso-card__punto curso-card__punto--curso" aria-hidden="true"></span>
-            Curso · Online
-          </span>
-          <h3 class="curso-card__titulo">EMI 4 · Sabiduría y Descubrimiento</h3>
-          <span class="curso-card__fecha">21 sep · 2026</span>
-          <span class="curso-card__cta">Ver curso <span aria-hidden="true">→</span></span>
+      <a class="flip-celda" id="flip-2" href="#emi4" data-tipo="curso" role="listitem">
+        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-2.jpg')"></div>
+        <div class="flip-celda__veil-top"></div>
+        <div class="flip-celda__veil-bot"></div>
+        <span class="flip-celda__tipo">Curso</span>
+        <div class="flip-celda__overlay">
+          <span class="flip-celda__cat">21 sep · 2026</span>
+          <h3 class="flip-celda__titulo">EMI 4 · Sabiduría y Descubrimiento</h3>
+          <p class="flip-celda__desc">Cuarto módulo del programa EMI. Profundiza en la sabiduría de la vacuidad y el descubrimiento de la naturaleza última. Online.</p>
+          <span class="flip-celda__cta">Ver curso</span>
         </div>
       </a>
 
-      <a class="curso-card" href="#perlas" role="listitem">
-        <div class="curso-card__pic" style="background-image:url('assets/img/curso-3.jpg')"></div>
-        <div class="curso-card__veil"></div>
-        <div class="curso-card__body">
-          <span class="curso-card__sello">
-            <span class="curso-card__punto curso-card__punto--gratis" aria-hidden="true"></span>
-            Curso · Gratuito · Online
-          </span>
-          <h3 class="curso-card__titulo">Perlas de Sabiduría (Parte 5)</h3>
-          <span class="curso-card__fecha">2 may · 2026</span>
-          <span class="curso-card__cta">Ver curso <span aria-hidden="true">→</span></span>
+      <a class="flip-celda" id="flip-3" href="#perlas" data-tipo="curso" role="listitem">
+        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-3.jpg')"></div>
+        <div class="flip-celda__veil-top"></div>
+        <div class="flip-celda__veil-bot"></div>
+        <span class="flip-celda__tipo">Curso</span>
+        <div class="flip-celda__overlay">
+          <span class="flip-celda__cat">2 may · 2026</span>
+          <h3 class="flip-celda__titulo">Perlas de Sabiduría (Parte 5)</h3>
+          <p class="flip-celda__desc">Continuación del ciclo de enseñanzas breves sobre textos clásicos del budismo tibetano. Online y gratuito.</p>
+          <span class="flip-celda__cta">Ver curso</span>
         </div>
       </a>
 
-      <a class="curso-card" href="#bodhi2" role="listitem">
-        <div class="curso-card__pic" style="background-image:url('assets/img/curso-4.jpg')"></div>
-        <div class="curso-card__veil"></div>
-        <div class="curso-card__body">
-          <span class="curso-card__sello">
-            <span class="curso-card__punto curso-card__punto--proximo" aria-hidden="true"></span>
-            Curso · Próximamente · Online
-          </span>
-          <h3 class="curso-card__titulo">El Camino del Bodhisattva (Parte 2)</h3>
-          <span class="curso-card__fecha">21 sep · 2026</span>
-          <span class="curso-card__cta">Ver curso <span aria-hidden="true">→</span></span>
+      <a class="flip-celda" id="flip-4" href="#bodhi2" data-tipo="curso" role="listitem">
+        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-4.jpg')"></div>
+        <div class="flip-celda__veil-top"></div>
+        <div class="flip-celda__veil-bot"></div>
+        <span class="flip-celda__tipo">Curso</span>
+        <div class="flip-celda__overlay">
+          <span class="flip-celda__cat">21 sep · 2026</span>
+          <h3 class="flip-celda__titulo">El Camino del Bodhisattva (Parte 2)</h3>
+          <p class="flip-celda__desc">Segunda parte del comentario al Bodhicharyavatara de Shantideva. Online · próximamente.</p>
+          <span class="flip-celda__cta">Ver curso</span>
         </div>
       </a>
 
-      <a class="curso-card" href="#emi1" role="listitem">
-        <div class="curso-card__pic" style="background-image:url('assets/img/curso-5.jpg')"></div>
-        <div class="curso-card__veil"></div>
-        <div class="curso-card__body">
-          <span class="curso-card__sello">
-            <span class="curso-card__punto curso-card__punto--curso" aria-hidden="true"></span>
-            Curso · Disponible · Online
-          </span>
-          <h3 class="curso-card__titulo">EMI 1 · Calma y Lucidez</h3>
-          <span class="curso-card__fecha">Disponible ahora</span>
-          <span class="curso-card__cta">Ver curso <span aria-hidden="true">→</span></span>
+      <a class="flip-celda" id="flip-5" href="#emi1" data-tipo="evento" role="listitem">
+        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-5.jpg')"></div>
+        <div class="flip-celda__veil-top"></div>
+        <div class="flip-celda__veil-bot"></div>
+        <span class="flip-celda__tipo">Evento</span>
+        <div class="flip-celda__overlay">
+          <span class="flip-celda__cat flip-celda__cat--evergreen">EMI 1 · Disponible</span>
+          <h3 class="flip-celda__titulo">Calma y Lucidez</h3>
+          <p class="flip-celda__desc">Primer módulo del programa EMI. Fundamentos de shamatha y vipashyana para asentar la mente. Online.</p>
+          <span class="flip-celda__cta">Ver evento</span>
         </div>
       </a>
 
-      <a class="curso-card" href="#retiro" role="listitem">
-        <div class="curso-card__pic" style="background-image:url('assets/img/curso-6.jpg')"></div>
-        <div class="curso-card__veil"></div>
-        <div class="curso-card__body">
-          <span class="curso-card__sello">
-            <span class="curso-card__punto curso-card__punto--retiro" aria-hidden="true"></span>
-            Retiro · Presencial y Online
-          </span>
-          <h3 class="curso-card__titulo">Retiro · Fundamentos del Despertar</h3>
-          <span class="curso-card__fecha">9–12 oct · 2026</span>
-          <span class="curso-card__cta">Ver curso <span aria-hidden="true">→</span></span>
+      <a class="flip-celda" id="flip-6" href="#retiro" data-tipo="retiro" role="listitem">
+        <div class="flip-celda__pic" style="background-image:url('assets/img/curso-6.jpg')"></div>
+        <div class="flip-celda__veil-top"></div>
+        <div class="flip-celda__veil-bot"></div>
+        <span class="flip-celda__tipo">Retiro</span>
+        <div class="flip-celda__overlay">
+          <span class="flip-celda__cat">9–12 oct · 2026</span>
+          <h3 class="flip-celda__titulo">Retiro de Meditación</h3>
+          <p class="flip-celda__desc">Profundiza en los fundamentos esenciales del camino budista de la mano de Khenpo Rinchen Gyaltsen. Presencial y online.</p>
+          <span class="flip-celda__cta">Ver retiro</span>
         </div>
       </a>
+
     </div>
 
     <div class="idx-foot">
       <a class="t-link" href="https://cursos.paramita.org/home">
         <span class="txt">Ver todos los cursos</span><span class="arw" aria-hidden="true">→</span></a>
-    </div>
-  </section>
-
-
-  <!-- ╔═══ 5b · PRÓXIMOS ENCUENTROS ═══╗  Carrusel v2 · scroll horizontal + trazo iluminador
-       Segunda lectura de los cursos, temporal: el "hilo del tiempo" atraviesa la sección y
-       la punta dorada marca el "aquí y ahora" del visitante. -->
-  <section class="cursos-proximos" id="cursos-proximos" aria-labelledby="cur-prox-t">
-    <div class="s-head wrap">
-      <div><span class="eyebrow" data-reveal="1">Próximos encuentros</span>
-        <h2 id="cur-prox-t" data-reveal="2">El hilo del tiempo, <em>curso a curso</em>.</h2></div>
-      <p>Desliza para recorrer las fechas más próximas. El punto dorado marca el momento en el que estás.</p>
-    </div>
-
-    <div class="curso-carrusel">
-      <!-- Flechas de navegación (solo desktop/hover; se ocultan en táctil) -->
-      <div class="curso-carrusel__flechas" aria-hidden="true">
-        <button type="button" class="curso-carrusel__flecha curso-carrusel__flecha--prev" aria-label="Curso anterior">
-          <span aria-hidden="true">←</span>
-        </button>
-        <button type="button" class="curso-carrusel__flecha curso-carrusel__flecha--next" aria-label="Curso siguiente">
-          <span aria-hidden="true">→</span>
-        </button>
-      </div>
-
-      <!-- Track con las tarjetas · scroll horizontal con snap -->
-      <div class="curso-carrusel__track" role="list" tabindex="0" aria-label="Próximos cursos y retiros">
-        <a class="curso-carrusel__item" href="#perlas" role="listitem" tabindex="0">
-          <div class="curso-carrusel__pic" style="background-image:url('assets/img/curso-3.jpg')"></div>
-          <div class="curso-carrusel__veil"></div>
-          <div class="curso-carrusel__body">
-            <div>
-              <span class="curso-carrusel__fecha">
-                <span class="anio">2 mayo · 2026</span>
-                <span class="dia">Perlas de <em>Sabiduría</em></span>
-              </span>
-              <span class="curso-carrusel__tipo">Curso · Gratuito</span>
-            </div>
-            <div>
-              <h3 class="curso-carrusel__titulo">Parte 5 · Con Khenpo Rinchen Gyaltsen</h3>
-              <span class="curso-carrusel__meta">Online · 6 sesiones</span>
-            </div>
-          </div>
-        </a>
-
-        <a class="curso-carrusel__item" href="#rueda" role="listitem" tabindex="0">
-          <div class="curso-carrusel__pic" style="background-image:url('assets/img/curso-1.jpg')"></div>
-          <div class="curso-carrusel__veil"></div>
-          <div class="curso-carrusel__body">
-            <div>
-              <span class="curso-carrusel__fecha">
-                <span class="anio">27 junio · 2026</span>
-                <span class="dia">La Rueda de las <em>Armas Afiladas</em></span>
-              </span>
-              <span class="curso-carrusel__tipo">Curso · Gratuito</span>
-            </div>
-            <div>
-              <h3 class="curso-carrusel__titulo">Práctica intensiva de un fin de semana</h3>
-              <span class="curso-carrusel__meta">Online · Directo</span>
-            </div>
-          </div>
-        </a>
-
-        <a class="curso-carrusel__item" href="#emi4" role="listitem" tabindex="0">
-          <div class="curso-carrusel__pic" style="background-image:url('assets/img/curso-2.jpg')"></div>
-          <div class="curso-carrusel__veil"></div>
-          <div class="curso-carrusel__body">
-            <div>
-              <span class="curso-carrusel__fecha">
-                <span class="anio">21 septiembre · 2026</span>
-                <span class="dia">EMI 4 · <em>Sabiduría</em> y Descubrimiento</span>
-              </span>
-              <span class="curso-carrusel__tipo">Formación</span>
-            </div>
-            <div>
-              <h3 class="curso-carrusel__titulo">Cuarto módulo del Entrenamiento Mental Integral</h3>
-              <span class="curso-carrusel__meta">Online · 12 sesiones</span>
-            </div>
-          </div>
-        </a>
-
-        <a class="curso-carrusel__item" href="#retiro" role="listitem" tabindex="0">
-          <div class="curso-carrusel__pic" style="background-image:url('assets/img/curso-6.jpg')"></div>
-          <div class="curso-carrusel__veil"></div>
-          <div class="curso-carrusel__body">
-            <div>
-              <span class="curso-carrusel__fecha">
-                <span class="anio">9–12 octubre · 2026</span>
-                <span class="dia">Retiro de <em>Meditación</em></span>
-              </span>
-              <span class="curso-carrusel__tipo">Retiro · Presencial</span>
-            </div>
-            <div>
-              <h3 class="curso-carrusel__titulo">Fundamentos del Despertar · Centro Budista Sakya</h3>
-              <span class="curso-carrusel__meta">Alicante · Presencial y Online</span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- Trazo iluminador · vive fuera del track (posición absoluta relativa a .curso-carrusel) -->
-      <div class="curso-carrusel__trazo" aria-hidden="true">
-        <svg viewBox="0 0 1000 40" preserveAspectRatio="none">
-          <path class="curso-carrusel__hilo" d="M 0 20 L 1000 20"/>
-          <!-- Los <circle> de nodos se generan dinámicamente en JS.
-               La punta dorada existe desde el HTML para que aparezca al terminar el dibujado. -->
-          <circle class="curso-carrusel__punta" cx="0" cy="20" r="7"/>
-        </svg>
-      </div>
     </div>
   </section>
 
@@ -558,12 +450,8 @@
     <h2 class="zoom-word" id="cta-t"><span>Respira.</span><span>Observa.</span><span>Suelta.</span></h2>
     <p class="cta-sub">Empieza hoy, a tu ritmo. Aprende a meditar o acompáñanos como amigo de Paramita.</p>
     <div class="actions">
-      <a class="t-link t-link--primario" href="#hazte-amigo">
-        <span class="txt">Hazte amigo</span><span class="arw" aria-hidden="true">→</span>
-      </a>
-      <a class="t-link t-link--primario" href="https://cursos.paramita.org/home">
-        <span class="txt">Aprende a meditar</span><span class="arw" aria-hidden="true">→</span>
-      </a>
+      <a class="btn-umbral" href="#hazte-amigo">Hazte amigo</a>
+      <a class="btn-umbral" href="https://cursos.paramita.org/home">Aprende a meditar</a>
     </div>
   </section>
 
@@ -809,12 +697,55 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   })();
 
-  /* ── 4b · [RETIRADO] · GRID FLIP legacy ──
-     El componente v1.4 de cursos (.curso-card) no usa FLIP: no expande a 2×2
-     porque se descartó por incoherente con la calma editorial. La rejilla es
-     estática 3×2, con hover que revela imagen + halo dorado (via CSS).
-     El comportamiento del carrusel v2 (.cursos-proximos) va en su propio archivo:
-     js/comportamientos/paramita-cursos-carrusel.js */
+  /* ── 4b · CURSOS · GRID FLIP (API Flip de GSAP) ──
+     Hover/foco expande una celda a 2×2; las vecinas se reubican con
+     auto-placement del grid y FLIP anima ese reflujo suavemente.
+     En táctil (sin hover) la rejilla queda estática y legible (CSS). */
+  (function initFlipGrid() {
+    const grid = document.getElementById('cursosGrid');
+    if (!grid) return;
+    const celdas = [...grid.querySelectorAll('.flip-celda')];
+    const touch = matchMedia('(hover:none)').matches;
+    // FLIP disponible si hay GSAP, sin reduced-motion y el plugin cargó
+    const canFlip = hasGSAP && !reduce && typeof window.Flip !== 'undefined';
+    if (canFlip) gsap.registerPlugin(Flip);
+    let activa = null;
+
+    function expandir(celda) {
+      if (celda === activa) return;
+      const estado = canFlip ? Flip.getState(celdas, { props: 'borderRadius' }) : null;
+      if (activa) activa.classList.remove('is-expanded');
+      celda.classList.add('is-expanded');
+      activa = celda;
+      if (canFlip) Flip.from(estado, {
+        duration: 0.65, ease: 'power3.inOut', stagger: 0.012, absolute: false,
+        onEnter: el => gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 })
+      });
+    }
+    function colapsar() {
+      if (!activa) return;
+      const estado = canFlip ? Flip.getState(celdas, { props: 'borderRadius' }) : null;
+      activa.classList.remove('is-expanded');
+      activa = null;
+      if (canFlip) Flip.from(estado, { duration: 0.55, ease: 'power3.inOut', stagger: 0.01 });
+    }
+
+    if (touch) {
+      // MÓVIL: el primer toque EXPANDE (sin navegar); el segundo toque (ya expandida) navega.
+      celdas.forEach(celda => {
+        celda.addEventListener('click', e => {
+          if (activa !== celda) { e.preventDefault(); expandir(celda); }
+        });
+      });
+    } else {
+      // DESKTOP: hover/foco expande; al salir de la rejilla, colapsa.
+      celdas.forEach(celda => {
+        celda.addEventListener('mouseenter', () => expandir(celda));
+        celda.addEventListener('focus', () => expandir(celda));
+      });
+      grid.addEventListener('mouseleave', colapsar);
+    }
+  })();
 
   /* ── 4c · CTA · ORNAMENTOS SVG DIBUJADOS POR SCROLL (efecto-05-06) ──
      Trazos abstractos laterales (NO el texto) que se dibujan con el scroll.

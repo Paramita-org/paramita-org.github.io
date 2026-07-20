@@ -535,10 +535,13 @@
     border-radius: 16px;
     overflow: hidden;
     display: block;
-    background: var(--antracita);
-    border: 1px solid var(--hair);
-    will-change: transform;
+    background: var(--calido-zen, #f5efe4);
     isolation: isolate;
+    will-change: transform;
+    text-decoration: none;
+    color: var(--azul-oscuro);
+    transition: transform var(--t-defecto),
+                box-shadow var(--t-defecto);
   }
 
   @supports (corner-shape: superellipse(2)) {
@@ -548,13 +551,22 @@
     }
   }
 
-  /* Estado por defecto · imagen visible con opacidad reducida
-     ─────────────────────────────────────────────────────────────
-     RETOQUE v1 · se retira el filtro azul-oscuro con blend multiply
-     que machacaba la imagen. Ahora la celda en reposo conserva
-     luminosidad; el contraste con el estado activo lo aporta la
-     opacidad (0.72 → 1) y la escala. Coherente con el principio
-     «Paramita es luminosa, no oscura». */
+  /* Estado activo · halo dorado como en curso-card (v1.4).
+     Anticipa el vocabulario de "curso seleccionado" que v2 desarrollará. */
+  .flip-celda:hover,
+  .flip-celda:focus-visible,
+  .flip-celda.is-expanded {
+    box-shadow:
+      0 20px 48px -20px rgba(20, 14, 8, 0.42),
+      0 0 0 1px color-mix(in oklch, var(--dorado) 30%, transparent),
+      0 0 40px -8px color-mix(in oklch, var(--dorado) 45%, transparent);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────
+     Imagen · reposo velado, activo/expandido en plenitud
+     Fase 4 v2 · opacidad 0.72 en reposo → 1 al activar/expandir.
+     ───────────────────────────────────────────────────────────────────── */
+
   .flip-celda__pic {
     position: absolute;
     inset: 0;
@@ -562,11 +574,11 @@
     background-position: center 38%;
     transform: scale(1.06);
     opacity: 0.72;
-    transition: opacity 0.3s ease,
-                transform 0.3s ease;
+    transition: opacity var(--t-revelacion, 0.5s ease),
+                transform var(--t-revelacion, 0.5s ease);
+    z-index: 0;
   }
 
-  /* Estado activo/seleccionado · crece a escala 1 y opacidad plena */
   .flip-celda:hover .flip-celda__pic,
   .flip-celda:focus-visible .flip-celda__pic,
   .flip-celda:active .flip-celda__pic,
@@ -583,37 +595,123 @@
     }
   }
 
-  /* Velo inferior para contraste del texto */
-  .flip-celda__pic::after {
-    content: "";
+  /* ─────────────────────────────────────────────────────────────────────
+     VELOS CLAROS · variante C híbrida
+     Dos degradados azul-sutil pálido (arriba 40%, abajo 55%), imagen
+     visible en el centro. Al expandir a 2×2, los velos se disipan para
+     que la foto florezca en plenitud. Coherencia sistémica con la
+     paleta oficial (#DBE8F4 = --azul-sutil muy diluido).
+     ───────────────────────────────────────────────────────────────────── */
+
+  .flip-celda__veil-top {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    z-index: 1;
+    background: linear-gradient(to bottom,
+      rgba(219, 232, 244, 0.92) 0%,
+      rgba(219, 232, 244, 0.55) 55%,
+      transparent 100%);
+    pointer-events: none;
     transition: opacity var(--t-defecto);
-    opacity: 0.45;
+  }
+
+  .flip-celda__veil-bot {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 55%;
+    z-index: 1;
     background: linear-gradient(to top,
-      rgba(20, 14, 8, 0.85) 0%,
-      rgba(20, 14, 8, 0.28) 44%,
-      transparent 72%);
+      rgba(219, 232, 244, 0.96) 0%,
+      rgba(219, 232, 244, 0.72) 45%,
+      rgba(219, 232, 244, 0.18) 85%,
+      transparent 100%);
+    pointer-events: none;
+    transition: opacity var(--t-defecto);
   }
 
-  .flip-celda.is-expanded .flip-celda__pic::after {
-    opacity: 1;
+  /* Al expandir la tarjeta · los velos se disipan (foto florece) */
+  .flip-celda.is-expanded .flip-celda__veil-top,
+  .flip-celda.is-expanded .flip-celda__veil-bot {
+    opacity: 0.15;
   }
 
-  /* Número decorativo · esquina superior izquierda */
-  .flip-celda__num {
+  /* ─────────────────────────────────────────────────────────────────────
+     ETIQUETA TIPOLÓGICA · sustituye al número decorativo 01/02/03
+     Sello translúcido azul-sutil pálido + puntito de color por tipo.
+     Al expandir la tarjeta, el sello se refuerza y el texto pasa a
+     blanco porque el fondo será foto plena.
+     ───────────────────────────────────────────────────────────────────── */
+
+  .flip-celda__tipo {
     position: absolute;
     top: 14px;
-    left: 16px;
+    left: 14px;
     z-index: 3;
     font-family: var(--body);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4em 0.85em;
+    border-radius: 99px;
+    background: rgba(219, 232, 244, 0.85);
+    border: 0.5px solid rgba(31, 78, 143, 0.14);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: color var(--t-defecto),
+                background var(--t-defecto),
+                border-color var(--t-defecto),
+                text-shadow var(--t-defecto);
   }
 
-  /* Overlay con título y tags · visibles en estado base */
+  .flip-celda__tipo::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 8px currentColor;
+    flex-shrink: 0;
+  }
+
+  /* Colores por tipo · reposo (sobre velo claro azul-sutil pálido) */
+  .flip-celda[data-tipo="curso"]  .flip-celda__tipo { color: var(--azul-oscuro); }
+  .flip-celda[data-tipo="retiro"] .flip-celda__tipo {
+    color: color-mix(in oklch, var(--dorado) 78%, #2c1e08);
+  }
+  .flip-celda[data-tipo="evento"] .flip-celda__tipo { color: var(--azul-oscuro); }
+  .flip-celda[data-tipo="gira"]   .flip-celda__tipo {
+    color: color-mix(in oklch, var(--azul-oscuro) 50%, var(--dorado));
+  }
+
+  /* Expandido · sello más denso, texto blanco (foto plena detrás) */
+  .flip-celda.is-expanded .flip-celda__tipo {
+    color: #fff;
+    background: rgba(15, 20, 30, 0.5);
+    border-color: rgba(255, 255, 255, 0.22);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Excepción · retiro conserva dorado del sistema al expandir */
+  .flip-celda[data-tipo="retiro"].is-expanded .flip-celda__tipo {
+    color: var(--dorado);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────
+     OVERLAY · fecha + título + tags (siempre visibles en reposo)
+     En reposo · texto azul-oscuro sobre velo claro
+     Expandido · texto blanco sobre foto plena
+     ───────────────────────────────────────────────────────────────────── */
+
   .flip-celda__overlay {
     position: absolute;
     inset: 0;
@@ -625,61 +723,102 @@
     text-align: left;
     gap: var(--espacio-atomo);
     padding: var(--espacio-elemento);
-    opacity: 1;
+    color: var(--azul-oscuro);
+    transition: color var(--t-defecto),
+                text-shadow var(--t-defecto);
   }
 
+  .flip-celda.is-expanded .flip-celda__overlay {
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5),
+                 0 1px 3px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Fecha (o texto evergreen) · microtipografía */
   .flip-celda__cat {
-    font-size: 0.72rem;
+    font-family: var(--body);
+    font-size: 0.7rem;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--dorado);
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.6);
+    opacity: 0.78;
+    color: inherit;
   }
 
+  .flip-celda__cat--evergreen {
+    text-transform: none;
+    font-style: italic;
+    letter-spacing: 0.02em;
+    font-size: 0.75rem;
+    opacity: 0.72;
+    font-weight: 500;
+  }
+
+  /* Título · Fraunces, protagonista */
   .flip-celda__titulo {
     font-family: var(--display);
-    font-weight: 400;
-    color: #fff;
+    font-weight: 500;
+    color: inherit;
     font-size: clamp(1rem, 1.3vw, 1.32rem);
-    line-height: 1.12;
+    line-height: 1.15;
     letter-spacing: -0.01em;
-    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+    margin: 0;
+    text-wrap: pretty;
   }
 
-  /* Descripción larga · solo en estado expandido */
+  .flip-celda.is-expanded .flip-celda__titulo {
+    font-weight: 400;
+  }
+
+  /* Descripción larga · SOLO en estado expandido */
   .flip-celda__desc {
     display: none;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.85rem;
-    line-height: 1.45;
-    max-width: 34ch;
+    color: inherit;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    max-width: 42ch;
     text-align: left;
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+    margin: 0.5rem 0 0;
+    opacity: 0.92;
   }
 
   .flip-celda.is-expanded .flip-celda__desc {
     display: block;
   }
 
+  /* CTA · Ver curso · solo en expandido */
+  .flip-celda__cta {
+    display: none;
+    font-family: var(--body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    color: inherit;
+  }
+
+  .flip-celda__cta::after {
+    content: "→";
+    display: inline-block;
+    transition: transform var(--t-defecto);
+  }
+
+  .flip-celda.is-expanded .flip-celda__cta {
+    display: inline-flex;
+  }
+
+  .flip-celda.is-expanded:hover .flip-celda__cta::after,
+  .flip-celda.is-expanded:focus-visible .flip-celda__cta::after {
+    transform: translateX(4px);
+  }
+
+  /* Tags · legacy conservado para compatibilidad, pero sin uso activo
+     (la modalidad ahora vive dentro de flip-celda__desc como texto). */
   .flip-celda .tags {
     margin-top: 0.2rem;
-  }
-
-  .flip-celda .tag {
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.42);
-  }
-
-  .flip-celda .tag.free {
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.6);
-  }
-
-  .flip-celda .tag.soon {
-    color: #fff;
-    border-color: color-mix(in oklch, var(--dorado) 70%, #fff);
-    background: color-mix(in oklch, var(--dorado) 32%, transparent);
+    display: none;   /* deshabilitado en v2 · usar texto en descripción */
   }
 
   /* Estado expandido · ocupa 2×2 */
@@ -689,7 +828,7 @@
     z-index: 5;
   }
 
-  /* Responsive · el grid se reduce en anchos menores */
+  /* Responsive */
   @media (max-width: 980px) {
     .flip-grid {
       grid-template-columns: repeat(3, 1fr);
@@ -710,13 +849,20 @@
     }
   }
 
-  /* Móvil sin hover · información siempre visible */
-  @media (hover: none) {
-    .flip-celda__overlay {
-      opacity: 1;
+  /* Reduced-motion · sin transformaciones ni transiciones */
+  @media (prefers-reduced-motion: reduce) {
+    .flip-celda,
+    .flip-celda__pic,
+    .flip-celda__veil-top,
+    .flip-celda__veil-bot,
+    .flip-celda__tipo,
+    .flip-celda__overlay,
+    .flip-celda__cta::after {
+      transition: none !important;
     }
-    .flip-celda__titulo {
+    .flip-celda__pic {
       transform: none;
+      opacity: 0.9;
     }
   }
 
