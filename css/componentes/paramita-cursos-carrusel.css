@@ -1,0 +1,509 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   PARAMITA · CURSOS · CARRUSEL v2 (Fase 4 · bloque paralelo)
+   ═══════════════════════════════════════════════════════════════════════
+   Segunda lectura de los cursos, complementaria a la rejilla v1.4 de arriba:
+   · Arriba (v1.4)  → CATÁLOGO. Mirada panorámica, ordenada por importancia.
+   · Abajo  (v2  )  → CALENDARIO. Mirada temporal, ordenada por proximidad.
+
+   ▓ METÁFORA · "el cruce como acto" ▓
+   El trazo horizontal es el HILO DEL TIEMPO que atraviesa la práctica.
+   Los cursos son estaciones en ese hilo. La punta dorada es el "aquí y
+   ahora" del visitante: cuando el scroll se detiene, viaja al curso más
+   centrado. En reposo, respira suavemente (movimiento ambient-identitary).
+
+   ▓ COMPORTAMIENTOS CLAVE ▓
+   · Scroll horizontal libre con scroll-snap suave
+   · Flechas ← → para navegación asistida (avanzan de tarjeta en tarjeta)
+   · Trazo se dibuja al entrar en viewport (stroke-dashoffset animado)
+   · Punta dorada aparece en primer nodo al terminar el dibujado
+   · "Curso activo" = el más centrado cuando el scroll se detiene (200ms
+     de espera). La punta viaja al nodo correspondiente con transición
+     suave. El scroll en marcha NO mueve la punta.
+   · Halo dorado sobre la tarjeta activa (mismo vocabulario del hover
+     de la v1.4 arriba, por continuidad visual)
+   · Comba sutil del trazo en el punto activo (hilo que se comba por
+     el peso del dorado)
+
+   ▓ ACCESIBILIDAD ▓
+   · Focus con teclado: ← → mueven al curso previo/siguiente
+   · prefers-reduced-motion: sin dibujado, sin respiración, sin comba
+   · Contraste WCAG AA · texto siempre sobre velo oscuro
+   · Punta dorada tiene tamaño táctil mínimo (aria-hidden, el foco vive
+     en las tarjetas y las flechas)
+
+   ORDEN DE CARGA: en el bloque de componentes, DESPUÉS de
+   paramita-cursos.css (v1.4). Convive sin colisiones (namespaces
+   .curso-carrusel__* propios).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@layer cursos-carrusel {
+
+  /* ─────────────────────────────────────────────────────────────────────
+     1 · CONTENEDOR DE SECCIÓN
+     ─────────────────────────────────────────────────────────────────────
+     Vive fuera del .wrap para poder llegar a sangre en escritorio
+     (el scroll horizontal necesita respirar hasta los bordes). El
+     head con eyebrow/título sí va contenido dentro de un wrap.
+     ───────────────────────────────────────────────────────────────────── */
+
+  .cursos-proximos {
+    position: relative;
+    padding-block: var(--espacio-otro-lado);
+    isolation: isolate;
+  }
+
+  /* Cabecera editorial (eyebrow + título + descripción) — usa .s-head
+     del sistema para coherencia con las demás secciones */
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     2 · TRACK · scroll horizontal con snap
+     ─────────────────────────────────────────────────────────────────────
+     El track vive edge-to-edge en móvil/tablet; en escritorio respeta
+     los márgenes de .wrap pero permite overflow visible del trazo.
+
+     scroll-padding-inline asegura que la primera y última tarjeta
+     puedan centrarse (sin él, no llegan al centro del viewport).
+     ───────────────────────────────────────────────────────────────────── */
+
+  .curso-carrusel {
+    position: relative;
+    margin-top: var(--espacio-contemplativo);
+  }
+
+  .curso-carrusel__track {
+    display: flex;
+    gap: var(--espacio-contenido);            /* 32px */
+    overflow-x: auto;
+    overflow-y: visible;                       /* deja respirar el halo dorado */
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+
+    /* Padding lateral generoso · permite que la primera y última tarjeta
+       queden bien centradas al hacer snap. Se ajusta responsivamente. */
+    padding-inline: clamp(1rem, 8vw, 12rem);
+    padding-block: var(--espacio-elemento) var(--espacio-elemento);
+    scroll-padding-inline: clamp(1rem, 8vw, 12rem);
+
+    /* Oculta scrollbar sin perder la funcionalidad */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .curso-carrusel__track::-webkit-scrollbar {
+    display: none;
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     3 · TARJETA · misma anatomía visual que v1.4 (velo oscuro + halo)
+     ─────────────────────────────────────────────────────────────────────
+     Diferencias respecto a v1.4:
+     · Formato retrato (ratio 3/4 o similar) más apto para scroll horizontal
+     · FECHA como protagonista (arriba, grande, tipográfica)
+     · Título más compacto (subordinado a la fecha)
+     · Estado "activo" reemplaza al "hover" como halo dorado principal
+     ───────────────────────────────────────────────────────────────────── */
+
+  .curso-carrusel__item {
+    flex: 0 0 clamp(260px, 32vw, 340px);
+    scroll-snap-align: center;
+    scroll-snap-stop: normal;
+
+    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: 22px;
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--azul-oscuro);
+    isolation: isolate;
+
+    /* Escala sutil en reposo (las tarjetas no activas quedan un pelín
+       encogidas, invitando visualmente a llegar al centro) */
+    transform: scale(0.94);
+    transition:
+      transform var(--t-revelacion),
+      box-shadow var(--t-revelacion),
+      filter var(--t-revelacion);
+
+    /* Sombra suave en reposo · no halo */
+    box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.35);
+  }
+
+  @supports (corner-shape: superellipse(2)) {
+    .curso-carrusel__item {
+      corner-shape: superellipse(2.6);
+    }
+  }
+
+  /* Imagen de fondo · más marcada en el activo, discreta en el resto */
+  .curso-carrusel__pic {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 38%;
+    z-index: 0;
+    transform: scale(1.06);
+    transition: transform var(--t-revelacion), filter var(--t-revelacion);
+    filter: saturate(0.85);
+  }
+
+  /* Velo oscuro degradado · mismo patrón que v1.4 y .band::before */
+  .curso-carrusel__veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg,
+      rgba(11, 63, 114, 0.55) 0%,
+      rgba(11, 63, 114, 0.75) 55%,
+      rgba(11, 63, 114, 0.92) 100%);
+    transition: opacity var(--t-revelacion);
+  }
+
+  /* Contenido de la tarjeta */
+  .curso-carrusel__body {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--espacio-elemento) var(--espacio-elemento) var(--espacio-contenido);
+    color: #fff;
+  }
+
+  /* Fecha PROTAGONISTA · arriba, tipográfica, en dos líneas
+     "27 jun" grande + "2026" pequeño encima */
+  .curso-carrusel__fecha {
+    display: block;
+    font-family: var(--display);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .curso-carrusel__fecha .anio {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.72;
+    margin-bottom: var(--espacio-atomo);
+  }
+
+  .curso-carrusel__fecha .dia {
+    display: block;
+    font-size: clamp(1.9rem, 2.6vw, 2.4rem);
+    font-weight: 300;
+    color: #fff;
+  }
+
+  .curso-carrusel__fecha .dia em {
+    color: var(--dorado);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* Tipología (opcional, arriba a la derecha o inline junto a fecha) */
+  .curso-carrusel__tipo {
+    display: inline-block;
+    margin-top: var(--espacio-atomo);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dorado);
+    opacity: 0.9;
+  }
+
+  /* Título del curso · abajo */
+  .curso-carrusel__titulo {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    text-wrap: pretty;
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    margin-bottom: var(--espacio-atomo);
+  }
+
+  .curso-carrusel__titulo em {
+    color: var(--dorado);
+    font-style: italic;
+  }
+
+  /* Meta (modalidad + duración) */
+  .curso-carrusel__meta {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.78);
+    letter-spacing: 0.02em;
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     4 · ESTADO ACTIVO · halo dorado (continuidad con v1.4)
+     ─────────────────────────────────────────────────────────────────────
+     Igualamos el vocabulario visual: el halo dorado del hover en v1.4
+     se convierte aquí en el marcador del "curso activo".
+     ───────────────────────────────────────────────────────────────────── */
+
+  .curso-carrusel__item.is-active {
+    transform: scale(1);
+    box-shadow:
+      0 14px 34px -10px rgba(0, 0, 0, 0.42),
+      0 0 0 1px rgba(230, 179, 92, 0.28),
+      0 0 32px -4px rgba(230, 179, 92, 0.35);        /* halo dorado */
+  }
+
+  .curso-carrusel__item.is-active .curso-carrusel__pic {
+    transform: scale(1);
+    filter: saturate(1);
+  }
+
+  .curso-carrusel__item.is-active .curso-carrusel__veil {
+    opacity: 0.88;
+  }
+
+  /* Focus con teclado · mismo tratamiento que activo pero con outline
+     accesible (dorado) para que el usuario de teclado sepa dónde está */
+  .curso-carrusel__item:focus-visible {
+    outline: 2px solid var(--dorado);
+    outline-offset: 4px;
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     5 · TRAZO ILUMINADOR · el hilo del tiempo bajo las tarjetas
+     ─────────────────────────────────────────────────────────────────────
+     SVG absoluto que vive en el mismo contenedor .curso-carrusel.
+     El trazo se dibuja al entrar en viewport (JS añade .is-drawn).
+     La punta dorada es un <circle> que se posiciona con CSS custom
+     property (--x-punta) actualizada desde JS.
+
+     Es un SVG con viewBox amplio (0 0 1000 40) para que sea
+     responsive · el path va casi recto con una comba muy sutil que
+     se acentúa ligeramente en el activo.
+     ───────────────────────────────────────────────────────────────────── */
+
+  .curso-carrusel__trazo {
+    position: relative;
+    height: 40px;
+    margin-top: var(--espacio-atomo);
+    padding-inline: clamp(1rem, 8vw, 12rem);       /* alinea con track */
+    pointer-events: none;                           /* no interfiere con scroll */
+  }
+
+  .curso-carrusel__trazo svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;                              /* la punta puede sobresalir */
+  }
+
+  /* Línea base · casi recta, en azul sutil translúcido (hilo en reposo) */
+  .curso-carrusel__hilo {
+    fill: none;
+    stroke: color-mix(in oklch, var(--azul-sutil) 55%, transparent);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+
+    /* Dibujado al entrar en viewport · gestionado desde JS */
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    transition: stroke-dashoffset 1.8s var(--ease-revelacion);
+  }
+
+  .curso-carrusel.is-drawn .curso-carrusel__hilo {
+    stroke-dashoffset: 0;
+  }
+
+  /* Nodos · pequeños círculos sobre el trazo, uno por tarjeta.
+     Se colocan con JS calculando la posición de cada tarjeta.
+     Un mismo elemento SVG con múltiples <circle> generados por JS. */
+  .curso-carrusel__nodo {
+    fill: color-mix(in oklch, var(--azul-sutil) 70%, transparent);
+    stroke: none;
+    r: 3;
+    opacity: 0;
+    transition: opacity 0.6s var(--ease-revelacion),
+                fill 0.5s var(--t-defecto),
+                r 0.5s var(--t-defecto);
+  }
+
+  .curso-carrusel.is-drawn .curso-carrusel__nodo {
+    opacity: 1;
+  }
+
+  .curso-carrusel__nodo.is-active {
+    fill: var(--dorado);
+    r: 4;
+  }
+
+  /* Punta dorada · círculo grande con halo (mismo halo que v1.4).
+     Aparece cuando el dibujado termina (JS añade .is-lit tras 1.8s).
+     Se mueve con transición CSS suave entre nodos. */
+  .curso-carrusel__punta {
+    fill: var(--dorado);
+    stroke: none;
+    r: 7;
+    opacity: 0;
+
+    /* Filtro de halo · glow dorado idéntico al hover de v1.4 */
+    filter: drop-shadow(0 0 8px rgba(230, 179, 92, 0.6))
+            drop-shadow(0 0 3px rgba(230, 179, 92, 0.9));
+
+    /* Transición suave entre nodos al cambiar curso activo */
+    transition:
+      cx 0.7s var(--ease-revelacion),
+      opacity 0.6s var(--ease-revelacion);
+  }
+
+  .curso-carrusel.is-lit .curso-carrusel__punta {
+    opacity: 1;
+  }
+
+  /* Respiración en reposo · movimiento ambient-identitary.
+     Ritmo propio derivado del logo: 17.5s (mismo que --dur-btn = 0.7×).
+     La punta pulsa suavemente su halo, no su tamaño (más contemplativo).
+     Se anima el filter drop-shadow via un pseudo-elemento sería más
+     eficiente, pero como es un SVG usamos animate-friendly: opacidad
+     modulada. */
+  @keyframes puntaRespira {
+    0%, 100% {
+      filter: drop-shadow(0 0 8px rgba(230, 179, 92, 0.6))
+              drop-shadow(0 0 3px rgba(230, 179, 92, 0.9));
+    }
+    50% {
+      filter: drop-shadow(0 0 14px rgba(230, 179, 92, 0.8))
+              drop-shadow(0 0 5px rgba(230, 179, 92, 1));
+    }
+  }
+
+  .curso-carrusel.is-lit .curso-carrusel__punta {
+    animation: puntaRespira 17.5s ease-in-out infinite;
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     6 · FLECHAS DE NAVEGACIÓN · avance asistido
+     ─────────────────────────────────────────────────────────────────────
+     Discretas, tipográficas, en los laterales de la sección.
+     Solo aparecen en dispositivos con hover (desktop/tablet con ratón).
+     En táctil, el gesto natural es deslizar.
+     ───────────────────────────────────────────────────────────────────── */
+
+  .curso-carrusel__flechas {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: var(--espacio-elemento);
+    transform: translateY(calc(-50% - 20px));       /* compensa el trazo abajo */
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  .curso-carrusel__flecha {
+    pointer-events: auto;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid color-mix(in oklch, var(--azul-oscuro) 30%, transparent);
+    background: color-mix(in oklch, #fff 88%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    color: var(--azul-oscuro);
+    font-size: 1.2rem;
+    line-height: 1;
+    transition:
+      transform var(--t-defecto),
+      box-shadow var(--t-defecto),
+      background var(--t-defecto);
+    box-shadow: 0 4px 14px -6px rgba(0, 0, 0, 0.25);
+  }
+
+  .curso-carrusel__flecha:hover {
+    transform: scale(1.06);
+    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.35);
+    background: #fff;
+  }
+
+  .curso-carrusel__flecha:focus-visible {
+    outline: 2px solid var(--dorado);
+    outline-offset: 3px;
+  }
+
+  .curso-carrusel__flecha[disabled] {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* En táctil (sin hover), ocultamos las flechas · el gesto natural es deslizar */
+  @media (hover: none) {
+    .curso-carrusel__flechas {
+      display: none;
+    }
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     7 · RESPONSIVE · ajustes por breakpoint
+     ─────────────────────────────────────────────────────────────────────
+     Sigue el sistema de 3 breakpoints del proyecto:
+     móvil default / tablet ≥768px / escritorio ≥1024px
+     ───────────────────────────────────────────────────────────────────── */
+
+  @media (max-width: 767px) {
+    .curso-carrusel__track {
+      padding-inline: 1rem;
+      scroll-padding-inline: 1rem;
+      gap: var(--espacio-elemento);
+    }
+    .curso-carrusel__item {
+      flex-basis: 78vw;
+    }
+    .curso-carrusel__trazo {
+      padding-inline: 1rem;
+    }
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     8 · REDUCED MOTION · degradación elegante
+     ─────────────────────────────────────────────────────────────────────
+     Sin dibujado (trazo aparece directo), sin respiración de la punta,
+     sin transiciones de posición. El sistema sigue siendo legible y
+     funcional.
+     ───────────────────────────────────────────────────────────────────── */
+
+  @media (prefers-reduced-motion: reduce) {
+    .curso-carrusel__hilo {
+      stroke-dashoffset: 0;
+      transition: none;
+    }
+    .curso-carrusel__nodo,
+    .curso-carrusel__punta {
+      transition: none;
+      animation: none;
+    }
+    .curso-carrusel__item {
+      transition: none;
+    }
+    .curso-carrusel__track {
+      scroll-behavior: auto;
+    }
+  }
+
+} /* fin @layer cursos-carrusel */

@@ -118,7 +118,7 @@
     inset: 0;
     background-size: cover;
     background-position: center;
-    opacity: 0.78;
+    opacity: 0.75;
     transform: scale(1.04);
     transition: opacity var(--t-revelacion, 0.5s ease),
                 transform var(--t-revelacion, 0.5s ease);
@@ -151,9 +151,14 @@
     right: 0;
     height: 40%;
     z-index: 1;
+    /* Fase 4 v1.3 · velo azul-sutil muy claro (#DBE8F4) en lugar del
+       marfil calido-zen. La tarjeta contrasta ahora con el fondo de
+       sección y aporta identidad cromática Paramita incluso en reposo.
+       Decisión tomada tras ver la rejilla completa: el marfil se fundía
+       con --calido-zen. */
     background: linear-gradient(to bottom,
-      rgba(246, 242, 234, 0.88) 0%,
-      rgba(246, 242, 234, 0.5) 55%,
+      rgba(219, 232, 244, 0.92) 0%,
+      rgba(219, 232, 244, 0.55) 55%,
       transparent 100%);
     pointer-events: none;
     transition: opacity var(--t-defecto);
@@ -167,9 +172,9 @@
     height: 55%;
     z-index: 1;
     background: linear-gradient(to top,
-      rgba(246, 242, 234, 0.94) 0%,
-      rgba(246, 242, 234, 0.68) 45%,
-      rgba(246, 242, 234, 0.18) 85%,
+      rgba(219, 232, 244, 0.96) 0%,
+      rgba(219, 232, 244, 0.72) 45%,
+      rgba(219, 232, 244, 0.18) 85%,
       transparent 100%);
     pointer-events: none;
     transition: opacity var(--t-defecto);
@@ -207,14 +212,25 @@
     left: var(--espacio-elemento);
     z-index: 3;
     font-family: var(--body);
-    font-size: 0.7rem;
+    font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    /* Sello translúcido · en tono azul-sutil pálido para armonizar con
+       los velos de la tarjeta. Blur convierte la zona bajo la etiqueta
+       en un "papel de arroz" contemplativo, muy Paramita. */
+    padding: 0.4em 0.85em;
+    border-radius: 99px;
+    background: rgba(219, 232, 244, 0.85);
+    border: 0.5px solid rgba(31, 78, 143, 0.14);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     transition: color var(--t-defecto),
+                background var(--t-defecto),
+                border-color var(--t-defecto),
                 text-shadow var(--t-defecto);
   }
 
@@ -240,22 +256,18 @@
     color: color-mix(in oklch, var(--azul-oscuro) 50%, var(--dorado));
   }
 
-  /* HOVER · texto blanco con sombra para leerse sobre foto plena */
+  /* HOVER · el sello se refuerza ligeramente para leerse sobre foto plena.
+     Mismo tono azul-sutil pálido, más opaco. Texto sigue en azul-oscuro. */
   .curso-card:hover .curso-card__tipo,
   .curso-card:focus-visible .curso-card__tipo,
   .curso-card:active .curso-card__tipo {
-    color: #fff;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+    background: rgba(219, 232, 244, 0.93);
+    border-color: rgba(31, 78, 143, 0.22);
   }
 
-  /* EXCEPCIÓN · el retiro conserva su dorado luminoso al activar
-     (queda más identitario que un blanco genérico) */
-  .curso-card[data-tipo="retiro"]:hover .curso-card__tipo,
-  .curso-card[data-tipo="retiro"]:focus-visible .curso-card__tipo,
-  .curso-card[data-tipo="retiro"]:active .curso-card__tipo {
-    color: var(--dorado);
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
-  }
+  /* NOTA · antes había una excepción para retirar el cambio de color
+     del retiro en hover. Con el nuevo tratamiento (sello translúcido
+     que no cambia el color del texto) esa excepción ya no es necesaria. */
 
 
   /* ═════════════════════════════════════════════════════════════════════
