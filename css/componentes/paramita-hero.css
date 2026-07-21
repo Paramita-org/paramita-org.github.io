@@ -60,22 +60,37 @@
   /* ─────────────────────────────────────────────────────────────────────
      CONTENEDOR PRINCIPAL DEL HERO
      ─────────────────────────────────────────────────────────────────────
-     Fase 5.6 · min-height reducido de calc(100svh - bar-h) a 82svh.
-     Ver bloque de comentarios de cabecera para el razonamiento completo.
-     El padding inferior se compacta a 70% del --espacio-orilla base para
-     que el CTA no quede empujado tan arriba dentro del bloque cinemático.
+     Fase 5.6d · Diagnóstico corregido de la captura en incógnito.
+     Las Fases 5.6b/c bajaron min-height y aplicaron align-content: start
+     en .hero, pero el bloque de contenido SEGUÍA anclado abajo. Causa
+     real: .hero__inner es otro grid interno, y la combinación grid-en-
+     grid genera comportamientos de distribución vertical imprevisibles.
+
+     Solución inequívoca · convertir .hero a FLEX COLUMN con
+     justify-content: flex-start. Es la forma menos ambigua de decirle
+     al navegador "todo el contenido pegado arriba, sin distribuir el
+     espacio sobrante". El espacio sobrante queda debajo, no repartido.
+
+     También se AUMENTA el min-height a 78svh — no es problema el hero
+     largo si el CTA está arriba, es problema tenerlo con el CTA abajo.
+     Con el CTA arriba, la altura larga del hero funciona como fondo
+     cinemático que se prolonga bajo el bloque de texto.
      ───────────────────────────────────────────────────────────────────── */
 
   .hero {
     position: relative;
     z-index: 2;
     width: 100%;
-    min-height: 82svh;
-    display: grid;
-    align-content: center;
+    min-height: 78svh;
 
-    /* Móvil primero · padding superior generoso, inferior compacto */
-    padding-block: var(--espacio-umbral) calc(var(--espacio-orilla) * 0.7);
+    /* FLEX column · anclado arriba, sin distribuir espacio sobrante */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    /* Padding superior generoso, inferior mínimo (el vídeo continúa
+       cinemáticamente debajo del bloque de texto) */
+    padding-block: var(--espacio-umbral) var(--espacio-elemento);
 
     background: radial-gradient(120% 85% at 80% -12%,
       var(--calido-zen), transparent 62%);

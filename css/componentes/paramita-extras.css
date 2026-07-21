@@ -204,7 +204,10 @@
     margin: 0 auto;
   }
 
-  /* Estado base = EXPANDIDO (fallback sin scroll-timeline) */
+  /* Estado base = EXPANDIDO (fallback sin scroll-timeline)
+     Fase 5.6b · background base cálido (arcilla) en lugar de #0c0a08.
+     Si la imagen de khenpo tarda un frame en cargar, se ve un tono
+     cálido de la familia del sistema, no un rectángulo negro. */
   .mission__video {
     position: relative;
     width: 100%;
@@ -213,7 +216,7 @@
     border-radius: 18px;
     cursor: pointer;
     isolation: isolate;
-    background: #0c0a08;
+    background: var(--arcilla);
     will-change: clip-path, transform;
     clip-path: ellipse(78% 115% at 50% 50%);
     box-shadow: 0 40px 80px -40px rgba(40, 33, 26, 0.5);
@@ -226,7 +229,24 @@
     }
   }
 
-  /* Media del vídeo · imagen de fondo con blend modes */
+  /* Media del vídeo · Fase 5.6c · velo integrador arena
+     ────────────────────────────────────────────────────
+     Diagnóstico Fase 5.6b: la imagen `khenpo-luz-dorada-low` cargó
+     con color pleno pero sin blend, resultado: aparece como bloque
+     denso y de golpe rompiendo el lienzo cálido del sitio (feedback
+     "mancha enorme").
+
+     Nueva estrategia · velo integrador arena/lino:
+       · Velo horizontal arena 32% arriba → arena 22% abajo. Baja la
+         densidad visual de la imagen para que se integre al lienzo
+         cálido general de Paramita en lugar de leerse como "isla
+         densa" en medio del scroll.
+       · Los radiales de acento (dorado arriba-izq, azul-sutil abajo-
+         dcha) se conservan como firma cromática del sistema.
+       · La imagen respira debajo con opacidad efectiva ~72% —
+         suficiente para que Khenpo se lea con presencia, sin dominar
+         la lectura vertical del sitio.
+       · Fallback cálido conservado (arcilla → calido-zen). */
   .mission__media {
     position: absolute;
     inset: 0;
@@ -234,11 +254,14 @@
     height: 100%;
     will-change: transform;
     background:
-      url("../../assets/img/bienvenida-paramita.jpg") center/cover no-repeat,
-      radial-gradient(120% 90% at 30% 20%, rgba(255, 180, 0, 0.20), transparent 55%),
-      radial-gradient(120% 120% at 80% 90%, rgba(16, 94, 169, 0.35), transparent 60%),
-      linear-gradient(160deg, #2a1f14 0%, #0a0806 100%);
-    background-blend-mode: multiply, normal, normal, normal;
+      linear-gradient(180deg,
+        color-mix(in oklch, var(--arena) 32%, transparent) 0%,
+        color-mix(in oklch, var(--arena) 22%, transparent) 100%),
+      radial-gradient(120% 90% at 30% 20%, rgba(255, 180, 0, 0.15), transparent 55%),
+      radial-gradient(120% 120% at 80% 90%, rgba(16, 94, 169, 0.18), transparent 60%),
+      url("../../assets/img/khenpo-luz-dorada-low.jpg") center/cover no-repeat,
+      linear-gradient(160deg, var(--arcilla) 0%, var(--calido-zen) 100%);
+    background-blend-mode: normal, normal, normal, normal, normal;
   }
 
   .mission__media video {
@@ -250,7 +273,12 @@
     display: block;
   }
 
-  /* Overlay con play button + caption */
+  /* Overlay con play button + caption
+     Fase 5.6b · velo inferior algo más denso porque ahora la imagen es
+     luminosa y el play button (blanco translúcido) + caption (blanco)
+     necesitan un anclaje oscuro localizado abajo. Se mantiene arriba
+     transparente para no apagar la luz dorada de la parte superior
+     de la imagen de khenpo. */
   .mission__overlay {
     position: absolute;
     inset: 0;
@@ -261,8 +289,9 @@
     justify-content: center;
     gap: 20px;
     background: linear-gradient(to top,
-      rgba(10, 8, 6, 0.4),
-      transparent 60%);
+      rgba(10, 8, 6, 0.5),
+      rgba(10, 8, 6, 0.15) 40%,
+      transparent 70%);
   }
 
   .mission__play {
@@ -1073,31 +1102,35 @@
   }
 
   /* ─────────────────────────────────────────────────────────────────────
-     TCARD · Fase 5.6 · rediseño editorial
+     TCARD · Fase 5.6d · comilla como arquitectura visual
      ─────────────────────────────────────────────────────────────────────
-     Estudio previo de patrones que funcionan en conversión editorial
-     (The Guardian, NYT Opinion, Medium editorial, Behance testimonios):
+     Feedback anterior: la comilla como firma en la esquina "no destaca
+     y no es disruptiva". Se pide algo más radical y coherente con la
+     estética Paramita: la comilla debe habitar TODA la card como
+     watermark tipográfico gigante.
 
-       · Comilla ornamental sobredimensionada como MARCA DE AGUA. La
-         comilla no lee, opera como firma visual del bloque. Va en la
-         esquina superior izquierda, translúcida, sin competir con la
-         cita.
-       · Cita en Fraunces italic con tamaño mayor y peso reducido.
-         La cita GANA presencia — es lo importante, respira.
-       · Autor separado del texto por una línea de acento fina dorada
-         (no una foto genérica falsa). Aumenta la credibilidad sin
-         recurrir a stock photos vacías.
-       · Card destacada (hover / is-active) con halo dorado tenue
-         además del box-shadow — el sistema Paramita se enciende con
-         luz dorada, no con sombra gris.
+     Referencias visuales:
+       · Kinfolk (portadas donde una sola letra ocupa la portada)
+       · Cereal Magazine (tipografía como textura arquitectónica)
+       · Wallpaper* Design Awards (letras gigantes de baja opacidad
+         detrás de contenido editorial denso)
+       · The New Yorker fiction pages (comilla apertura desmesurada
+         como puerta de entrada al texto)
 
-     Coherencia con el sistema:
-       · La comilla en Fraunces italic (--display) — misma familia que
-         los momentos identitarios del sitio.
-       · Dorado como acento — línea del sistema, no un color nuevo.
-       · Halo dorado en activa — mismo idioma que btn-amigo, footer.fl,
-         emails. Es "el sistema iluminándose", no un efecto suelto.
+     Arquitectura de capas en la card:
+       · Fondo · card lino con borde sutil.
+       · Watermark · comilla gigante Fraunces italic ocupando toda la
+         card (font-size ~340px o 100% de la altura), en dorado con
+         opacidad ~0.10-0.14. Posicionada arriba-izquierda pero
+         extendiéndose visualmente por toda la superficie. Se recorta
+         por overflow: hidden.
+       · Contenido · cita + autor por encima del watermark, protegidos
+         por su propio color y peso.
 
+     La comilla ES la card. La cita se lee sobre ella como texto sobre
+     tapiz tipográfico. Es exactamente lo opuesto a "comilla decorativa
+     en esquina": aquí la comilla convierte la card en un objeto
+     editorial que existe por su tipografía, no por su contenedor.
      ───────────────────────────────────────────────────────────────────── */
 
   .tcard {
@@ -1110,13 +1143,14 @@
     background: var(--card);
     border: 1px solid var(--hair);
     border-radius: 20px;
-    /* Padding superior generoso para que la comilla ornamental respire */
-    padding: calc(var(--espacio-contenido) * 1.4)
-             var(--espacio-contenido)
-             var(--espacio-contenido);
+    padding: var(--espacio-contenido);
+    /* Altura mínima para que la comilla gigante tenga espacio real
+       donde extenderse — sin esto la card se autoencaja al contenido
+       y la comilla queda comprimida verticalmente */
+    min-height: 340px;
     opacity: 0.72;
-    overflow: hidden;   /* recorta la comilla si se sale por la esquina */
-    isolation: isolate; /* la comilla queda contenida en su z-index local */
+    overflow: hidden;
+    isolation: isolate;
     transition: opacity var(--t-defecto),
                 transform var(--t-defecto),
                 box-shadow var(--t-defecto),
@@ -1130,31 +1164,39 @@
     }
   }
 
-  /* Comilla ornamental grande · marca de agua editorial
-     ─────────────────────────────────────────────────
-     Fraunces italic sobredimensionado en la esquina superior izquierda.
-     No es un ::before del blockquote (eso empujaba el texto): es un
-     ::before de la propia tcard, absolute, actuando como firma visual.
-     Opacidad baja para que sea presencia, no protagonista. Halo dorado
-     tenue le da la calidad "luz interior" del sistema. */
+  /* Comilla WATERMARK arquitectónico · Fase 5.6d
+     ─────────────────────────────────────────────
+     Ocupa TODA la card como textura tipográfica de fondo.
+     Detalles críticos:
+       · font-size en unidades de la propia card (usa la altura de
+         referencia con clamp(15rem, 34vw, 26rem)). En cards de 500px
+         de ancho da una comilla de ~200px+; en cards de 290px
+         (móvil) da ~150px+. Siempre grande respecto al contenedor.
+       · position absolute · top y left negativos generosos, la
+         comilla se sale de los bordes conscientemente. overflow:
+         hidden de la card la recorta creando el efecto "tapiz".
+       · z-index -1 · vive DEBAJO del contenido, no lo interfiere.
+       · opacity 0.11 en reposo · presencia sin protagonismo.
+       · line-height: 0.75 · aprieta la forma vertical de la comilla
+         para que ocupe más ancho visual y menos alto (Fraunces italic
+         tiene aire vertical grande por defecto). */
   .tcard::before {
     content: "\201C";
     position: absolute;
-    top: -0.15em;
-    left: 0.32em;
-    z-index: 0;
+    top: -0.32em;
+    left: -0.08em;
+    z-index: -1;
     font-family: var(--display);
     font-style: italic;
     font-weight: 300;
-    font-size: clamp(6rem, 10vw, 10rem);
-    line-height: 1;
+    font-size: clamp(15rem, 34vw, 26rem);
+    line-height: 0.75;
+    letter-spacing: -0.04em;
     color: var(--dorado);
-    opacity: 0.22;
-    text-shadow: 0 0 30px oklch(78% 0.155 68 / 0.35);
+    opacity: 0.11;
     pointer-events: none;
     user-select: none;
     transition: opacity var(--t-defecto),
-                text-shadow var(--t-defecto),
                 transform var(--t-defecto);
   }
 
@@ -1171,12 +1213,12 @@
                 0 0 40px -6px oklch(78% 0.155 68 / 0.25);
   }
 
-  /* La comilla se intensifica en la card destacada · presencia sin gritar */
+  /* La comilla watermark se intensifica ligeramente en la card destacada.
+     Fase 5.6d · sin transform scale (rompía la composición al ser tan
+     grande), sólo sube opacidad para que la textura sea más presente. */
   .tcard:hover::before,
   .tcard.is-active::before {
-    opacity: 0.32;
-    text-shadow: 0 0 40px oklch(78% 0.155 68 / 0.55);
-    transform: scale(1.02);
+    opacity: 0.17;
   }
 
   /* Cita · Fraunces italic, tamaño mayor, peso reducido.
@@ -1196,22 +1238,38 @@
     text-wrap: pretty;
   }
 
-  /* Autor · Fase 5.6 · línea de acento dorada en lugar de foto
-     El autor se separa de la cita por una línea fina dorada de 24px
-     de ancho. Es un gesto editorial clásico (visto en NYT, Guardian
-     Opinion) que aumenta la credibilidad percibida sin caer en fotos
-     genéricas de stock. La línea usa border-top + padding-top para
-     ir vinculada al elemento (no un ::before separado). */
+  /* Autor · Fase 5.6b · línea de acento fina y corta
+     ─────────────────────────────────────────────────
+     Feedback: la línea de 2px con ancho del contenido quitaba
+     protagonismo a la cita y a las comillas. Diagnóstico correcto:
+     una línea gruesa que abarca todo el nombre compite visualmente
+     con el momento editorial.
+
+     Solución editorial clásica (Guardian Opinion, NYT):
+       · Línea muy fina · 1px hairline.
+       · Ancho FIJO corto · 28px (no derivada del contenido).
+       · Vive por encima del nombre como un pequeño gesto tipográfico,
+         no como separación estructural.
+     La proporción cambia radicalmente: ahora la voz del practicante
+     (cita) y la firma dorada (comilla) son los protagonistas, y el
+     autor queda con presencia discreta pero clara. */
   .tcard figcaption {
     position: relative;
     z-index: 1;
     font-family: var(--body);
     font-size: 0.86rem;
     color: var(--texto-suave);
-    padding-top: var(--espacio-elemento);
-    border-top: 2px solid var(--dorado);
-    width: max-content;
-    max-width: 100%;
+    padding-top: 0.7rem;
+    /* Ya no border-top · sustituido por un ::before controlado */
+  }
+
+  .tcard figcaption::before {
+    content: "";
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--dorado);
+    margin-bottom: 0.7rem;
   }
 
   .tcard figcaption b {
