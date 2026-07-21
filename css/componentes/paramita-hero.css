@@ -58,44 +58,38 @@
 
 
   /* ─────────────────────────────────────────────────────────────────────
-     CONTENEDOR PRINCIPAL DEL HERO
+     CONTENEDOR PRINCIPAL DEL HERO · Fase 5.6h · solución definitiva
      ─────────────────────────────────────────────────────────────────────
-     Fase 5.6d · Diagnóstico corregido de la captura en incógnito.
-     Las Fases 5.6b/c bajaron min-height y aplicaron align-content: start
-     en .hero, pero el bloque de contenido SEGUÍA anclado abajo. Causa
-     real: .hero__inner es otro grid interno, y la combinación grid-en-
-     grid genera comportamientos de distribución vertical imprevisibles.
+     Diagnóstico final con DevTools: el .hero__inner medía 599.55 px
+     en un hero de min-height 62svh. El único hijo flex se estiraba
+     verticalmente al padre a pesar de align-self: flex-start.
 
-     Solución inequívoca · convertir .hero a FLEX COLUMN con
-     justify-content: flex-start. Es la forma menos ambigua de decirle
-     al navegador "todo el contenido pegado arriba, sin distribuir el
-     espacio sobrante". El espacio sobrante queda debajo, no repartido.
+     Solución CSS-Grid mínima e inequívoca:
+       · .hero es GRID con una sola celda (auto).
+       · align-content: start · el hijo queda arriba, el espacio
+         sobrante bajo el CTA (NO dentro del hijo).
+       · grid-template-rows: auto · la fila mide lo que mide el hijo.
 
-     También se AUMENTA el min-height a 78svh — no es problema el hero
-     largo si el CTA está arriba, es problema tenerlo con el CTA abajo.
-     Con el CTA arriba, la altura larga del hero funciona como fondo
-     cinemático que se prolonga bajo el bloque de texto.
+     Grid con align-content: start es la forma más limpia y predecible
+     de "hijo arriba, aire sobrante debajo". Sin ambigüedad, sin
+     defensas anti-estiramiento, sin flex-column vs align-self.
      ───────────────────────────────────────────────────────────────────── */
 
   .hero {
     position: relative;
     z-index: 2;
     width: 100%;
-    min-height: 78svh;
+    min-height: 62svh;
 
-    /* FLEX column · anclado arriba, sin distribuir espacio sobrante */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-rows: auto;
+    align-content: start;
 
-    /* Padding superior generoso, inferior mínimo (el vídeo continúa
-       cinemáticamente debajo del bloque de texto) */
-    padding-block: var(--espacio-umbral) var(--espacio-elemento);
+    padding-block: var(--espacio-contenido) var(--espacio-elemento);
 
     background: radial-gradient(120% 85% at 80% -12%,
       var(--calido-zen), transparent 62%);
 
-    /* Contiene las capas absolutas del fondo (vídeo, fallback, velo) */
     isolation: isolate;
     overflow: hidden;
   }
@@ -108,14 +102,13 @@
 
 
   /* ─────────────────────────────────────────────────────────────────────
-     HERO__INNER · el grid con jerarquía por AGRUPACIÓN
+     HERO__INNER · grid interno con los grupos apilados
      ─────────────────────────────────────────────────────────────────────
-     REVISIÓN Fase 5.6 · gap compactado.
-     El gap por defecto baja de --espacio-contenido (32px) a
-     --espacio-grupo (24px) entre grupos. La proximidad Gestalt se
-     preserva porque los overrides internos (lede y actions con
-     margin-top negativo) siguen aproximando los elementos que
-     pertenecen al mismo grupo semántico.
+     Fase 5.6h · simplificado al mínimo.
+     Con el .hero como grid con align-content: start, el hero__inner
+     queda arriba automáticamente. Ya no hacen falta defensas
+     anti-estiramiento — el problema se resuelve en el padre, no
+     en el hijo.
      ───────────────────────────────────────────────────────────────────── */
 
   .hero__inner {
@@ -123,7 +116,7 @@
     margin-inline: auto;
 
     display: grid;
-    gap: var(--espacio-grupo);   /* 24px · separación entre GRUPOS */
+    gap: var(--espacio-elemento);   /* 16px · compacto entre grupos */
   }
 
 
@@ -135,16 +128,36 @@
      ───────────────────────────────────────────────────────────────────── */
 
   .hero h1 {
-    font-size: var(--texto-h1);
+    /* Fase 5.6g · reducción de la altura visual del H1
+       ────────────────────────────────────────────────
+       Diagnóstico DevTools: el H1 medía 769×180px. Con clamp de hasta
+       5.6rem (~90px) y line-height 1.02 sobre 2 líneas obligatorias
+       (Despierta tu / rotator), el H1 ocupaba solo ~180px de altura.
+
+       Esa era la banda "muerta" percibida bajo el eyebrow y sobre el
+       lede — no era espacio vacío del grid, era el H1 mismo con aire
+       vertical interno por su line-height.
+
+       Correcciones locales al H1 · NO se toca el sistema tipográfico
+       global (--texto-h1 sigue siendo la escala general de H1 del
+       sitio para otras secciones):
+         · font-size local · clamp(2.6rem, 7.5vw, 4.6rem) = hasta
+           ~74px en desktop (vs 90px antes). Reducción del 18% en
+           tamaño del glifo.
+         · line-height local · 0.96 (vs 1.02) · líneas casi tocándose,
+           muy editorial, aprovecha la elegancia de Fraunces italic
+           cuando las líneas están apretadas.
+       Resultado: H1 pasa de ~180px a ~140px de altura. Reducción
+       del 22%. Se elimina la banda visual "muerta". */
+    font-size: clamp(2.6rem, 7.5vw, 4.6rem);
+    line-height: 0.96;
     max-width: var(--medida-titulo);
     text-wrap: balance;
   }
 
-  /* Lede · Fase 5.6 · pasa a Hanken Grotesk (--body) recto.
-     Anteriormente en Fraunces italic — competía con el rotador italic
-     del H1. Ahora hace de "puente" hacia el resto del cuerpo del sitio,
-     que también es Hanken. Peso "presencia" (400) para mantener la
-     autoridad de introducción sin caer en un cuerpo genérico. */
+  /* Lede · Fase 5.6 · Hanken Grotesk (--body) recto.
+     Fase 5.6g · sin margin-top negativo · con gap 16px del grid ya
+     no hace falta aproximar más al H1. */
   .hero .lede {
     font-family: var(--body);
     font-style: normal;
@@ -153,21 +166,15 @@
     line-height: var(--leading-lede);
     max-width: var(--medida-lede);
     color: var(--texto-suave);
-    font-variation-settings: normal;   /* anula el opsz del italic anterior */
-    margin-top: calc(var(--espacio-elemento) - var(--espacio-grupo));
+    font-variation-settings: normal;
   }
 
-  /* Actions · flexbox horizontal + aproximación al lede
-     Fase 5.6 · el margin-top negativo se recalcula sobre el nuevo gap
-     de 24px del grid. La aproximación al lede ahora es de 16px
-     (--espacio-elemento) porque el CTA es la culminación del bloque
-     semántico "qué es y cómo empezar". */
+  /* Actions · flexbox horizontal · Fase 5.6g · sin margin-top negativo. */
   .hero .actions {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: var(--espacio-grupo);   /* 24px entre CTA y meta */
-    margin-top: calc(var(--espacio-elemento) - var(--espacio-grupo));
   }
 
   /* Meta · fila con el indicador y la información */
