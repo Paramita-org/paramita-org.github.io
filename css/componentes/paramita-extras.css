@@ -17,7 +17,7 @@
      4 · .flip-grid           cursos con Grid Flip (integra GSAP)
      5 · .participa           vías de participación con destacado cíclico
      6 · .tcarousel + .tcard  carrusel horizontal de testimonios
-     7 · .cta-final           CTA con zoom-word + ornamentos SVG
+     7 · .cta-final           CTA con zoom-word + halo radial dorado
 
    CINCO DECISIONES IDENTITARIAS · Fase 0.1
    ────────────────────────────────────────
@@ -163,10 +163,13 @@
     text-wrap: balance;
   }
 
-  .mission__titulo em {
-    font-style: italic;
-    color: var(--azul-oscuro);
-  }
+  /* «hispanohablante» en cursiva · Fase 5.4
+     Regla ELIMINADA · antes forzaba color azul-oscuro, vestigio anterior
+     a la Fase 1b. La regla global h1/h2/h3 em de paramita-tipografia.css
+     línea 275 ya declara el dorado del sistema, y la variación tipográfica
+     (opsz monumental + SOFT). Bastaba con dejar que la herencia funcione.
+     No declaramos el em aquí; su tratamiento vive en el archivo canónico
+     de tipografía. */
 
   .mission__texto {
     margin-top: var(--espacio-grupo);
@@ -522,16 +525,16 @@
 
   .flip-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: 1fr;
-    gap: 14px;
+    gap: 16px;
     max-width: 900px;
     margin-inline: 0;   /* Alineado a la izquierda con el título */
   }
 
   .flip-celda {
     position: relative;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 5;
     border-radius: 16px;
     overflow: hidden;
     display: block;
@@ -597,10 +600,10 @@
 
   /* ─────────────────────────────────────────────────────────────────────
      VELOS CLAROS · variante C híbrida
-     Dos degradados azul-sutil pálido (arriba 40%, abajo 55%), imagen
-     visible en el centro. Al expandir a 2×2, los velos se disipan para
-     que la foto florezca en plenitud. Coherencia sistémica con la
-     paleta oficial (#DBE8F4 = --azul-sutil muy diluido).
+     Dos degradados en --lino (marfil casi blanco, en paleta oficial),
+     imagen visible en el centro. Al expandir a 2×2, los velos se disipan
+     para que la foto florezca en plenitud. Coherencia sistémica total
+     con la familia cálida (--lino, --arena, --arcilla, --calido-zen).
      ───────────────────────────────────────────────────────────────────── */
 
   .flip-celda__veil-top {
@@ -610,9 +613,14 @@
     right: 0;
     height: 40%;
     z-index: 1;
+    /* Fase 4 v2.1 · velo con --lino (marfil casi blanco, en paleta).
+       Corrige el azul-sutil inventado (#DBE8F4) que rompía la unidad
+       cromática cálida del sistema. --lino es 9 puntos más luminoso
+       que --calido-zen del fondo, así que la tarjeta despega sin
+       sentirse fría — misma familia cromática cálida. */
     background: linear-gradient(to bottom,
-      rgba(219, 232, 244, 0.92) 0%,
-      rgba(219, 232, 244, 0.55) 55%,
+      color-mix(in oklch, var(--lino) 92%, transparent) 0%,
+      color-mix(in oklch, var(--lino) 55%, transparent) 55%,
       transparent 100%);
     pointer-events: none;
     transition: opacity var(--t-defecto);
@@ -626,18 +634,41 @@
     height: 55%;
     z-index: 1;
     background: linear-gradient(to top,
-      rgba(219, 232, 244, 0.96) 0%,
-      rgba(219, 232, 244, 0.72) 45%,
-      rgba(219, 232, 244, 0.18) 85%,
+      color-mix(in oklch, var(--lino) 96%, transparent) 0%,
+      color-mix(in oklch, var(--lino) 72%, transparent) 45%,
+      color-mix(in oklch, var(--lino) 18%, transparent) 85%,
       transparent 100%);
     pointer-events: none;
     transition: opacity var(--t-defecto);
   }
 
-  /* Al expandir la tarjeta · los velos se disipan (foto florece) */
+  /* Al expandir la tarjeta · los velos claros se disipan y aparece
+     un velo oscuro degradado abajo para garantizar contraste absoluto
+     del texto (título + descripción + CTA) sobre cualquier foto. */
   .flip-celda.is-expanded .flip-celda__veil-top,
   .flip-celda.is-expanded .flip-celda__veil-bot {
-    opacity: 0.15;
+    opacity: 0;
+  }
+
+  /* Velo oscuro EXCLUSIVO del estado expandido · patrón sistema (.band::before).
+     Solo se muestra cuando la tarjeta está grande; en reposo permanece invisible. */
+  .flip-celda::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(to top,
+      rgba(15, 20, 30, 0.88) 0%,
+      rgba(15, 20, 30, 0.55) 35%,
+      rgba(15, 20, 30, 0.18) 62%,
+      transparent 85%);
+    transition: opacity var(--t-defecto);
+  }
+
+  .flip-celda.is-expanded::before {
+    opacity: 1;
   }
 
   /* ─────────────────────────────────────────────────────────────────────
@@ -662,7 +693,7 @@
     gap: 0.5rem;
     padding: 0.4em 0.85em;
     border-radius: 99px;
-    background: rgba(219, 232, 244, 0.85);
+    background: color-mix(in oklch, var(--lino) 88%, transparent);
     border: 0.5px solid rgba(31, 78, 143, 0.14);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -683,12 +714,12 @@
     flex-shrink: 0;
   }
 
-  /* Colores por tipo · reposo (sobre velo claro azul-sutil pálido) */
+  /* Colores por tipo · reposo (sobre velo claro marfil) · SOLO tokens del sistema */
   .flip-celda[data-tipo="curso"]  .flip-celda__tipo { color: var(--azul-oscuro); }
   .flip-celda[data-tipo="retiro"] .flip-celda__tipo {
     color: color-mix(in oklch, var(--dorado) 78%, #2c1e08);
   }
-  .flip-celda[data-tipo="evento"] .flip-celda__tipo { color: var(--azul-oscuro); }
+  .flip-celda[data-tipo="evento"] .flip-celda__tipo { color: var(--azul-sutil); }
   .flip-celda[data-tipo="gira"]   .flip-celda__tipo {
     color: color-mix(in oklch, var(--azul-oscuro) 50%, var(--dorado));
   }
@@ -786,17 +817,30 @@
     display: block;
   }
 
-  /* CTA · Ver curso · solo en expandido */
+  /* CTA · Ver curso · aparece con animación al expandirse la tarjeta.
+     El deslizamiento desde abajo + flecha que llega comunica affordance
+     de clic. Sobre :hover posterior, la flecha se desplaza más. */
   .flip-celda__cta {
     display: none;
     font-family: var(--body);
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     font-weight: 500;
     letter-spacing: 0.01em;
     align-items: center;
-    gap: 0.4rem;
-    margin-top: 0.75rem;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+    padding: 0.55em 1.1em;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 0.5px solid rgba(255, 255, 255, 0.32);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     color: inherit;
+    transition: background var(--t-defecto),
+                border-color var(--t-defecto),
+                transform var(--t-defecto);
+    /* Animación de entrada al expandirse · slide-in from below */
+    animation: none;
   }
 
   .flip-celda__cta::after {
@@ -807,11 +851,31 @@
 
   .flip-celda.is-expanded .flip-celda__cta {
     display: inline-flex;
+    animation: cta-entrada 0.55s ease 0.15s both;
+  }
+
+  /* Sobre hover de la tarjeta expandida · CTA reacciona activamente */
+  .flip-celda.is-expanded:hover .flip-celda__cta,
+  .flip-celda.is-expanded:focus-visible .flip-celda__cta {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.5);
   }
 
   .flip-celda.is-expanded:hover .flip-celda__cta::after,
   .flip-celda.is-expanded:focus-visible .flip-celda__cta::after {
-    transform: translateX(4px);
+    transform: translateX(5px);
+  }
+
+  /* Keyframes de entrada del CTA · desde abajo con flecha llegando */
+  @keyframes cta-entrada {
+    0% {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   /* Tags · legacy conservado para compatibilidad, pero sin uso activo
@@ -831,21 +895,21 @@
   /* Responsive */
   @media (max-width: 980px) {
     .flip-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       max-width: 640px;
     }
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 560px) {
     .flip-grid {
-      grid-template-columns: repeat(2, 1fr);
-      max-width: 520px;
-      gap: 12px;
+      grid-template-columns: 1fr;
+      max-width: 380px;
+      gap: 14px;
     }
     .flip-celda.is-expanded {
-      grid-column: 1 / -1;
+      grid-column: 1;
       grid-row: auto;
-      aspect-ratio: 16 / 10;
+      aspect-ratio: 4 / 5;
     }
   }
 
@@ -857,12 +921,20 @@
     .flip-celda__veil-bot,
     .flip-celda__tipo,
     .flip-celda__overlay,
-    .flip-celda__cta::after {
+    .flip-celda__cta,
+    .flip-celda__cta::after,
+    .flip-celda::before {
       transition: none !important;
+      animation: none !important;
     }
     .flip-celda__pic {
       transform: none;
       opacity: 0.9;
+    }
+    .flip-celda.is-expanded .flip-celda__cta {
+      animation: none;
+      opacity: 1;
+      transform: none;
     }
   }
 
@@ -1000,7 +1072,36 @@
     align-items: stretch;
   }
 
+  /* ─────────────────────────────────────────────────────────────────────
+     TCARD · Fase 5.6 · rediseño editorial
+     ─────────────────────────────────────────────────────────────────────
+     Estudio previo de patrones que funcionan en conversión editorial
+     (The Guardian, NYT Opinion, Medium editorial, Behance testimonios):
+
+       · Comilla ornamental sobredimensionada como MARCA DE AGUA. La
+         comilla no lee, opera como firma visual del bloque. Va en la
+         esquina superior izquierda, translúcida, sin competir con la
+         cita.
+       · Cita en Fraunces italic con tamaño mayor y peso reducido.
+         La cita GANA presencia — es lo importante, respira.
+       · Autor separado del texto por una línea de acento fina dorada
+         (no una foto genérica falsa). Aumenta la credibilidad sin
+         recurrir a stock photos vacías.
+       · Card destacada (hover / is-active) con halo dorado tenue
+         además del box-shadow — el sistema Paramita se enciende con
+         luz dorada, no con sombra gris.
+
+     Coherencia con el sistema:
+       · La comilla en Fraunces italic (--display) — misma familia que
+         los momentos identitarios del sitio.
+       · Dorado como acento — línea del sistema, no un color nuevo.
+       · Halo dorado en activa — mismo idioma que btn-amigo, footer.fl,
+         emails. Es "el sistema iluminándose", no un efecto suelto.
+
+     ───────────────────────────────────────────────────────────────────── */
+
   .tcard {
+    position: relative;
     flex: 0 0 clamp(290px, 40vw, 500px);
     display: flex;
     flex-direction: column;
@@ -1009,8 +1110,13 @@
     background: var(--card);
     border: 1px solid var(--hair);
     border-radius: 20px;
-    padding: var(--espacio-contenido);
+    /* Padding superior generoso para que la comilla ornamental respire */
+    padding: calc(var(--espacio-contenido) * 1.4)
+             var(--espacio-contenido)
+             var(--espacio-contenido);
     opacity: 0.72;
+    overflow: hidden;   /* recorta la comilla si se sale por la esquina */
+    isolation: isolate; /* la comilla queda contenida en su z-index local */
     transition: opacity var(--t-defecto),
                 transform var(--t-defecto),
                 box-shadow var(--t-defecto),
@@ -1024,38 +1130,88 @@
     }
   }
 
-  /* Destacado al pasar el cursor o al ser activada por JS */
+  /* Comilla ornamental grande · marca de agua editorial
+     ─────────────────────────────────────────────────
+     Fraunces italic sobredimensionado en la esquina superior izquierda.
+     No es un ::before del blockquote (eso empujaba el texto): es un
+     ::before de la propia tcard, absolute, actuando como firma visual.
+     Opacidad baja para que sea presencia, no protagonista. Halo dorado
+     tenue le da la calidad "luz interior" del sistema. */
+  .tcard::before {
+    content: "\201C";
+    position: absolute;
+    top: -0.15em;
+    left: 0.32em;
+    z-index: 0;
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(6rem, 10vw, 10rem);
+    line-height: 1;
+    color: var(--dorado);
+    opacity: 0.22;
+    text-shadow: 0 0 30px oklch(78% 0.155 68 / 0.35);
+    pointer-events: none;
+    user-select: none;
+    transition: opacity var(--t-defecto),
+                text-shadow var(--t-defecto),
+                transform var(--t-defecto);
+  }
+
+  /* Destacado · Fase 5.6 · halo dorado además de box-shadow
+     La luz dorada es el idioma del sistema: btn-amigo, footer.fl,
+     emails, todos se encienden con dorado. Aquí la card activa gana
+     el mismo aura para señalar "esta es la voz que escuchas ahora". */
   .tcard:hover,
   .tcard.is-active {
     opacity: 1;
     transform: scale(1.035);
-    border-color: color-mix(in oklch, var(--azul-oscuro) 24%, transparent);
-    box-shadow: 0 30px 60px -34px rgba(40, 33, 26, 0.45);
+    border-color: color-mix(in oklch, var(--dorado) 35%, var(--hair));
+    box-shadow: 0 30px 60px -34px rgba(40, 33, 26, 0.35),
+                0 0 40px -6px oklch(78% 0.155 68 / 0.25);
   }
 
+  /* La comilla se intensifica en la card destacada · presencia sin gritar */
+  .tcard:hover::before,
+  .tcard.is-active::before {
+    opacity: 0.32;
+    text-shadow: 0 0 40px oklch(78% 0.155 68 / 0.55);
+    transform: scale(1.02);
+  }
+
+  /* Cita · Fraunces italic, tamaño mayor, peso reducido.
+     Se relega el italic del sistema al blockquote (identifica que es
+     una cita) y se aumenta el tamaño para que la voz del practicante
+     ocupe el espacio semántico principal. */
   .tcard blockquote {
+    position: relative;
+    z-index: 1;   /* por encima de la comilla ornamental */
     font-family: var(--display);
+    font-style: italic;
     font-weight: 300;
-    font-size: clamp(1.15rem, 1.7vw, 1.5rem);
-    line-height: 1.42;
+    font-size: clamp(1.25rem, 1.85vw, 1.65rem);
+    line-height: 1.4;
     letter-spacing: -0.005em;
     color: var(--antracita);
     text-wrap: pretty;
   }
 
-  /* Comilla decorativa · glifo grande dorado */
-  .tcard blockquote::before {
-    content: "\201C";
-    font-size: 2.4rem;
-    line-height: 0;
-    color: var(--dorado);
-    vertical-align: -0.35em;
-    margin-right: 0.12em;
-  }
-
+  /* Autor · Fase 5.6 · línea de acento dorada en lugar de foto
+     El autor se separa de la cita por una línea fina dorada de 24px
+     de ancho. Es un gesto editorial clásico (visto en NYT, Guardian
+     Opinion) que aumenta la credibilidad percibida sin caer en fotos
+     genéricas de stock. La línea usa border-top + padding-top para
+     ir vinculada al elemento (no un ::before separado). */
   .tcard figcaption {
+    position: relative;
+    z-index: 1;
+    font-family: var(--body);
     font-size: 0.86rem;
     color: var(--texto-suave);
+    padding-top: var(--espacio-elemento);
+    border-top: 2px solid var(--dorado);
+    width: max-content;
+    max-width: 100%;
   }
 
   .tcard figcaption b {
@@ -1063,8 +1219,9 @@
     font-weight: 600;
     color: var(--antracita);
     font-family: var(--body);
-    font-size: 0.96rem;
-    margin-bottom: 0.12rem;
+    font-size: 0.98rem;
+    margin-bottom: 0.15rem;
+    letter-spacing: -0.005em;
   }
 
   /* Indicadores laterales sutiles · degradado de borde
@@ -1096,11 +1253,21 @@
 
 
   /* ═════════════════════════════════════════════════════════════════════
-     7 · CTA-FINAL · zoom-word + ornamentos SVG (Efecto 05-06)
+     7 · CTA-FINAL · zoom-word + halo radial dorado (Fase 5.4)
      ─────────────────────────────────────────────────────────────────────
      Bloque final de la home. Texto grande que hace zoom con el scroll,
-     rodeado de dos ornamentos SVG que se dibujan progresivamente al
-     hacer scroll. Los ornamentos usan stroke-dashoffset animado por JS.
+     rodeado de un halo radial dorado muy sutil que funciona como
+     "clareo luminoso" — la sensación de llegar a un espacio de luz
+     tras el recorrido de la página.
+
+     REEMPLAZO Fase 5.4 · antes había dos ornamentos SVG laterales que
+     se dibujaban por scroll. Se retiraron por dos razones:
+       1 · Conceptualmente débiles · no ligaban con la metáfora del
+           cruce como acto ni con el sistema identitario.
+       2 · En móvil solapaban el zoom-word (que llega a 9vw en tamaño),
+           el overflow: hidden solo los recortaba sin evitar el solape.
+     El halo radial es ambiental, sin líneas, no compite con el texto y
+     escala automáticamente en cualquier viewport.
      ═════════════════════════════════════════════════════════════════════ */
 
   .cta-final {
@@ -1110,10 +1277,34 @@
     padding-bottom: var(--espacio-orilla);
     text-align: center;
     overflow: hidden;
+    isolation: isolate;
   }
 
-  /* Todo el contenido por encima de los ornamentos */
-  .cta-final > :not(.cta-orn) {
+  /* Halo radial dorado · aura de luz tras el CTA
+     El radial-gradient nace en el centro del bloque y se apaga en los
+     bordes. Opacidad global del pseudo-elemento en 1 (los stops ya son
+     translúcidos), z-index negativo para quedar detrás del contenido
+     sin necesidad de reglas de apilamiento en cada hijo.
+     Se apoya en el color dorado del sistema con dos anillos de caída:
+       · centro: dorado a 0.14 (presencia suave, no dominante)
+       · medio: dorado a 0.06 (transición larga)
+       · borde: transparente total
+     Esta gradación amplia hace que el halo se lea como "atmósfera",
+     no como "efecto" — el ojo lo percibe pero no lo identifica. */
+  .cta-final::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(ellipse 70% 60% at 50% 55%,
+      oklch(78% 0.155 68 / 0.14) 0%,
+      oklch(78% 0.155 68 / 0.06) 42%,
+      transparent 75%);
+  }
+
+  /* Todo el contenido por encima del halo */
+  .cta-final > * {
     position: relative;
     z-index: 1;
   }
@@ -1121,40 +1312,6 @@
   .cta-final .eyebrow {
     display: block;
     margin-bottom: var(--espacio-grupo);
-  }
-
-  /* Ornamentos abstractos laterales · trazo dibujado por scroll */
-  .cta-orn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    height: min(80%, 520px);
-    width: auto;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.5;
-  }
-
-  .cta-orn--left {
-    left: clamp(0.5rem, 5vw, 5rem);
-  }
-
-  .cta-orn--right {
-    right: clamp(0.5rem, 5vw, 5rem);
-    transform: translateY(-50%) scaleX(-1);
-  }
-
-  .cta-orn__path {
-    fill: none;
-    stroke: url(#ctaOrnGrad);
-    stroke-width: 3.4;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    will-change: stroke-dashoffset;
-  }
-
-  .cta-orn__dot {
-    fill: var(--dorado);
   }
 
   /* Texto principal · revelado zoom-stage atado al scroll */
@@ -1169,14 +1326,20 @@
     transform-origin: center center;
   }
 
-  .zoom-word span {
+  .zoom-word span,
+  .zoom-word em {
     display: block;
   }
 
-  /* Segunda línea en cursiva azul · patrón consistente con hero */
-  .zoom-word span:nth-child(2) {
+  /* Segunda línea en cursiva dorada · Fase 5.4
+     Antes: <span> con override a azul-oscuro (excepción anterior a la
+     regla de sistema).  Ahora: <em> que hereda el dorado de la regla
+     global h1/h2/h3 em declarada en paramita-tipografia.css línea 275.
+     No hace falta declarar color aquí — la herencia funciona.
+     Se conserva font-variation-settings para que el opsz monumental y
+     el SOFT scroll-driven sigan aplicándose al glifo cursivo. */
+  .zoom-word em {
     font-style: italic;
-    color: var(--azul-oscuro);
   }
 
   .cta-sub {
@@ -1202,20 +1365,6 @@
     align-items: center;
     gap: clamp(1.4rem, 4vw, 2.6rem);
     flex-wrap: wrap;
-  }
-
-  /* Móvil · ornamentos más pequeños pegados a los bordes */
-  @media (max-width: 760px) {
-    .cta-orn {
-      height: min(62%, 340px);
-      opacity: 0.42;
-    }
-    .cta-orn--left {
-      left: -4px;
-    }
-    .cta-orn--right {
-      right: -4px;
-    }
   }
 
 

@@ -2,60 +2,60 @@
    PARAMITA · FUNDACIÓN SAKYA
    paramita-footer.css — Pie de página «practiquemos juntos»
    ───────────────────────────────────────────────────────────────────────────
-   Extraído en Fase 3 · Paso 3 del @layer footer de paramita-styles.css
-   (líneas 893-932 del original).
+   Extraído en Fase 3 · Paso 3 del @layer footer de paramita-styles.css.
 
    ESTRUCTURA VISUAL
    ─────────────────
-   El footer tiene DOS zonas apiladas:
-
-   1 · .foot__hero      zona superior sobre --azul-sutil, con un canvas de
-                        físicas detrás del titular «practiquemos juntos».
-                        Título grande en antracita (contraste sobre azul),
-                        con la palabra «juntos» en lino con sombra sutil.
+   1 · .foot__hero      zona superior sobre --azul-sutil, con canvas de
+                        físicas (lotos) detrás del titular «practiquemos
+                        juntos». Título grande en antracita, «juntos»
+                        en lino con sombra sutil.
 
    2 · .foot__info      zona inferior sobre antracita oscurecido con la
-                        información del pie: logo, tagline, enlaces,
-                        dirección, redes sociales, base legal.
+                        información del pie.
 
-   TOKENS ANTIGUOS SUSTITUIDOS
-   ───────────────────────────
-   --t-med  →  --t-defecto     (transiciones de color, padding, borde,
-                                 background, transform en enlaces y redes)
+   REVISIÓN Fase 5.6 · tres refinamientos
+   ──────────────────────────────────────
+   A · Altura del foot__hero reducida (46-58-68vh → 36-44-52vh).
+       El bloque anterior era demasiado alto y creaba un vacío en la
+       transición de contenido a footer. Reducción de ~24% en promedio.
+
+   B · Degradado del foot__hero acentuado.
+       El halo radial central sube de 22% a 32% de luz, y sus dimensiones
+       crecen (55×60 → 65×72). Los stops del linear-gradient de fondo
+       amplían su diferencia (78/22, 100, 65/35 → 72/28, 100, 55/45)
+       para que el descenso arriba→abajo se lea con más profundidad
+       sin cambiar el idioma cromático (todo sigue en azul-sutil).
+
+   C · Enlaces del footer con halo dorado permanente ("luz budista").
+       Antes los .fl solo se encendían en hover. Ahora todos los enlaces
+       del footer llevan un halo dorado tenue permanente (opacity 0.35),
+       coherente con el idioma establecido para los emails (halo azul
+       permanente). En hover el halo se intensifica a triple stack.
+       El principio: los enlaces "quieren luz" — un footer budista se
+       lee como constelación, no como lista.
 
    HALLAZGO IDENTITARIO · Fase 0.1
    ───────────────────────────────
-   El logo del footer (.foot .logo-wave) sobrescribe la duración base de
-   la animación identitaria a 14s (la del navbar es 11s). Esto significa
-   que el respiratorio identitario aplica al logo en TODAS sus apariciones,
-   con ritmos ligeramente distintos según el contexto.
+   El logo del footer (.foot .logo-wave) sobrescribe la duración base a
+   14s (la del navbar es 11s).
 
-   Cuando extraigamos el componente del logo a su propio archivo, esta
-   sobrescritura se mantendrá aquí como enlace entre componentes.
-
-   RELACIÓN CON EL JAVASCRIPT
-   ──────────────────────────
-   El .foot__canvas es un <canvas> con una simulación de físicas (formas
-   que se atraen ligeramente al cursor). El JS asociado vivirá en
-   /js/comportamientos/footer-fisicas.js cuando organicemos /js/.
-
-   El JS respeta prefers-reduced-motion (no arranca el bucle).
+   TOKENS ANTIGUOS SUSTITUIDOS
+   ───────────────────────────
+   --t-med  →  --t-defecto
 
    NOTAS DE ACCESIBILIDAD
    ──────────────────────
-   · El color .foot h4 en --dorado sobre oscuro pasa WCAG 2.2 AA con
-     amplitud (contraste ~7.5:1). Verificado en Fase 1a.
-   · Los enlaces .foot a.fl heredan --lino sobre oscuro, con contraste
-     muy alto. En hover pasan a --dorado, también accesible.
-   · Los enlaces sociales usan rgba(250,246,240,.7) — contraste ~5.2:1,
-     que pasa AA para texto no-grande.
+   · Los enlaces .foot a.fl heredan --lino sobre oscuro, contraste muy
+     alto (~14:1). El halo dorado permanente no afecta el contraste del
+     texto (es una sombra externa, no cambia el color base). AA verificado.
+   · En hover pasan a --dorado sobre antracita, contraste ~7.5:1. AA.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @layer footer {
 
   /* ─────────────────────────────────────────────────────────────────────
      CONTENEDOR PRINCIPAL
-     El footer ocupa toda la anchura, con dos capas verticales apiladas.
      ───────────────────────────────────────────────────────────────────── */
 
   .foot {
@@ -69,16 +69,42 @@
 
   /* ─────────────────────────────────────────────────────────────────────
      ZONA HERO · «practiquemos juntos»
-     Titular grande sobre el canvas de físicas.
+     ─────────────────────────────────────────────────────────────────────
+     Fase 5.6 · altura reducida y degradado acentuado.
+     Ver bloque de cabecera para el razonamiento completo.
      ───────────────────────────────────────────────────────────────────── */
 
   .foot__hero {
     position: relative;
-    min-height: clamp(46vh, 58vh, 68vh);
+    /* Fase 5.6 · reducción de ~24% en todos los stops.
+       Antes: 46vh-58vh-68vh · Ahora: 36vh-44vh-52vh. El bloque sigue
+       teniendo presencia (más de un tercio de viewport en escritorio)
+       pero deja de dominar la transición al pie oscuro. */
+    min-height: clamp(36vh, 44vh, 52vh);
     display: grid;
     place-items: center;
     text-align: center;
-    padding: clamp(3rem, 8vh, 6rem) 1.2rem;
+    /* Padding vertical también compactado proporcionalmente */
+    padding: clamp(2.4rem, 6vh, 4.5rem) 1.2rem;
+
+    /* Fase 5.6 · degradado acentuado.
+       Halo central: 22% → 32% de luz, dimensiones 55×60 → 65×72.
+       Descenso: los tres stops del linear-gradient amplían su rango
+       (72/28 arriba, base pura al medio, 55/45 abajo). Sigue siendo
+       "el mismo azul con más luminancias" (Fase 5.5), pero la variación
+       de arriba a abajo ahora se percibe con más profundidad.
+
+       Principio identitario · Fase 5.5 (intacto): no se introducen
+       colores nuevos. Todas las variantes nacen de azul-sutil y
+       azul-oscuro por color-mix in oklch. */
+    background:
+      radial-gradient(ellipse 65% 72% at 50% 40%,
+        rgba(255, 255, 255, 0.32) 0%,
+        transparent 68%),
+      linear-gradient(180deg,
+        color-mix(in oklch, var(--azul-sutil) 72%, #fff) 0%,
+        var(--azul-sutil) 45%,
+        color-mix(in oklch, var(--azul-sutil) 55%, var(--azul-oscuro)) 100%);
   }
 
   /* Canvas de físicas · vive detrás del titular */
@@ -130,7 +156,10 @@
     z-index: 2;
     border-top: 1px solid rgba(250, 246, 240, 0.12);
     padding-block: var(--espacio-umbral);
-    background: color-mix(in oklch, var(--antracita) 88%, #000);
+    background: radial-gradient(ellipse at 30% 20%,
+      color-mix(in oklch, var(--antracita) 70%, var(--azul-oscuro) 30%) 0%,
+      color-mix(in oklch, var(--antracita) 92%, #000) 60%,
+      color-mix(in oklch, var(--antracita) 68%, #000) 100%);
   }
 
   /* Retícula de tres columnas · logo+tagline, enlaces, contacto+social */
@@ -141,10 +170,7 @@
     align-items: start;
   }
 
-  /* Logo del footer · SOBRESCRITURA IDENTITARIA · Fase 0.1
-     El respiratorio del logo dura 14s aquí (11s en el navbar). La lógica
-     completa del logo animado vive en /componentes/paramita-bar.css o en
-     un futuro /componentes/paramita-logo.css. */
+  /* Logo del footer · SOBRESCRITURA IDENTITARIA · Fase 0.1 · 14s */
   .foot .logo-wave {
     width: 170px;
     animation-duration: 14s;
@@ -168,20 +194,57 @@
     margin-bottom: var(--espacio-elemento);
   }
 
-  /* Enlaces del footer · desplazamiento sutil hacia la derecha en hover */
+  /* ─────────────────────────────────────────────────────────────────────
+     ENLACES DEL FOOTER · halo dorado permanente (Fase 5.6 · C)
+     ─────────────────────────────────────────────────────────────────────
+     Cambio conceptual: los enlaces "quieren luz". Los budistas quieren
+     luz. El footer se lee como constelación, no como lista.
+
+     Idioma técnico:
+       · Reposo: halo dorado tenue permanente (0.35 opacidad, blur 12px).
+         Coherente con el brillo que ya llevaban los emails (que están
+         en azul-sutil pero con la misma técnica).
+       · Hover: halo triple · aura difusa 18px + halo cercano 4px, ambos
+         a 0.55/0.75 de opacidad. El texto pasa a --dorado.
+     ───────────────────────────────────────────────────────────────────── */
+
   .foot a.fl {
     display: block;
     padding: 0.28rem 0;
     color: var(--lino);
     font-size: 0.96rem;
     width: max-content;
+    /* Fase 5.6 · Halo dorado tenue permanente.
+       El text-shadow reposa como neblina dorada baja alrededor de cada
+       enlace del footer, coherente con el idioma establecido en Fase
+       5.5b para los emails (halo azul permanente). */
+    text-shadow: 0 0 12px oklch(78% 0.155 68 / 0.35);
     transition: color var(--t-defecto),
-                padding var(--t-defecto);
+                padding var(--t-defecto),
+                text-shadow var(--t-defecto);
   }
 
   .foot a.fl:hover {
     color: var(--dorado);
     padding-left: 0.4rem;
+    /* Halo intensificado en hover · triple stack (aura + halo cercano) */
+    text-shadow: 0 0 18px oklch(78% 0.155 68 / 0.6),
+                 0 0 4px  oklch(78% 0.155 68 / 0.8);
+  }
+
+  /* Fase 5.4 · Enlaces de correo · azul-sutil con brillo tenue.
+     Sobrescribe el halo dorado por uno azul-sutil, porque el email
+     ya ES la marca (azul) — no hay a dónde ir. Regla más específica
+     que .foot a.fl para no perder desplazamiento ni transiciones. */
+  .foot a.fl[href^="mailto:"] {
+    color: var(--azul-sutil);
+    text-shadow: 0 0 12px oklch(68% 0.13 235 / 0.35);
+  }
+
+  .foot a.fl[href^="mailto:"]:hover {
+    color: var(--azul-sutil);
+    text-shadow: 0 0 18px oklch(68% 0.13 235 / 0.65),
+                 0 0 4px  oklch(68% 0.13 235 / 0.85);
   }
 
   /* Dirección · gris cálido con acento en lino para lo importante */
@@ -222,6 +285,8 @@
     transition: color var(--t-defecto),
                 border-color var(--t-defecto),
                 background var(--t-defecto),
+                box-shadow var(--t-defecto),
+                text-shadow var(--t-defecto),
                 transform var(--t-defecto);
   }
 
@@ -230,6 +295,9 @@
     border-color: color-mix(in oklch, var(--dorado) 50%, transparent);
     background: color-mix(in oklch, var(--dorado) 12%, transparent);
     transform: translateY(-1px);
+    box-shadow: 0 0 18px oklch(78% 0.155 68 / 0.28),
+                0 0 4px  oklch(78% 0.155 68 / 0.4) inset;
+    text-shadow: 0 0 12px oklch(78% 0.155 68 / 0.55);
   }
 
   /* Iconos de redes · SVG con stroke que no se escala */
@@ -264,14 +332,6 @@
 
   /* ─────────────────────────────────────────────────────────────────────
      REDUCED-MOTION
-     ─────────────────────────────────────────────────────────────────────
-     Contrato de quietud · Fase 2:
-     - Los hovers de enlaces y redes ocurren sin transición.
-     - El desplazamiento hacia arriba de los enlaces sociales (transform:
-       translateY(-1px)) sigue funcionando pero sin animación.
-     - La animación identitaria del logo (.logo-wave) se congela porque
-       el interruptor global --identidad-estado ya se anula con la
-       salvaguarda global de paramita-movimiento.css.
      ───────────────────────────────────────────────────────────────────── */
 
   @media (prefers-reduced-motion: reduce) {

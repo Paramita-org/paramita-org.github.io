@@ -1,17 +1,16 @@
-
 /* ═══════════════════════════════════════════════════════════════════════════
    PARAMITA · FUNDACIÓN SAKYA
    paramita-cta.css — Calls-to-action y enlaces destacados
    ───────────────────────────────────────────────────────────────────────────
    Fase 5.2 · El umbral se activa en hover:
- 
+
      · btn-umbral  Trazo con degradado ESTÁTICO en reposo (ancla),
                    FLUYENDO a 3.4s en hover (mismo ritmo que btn-amigo
                    cuando el navbar recibe hover — idioma de motion común).
                    Opacity 0.9 afina la presencia sin adelgazar grosor.
- 
+
    Fase 5.1 · Corrección de bugs sobre la Fase 5:
- 
+
      · btn-amigo   sombra difusa (elimina "línea blanca" percibida)
                    focus-visible propio (elimina outline negro nativo)
      · btn-umbral  color explícito azul-oscuro (elimina herencia a blanco)
@@ -20,27 +19,27 @@
      · t-link      color explícito en .txt (soluciona texto invisible en reposo)
                    display + line-height en .txt (elimina "fondo" percibido en hover)
                    flecha con color heredado, no fijo (coherencia en text-fill)
- 
+
    JERARQUÍA DE TRES CTAs
    ──────────────────────
    El sistema define tres tipos con roles claros y expresión visual
    diferenciada del mismo idioma cromático (azul-oscuro → azul-sutil → dorado):
- 
+
      · .btn-amigo   PRIMARIO    Conversión decisiva
                                 Degradado LLENO respirando (identitario)
                                 Hover: elevación + glow dorado externo
- 
+
      · .btn-umbral  SECUNDARIO  Acompaña al primario sin competir
                                 Degradado en el TRAZO
                                 Reposo: estático (ancla del sistema)
                                 Hover: elevación + glow triple + trazo fluye
- 
+
      · .t-link     TERCIARIO    Continuidad editorial
                                 Texto azul plano + línea inferior
                                 con degradado FLUYENDO (identitario)
                                 Hover: text-fill + flecha desplaza +
                                 línea acelera flujo
- 
+
    PRINCIPIO DE MOTION
    ───────────────────
    El hover intensifica lo que ya vive, no enciende nada nuevo.
@@ -48,39 +47,39 @@
    · El t-link fluye siempre en su línea — al hover acelera.
    · El btn-umbral ancla el sistema en reposo — al hover se activa,
      estableciendo resonancia identitaria cuando el usuario pone atención.
- 
+
    TRES FORMAS DE «CRUZAR»
    ───────────────────────
    Cada tipo expresa el gradiente de manera distinta:
      · Primario:    gradiente LLENO      (entrar del todo)
      · Secundario:  gradiente en BORDE   (asomarse al umbral)
      · Terciario:   gradiente en LÍNEA   (seguir el camino)
- 
+
    COMPATIBILIDAD · corner-shape (2025+)
    ─────────────────────────────────────
    El .btn-amigo usa corner-shape: superellipse(2.4) si el navegador lo
    soporta (Chrome 133+, Safari 26+). Fallback: border-radius: 99px.
    ═══════════════════════════════════════════════════════════════════════════ */
- 
+
 @layer cta {
- 
- 
+
+
   /* ─────────────────────────────────────────────────────────────────────
      CONTENEDOR DE CTAs
      Grupo horizontal de botones · usado en navbar y hero principalmente.
      ───────────────────────────────────────────────────────────────────── */
- 
+
   .ctas {
     display: flex;
     align-items: center;
     gap: 0.7rem;
   }
- 
- 
+
+
   /* ═════════════════════════════════════════════════════════════════════
      PRIMARIO · .btn-amigo
      ═════════════════════════════════════════════════════════════════════ */
- 
+
   .btn-amigo {
     position: relative;
     isolation: isolate;
@@ -105,7 +104,7 @@
                 box-shadow var(--t-revelacion),
                 letter-spacing var(--t-defecto);
   }
- 
+
   /* Esquinas orgánicas · fallback border-radius 99px */
   @supports (corner-shape: superellipse(2)) {
     .btn-amigo {
@@ -113,7 +112,7 @@
       corner-shape: superellipse(2.4);
     }
   }
- 
+
   /* Capa base · degradado identitario respirando · Fase 0.1 */
   .btn-amigo::before {
     content: "";
@@ -131,7 +130,7 @@
                     var(--ease-identidad-flujo)
                     infinite;
   }
- 
+
   /* Capa shine · barra de luz que atraviesa el botón en hover */
   .btn-amigo::after {
     content: "";
@@ -145,7 +144,7 @@
     translate: -130% 0;
     transition: translate var(--t-revelacion);
   }
- 
+
   /* Hover · elevación + glow dorado externo multicapa */
   .btn-amigo:hover {
     transform: translateY(-2px);
@@ -156,12 +155,12 @@
       0 0 32px 6px   oklch(78% 0.155 68 / 0.18),
       0 0 60px 10px  oklch(78% 0.155 68 / 0.08);
   }
- 
+
   /* Shine cruza el botón · translate -130% → 130% */
   .btn-amigo:hover::after {
     translate: 130% 0;
   }
- 
+
   /* Fase 5.1 · Fix bug 2: focus-visible propio del sistema.
      El navegador aplicaba outline negro nativo (feo, discordante).
      Ahora: mismo glow dorado del hover, pero SIN elevación (el focus no
@@ -176,17 +175,17 @@
       0 0 18px 4px   oklch(78% 0.155 68 / 0.24),
       0 0 40px 8px   oklch(78% 0.155 68 / 0.10);
   }
- 
+
   /* Hover DE LA BARRA acelera el respiratorio del botón · Fase 0.1 */
   .bar:hover .btn-amigo::before {
     animation-duration: 3.4s;
   }
- 
- 
+
+
   /* ═════════════════════════════════════════════════════════════════════
      SECUNDARIO · .btn-umbral
      ═════════════════════════════════════════════════════════════════════ */
- 
+
   .btn-umbral {
     display: inline-flex;
     align-items: center;
@@ -225,7 +224,7 @@
     transition: transform var(--t-defecto),
                 box-shadow var(--t-revelacion);
   }
- 
+
   /* Trazo con degradado · en reposo ESTÁTICO, en hover FLUYE.
      Fase 5.2 · el degradado se define en 200% con la paleta completa
      ida-y-vuelta (azul-oscuro → azul-sutil → dorado → azul-sutil →
@@ -243,8 +242,11 @@
     /* Fase 5.1 · Fix bug 4a: padding entero (2px) en vez de 1.5px.
        Los valores fraccionarios en píxeles del mask-composite generan
        artefactos de subpíxel en zoom no-100% y en DPR fraccionarios,
-       manifestándose como "puntas" en las esquinas del hover. */
-    padding: 2px;
+       manifestándose como "puntas" en las esquinas del hover.
+       Fase 5.2 · aligerado a 1px por decisión estética (Jana):
+       el trazo de 2px se leía demasiado denso al lado del btn-amigo
+       primario. 1px conserva la integridad del mask-composite. */
+    padding: 1px;
     background: linear-gradient(100deg,
       var(--azul-oscuro),
       var(--azul-sutil),
@@ -271,7 +273,7 @@
     transition: none;
     animation: none;
   }
- 
+
   /* Fase 5.2 · Trazo cobra flujo en hover · 3.4s.
      Mismo ritmo que el btn-amigo::before cuando el navbar recibe hover,
      estableciendo un idioma de motion común: al pasar el ratón, el
@@ -282,13 +284,13 @@
   .btn-umbral:focus-visible::before {
     animation: flow 3.4s var(--ease-identidad-flujo) infinite;
   }
- 
+
   /* Contenido del botón por encima del trazo */
   .btn-umbral > * {
     position: relative;
     z-index: 1;
   }
- 
+
   /* Hover · elevación + glow triple + reafirmación del render */
   .btn-umbral:hover {
     transform: translateY(-2px) translateZ(0);
@@ -302,7 +304,7 @@
       0 0 22px 4px  oklch(78% 0.155 68 / 0.14),
       0 0 40px 8px  oklch(38% 0.11 245 / 0.10);
   }
- 
+
   /* Focus-visible propio · sin outline nativo, mismo idioma que el hover */
   .btn-umbral:focus-visible {
     outline: none;
@@ -311,12 +313,12 @@
       0 0 18px 4px  oklch(78% 0.155 68 / 0.18),
       0 0 40px 8px  oklch(38% 0.11 245 / 0.10);
   }
- 
- 
+
+
   /* ═════════════════════════════════════════════════════════════════════
      TERCIARIO · .t-link
      ═════════════════════════════════════════════════════════════════════ */
- 
+
   .t-link {
     position: relative;
     display: inline-flex;
@@ -336,16 +338,16 @@
     transition: gap var(--t-defecto),
                 letter-spacing var(--t-defecto);
   }
- 
+
   /* Fase 5.1 · Fix bug 5: color explícito + text-fill currentColor en reposo.
      El bug de "texto invisible" era WebKit/Safari: al usar background-clip: text
      sin -webkit-text-fill-color explícito, el texto se renderizaba transparente
      por defecto porque el navegador asumía que se quería ver el background
      detrás del glifo (aunque background-size: 0% haga que no haya nada visible).
- 
+
      Solución: forzar color azul-oscuro + text-fill-color currentColor en reposo.
      El fill-color se anula en hover para que el clip revele el gradiente.
- 
+
      Fase 5.1 · Fix bug 6: display + line-height + width-fit.
      El "fondo negro tras el texto en hover" era el background-image del gradiente
      pintándose en un área mayor que el glifo por el line-height del anchor.
@@ -368,13 +370,13 @@
     transition: background-size var(--t-revelacion),
                 -webkit-text-fill-color var(--t-defecto);
   }
- 
+
   /* Flecha · hereda color del anchor (para acompañar el text-fill del hover) */
   .t-link .arw {
     color: currentColor;
     transition: transform var(--t-defecto);
   }
- 
+
   /* Línea inferior editorial · degradado fluyendo (identitario) */
   .t-link::after {
     content: "";
@@ -395,7 +397,7 @@
                     infinite;
     transition: right var(--t-defecto);
   }
- 
+
   /* Hover · el camino cobra intensidad */
   .t-link:hover,
   .t-link:focus-visible {
@@ -403,14 +405,14 @@
     letter-spacing: 0.015em;
     outline: none;
   }
- 
+
   .t-link:hover .txt,
   .t-link:focus-visible .txt {
     background-size: 100% 100%;
     -webkit-text-fill-color: transparent;
     color: transparent;
   }
- 
+
   .t-link:hover .arw,
   .t-link:focus-visible .arw {
     transform: translateX(4px);
@@ -418,18 +420,18 @@
        text-fill porque no está dentro del .txt. Coherencia intencionada. */
     color: var(--azul-oscuro);
   }
- 
+
   .t-link:hover::after,
   .t-link:focus-visible::after {
     animation-duration: 5s;
   }
- 
+
   /* Variante primaria · más peso tipográfico */
   .t-link--primario {
     font-weight: 600;
     font-size: 1.06rem;
   }
- 
+
   /* Fallback para navegadores sin background-clip: text */
   @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
     .t-link .txt {
@@ -441,14 +443,14 @@
       color: var(--azul-oscuro);
     }
   }
- 
- 
+
+
   /* ─────────────────────────────────────────────────────────────────────
      REDUCED-MOTION
      ───────────────────────────────────────────────────────────────────── */
- 
+
   @media (prefers-reduced-motion: reduce) {
- 
+
     .btn-amigo,
     .btn-amigo::after,
     .btn-umbral,
@@ -458,12 +460,12 @@
     .t-link::after {
       transition: none;
     }
- 
+
     /* El shine del btn-amigo no aparece en hover */
     .btn-amigo:hover::after {
       translate: -130% 0;
     }
- 
+
     /* Fase 5.2 · El trazo del btn-umbral no fluye en hover.
        Mantiene su presencia estática — el usuario con reduced-motion
        percibe la elevación y el glow como feedback suficiente. */
@@ -471,13 +473,13 @@
     .btn-umbral:focus-visible::before {
       animation: none;
     }
- 
+
     /* La flecha del t-link no se desplaza */
     .t-link:hover .arw,
     .t-link:focus-visible .arw {
       transform: none;
     }
- 
+
     /* Fallback de color para el text-fill del t-link */
     .t-link:hover .txt,
     .t-link:focus-visible .txt {
@@ -485,11 +487,11 @@
       color: var(--azul-oscuro);
       -webkit-text-fill-color: currentColor;
     }
- 
+
   }
- 
+
 }
- 
+
 /* ═══════════════════════════════════════════════════════════════════════════
    FIN de paramita-cta.css · Fase 5.2
    ═══════════════════════════════════════════════════════════════════════════ */

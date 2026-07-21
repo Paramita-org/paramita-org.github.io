@@ -339,7 +339,7 @@
       <p class="eyebrow" data-reveal="1">Crowdfunding · Centro de Retiros Paramita</p>
       <h2 id="cf-t" data-reveal="2">Construyamos juntos un <em>refugio de Dharma</em>.</h2>
       <p>Un lugar donde la práctica encuentra silencio y la comunidad encuentra hogar. Tu aportación levanta, piedra a piedra, un espacio de retiro abierto a todos.</p>
-      <a class="btn-claro" href="#sueno">Unirme a este sueño compartido <span aria-hidden="true">→</span></a>
+      <a class="btn-umbral" href="#sueno">Unirme a este sueño compartido <span aria-hidden="true">→</span></a>
     </section>
   </div>
 
@@ -427,31 +427,18 @@
     </div>
   </section>
 
-  <!-- ╔═══ 10 · CTA FINAL ═══╗  Texto con zoom-stage + ornamentos SVG dibujados por scroll -->
+  <!-- ╔═══ 10 · CTA FINAL ═══╗  Texto con zoom-stage + halo radial dorado de fondo -->
   <section class="cta-final wrap" id="amigo" aria-labelledby="cta-t">
-    <!-- ornamentos abstractos laterales (el trazo se dibuja con el scroll, NO sobre el texto) -->
-    <svg class="cta-orn cta-orn--left" id="ctaOrnL" viewBox="0 0 120 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-      <defs>
-        <linearGradient id="ctaOrnGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="var(--azul-oscuro)"/>
-          <stop offset=".55" stop-color="var(--azul-sutil)"/>
-          <stop offset="1" stop-color="var(--dorado)"/>
-        </linearGradient>
-      </defs>
-      <path class="cta-orn__path" d="M70 6 C24 96 104 188 52 286 S6 470 78 594"/>
-      <circle class="cta-orn__dot" cx="52" cy="286" r="4"/>
-    </svg>
-    <svg class="cta-orn cta-orn--right" id="ctaOrnR" viewBox="0 0 120 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-      <path class="cta-orn__path" d="M70 6 C24 96 104 188 52 286 S6 470 78 594"/>
-      <circle class="cta-orn__dot" cx="52" cy="286" r="4"/>
-    </svg>
-
     <span class="eyebrow" data-reveal="1">Da el primer paso</span>
-    <h2 class="zoom-word" id="cta-t"><span>Respira.</span><span>Observa.</span><span>Suelta.</span></h2>
+    <h2 class="zoom-word" id="cta-t"><span>Respira.</span><em>Observa.</em><span>Suelta.</span></h2>
     <p class="cta-sub">Empieza hoy, a tu ritmo. Aprende a meditar o acompáñanos como amigo de Paramita.</p>
     <div class="actions">
-      <a class="btn-umbral" href="#hazte-amigo">Hazte amigo</a>
-      <a class="btn-umbral" href="https://cursos.paramita.org/home">Aprende a meditar</a>
+      <a class="t-link t-link--primario" href="#hazte-amigo">
+        <span class="txt">Hazte amigo</span><span class="arw" aria-hidden="true">→</span>
+      </a>
+      <a class="t-link t-link--primario" href="https://cursos.paramita.org/home">
+        <span class="txt">Aprende a meditar</span><span class="arw" aria-hidden="true">→</span>
+      </a>
     </div>
   </section>
 
@@ -747,24 +734,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })();
 
-  /* ── 4c · CTA · ORNAMENTOS SVG DIBUJADOS POR SCROLL (efecto-05-06) ──
-     Trazos abstractos laterales (NO el texto) que se dibujan con el scroll.
-     Sin GSAP/reduced-motion: se muestran ya dibujados. */
-  (function initOrnamentos() {
-    const paths = document.querySelectorAll('.cta-orn__path');
-    if (!paths.length) return;
-    paths.forEach(p => {
-      const L = p.getTotalLength();
-      p.style.strokeDasharray = L;
-      p.style.strokeDashoffset = L;          // arranca invisible
-      if (!hasGSAP || reduce) { p.style.strokeDashoffset = 0; return; }
-      gsap.registerPlugin(ScrollTrigger);
-      gsap.to(p, {
-        strokeDashoffset: 0, ease: 'none',
-        scrollTrigger: { trigger: '#amigo', start: 'top 85%', end: 'bottom 45%', scrub: 1.2 }
-      });
-    });
-  })();
+  /* ── 4c · CTA · Fase 5.4 — Los ornamentos SVG laterales se retiraron.
+     Motivos: no ligaban con la metáfora identitaria y en móvil solapaban
+     el zoom-word. Sustituidos por un halo radial dorado (CSS puro, sin
+     animación scroll-driven) que actúa como aura ambiental de fondo.
+     El bloque JS que dibujaba los trazos (stroke-dashoffset atado a
+     ScrollTrigger) queda eliminado. ── */
 
   /* ── 4d · CTA · TEXTO PRINCIPAL con revelado zoom-stage (ejemplo-efectos-00) ──
      La escala se ata al progreso del scroll (scrub). Sin GSAP/reduce: tamaño normal. */
@@ -1249,68 +1224,128 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /* ════════════════════════════════════════════════════════════════
-   7 · FOOTER · FIGURAS FÍSICAS (vanilla) · "Practiquemos juntos"
-   ─ Bolas con velocidad + rebote en paredes; el cursor/dedo las repele;
-     clic/tap = impulso. Pausa fuera de vista y en reduced-motion.
+   7 · FOOTER · FLORES DE LOTO FÍSICAS · "Practiquemos juntos"
+   ─ Flores de loto (SVG del imagotipo de Paramita) flotando con la
+     misma física que las antiguas bolas: velocidad + rebote en paredes,
+     repulsión del cursor, impulso al clic/tap. Cada loto conserva
+     orientación vertical (no gira aunque se mueva) — el símbolo pierde
+     lectura si se ve boca abajo.
+
+     RIMA VISUAL identitaria · Fase 5.4
+     La flor de loto ya aparece como divisor entre las secciones de
+     cursos y participa (paramita-sections.css .trazo-divisor). Aquí
+     reaparece flotando en el prefooter — la despedida rimando con la
+     transición interna. Mismo símbolo, misma familia cromática.
+
+     TINTADO · el SVG se carga una vez y se pinta en cuatro canvas
+     offscreen (uno por color del sistema) usando composición
+     source-in para reemplazar todos los píxeles opacos por el color
+     destino. Es más rápido que un filter CSS y no depende de que el
+     SVG use currentColor.
+
+     DEGRADACIÓN · si el SVG no carga (404, CSP, red), se degrada a
+     bolas circulares del color correspondiente. La página no rompe.
    ════════════════════════════════════════════════════════════════ */
-(function initFooterFisicas() {
+(function initFooterLotos() {
   const cv = document.getElementById('physics');
   if (!cv) return;
   const ctx = cv.getContext('2d');
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const zona = cv.parentElement;
-  let W, H, balls = [], mouse = { x:-999, y:-999 }, visible = true, raf = 0;
-  // Sin el azul claro (#00C7E5): se quitan las bolas cian que entorpecían la lectura
-  const COL = ['#FFB400', '#105EA9', '#211E1A', '#F1E6D2'];
+  let W, H, lotos = [], mouse = { x:-999, y:-999 }, visible = true, raf = 0;
+
+  // Paleta del sistema · azul-oscuro, dorado, azul-sutil, calido-zen
+  const COL = ['#1F4E8F', '#ECAC55', '#4A9DD1', '#EBDEC4'];
 
   const resize = () => { W = cv.width = zona.clientWidth; H = cv.height = zona.clientHeight; };
   resize();
   addEventListener('resize', resize, { passive:true });
 
-  const N = matchMedia('(max-width:640px)').matches ? 16 : 28;   // más esferas decorativas
-  for (let i = 0; i < N; i++) balls.push({
+  // Cantidad y tamaño reducidos frente a las antiguas bolas.
+  // Bolas: N=28 desktop / 16 móvil · r=16-42px.
+  // Lotos Fase 5.5b: r=21-42px · diámetro 42-84px.
+  // Lotos Fase 5.6: r=28-54px · diámetro 56-108px (~30% más grandes).
+  // Se rebaja también ligeramente N para compensar la mayor ocupación
+  // visual y evitar saturación en el footer, que ahora es más bajo.
+  const N = matchMedia('(max-width:640px)').matches ? 10 : 16;
+  for (let i = 0; i < N; i++) lotos.push({
     x: Math.random()*W, y: Math.random()*H,
     vx: (Math.random()-.5)*1.2, vy: (Math.random()-.5)*1.2,
-    r: 16 + Math.random()*26, c: COL[i % COL.length],
-    ph: Math.random()*Math.PI*2          // fase para la deriva orgánica idle
+    r: 28 + Math.random()*26,             // radio → diámetro 56-108px (Fase 5.6)
+    c: COL[i % COL.length],
+    ph: Math.random()*Math.PI*2
   });
+
+  /* ── Preparación del sprite del loto ──────────────────────────────
+     Cargamos assets/img/flor-loto.svg una sola vez. Cuando esté listo,
+     rasterizamos a un canvas offscreen por cada color. Cada sprite es
+     un cuadrado de tamaño SPRITE·DPR para nitidez en retina.
+     Si la carga falla, sprites queda como null y el frame() dibuja
+     círculos como fallback grácil. */
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+  const SPRITE = 96;
+  let sprites = null;
+
+  const img = new Image();
+  img.decoding = 'async';
+  img.onload = () => {
+    sprites = Object.create(null);
+    COL.forEach(color => {
+      const s = document.createElement('canvas');
+      s.width = SPRITE * DPR;
+      s.height = SPRITE * DPR;
+      const sctx = s.getContext('2d');
+      sctx.scale(DPR, DPR);
+      sctx.drawImage(img, 0, 0, SPRITE, SPRITE);
+      sctx.globalCompositeOperation = 'source-in';
+      sctx.fillStyle = color;
+      sctx.fillRect(0, 0, SPRITE, SPRITE);
+      sprites[color] = s;
+    });
+  };
+  img.onerror = () => { sprites = null; };
+  img.src = 'assets/img/flor-loto.svg';
 
   const pos = e => { const r = cv.getBoundingClientRect(); return { x:e.clientX-r.left, y:e.clientY-r.top }; };
   cv.addEventListener('pointermove', e => { const p = pos(e); mouse.x = p.x; mouse.y = p.y; }, { passive:true });
   cv.addEventListener('pointerleave', () => { mouse.x = mouse.y = -999; });
   cv.addEventListener('pointerdown', e => {
     const p = pos(e);
-    balls.forEach(b => { const dx=b.x-p.x, dy=b.y-p.y, d=Math.hypot(dx,dy)||1;
+    lotos.forEach(b => { const dx=b.x-p.x, dy=b.y-p.y, d=Math.hypot(dx,dy)||1;
       if (d < 170) { b.vx += dx/d*7; b.vy += dy/d*7; } });
   });
 
   function frame() {
     ctx.clearRect(0,0,W,H);
     const t = performance.now()/1000;
-    balls.forEach(b => {
-      // 1) DERIVA ORGÁNICA IDLE: micro-aceleración en una dirección que rota lentamente,
-      //    distinta para cada esfera → flotan solas, fluido y aleatorio, sin necesidad de hover.
+    lotos.forEach(b => {
       const ang = t*0.22 + b.ph;
       b.vx += Math.cos(ang)*0.02;
       b.vy += Math.sin(ang*1.3)*0.02;
-      // 2) Repulsión SUAVE del cursor (si está cerca), integrada al movimiento autónomo.
       const dx=b.x-mouse.x, dy=b.y-mouse.y, d=Math.hypot(dx,dy)||1;
       if (d < 140) { b.vx += dx/d*0.5; b.vy += dy/d*0.5; }
-      // 3) Fricción ligera + suelo/techo de velocidad: nunca se detienen, pero se mantienen serenas.
       b.vx *= .99; b.vy *= .99;
       const sp = Math.hypot(b.vx,b.vy) || 1e-4, MIN=0.3, MAX=5;
       if (sp < MIN) { b.vx=b.vx/sp*MIN; b.vy=b.vy/sp*MIN; }
       else if (sp > MAX) { b.vx=b.vx/sp*MAX; b.vy=b.vy/sp*MAX; }
       b.x += b.vx; b.y += b.vy;
-      // rebote en paredes
       if (b.x < b.r) { b.x=b.r; b.vx*=-.8; } if (b.x > W-b.r) { b.x=W-b.r; b.vx*=-.8; }
       if (b.y < b.r) { b.y=b.r; b.vy*=-.8; } if (b.y > H-b.r) { b.y=H-b.r; b.vy*=-.8; }
-      ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
-      ctx.fillStyle=b.c; ctx.globalAlpha=.82; ctx.fill(); ctx.globalAlpha=1;
+
+      // Dibujado · loto tintado sin rotar, o fallback círculo
+      if (sprites && sprites[b.c]) {
+        const size = b.r * 2;
+        ctx.globalAlpha = 0.85;
+        ctx.drawImage(sprites[b.c], b.x - b.r, b.y - b.r, size, size);
+        ctx.globalAlpha = 1;
+      } else {
+        ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
+        ctx.fillStyle=b.c; ctx.globalAlpha=.82; ctx.fill(); ctx.globalAlpha=1;
+      }
     });
     if (visible) raf = requestAnimationFrame(frame);
   }
-  // Solo anima cuando el footer está en pantalla (rendimiento)
+
   const io = new IntersectionObserver(ents => ents.forEach(en => {
     visible = en.isIntersecting && !calm;
     if (visible && !raf) frame();
@@ -1318,10 +1353,26 @@ document.addEventListener('DOMContentLoaded', () => {
   }), { threshold: .05 });
   io.observe(zona);
 
-  if (calm) {   // dibujo estático único, sin bucle
-    ctx.clearRect(0,0,W,H);
-    balls.forEach(b => { ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
-      ctx.fillStyle=b.c; ctx.globalAlpha=.82; ctx.fill(); ctx.globalAlpha=1; });
+  if (calm) {
+    const paintOnce = () => {
+      ctx.clearRect(0,0,W,H);
+      lotos.forEach(b => {
+        if (sprites && sprites[b.c]) {
+          const size = b.r * 2;
+          ctx.globalAlpha = 0.85;
+          ctx.drawImage(sprites[b.c], b.x - b.r, b.y - b.r, size, size);
+          ctx.globalAlpha = 1;
+        } else {
+          ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
+          ctx.fillStyle=b.c; ctx.globalAlpha=.82; ctx.fill(); ctx.globalAlpha=1;
+        }
+      });
+    };
+    if (sprites) paintOnce();
+    else {
+      img.addEventListener('load', paintOnce, { once:true });
+      img.addEventListener('error', paintOnce, { once:true });
+    }
   }
 })();
 </script>

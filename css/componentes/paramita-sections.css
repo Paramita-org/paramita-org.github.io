@@ -152,17 +152,30 @@
     z-index: 2;
     isolation: isolate;
     overflow: hidden;
-    color: #fff;
+    /* Fase 5.5b · color base del texto en la banda invertido.
+       Antes: #fff (fondo oscuro).  Ahora: azul-oscuro (fondo luminoso).
+       El nuevo fondo cálido con dorado descentrado deja pasar más luz
+       de la foto, lo que requiere texto oscuro para mantener contraste
+       WCAG AA. */
+    color: var(--azul-oscuro);
     min-height: 54vh;
 
     padding: var(--espacio-contemplativo);   /* 64px de aire interior */
     margin-block: var(--espacio-umbral);     /* 96px de separación arriba y abajo */
     border-radius: 28px;
 
-    /* Fondo · foto sobre degradado cálido de respaldo */
+    /* Fondo · foto de respaldo con velo blanco muy sutil.
+       Fase 5.6 · velo blanco reducido de 0.40/0.35 a 0.28/0.22.
+       Con el degradado del ::before también bajado a 0.32 (ver más
+       abajo), la foto pasa de "sepultada bajo capas cálidas" a
+       "respiración clara detrás de un tinte cálido". La legibilidad
+       del texto azul-oscuro se recupera con la sombra doble aplicada
+       específicamente al h2 y su em (ver reglas de .band h2).
+       Fallback (calido-zen → arcilla) de la misma familia cálida. */
     background:
+      linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.22)),
       url("../../assets/img/imagen-muestra-crowfunding.jpg") center/cover no-repeat,
-      linear-gradient(120deg, var(--arcilla), var(--calido-zen));
+      linear-gradient(120deg, var(--calido-zen), var(--arcilla));
 
     /* Grid con gap · elimina margin individuales de eyebrow, h2, p, botón */
     display: grid;
@@ -177,26 +190,33 @@
     }
   }
 
-  /* Degradado identitario sobre la foto · Fase 0.1
+  /* Degradado identitario cálido · Fase 5.6 (refina Fase 5.5b)
+     Diagnóstico del feedback: el degradado anterior al 0.5 con el
+     dorado al 40% se leía "descaradamente fuerte", opacando la foto
+     y compitiendo con el texto. Tres cambios:
+       · opacity 0.5 → 0.32   (foto se ve claramente más)
+       · dorado 40% del stop  → color-mix dorado 65% + arcilla 35%
+         (el pico del degradado sigue siendo dorado pero atenuado,
+         se lee más como "resplandor" que como "acento saturado")
+       · stops geográficos ajustados (22/40/60 → 25/45/65) para que
+         el pico dorado quede más hacia el centro-derecha, dejando
+         libre la zona izquierda donde vive el titular
+     Estructura palíndroma cromáticamente (0% y 100% coinciden) para
+     que el flow siga siendo continuo al hacer loop.
      animation-iteration-count: infinite justificado — familia ambiental
-     identitaria. Ritmo secundario (22.5s, 0.9× del logo). */
+     identitaria. Ritmo secundario (0.9× logo). */
   .band::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
-    mix-blend-mode: multiply;
-    opacity: 0.8;
+    opacity: 0.32;
     background: linear-gradient(100deg,
-      var(--azul-oscuro) 0%,
-      color-mix(in oklch, var(--azul-oscuro), var(--azul-sutil)) 12%,
-      var(--azul-sutil) 25%,
-      color-mix(in oklch, var(--azul-sutil), var(--dorado)) 37%,
-      var(--dorado) 50%,
-      color-mix(in oklch, var(--dorado), var(--azul-sutil)) 63%,
-      var(--azul-sutil) 75%,
-      color-mix(in oklch, var(--azul-sutil), var(--azul-oscuro)) 88%,
-      var(--azul-oscuro) 100%);
+      var(--calido-zen) 0%,
+      var(--arcilla) 25%,
+      color-mix(in oklch, var(--dorado) 65%, var(--arcilla)) 45%,
+      var(--arcilla) 65%,
+      var(--calido-zen) 100%);
     background-size: 200% 100%;
     animation: flow var(--dur-identidad-secundaria)
                     var(--ease-identidad-flujo)
@@ -208,11 +228,24 @@
     animation-duration: 3.4s;
   }
 
+  /* Fase 5.5b · texto en azul-oscuro sobre fondo cálido luminoso.
+     Halos de blanco cálido (tintado hacia lino) en vez de blanco puro
+     — así respetan la temperatura del degradado calido-zen→dorado sin
+     introducir un tono frío que rompería la unidad cromática. Función
+     idéntica: separar el glifo del fondo sin oscurecer la superficie. */
   .band .eyebrow {
-    color: #fff;
-    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+    color: var(--azul-oscuro);
+    text-shadow: 0 1px 8px rgba(248, 244, 235, 0.75);
   }
 
+  /* h2 · Fase 5.6 · sombra doble para lectura sobre foto+degradado.
+     El texto base (azul-oscuro) se separa del fondo con dos capas
+     que actúan en direcciones opuestas:
+       · Halo claro amplio (arena 70%, blur 22px) hace de "aura"
+         luminosa alrededor del glifo — despeja el ruido de la foto.
+       · Sombra azul-oscuro profunda (azul-oscuro 35%, blur 3px)
+         añade densidad al propio glifo, evita que el azul base se
+         disuelva en las zonas más luminosas del degradado. */
   .band h2 {
     font-family: var(--display);
     font-weight: 300;
@@ -220,55 +253,53 @@
     line-height: 1.05;
     max-width: 18ch;
     text-wrap: balance;
-    text-shadow: 0 2px 28px rgba(0, 0, 0, 0.55), 0 1px 4px rgba(0, 0, 0, 0.4);
+    color: var(--azul-oscuro);
+    text-shadow: 0 2px 22px color-mix(in oklch, var(--arena) 70%, transparent),
+                 0 1px 3px  color-mix(in oklch, var(--azul-oscuro) 35%, transparent);
   }
 
-  /* CORRECCIÓN · cursivas en dorado (regla del sistema Fase 1b) */
+  /* «refugio de Dharma» (em) · Fase 5.6 · sombra doble
+     ─────────────────────────────────────────────────
+     Este es el em que la usuaria reportó con dificultad de lectura.
+     Tu intuición era correcta: una sombra doble clara + azul-oscuro
+     resuelve el problema. La técnica:
+       · Halo claro cercano (arena 90%, blur 8px) enciende el glifo
+         desde dentro, aísla al dorado de la zona dorada del degradado.
+       · Sombra azul-oscuro difusa (azul-oscuro 45%, blur 14px) da
+         profundidad y separa el em del fondo cálido. El azul-oscuro
+         del sistema como sombra, no como color base — coherente con
+         la paleta identitaria.
+     Contraste WCAG · el dorado sobre el degradado calido-zen ya pasa
+     AA para texto grande. Las sombras refuerzan la lectura sin
+     alterar el color base. */
   .band h2 em {
     color: var(--dorado);
     font-style: italic;
+    text-shadow: 0 0 8px  color-mix(in oklch, var(--arena) 90%, transparent),
+                 0 3px 14px color-mix(in oklch, var(--azul-oscuro) 45%, transparent);
   }
 
   .band p {
     max-width: 46ch;
-    color: #fff;
-    text-shadow: 0 2px 22px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
+    color: var(--azul-oscuro);
+    text-shadow: 0 1px 12px color-mix(in oklch, var(--arena) 65%, transparent);
   }
 
-  /* Botón · alineado al ancho del bloque de texto (46ch), con respiro extra */
-  .band .btn-claro {
+  /* Fase 5.5b · CTA de la banda migrado a .btn-umbral (secundario).
+     Coherencia con la jerarquía de tres CTAs · el crowdfunding es una
+     invitación cálida, no una conversión decisiva → el secundario es
+     la elección correcta. Se conserva la composición anterior (ancho
+     generoso, flecha a la derecha, respiro superior) mediante override
+     contextual dentro de .band, sin modificar la definición base de
+     .btn-umbral. Las antiguas reglas .band .btn-claro se han retirado.
+     El texto en azul-oscuro del .btn-umbral funciona directamente
+     sobre el nuevo fondo luminoso (contraste WCAG AA superado). */
+  .band .btn-umbral {
     display: flex;
     width: 100%;
     max-width: 46ch;
-    align-items: center;
     justify-content: space-between;
-    gap: var(--espacio-atomo);               /* 8px entre texto y flecha */
-    font-weight: 600;
-    font-size: var(--texto-cuerpo);
-    color: var(--azul-oscuro);
-    background: #fff;
-    padding: var(--espacio-elemento) var(--espacio-contenido);  /* 16px / 32px */
-    border-radius: 99px;
-    min-height: var(--target-min);           /* 44px WCAG táctil */
-
-    transition: transform var(--t-defecto),
-                box-shadow var(--t-defecto);
-    box-shadow: 0 16px 40px -18px rgba(0, 0, 0, 0.5);
-
-    /* Respiro antes del botón · mismo patrón que el hero */
     margin-top: var(--espacio-elemento);
-  }
-
-  @supports (corner-shape: superellipse(2)) {
-    .band .btn-claro {
-      border-radius: 22px;
-      corner-shape: superellipse(2.4);
-    }
-  }
-
-  .band .btn-claro:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 22px 50px -18px rgba(0, 0, 0, 0.55);
   }
 
 
@@ -445,17 +476,17 @@
   .trazo-divisor__path {
     fill: none;
     stroke: url(#divGrad);
-    stroke-width: 4.5;
+    stroke-width: 2.5;
     stroke-linecap: round;
     stroke-linejoin: round;
     opacity: 0.95;
     will-change: stroke-dashoffset;
   }
 
-  /* En móvil el trazo es más grueso · mejor visibilidad */
+  /* En móvil el trazo es ligeramente más grueso · mejor visibilidad */
   @media (max-width: 640px) {
     .trazo-divisor__path {
-      stroke-width: 5.5;
+      stroke-width: 3.5;
     }
   }
 

@@ -77,14 +77,51 @@
 
   /* ─────────────────────────────────────────────────────────────────────
      3 · SELECCIÓN DE TEXTO
-     Cuando el usuario selecciona texto, el color de fondo es el acento
-     azul del sistema. Refuerza la identidad visual en un gesto que ocurre
-     docenas de veces por sesión.
+     Cuando el usuario selecciona texto, el color de fondo cambia al
+     acento dorado del sistema (regla identitaria Paramita) con un halo
+     de luz. Refuerza la identidad visual en un gesto que ocurre docenas
+     de veces por sesión.
+
+     DOS VARIANTES · Fase 5.4
+     · Global (superficies claras): dorado 45% + texto azul-oscuro
+       El dorado tiñe sin ocultar; el azul-oscuro mantiene lectura AA.
+     · Footer (superficie oscura): dorado 55% + texto lino + glow
+       Sobre el fondo antracita del footer, la selección se enciende con
+       un halo dorado. El text-shadow reemplaza el box-shadow (que
+       ::selection no soporta) para dar la sensación de brillo.
+
+     Nota técnica · ::selection y ::-moz-selection NO pueden compartir
+     regla — hay que declararlas separadas o el navegador ignora ambas.
      ───────────────────────────────────────────────────────────────────── */
 
   ::selection {
-    background: var(--azul-oscuro);
-    color: #fff;
+    background: color-mix(in oklch, var(--dorado) 45%, transparent);
+    color: var(--azul-oscuro);
+    text-shadow: 0 0 10px oklch(78% 0.155 68 / 0.35);
+  }
+  ::-moz-selection {
+    background: color-mix(in oklch, var(--dorado) 45%, transparent);
+    color: var(--azul-oscuro);
+    text-shadow: 0 0 10px oklch(78% 0.155 68 / 0.35);
+  }
+
+  /* Variante DARK · dentro del footer (fondo antracita/azul-sutil).
+     Sobre superficie oscura el texto azul-oscuro no se leería —
+     invertimos a lino con un halo dorado más intenso. La combinación
+     dorado + lino + glow evoca el mismo idioma que las tendencias
+     dark contemporáneas (Vercel, Linear, Arc) sin salirse del sistema
+     de color de Paramita. */
+  .foot ::selection {
+    background: color-mix(in oklch, var(--dorado) 55%, transparent);
+    color: var(--lino);
+    text-shadow: 0 0 14px oklch(78% 0.155 68 / 0.65),
+                 0 0 4px  oklch(78% 0.155 68 / 0.85);
+  }
+  .foot ::-moz-selection {
+    background: color-mix(in oklch, var(--dorado) 55%, transparent);
+    color: var(--lino);
+    text-shadow: 0 0 14px oklch(78% 0.155 68 / 0.65),
+                 0 0 4px  oklch(78% 0.155 68 / 0.85);
   }
 
 
@@ -125,9 +162,16 @@
      declarada en paramita-tipografia.css.
      ───────────────────────────────────────────────────────────────────── */
 
+  /* Fase 5.4 · em base sin color forzado.
+     Antes forzaba azul-oscuro globalmente, lo que competía con la regla
+     del sistema (h1/h2/h3 em en dorado) y obligaba a overrides locales.
+     Ahora: solo font-style italic. El color lo determina el contexto:
+       · Dentro de títulos: la regla de paramita-tipografia.css → dorado
+       · Fuera de títulos: hereda del párrafo o contenedor
+     Este cambio elimina la necesidad de override para hispanohablante
+     y elimina la ambigüedad para futuros em dentro de títulos. */
   em {
     font-style: italic;
-    color: var(--azul-oscuro);
   }
 
 
