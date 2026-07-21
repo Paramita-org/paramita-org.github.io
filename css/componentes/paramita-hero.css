@@ -58,34 +58,39 @@
 
 
   /* ─────────────────────────────────────────────────────────────────────
-     CONTENEDOR PRINCIPAL DEL HERO · Fase 5.6h · solución definitiva
+     CONTENEDOR PRINCIPAL DEL HERO · Fase 5.6l · hero cinemático
      ─────────────────────────────────────────────────────────────────────
-     Diagnóstico final con DevTools: el .hero__inner medía 599.55 px
-     en un hero de min-height 62svh. El único hijo flex se estiraba
-     verticalmente al padre a pesar de align-self: flex-start.
+     Modelo editorial-cinemático (Apple product landings, marcas premium):
+       · El vídeo de fondo ocupa TODO el hero, edge-to-edge, siempre.
+         Actúa como lienzo cinemático continuo, independiente del
+         contenido de texto.
+       · El texto vive con proporción editorial FIJA sobre el lienzo.
+         El bloque de contenido tiene su altura natural (~340px) y
+         queda anclado arriba mediante grid + align-content: start.
+       · Al escalar la ventana: el vídeo respira más cuando hay más
+         viewport disponible; el texto NO se estira ni comprime.
 
-     Solución CSS-Grid mínima e inequívoca:
-       · .hero es GRID con una sola celda (auto).
-       · align-content: start · el hijo queda arriba, el espacio
-         sobrante bajo el CTA (NO dentro del hijo).
-       · grid-template-rows: auto · la fila mide lo que mide el hijo.
-
-     Grid con align-content: start es la forma más limpia y predecible
-     de "hijo arriba, aire sobrante debajo". Sin ambigüedad, sin
-     defensas anti-estiramiento, sin flex-column vs align-self.
+     Implementación:
+       · min-height: calc(100svh - var(--bar-h)) — el hero llena la
+         ventana bajo la barra en cualquier pantalla.
+       · display: grid + align-content: start — bloque de texto
+         arriba, vídeo asomando alrededor y debajo.
+       · Padding inferior generoso (--espacio-orilla) — evita que el
+         CTA quede cerca del borde del hero; deja aire cinemático
+         inferior donde se lee claramente el vídeo.
      ───────────────────────────────────────────────────────────────────── */
 
   .hero {
     position: relative;
     z-index: 2;
     width: 100%;
-    min-height: 62svh;
+    min-height: calc(100svh - var(--bar-h));
 
     display: grid;
     grid-template-rows: auto;
     align-content: start;
 
-    padding-block: var(--espacio-contenido) var(--espacio-elemento);
+    padding-block: var(--espacio-contenido) var(--espacio-orilla);
 
     background: radial-gradient(120% 85% at 80% -12%,
       var(--calido-zen), transparent 62%);
@@ -128,31 +133,51 @@
      ───────────────────────────────────────────────────────────────────── */
 
   .hero h1 {
-    /* Fase 5.6g · reducción de la altura visual del H1
-       ────────────────────────────────────────────────
-       Diagnóstico DevTools: el H1 medía 769×180px. Con clamp de hasta
-       5.6rem (~90px) y line-height 1.02 sobre 2 líneas obligatorias
-       (Despierta tu / rotator), el H1 ocupaba solo ~180px de altura.
-
-       Esa era la banda "muerta" percibida bajo el eyebrow y sobre el
-       lede — no era espacio vacío del grid, era el H1 mismo con aire
-       vertical interno por su line-height.
-
-       Correcciones locales al H1 · NO se toca el sistema tipográfico
-       global (--texto-h1 sigue siendo la escala general de H1 del
-       sitio para otras secciones):
-         · font-size local · clamp(2.6rem, 7.5vw, 4.6rem) = hasta
-           ~74px en desktop (vs 90px antes). Reducción del 18% en
-           tamaño del glifo.
-         · line-height local · 0.96 (vs 1.02) · líneas casi tocándose,
-           muy editorial, aprovecha la elegancia de Fraunces italic
-           cuando las líneas están apretadas.
-       Resultado: H1 pasa de ~180px a ~140px de altura. Reducción
-       del 22%. Se elimina la banda visual "muerta". */
+    /* Fase 5.6j · eliminar CUALQUIER espacio vertical propio del H1
+       ─────────────────────────────────────────────────────────────
+       Las bandas naranjas arriba y abajo del H1 que se veían en
+       DevTools eran padding/margin heredado del H1 base. Se anulan
+       explícitamente aquí. */
+    margin: 0;
+    padding: 0;
     font-size: clamp(2.6rem, 7.5vw, 4.6rem);
     line-height: 0.96;
     max-width: var(--medida-titulo);
     text-wrap: balance;
+    font-variation-settings: "opsz" 96, "SOFT" var(--paramita-soft, 0), "WONK" 0;
+  }
+
+  /* Rotator · Fase 5.6i · altura forzada a una línea
+     ────────────────────────────────────────────────
+     El .rotator es inline-grid con todas las palabras apiladas en
+     la misma celda. Todas las palabras tienen white-space: nowrap
+     y font-size del H1 (~74px máx). Con line-height: 0.96 heredado
+     del H1, cada palabra ocupa una línea de ~71px de alto.
+     Forzando line-height: 1 e ineludible en el rotator, y con las
+     palabras siendo todas nowrap (una línea), la altura del rotator
+     queda EXACTAMENTE en una línea. Sin espacios verticales sorpresa. */
+  .rotator {
+    display: inline-grid;
+    vertical-align: baseline;
+    text-align: left;
+    line-height: 0.96;
+  }
+
+  .rotator__word {
+    grid-area: 1 / 1;
+    opacity: 0;
+    transform: translateY(0.12em);
+    white-space: nowrap;
+    line-height: 0.96;
+    transition: opacity var(--dur-cinematografico) var(--ease-llegada),
+                transform var(--dur-cinematografico) var(--ease-llegada);
+    font-style: italic;
+    color: var(--azul-oscuro);
+    font-family: var(--display);
+    font-weight: var(--wght-contemplativo);
+    font-variation-settings: "opsz" 96, "SOFT" var(--paramita-soft, 0), "WONK" 0;
+    pointer-events: none;
+    will-change: opacity, transform;
   }
 
   /* Lede · Fase 5.6 · Hanken Grotesk (--body) recto.
@@ -291,28 +316,11 @@
 
   /* ─────────────────────────────────────────────────────────────────────
      ROTADOR DE PALABRAS · DECISIÓN C DE FASE 0.1
-     ───────────────────────────────────────────────────────────────────── */
-
-  .rotator {
-    display: inline-grid;
-    vertical-align: baseline;
-    text-align: left;
-  }
-
-  .rotator__word {
-    grid-area: 1 / 1;
-    opacity: 0;
-    transform: translateY(0.12em);
-    white-space: nowrap;
-    transition: opacity var(--dur-cinematografico) var(--ease-llegada),
-                transform var(--dur-cinematografico) var(--ease-llegada);
-    font-style: italic;
-    color: var(--azul-oscuro);
-    font-family: var(--display);
-    font-weight: var(--wght-contemplativo);
-    pointer-events: none;
-    will-change: opacity, transform;
-  }
+     ─────────────────────────────────────────────────────────────────────
+     Nota Fase 5.6i · las reglas base de .rotator y .rotator__word se
+     movieron arriba (junto al .hero h1) para agrupar las decisiones
+     que afectan la altura del titular. Aquí queda solo la regla del
+     estado activo, que es el estado convocado (visible actualmente). */
 
   .rotator__word.is-active {
     opacity: 1;
