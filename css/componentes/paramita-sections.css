@@ -164,15 +164,37 @@
     margin-block: var(--espacio-umbral);     /* 96px de separación arriba y abajo */
     border-radius: 28px;
 
-    /* Fondo · foto de respaldo con velo blanco sutil como base neutra.
-       Fase 5.5b · Con el degradado del ::before al 0.5 (antes 0.85) la
-       foto se ve más. El velo blanco (0.40/0.35) mantiene la
-       legibilidad del texto azul-oscuro sin apagar la foto — es un
-       equilibrio: si el velo baja más, el texto pelea con la imagen;
-       si sube más, la foto desaparece bajo el degradado.
-       Fallback (calido-zen → arcilla) de la misma familia cálida. */
+    /* Fondo · Fase 4-ajustes · velo beige lineal suave izq→dcha
+       ──────────────────────────────────────────────────────────
+       Cambio de dirección respecto a Fase 5.6d: en lugar de una
+       "columna dura arena 85%" con transición abrupta al 55%, ahora
+       un ÚNICO gradiente lineal muy suave izquierda → derecha que
+       cubre toda la banda sin cortes bruscos.
+
+       Ventajas:
+         · La columna del texto siempre tiene fondo cálido presente
+           (arena densa a la izquierda) sin percepción de "cambio de
+           material" al llegar a la mitad — algo que sí ocurría con la
+           columna 85% opaca y corte al 42%.
+         · La foto del edificio respira progresivamente hacia la
+           derecha (donde el velo llega a transparent).
+         · Sin dorado ambiental (el radial se retira · el dorado
+           sigue vivo como acento tipográfico en el em "refugio de
+           Dharma", no como superficie).
+
+       Se retiene la neblina cálida global muy sutil (12%) que
+       atempera la temperatura de la foto sin quitarle color, y el
+       fallback cálido. */
     background:
-      linear-gradient(180deg, rgba(255,255,255,0.4), rgba(255,255,255,0.35)),
+      linear-gradient(90deg,
+        color-mix(in oklch, var(--arena) 82%, transparent) 0%,
+        color-mix(in oklch, var(--arena) 68%, transparent) 25%,
+        color-mix(in oklch, var(--arena) 42%, transparent) 55%,
+        color-mix(in oklch, var(--arena) 15%, transparent) 80%,
+        transparent 100%),
+      linear-gradient(160deg,
+        color-mix(in oklch, var(--arena) 12%, transparent) 0%,
+        color-mix(in oklch, var(--calido-zen) 12%, transparent) 100%),
       url("../../assets/img/imagen-muestra-crowfunding.jpg") center/cover no-repeat,
       linear-gradient(120deg, var(--calido-zen), var(--arcilla));
 
@@ -189,42 +211,26 @@
     }
   }
 
-  /* Degradado identitario cálido · Fase 5.5b
-     Refactor sobre la Fase 0.1: el degradado azul-oscuro→dorado con
-     mix-blend-mode: multiply oscurecía demasiado y hacía perder la foto.
-     La sustitución adopta la familia de superficies cálidas del sistema
-     (calido-zen, arcilla) llegando al dorado como acento descentrado:
-       · calido-zen → arcilla → dorado(40%) → arcilla → calido-zen
-     Estructura palíndroma cromáticamente (0% y 100% coinciden) para que
-     el flow siga siendo continuo al hacer loop.
-     Opacidad 0.5 · la foto respira, el degradado tiñe pero no cubre.
-     Sin mix-blend-mode: render más predecible entre navegadores.
-     animation-iteration-count: infinite justificado — familia ambiental
-     identitaria. Ritmo secundario (0.9× logo). */
+  /* .band::before · Fase 4-ajustes · retirado el radial dorado
+     ───────────────────────────────────────────────────────────
+     Feedback: "olvidarnos del degradado con dorado, poner solo un
+     filtro beige de izquierda a derecha para que se lea bien y ya
+     está sutil y sin cambio brusco".
+
+     El radial dorado que existía en Fase 5.6d (concentrado al 78%
+     horizontal) se retira: el dorado sigue vivo como acento
+     tipográfico en el em "refugio de Dharma", no como superficie
+     ambiental.
+
+     El pseudo-elemento se vacía dejando el resto de la cascada
+     intacta (padding, layout, texto). Si en el futuro quisiéramos
+     recuperar el respiratorio identitario en la banda, este
+     ::before es el lugar. */
   .band::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    opacity: 0.5;
-    background: linear-gradient(100deg,
-      var(--calido-zen) 0%,
-      var(--arcilla) 22%,
-      var(--dorado) 40%,
-      var(--arcilla) 60%,
-      var(--calido-zen) 100%);
-    background-size: 200% 100%;
-    animation: flow var(--dur-identidad-secundaria)
-                    var(--ease-identidad-flujo)
-                    infinite;
+    content: none;
   }
 
-  /* Hover · acelera el respiratorio a 3.4s (respuesta convocada, familia B) */
-  .band:hover::before {
-    animation-duration: 3.4s;
-  }
-
-  /* Fase 5.5b · texto en azul-oscuro sobre fondo cálido luminoso.
+  /* Fase 5.6b · texto en azul-oscuro sobre fondo cálido luminoso.
      Halos de blanco cálido (tintado hacia lino) en vez de blanco puro
      — así respetan la temperatura del degradado calido-zen→dorado sin
      introducir un tono frío que rompería la unidad cromática. Función
@@ -234,6 +240,12 @@
     text-shadow: 0 1px 8px rgba(248, 244, 235, 0.75);
   }
 
+  /* h2 · Fase 4-ajustes · halos cálidos reforzados
+     ────────────────────────────────────────────────
+     El velo pasó de "columna arena 85% dura" a "gradiente lineal
+     suave 82→0%". La zona del texto tiene arena densa pero no
+     opaca: el halo del H2 necesita más presencia para leerse
+     limpio sobre piedra cálida atenuada. */
   .band h2 {
     font-family: var(--display);
     font-weight: 300;
@@ -242,27 +254,42 @@
     max-width: 18ch;
     text-wrap: balance;
     color: var(--azul-oscuro);
-    text-shadow: 0 2px 18px rgba(248, 244, 235, 0.65),
-                 0 1px 3px  rgba(248, 244, 235, 0.55);
+    text-shadow: 0 1px 12px rgba(248, 244, 235, 0.85),
+                 0 2px 24px rgba(248, 244, 235, 0.55),
+                 0 1px 3px  rgba(248, 244, 235, 0.65);
   }
 
-  /* CORRECCIÓN · cursivas en dorado (regla del sistema Fase 1b).
-     El em dorado sobre el degradado cálido (que también tiene dorado
-     en el 40%) mantiene su rol porque el contraste principal es
-     con el texto base azul-oscuro que lo rodea, no con el fondo.
-     Halo blanco cálido más denso porque el dorado del em puede caer
-     sobre la zona dorada del degradado. */
+  /* «refugio de Dharma» (em) · Fase 4-ajustes · halo doble
+     ──────────────────────────────────────────────────────
+     Con el velo beige ahora lineal suave (sin columna 85% opaca),
+     el em dorado necesita reforzarse para leerse sobre la piedra
+     cálida que aún se percibe bajo el velo suave.
+
+     Estrategia · halo doble:
+       · Halo interno azul-oscuro muy tenue (55%) · dibuja el borde
+         del glifo desde dentro. A esta opacidad NO se percibe como
+         color, actúa como contorno tipográfico oscuro. El azul es
+         el color de referencia del sistema · reforzar con azul es
+         "contornear con la tinta del texto base".
+       · Halo cálido interno (blanco-lino denso) · amortigua el
+         fondo alrededor del glifo.
+       · Halo cálido difuso · aire ampliado, refuerza la lectura
+         cuando el em cae sobre zonas más luminosas del fondo. */
   .band h2 em {
     color: var(--dorado);
     font-style: italic;
-    text-shadow: 0 1px 10px rgba(248, 244, 235, 0.9),
-                 0 0   3px  rgba(248, 244, 235, 0.75);
+    text-shadow:
+      0 0 1px  rgba(11, 24, 44, 0.55),          /* contorno · azul-oscuro tenue */
+      0 1px 10px rgba(248, 244, 235, 0.95),     /* halo cálido interno */
+      0 2px 24px rgba(248, 244, 235, 0.55);     /* halo cálido difuso */
   }
 
   .band p {
     max-width: 46ch;
     color: var(--azul-oscuro);
-    text-shadow: 0 1px 12px rgba(248, 244, 235, 0.6);
+    /* Fase 4-ajustes · halo cálido reforzado (mismo criterio que h2). */
+    text-shadow: 0 1px 10px rgba(248, 244, 235, 0.8),
+                 0 2px 20px rgba(248, 244, 235, 0.5);
   }
 
   /* Fase 5.5b · CTA de la banda migrado a .btn-umbral (secundario).
@@ -827,8 +854,8 @@
      ─────────────────────────────────────────────────────────────────────
      Contrato de quietud · Fase 2 y Fase 0.1:
 
-     · .band::before · el respiratorio identitario se detiene (absorbe el
-       TODO que estaba en paramita-responsive.css).
+     · .band::before · Fase 5.6b · YA NO tiene animación (el degradado
+       pasó a estático por razones de legibilidad). Regla eliminada.
      · .trazo-divisor__path · queda dibujado por completo (dashoffset:0).
      · Las tarjetas .efx-card se muestran directamente en su estado
        final, sin entrada en cascada.
@@ -837,10 +864,6 @@
      ═════════════════════════════════════════════════════════════════════ */
 
   @media (prefers-reduced-motion: reduce) {
-
-    .band::before {
-      animation: none;
-    }
 
     .trazo-divisor__path {
       stroke-dashoffset: 0 !important;
