@@ -42,20 +42,20 @@
 <script src="js/primitivos/paramita-gsap-refresh.js" defer></script>
 
 <!-- 2 · Comportamientos · patrones reutilizables -->
-<script src="js/comportamientos/paramita-bar.js" defer></script>
-<script src="js/comportamientos/paramita-blog-cascada.js" defer></script>
-<script src="js/comportamientos/paramita-modal.js" defer></script>
-<script src="js/comportamientos/paramita-hero.js" defer></script>
-<script src="js/comportamientos/paramita-fluido.js" defer></script>
-<script src="js/comportamientos/paramita-trazo-divisor.js" defer></script>
+<script src="js/componentes/paramita-bar.js" defer></script>
+<script src="js/componentes/paramita-blog-cascada.js" defer></script>
+<script src="js/componentes/paramita-modal.js" defer></script>
+<script src="js/componentes/paramita-hero.js" defer></script>
+<script src="js/componentes/paramita-fluido.js" defer></script>
+<script src="js/componentes/paramita-trazo-divisor.js" defer></script>
 
 <!-- 3 · Páginas · efectos específicos de la homepage -->
-<script src="js/paginas/paramita-frase-zoom.js" defer></script>
-<script src="js/paginas/paramita-cursos-flip.js" defer></script>
-<script src="js/paginas/paramita-cta-zoom.js" defer></script>
-<script src="js/paginas/paramita-participacion.js" defer></script>
-<script src="js/paginas/paramita-testimonios.js" defer></script>
-<script src="js/paginas/paramita-footer-lotos.js" defer></script>
+<script src="js/componentes/paramita-frase-zoom.js" defer></script>
+<script src="js/componentes/paramita-cursos-flip.js" defer></script>
+<script src="js/componentes/paramita-cta-zoom.js" defer></script>
+<script src="js/componentes/paramita-participacion.js" defer></script>
+<script src="js/componentes/paramita-testimonios.js" defer></script>
+<script src="js/componentes/paramita-footer-lotos.js" defer></script>
 
 <!-- ═══════════════════════════════════════════════════════════════════════
      SISTEMA DE DISEÑO PARAMITA · CSS en orden estricto de carga
@@ -91,7 +91,7 @@
 <link rel="stylesheet" href="css/componentes/paramita-extras.css">
 <link rel="stylesheet" href="css/componentes/paramita-modal.css">
 <link rel="stylesheet" href="css/componentes/paramita-footer.css">
-<link rel="stylesheet" href="css/componentes/paramita-responsive.css">
+<link rel="stylesheet" href="css/base/paramita-responsive.css">
 
 </head>
 <body>
@@ -118,36 +118,56 @@
 
     <nav class="menu" aria-label="Principal">
       <ul class="links">
-        <li><a class="navlink" href="https://cursos.paramita.org/home">Cursos</a></li>
-        <li><a class="navlink" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a></li>
+
+        <!-- 1 · MEDITACIÓN · puerta ancha, primera entrada emocional -->
+        <li>
+          <a class="navlink" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a>
+        </li>
+
+        <!-- 2 · CURSOS · plataforma externa -->
+        <li>
+          <a class="navlink" href="https://cursos.paramita.org/home">Cursos</a>
+        </li>
+
+        <!-- 3 · ACTIVIDADES · con submenú -->
         <li class="has-sub">
-          <a class="navlink" href="#actividades" aria-haspopup="true">Actividades <i class="caret" aria-hidden="true"></i></a>
+          <a class="navlink" href="/actividades" aria-haspopup="true" aria-expanded="false">Actividades <i class="caret" aria-hidden="true"></i></a>
           <ul class="sub" role="menu" aria-label="Actividades">
-            <li role="none"><a role="menuitem" href="#calendario"><strong>Calendario</strong><span>Sesiones y retiros</span></a></li>
-            <li role="none"><a role="menuitem" href="#visita"><strong>Visita el centro</strong><span>Ven a conocernos</span></a></li>
+            <li role="none"><a role="menuitem" href="/actividades"><strong>Todas las actividades</strong><span>Índice completo</span></a></li>
+            <li role="none"><a role="menuitem" href="/actividades/calendario"><strong>Calendario</strong><span>Sesiones y retiros</span></a></li>
+            <li role="none"><a role="menuitem" href="/actividades/visita"><strong>Visita el centro</strong><span>Ven a conocernos</span></a></li>
           </ul>
         </li>
+
+        <!-- 4 · BLOG · sección de contenido activo -->
+        <li class="has-sub">
+          <a class="navlink" href="/blog" aria-haspopup="true" aria-expanded="false">Blog <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub" role="menu" aria-label="Blog">
+            <li role="none"><a role="menuitem" href="/blog"><strong>Todos los artículos</strong><span>Últimos publicados</span></a></li>
+            <li role="none"><a role="menuitem" href="/blog/maestros"><strong>Maestros</strong><span>Quién escribe y guía</span></a></li>
+            <!-- Recursos · descomentar si hay contenido descargable
+            <li role="none"><a role="menuitem" href="/recursos"><strong>Recursos</strong><span>Textos y audios</span></a></li>
+            -->
+          </ul>
+        </li>
+
+        <!-- 5 · SOBRE · institucional, anclado a la derecha -->
         <li class="has-sub end">
-          <a class="navlink" href="#sobre-nosotros" aria-haspopup="true">Sobre nosotros <i class="caret" aria-hidden="true"></i></a>
-          <ul class="sub" role="menu" aria-label="Sobre nosotros">
-            <li role="none"><a role="menuitem" href="#blog"><strong>Blog</strong><span>Artículos y enseñanzas</span></a></li>
-            <li role="none"><a role="menuitem" href="#maestros"><strong>Maestros</strong><span>Quién guía la práctica</span></a></li>
-            <li role="none"><a role="menuitem" href="#faq"><strong>Preguntas frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
+          <a class="navlink" href="/sobre" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub" role="menu" aria-label="Sobre Paramita">
+            <li role="none"><a role="menuitem" href="/sobre"><strong>La fundación</strong><span>Quiénes somos</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/faq"><strong>Preguntas frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
+            <!-- Transparencia · descomentar si hay página de cuentas y memoria
+            <li role="none"><a role="menuitem" href="/sobre/transparencia"><strong>Transparencia</strong><span>Cuentas y memoria</span></a></li>
+            -->
           </ul>
         </li>
-        <li class="has-sub end">
-          <a class="navlink" href="#participa" aria-haspopup="true">Participa <i class="caret" aria-hidden="true"></i></a>
-          <ul class="sub" role="menu" aria-label="Participa">
-            <li role="none"><a role="menuitem" href="#grupos"><strong>Grupos</strong><span>Practica en comunidad</span></a></li>
-            <li role="none"><a role="menuitem" href="#contribuye"><strong>Contribuye</strong><span>Apoya el proyecto</span></a></li>
-            <li role="none"><a role="menuitem" href="#voluntariado"><strong>Voluntariado</strong><span>Ofrece tu tiempo</span></a></li>
-          </ul>
-        </li>
+
       </ul>
       <span class="div" aria-hidden="true"></span>
       <div class="ctas">
-        <a class="btn-umbral" href="#contacto">Contacto</a>
-        <a class="btn-umbral" href="#amigo">Hazte amigo</a>
+        <a class="btn-secundario" href="/unete">Únete</a>
+        <a class="btn-primario" href="/contribuir">Contribuir</a>
       </div>
     </nav>
   </div>
@@ -184,7 +204,7 @@
       <p class="lede">Aprende a vivir con equilibrio e integra cada aspecto de tu vida —la mente, el corazón, lo cotidiano— en un único camino de desarrollo personal y espiritual.</p>
 
       <div class="actions">
-        <a class="btn-amigo" href="https://cursos.paramita.org/home">Aprende a meditar</a>
+        <a class="btn-primario" href="https://cursos.paramita.org/home">Aprende a meditar</a>
       </div>
     </div>
 
@@ -376,7 +396,7 @@
       <p class="eyebrow" data-reveal="1">Crowdfunding · Centro de Retiros Paramita</p>
       <h2 id="cf-t" data-reveal="2">Construyamos juntos un <em>refugio de Dharma</em>.</h2>
       <p>Un lugar donde la práctica encuentra silencio y la comunidad encuentra hogar. Tu aportación levanta, piedra a piedra, un espacio de retiro abierto a todos.</p>
-      <a class="btn-umbral" href="#sueno">Unirme a este sueño compartido <span aria-hidden="true">→</span></a>
+      <a class="btn-secundario" href="#sueno">Unirme a este sueño compartido <span aria-hidden="true">→</span></a>
     </section>
   </div>
 

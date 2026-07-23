@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>El Sendero · Formación · Paramita</title>
+  <meta name="description" content="Un camino gradual del primer paso a la práctica más profunda del budismo. Cinco niveles, más de cuarenta cursos, dos décadas de experiencia.">
+
+  <!-- Google Fonts (idealmente self-hosted en assets/fonts/) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- ═══════════════ SISTEMA PARAMITA ═══════════════ -->
+  <!-- Orden de carga: tokens → base → componentes → específicos → responsive -->
+
+  <!-- TOKENS · variables raíz del sistema -->
+  <link rel="stylesheet" href="/css/tokens/paramita-color.css">
+  <link rel="stylesheet" href="/css/tokens/paramita-tipografia.css">
+  <link rel="stylesheet" href="/css/tokens/paramita-layout.css">
+  <link rel="stylesheet" href="/css/tokens/paramita-movimiento.css">
+
+  <!-- BASE · reset + fundamentos globales -->
+  <link rel="stylesheet" href="/css/base/paramita-reset.css">
+  <link rel="stylesheet" href="/css/base/paramita-base.css">
+
+  <!-- COMPONENTES · piezas del sistema -->
+  <link rel="stylesheet" href="/css/componentes/paramita-fluido.css">
+  <link rel="stylesheet" href="/css/componentes/paramita-bar.css">
+  <link rel="stylesheet" href="/css/componentes/paramita-menu.css">
+  <link rel="stylesheet" href="/css/componentes/paramita-cta.css">
+  <link rel="stylesheet" href="/css/componentes/paramita-sections.css">
+  <link rel="stylesheet" href="/css/componentes/paramita-cursos.css">
+  <link rel="stylesheet" href="/css/componentes/paramita-modal.css">
+  <link rel="stylesheet" href="/css/componentes/paramita-extras.css">
+  <link rel="stylesheet" href="/css/componentes/paramita-footer.css">
+
+  <!-- ═══════════════ ESPECÍFICOS DE ESTA PÁGINA ═══════════════ -->
+  <link rel="stylesheet" href="/css/paginas/paramita-formacion.css">
+  <link rel="stylesheet" href="/css/componentes/paramita-chat.css">
+
+  <!-- Responsive común (siempre al final) -->
+  <link rel="stylesheet" href="/css/base/paramita-responsive.css">
+</head>
+<body>
+
+<!-- SVG defs global -->
+<svg width="0" height="0" style="position: absolute;">
+  <defs>
+    <linearGradient id="gradSendero" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="oklch(38% 0.11 245)"/>
+      <stop offset="55%" stop-color="oklch(68% 0.13 235)"/>
+      <stop offset="100%" stop-color="oklch(78% 0.155 68)"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<header class="bar">
+  <div class="bar__inner">
+    <a href="#" class="logo">par<em>a</em>mita</a>
+    <nav class="bar__nav">
+      <a href="#">Meditación</a>
+      <a href="#" class="is-active">Formación</a>
+      <a href="#">Actividades</a>
+      <a href="#">Blog</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="entrada" id="entrada">
+  <div class="entrada__img"></div>
+  <div class="entrada__bg"></div>
+  <div class="entrada__inner">
+    <span class="eyebrow">El sendero de Paramita</span>
+    <h1>Un camino <em>gradual</em>,<br>del primer paso a la práctica más profunda.</h1>
+    <p class="lede">Cinco niveles, más de cuarenta cursos, dos décadas de experiencia. Un solo maestro residente. Sin prisas: elige el punto del sendero que te corresponde y empieza.</p>
+
+    <div class="puertas">
+      <a href="#nivel-1" class="puerta">
+        <span class="puerta__num">I</span>
+        <h3 class="puerta__titulo">Empiezo hoy</h3>
+        <p class="puerta__desc">Fundamentos de meditación y primeras enseñanzas budistas. Sin experiencia previa.</p>
+      </a>
+      <a href="#nivel-2" class="puerta">
+        <span class="puerta__num">II · III</span>
+        <h3 class="puerta__titulo">Ya practico</h3>
+        <p class="puerta__desc">Profundización en el mahayana, textos clásicos y filosofía de las escuelas budistas.</p>
+      </a>
+      <a href="#nivel-4" class="puerta">
+        <span class="puerta__num">IV · V</span>
+        <h3 class="puerta__titulo">Vengo a profundizar</h3>
+        <p class="puerta__desc">Prácticas vajrayana, ngöndro y formaciones avanzadas del linaje sakya.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ TRAMO 2 · MAPA DEL SENDERO ══════════════ -->
+<section class="mapa">
+  <div class="mapa__head">
+    <span class="eyebrow">El mapa del camino</span>
+    <h2>Cinco niveles, un solo <em>sendero</em>.</h2>
+    <p>Cada nivel es una estación en el camino gradual del Buddhadharma. Puedes empezar donde te corresponda y avanzar a tu ritmo.</p>
+  </div>
+
+  <div class="mapa__sendero">
+    <svg class="mapa__hilo" viewBox="0 0 1200 4" preserveAspectRatio="none">
+      <path class="mapa__hilo-path" d="M 0 2 L 1200 2" />
+    </svg>
+
+    <div class="mapa__nodos">
+      <button class="nodo" data-nivel="1">
+        <span class="nodo__punto"></span>
+        <span class="nodo__romano">I</span>
+        <span class="nodo__nombre">Fundamentos</span>
+        <p class="nodo__desc">Aprender a meditar y las primeras enseñanzas del Buddhadharma.</p>
+        <span class="nodo__contador"><em>8</em> cursos</span>
+      </button>
+      <button class="nodo" data-nivel="2">
+        <span class="nodo__punto"></span>
+        <span class="nodo__romano">II</span>
+        <span class="nodo__nombre">Profundización</span>
+        <p class="nodo__desc">Estudio y práctica del mahayana y sus aspiraciones.</p>
+        <span class="nodo__contador"><em>7</em> cursos</span>
+      </button>
+      <button class="nodo" data-nivel="3">
+        <span class="nodo__punto"></span>
+        <span class="nodo__romano">III</span>
+        <span class="nodo__nombre">Filosofía</span>
+        <p class="nodo__desc">Textos clásicos de India y Tíbet, abhidharma y madhyamaka.</p>
+        <span class="nodo__contador"><em>6</em> cursos</span>
+      </button>
+      <button class="nodo" data-nivel="4">
+        <span class="nodo__punto"></span>
+        <span class="nodo__romano">IV</span>
+        <span class="nodo__nombre">Vajrayana</span>
+        <p class="nodo__desc">Introducción al tantra y las prácticas del linaje sakya.</p>
+        <span class="nodo__contador"><em>5</em> cursos</span>
+      </button>
+      <button class="nodo" data-nivel="5">
+        <span class="nodo__punto"></span>
+        <span class="nodo__romano">V</span>
+        <span class="nodo__nombre">Práctica avanzada</span>
+        <p class="nodo__desc">Ngöndro, retiros largos y formaciones plurianuales.</p>
+        <span class="nodo__contador"><em>4</em> cursos</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ TRAMO 3 · FACETAS · frase-intención ══════════════ -->
+<section class="facetas" id="facetas">
+  <div class="facetas__head">
+    <span class="eyebrow">Encuentra tu curso</span>
+    <h2>¿Qué buscas <em>hoy</em>?</h2>
+  </div>
+
+  <p class="intencion" id="intencion">
+    <span class="intencion__estatico">Quiero un curso</span>
+
+    <span class="slot is-empty" data-faceta="nivel" role="button" tabindex="0" aria-label="Elegir nivel">
+      <span class="slot__texto">de cualquier nivel</span><span class="slot__x" aria-hidden="true">×</span>
+      <span class="popover" role="menu">
+        <span class="popover__opcion" data-valor="1" data-nivel-color="1" role="menuitem" tabindex="-1">
+          <span class="popover__opcion-luz"></span>
+          <span class="popover__opcion-textos">
+            <span class="popover__opcion-etiqueta">de nivel <em>I</em></span>
+            <span class="popover__opcion-desc">Fundamentos · empezar aquí</span>
+          </span>
+        </span>
+        <span class="popover__opcion" data-valor="2" data-nivel-color="2" role="menuitem" tabindex="-1">
+          <span class="popover__opcion-luz"></span>
+          <span class="popover__opcion-textos">
+            <span class="popover__opcion-etiqueta">de nivel <em>II</em></span>
+            <span class="popover__opcion-desc">Profundización mahayana</span>
+          </span>
+        </span>
+        <span class="popover__opcion" data-valor="3" data-nivel-color="3" role="menuitem" tabindex="-1">
+          <span class="popover__opcion-luz"></span>
+          <span class="popover__opcion-textos">
+            <span class="popover__opcion-etiqueta">de nivel <em>III</em></span>
+            <span class="popover__opcion-desc">Filosofía · textos clásicos</span>
+          </span>
+        </span>
+        <span class="popover__opcion" data-valor="4" data-nivel-color="4" role="menuitem" tabindex="-1">
+          <span class="popover__opcion-luz"></span>
+          <span class="popover__opcion-textos">
+            <span class="popover__opcion-etiqueta">de nivel <em>IV</em></span>
+            <span class="popover__opcion-desc">Vajrayana · introducción al tantra</span>
+          </span>
+        </span>
+        <span class="popover__opcion" data-valor="5" data-nivel-color="5" role="menuitem" tabindex="-1">
+          <span class="popover__opcion-luz"></span>
+          <span class="popover__opcion-textos">
+            <span class="popover__opcion-etiqueta">de nivel <em>V</em></span>
+            <span class="popover__opcion-desc">Práctica avanzada</span>
+          </span>
+        </span>
+      </span>
+    </span>
+
+    <span class="intencion__estatico">,</span>
+
+    <span class="slot is-empty" data-faceta="formato" role="button" tabindex="0" aria-label="Elegir formato">
+      <span class="slot__texto">de cualquier duración</span><span class="slot__x" aria-hidden="true">×</span>
+      <span class="popover" role="menu">
+        <span class="popover__opcion" data-valor="corto" role="menuitem" tabindex="-1">
+          <span class="popover__opcion-luz"></span>
+          <span class="popover__opcion-textos">
+            <span class="popover__opcion-etiqueta"><em>corto</em></span>
+            <span class="popover__opcion-desc">Pocas lecciones · 1–4 semanas</span>
+          </span>
+        </span>
+        <span class="popover__opcion" data-valor="largo" role="menuitem" tabindex="-1">
+          <span class="popover__opcion-luz"></span>
+          <span class="popover__opcion-textos">
+            <span class="popover__opcion-etiqueta"><em>largo</em></span>
+            <span class="popover__opcion-desc">Meses o años de estudio</span>
+          </span>
+        </span>
+        <span class="popover__opcion" data-valor="intensivo" role="menuitem" tabindex="-1">
+          <span class="popover__opcion-luz"></span>
+          <span class="popover__opcion-textos">
+            <span class="popover__opcion-etiqueta"><em>intensivo</em></span>
+            <span class="popover__opcion-desc">Retiro concentrado en días</span>
+          </span>
+        </span>
+      </span>
+    </span>
+
+    <span class="intencion__estatico">,</span>
+
+    <span class="slot is-empty" data-faceta="modalidad" role="button" tabindex="0" aria-label="Elegir modalidad">
+      <span class="slot__texto">en cualquier modalidad</span><span class="slot__x" aria-hidden="true">×</span>
+      <span class="popover" role="menu">
+        <span class="popover__opcion" data-valor="vivo" role="menuitem" tabindex="-1">
+          <span class="popover__opcion-luz"></span>
+          <span class="popover__opcion-textos">
+            <span class="popover__opcion-etiqueta"><em>online en vivo</em></span>
+            <span class="popover__opcion-desc">Clases con el maestro en directo</span>
+          </span>
+        </span>
+        <span class="popover__opcion" data-valor="auto" role="menuitem" tabindex="-1">
+          <span class="popover__opcion-luz"></span>
+          <span class="popover__opcion-textos">
+            <span class="popover__opcion-etiqueta"><em>autodirigido</em></span>
+            <span class="popover__opcion-desc">A tu ritmo, cuando puedas</span>
+          </span>
+        </span>
+        <span class="popover__opcion" data-valor="presencial" role="menuitem" tabindex="-1">
+          <span class="popover__opcion-luz"></span>
+          <span class="popover__opcion-textos">
+            <span class="popover__opcion-etiqueta"><em>presencial</em></span>
+            <span class="popover__opcion-desc">En el centro de Alicante</span>
+          </span>
+        </span>
+      </span>
+    </span>
+
+    <span class="intencion__estatico">y</span>
+
+    <span class="slot is-empty" data-faceta="aportacion" role="button" tabindex="0" aria-label="Elegir aportación">
+      <span class="slot__texto">con cualquier aportación</span><span class="slot__x" aria-hidden="true">×</span>
+      <span class="popover" role="menu">
+        <span class="popover__opcion" data-valor="gratuito" role="menuitem" tabindex="-1">
+          <span class="popover__opcion-luz"></span>
+          <span class="popover__opcion-textos">
+            <span class="popover__opcion-etiqueta"><em>gratuito</em></span>
+            <span class="popover__opcion-desc">Enseñanza pública abierta</span>
+          </span>
+        </span>
+        <span class="popover__opcion" data-valor="pago" role="menuitem" tabindex="-1">
+          <span class="popover__opcion-luz"></span>
+          <span class="popover__opcion-textos">
+            <span class="popover__opcion-etiqueta"><em>de pago</em></span>
+            <span class="popover__opcion-desc">Sostienen el trabajo del centro</span>
+          </span>
+        </span>
+      </span>
+    </span>
+
+    <span class="intencion__estatico">.</span>
+  </p>
+
+  <div class="intencion__acciones">
+    <button class="limpiar" id="limpiar">Empezar de nuevo</button>
+  </div>
+</section>
+
+<!-- ══════════════ TRAMO 4 · CUADRÍCULA ══════════════ -->
+<section class="cuadricula-seccion" id="catalogo">
+  <p class="contador-resultados">Mostrando <strong id="contador">30</strong> cursos del sendero</p>
+
+  <div class="cuadricula" id="cuadricula">
+    <!-- ─── NIVEL I · FUNDAMENTOS ─────────────────────── -->
+
+    <a class="curso" data-nivel="1" data-formato="corto" data-modalidad="auto" data-aportacion="gratuito"
+       href="#" >
+      <div class="curso__pic" style="background-image:url('assets/img/curso-1.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel I<span class="separador">·</span>Corto<span class="separador">·</span><span class="aportacion">Gratuito</span></span>
+        <h3 class="curso__titulo">Introducción a la <em>meditación</em></h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">4 lecciones<span class="sep">·</span>autodirigido</div>
+      </div>
+    </a>
+
+    <a class="curso" data-nivel="1" data-formato="corto" data-modalidad="vivo" data-aportacion="gratuito"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-2.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel I<span class="separador">·</span>Corto<span class="separador">·</span><span class="aportacion">Gratuito</span></span>
+        <h3 class="curso__titulo">Perlas de <em>sabiduría</em> · parte 5</h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">2 mayo 2026<span class="sep">·</span>online en vivo</div>
+      </div>
+    </a>
+
+    <a class="curso" data-nivel="1" data-formato="largo" data-modalidad="vivo" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-3.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel I<span class="separador">·</span>Largo<span class="separador">·</span><span class="aportacion">120 €</span></span>
+        <h3 class="curso__titulo">EMI 1 · <em>Calma</em> y lucidez</h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">3 meses<span class="sep">·</span>online en vivo</div>
+      </div>
+      <span class="curso__precio-revela">120 €</span>
+    </a>
+
+    <a class="curso" data-nivel="1" data-formato="largo" data-modalidad="vivo" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-4.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel I<span class="separador">·</span>Largo<span class="separador">·</span><span class="aportacion">120 €</span></span>
+        <h3 class="curso__titulo">EMI 2 · <em>Compasión</em> en acción</h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">3 meses<span class="sep">·</span>online en vivo</div>
+      </div>
+      <span class="curso__precio-revela">120 €</span>
+    </a>
+
+    <a class="curso" data-nivel="1" data-formato="corto" data-modalidad="auto" data-aportacion="gratuito"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-5.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel I<span class="separador">·</span>Corto<span class="separador">·</span><span class="aportacion">Gratuito</span></span>
+        <h3 class="curso__titulo">Las <em>Cuatro Nobles</em> Verdades</h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">3 lecciones<span class="sep">·</span>autodirigido</div>
+      </div>
+    </a>
+
+    <a class="curso" data-nivel="1" data-formato="intensivo" data-modalidad="presencial" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-6.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel I<span class="separador">·</span>Intensivo<span class="separador">·</span><span class="aportacion">280 €</span></span>
+        <h3 class="curso__titulo">Retiro de <em>iniciación</em> a la práctica</h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">9–12 oct 2026<span class="sep">·</span>Alicante</div>
+      </div>
+      <span class="curso__precio-revela">280 €</span>
+    </a>
+
+    <a class="curso" data-nivel="1" data-formato="corto" data-modalidad="auto" data-aportacion="gratuito"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-1.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel I<span class="separador">·</span>Corto<span class="separador">·</span><span class="aportacion">Gratuito</span></span>
+        <h3 class="curso__titulo">La vida del <em>Buddha</em></h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">6 lecciones<span class="sep">·</span>autodirigido</div>
+      </div>
+    </a>
+
+    <a class="curso" data-nivel="1" data-formato="corto" data-modalidad="vivo" data-aportacion="gratuito"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-2.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel I<span class="separador">·</span>Corto<span class="separador">·</span><span class="aportacion">Gratuito</span></span>
+        <h3 class="curso__titulo">Introducción al <em>Lojong</em></h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">15 abr 2026<span class="sep">·</span>online en vivo</div>
+      </div>
+    </a>
+
+    <!-- ─── NIVEL II · PROFUNDIZACIÓN ─────────────────── -->
+
+    <a class="curso" data-nivel="2" data-formato="largo" data-modalidad="vivo" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-3.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel II<span class="separador">·</span>Largo<span class="separador">·</span><span class="aportacion">240 €</span></span>
+        <h3 class="curso__titulo">El Camino del <em>Bodhisattva</em> · parte 1</h3>
+        <span class="curso__maestro">S.S. el 42.º Sakya Trizin</span>
+        <div class="curso__meta">6 meses<span class="sep">·</span>online en vivo</div>
+      </div>
+      <span class="curso__precio-revela">240 €</span>
+    </a>
+
+    <a class="curso" data-nivel="2" data-formato="largo" data-modalidad="vivo" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-4.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel II<span class="separador">·</span>Largo<span class="separador">·</span><span class="aportacion">240 €</span></span>
+        <h3 class="curso__titulo">El Camino del <em>Bodhisattva</em> · parte 2</h3>
+        <span class="curso__maestro">S.S. el 42.º Sakya Trizin</span>
+        <div class="curso__meta">21 sep 2026<span class="sep">·</span>online en vivo</div>
+      </div>
+      <span class="curso__precio-revela">240 €</span>
+    </a>
+
+    <a class="curso" data-nivel="2" data-formato="corto" data-modalidad="auto" data-aportacion="gratuito"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-5.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel II<span class="separador">·</span>Corto<span class="separador">·</span><span class="aportacion">Gratuito</span></span>
+        <h3 class="curso__titulo">Las <em>37 prácticas</em> del bodhisattva</h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">8 lecciones<span class="sep">·</span>autodirigido</div>
+      </div>
+    </a>
+
+    <a class="curso" data-nivel="2" data-formato="intensivo" data-modalidad="vivo" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-6.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel II<span class="separador">·</span>Intensivo<span class="separador">·</span><span class="aportacion">180 €</span></span>
+        <h3 class="curso__titulo">El <em>Sutra</em> del Corazón</h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">6 lecciones<span class="sep">·</span>online en vivo</div>
+      </div>
+      <span class="curso__precio-revela">180 €</span>
+    </a>
+
+    <a class="curso" data-nivel="2" data-formato="corto" data-modalidad="auto" data-aportacion="gratuito"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-1.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel II<span class="separador">·</span>Corto<span class="separador">·</span><span class="aportacion">Gratuito</span></span>
+        <h3 class="curso__titulo">La Rueda de las <em>Armas</em> Afiladas</h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">27 jun 2026<span class="sep">·</span>online en vivo</div>
+      </div>
+    </a>
+
+    <a class="curso" data-nivel="2" data-formato="largo" data-modalidad="vivo" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-2.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel II<span class="separador">·</span>Largo<span class="separador">·</span><span class="aportacion">200 €</span></span>
+        <h3 class="curso__titulo">Entrenamiento mental en <em>7 puntos</em></h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">4 meses<span class="sep">·</span>online en vivo</div>
+      </div>
+      <span class="curso__precio-revela">200 €</span>
+    </a>
+
+    <a class="curso" data-nivel="2" data-formato="intensivo" data-modalidad="presencial" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-3.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel II<span class="separador">·</span>Intensivo<span class="separador">·</span><span class="aportacion">320 €</span></span>
+        <h3 class="curso__titulo">Retiro sobre las <em>paramitas</em></h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">18–22 nov 2026<span class="sep">·</span>Alicante</div>
+      </div>
+      <span class="curso__precio-revela">320 €</span>
+    </a>
+
+    <!-- ─── NIVEL III · FILOSOFÍA ─────────────────────── -->
+
+    <a class="curso" data-nivel="3" data-formato="largo" data-modalidad="vivo" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-4.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel III<span class="separador">·</span>Largo<span class="separador">·</span><span class="aportacion">1.200 €/año</span></span>
+        <h3 class="curso__titulo">Programa <em>Dharma Chakra</em></h3>
+        <span class="curso__maestro">S.S. el 42.º Sakya Trizin</span>
+        <div class="curso__meta">5 años<span class="sep">·</span>online en vivo</div>
+      </div>
+      <span class="curso__precio-revela">1.200 €/año</span>
+    </a>
+
+    <a class="curso" data-nivel="3" data-formato="largo" data-modalidad="vivo" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-5.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel III<span class="separador">·</span>Largo<span class="separador">·</span><span class="aportacion">380 €</span></span>
+        <h3 class="curso__titulo">Las <em>Tres Visiones</em></h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">8 meses<span class="sep">·</span>online en vivo</div>
+      </div>
+      <span class="curso__precio-revela">380 €</span>
+    </a>
+
+    <a class="curso" data-nivel="3" data-formato="largo" data-modalidad="vivo" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-6.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel III<span class="separador">·</span>Largo<span class="separador">·</span><span class="aportacion">420 €</span></span>
+        <h3 class="curso__titulo">Introducción al <em>Madhyamaka</em></h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">10 meses<span class="sep">·</span>online en vivo</div>
+      </div>
+      <span class="curso__precio-revela">420 €</span>
+    </a>
+
+    <a class="curso" data-nivel="3" data-formato="largo" data-modalidad="vivo" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-1.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel III<span class="separador">·</span>Largo<span class="separador">·</span><span class="aportacion">380 €</span></span>
+        <h3 class="curso__titulo">Los <em>tres códigos</em> · ética budista</h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">7 meses<span class="sep">·</span>online en vivo</div>
+      </div>
+      <span class="curso__precio-revela">380 €</span>
+    </a>
+
+    <a class="curso" data-nivel="3" data-formato="corto" data-modalidad="auto" data-aportacion="gratuito"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-2.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel III<span class="separador">·</span>Corto<span class="separador">·</span><span class="aportacion">Gratuito</span></span>
+        <h3 class="curso__titulo">Introducción al <em>Abhidharma</em></h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">5 lecciones<span class="sep">·</span>autodirigido</div>
+      </div>
+    </a>
+
+    <a class="curso" data-nivel="3" data-formato="intensivo" data-modalidad="vivo" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-3.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel III<span class="separador">·</span>Intensivo<span class="separador">·</span><span class="aportacion">220 €</span></span>
+        <h3 class="curso__titulo">Los siete puntos <em>vajra</em></h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">8 sesiones<span class="sep">·</span>online en vivo</div>
+      </div>
+      <span class="curso__precio-revela">220 €</span>
+    </a>
+
+    <!-- ─── NIVEL IV · VAJRAYANA ──────────────────────── -->
+
+    <a class="curso" data-nivel="4" data-formato="largo" data-modalidad="presencial" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-4.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel IV<span class="separador">·</span>Largo<span class="separador">·</span><span class="aportacion">680 €</span></span>
+        <h3 class="curso__titulo">Introducción al <em>Vajrayana</em></h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">1 año<span class="sep">·</span>híbrido</div>
+      </div>
+      <span class="curso__precio-revela">680 €</span>
+    </a>
+
+    <a class="curso" data-nivel="4" data-formato="largo" data-modalidad="presencial" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-5.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel IV<span class="separador">·</span>Largo<span class="separador">·</span><span class="aportacion">820 €</span></span>
+        <h3 class="curso__titulo">Ngöndro · <em>prácticas</em> preliminares</h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">2 años<span class="sep">·</span>Alicante</div>
+      </div>
+      <span class="curso__precio-revela">820 €</span>
+    </a>
+
+    <a class="curso" data-nivel="4" data-formato="intensivo" data-modalidad="presencial" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-6.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel IV<span class="separador">·</span>Intensivo<span class="separador">·</span><span class="aportacion">450 €</span></span>
+        <h3 class="curso__titulo">Retiro de <em>Chenrezig</em></h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">7 días<span class="sep">·</span>Alicante</div>
+      </div>
+      <span class="curso__precio-revela">450 €</span>
+    </a>
+
+    <a class="curso" data-nivel="4" data-formato="corto" data-modalidad="vivo" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-1.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel IV<span class="separador">·</span>Corto<span class="separador">·</span><span class="aportacion">160 €</span></span>
+        <h3 class="curso__titulo">Los tres cuerpos del <em>Buddha</em></h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">4 sesiones<span class="sep">·</span>online en vivo</div>
+      </div>
+      <span class="curso__precio-revela">160 €</span>
+    </a>
+
+    <a class="curso" data-nivel="4" data-formato="intensivo" data-modalidad="presencial" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-2.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel IV<span class="separador">·</span>Intensivo<span class="separador">·</span><span class="aportacion">380 €</span></span>
+        <h3 class="curso__titulo">Retiro de <em>Tara Verde</em></h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">5 días<span class="sep">·</span>Alicante</div>
+      </div>
+      <span class="curso__precio-revela">380 €</span>
+    </a>
+
+    <!-- ─── NIVEL V · PRÁCTICA AVANZADA ──────────────── -->
+
+    <a class="curso" data-nivel="5" data-formato="largo" data-modalidad="presencial" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-3.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel V<span class="separador">·</span>Largo<span class="separador">·</span><span class="aportacion">1.400 €</span></span>
+        <h3 class="curso__titulo">El <em>Lamdré</em> · el camino y sus frutos</h3>
+        <span class="curso__maestro">S.S. el 42.º Sakya Trizin</span>
+        <div class="curso__meta">3 años<span class="sep">·</span>híbrido</div>
+      </div>
+      <span class="curso__precio-revela">1.400 €</span>
+    </a>
+
+    <a class="curso" data-nivel="5" data-formato="intensivo" data-modalidad="presencial" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-4.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel V<span class="separador">·</span>Intensivo<span class="separador">·</span><span class="aportacion">720 €</span></span>
+        <h3 class="curso__titulo">Retiro de <em>Vajrayogini</em></h3>
+        <span class="curso__maestro">Lama Rinchen Gyaltsen</span>
+        <div class="curso__meta">10 días<span class="sep">·</span>Alicante</div>
+      </div>
+      <span class="curso__precio-revela">720 €</span>
+    </a>
+
+    <a class="curso" data-nivel="5" data-formato="largo" data-modalidad="vivo" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-5.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel V<span class="separador">·</span>Largo<span class="separador">·</span><span class="aportacion">520 €</span></span>
+        <h3 class="curso__titulo">La <em>naturaleza</em> de la mente</h3>
+        <span class="curso__maestro">S.S. el 42.º Sakya Trizin</span>
+        <div class="curso__meta">1 año<span class="sep">·</span>online en vivo</div>
+      </div>
+      <span class="curso__precio-revela">520 €</span>
+    </a>
+
+    <a class="curso" data-nivel="5" data-formato="intensivo" data-modalidad="presencial" data-aportacion="pago"
+       href="#">
+      <div class="curso__pic" style="background-image:url('assets/img/curso-6.jpg')"></div>
+      <div class="curso__veil"></div>
+      <div class="curso__body">
+        <span class="curso__eyebrow">Nivel V<span class="separador">·</span>Intensivo<span class="separador">·</span><span class="aportacion">980 €</span></span>
+        <h3 class="curso__titulo">Retiro largo de <em>Hevajra</em></h3>
+        <span class="curso__maestro">S.S. el 42.º Sakya Trizin</span>
+        <div class="curso__meta">14 días<span class="sep">·</span>Alicante</div>
+      </div>
+      <span class="curso__precio-revela">980 €</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- ══════════════ TRAMO 6 · CÓMO ESTUDIAMOS ══════════════ -->
+<section class="como">
+  <div class="como__inner">
+    <div class="como__head">
+      <span class="eyebrow">Cómo estudiamos aquí</span>
+      <h2>Un método <em>gradual</em>, una tradición viva.</h2>
+      <p>Paramita combina la transmisión auténtica del linaje sakya con la adaptación cuidadosa a la sensibilidad del siglo XXI.</p>
+    </div>
+
+    <div class="principios">
+      <div class="principio">
+        <!-- Icono: hilo continuo · transmisión ininterrumpida -->
+        <div class="principio__icono">
+          <svg viewBox="0 0 44 44" aria-hidden="true">
+            <path d="M6 22 Q11 12, 16 22 T26 22 T36 22"/>
+            <circle cx="6" cy="22" r="1.5" fill="currentColor" stroke="none"/>
+            <circle cx="16" cy="22" r="1.5" fill="currentColor" stroke="none"/>
+            <circle cx="26" cy="22" r="1.5" fill="currentColor" stroke="none"/>
+            <circle cx="36" cy="22" r="1.5" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+        <h3>Transmisión <em>auténtica</em></h3>
+        <p>Línea ininterrumpida del linaje sakya, sostenida durante mil años.</p>
+      </div>
+      <div class="principio">
+        <!-- Icono: escalera de pasos · ritmo gradual -->
+        <div class="principio__icono">
+          <svg viewBox="0 0 44 44" aria-hidden="true">
+            <path d="M6 34 L14 34 L14 26 L22 26 L22 18 L30 18 L30 10 L38 10"/>
+          </svg>
+        </div>
+        <h3>Ritmo <em>gradual</em></h3>
+        <p>Cada nivel prepara el siguiente. Sin atajos, sin prisas.</p>
+      </div>
+      <div class="principio">
+        <!-- Icono: tres círculos entrelazados · comunidad -->
+        <div class="principio__icono">
+          <svg viewBox="0 0 44 44" aria-hidden="true">
+            <circle cx="15" cy="18" r="7"/>
+            <circle cx="29" cy="18" r="7"/>
+            <circle cx="22" cy="28" r="7"/>
+          </svg>
+        </div>
+        <h3>Comunidad de <em>práctica</em></h3>
+        <p>Estudias con sangha internacional hispanoparlante.</p>
+      </div>
+      <div class="principio">
+        <!-- Icono: manos abiertas · aportación libre / dāna -->
+        <div class="principio__icono">
+          <svg viewBox="0 0 44 44" aria-hidden="true">
+            <path d="M14 26 L14 18 Q14 15, 17 15 Q20 15, 20 18 L20 22"/>
+            <path d="M20 22 L20 16 Q20 13, 23 13 Q26 13, 26 16 L26 22"/>
+            <path d="M26 22 L26 17 Q26 14, 29 14 Q32 14, 32 17 L32 22"/>
+            <path d="M14 26 Q14 34, 22 34 Q32 34, 32 26 L32 22"/>
+          </svg>
+        </div>
+        <h3>Aportación <em>consciente</em></h3>
+        <p>Cursos gratuitos abiertos, cursos de pago que sostienen el centro.</p>
+      </div>
+    </div>
+
+    <div class="cifras">
+      <div class="cifra">
+        <span class="cifra__num"><em>+3.400</em></span>
+        <span class="cifra__label">Estudiantes formados</span>
+      </div>
+      <div class="cifra">
+        <span class="cifra__num"><em>18</em> años</span>
+        <span class="cifra__label">de enseñanzas en España</span>
+      </div>
+      <div class="cifra">
+        <span class="cifra__num"><em>22</em> países</span>
+        <span class="cifra__label">alcanzados en el mundo hispano</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ TRAMO 7 · PRACTIQUEMOS JUNTOS · CIERRE ══════════════ -->
+<section class="cierre">
+  <div class="cierre__inner">
+    <span class="eyebrow">Practiquemos juntos</span>
+    <h2>El paso más importante es siempre <em>el primero</em>.</h2>
+    <p>Si no sabes por dónde empezar, cuéntanos qué buscas. En pocas preguntas te ayudamos a encontrar el curso que resuena contigo.</p>
+    <div class="cierre__ctas">
+      <a href="#entrada" class="btn-primario">Elegir mi primer curso</a>
+      <button type="button" class="btn-secundario btn-secundario--claro" id="ctaAbrirChat">
+        Habla con nosotros
+      </button>
+    </div>
+  </div>
+</section>
+
+
+
+</main>
+
+<!-- ══════════════ CHAT WIDGET · guía conversacional ══════════════ -->
+<div class="chat-widget" id="chatWidget" aria-live="polite">
+
+  <!-- Burbuja de invitación (aparece con delay) -->
+  <div class="chat-widget__invitacion" id="chatInvitacion" role="button" tabindex="0">
+    <button class="chat-widget__invitacion-cerrar" id="chatInvitacionCerrar" aria-label="Cerrar invitación">×</button>
+    ¿No sabes por dónde <em>empezar</em>?
+  </div>
+
+  <!-- Ventana del chat -->
+  <div class="chat-widget__ventana" id="chatVentana" role="dialog" aria-label="Chat de orientación">
+    <div class="chat-widget__cabecera">
+      <div class="chat-widget__cabecera-eyebrow">Guía del sendero</div>
+      <div class="chat-widget__cabecera-titulo">Encontremos tu <em>primer curso</em></div>
+    </div>
+
+    <div class="chat-widget__mensajes" id="chatMensajes">
+      <!-- Los mensajes se inyectan aquí dinámicamente -->
+    </div>
+
+    <div class="chat-widget__acciones">
+      <button class="chat-widget__reiniciar" id="chatReiniciar" style="display:none;">Empezar de nuevo</button>
+    </div>
+  </div>
+
+  <!-- Botón toggle -->
+  <button class="chat-widget__toggle" id="chatToggle" aria-label="Abrir chat de orientación">
+    <svg class="chat-widget__icono-chat" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 12a8 8 0 0 1 16 0v.5a7.5 7.5 0 0 1-7.5 7.5H8l-4 3v-4a8 8 0 0 1 0-7Z"/>
+      <line x1="9" y1="11" x2="15" y2="11"/>
+      <line x1="9" y1="14" x2="13" y2="14"/>
+    </svg>
+    <svg class="chat-widget__icono-cerrar" viewBox="0 0 24 24" aria-hidden="true">
+      <line x1="6" y1="6" x2="18" y2="18"/>
+      <line x1="18" y1="6" x2="6" y2="18"/>
+    </svg>
+  </button>
+</div>
+
+
+
+<!-- ═══════════════ FOOTER GENÉRICO PARAMITA ═══════════════ -->
+<!-- Aquí se incluye el mismo footer que en la home.
+     Si tu proyecto ya lo tiene como partial, sustituir por include correspondiente. -->
+<!-- <div id="footer-generico"></div> -->
+
+
+<!-- ═══════════════ SCRIPTS ═══════════════ -->
+<!-- Scripts del sistema (si tu proyecto los tiene como módulos globales) -->
+<!-- <script src="/js/primitivos/paramita-fluido.js" defer></script> -->
+<!-- <script src="/js/componentes/paramita-bar.js" defer></script> -->
+
+<!-- Específicos de esta página -->
+<script src="/js/paginas/paramita-formacion.js" defer></script>
+<script src="/js/componentes/paramita-chat.js" defer></script>
+
+</body>
+</html>

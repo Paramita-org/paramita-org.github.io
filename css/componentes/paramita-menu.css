@@ -2,8 +2,8 @@
    PARAMITA · FUNDACIÓN SAKYA
    paramita-menu.css — Menú de navegación (escritorio)
    ───────────────────────────────────────────────────────────────────────────
-   Extraído en Fase 3 · Paso 6 del @layer menu de paramita-styles.css
-   (líneas 175-210 del original).
+   Componente del @layer menu — coordina con paramita-bar.css (contenedor
+   sticky glass) y paramita-cta.css (botones .btn-amigo, .btn-umbral).
 
    QUÉ HACE
    ────────
@@ -16,24 +16,47 @@
    Los submenús aparecen bajo el enlace y se anclan a la derecha si el
    enlace tiene la clase .has-sub.end (para no salirse por el borde).
 
-   TOKENS ANTIGUOS SUSTITUIDOS
-   ───────────────────────────
-   --t-fast →  --t-hover        (peso tipográfico, hover del sub)
-   --t-med  →  --t-defecto      (color, opacidad, underline, caret, sub)
+   ═══════════════════════════════════════════════════════════════════════════
+   CAMBIOS DE LA REVISIÓN · estudio de menús desplegables
+   ═══════════════════════════════════════════════════════════════════════════
 
-   TODO · Fase 3 · absorber responsive
-   ────────────────────────────────────
-   Las media queries del menú móvil viven en paramita-responsive.css
-   (bloque @media max-width: 980px, líneas .menu, .links, .navlink, .sub,
-   etc.). Cuando este componente se estabilice, se traerán aquí y se
-   convertirán a mobile-first.
+   Cinco ajustes técnicos derivados del estudio de UX de menús desplegables
+   (hover intent, timing, feedback visual, accesibilidad):
 
-   INTEGRACIÓN CON EL BURGER
-   ─────────────────────────
-   El input .nt (invisible en escritorio) es el checkbox que abre/cierra
-   el menú móvil. En escritorio queda oculto — el menú siempre está
-   visible. El .burger (botón hamburguesa) también queda oculto aquí,
-   solo aparece con la media query móvil.
+   1 · DELAY DE INTENCIÓN EN HOVER
+       El submenú tarda 140ms en abrir al hover, para filtrar movimientos
+       accidentales del cursor. Al salir del hover cierra instantáneo.
+       Referencia: ProfileTree UX 2026, delay recomendado 100-150ms.
+
+   2 · DURACIÓN DEL DESPLEGABLE OPTIMIZADA
+       Antes: --t-defecto (400ms) para opacity + translate del submenú.
+       Ahora: --t-hover (200ms) para el translate — más responsivo.
+              --t-defecto (400ms) sigue para opacity — fade suave.
+       Referencia: NN/G 2021, dropdowns 200-300ms con ease-out.
+
+   3 · ATENUACIÓN SUAVIZADA
+       Antes: opacity 0.4 sobre navlinks no-hovered (agresivo).
+       Ahora: opacity 0.55 (guía sin oscurecimiento).
+
+   4 · ESTADO PÁGINA ACTUAL
+       Nuevo selector .navlink[aria-current="page"] con estilo permanente
+       equivalente al hover. El HTML debe añadir aria-current="page" en el
+       enlace correspondiente por página (server-side o build-time).
+
+   5 · SOPORTE aria-expanded
+       Los enlaces padre con submenú deben llevar aria-expanded="false"
+       en HTML (JS mínimo para toggle, o mantener false si se usa hover
+       puro y confiar en aria-haspopup). El caret responde también al
+       atributo aria-expanded="true" para coherencia con lectores de
+       pantalla.
+
+   ═══════════════════════════════════════════════════════════════════════════
+
+   TOKENS DEL SISTEMA
+   ──────────────────
+   --t-hover      → 200ms + curva-llegada (hovers, peso tipográfico)
+   --t-defecto    → 400ms + curva-llegada (color, opacidad, underline)
+   --dur-rapido   → 200ms (usado para transition-delay del sub)
 
    ACCESIBILIDAD · foco por teclado
    ────────────────────────────────
@@ -131,10 +154,27 @@
     right: 0.55rem;
   }
 
+  /* Estado PÁGINA ACTUAL · aria-current="page"
+     El enlace de la página en la que se encuentra el usuario mantiene
+     el tratamiento del hover de forma permanente. Guía orientativa
+     recomendada por W3C WAI para menús.
+     El HTML del template debe añadir aria-current="page" al navlink
+     correspondiente en cada plantilla. */
+  .navlink[aria-current="page"] {
+    --w: 600;
+    color: var(--azul-oscuro);
+  }
+
+  .navlink[aria-current="page"]::after {
+    left: 0.55rem;
+    right: 0.55rem;
+  }
+
   /* Atenuación de otros enlaces cuando uno está en hover
-     Gesto sutil que enfoca la atención sin latidos ni reclamos. */
+     Gesto sutil que enfoca la atención sin latidos ni reclamos.
+     Suavizado de 0.4 → 0.55 para guiar sin oscurecer. */
   .bar:has(.navlink:hover) .navlink:not(:hover) {
-    opacity: 0.4;
+    opacity: 0.55;
   }
 
 
@@ -144,6 +184,7 @@
      Un pequeño chevron construido con borders. Apunta hacia abajo en
      reposo (rotate 45°) y hacia arriba cuando el submenú está abierto
      (rotate -135°). Es más eficiente que un SVG o un icono.
+     Responde a :hover, :focus-within Y aria-expanded="true".
      ───────────────────────────────────────────────────────────────────── */
 
   .caret {
@@ -152,12 +193,13 @@
     border-right: 1.7px solid currentColor;
     border-bottom: 1.7px solid currentColor;
     transform: rotate(45deg) translateY(-1px);
-    transition: transform var(--t-defecto);
+    transition: transform var(--t-hover);
     opacity: 0.6;
   }
 
   .has-sub:hover .caret,
-  .has-sub:focus-within .caret {
+  .has-sub:focus-within .caret,
+  .has-sub .navlink[aria-expanded="true"] .caret {
     transform: rotate(-135deg) translateY(-1px);
   }
 
@@ -180,6 +222,15 @@
      Aparece anclado al enlace padre, con backdrop-filter que da la
      sensación de vidrio esmerilado. Entra deslizándose 10px hacia abajo
      al mismo tiempo que aparece.
+
+     DELAY DE INTENCIÓN (140ms) al abrir:
+     · Filtra movimientos accidentales del cursor pasando por encima.
+     · Al SALIR del hover, cierra instantáneo (transition-delay: 0).
+     · Solo se aplica al hover — focus-within abre inmediato (teclado).
+
+     DURACIÓN OPTIMIZADA:
+     · translate: --t-hover (200ms) — sensación responsiva al abrir.
+     · opacity:   --t-defecto (400ms) — fade suave sin brusquedad.
      ───────────────────────────────────────────────────────────────────── */
 
   .sub {
@@ -202,7 +253,8 @@
     opacity: 0;
     pointer-events: none;
     transition: opacity var(--t-defecto),
-                translate var(--t-defecto);
+                translate var(--t-hover);
+    transition-delay: 0ms;
   }
 
   /* Franja decorativa superior · degradado azul→dorado */
@@ -216,12 +268,19 @@
       var(--dorado));
   }
 
-  /* Submenú activo · aparece con hover o focus del padre */
-  .has-sub:hover .sub,
+  /* Submenú activo · aparece con hover (con delay) o focus (inmediato) */
+  .has-sub:hover .sub {
+    opacity: 1;
+    pointer-events: auto;
+    translate: -50% 0;
+    transition-delay: 140ms;
+  }
+
   .has-sub:focus-within .sub {
     opacity: 1;
     pointer-events: auto;
     translate: -50% 0;
+    transition-delay: 0ms;
   }
 
   /* Variante «end» · el submenú se ancla a la derecha, no al centro
@@ -253,9 +312,15 @@
                 padding var(--t-hover);
   }
 
-  .sub a:hover {
+  .sub a:hover,
+  .sub a:focus-visible {
     background: var(--arcilla);
     padding-left: 1rem;
+  }
+
+  /* Página actual dentro del submenú · aria-current="page" */
+  .sub a[aria-current="page"] {
+    background: color-mix(in oklch, var(--arcilla) 60%, transparent);
   }
 
   .sub strong {
@@ -286,6 +351,7 @@
      Contrato de quietud · Fase 2:
      · Hovers instantáneos (color, peso, underline, caret, sub).
      · El submenú aparece sin translate — instantáneo pero en su sitio.
+     · Delay de intención se cancela — apertura inmediata.
      · La atenuación de otros enlaces sigue funcionando (no es movimiento).
      ───────────────────────────────────────────────────────────────────── */
 
@@ -299,13 +365,18 @@
       transition: none;
     }
 
-    /* El submenú entra sin desplazamiento vertical */
+    /* El submenú entra sin desplazamiento vertical y sin delay */
     .sub {
       translate: -50% 0;
+      transition-delay: 0ms;
     }
 
     .has-sub.end .sub {
       translate: 0 0;
+    }
+
+    .has-sub:hover .sub {
+      transition-delay: 0ms;
     }
 
   }
