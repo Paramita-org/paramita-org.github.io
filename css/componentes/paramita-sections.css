@@ -141,6 +141,49 @@
 
 
   /* ═════════════════════════════════════════════════════════════════════
+     .head-centrado · gemela de .s-head para cabeceras centradas
+     ─────────────────────────────────────────────────────────────────────
+     Header apilado eyebrow + h2 + p, todo alineado al centro. Úsala en
+     secciones cuya cabecera va centrada (p. ej. mapa del sendero, faceta
+     de filtros, "cómo estudiamos"). Se puede combinar con clases BEM
+     específicas de la sección para overrides puntuales (font-size del h2,
+     márgenes, colores).
+
+     Uso:  <div class="head-centrado mapa__head"> ... </div>
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .head-centrado {
+    text-align: center;
+    max-width: 640px;
+    margin-inline: auto;
+    margin-bottom: var(--espacio-contemplativo);
+  }
+
+  .head-centrado .eyebrow {
+    display: inline-block;
+    margin-bottom: var(--espacio-elemento);
+  }
+
+  .head-centrado h2 {
+    margin-inline: auto;              /* recentra el bloque estrecho por max-width */
+    margin-bottom: var(--espacio-elemento);
+    text-wrap: balance;
+  }
+
+  .head-centrado h2 em {
+    font-style: italic;
+    color: var(--dorado);
+  }
+
+  .head-centrado p {
+    max-width: 520px;
+    margin-inline: auto;
+    color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent));
+    font-size: var(--texto-cuerpo);
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
      2 · BAND · banda de crowdfunding con respiratorio identitario
      ═════════════════════════════════════════════════════════════════════
      Bloque hero-secundario con foto de fondo, degradado identitario que

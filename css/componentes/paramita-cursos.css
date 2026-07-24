@@ -1,469 +1,311 @@
 /* ═══════════════════════════════════════════════════════════════════════
-   PARAMITA · CURSOS · componente v1.2 (Fase 4)
+   PARAMITA · CURSOS · componente card v2.0 (V2b · Estación en el sendero)
    ═══════════════════════════════════════════════════════════════════════
-   Rejilla editorial de tarjetas de cursos, retiros, eventos y giras.
+   Fuente única de verdad para la card de un curso, retiro, evento o gira.
+   Usado por: home (cuadrícula) · /formacion/ (catálogo filtrable) · y
+   cualquier futura página que muestre cursos.
 
-   ▓ CAMBIO CONCEPTUAL vs v1.1 ▓
-   La v1.1 aplicaba velo OSCURO sobre imagen + texto blanco. Coherente
-   con el patrón "poster editorial" pero contradecía el principio del
-   sistema: «Paramita es luminosa, no oscura».
-   La v1.2 invierte la lógica:
+   ▓ ANATOMÍA ▓
+   Card apaisada de tres columnas:
+   · Izquierda   → imagen rectangular vertical del curso
+   · Central     → trazo del sendero con nodo (bisagra visual, coherente
+                   con el mapa de niveles de /formacion/)
+   · Derecha     → texto en dos líneas de eyebrow + título + espacio +
+                   maestro + meta
 
-   · REPOSO   → velos CLAROS parciales (arriba y abajo) sobre la imagen.
-                Texto en var(--azul-oscuro). La tarjeta habla el mismo
-                idioma cromático que el resto de la home. La imagen
-                asoma en la zona central sin obstáculos.
-   · HOVER    → los velos claros se disipan; aparece la foto en plena
-                presencia; el texto se transforma a BLANCO con sombra
-                para leerse sobre la imagen. Gesto conceptual claro:
-                de silencio contemplativo a aparición fotográfica.
+   ▓ IDENTIDAD ▓
+   Fondo lino (papel), tipografía dominante, sin veils oscuros, sin
+   text-shadows. Anti-thumbnail: la card NO es una tile de streaming,
+   es una página de libro. La imagen es acompañamiento, no protagonista.
 
-   Este contraste inverso es un microrelato: la tarjeta florece cuando
-   se le presta atención, revelando la imagen que estaba
-   protegida-difuminada en reposo.
+   ▓ DIFERENCIAL GRATUITO vs PAGO ▓
+   · Gratuito → nodo del trazo en azul-sutil, sin ornamento.
+   · Pago     → nodo del trazo en dorado con halo respirando (3.2s),
+                fondo con leve tinte dorado en la esquina inferior derecha.
+                Diferencial sutil pero claro (nunca vulgar).
 
-   DECISIONES ANTERIORES CONSERVADAS (Dirección B):
-   ─ Sin FLIP a 2×2 (descartado por incoherencia con la calma editorial
-     y ausencia en móvil).
-   ─ Etiqueta tipológica arriba: texto + puntito de color, sin píldora.
-   ─ Modalidad + CTA aparecen SOLO al activar.
-   ─ Halo dorado sutil en hover/focus/:active (anticipa la v2).
-   ─ Colores solo de la paleta del sistema:
-     · CURSO   → var(--azul-oscuro)
-     · RETIRO  → dorado con matiz más denso para leerse sobre claro
-     · EVENTO  → var(--azul-oscuro) (diferenciado por etiqueta textual)
-     · GIRA    → color-mix azul+dorado (cruce entre lugares)
+   ▓ RESPONSIVE ▓
+   En pantallas < 520px la card colapsa a layout vertical (imagen arriba,
+   trazo pasa a horizontal, texto abajo).
 
-   ORDEN DE CARGA: DESPUÉS de paramita-sections.css, ANTES de
-   paramita-responsive.css. Convive con .flip-* (legacy) en
-   paramita-extras.css hasta que se elimine en Fase B.
    ═══════════════════════════════════════════════════════════════════════ */
 
-@layer componentes {
+/* ─── Card raíz ────────────────────────────────────────────────────── */
+.curso {
+  position: relative;
+  background: var(--lino);
+  border: 1px solid color-mix(in srgb, var(--antracita) 8%, transparent);
+  border-radius: 18px;
+  padding: 18px 22px 18px 18px;
+  display: grid;
+  grid-template-columns: 112px 28px 1fr;
+  gap: 18px;
+  align-items: stretch;
+  min-height: 240px;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  isolation: isolate;
+  cursor: pointer;
+  transition:
+    transform var(--t-revelacion, 520ms) cubic-bezier(0.3, 0.7, 0.2, 1),
+    box-shadow var(--t-revelacion, 520ms) cubic-bezier(0.3, 0.7, 0.2, 1),
+    border-color var(--t-revelacion, 520ms),
+    opacity var(--t-revelacion, 520ms);
+}
+@supports (corner-shape: superellipse(2)) {
+  .curso { corner-shape: superellipse(2.6); }
+}
+
+/* ─── Imagen izquierda · rectangular vertical ──────────────────────── */
+.curso__pic {
+  width: 112px;
+  min-height: 100%;
+  border-radius: 14px;
+  background-size: cover;
+  background-position: center;
+  filter: saturate(0.9);
+  transition:
+    filter var(--t-revelacion, 520ms),
+    transform var(--t-revelacion, 520ms);
+}
+
+/* ─── Trazo central · nodo del sendero ─────────────────────────────── */
+.curso__trazo {
+  width: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.curso__trazo svg {
+  width: 28px;
+  height: 100%;
+  min-height: 160px;
+  overflow: visible;
+}
+.curso__trazo-linea {
+  stroke: color-mix(in srgb, var(--antracita) 18%, transparent);
+  stroke-width: 1;
+  fill: none;
+}
+.curso__trazo-nodo {
+  fill: var(--azul-sutil);
+  transition:
+    r 400ms cubic-bezier(0.3, 0.7, 0.2, 1),
+    fill 400ms;
+}
+.curso__trazo-halo {
+  fill: none;
+  stroke: var(--azul-sutil);
+  stroke-width: 1;
+  opacity: 0.4;
+  transition: opacity 400ms, r 400ms;
+}
+
+/* ─── Cuerpo derecho · texto en columna ────────────────────────────── */
+.curso__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding-block: 4px;
+}
+
+/* Línea 1 · eyebrow (Nivel + duración) */
+.curso__eyebrow {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in oklch, var(--antracita) 62%, transparent);
+  margin-bottom: 2px;
+}
+.curso__nivel {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: 1.1rem;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--azul-oscuro);
+}
+.curso__nivel em {
+  font-style: italic;
+  color: var(--azul-oscuro);
+}
+.curso__sep { opacity: 0.4; }
+
+/* Línea 2 · aportación en dorado */
+.curso__aportacion {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  margin-bottom: 4px;
+}
+
+/* Título */
+.curso__titulo {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--antracita);
+  text-wrap: balance;
+  margin-top: 4px;
+}
+.curso__titulo em {
+  color: var(--dorado);
+  font-style: italic;
+}
+
+/* Pie · maestro + meta, empujados al fondo */
+.curso__foot {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+.curso__maestro {
+  font-family: var(--body);
+  font-weight: 400;
+  font-size: 0.86rem;
+  font-style: italic;
+  color: color-mix(in oklch, var(--antracita) 62%, transparent);
+}
+.curso__meta {
+  font-size: 0.76rem;
+  color: color-mix(in oklch, var(--antracita) 42%, transparent);
+}
+.curso__meta .sep {
+  color: var(--dorado);
+  opacity: 0.7;
+  margin-inline: 6px;
+}
 
 
-  /* ═════════════════════════════════════════════════════════════════════
-     1 · CONTENEDOR · rejilla responsive
-     ─────────────────────────────────────────────────────────────────────
-     Móvil: 1 columna. Tablet: 2 columnas. Escritorio: 3 columnas.
-     auto-fit con minmax delega en el grid la decisión de saltar breakpoint.
-     ═════════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════
+   DIFERENCIAL · gratuito vs pago
+   ═══════════════════════════════════════════════════════════════════════ */
 
-  .cursos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: var(--espacio-elemento);
-    margin-top: var(--espacio-grupo);
+/* Pago · nodo dorado con halo respirando */
+.curso[data-aportacion="pago"] .curso__trazo-nodo {
+  fill: var(--dorado);
+  animation: curso-pulso-dorado 3.2s ease-in-out infinite;
+}
+.curso[data-aportacion="pago"] .curso__trazo-halo {
+  stroke: var(--dorado);
+  opacity: 0.5;
+  animation: curso-halo-respira 3.2s ease-in-out infinite;
+}
+@keyframes curso-pulso-dorado {
+  0%, 100% { fill: var(--dorado); }
+  50%      { fill: color-mix(in oklch, var(--dorado) 80%, white); }
+}
+@keyframes curso-halo-respira {
+  0%, 100% { opacity: 0.5; r: 10; }
+  50%      { opacity: 0.15; r: 14; }
+}
+
+/* Pago · fondo con leve tinte dorado en la esquina inferior derecha */
+.curso[data-aportacion="pago"] {
+  background: linear-gradient(135deg,
+    var(--lino) 0%,
+    var(--lino) 65%,
+    color-mix(in oklch, var(--dorado) 7%, var(--lino)) 100%);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HOVER · foco · active
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.curso:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--dorado) 40%, transparent);
+  box-shadow:
+    0 20px 44px -22px rgba(20, 14, 8, 0.20),
+    0 0 24px -8px color-mix(in oklch, var(--dorado) 20%, transparent);
+}
+.curso:hover .curso__pic {
+  filter: saturate(1);
+  transform: scale(1.03);
+}
+.curso:hover .curso__trazo-nodo {
+  r: 8;
+}
+
+.curso:focus-visible {
+  outline: 2px solid var(--dorado);
+  outline-offset: 4px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ESTADOS DE FILTRO · usados por /formacion/ (paramita-formacion.js)
+   Se mantienen aquí porque son estados de la card, no del catálogo.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.curso.is-oculto { display: none; }
+
+.curso.is-saliendo {
+  opacity: 0.15;
+  filter: blur(8px);
+  transition:
+    opacity 200ms ease-out,
+    filter 200ms ease-out;
+  pointer-events: none;
+}
+
+.curso.is-iluminando {
+  animation: curso-iluminar 620ms cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+@keyframes curso-iluminar {
+  0% {
+    box-shadow: 0 6px 18px -10px rgba(20, 14, 8, 0.25);
   }
-
-  @media (min-width: 768px) {
-    .cursos-grid {
-      gap: var(--espacio-contenido);
-    }
-  }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     2 · TARJETA · reposo luminoso con imagen enmarcada por velos
-     ─────────────────────────────────────────────────────────────────────
-     Aspect-ratio 4:5. Todo el elemento es un enlace <a>.
-     Fondo base con el tono del sistema para que si tarda en cargar la
-     imagen o falla, no aparezca un cuadrado negro.
-     ═════════════════════════════════════════════════════════════════════ */
-
-  .curso-card {
-    position: relative;
-    display: block;
-    aspect-ratio: 4 / 5;
-    border-radius: 16px;
-    overflow: hidden;
-    isolation: isolate;
-    background: var(--calido-zen, #f5efe4);
-    text-decoration: none;
-    transition: transform var(--t-defecto),
-                box-shadow var(--t-defecto);
-  }
-
-  @supports (corner-shape: superellipse(2)) {
-    .curso-card {
-      border-radius: 22px;
-      corner-shape: superellipse(2.6);
-    }
-  }
-
-  /* Estado activo · elevación + halo dorado.
-     El halo anticipa el vocabulario de "curso seleccionado" que la v2
-     desarrollará en profundidad. */
-  .curso-card:hover,
-  .curso-card:focus-visible,
-  .curso-card:active {
-    transform: translateY(-3px);
+  40% {
     box-shadow:
-      0 20px 48px -20px rgba(20, 14, 8, 0.42),
-      0 0 0 1px color-mix(in oklch, var(--dorado) 35%, transparent),
-      0 0 40px -8px color-mix(in oklch, var(--dorado) 45%, transparent);
+      0 12px 28px -12px rgba(20, 14, 8, 0.35),
+      0 0 0 2px color-mix(in oklch, var(--dorado) 55%, transparent),
+      0 0 60px -6px color-mix(in oklch, var(--dorado) 70%, transparent);
   }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     3 · IMAGEN · fondo de la tarjeta
-     ─────────────────────────────────────────────────────────────────────
-     Reposo: opacidad 0.78 (permite ver la foto pero atenuada, coherente
-     con el reposo luminoso) + escala 1.04.
-     Activo: opacidad 1 + escala 1. La foto emerge en plenitud.
-     ═════════════════════════════════════════════════════════════════════ */
-
-  .curso-card__pic {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    opacity: 0.75;
-    transform: scale(1.04);
-    transition: opacity var(--t-revelacion, 0.5s ease),
-                transform var(--t-revelacion, 0.5s ease);
-    z-index: 0;
+  100% {
+    box-shadow: 0 6px 18px -10px rgba(20, 14, 8, 0.25);
   }
+}
 
-  .curso-card:hover .curso-card__pic,
-  .curso-card:focus-visible .curso-card__pic,
-  .curso-card:active .curso-card__pic {
-    opacity: 1;
-    transform: scale(1);
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RESPONSIVE · < 520px colapsa a vertical
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 520px) {
+  .curso {
+    grid-template-columns: 1fr;
+    grid-template-rows: 140px auto;
+    padding: 16px;
+    gap: 12px;
+    min-height: 0;
   }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     4 · VELOS CLAROS · uno arriba, uno abajo, imagen visible en el medio
-     ─────────────────────────────────────────────────────────────────────
-     En reposo protegen la etiqueta tipológica (arriba) y el bloque
-     fecha+título (abajo) con luz cálida del sistema.
-     En hover se disipan casi por completo dejando la foto respirar.
-
-     El color base es --calido-zen (aclarado) para mantener la unidad
-     cromática con la sección circundante.
-     ═════════════════════════════════════════════════════════════════════ */
-
-  .curso-card__veil-top {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 40%;
-    z-index: 1;
-    /* Fase 4 v1.3 · velo azul-sutil muy claro (#DBE8F4) en lugar del
-       marfil calido-zen. La tarjeta contrasta ahora con el fondo de
-       sección y aporta identidad cromática Paramita incluso en reposo.
-       Decisión tomada tras ver la rejilla completa: el marfil se fundía
-       con --calido-zen. */
-    background: linear-gradient(to bottom,
-      rgba(219, 232, 244, 0.92) 0%,
-      rgba(219, 232, 244, 0.55) 55%,
-      transparent 100%);
-    pointer-events: none;
-    transition: opacity var(--t-defecto);
+  .curso__pic {
+    width: 100%;
+    height: 140px;
+    min-height: 0;
   }
-
-  .curso-card__veil-bot {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 55%;
-    z-index: 1;
-    background: linear-gradient(to top,
-      rgba(219, 232, 244, 0.96) 0%,
-      rgba(219, 232, 244, 0.72) 45%,
-      rgba(219, 232, 244, 0.18) 85%,
-      transparent 100%);
-    pointer-events: none;
-    transition: opacity var(--t-defecto);
+  /* En móvil el trazo se oculta · demasiado detalle para la escala */
+  .curso__trazo {
+    display: none;
   }
-
-  /* Hover · los velos se atenúan al 15% para que la foto emerja */
-  .curso-card:hover .curso-card__veil-top,
-  .curso-card:focus-visible .curso-card__veil-top,
-  .curso-card:active .curso-card__veil-top,
-  .curso-card:hover .curso-card__veil-bot,
-  .curso-card:focus-visible .curso-card__veil-bot,
-  .curso-card:active .curso-card__veil-bot {
-    opacity: 0.12;
+  .curso__body {
+    padding-block: 0;
   }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     5 · ETIQUETA TIPOLÓGICA · arriba izquierda
-     ─────────────────────────────────────────────────────────────────────
-     Texto en mayúsculas con tracking amplio + puntito de color.
-     En reposo usa colores oscuros del sistema para leerse sobre velo
-     claro. En hover pasa a blanco (con sombra) para leerse sobre foto.
-     El puntito del retiro conserva el dorado del sistema en hover.
-
-     PALETA (solo colores oficiales del sistema Paramita):
-     · curso   → --azul-oscuro (#1F4E8F)
-     · retiro  → dorado saturado (var estable, oscurecida solo para reposo)
-     · evento  → --azul-oscuro
-     · gira    → color-mix azul-oscuro + dorado (cruce)
-     ═════════════════════════════════════════════════════════════════════ */
-
-  .curso-card__tipo {
-    position: absolute;
-    top: var(--espacio-elemento);
-    left: var(--espacio-elemento);
-    z-index: 3;
-    font-family: var(--body);
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    /* Sello translúcido · en tono azul-sutil pálido para armonizar con
-       los velos de la tarjeta. Blur convierte la zona bajo la etiqueta
-       en un "papel de arroz" contemplativo, muy Paramita. */
-    padding: 0.4em 0.85em;
-    border-radius: 99px;
-    background: rgba(219, 232, 244, 0.85);
-    border: 0.5px solid rgba(31, 78, 143, 0.14);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: color var(--t-defecto),
-                background var(--t-defecto),
-                border-color var(--t-defecto),
-                text-shadow var(--t-defecto);
+  .curso__foot {
+    padding-top: 16px;
   }
-
-  /* Puntito · siempre en el color identitario del tipo, incluso en hover */
-  .curso-card__tipo::before {
-    content: "";
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: currentColor;
-    box-shadow: 0 0 8px currentColor;
-    flex-shrink: 0;
-  }
-
-  /* Colores por tipo · REPOSO (sobre velo claro) */
-  .curso-card[data-tipo="curso"]  .curso-card__tipo { color: var(--azul-oscuro); }
-  .curso-card[data-tipo="retiro"] .curso-card__tipo {
-    color: color-mix(in oklch, var(--dorado) 78%, #2c1e08);
-  }
-  .curso-card[data-tipo="evento"] .curso-card__tipo { color: var(--azul-oscuro); }
-  .curso-card[data-tipo="gira"]   .curso-card__tipo {
-    color: color-mix(in oklch, var(--azul-oscuro) 50%, var(--dorado));
-  }
-
-  /* HOVER · el sello se refuerza ligeramente para leerse sobre foto plena.
-     Mismo tono azul-sutil pálido, más opaco. Texto sigue en azul-oscuro. */
-  .curso-card:hover .curso-card__tipo,
-  .curso-card:focus-visible .curso-card__tipo,
-  .curso-card:active .curso-card__tipo {
-    background: rgba(219, 232, 244, 0.93);
-    border-color: rgba(31, 78, 143, 0.22);
-  }
-
-  /* NOTA · antes había una excepción para retirar el cambio de color
-     del retiro en hover. Con el nuevo tratamiento (sello translúcido
-     que no cambia el color del texto) esa excepción ya no es necesaria. */
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     6 · CONTENIDO · fecha + título + meta abajo
-     ─────────────────────────────────────────────────────────────────────
-     En reposo · color azul-oscuro (sobre velo claro).
-     En hover  · color blanco con sombra (sobre foto plena).
-     ═════════════════════════════════════════════════════════════════════ */
-
-  .curso-card__content {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 2;
-    padding: var(--espacio-elemento);
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    color: var(--azul-oscuro);
-    transition: color var(--t-defecto),
-                text-shadow var(--t-defecto);
-  }
-
-  @media (min-width: 768px) {
-    .curso-card__content {
-      padding: var(--espacio-contenido) var(--espacio-elemento) var(--espacio-elemento);
-    }
-  }
-
-  /* HOVER · todo el bloque a blanco con sombra */
-  .curso-card:hover .curso-card__content,
-  .curso-card:focus-visible .curso-card__content,
-  .curso-card:active .curso-card__content {
-    color: #fff;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5),
-                 0 1px 3px rgba(0, 0, 0, 0.35);
-  }
-
-
-  /* ─────────────────────────────────────────────────────────────────────
-     6.1 · Fecha
-     Mayúsculas con tracking. Evergreen en cursiva suave.
-     Opacidad ligeramente menor para dar prioridad visual al título.
-     ───────────────────────────────────────────────────────────────────── */
-
-  .curso-card__fecha {
-    font-family: var(--body);
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    opacity: 0.78;
-    transition: opacity var(--t-defecto);
-  }
-
-  .curso-card__fecha--evergreen {
-    text-transform: none;
-    font-style: italic;
-    letter-spacing: 0.02em;
-    font-size: 0.75rem;
-    opacity: 0.72;
-    font-weight: 500;
-  }
-
-  .curso-card:hover .curso-card__fecha,
-  .curso-card:focus-visible .curso-card__fecha,
-  .curso-card:active .curso-card__fecha {
-    opacity: 0.92;
-  }
-
-
-  /* ─────────────────────────────────────────────────────────────────────
-     6.2 · Título · protagonista
-     Fraunces. Peso 500 en reposo (denso, con presencia) — funciona
-     mejor sobre velo claro con tipografía serif. En hover sigue igual
-     pero con sombra.
-     ───────────────────────────────────────────────────────────────────── */
-
-  .curso-card__titulo {
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: clamp(1.15rem, 2.4vw, 1.35rem);
-    line-height: 1.18;
-    letter-spacing: -0.01em;
-    margin: 0;
-    color: inherit;
-    text-wrap: balance;
-  }
-
-
-  /* ─────────────────────────────────────────────────────────────────────
-     6.3 · Meta revelable (modalidad + CTA)
-     Oculto en reposo. Aparece al activar deslizándose desde abajo.
-     Desktop: hover/focus. Móvil: :active táctil.
-     Como en hover el fondo es foto plena, va siempre en blanco.
-     ───────────────────────────────────────────────────────────────────── */
-
-  .curso-card__meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--espacio-atomo);
-    margin-top: 0.35rem;
-    opacity: 0;
-    transform: translateY(6px);
-    transition: opacity var(--t-defecto),
-                transform var(--t-defecto);
-  }
-
-  .curso-card:hover .curso-card__meta,
-  .curso-card:focus-visible .curso-card__meta,
-  .curso-card:active .curso-card__meta {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-
-  .curso-card__modalidad {
-    font-family: var(--body);
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    opacity: 0.85;
-  }
-
-
-  .curso-card__cta {
-    font-family: var(--body);
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-
-  .curso-card__cta::after {
-    content: "→";
-    display: inline-block;
-    transition: transform var(--t-defecto);
-  }
-
-  .curso-card:hover .curso-card__cta::after,
-  .curso-card:focus-visible .curso-card__cta::after,
-  .curso-card:active .curso-card__cta::after {
-    transform: translateX(4px);
-  }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     7 · PIE DE SECCIÓN · enlace "Ver todos los cursos"
-     Hereda .t-link del sistema. Solo margen superior consistente.
-     ═════════════════════════════════════════════════════════════════════ */
-
-  .cursos-foot {
-    margin-top: var(--espacio-grupo);
-  }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     8 · REDUCED-MOTION · contrato de quietud
-     ─────────────────────────────────────────────────────────────────────
-     Sin transformaciones, sin transiciones. La meta revelable pasa a
-     mostrarse siempre y en color oscuro (para que se lea sobre velo
-     claro en reposo, ya que sin hover no llegará al estado activo).
-     ═════════════════════════════════════════════════════════════════════ */
-
-  @media (prefers-reduced-motion: reduce) {
-    .curso-card,
-    .curso-card__pic,
-    .curso-card__veil-top,
-    .curso-card__veil-bot,
-    .curso-card__tipo,
-    .curso-card__content,
-    .curso-card__meta,
-    .curso-card__cta::after {
-      transition: none !important;
-    }
-
-    .curso-card:hover,
-    .curso-card:focus-visible,
-    .curso-card:active {
-      transform: none;
-    }
-
-    .curso-card__pic {
-      transform: none;
-      opacity: 0.85;
-    }
-
-    .curso-card__meta {
-      opacity: 1;
-      transform: none;
-    }
-  }
-
 }

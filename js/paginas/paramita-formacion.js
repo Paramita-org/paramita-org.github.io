@@ -14,7 +14,11 @@
 
 /* ─── Referencias DOM ──────────────────────────────────────────────── */
 const cuadricula = document.getElementById('cuadricula');
-if (!cuadricula) return; // Página sin catálogo, salimos
+console.log('[paramita-formacion] arrancando · cuadricula:', cuadricula);
+if (!cuadricula) {
+  console.warn('[paramita-formacion] no hay #cuadricula, saliendo');
+  return;
+}
 
 const cursos    = Array.from(cuadricula.querySelectorAll('.curso'));
 const slots     = Array.from(document.querySelectorAll('.slot'));
@@ -22,6 +26,13 @@ const limpiar   = document.getElementById('limpiar');
 const contador  = document.getElementById('contador');
 const nodos     = document.querySelectorAll('.nodo');
 const puertas   = document.querySelectorAll('.puerta');
+
+console.log('[paramita-formacion] elementos encontrados:', {
+  cursos: cursos.length,
+  slots: slots.length,
+  nodos: nodos.length,
+  puertas: puertas.length,
+});
 
 /* ─── Estado ───────────────────────────────────────────────────────── */
 const filtros = {
@@ -160,6 +171,7 @@ function cerrarTodos() {
 
 slots.forEach(slot => {
   slot.addEventListener('click', (e) => {
+    console.log('[paramita-formacion] click en slot:', slot.dataset.faceta, 'target:', e.target);
     // Click en la X → quitar filtro
     if (e.target.classList.contains('slot__x') && slot.classList.contains('is-filled')) {
       e.stopPropagation();
