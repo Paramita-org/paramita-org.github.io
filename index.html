@@ -38,25 +38,25 @@
      ═══════════════════════════════════════════════════════════════════════ -->
 
 <!-- 1 · Primitivos · utilidades transversales -->
-<script src="js/primitivos/paramita-reveal.js" defer></script>
-<script src="js/primitivos/paramita-gsap-refresh.js" defer></script>
+<script src="/js/primitivos/paramita-reveal.js" defer></script>
+<script src="/js/primitivos/paramita-gsap-refresh.js" defer></script>
 
 <!-- 2 · Comportamientos · patrones reutilizables -->
-<script src="js/componentes/paramita-bar.js" defer></script>
-<script src="js/componentes/paramita-blog-cascada.js" defer></script>
-<script src="js/componentes/paramita-modal.js" defer></script>
-<script src="js/componentes/paramita-hero.js" defer></script>
-<script src="js/componentes/paramita-fluido.js" defer></script>
-<script src="js/componentes/paramita-trazo-divisor.js" defer></script>
+<script src="/js/componentes/paramita-bar.js" defer></script>
+<script src="/js/componentes/paramita-blog-cascada.js" defer></script>
+<script src="/js/componentes/paramita-modal.js" defer></script>
+<script src="/js/componentes/paramita-hero.js" defer></script>
+<script src="/js/componentes/paramita-fluido.js" defer></script>
+<script src="/js/componentes/paramita-trazo-divisor.js" defer></script>
 
 <!-- 3 · Páginas · efectos específicos de la homepage -->
-<script src="js/componentes/paramita-frase-zoom.js" defer></script>
+<script src="/js/componentes/paramita-frase-zoom.js" defer></script>
 <!-- paramita-cursos-flip.js RETIRADO · sustituido por la Antesala del Sendero
      que reutiliza paramita-trazo-divisor.js (ya cargado arriba). -->
-<script src="js/componentes/paramita-cta-zoom.js" defer></script>
-<script src="js/componentes/paramita-participacion.js" defer></script>
-<script src="js/componentes/paramita-testimonios.js" defer></script>
-<script src="js/componentes/paramita-footer-lotos.js" defer></script>
+<script src="/js/componentes/paramita-cta-zoom.js" defer></script>
+<script src="/js/componentes/paramita-participacion.js" defer></script>
+<script src="/js/componentes/paramita-testimonios.js" defer></script>
+<script src="/js/componentes/paramita-footer-lotos.js" defer></script>
 
 <!-- ═══════════════════════════════════════════════════════════════════════
      SISTEMA DE DISEÑO PARAMITA · CSS en orden estricto de carga
@@ -69,31 +69,31 @@
      ═══════════════════════════════════════════════════════════════════════ -->
 
 <!-- 1 · Reset · normalización de navegadores -->
-<link rel="stylesheet" href="css/base/paramita-reset.css">
+<link rel="stylesheet" href="/css/base/paramita-reset.css">
 
 <!-- 2 · Tokens · variables del sistema (color, tipografía, layout, movimiento) -->
-<link rel="stylesheet" href="css/tokens/paramita-color.css">
-<link rel="stylesheet" href="css/tokens/paramita-tipografia.css">
-<link rel="stylesheet" href="css/tokens/paramita-layout.css">
-<link rel="stylesheet" href="css/tokens/paramita-movimiento.css">
+<link rel="stylesheet" href="/css/tokens/paramita-color.css">
+<link rel="stylesheet" href="/css/tokens/paramita-tipografia.css">
+<link rel="stylesheet" href="/css/tokens/paramita-layout.css">
+<link rel="stylesheet" href="/css/tokens/paramita-movimiento.css">
 
 <!-- 3 · Base · defaults del proyecto (body, títulos, enlaces, selección) -->
-<link rel="stylesheet" href="css/base/paramita-base.css">
+<link rel="stylesheet" href="/css/base/paramita-base.css">
 
 <!-- 4 · Componentes · cada pieza del sitio en su archivo
        El orden entre componentes NO es crítico gracias al @layer declarado
        en cada archivo, pero se mantiene por legibilidad. -->
-<link rel="stylesheet" href="css/componentes/paramita-fluido.css">
-<link rel="stylesheet" href="css/componentes/paramita-bar.css">
-<link rel="stylesheet" href="css/componentes/paramita-menu.css">
-<link rel="stylesheet" href="css/componentes/paramita-cta.css">
-<link rel="stylesheet" href="css/componentes/paramita-hero.css">
-<link rel="stylesheet" href="css/componentes/paramita-sections.css">
-<link rel="stylesheet" href="css/componentes/paramita-antesala.css">
-<link rel="stylesheet" href="css/componentes/paramita-extras.css">
-<link rel="stylesheet" href="css/componentes/paramita-modal.css">
-<link rel="stylesheet" href="css/componentes/paramita-footer.css">
-<link rel="stylesheet" href="css/base/paramita-responsive.css">
+<link rel="stylesheet" href="/css/componentes/paramita-fluido.css">
+<link rel="stylesheet" href="/css/componentes/paramita-bar.css">
+<link rel="stylesheet" href="/css/componentes/paramita-menu.css">
+<link rel="stylesheet" href="/css/componentes/paramita-cta.css">
+<link rel="stylesheet" href="/css/componentes/paramita-hero.css">
+<link rel="stylesheet" href="/css/componentes/paramita-sections.css">
+<link rel="stylesheet" href="/css/componentes/paramita-antesala.css">
+<link rel="stylesheet" href="/css/componentes/paramita-extras.css">
+<link rel="stylesheet" href="/css/componentes/paramita-modal.css">
+<link rel="stylesheet" href="/css/componentes/paramita-footer.css">
+<link rel="stylesheet" href="/css/base/paramita-responsive.css">
 
 </head>
 <body>
@@ -103,8 +103,58 @@
      y queda el color de fondo base del body (#FAF6F0). -->
 <canvas id="fluido" aria-hidden="true"></canvas>
 
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     PARAMITA · FUNDACIÓN SAKYA
+     partials/navbar-publico.html — Navbar público (visitantes no autenticados)
+     ───────────────────────────────────────────────────────────────────────────
+
+     FUENTE ÚNICA DE VERDAD para el navbar público del sitio.
+     Este bloque se PEGA dentro de cada landing pública, entre <body> y <main>.
+
+     Depende de estos CSS del sistema (ya cargados en cada landing):
+       · paramita-bar.css     → contenedor sticky, glass, logo, burger
+       · paramita-menu.css    → menú horizontal, links, submenús, caret
+       · paramita-cta.css     → .btn-primario y .btn-secundario
+
+     INFORMACIÓN DE ARQUITECTURA (Fase 7 · jul 2026)
+     ────────────────────────────────────────────────
+     Cambios respecto a la versión anterior del navbar:
+
+       · ACTIVIDADES  desplegable ELIMINADO. Ahora es un enlace plano a
+                      /actividades, donde vive la landing con calendario,
+                      visita al centro y el índice completo.
+
+       · BLOG         desplegable ELIMINADO. Ahora es un enlace plano a
+                      /blog, donde vive el índice de todos los artículos.
+
+       · SOBRE        desplegable AMPLIADO con dos entradas nuevas:
+                      Maestros y Monásticos/as. Orden pensado para
+                      conversión: institución → guía → comunidad → dudas.
+
+                        1. La fundación                   → /sobre
+                        2. Maestros                       → /sobre/maestros
+                        3. Monásticos y monásticas        → /sobre/monasticos
+                        4. Preguntas frecuentes           → /sobre/faq
+
+     CTAs a la derecha (nomenclatura Fase 6):
+       · .btn-secundario  → "Únete"       (asomarse al umbral)
+       · .btn-primario    → "Contribuir"  (conversión decisiva)
+
+     USO POR PLANTILLA
+     ─────────────────
+     Añade aria-current="page" al enlace correspondiente a la página en curso.
+     Ejemplo · en la landing /formacion/ (Cursos):
+       <a class="navlink" href="https://cursos.paramita.org/home"
+          aria-current="page">Cursos</a>
+
+     Ejemplo · en la landing /blog/:
+       <a class="navlink" href="/blog" aria-current="page">Blog</a>
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
 <header class="bar">
   <div class="bar-inner wrap">
+
+    <!-- LOGO · SVG imagotipo + wave fallback -->
     <a class="logo" href="/" aria-label="Paramita · inicio">
       <span class="logo-wave" role="img" aria-label="Paramita"></span>
       <svg class="logo-fallback" viewBox="0 0 612.3 181.4" role="img" aria-label="Paramita" xmlns="http://www.w3.org/2000/svg">
@@ -115,9 +165,11 @@
       </svg>
     </a>
 
+    <!-- BURGER · toggle del menú en móvil (CSS puro con :checked) -->
     <input class="nt" id="nt" type="checkbox" hidden>
     <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
 
+    <!-- MENÚ PRINCIPAL -->
     <nav class="menu" aria-label="Principal">
       <ul class="links">
 
@@ -126,51 +178,47 @@
           <a class="navlink" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a>
         </li>
 
-        <!-- 2 · CURSOS · plataforma externa -->
+        <!-- 2 · CURSOS · puerta pública al catálogo formativo (el sendero)
+             Nota: NO apunta al LMS externo (cursos.paramita.org) porque el
+             navbar público sirve al visitante, no al practicante inscrito.
+             El LMS se accede desde el navbar practicante o desde CTAs
+             contextuales dentro de cada ficha de curso. -->
         <li>
-          <a class="navlink" href="https://cursos.paramita.org/home">Cursos</a>
+          <a class="navlink" href="/formacion/">Cursos</a>
         </li>
 
-        <!-- 3 · ACTIVIDADES · con submenú -->
-        <li class="has-sub">
-          <a class="navlink" href="/actividades" aria-haspopup="true" aria-expanded="false">Actividades <i class="caret" aria-hidden="true"></i></a>
-          <ul class="sub" role="menu" aria-label="Actividades">
-            <li role="none"><a role="menuitem" href="/actividades"><strong>Todas las actividades</strong><span>Índice completo</span></a></li>
-            <li role="none"><a role="menuitem" href="/actividades/calendario"><strong>Calendario</strong><span>Sesiones y retiros</span></a></li>
-            <li role="none"><a role="menuitem" href="/actividades/visita"><strong>Visita el centro</strong><span>Ven a conocernos</span></a></li>
-          </ul>
+        <!-- 3 · ACTIVIDADES · enlace plano (sin desplegable) -->
+        <li>
+          <a class="navlink" href="/actividades">Actividades</a>
         </li>
 
-        <!-- 4 · BLOG · sección de contenido activo -->
-        <li class="has-sub">
-          <a class="navlink" href="/blog" aria-haspopup="true" aria-expanded="false">Blog <i class="caret" aria-hidden="true"></i></a>
-          <ul class="sub" role="menu" aria-label="Blog">
-            <li role="none"><a role="menuitem" href="/blog"><strong>Todos los artículos</strong><span>Últimos publicados</span></a></li>
-            <li role="none"><a role="menuitem" href="/blog/maestros"><strong>Maestros</strong><span>Quién escribe y guía</span></a></li>
-            <!-- Recursos · descomentar si hay contenido descargable
-            <li role="none"><a role="menuitem" href="/recursos"><strong>Recursos</strong><span>Textos y audios</span></a></li>
-            -->
-          </ul>
+        <!-- 4 · BLOG · enlace plano (sin desplegable) -->
+        <li>
+          <a class="navlink" href="/blog">Blog</a>
         </li>
 
-        <!-- 5 · SOBRE · institucional, anclado a la derecha -->
+        <!-- 5 · SOBRE · institucional, anclado a la derecha con .end -->
         <li class="has-sub end">
           <a class="navlink" href="/sobre" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></a>
           <ul class="sub" role="menu" aria-label="Sobre Paramita">
             <li role="none"><a role="menuitem" href="/sobre"><strong>La fundación</strong><span>Quiénes somos</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/maestros"><strong>Maestros</strong><span>Quién guía la práctica</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/monasticos"><strong>Monásticos y monásticas</strong><span>La comunidad ordenada</span></a></li>
             <li role="none"><a role="menuitem" href="/sobre/faq"><strong>Preguntas frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
-            <!-- Transparencia · descomentar si hay página de cuentas y memoria
-            <li role="none"><a role="menuitem" href="/sobre/transparencia"><strong>Transparencia</strong><span>Cuentas y memoria</span></a></li>
-            -->
           </ul>
         </li>
 
       </ul>
+
+      <!-- Divisor visual entre menú y CTAs -->
       <span class="div" aria-hidden="true"></span>
+
+      <!-- CTAs a la derecha · nomenclatura Fase 6 -->
       <div class="ctas">
         <a class="btn-secundario" href="/unete">Únete</a>
         <a class="btn-primario" href="/contribuir">Contribuir</a>
       </div>
+
     </nav>
   </div>
 </header>
@@ -481,8 +529,25 @@
 </div>
 
 <!-- PIE -->
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     PARAMITA · FUNDACIÓN SAKYA
+     partials/footer.html — Footer canónico
+     ───────────────────────────────────────────────────────────────────────────
+
+     FUENTE ÚNICA DE VERDAD para el footer del sitio.
+     Se pega al final de cada landing, antes de </body>.
+
+     Depende de:
+       · paramita-footer.css      → estructura, hero, grid, tipografía
+       · paramita-footer-lotos.js → animación del canvas de figuras físicas
+
+     La sección "Navegar" refleja la NUEVA IA (Fase 7 · jul 2026):
+     rutas reales, no anclas, y con los cinco enlaces principales del navbar.
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
 <footer class="foot" id="contacto">
-  <!-- Hero "Practiquemos juntos" con figuras físicas interactivas (cursor/clic/touch) -->
+
+  <!-- Hero "Practiquemos juntos" con figuras físicas interactivas -->
   <div class="foot__hero">
     <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
     <div>
@@ -490,43 +555,54 @@
       <p class="foot__hint">Pasa el cursor o toca entre las figuras.</p>
     </div>
   </div>
+
   <!-- Información del pie, fusionada dentro del envoltorio oscuro -->
   <div class="foot__info">
     <div class="wrap">
       <div class="foot-grid">
-      <div>
-        <span class="logo-wave" role="img" aria-label="Paramita"></span>
-        <p class="tagline">Meditación y enseñanzas del Buddha, como puente entre los Himalayas y el mundo hispanohablante.</p>
-        <div class="social">
-          <a href="#facebook" aria-label="Facebook"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M13.7 8.3c-1.5-.3-2.6.3-2.6 2V17"/><path d="M9.7 11.7h3.6"/></svg>Facebook</a>
-          <a href="#youtube" aria-label="YouTube"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4.2"/><path d="M10.4 9.4 15 12l-4.6 2.6z"/></svg>YouTube</a>
-          <a href="#instagram" aria-label="Instagram"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="16.8" cy="7.2" r=".7" fill="currentColor" stroke="none"/></svg>Instagram</a>
-          <a href="#spotify" aria-label="Spotify"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.4 9.7c3-.9 6.6-.6 9.1.9"/><path d="M8 12.6c2.4-.7 5.2-.4 7.2.8"/><path d="M8.6 15.4c1.9-.5 4-.3 5.6.6"/></svg>Spotify</a>
+
+        <!-- COLUMNA 1 · Marca + tagline + social -->
+        <div>
+          <span class="logo-wave" role="img" aria-label="Paramita"></span>
+          <p class="tagline">Meditación y enseñanzas del Buddha, como puente entre los Himalayas y el mundo hispanohablante.</p>
+          <div class="social">
+            <a href="#facebook" aria-label="Facebook"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M13.7 8.3c-1.5-.3-2.6.3-2.6 2V17"/><path d="M9.7 11.7h3.6"/></svg>Facebook</a>
+            <a href="#youtube" aria-label="YouTube"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4.2"/><path d="M10.4 9.4 15 12l-4.6 2.6z"/></svg>YouTube</a>
+            <a href="#instagram" aria-label="Instagram"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="16.8" cy="7.2" r=".7" fill="currentColor" stroke="none"/></svg>Instagram</a>
+            <a href="#spotify" aria-label="Spotify"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.4 9.7c3-.9 6.6-.6 9.1.9"/><path d="M8 12.6c2.4-.7 5.2-.4 7.2.8"/><path d="M8.6 15.4c1.9-.5 4-.3 5.6.6"/></svg>Spotify</a>
+          </div>
         </div>
+
+        <!-- COLUMNA 2 · Navegar (refleja la IA del navbar público) -->
+        <div>
+          <h4>Navegar</h4>
+          <a class="fl" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a>
+          <a class="fl" href="/formacion/">Cursos</a>
+          <a class="fl" href="/actividades">Actividades</a>
+          <a class="fl" href="/blog">Blog</a>
+          <a class="fl" href="/sobre">Sobre</a>
+        </div>
+
+        <!-- COLUMNA 3 · Contacto -->
+        <div>
+          <h4>Contacto</h4>
+          <address>
+            <b>Dirección</b><br>Av. de Comtat, 1 Bis, buzón 207<br>Pedreguer (Muntanya de la Sella)<br>03750 Alicante, España<br><br>
+            <b>Teléfono</b> (+34) 965 760 777<br>
+            <a class="fl" href="mailto:secretaria@paramita.org">secretaria@paramita.org</a>
+            <a class="fl" href="mailto:soporte@paramita.org">soporte@paramita.org</a><br>
+            <b>Horario</b> L–V · 10–13 h y 15–17 h
+          </address>
+        </div>
+
       </div>
-      <div>
-        <h4>Navegar</h4>
-        <a class="fl" href="https://cursos.paramita.org/home">Cursos</a>
-        <a class="fl" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a>
-        <a class="fl" href="#actividades">Actividades</a>
-        <a class="fl" href="#sobre-nosotros">Sobre nosotros</a>
-        <a class="fl" href="#participa">Participa</a>
+
+      <!-- Base del pie · copyright y firma -->
+      <div class="foot-base">
+        <span>© 2026 Fundación Paramita. Todos los seres, libres del sufrimiento.</span>
+        <span>Centro Budista Sakya · Alicante</span>
       </div>
-      <div>
-        <h4>Contacto</h4>
-        <address>
-          <b>Dirección</b><br>Av. de Comtat, 1 Bis, buzón 207<br>Pedreguer (Muntanya de la Sella)<br>03750 Alicante, España<br><br>
-          <b>Teléfono</b> (+34) 965 760 777<br>
-          <a class="fl" href="mailto:secretaria@paramita.org">secretaria@paramita.org</a>
-          <a class="fl" href="mailto:soporte@paramita.org">soporte@paramita.org</a><br>
-          <b>Horario</b> L–V · 10–13 h y 15–17 h
-        </address>
-      </div>
-    </div>
-    <div class="foot-base">
-      <span>© 2026 Fundación Paramita. Todos los seres, libres del sufrimiento.</span>
-      <span>Centro Budista Sakya · Alicante</span>
-    </div>
+
     </div>
   </div>
 </footer>

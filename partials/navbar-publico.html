@@ -1,0 +1,119 @@
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     PARAMITA · FUNDACIÓN SAKYA
+     partials/navbar-publico.html — Navbar público (visitantes no autenticados)
+     ───────────────────────────────────────────────────────────────────────────
+
+     FUENTE ÚNICA DE VERDAD para el navbar público del sitio.
+     Este bloque se PEGA dentro de cada landing pública, entre <body> y <main>.
+
+     Depende de estos CSS del sistema (ya cargados en cada landing):
+       · paramita-bar.css     → contenedor sticky, glass, logo, burger
+       · paramita-menu.css    → menú horizontal, links, submenús, caret
+       · paramita-cta.css     → .btn-primario y .btn-secundario
+
+     INFORMACIÓN DE ARQUITECTURA (Fase 7 · jul 2026)
+     ────────────────────────────────────────────────
+     Cambios respecto a la versión anterior del navbar:
+
+       · ACTIVIDADES  desplegable ELIMINADO. Ahora es un enlace plano a
+                      /actividades, donde vive la landing con calendario,
+                      visita al centro y el índice completo.
+
+       · BLOG         desplegable ELIMINADO. Ahora es un enlace plano a
+                      /blog, donde vive el índice de todos los artículos.
+
+       · SOBRE        desplegable AMPLIADO con dos entradas nuevas:
+                      Maestros y Monásticos/as. Orden pensado para
+                      conversión: institución → guía → comunidad → dudas.
+
+                        1. La fundación                   → /sobre
+                        2. Maestros                       → /sobre/maestros
+                        3. Monásticos y monásticas        → /sobre/monasticos
+                        4. Preguntas frecuentes           → /sobre/faq
+
+     CTAs a la derecha (nomenclatura Fase 6):
+       · .btn-secundario  → "Únete"       (asomarse al umbral)
+       · .btn-primario    → "Contribuir"  (conversión decisiva)
+
+     USO POR PLANTILLA
+     ─────────────────
+     Añade aria-current="page" al enlace correspondiente a la página en curso.
+     Ejemplo · en la landing /formacion/ (Cursos):
+       <a class="navlink" href="https://cursos.paramita.org/home"
+          aria-current="page">Cursos</a>
+
+     Ejemplo · en la landing /blog/:
+       <a class="navlink" href="/blog" aria-current="page">Blog</a>
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
+<header class="bar">
+  <div class="bar-inner wrap">
+
+    <!-- LOGO · SVG imagotipo + wave fallback -->
+    <a class="logo" href="/" aria-label="Paramita · inicio">
+      <span class="logo-wave" role="img" aria-label="Paramita"></span>
+      <svg class="logo-fallback" viewBox="0 0 612.3 181.4" role="img" aria-label="Paramita" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#0d539f"><path d="M225.4,64c15.5,0,24.8,7,24.8,18.8s-8.5,19.7-22.9,20c-1.3,0-2.4,0-3.1,0l-.2-1.3c6.7-2.8,9.4-7.7,9.4-18.6s-3.9-15.8-11.9-15.8h-1.4v44.4c0,5.1,1.3,8.5,3.9,10.3v1.3h-23v-1.3c2.5-1.7,3.9-5.1,3.9-10.3v-35.7c0-5.2-1.3-8.7-3.9-10.3v-1.3h24.5Z"/><path d="M295.1,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM274.6,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M506.7,116.4c-3.4,4.5-9,7.4-14.6,7.4-8.1,0-11.6-4.7-11.6-14.4v-27.9h-5.5v-4.2c6.7-2.5,13.5-6.9,17-14h3v13.9l9.8-1-.8,5.2h-9v26.2c0,6,1.8,9,5.6,9s3.2-.4,5.3-1.3l.8,1.1Z"/><path d="M552.4,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM531.8,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M367.7,118.2c-3.1,0-4.6-1.5-4.6-4.4v-18c0-4.8-.3-7.9-2-11-2.3-4.6-7.4-7.2-17.7-7.2s-2.4,0-4.1.4c.7.9,1.2,1.6,1.7,2.6.5-.1.8-.2,2-.2,2.5,0,4.2,1.1,5,3.2.4,1.3.7,4.7.7,10.2v4.4c-1.3-.2-2.8-.3-4.5-.3-5.3,0-10,1.2-13.7,3.7-3.8,2.4-5.7,6-5.7,10.6,0,6.7,4.7,11.6,12,11.6s9.8-1.9,13-5.7c1.7,3.8,4.6,5.7,8.9,5.7s7.4-1.2,10.5-3.9v-1.6h-1.5ZM344.5,117.2c-3.5,0-5.4-2.9-5.4-6.7,0-5.9,3.2-9.5,9.5-9.5v10.8c0,1.3,0,2.5.3,3.5-1.1,1.3-2.6,1.9-4.3,1.9Z"/><path d="M444.2,111.4v-18.2c0-10.5-3-15.5-11.6-15.5s-12.5,3.4-16.4,8.8c-1.2-5.9-4.9-8.8-11-8.8s-11.5,2.9-15.8,8.8v-9.2c-4.9,1.8-10.9,3.5-18.2,5h-.1v1.4l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h22.6v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-22.9c2.2-1.1,4.5-1.7,6.7-1.7,4.2,0,6.3,2.4,6.3,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.2v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-18.8c0-1.5,0-2.9-.3-4.2,1.7-1,3.8-1.5,6.3-1.5,4.6,0,6.9,2.4,6.9,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.6v-1.3c-2.9-2-4.3-5.5-4.3-10.3Z"/><path d="M330.8,77.6c-5.3,0-12.3,4.5-15.5,9.7v-10.1c-5,1.8-10.9,3.6-18.3,5v1.3l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h24.8v-1.3c-4-1.8-6-5.3-6-10.3v-21.5c2.4-2.4,6.6-3.6,8.6-3.8.3,3.9,3.2,7.2,7.1,7.2s7.7-3.3,7.7-8-3.1-7.7-7.9-7.7Z"/><path d="M468.9,70.6c3.4-3.2,3.4-8.7,0-11.9-3.2-3.4-8.7-3.4-11.9,0-3.2,3.2-3.2,8.7,0,11.9,3.2,3.2,8.7,3.2,11.9,0Z"/><path d="M452.4,83.8v1.3l1,.5c1.3.8,2.9,3.4,2.9,6.7v19.1c0,5.1-1.4,8.5-4.3,10.3v1.3h23v-1.3c-2.9-2-4.3-5.5-4.3-10.3v-32.7c-4.9,1.8-10.9,3.6-18.3,5Z"/></g>
+        <g fill="#1cb1da"><circle cx="112.1" cy="58.6" r="10.1"/><path d="M94,67.6s2,5.3,8,10c6,4.7,8.6,10,9,20.3s.5,24.3.5,24.3c0,0-3.8-10.5-4.8-13.6s-4.2-15.9-9.7-21-7.9-5.6-7.9-5.6c0,0,1.1-8.3,4.9-14.4Z"/><path d="M130.3,67.6s-2,5.3-8,10c-6,4.7-8.6,10-9,20.3-.4,10.3-.5,24.3-.5,24.3,0,0,3.8-10.5,4.8-13.6,1-3.1,4.2-15.9,9.7-21,4.7-4.4,7.9-5.6,7.9-5.6,0,0-1.1-8.3-4.9-14.4Z"/></g>
+        <g fill="#0689c2"><path d="M74.3,74.8s2.6,4.3,5.7,5.6,11.6,4.7,15.5,8.6c3.9,3.9,11,25.5,11,25.5,0,0-3.6-5.7-13-9.7,0,0-5.3-2.1-9.7-2.6s-5.9-1.9-7.3-4.9-4.1-13.9-2.2-22.4Z"/><path d="M149.9,74.8s-2.6,4.3-5.7,5.6-11.6,4.7-15.5,8.6-11,25.5-11,25.5c0,0,3.6-5.7,13-9.7,0,0,5.3-2.1,9.7-2.6,4.4-.5,5.9-1.9,7.3-4.9s4.1-13.9,2.2-22.4Z"/></g>
+        <g fill="#0d539f"><path d="M109.8,124s-8.4-29.3-49.1-17.5c0,0,5.7.7,9.9,6,4.2,5.3,7.4,11.2,18,10.2,10.5-1,17.4-1.3,21.2,1.3Z"/><path d="M114.4,124s8.4-29.3,49.1-17.5c0,0-5.7.7-9.9,6s-7.4,11.2-18,10.2c-10.5-1-17.4-1.3-21.2,1.3Z"/></g>
+      </svg>
+    </a>
+
+    <!-- BURGER · toggle del menú en móvil (CSS puro con :checked) -->
+    <input class="nt" id="nt" type="checkbox" hidden>
+    <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
+
+    <!-- MENÚ PRINCIPAL -->
+    <nav class="menu" aria-label="Principal">
+      <ul class="links">
+
+        <!-- 1 · MEDITACIÓN · puerta ancha, primera entrada emocional -->
+        <li>
+          <a class="navlink" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a>
+        </li>
+
+        <!-- 2 · CURSOS · puerta pública al catálogo formativo (el sendero)
+             Nota: NO apunta al LMS externo (cursos.paramita.org) porque el
+             navbar público sirve al visitante, no al practicante inscrito.
+             El LMS se accede desde el navbar practicante o desde CTAs
+             contextuales dentro de cada ficha de curso. -->
+        <li>
+          <a class="navlink" href="/formacion/">Cursos</a>
+        </li>
+
+        <!-- 3 · ACTIVIDADES · enlace plano (sin desplegable) -->
+        <li>
+          <a class="navlink" href="/actividades">Actividades</a>
+        </li>
+
+        <!-- 4 · BLOG · enlace plano (sin desplegable) -->
+        <li>
+          <a class="navlink" href="/blog">Blog</a>
+        </li>
+
+        <!-- 5 · SOBRE · institucional, anclado a la derecha con .end -->
+        <li class="has-sub end">
+          <a class="navlink" href="/sobre" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub" role="menu" aria-label="Sobre Paramita">
+            <li role="none"><a role="menuitem" href="/sobre"><strong>La fundación</strong><span>Quiénes somos</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/maestros"><strong>Maestros</strong><span>Quién guía la práctica</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/monasticos"><strong>Monásticos y monásticas</strong><span>La comunidad ordenada</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/faq"><strong>Preguntas frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
+          </ul>
+        </li>
+
+      </ul>
+
+      <!-- Divisor visual entre menú y CTAs -->
+      <span class="div" aria-hidden="true"></span>
+
+      <!-- CTAs a la derecha · nomenclatura Fase 6 -->
+      <div class="ctas">
+        <a class="btn-secundario" href="/unete">Únete</a>
+        <a class="btn-primario" href="/contribuir">Contribuir</a>
+      </div>
+
+    </nav>
+  </div>
+</header>

@@ -79,9 +79,11 @@
 }
 .curso__trazo svg {
   width: 28px;
-  height: 100%;
-  min-height: 160px;
+  height: 200px;
   overflow: visible;
+  /* SIN preserveAspectRatio="none" en el HTML: el SVG mantiene su proporción,
+     los círculos quedan redondos. La línea se estira verticalmente porque
+     el alto del SVG (200px) se centra dentro de la card. */
 }
 .curso__trazo-linea {
   stroke: color-mix(in srgb, var(--antracita) 18%, transparent);
