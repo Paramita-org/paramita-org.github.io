@@ -48,10 +48,25 @@ hasta que se cree el `index.html` correspondiente.
 
 ## Convenciones
 
-**Rutas absolutas siempre.** Todos los `href` y `src` que apunten a assets
-propios del proyecto empiezan por `/`. Escribimos `/css/base/paramita-base.css`,
-nunca `css/base/paramita-base.css` ni `../css/base/paramita-base.css`. Así una
-misma referencia funciona igual desde la raíz que desde `sobre/maestros/`.
+**Rutas de assets: relativas a la posición de la landing.** Los `href` y `src`
+de CSS, JS, imágenes y fuentes se escriben relativos a la carpeta de la landing:
+
+- Desde la home (`/index.html`): `href="css/base/paramita-base.css"`
+- Desde `formacion/index.html`: `href="../css/base/paramita-base.css"`
+- Desde `sobre/maestros/index.html`: `href="../../css/base/paramita-base.css"`
+
+Esta convención permite pruebas visuales en GitHub Pages (que sirve el sitio
+bajo una subruta tipo `janams.github.io/nombre-repo/`) sin configuración extra.
+Cuando el sitio migre a un dominio propio sin subruta, se podrá reconsiderar
+volver a rutas absolutas — pero por ahora, relativas.
+
+**Enlaces internos del navbar y footer: absolutos.** Los `href` que apuntan
+a otras landings (`/formacion/`, `/blog`, `/sobre/maestros`) se dejan absolutos.
+Razón: los partials `navbar-publico.html` y `footer.html` son fuente única de
+verdad y deben poder pegarse en cualquier landing sin adaptación. Consecuencia
+aceptada: en GitHub Pages con subruta, la navegación entre landings a través
+del navbar no funcionará hasta que haya dominio propio o migración de hosting.
+Para pruebas visuales se accede a cada landing por URL directa.
 
 **Partials como fuente única de verdad.** El navbar y el footer viven en
 `partials/`. Cuando cambian, se editan ahí primero y luego se sincronizan a
