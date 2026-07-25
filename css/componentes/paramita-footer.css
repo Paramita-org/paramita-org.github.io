@@ -170,9 +170,16 @@
     align-items: start;
   }
 
-  /* Logo del footer · SOBRESCRITURA IDENTITARIA · Fase 0.1 · 14s */
+  /* Logo del footer · SOBRESCRITURA IDENTITARIA · Fase 0.1 · 14s
+     ─────────────────────────────────────────────────────────────
+     El margin-left negativo compensa el aire interno del SVG del logo
+     (el símbolo del loto no empieza en X=0 del viewBox — hay ~60px de
+     aire en el viewBox de 612 unidades). Con logo de 170px, ese offset
+     visual es de ~17px reales. Compensamos con -1rem que da un ajuste
+     visualmente equilibrado (más fino que 17px por el kerning del texto). */
   .foot .logo-wave {
     width: 170px;
+    margin-left: -1rem;
     animation-duration: 14s;
   }
 

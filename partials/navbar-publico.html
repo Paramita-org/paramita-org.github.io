@@ -1,55 +1,8 @@
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PARAMITA · FUNDACIÓN SAKYA
-     partials/navbar-publico.html — Navbar público (visitantes no autenticados)
-     ───────────────────────────────────────────────────────────────────────────
-
-     FUENTE ÚNICA DE VERDAD para el navbar público del sitio.
-     Este bloque se PEGA dentro de cada landing pública, entre <body> y <main>.
-
-     Depende de estos CSS del sistema (ya cargados en cada landing):
-       · paramita-bar.css     → contenedor sticky, glass, logo, burger
-       · paramita-menu.css    → menú horizontal, links, submenús, caret
-       · paramita-cta.css     → .btn-primario y .btn-secundario
-
-     INFORMACIÓN DE ARQUITECTURA (Fase 7 · jul 2026)
-     ────────────────────────────────────────────────
-     Cambios respecto a la versión anterior del navbar:
-
-       · ACTIVIDADES  desplegable ELIMINADO. Ahora es un enlace plano a
-                      /actividades, donde vive la landing con calendario,
-                      visita al centro y el índice completo.
-
-       · BLOG         desplegable ELIMINADO. Ahora es un enlace plano a
-                      /blog, donde vive el índice de todos los artículos.
-
-       · SOBRE        desplegable AMPLIADO con dos entradas nuevas:
-                      Maestros y Monásticos/as. Orden pensado para
-                      conversión: institución → guía → comunidad → dudas.
-
-                        1. La fundación                   → /sobre
-                        2. Maestros                       → /sobre/maestros
-                        3. Monásticos y monásticas        → /sobre/monasticos
-                        4. Preguntas frecuentes           → /sobre/faq
-
-     CTAs a la derecha (nomenclatura Fase 6):
-       · .btn-secundario  → "Únete"       (asomarse al umbral)
-       · .btn-primario    → "Contribuir"  (conversión decisiva)
-
-     USO POR PLANTILLA
-     ─────────────────
-     Añade aria-current="page" al enlace correspondiente a la página en curso.
-     Ejemplo · en la landing /formacion/ (Cursos):
-       <a class="navlink" href="https://cursos.paramita.org/home"
-          aria-current="page">Cursos</a>
-
-     Ejemplo · en la landing /blog/:
-       <a class="navlink" href="/blog" aria-current="page">Blog</a>
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
+<!-- navbar público · sincronizado con partials/navbar-publico.html -->
 <header class="bar">
   <div class="bar-inner wrap">
 
-    <!-- LOGO · SVG imagotipo + wave fallback -->
+    <!-- Logo · SVG imagotipo + wave fallback -->
     <a class="logo" href="/" aria-label="Paramita · inicio">
       <span class="logo-wave" role="img" aria-label="Paramita"></span>
       <svg class="logo-fallback" viewBox="0 0 612.3 181.4" role="img" aria-label="Paramita" xmlns="http://www.w3.org/2000/svg">
@@ -60,39 +13,35 @@
       </svg>
     </a>
 
-    <!-- BURGER · toggle del menú en móvil (CSS puro con :checked) -->
+    <!-- Burger · toggle del menú en móvil (CSS puro con :checked) -->
     <input class="nt" id="nt" type="checkbox" hidden>
     <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
 
-    <!-- MENÚ PRINCIPAL -->
+    <!-- Menú principal -->
     <nav class="menu" aria-label="Principal">
       <ul class="links">
 
-        <!-- 1 · MEDITACIÓN · puerta ancha, primera entrada emocional -->
+        <!-- 1 · Meditación -->
         <li>
           <a class="navlink" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a>
         </li>
 
-        <!-- 2 · CURSOS · puerta pública al catálogo formativo (el sendero)
-             Nota: NO apunta al LMS externo (cursos.paramita.org) porque el
-             navbar público sirve al visitante, no al practicante inscrito.
-             El LMS se accede desde el navbar practicante o desde CTAs
-             contextuales dentro de cada ficha de curso. -->
+        <!-- 2 · Cursos · puerta pública al catálogo formativo (/formacion/, no el LMS) -->
         <li>
           <a class="navlink" href="/formacion/">Cursos</a>
         </li>
 
-        <!-- 3 · ACTIVIDADES · enlace plano (sin desplegable) -->
+        <!-- 3 · Actividades · enlace plano (sin desplegable) -->
         <li>
           <a class="navlink" href="/actividades">Actividades</a>
         </li>
 
-        <!-- 4 · BLOG · enlace plano (sin desplegable) -->
+        <!-- 4 · Blog · enlace plano (sin desplegable) -->
         <li>
           <a class="navlink" href="/blog">Blog</a>
         </li>
 
-        <!-- 5 · SOBRE · institucional, anclado a la derecha con .end -->
+        <!-- 5 · Sobre · institucional, anclado a la derecha con .end -->
         <li class="has-sub end">
           <a class="navlink" href="/sobre" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></a>
           <ul class="sub" role="menu" aria-label="Sobre Paramita">
@@ -105,10 +54,8 @@
 
       </ul>
 
-      <!-- Divisor visual entre menú y CTAs -->
       <span class="div" aria-hidden="true"></span>
 
-      <!-- CTAs a la derecha · nomenclatura Fase 6 -->
       <div class="ctas">
         <a class="btn-secundario" href="/unete">Únete</a>
         <a class="btn-primario" href="/contribuir">Contribuir</a>

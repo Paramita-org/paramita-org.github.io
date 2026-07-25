@@ -1,75 +1,60 @@
 #!/usr/bin/env python3
 """
-Sincroniza los bloques <header class="bar">…</header> y <footer class="foot"…>…</footer>
-de una landing con los parciales canónicos, preservando el resto del HTML.
+Sincroniza navbar, prefooter y footer de una landing con los partials canónicos.
 
 Uso:
-    python3 sync.py <landing.html> [--aria-current=<selector>]
-
-El selector aria-current es opcional. Formato: "Cursos" (marca el <a> cuyo texto empieza por "Cursos").
+    python3 sync.py <landing.html>
+    python3 sync.py <landing.html> --aria-current="Cursos"
+    python3 sync.py <landing.html> --with-prefooter
+    python3 sync.py <landing.html> --aria-current="Cursos" --with-prefooter
 """
 import re
 import sys
 from pathlib import Path
 
-PARTIALS_DIR = Path("/mnt/user-data/outputs/partials")
+# Los partials viven en la misma carpeta que este script
+PARTIALS_DIR = Path(__file__).resolve().parent
 
 
 def read_partial(name):
     return PARTIALS_DIR.joinpath(name).read_text(encoding="utf-8").rstrip() + "\n"
 
 
-def replace_block(html, tag, class_hint, replacement):
-    """
-    Reemplaza el primer bloque <tag ... class_hint ...>…</tag> por replacement.
-    Usa un regex tolerante que localiza la apertura y busca su cierre.
-    """
-    # Localizar apertura de la etiqueta con la clase
-    open_pattern = re.compile(
-        rf'<{tag}\b[^>]*class="[^"]*\b{re.escape(class_hint)}\b[^"]*"[^>]*>',
-        re.IGNORECASE,
-    )
-    m = open_pattern.search(html)
+def find_block(html, open_regex, close_tag):
+    m = re.search(open_regex, html, re.IGNORECASE)
     if not m:
-        raise ValueError(f"No se encontró <{tag} class='...{class_hint}...'>")
-
+        return None, None
     start = m.start()
-    # Ahora buscar el </tag> de cierre correspondiente, contando anidamientos
-    close_tag = f"</{tag}>"
-    open_tag_short = f"<{tag}"
+    open_tag_short = f"<{close_tag[2:-1]}"
     pos = m.end()
     depth = 1
-    lower_html = html.lower()
-    close_tag_lower = close_tag.lower()
-    open_tag_lower = open_tag_short.lower()
+    lower = html.lower()
+    close_low = close_tag.lower()
+    open_low = open_tag_short.lower()
     while depth > 0 and pos < len(html):
-        next_close = lower_html.find(close_tag_lower, pos)
-        next_open = lower_html.find(open_tag_lower, pos)
+        next_close = lower.find(close_low, pos)
+        next_open = lower.find(open_low, pos)
         if next_close == -1:
-            raise ValueError(f"No se encontró {close_tag} de cierre")
-        # ¿hay una apertura anidada antes del próximo cierre?
+            return None, None
         if next_open != -1 and next_open < next_close:
-            # asegurar que no sea "<tag" dentro de un atributo como <tagname>
-            # como estamos hablando de <header>/<footer>, el riesgo es bajo
             depth += 1
             pos = next_open + len(open_tag_short)
         else:
             depth -= 1
             pos = next_close + len(close_tag)
-    end = pos
+    return start, pos
+
+
+def replace_block(html, open_regex, close_tag, replacement, label):
+    start, end = find_block(html, open_regex, close_tag)
+    if start is None:
+        raise ValueError(f"No se encontró el bloque {label}")
     return html[:start] + replacement + html[end:]
 
 
 def apply_aria_current(html, link_text):
-    """
-    Añade aria-current="page" al primer <a class="navlink" ...>link_text</a>
-    dentro del bloque <header class="bar">.
-    """
     if not link_text:
         return html
-
-    # Regex que localiza la etiqueta <a class="navlink" ...>LINK_TEXT
-    # y añade aria-current si no lo tiene ya.
     pattern = re.compile(
         r'(<a\s+class="navlink"\s+href="[^"]*")(\s*>\s*'
         + re.escape(link_text)
@@ -88,27 +73,65 @@ def main():
 
     target = Path(sys.argv[1])
     aria_current = None
+    with_prefooter = False
     for arg in sys.argv[2:]:
         if arg.startswith("--aria-current="):
             aria_current = arg.split("=", 1)[1]
+        elif arg == "--with-prefooter":
+            with_prefooter = True
 
     html = target.read_text(encoding="utf-8")
 
+    # 1 · Navbar
     navbar = read_partial("navbar-publico.html")
-    footer = read_partial("footer.html")
-
-    # Aplicar aria-current dentro del navbar si se pidió
     if aria_current:
         navbar = apply_aria_current(navbar, aria_current)
+    html = replace_block(
+        html,
+        r'<header\s+class="[^"]*\bbar\b[^"]*"[^>]*>',
+        "</header>",
+        navbar.rstrip(),
+        "navbar",
+    )
 
-    # Reemplazar los dos bloques
-    html = replace_block(html, "header", "bar", navbar.rstrip())
-    html = replace_block(html, "footer", "foot", footer.rstrip())
+    # 2 · Prefooter (opcional) + Footer
+    # El bloque a reemplazar puede ser un <section class="foot__hero"> previo
+    # (si ya existía como partial separado) o estar dentro del <footer>.
+    # Estrategia: quitar cualquier <section class="foot__hero"> huérfano primero,
+    # luego reemplazar el <footer class="foot">.
+
+    # Quitar <section class="foot__hero"> si existe como hermano
+    prefooter_start, prefooter_end = find_block(
+        html, r'<section\s+class="[^"]*\bfoot__hero\b[^"]*"[^>]*>', "</section>"
+    )
+    if prefooter_start is not None:
+        # Recortar también el whitespace que sigue
+        after = prefooter_end
+        while after < len(html) and html[after] in " \t\n\r":
+            after += 1
+        html = html[:prefooter_start] + html[after:]
+
+    # Reemplazar footer
+    footer = read_partial("footer.html").rstrip()
+    if with_prefooter:
+        prefooter = read_partial("prefooter.html").rstrip()
+        replacement = prefooter + "\n\n" + footer
+    else:
+        replacement = footer
+
+    html = replace_block(
+        html,
+        r'<footer\s+class="[^"]*\bfoot\b[^"]*"[^>]*>',
+        "</footer>",
+        replacement,
+        "footer",
+    )
 
     target.write_text(html, encoding="utf-8")
     print(f"[ok] Sincronizado: {target}")
     if aria_current:
         print(f"     aria-current='page' aplicado a: {aria_current}")
+    print(f"     prefooter: {'sí' if with_prefooter else 'no'}")
 
 
 if __name__ == "__main__":

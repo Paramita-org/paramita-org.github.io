@@ -1,67 +1,67 @@
 # Partials · Paramita
 
-Fragmentos HTML canónicos del sistema. Fuente única de verdad para navbar y footer.
+Fragmentos HTML canónicos del sistema. Fuente única de verdad para navbar,
+prefooter y footer.
 
 ## Archivos
 
-- `navbar-publico.html` — Navbar para visitantes no autenticados. IA: Meditación · Cursos · Actividades · Blog · Sobre (desplegable) + CTAs Únete/Contribuir.
-- `navbar-practicante.html` — **Borrador** para usuarios logueados. IA: Mi sendero · Cursos · Actividades · Blog + avatar dropdown. Requiere CSS y JS específicos aún no creados (Fase 8).
-- `footer.html` — Footer canónico con "Practiquemos juntos" y navegación reflejo del navbar público.
+- `navbar-publico.html` — Navbar para visitantes no autenticados.
+- `navbar-practicante.html` — **Borrador** para usuarios logueados (Fase 8).
+- `prefooter.html` — Bloque "Practiquemos juntos" con canvas de lotos físicos.
+  Se usa SOLO en landings donde tenga sentido narrativo (home, y candidatas
+  a decidir landing a landing).
+- `footer.html` — Pie institucional (marca, navegar, contacto).
+  Se pega SIEMPRE, con o sin prefooter delante.
 
 ## Cómo se usan
 
-Estos archivos **no** se cargan solos — son referencia canónica que se **copia y pega** dentro de cada landing (`index.html`, `emi-1-index.html`, futuras).
+Estos archivos son referencia canónica que se copia y pega dentro de cada
+landing.
 
-Flujo cuando cambies algo:
+**Landing con pre-footer (home):**
+```
+...contenido...
+<!-- pegar prefooter.html aquí -->
+<!-- pegar footer.html a continuación -->
+</body>
+```
 
-1. Editas aquí (el partial) — la fuente de verdad.
-2. Copias el bloque a cada landing que lo use.
-3. Si son muchas landings y esto se vuelve pesado, migramos a includes por `fetch` (Fase futura).
+**Landing sin pre-footer:**
+```
+...contenido...
+<!-- pegar solo footer.html -->
+</body>
+```
 
 ## Estado por landing
 
-| Landing | Navbar sincronizado | Footer sincronizado | Notas |
-|---|---|---|---|
-| `index.html` (home) | ✅ | ✅ | Sin aria-current por ahora |
-| `index-formacion.html` (/formacion/) | ✅ | ✅ | aria-current="page" en Cursos |
-
-Marca esta tabla cuando vayas actualizando cada landing nueva.
+| Landing | Navbar | Prefooter | Footer | Notas |
+|---|---|---|---|---|
+| `index.html` (home) | ✅ | ✅ | ✅ | Sin aria-current |
+| `formacion/index.html` | ✅ | — | ✅ | aria-current en Cursos |
+| resto pendientes | — | — | — | Decidir prefooter caso a caso |
 
 ## Decisiones vivas del navbar (Fase 7)
 
 - **"Cursos" en el navbar público apunta a `/formacion/`**, no al LMS externo.
-  Razón: el navbar público sirve al visitante, no al practicante. El LMS
-  `cursos.paramita.org` se accede desde el navbar practicante y desde CTAs
-  contextuales.
-- **"Cursos" en el navbar practicante** sí apunta al LMS externo. El contraste
-  es intencional.
-- **Sobre / Monásticos y monásticas y Maestros** son entradas nuevas del
-  desplegable Sobre. Las páginas aún no existen (`/sobre/maestros`,
-  `/sobre/monasticos`) — pendiente de crear.
+- **"Cursos" en el navbar practicante** sí apunta al LMS externo (contraste
+  intencional).
+- **Nuevas entradas en Sobre**: Maestros y Monásticos/as (páginas pendientes).
 
-## Cómo sincronizar una landing nueva
+## Decisión viva del footer (Fase 7)
 
-Si tienes Python:
+- **El prefooter "Practiquemos juntos"** se separó del footer canónico.
+  Solo se incluye en landings donde la invitación a formar comunidad tenga
+  sentido narrativo. Por defecto: solo la home. El resto se irá decidiendo
+  landing a landing.
+- Como el JS `paramita-footer-lotos.js` es defensivo (`if (!cv) return;`),
+  puede cargarse en todas las landings sin problema aunque no haya prefooter.
+
+## Sincronización con `sync.py`
 
 ```
-python3 sync.py <landing.html> [--aria-current="<Texto del enlace>"]
+python3 sync.py <landing.html> [--aria-current="<Texto>"] [--with-prefooter]
 ```
 
-Si no tienes Python instalado o prefieres hacerlo a mano:
-
-1. Abre el `.html` de la landing.
-2. Reemplaza todo lo que hay entre `<header class="bar">` y `</header>` inclusive
-   por el contenido de `navbar-publico.html`.
-3. Reemplaza todo lo que hay entre `<footer class="foot" id="contacto">` y
-   `</footer>` inclusive por el contenido de `footer.html`.
-4. Si la landing corresponde a alguna sección del navbar, añade
-   `aria-current="page"` al enlace correspondiente.
-
-## Pendientes de arquitectura
-
-Antes de dar por definitivo `navbar-practicante.html`:
-
-- Decidir con Alberto dónde vive la zona logueada (`paramita.org` vs `cursos.paramita.org`).
-- Definir cómo se transmite la señal de sesión.
-- Crear `paramita-avatar.css` y `paramita-avatar.js`.
-- Rellenar las variables template (`{{USUARIO_NOMBRE}}`, `{{USUARIO_INICIAL}}`, etc.) desde la sesión real.
+- `--aria-current` marca el enlace del navbar como página activa.
+- `--with-prefooter` incluye el pre-footer antes del footer.

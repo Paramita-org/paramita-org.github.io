@@ -11,7 +11,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <!-- ═══════════════ SISTEMA PARAMITA ═══════════════ -->
   <!-- Orden de carga: tokens → base → componentes → específicos → responsive -->
 
   <!-- TOKENS · variables raíz del sistema -->
@@ -35,7 +34,6 @@
   <link rel="stylesheet" href="../css/componentes/paramita-extras.css">
   <link rel="stylesheet" href="../css/componentes/paramita-footer.css">
 
-  <!-- ═══════════════ ESPECÍFICOS DE ESTA PÁGINA ═══════════════ -->
   <link rel="stylesheet" href="../css/paginas/paramita-formacion.css">
   <link rel="stylesheet" href="../css/componentes/paramita-chat.css">
 
@@ -54,54 +52,6 @@
     </linearGradient>
   </defs>
 </svg>
-
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PARAMITA · FUNDACIÓN SAKYA
-     partials/navbar-publico.html — Navbar público (visitantes no autenticados)
-     ───────────────────────────────────────────────────────────────────────────
-
-     FUENTE ÚNICA DE VERDAD para el navbar público del sitio.
-     Este bloque se PEGA dentro de cada landing pública, entre <body> y <main>.
-
-     Depende de estos CSS del sistema (ya cargados en cada landing):
-       · paramita-bar.css     → contenedor sticky, glass, logo, burger
-       · paramita-menu.css    → menú horizontal, links, submenús, caret
-       · paramita-cta.css     → .btn-primario y .btn-secundario
-
-     INFORMACIÓN DE ARQUITECTURA (Fase 7 · jul 2026)
-     ────────────────────────────────────────────────
-     Cambios respecto a la versión anterior del navbar:
-
-       · ACTIVIDADES  desplegable ELIMINADO. Ahora es un enlace plano a
-                      /actividades, donde vive la landing con calendario,
-                      visita al centro y el índice completo.
-
-       · BLOG         desplegable ELIMINADO. Ahora es un enlace plano a
-                      /blog, donde vive el índice de todos los artículos.
-
-       · SOBRE        desplegable AMPLIADO con dos entradas nuevas:
-                      Maestros y Monásticos/as. Orden pensado para
-                      conversión: institución → guía → comunidad → dudas.
-
-                        1. La fundación                   → /sobre
-                        2. Maestros                       → /sobre/maestros
-                        3. Monásticos y monásticas        → /sobre/monasticos
-                        4. Preguntas frecuentes           → /sobre/faq
-
-     CTAs a la derecha (nomenclatura Fase 6):
-       · .btn-secundario  → "Únete"       (asomarse al umbral)
-       · .btn-primario    → "Contribuir"  (conversión decisiva)
-
-     USO POR PLANTILLA
-     ─────────────────
-     Añade aria-current="page" al enlace correspondiente a la página en curso.
-     Ejemplo · en la landing /formacion/ (Cursos):
-       <a class="navlink" href="https://cursos.paramita.org/home"
-          aria-current="page">Cursos</a>
-
-     Ejemplo · en la landing /blog/:
-       <a class="navlink" href="/blog" aria-current="page">Blog</a>
-     ═══════════════════════════════════════════════════════════════════════════ -->
 
 <header class="bar">
   <div class="bar-inner wrap">
@@ -205,7 +155,6 @@
   </div>
 </section>
 
-<!-- ══════════════ TRAMO 2 · MAPA DEL SENDERO ══════════════ -->
 <section class="mapa">
   <div class="head-centrado mapa__head">
     <span class="eyebrow">El mapa del camino</span>
@@ -258,7 +207,6 @@
   </div>
 </section>
 
-<!-- ══════════════ TRAMO 3 · FACETAS · frase-intención ══════════════ -->
 <section class="facetas" id="facetas">
   <div class="head-centrado facetas__head">
     <span class="eyebrow">Encuentra tu curso</span>
@@ -397,7 +345,6 @@
   </div>
 </section>
 
-<!-- ══════════════ TRAMO 4 · CUADRÍCULA ══════════════ -->
 <section class="cuadricula-seccion" id="catalogo">
   <p class="contador-resultados">Mostrando <strong id="contador">20</strong> cursos del sendero</p>
 
@@ -1025,7 +972,6 @@
   </div>
 </section>
 
-<!-- ══════════════ TRAMO 6 · CÓMO ESTUDIAMOS ══════════════ -->
 <section class="como">
   <div class="como__inner">
     <div class="head-centrado como__head">
@@ -1103,7 +1049,6 @@
   </div>
 </section>
 
-<!-- ══════════════ TRAMO 7 · PRACTIQUEMOS JUNTOS · CIERRE ══════════════ -->
 <section class="cierre">
   <div class="cierre__inner">
     <span class="eyebrow">Practiquemos juntos</span>
@@ -1122,7 +1067,6 @@
 
 </main>
 
-<!-- ══════════════ CHAT WIDGET · guía conversacional ══════════════ -->
 <div class="chat-widget" id="chatWidget" aria-live="polite">
 
   <!-- Burbuja de invitación (aparece con delay) -->
@@ -1163,34 +1107,9 @@
 
 
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PARAMITA · FUNDACIÓN SAKYA
-     partials/footer.html — Footer canónico
-     ───────────────────────────────────────────────────────────────────────────
-
-     FUENTE ÚNICA DE VERDAD para el footer del sitio.
-     Se pega al final de cada landing, antes de </body>.
-
-     Depende de:
-       · paramita-footer.css      → estructura, hero, grid, tipografía
-       · paramita-footer-lotos.js → animación del canvas de figuras físicas
-
-     La sección "Navegar" refleja la NUEVA IA (Fase 7 · jul 2026):
-     rutas reales, no anclas, y con los cinco enlaces principales del navbar.
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
 <footer class="foot" id="contacto">
 
-  <!-- Hero "Practiquemos juntos" con figuras físicas interactivas -->
-  <div class="foot__hero">
-    <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
-    <div>
-      <h2 class="foot__h">Practiquemos <em>juntos</em>.</h2>
-      <p class="foot__hint">Pasa el cursor o toca entre las figuras.</p>
-    </div>
-  </div>
-
-  <!-- Información del pie, fusionada dentro del envoltorio oscuro -->
+  <!-- Información del pie sobre fondo oscuro -->
   <div class="foot__info">
     <div class="wrap">
       <div class="foot-grid">
@@ -1242,7 +1161,6 @@
 </footer>
 
 
-<!-- ═══════════════ SCRIPTS ═══════════════ -->
 <!-- Sistema · para que navbar y footer funcionen -->
 <script src="../js/componentes/paramita-bar.js" defer></script>
 <script src="../js/componentes/paramita-footer-lotos.js" defer></script>
