@@ -1,0 +1,131 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-modal.css — Modal de vídeo
+   ───────────────────────────────────────────────────────────────────────────
+   Extraído en Fase 3 · Paso 1 del @layer modal de paramita-styles.css
+   (líneas 876-892 del original).
+
+   QUÉ HACE
+   ────────
+   Modal a pantalla completa para reproducir un vídeo. Se activa cuando
+   .vmodal recibe la clase .open. Fondo oscurecido con blur; el marco del
+   vídeo entra con escala desde 0.94.
+
+   TOKENS ANTIGUOS SUSTITUIDOS
+   ───────────────────────────
+   --t-med  →  --t-defecto     (400ms, aparición del velo)
+   --t-slow →  --t-revelacion  (700ms, escala del marco)
+   --t-med  →  --t-defecto     (rotación del botón de cierre)
+
+   USO EN HTML
+   ───────────
+     <div class="vmodal">
+       <button class="x" aria-label="Cerrar">×</button>
+       <div class="frame">
+         <video src="..." controls></video>
+       </div>
+     </div>
+
+   Añadir/quitar la clase .open desde JS para mostrar/ocultar.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer modal {
+
+  /* Contenedor a pantalla completa · velo semitransparente con blur */
+  .vmodal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: grid;
+    place-items: center;
+    padding: 5vw;
+    background: rgba(28, 18, 10, 0.62);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--t-defecto);
+  }
+
+  .vmodal.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Marco del vídeo · entra con escala */
+  .vmodal .frame {
+    width: min(960px, 100%);
+    aspect-ratio: 16 / 9;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #000;
+    transform: scale(0.94);
+    transition: transform var(--t-revelacion);
+  }
+
+  .vmodal.open .frame {
+    transform: scale(1);
+  }
+
+  /* Vídeo o iframe embebido · llena el marco */
+  .vmodal video,
+  .vmodal iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    object-fit: cover;
+  }
+
+  /* Botón de cierre · rota 90° en hover */
+  .vmodal .x {
+    position: absolute;
+    top: var(--espacio-grupo);
+    right: var(--espacio-grupo);
+    width: var(--target-min);
+    height: var(--target-min);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--antracita);
+    font-size: 1.4rem;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    border: none;
+    transition: transform var(--t-defecto);
+  }
+
+  .vmodal .x:hover {
+    transform: rotate(90deg);
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     REDUCED-MOTION
+     ─────────────────────────────────────────────────────────────────────
+     Contrato de quietud · Fase 2:
+     - El velo aparece/desaparece sin transición (llega a su estado final).
+     - El marco no escala — entra ya en su tamaño final.
+     - El botón X sigue clicable pero no rota.
+
+     La salvaguarda global de paramita-movimiento.css ya cubre esto, pero
+     se declara explícitamente aquí para que el comportamiento sea
+     intencionado, no accidental.
+     ───────────────────────────────────────────────────────────────────── */
+
+  @media (prefers-reduced-motion: reduce) {
+    .vmodal,
+    .vmodal .frame,
+    .vmodal .x {
+      transition: none;
+    }
+    .vmodal.open .frame {
+      transform: none;
+    }
+  }
+
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FIN de paramita-modal.css
+   ═══════════════════════════════════════════════════════════════════════════ */

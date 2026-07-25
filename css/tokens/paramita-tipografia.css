@@ -1,0 +1,342 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-tipografia.css — Tokens de tipografía
+   ───────────────────────────────────────────────────────────────────────────
+   Familia: Fraunces (variable) × Hanken Grotesk (variable)
+   Ejes de Fraunces mapeados a intención semántica.
+   Escala en ratio 1.25 (mayor tercera).
+
+   Este archivo se amplió en Fase 2 · Paso 2 para incluir las declaraciones
+   de familias tipográficas (--display, --body) que antes vivían en
+   paramita-tokens.css. Todo lo relativo a tipografía vive ahora aquí.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer tokens {
+  :root {
+
+    /* ─────────────────────────────────────────────────────────────────────
+       FAMILIAS · declaración de fuentes
+       Movidas desde paramita-tokens.css en Fase 2 · Paso 2 para que toda
+       la tipografía viva en un solo archivo.
+       ───────────────────────────────────────────────────────────────────── */
+
+    --display: "Fraunces", Georgia, serif;
+    --body:    "Hanken Grotesk", system-ui, sans-serif;
+
+
+    /* ─────────────────────────────────────────────────────────────────────
+       PESO · escala semántica de wght (0–1000)
+       Cinco peldaños. Nombres por intención, no por número.
+       ───────────────────────────────────────────────────────────────────── */
+
+    --wght-contemplativo: 300;   /* body, lede, textos largos                 */
+    --wght-presencia:     400;   /* body con más peso, subtítulos ligeros    */
+    --wght-firmeza:       500;   /* labels, botones, eyebrows                 */
+    --wght-asertivo:      600;   /* énfasis dentro de body, CTAs              */
+    --wght-declaracion:   700;   /* muy raro — solo declaraciones fuertes    */
+
+
+    /* ─────────────────────────────────────────────────────────────────────
+       TAMAÑO ÓPTICO · escala semántica de opsz (solo Fraunces)
+       Responde al tamaño físico del texto: valores bajos = formas robustas,
+       altos = formas refinadas con contraste alto.
+       ───────────────────────────────────────────────────────────────────── */
+
+    --opsz-cuerpo:      14;      /* body, párrafos, lede                      */
+    --opsz-subtitulo:   28;      /* h4, h3 pequeños                           */
+    --opsz-titulo:      60;      /* h3, h2 medios                             */
+    --opsz-display:     96;      /* h2 grandes                                */
+    --opsz-monumental: 144;      /* hero, títulos gigantes                    */
+
+
+    /* ─────────────────────────────────────────────────────────────────────
+       SOFT · el eje del cruce
+       El eje expresivo clave de Fraunces. 0 = formas firmes, angulosas.
+       100 = formas ablandadas, casi caligráficas.
+       En scroll transiciona de 0 (orilla de partida) a 100 (otra orilla) —
+       este es el movimiento de firma del sitio.
+       ───────────────────────────────────────────────────────────────────── */
+
+    --soft-reposo:    0;         /* estado inicial, firme                     */
+    --soft-transito: 50;         /* mitad del recorrido                       */
+    --soft-apertura:100;         /* estado ablandado, contemplativo           */
+
+
+    /* ─────────────────────────────────────────────────────────────────────
+       WONK · desactivado por defecto
+       Activa alternativas tipográficas excéntricas de Fraunces. Se mantiene
+       en 0 para toda la web. Reservado para casos futuros concretos.
+       ───────────────────────────────────────────────────────────────────── */
+
+    --wonk-desactivado: 0;
+
+
+    /* ═══════════════════════════════════════════════════════════════════
+       ESCALA TIPOGRÁFICA · ratio 1.25 sobre base 18px
+       Nombres semánticos, no numéricos. Cada peldaño con tracking,
+       leading y medida máxima recomendada.
+       ═══════════════════════════════════════════════════════════════════ */
+
+    /* Tamaños base (rem para escalabilidad) */
+    --texto-micro:      0.72rem;   /* 11.5px — overline, código pequeño       */
+    --texto-mini:       0.82rem;   /* 13px   — captions, metadatos            */
+    --texto-label:      0.9rem;    /* 14px   — labels de formulario, eyebrows */
+    --texto-cuerpo:     1rem;      /* 16-18px — body por defecto              */
+    --texto-lede:       1.2rem;    /* 19-22px — introducción de sección       */
+    --texto-h4:         1.35rem;   /* 22-24px — h4, subsecciones              */
+    --texto-h3:         1.7rem;    /* 27-30px — h3, títulos de tarjeta        */
+    --texto-h2:         clamp(2rem, 4.5vw, 3.4rem);       /* h2 de sección    */
+    --texto-h1:         clamp(3rem, 10vw, 5.6rem);         /* hero, gigante — mín. 48px móvil */
+    --texto-monumental: clamp(3.6rem, 12vw, 8rem);        /* casos extremos   */
+
+    /* Interlineado (line-height) */
+    --leading-titulo: 1.02;      /* títulos grandes, casi tocando             */
+    --leading-h3:     1.1;       /* títulos medios                            */
+    --leading-h4:     1.25;      /* subtítulos                                */
+    --leading-cuerpo: 1.65;      /* body, generoso para lectura larga         */
+    --leading-lede:   1.55;      /* lede, más aire que cuerpo                 */
+    --leading-label:  1.4;       /* labels, botones                           */
+
+    /* Tracking (letter-spacing) */
+    --tracking-titulo:  -0.03em; /* títulos grandes, condensados              */
+    --tracking-h3:      -0.02em; /* títulos medios                            */
+    --tracking-cuerpo:   0;      /* body, neutro                              */
+    --tracking-label:   0.08em;  /* labels, moderado                          */
+    --tracking-eyebrow: 0.24em;  /* eyebrows, muy espaciado                   */
+    --tracking-overline:0.32em;  /* overline, máximo                          */
+
+    /* Medida máxima (max-width en ch para legibilidad) */
+    --medida-titulo:   20ch;     /* títulos, forzar salto de línea            */
+    --medida-lede:     42ch;     /* lede, cómodo                              */
+    --medida-cuerpo:   62ch;     /* body, óptimo para lectura                 */
+    --medida-cita:     50ch;     /* citas, algo más estrecho                  */
+
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     ANIMACIÓN DE EJES EN SCROLL · el movimiento de firma
+     Registra los ejes SOFT y WGHT como propiedades animables con @property
+     para que scroll-timeline pueda interpolarlos suavemente.
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  @property --paramita-soft {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+  }
+
+  @property --paramita-wght {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 300;
+  }
+}
+
+
+@layer base {
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     APLICACIÓN · clases utilitarias tipográficas
+     Estas clases son los estilos por defecto que aplican los tokens.
+     Un componente puede sobrescribirlos, pero un <h1> escrito sin clase
+     debe verse correctamente.
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  /* Body por defecto */
+  body {
+    font-family: var(--body);
+    font-weight: var(--wght-contemplativo);
+    font-size: var(--texto-cuerpo);
+    line-height: var(--leading-cuerpo);
+    letter-spacing: var(--tracking-cuerpo);
+  }
+
+  /* Títulos · h1 */
+  h1, .h1 {
+    font-family: var(--display);
+    font-weight: var(--wght-contemplativo);
+    font-size: var(--texto-h1);
+    line-height: var(--leading-titulo);
+    letter-spacing: var(--tracking-titulo);
+    max-width: var(--medida-titulo);
+    font-variation-settings:
+      "opsz" var(--opsz-monumental),
+      "SOFT" var(--paramita-soft, 0),
+      "WONK" var(--wonk-desactivado);
+    text-wrap: balance;
+  }
+
+  /* Títulos · h2 */
+  h2, .h2 {
+    font-family: var(--display);
+    font-weight: var(--wght-contemplativo);
+    font-size: var(--texto-h2);
+    line-height: var(--leading-titulo);
+    letter-spacing: var(--tracking-h3);
+    max-width: var(--medida-titulo);
+    font-variation-settings:
+      "opsz" var(--opsz-display),
+      "SOFT" var(--paramita-soft, 0),
+      "WONK" var(--wonk-desactivado);
+    text-wrap: balance;
+  }
+
+  /* Títulos · h3 */
+  h3, .h3 {
+    font-family: var(--display);
+    font-weight: var(--wght-presencia);
+    font-size: var(--texto-h3);
+    line-height: var(--leading-h3);
+    letter-spacing: var(--tracking-h3);
+    font-variation-settings:
+      "opsz" var(--opsz-titulo),
+      "SOFT" var(--paramita-soft, 0);
+  }
+
+  /* Títulos · h4 */
+  h4, .h4 {
+    font-family: var(--display);
+    font-weight: var(--wght-firmeza);
+    font-size: var(--texto-h4);
+    line-height: var(--leading-h4);
+    font-variation-settings:
+      "opsz" var(--opsz-subtitulo),
+      "SOFT" var(--paramita-soft, 0);
+  }
+
+  /* Lede · párrafo de introducción
+     REVISIÓN Fase 4 · legibilidad afinada:
+     Peso subido de contemplativo (300) a presencia (400). En Fraunces
+     italic al 1.2rem sobre fondo cálido, el peso 300 perdía contraste
+     y competía mal con la ligereza del entorno. 400 mantiene el
+     carácter contemplativo pero recupera legibilidad — especialmente
+     crítico en móvil donde el ancho de columna es menor. */
+  .lede {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: var(--wght-presencia);
+    font-size: var(--texto-lede);
+    line-height: var(--leading-lede);
+    max-width: var(--medida-lede);
+    color: var(--texto-suave);
+    font-variation-settings: "opsz" var(--opsz-cuerpo);
+  }
+
+  /* Eyebrow · kicker sobre título */
+  .eyebrow {
+    font-family: var(--body);
+    font-weight: var(--wght-asertivo);
+    font-size: var(--texto-label);
+    line-height: var(--leading-label);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--texto-tenue);
+    display: inline-block;
+  }
+
+  /* Overline · metadatos muy pequeños */
+  .overline {
+    font-family: var(--body);
+    font-weight: var(--wght-firmeza);
+    font-size: var(--texto-micro);
+    letter-spacing: var(--tracking-overline);
+    text-transform: uppercase;
+    color: var(--texto-tenue);
+  }
+
+  /* Label · formularios, botones */
+  label, .label {
+    font-family: var(--body);
+    font-weight: var(--wght-firmeza);
+    font-size: var(--texto-label);
+    letter-spacing: var(--tracking-label);
+    line-height: var(--leading-label);
+  }
+
+  /* Caption · pie de foto, notas */
+  .caption {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: var(--wght-contemplativo);
+    font-size: var(--texto-mini);
+    line-height: var(--leading-lede);
+    color: var(--texto-suave);
+    font-variation-settings: "opsz" var(--opsz-cuerpo);
+  }
+
+  /* Código / mono */
+  code, .code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: var(--texto-micro);
+    background: var(--arena);
+    padding: 0.1em 0.4em;
+    border-radius: 3px;
+    color: var(--antracita);
+  }
+
+  /* Énfasis dentro de títulos (cursivas en dorado)
+     Regla del sistema decidida en Fase 0: las palabras cursivas dentro
+     de títulos van en dorado, no en azul (evita conflicto perceptivo). */
+  h1 em, h2 em, h3 em,
+  .h1 em, .h2 em, .h3 em {
+    font-style: italic;
+    font-weight: var(--wght-contemplativo);
+    color: var(--dorado);
+    font-variation-settings:
+      "opsz" var(--opsz-monumental),
+      "SOFT" var(--paramita-soft, 0);
+  }
+
+}
+
+
+@layer motion {
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     MOVIMIENTO DE FIRMA · el eje SOFT despierta con el scroll
+     Al comenzar la página la tipografía está firme (SOFT 0). Al llegar al
+     final del hero y entrar en el cuerpo se ablanda progresivamente
+     (SOFT 0 → 100), siguiendo la metáfora del cruce.
+
+     Compatibilidad: Chrome 115+, Safari 26+, Firefox 133+.
+     Sin scroll-timeline la tipografía se queda en SOFT 0 (correcto).
+
+     NOTA · Fase 0.1: este movimiento es «en respuesta a» el scroll del
+     usuario, no ambiental identitario. Sigue vigente sin cambios.
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  @supports (animation-timeline: scroll()) {
+
+    :root {
+      animation: paramita-cruce linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0% 40%;
+    }
+
+    @keyframes paramita-cruce {
+      from {
+        --paramita-soft: 0;
+        --paramita-wght: 300;
+      }
+      to {
+        --paramita-soft: 100;
+        --paramita-wght: 320;
+      }
+    }
+  }
+
+  /* Respeto absoluto de prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      animation: none !important;
+      --paramita-soft: 0;
+      --paramita-wght: 300;
+    }
+  }
+
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FIN de paramita-tipografia.css
+   ═══════════════════════════════════════════════════════════════════════════ */

@@ -1,0 +1,926 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-sections.css — Secciones de la home
+   ───────────────────────────────────────────────────────────────────────────
+   Extraído en Fase 3 · Paso 9 · FUSIÓN de cuatro bloques:
+
+     · @layer sections de paramita-styles.css (líneas 462-627)
+     · @layer sections de paramita-refactor-bloques.css:
+         - Section header (líneas 136-178)
+         - Band (líneas 193-316)
+         - Mission (líneas 332-400)
+
+   El refactor incluía mejoras arquitectónicas y de mobile-first que se
+   han adoptado íntegramente para tres bloques (s-head, band, mission).
+   Los demás bloques del archivo (course, trazo, video, blog cards) NO
+   tenían versión refactorizada — se conservan del original con tokens
+   actualizados.
+
+   QUÉ CONTIENE
+   ────────────
+   Cuatro grupos temáticos de la home, en este orden:
+
+     1 · .section, .s-head           layout genérico de sección + header
+     2 · .band                       banda de crowdfunding con degradado identitario
+     3 · .idx, .course, .tags        índice de cursos con franjas expandibles
+     4 · .trazo-divisor              flor de loto SVG a sangre
+     5 · .mission, .video            misión con quote + vídeo trigger
+     6 · .blog, .efx-card            blog con tarjetas en capas
+
+   TRES FUSIONES DEL REFACTOR APLICADAS
+   ────────────────────────────────────
+
+   Fusión 1 · Section header
+   ═════════════════════════
+   · Añadida la variante .section-contemplativa (192px vs 128px estándar)
+     para las secciones que requieren aire adicional.
+   · Cambio de valores absolutos a tokens semánticos (--texto-h2 en lugar
+     de clamp hardcoded, --texto-cuerpo, --espacio-contemplativo).
+
+   Fusión 2 · Band (banda de crowdfunding)
+   ═══════════════════════════════════════
+   · Convertida en grid con gap interno — elimina márgenes individuales
+     de eyebrow, h2, p, botón. Mismo patrón que aplicamos al hero.
+   · Padding cambiado de clamp hardcoded a --espacio-contemplativo (64px).
+   · CORRECCIÓN CRÍTICA · las cursivas del h2 pasan de #fff a --dorado
+     (regla del sistema Fase 1b — todas las cursivas en títulos van en
+     dorado, no en el color del texto base).
+   · El botón .btn-claro gana el "respiro" intencional antes de la CTA
+     (margin-top --espacio-elemento), mismo patrón que el hero.
+
+   Fusión 3 · Mission
+   ══════════════════
+   · MOBILE-FIRST corregido · el grid pasa de 2 columnas forzadas desde
+     móvil a 1 columna en móvil (por defecto) y 2 columnas 7fr:5fr desde
+     tablet (>=768px).
+   · Añadido .mission__contenido como grid interno con gap uniforme
+     (elimina margin-top de body, signed, etc.).
+   · Corrección de cursivas al dorado (misma regla del sistema).
+   · Cambio a tokens semánticos (--texto-h3, --texto-cuerpo).
+
+   TOKENS ANTIGUOS SUSTITUIDOS
+   ───────────────────────────
+   --t-med  →  --t-defecto     (transiciones estándar en course, video,
+                                 efx-card, mission)
+   --t-slow →  --t-revelacion  (transiciones amplias en slit del course,
+                                 poster del video, efx-card entrada)
+   --t-fast →  (no se usa en este archivo)
+
+   HALLAZGO IDENTITARIO · Fase 0.1
+   ───────────────────────────────
+   El .band::before tiene el mismo respiratorio identitario que el logo
+   y el botón amigo (animation: flow linear infinite). Se conecta al
+   sistema con el ritmo --dur-identidad-secundaria (22.5s, ratio 0.9×
+   del logo principal). Es un elemento importante pero no principal —
+   por eso el ritmo casi igual al logo, sin igualarlo.
+
+   El hover DE LA BANDA acelera el respiratorio a 3.4s (respuesta
+   convocada, familia B).
+
+   TAREA FASE 3 · absorber responsive
+   ──────────────────────────────────
+   Las media queries de .mission-grid, .video (max-width: 860px) y de
+   .course, .post, .foot-grid (max-width: 680px) siguen viviendo en
+   paramita-responsive.css. Cuando este componente se estabilice, se
+   traerán aquí y se convertirán a mobile-first con --bp-tablet.
+
+   El @media (max-width: 640px) del .trazo-divisor SÍ se ha absorbido
+   aquí (era interno al bloque en el original).
+   El override de reduced-motion del .trazo-divisor__path también.
+
+   ADEUDA A ABSORBER TAMBIÉN
+   ─────────────────────────
+   El TODO de paramita-responsive.css sobre .band::before para reduced-
+   motion se cumple aquí — el archivo ahora contiene el override.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer sections {
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     1 · SECCIÓN GENÉRICA + HEADER (fusión del refactor)
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .section {
+    position: relative;
+    z-index: 2;
+    padding-block: var(--espacio-orilla);   /* 128px arriba y abajo */
+  }
+
+  /* Variante para secciones contemplativas · más aire */
+  .section-contemplativa {
+    padding-block: var(--espacio-otro-lado);   /* 192px */
+  }
+
+  /* Header de sección · eyebrow + h2 + descripción */
+  .s-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--espacio-grupo);                /* 24px entre título y descripción */
+    margin-bottom: var(--espacio-contemplativo);  /* 64px de aire antes del contenido */
+  }
+
+  .s-head h2 {
+    font-size: var(--texto-h2);
+    max-width: var(--medida-titulo);
+    text-wrap: balance;
+  }
+
+  .s-head .eyebrow {
+    display: block;
+    margin-bottom: var(--espacio-elemento);   /* 16px entre eyebrow y h2 */
+  }
+
+  .s-head p {
+    max-width: 38ch;
+    color: var(--texto-suave);
+    font-size: var(--texto-cuerpo);
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     .head-centrado · gemela de .s-head para cabeceras centradas
+     ─────────────────────────────────────────────────────────────────────
+     Header apilado eyebrow + h2 + p, todo alineado al centro. Úsala en
+     secciones cuya cabecera va centrada (p. ej. mapa del sendero, faceta
+     de filtros, "cómo estudiamos"). Se puede combinar con clases BEM
+     específicas de la sección para overrides puntuales (font-size del h2,
+     márgenes, colores).
+
+     Uso:  <div class="head-centrado mapa__head"> ... </div>
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .head-centrado {
+    text-align: center;
+    max-width: 640px;
+    margin-inline: auto;
+    margin-bottom: var(--espacio-contemplativo);
+  }
+
+  .head-centrado .eyebrow {
+    display: inline-block;
+    margin-bottom: var(--espacio-elemento);
+  }
+
+  .head-centrado h2 {
+    margin-inline: auto;              /* recentra el bloque estrecho por max-width */
+    margin-bottom: var(--espacio-elemento);
+    text-wrap: balance;
+  }
+
+  .head-centrado h2 em {
+    font-style: italic;
+    color: var(--dorado);
+  }
+
+  .head-centrado p {
+    max-width: 520px;
+    margin-inline: auto;
+    color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent));
+    font-size: var(--texto-cuerpo);
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     2 · BAND · banda de crowdfunding con respiratorio identitario
+     ═════════════════════════════════════════════════════════════════════
+     Bloque hero-secundario con foto de fondo, degradado identitario que
+     fluye, y CTA principal. Convertida en grid interno con gap uniforme.
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .band {
+    position: relative;
+    z-index: 2;
+    isolation: isolate;
+    overflow: hidden;
+    /* Fase 5.5b · color base del texto en la banda invertido.
+       Antes: #fff (fondo oscuro).  Ahora: azul-oscuro (fondo luminoso).
+       El nuevo fondo cálido con dorado descentrado deja pasar más luz
+       de la foto, lo que requiere texto oscuro para mantener contraste
+       WCAG AA. */
+    color: var(--azul-oscuro);
+    min-height: 54vh;
+
+    padding: var(--espacio-contemplativo);   /* 64px de aire interior */
+    margin-block: var(--espacio-umbral);     /* 96px de separación arriba y abajo */
+    border-radius: 28px;
+
+    /* Fondo · Fase 4-ajustes · velo beige lineal suave izq→dcha
+       ──────────────────────────────────────────────────────────
+       Cambio de dirección respecto a Fase 5.6d: en lugar de una
+       "columna dura arena 85%" con transición abrupta al 55%, ahora
+       un ÚNICO gradiente lineal muy suave izquierda → derecha que
+       cubre toda la banda sin cortes bruscos.
+
+       Ventajas:
+         · La columna del texto siempre tiene fondo cálido presente
+           (arena densa a la izquierda) sin percepción de "cambio de
+           material" al llegar a la mitad — algo que sí ocurría con la
+           columna 85% opaca y corte al 42%.
+         · La foto del edificio respira progresivamente hacia la
+           derecha (donde el velo llega a transparent).
+         · Sin dorado ambiental (el radial se retira · el dorado
+           sigue vivo como acento tipográfico en el em "refugio de
+           Dharma", no como superficie).
+
+       Se retiene la neblina cálida global muy sutil (12%) que
+       atempera la temperatura de la foto sin quitarle color, y el
+       fallback cálido. */
+    background:
+      linear-gradient(90deg,
+        color-mix(in oklch, var(--arena) 82%, transparent) 0%,
+        color-mix(in oklch, var(--arena) 68%, transparent) 25%,
+        color-mix(in oklch, var(--arena) 42%, transparent) 55%,
+        color-mix(in oklch, var(--arena) 15%, transparent) 80%,
+        transparent 100%),
+      linear-gradient(160deg,
+        color-mix(in oklch, var(--arena) 12%, transparent) 0%,
+        color-mix(in oklch, var(--calido-zen) 12%, transparent) 100%),
+      url("../../assets/img/imagen-muestra-crowfunding.jpg") center/cover no-repeat,
+      linear-gradient(120deg, var(--calido-zen), var(--arcilla));
+
+    /* Grid con gap · elimina margin individuales de eyebrow, h2, p, botón */
+    display: grid;
+    align-content: center;
+    gap: var(--espacio-elemento);            /* 16px entre elementos internos */
+  }
+
+  @supports (corner-shape: superellipse(2)) {
+    .band {
+      border-radius: 40px;
+      corner-shape: superellipse(3);
+    }
+  }
+
+  /* .band::before · Fase 4-ajustes · retirado el radial dorado
+     ───────────────────────────────────────────────────────────
+     Feedback: "olvidarnos del degradado con dorado, poner solo un
+     filtro beige de izquierda a derecha para que se lea bien y ya
+     está sutil y sin cambio brusco".
+
+     El radial dorado que existía en Fase 5.6d (concentrado al 78%
+     horizontal) se retira: el dorado sigue vivo como acento
+     tipográfico en el em "refugio de Dharma", no como superficie
+     ambiental.
+
+     El pseudo-elemento se vacía dejando el resto de la cascada
+     intacta (padding, layout, texto). Si en el futuro quisiéramos
+     recuperar el respiratorio identitario en la banda, este
+     ::before es el lugar. */
+  .band::before {
+    content: none;
+  }
+
+  /* Fase 5.6b · texto en azul-oscuro sobre fondo cálido luminoso.
+     Halos de blanco cálido (tintado hacia lino) en vez de blanco puro
+     — así respetan la temperatura del degradado calido-zen→dorado sin
+     introducir un tono frío que rompería la unidad cromática. Función
+     idéntica: separar el glifo del fondo sin oscurecer la superficie. */
+  .band .eyebrow {
+    color: var(--azul-oscuro);
+    text-shadow: 0 1px 8px rgba(248, 244, 235, 0.75);
+  }
+
+  /* h2 · Fase 4-ajustes · halos cálidos reforzados
+     ────────────────────────────────────────────────
+     El velo pasó de "columna arena 85% dura" a "gradiente lineal
+     suave 82→0%". La zona del texto tiene arena densa pero no
+     opaca: el halo del H2 necesita más presencia para leerse
+     limpio sobre piedra cálida atenuada. */
+  .band h2 {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: var(--texto-h2);
+    line-height: 1.05;
+    max-width: 18ch;
+    text-wrap: balance;
+    color: var(--azul-oscuro);
+    text-shadow: 0 1px 12px rgba(248, 244, 235, 0.85),
+                 0 2px 24px rgba(248, 244, 235, 0.55),
+                 0 1px 3px  rgba(248, 244, 235, 0.65);
+  }
+
+  /* «refugio de Dharma» (em) · Fase 4-ajustes · halo doble
+     ──────────────────────────────────────────────────────
+     Con el velo beige ahora lineal suave (sin columna 85% opaca),
+     el em dorado necesita reforzarse para leerse sobre la piedra
+     cálida que aún se percibe bajo el velo suave.
+
+     Estrategia · halo doble:
+       · Halo interno azul-oscuro muy tenue (55%) · dibuja el borde
+         del glifo desde dentro. A esta opacidad NO se percibe como
+         color, actúa como contorno tipográfico oscuro. El azul es
+         el color de referencia del sistema · reforzar con azul es
+         "contornear con la tinta del texto base".
+       · Halo cálido interno (blanco-lino denso) · amortigua el
+         fondo alrededor del glifo.
+       · Halo cálido difuso · aire ampliado, refuerza la lectura
+         cuando el em cae sobre zonas más luminosas del fondo. */
+  .band h2 em {
+    color: var(--dorado);
+    font-style: italic;
+    text-shadow:
+      0 0 1px  rgba(11, 24, 44, 0.55),          /* contorno · azul-oscuro tenue */
+      0 1px 10px rgba(248, 244, 235, 0.95),     /* halo cálido interno */
+      0 2px 24px rgba(248, 244, 235, 0.55);     /* halo cálido difuso */
+  }
+
+  .band p {
+    max-width: 46ch;
+    color: var(--azul-oscuro);
+    /* Fase 4-ajustes · halo cálido reforzado (mismo criterio que h2). */
+    text-shadow: 0 1px 10px rgba(248, 244, 235, 0.8),
+                 0 2px 20px rgba(248, 244, 235, 0.5);
+  }
+
+  /* Fase 5.5b · CTA de la banda migrado a .btn-umbral (secundario).
+     Coherencia con la jerarquía de tres CTAs · el crowdfunding es una
+     invitación cálida, no una conversión decisiva → el secundario es
+     la elección correcta. Se conserva la composición anterior (ancho
+     generoso, flecha a la derecha, respiro superior) mediante override
+     contextual dentro de .band, sin modificar la definición base de
+     .btn-umbral. Las antiguas reglas .band .btn-claro se han retirado.
+     El texto en azul-oscuro del .btn-umbral funciona directamente
+     sobre el nuevo fondo luminoso (contraste WCAG AA superado). */
+  .band .btn-umbral {
+    display: flex;
+    width: 100%;
+    max-width: 46ch;
+    justify-content: space-between;
+    margin-top: var(--espacio-elemento);
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     3 · CURSOS / NOTICIAS / EVENTOS · franja-imagen expandible
+     ═════════════════════════════════════════════════════════════════════
+     Tarjetas de curso con una franja de imagen (slit) que crece de 74px
+     a 240px en hover. Simple, orgánico, sin decoraciones excesivas.
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .idx {
+    border-top: 1px solid var(--hair);
+  }
+
+  .course {
+    position: relative;
+    display: block;
+    border-bottom: 1px solid var(--hair);
+    overflow: hidden;
+    transition: background var(--t-revelacion);
+  }
+
+  .course:hover {
+    background: var(--calido-zen);
+  }
+
+  /* La franja · crece orgánicamente con la curva de revelación */
+  .course .slit {
+    position: relative;
+    height: 74px;
+    overflow: hidden;
+    transition: height var(--t-revelacion);
+  }
+
+  .course:hover .slit,
+  .course:focus-within .slit {
+    height: 240px;
+  }
+
+  /* Imagen dentro del slit · zoom sutil en reposo, reposa en hover */
+  .course .pic {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 38%;
+    transform: scale(1.14);
+    transition: transform var(--t-revelacion);
+  }
+
+  .course:hover .pic,
+  .course:focus-within .pic {
+    transform: scale(1);
+  }
+
+  /* Velo sobre la imagen para asegurar contraste del texto blanco */
+  .course .pic::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      transparent 40%,
+      rgba(28, 18, 10, 0.45));
+  }
+
+  /* Fila de contenido bajo la franja · fecha, título, tags */
+  .course .row {
+    display: grid;
+    grid-template-columns: 9.5rem 1fr auto;
+    gap: var(--espacio-elemento) var(--espacio-contenido);
+    align-items: center;
+    padding: var(--espacio-elemento) var(--espacio-atomo) var(--espacio-elemento);
+    transition: padding var(--t-defecto);
+  }
+
+  .course:hover .row {
+    padding-inline: var(--espacio-elemento);
+  }
+
+  .course .when {
+    font-size: 0.82rem;
+    color: var(--texto-suave);
+    line-height: 1.45;
+  }
+
+  .course .when b {
+    display: block;
+    font-weight: 600;
+    color: var(--antracita);
+    font-size: 0.86rem;
+  }
+
+  .course h3 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+    letter-spacing: -0.015em;
+    line-height: 1.12;
+    transition: color var(--t-defecto);
+  }
+
+  .course:hover h3 {
+    color: var(--azul-oscuro);
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     TAGS · píldoras semánticas al final de cada curso
+     ───────────────────────────────────────────────────────────────────── */
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espacio-atomo);
+    align-items: center;
+    justify-self: end;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.32em 0.7em;
+    border-radius: 99px;
+    border: 1px solid var(--hair);
+    color: var(--texto-suave);
+    white-space: nowrap;
+  }
+
+  .tag.free {
+    color: var(--azul-oscuro);
+    border-color: color-mix(in oklch, var(--azul-oscuro) 35%, transparent);
+  }
+
+  .tag.soon {
+    color: #9a6b00;
+    border-color: color-mix(in oklch, var(--dorado) 55%, transparent);
+    background: color-mix(in oklch, var(--dorado) 14%, transparent);
+  }
+
+  .idx-foot {
+    margin-top: var(--espacio-contenido);
+  }
+
+  .idx-foot--center {
+    text-align: center;
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     4 · TRAZO DIVISOR · flor de loto SVG a sangre
+     ═════════════════════════════════════════════════════════════════════
+     Divisor decorativo entre secciones. SVG de trazo con degradado que
+     se dibuja mediante stroke-dashoffset animado por JS al hacer scroll.
+     El path del SVG debe llevar la clase .trazo-divisor__path.
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .trazo-divisor {
+    position: relative;
+    z-index: 2;
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    margin-block: clamp(0.4rem, 1.6vh, 1.2rem);
+    pointer-events: none;
+  }
+
+  .trazo-divisor svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  .trazo-divisor__path {
+    fill: none;
+    stroke: url(#divGrad);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.95;
+    will-change: stroke-dashoffset;
+  }
+
+  /* En móvil el trazo es ligeramente más grueso · mejor visibilidad */
+  @media (max-width: 640px) {
+    .trazo-divisor__path {
+      stroke-width: 3.5;
+    }
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     5 · MISSION · misión con quote + vídeo trigger (fusión del refactor)
+     ═════════════════════════════════════════════════════════════════════
+     Mobile-first corregido · una columna en móvil, dos columnas 7:5 en
+     tablet+. Grid interno del contenido con gap uniforme.
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .mission {
+    position: relative;
+    z-index: 2;
+    padding-block: var(--espacio-contemplativo);   /* 64px, ritmo generoso */
+    background: linear-gradient(180deg,
+      transparent,
+      var(--arcilla) 30%,
+      var(--arcilla) 70%,
+      transparent);
+  }
+
+  /* Grid mobile-first · una columna por defecto */
+  .mission-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--espacio-contemplativo);   /* 64px de aire entre texto y vídeo */
+    align-items: center;
+  }
+
+  /* Tablet+ · dos columnas 7fr:5fr (texto principal, vídeo secundario) */
+  @media (min-width: 768px) {
+    .mission-grid {
+      grid-template-columns: 7fr 5fr;
+    }
+  }
+
+  /* El bloque de texto · stack con gap uniforme */
+  .mission__contenido {
+    display: grid;
+    gap: var(--espacio-grupo);   /* 24px entre eyebrow, quote, body, signed */
+  }
+
+  .mission .eyebrow {
+    margin-bottom: 0;   /* Ya no lo necesita — el gap del grid lo gestiona */
+  }
+
+  .mission .quote {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: var(--texto-h3);
+    line-height: 1.18;
+    letter-spacing: -0.015em;
+    max-width: 20ch;
+  }
+
+  /* CORRECCIÓN · cursivas en dorado (regla del sistema Fase 1b) */
+  .mission .quote em {
+    font-style: italic;
+    color: var(--dorado);
+  }
+
+  .mission .body {
+    max-width: 50ch;
+    color: var(--texto-suave);
+    font-size: var(--texto-cuerpo);
+  }
+
+  .mission .signed {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-elemento);
+    font-size: var(--texto-mini);
+    color: var(--texto-suave);
+  }
+
+  .mission .signed .line {
+    width: 38px;
+    height: 1px;
+    background: var(--azul-oscuro);
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     VIDEO · contenedor con poster que dispara el modal
+     ─────────────────────────────────────────────────────────────────────
+     Poster estático con zoom sutil en hover + botón de play centrado.
+     Al hacer click, el JS abre .vmodal (componente paramita-modal.css).
+     ───────────────────────────────────────────────────────────────────── */
+
+  .video {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 24px;
+    overflow: hidden;
+    cursor: pointer;
+    isolation: isolate;
+    box-shadow: 0 40px 80px -40px rgba(40, 33, 26, 0.5);
+  }
+
+  @supports (corner-shape: superellipse(2)) {
+    .video {
+      border-radius: 34px;
+      corner-shape: superellipse(3);
+    }
+  }
+
+  .video .poster {
+    position: absolute;
+    inset: 0;
+    background:
+      url("../../assets/img/bienvenida-paramita.jpg") center/cover no-repeat,
+      linear-gradient(135deg, #3a2a1a, #5a3d22);
+    transition: transform var(--t-revelacion);
+    transform: scale(1.04);
+  }
+
+  .video:hover .poster {
+    transform: scale(1.1);
+  }
+
+  /* Velo inferior para contraste del figcaption */
+  .video::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg,
+      rgba(28, 18, 10, 0.5),
+      transparent 60%);
+  }
+
+  /* Botón de play · círculo blanco centrado con triángulo azul */
+  .video .play {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+  }
+
+  .video .play span {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    display: grid;
+    place-items: center;
+    transition: transform var(--t-defecto),
+                background var(--t-defecto);
+  }
+
+  .video:hover .play span {
+    transform: scale(1.08);
+    background: #fff;
+  }
+
+  /* Triángulo con borders CSS · más eficiente que un SVG */
+  .video .play span::after {
+    content: "";
+    border-left: 24px solid var(--azul-oscuro);
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    margin-left: 6px;
+  }
+
+  .video figcaption {
+    position: absolute;
+    z-index: 2;
+    left: var(--espacio-grupo);
+    bottom: var(--espacio-elemento);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.4);
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     6 · BLOG · tarjetas en capas (efecto 01)
+     ═════════════════════════════════════════════════════════════════════
+     Tarjetas con barra-imagen expandible (82px → 208px), título fantasma
+     detrás, y entrada en cascada al hacer scroll (stagger por JS).
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .blog {
+    position: relative;
+    z-index: 2;
+  }
+
+  .grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: var(--espacio-grupo);
+    margin-top: var(--espacio-contenido);
+  }
+
+  /* Estado inicial · oculto hasta que el JS añada .efx-in
+     Solo aplica si html tiene la clase .js (progressive enhancement) */
+  html.js .efx-card:not(.efx-in) {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  .efx-card {
+    position: relative;
+    display: block;
+    background: var(--card);
+    border: 1px solid var(--hair);
+    border-radius: 20px;
+    overflow: hidden;
+    will-change: transform, opacity;
+    transition: opacity var(--t-revelacion),
+                transform var(--t-revelacion),
+                background var(--t-revelacion),
+                box-shadow var(--t-revelacion);
+  }
+
+  @supports (corner-shape: superellipse(2)) {
+    .efx-card {
+      border-radius: 26px;
+      corner-shape: superellipse(2.6);
+    }
+  }
+
+  .efx-card.efx-in:hover,
+  .efx-card.efx-in:focus-visible {
+    background: color-mix(in oklch, var(--arena) 70%, transparent);
+    transform: translateY(-4px);
+    box-shadow: 0 30px 60px -34px rgba(33, 33, 33, 0.4);
+  }
+
+  /* Barra-imagen · altura reducida en reposo, crece en hover */
+  .efx-card .bar-img {
+    position: relative;
+    height: 82px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--hair);
+    transition: height var(--t-revelacion);
+  }
+
+  .efx-card:hover .bar-img,
+  .efx-card:focus-visible .bar-img {
+    height: 208px;
+  }
+
+  .efx-card .bar-img .pic {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.12);
+    transition: transform var(--t-revelacion);
+  }
+
+  .efx-card:hover .bar-img .pic {
+    transform: scale(1);
+  }
+
+  /* Glifo fantasma · display italic que asoma detrás de la imagen */
+  .efx-card .ghost {
+    position: absolute;
+    top: 54px;
+    left: var(--espacio-elemento);
+    z-index: 0;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 2.6rem;
+    color: var(--azul-oscuro);
+    opacity: 0.14;
+    pointer-events: none;
+    transition: opacity var(--t-revelacion),
+                top var(--t-revelacion);
+  }
+
+  .efx-card:hover .ghost {
+    opacity: 0.07;
+    top: 30px;
+  }
+
+  /* Cuerpo del artículo · texto y kicker */
+  .efx-card .body {
+    position: relative;
+    z-index: 1;
+    padding: var(--espacio-elemento) var(--espacio-elemento) var(--espacio-grupo);
+  }
+
+  .efx-card .kicker {
+    font-family: var(--body);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--azul-oscuro);
+  }
+
+  .efx-card h3 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 1.3rem;
+    line-height: 1.16;
+    letter-spacing: -0.01em;
+    margin: var(--espacio-atomo) 0;
+    text-wrap: balance;
+  }
+
+  .efx-card .body p {
+    color: var(--texto-suave);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  /* Enlace "Leer más" · desplaza gap y flecha en hover */
+  .efx-card__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    margin-top: var(--espacio-elemento);
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 0.86rem;
+    color: var(--azul-oscuro);
+    transition: gap var(--t-defecto),
+                color var(--t-defecto);
+  }
+
+  .efx-card__more span {
+    transition: transform var(--t-defecto);
+  }
+
+  .efx-card:hover .efx-card__more,
+  .efx-card__more:hover {
+    color: var(--dorado);
+  }
+
+  .efx-card__more:hover {
+    gap: 0.7em;
+  }
+
+  .efx-card__more:hover span {
+    transform: translateX(3px);
+  }
+
+  /* Número decorativo · esquina superior derecha */
+  .efx-card .num {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    z-index: 2;
+    font-family: var(--body);
+    font-size: 0.74rem;
+    color: #fff;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     REDUCED-MOTION
+     ─────────────────────────────────────────────────────────────────────
+     Contrato de quietud · Fase 2 y Fase 0.1:
+
+     · .band::before · Fase 5.6b · YA NO tiene animación (el degradado
+       pasó a estático por razones de legibilidad). Regla eliminada.
+     · .trazo-divisor__path · queda dibujado por completo (dashoffset:0).
+     · Las tarjetas .efx-card se muestran directamente en su estado
+       final, sin entrada en cascada.
+     · Las transiciones de hover se anulan globalmente por la salvaguarda
+       de paramita-movimiento.css.
+     ═════════════════════════════════════════════════════════════════════ */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .trazo-divisor__path {
+      stroke-dashoffset: 0 !important;
+    }
+
+    html.js .efx-card {
+      opacity: 1;
+      transform: none;
+    }
+
+  }
+
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FIN de paramita-sections.css
+   ═══════════════════════════════════════════════════════════════════════════ */
