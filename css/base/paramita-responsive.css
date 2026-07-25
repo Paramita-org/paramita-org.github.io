@@ -109,12 +109,15 @@
 
   @media (max-width: 980px) {
 
-    /* Botón hamburguesa · aparece solo en móvil */
+    /* Botón hamburguesa · aparece solo en móvil
+       Ya no lleva margin-left: auto — el empuje a la derecha lo asume
+       el .btn-acceso (que va antes en el DOM y siempre visible en la
+       barra móvil). El burger queda pegado al .btn-acceso con el gap
+       natural del flex del .bar-inner. */
     .burger {
       display: inline-flex;
       flex-direction: column;
       gap: 5px;
-      margin-left: auto;
       width: 44px;
       height: 44px;
       align-items: center;
@@ -234,6 +237,22 @@
     .btn-amigo {
       text-align: center;
       padding-block: 0.95rem;
+    }
+
+    /* Btn-acceso · permanece SIEMPRE VISIBLE en la barra móvil
+       (fuera del menú hamburguesa). Asume el empuje a la derecha con
+       margin-left: auto — así el burger queda pegado a él en el flujo
+       del .bar-inner. Patrón Notion/Linear/Gmail móvil: el acceso a
+       cuenta nunca debe estar oculto tras un menú desplegable. */
+    .btn-acceso {
+      margin-left: auto;
+    }
+
+    /* Ocultar el tooltip «Entrar» en móvil · touch no tiene hover
+       fiable y el ícono es reconocible por sí solo. En pantallas
+       táctiles el usuario simplemente pulsa. */
+    .btn-acceso::after {
+      display: none;
     }
 
     /* Desactivar la atenuación de otros navlinks al hacer hover en móvil */

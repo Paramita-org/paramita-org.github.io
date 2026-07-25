@@ -1,4 +1,34 @@
-<!-- navbar público · sincronizado con partials/navbar-publico.html -->
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     PARAMITA · FUNDACIÓN SAKYA
+     partials/navbar-publico.html — Navbar público (usuarios sin sesión)
+     ───────────────────────────────────────────────────────────────────────────
+
+     CAMBIO FASE 7 · añadido .btn-acceso
+     ────────────────────────────────────
+     Añadido el círculo .btn-acceso al final del .bar-inner (fuera del .menu)
+     para dar entrada al login. Cuando el usuario se autentica, este mismo
+     círculo se sustituye por el .avatar-menu del navbar-practicante (misma
+     posición, mismo tamaño, misma familia lumínica) — continuidad visual
+     entre ambos navbars.
+
+     REORDENACIÓN DEL DOM
+     ────────────────────
+     El .burger se mueve al final del .bar-inner (antes estaba en 3ª posición).
+     El .btn-acceso queda como penúltimo hijo, justo antes del burger, para:
+       · En desktop: aparecer al final de la fila, después de los CTAs.
+       · En móvil: quedar visible en la barra sin abrir el hamburguesa.
+
+     La reordenación no rompe el sibling selector `.nt:checked ~ .menu`
+     porque el input.nt sigue estando ANTES del .menu en el DOM. El label
+     .burger[for="nt"] funciona por atributo, no por proximidad.
+
+     Depende de estos CSS del sistema (ya cargados):
+       · paramita-bar.css     → contenedor sticky, glass, logo
+       · paramita-menu.css    → menú horizontal, links, submenús, caret
+       · paramita-cta.css     → .btn-secundario, .btn-primario, .btn-acceso
+       · paramita-responsive.css → burger + comportamiento móvil
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
 <header class="bar">
   <div class="bar-inner wrap">
 
@@ -13,9 +43,9 @@
       </svg>
     </a>
 
-    <!-- Burger · toggle del menú en móvil (CSS puro con :checked) -->
+    <!-- Input hidden que controla el toggle del menú móvil.
+         DEBE ir antes del .menu para que `.nt:checked ~ .menu` funcione. -->
     <input class="nt" id="nt" type="checkbox" hidden>
-    <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
 
     <!-- Menú principal -->
     <nav class="menu" aria-label="Principal">
@@ -62,5 +92,33 @@
       </div>
 
     </nav>
+
+    <!-- ═════════════════════════════════════════════════════════════════
+         ACCESO A CUENTA · .btn-acceso · Fase 7
+         ─────────────────────────────────────────────────────────────────
+         Círculo con silueta de usuario que lleva al login. Cuando el
+         practicante inicia sesión, este mismo círculo se sustituye por
+         el .avatar-menu del navbar-practicante (Fase 8, pendiente) —
+         continuidad visual: la silueta anónima se convierte en el
+         avatar del usuario.
+
+         Ubicado FUERA del .menu para que en móvil quede siempre visible
+         en la barra sin necesidad de abrir el hamburguesa (patrón
+         consolidado en Notion, Linear, Gmail móvil).
+
+         El tooltip "Entrar" viene del CSS (::after). El aria-label es
+         explícito para lectores de pantalla.
+         ═════════════════════════════════════════════════════════════════ -->
+    <a class="btn-acceso" href="/login" aria-label="Entrar a mi cuenta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+      </svg>
+    </a>
+
+    <!-- Burger · toggle del menú en móvil (CSS puro con :checked).
+         Al final del .bar-inner, funciona por atributo `for="nt"`. -->
+    <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
+
   </div>
 </header>

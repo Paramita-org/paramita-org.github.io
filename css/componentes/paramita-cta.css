@@ -510,8 +510,137 @@
 
   }
 
+
+  /* ═════════════════════════════════════════════════════════════════════
+     ACCESO · .btn-acceso · Fase 7
+     ─────────────────────────────────────────────────────────────────────
+     Círculo pequeño en el navbar público que lleva al login. Cuando el
+     usuario se autentica, este mismo componente cede su posición al
+     .avatar-menu del navbar-practicante — mismo tamaño (42×42), misma
+     posición, misma familia lumínica. El umbral cambia de silueta
+     anónima a rostro conocido: continuidad visual entre ambos navbars.
+
+     PRINCIPIO IDENTITARIO
+     ─────────────────────
+     A diferencia de los btn-primario/secundario, el .btn-acceso NO tiene
+     animación identitaria en reposo (no respira, no fluye). Es funcional
+     y discreto — "espera atento y silencioso" hasta que el usuario lo
+     invoca. Solo en hover intensifica: aro dorado + halo triple (mismo
+     idioma lumínico del btn-primario en su focus/hover).
+
+     Coherente con el principio del sistema: "el hover intensifica lo
+     que ya vive". Aquí lo que vive es la espera silenciosa; lo que se
+     intensifica es la disposición a cruzar.
+
+     TAMAÑO Y POSICIÓN
+     ─────────────────
+     42×42px es la referencia compartida con el .avatar-menu del
+     practicante (Fase 8, pendiente). Se ancla como último hijo del
+     .bar-inner (fuera del .menu) para que en móvil quede siempre
+     visible en la barra sin abrir el hamburguesa. Patrón consolidado
+     en Notion, Linear, Gmail móvil: el acceso a cuenta nunca debe
+     estar detrás de un menú desplegable.
+
+     TOOLTIP «Entrar»
+     ────────────────
+     Aparece como tooltip visual bajo el ícono en hover/focus, redundante
+     con aria-label="Entrar a mi cuenta" para lectores de pantalla. El
+     texto está codificado en el CSS por ahora — se moverá a var o
+     data-attr cuando el sitio se internacionalice.
+
+     En móvil se oculta (touch no tiene hover fiable, y el ícono es
+     universalmente reconocible por sí solo).
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .btn-acceso {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1.4px solid color-mix(in oklch, var(--azul-oscuro) 40%, transparent);
+    color: var(--azul-oscuro);
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    flex: none;
+    outline: none;
+    transition: transform var(--t-defecto),
+                border-color var(--t-defecto),
+                box-shadow var(--t-revelacion);
+  }
+
+  .btn-acceso svg {
+    width: 20px;
+    height: 20px;
+    transition: transform var(--t-hover);
+  }
+
+  /* Hover · el ícono se activa (aro dorado + halo triple)
+     Mismo idioma lumínico del btn-primario en hover, pero sin gradiente
+     de fondo — el círculo permanece transparente, es solo el aro y el
+     halo los que hablan. */
+  .btn-acceso:hover {
+    border-color: var(--dorado);
+    transform: translateY(-1px);
+    box-shadow:
+      0 0 0 3px oklch(78% 0.155 68 / 0.15),
+      0 0 18px 4px oklch(78% 0.155 68 / 0.24),
+      0 0 32px 8px oklch(78% 0.155 68 / 0.10);
+  }
+
+  .btn-acceso:hover svg {
+    transform: scale(1.06);
+  }
+
+  /* Focus-visible · mismo halo pero SIN elevación
+     Accesibilidad: el foco por teclado no debe desplazar el elemento —
+     el usuario que navega con Tab necesita saber dónde está anclado. */
+  .btn-acceso:focus-visible {
+    border-color: var(--dorado);
+    box-shadow:
+      0 0 0 3px oklch(78% 0.155 68 / 0.28),
+      0 0 18px 4px oklch(78% 0.155 68 / 0.24),
+      0 0 32px 8px oklch(78% 0.155 68 / 0.10);
+  }
+
+  /* Tooltip «Entrar» bajo el ícono
+     Aparece con opacidad + traslación sutil en hover y focus-visible.
+     Se ancla a la derecha del botón para no salirse por el borde de
+     la barra en pantallas justo por encima del breakpoint móvil. */
+  .btn-acceso::after {
+    content: "Entrar";
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    font-family: var(--body);
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.005em;
+    color: var(--azul-oscuro);
+    background: color-mix(in oklch, var(--arena) 96%, transparent);
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--hair);
+    box-shadow: 0 6px 20px -12px rgba(40, 33, 26, 0.35);
+    white-space: nowrap;
+    opacity: 0;
+    translate: 0 -4px;
+    pointer-events: none;
+    transition: opacity var(--t-defecto),
+                translate var(--t-defecto);
+  }
+
+  .btn-acceso:hover::after,
+  .btn-acceso:focus-visible::after {
+    opacity: 1;
+    translate: 0 0;
+  }
+
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   FIN de paramita-cta.css · Fase 6
+   FIN de paramita-cta.css · Fase 7
    ═══════════════════════════════════════════════════════════════════════════ */
