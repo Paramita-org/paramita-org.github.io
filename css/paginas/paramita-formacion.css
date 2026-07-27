@@ -150,6 +150,60 @@
 
 
 /* ═══════════════════════════════════════════════════════════════════════
+   PATRÓN COMPARTIDO · HEAD-CENTRADO
+   ═══════════════════════════════════════════════════════════════════════
+   Cabecera editorial reutilizable: eyebrow + h2 + p (opcional), centrada
+   respecto al viewport con un eje óptico estable (max-width acotado y
+   margin auto). Cada bloque que lo use puede sobreescribir el tamaño de
+   h2 y el margin-bottom del contenedor; el resto del ritmo interno queda
+   fijado aquí para que los tres heads (mapa, facetas, como) compartan
+   cadencia visual.
+
+   Estructura HTML esperada:
+     <div class="head-centrado [bloque]__head">
+       <span class="eyebrow">…</span>
+       <h2>Título <em>editorial</em>.</h2>
+       <p>Descripción opcional.</p>
+     </div>
+   ═══════════════════════════════════════════════════════════════════════ */
+.head-centrado {
+  text-align: center;
+  max-width: 720px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+.head-centrado .eyebrow {
+  display: inline-block;
+  margin-bottom: var(--espacio-elemento);
+}
+.head-centrado h2 {
+  font-family: var(--display);
+  font-weight: var(--wght-contemplativo);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  margin-bottom: var(--espacio-elemento);
+  /* Neutraliza max-width: 20ch del h2 global (paramita-tipografia).
+     Sin esto, el h2 queda como un bloque estrecho pegado a la
+     izquierda del contenedor, aunque el texto interno se centre. */
+  max-width: none;
+  margin-inline: auto;
+}
+.head-centrado h2 em {
+  font-style: italic;
+  color: var(--dorado);
+}
+.head-centrado p {
+  color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent));
+  font-size: 1.02rem;
+  max-width: 560px;
+  margin-inline: auto;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
    TRAMO 2 · MAPA DEL SENDERO · cinco niveles como estaciones
    ═══════════════════════════════════════════════════════════════════════ */
 .mapa {
@@ -162,27 +216,13 @@
       var(--lino) 100%);
   overflow: hidden;
 }
+/* Override específico sobre .head-centrado · el mapa tiene el h2 más
+   grande de los tres, para anclar la sección con más peso. */
 .mapa__head {
-  text-align: center;
-  max-width: 640px;
-  margin-inline: auto;
   margin-bottom: var(--espacio-orilla);
-}
-.mapa__head .eyebrow {
-  margin-bottom: var(--espacio-elemento);
-  display: inline-block;
 }
 .mapa__head h2 {
   font-size: clamp(2rem, 3.8vw, 3rem);
-  margin-bottom: var(--espacio-elemento);
-  text-wrap: balance;
-}
-.mapa__head h2 em { font-style: italic; color: var(--dorado); }
-.mapa__head p {
-  color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent));
-  font-size: 1.02rem;
-  max-width: 520px;
-  margin-inline: auto;
 }
 
 .mapa__sendero {
@@ -370,18 +410,15 @@
   padding-block: var(--espacio-contemplativo) var(--espacio-elemento);
   background: var(--lino);
 }
+/* Override específico sobre .head-centrado · en facetas el h2 es más
+   pequeño que en mapa, porque el peso visual lo carga la frase-intención
+   editable que viene justo debajo. */
 .facetas__head {
-  text-align: center;
   margin-bottom: var(--espacio-contemplativo);
-}
-.facetas__head .eyebrow {
-  display: inline-block;
-  margin-bottom: var(--espacio-elemento);
 }
 .facetas__head h2 {
   font-size: clamp(1.6rem, 2.8vw, 2.2rem);
 }
-.facetas__head h2 em { font-style: italic; color: var(--dorado); }
 
 /* La frase */
 .intencion {
@@ -736,20 +773,13 @@
   margin-inline: auto;
   padding-inline: 20px;
 }
+/* Override específico sobre .head-centrado · tamaño de h2 intermedio
+   entre mapa y facetas. */
 .como__head {
-  text-align: center;
   margin-bottom: var(--espacio-orilla);
 }
 .como__head h2 {
   font-size: clamp(1.8rem, 3.2vw, 2.6rem);
-  margin-bottom: var(--espacio-elemento);
-  text-wrap: balance;
-}
-.como__head h2 em { font-style: italic; color: var(--dorado); }
-.como__head p {
-  color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent));
-  max-width: 600px;
-  margin-inline: auto;
 }
 
 .principios {
@@ -833,15 +863,21 @@
 
 /* ═══════════════════════════════════════════════════════════════════════
    TRAMO 7 · CIERRE · réplica del bloque "practiquemos juntos"
-   Fondo idéntico al foot__hero del sistema · texto en italic lino
+   Fondo idéntico al foot__hero del sistema · texto en italic lino.
+
+   Ritmo interno equilibrado (Fase 6 · jul 2026):
+   - padding-block del sistema (--espacio-orilla) igual arriba/abajo.
+   - Sin min-height por viewport: el bloque respira por su contenido, no
+     por altura de pantalla, evitando que el grid centrado exagere los
+     márgenes internos.
+   - Cadencia eyebrow → h2 → p → CTAs con tokens del sistema, coherente
+     con .head-centrado del resto de la página.
    ═══════════════════════════════════════════════════════════════════════ */
 .cierre {
   position: relative;
-  min-height: clamp(36vh, 44vh, 52vh);
-  display: grid;
-  place-items: center;
   text-align: center;
-  padding: clamp(2.4rem, 6vh, 4.5rem) 1.2rem;
+  padding-block: var(--espacio-orilla);
+  padding-inline: 20px;
   overflow: hidden;
   isolation: isolate;
   background:
@@ -858,23 +894,25 @@
   z-index: 1;
   max-width: 720px;
   margin-inline: auto;
-  padding-inline: 20px;
 }
 .cierre .eyebrow {
   color: var(--antracita);
   opacity: 0.8;
   display: inline-block;
-  margin-bottom: var(--espacio-grupo);
+  margin-bottom: var(--espacio-elemento);
 }
 .cierre h2 {
   font-family: var(--display);
-  font-weight: 300;
+  font-weight: var(--wght-contemplativo);
   font-size: clamp(2.4rem, 6vw, 4rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
   color: var(--antracita);
   margin-bottom: var(--espacio-grupo);
   text-wrap: balance;
+  /* Neutraliza max-width: 20ch del h2 global */
+  max-width: none;
+  margin-inline: auto;
 }
 .cierre h2 em {
   font-style: italic;
@@ -886,7 +924,7 @@
   font-size: 1.05rem;
   max-width: 520px;
   margin-inline: auto;
-  margin-bottom: var(--espacio-contemplativo);
+  margin-bottom: var(--espacio-grupo);
   line-height: 1.5;
   text-wrap: pretty;
 }
