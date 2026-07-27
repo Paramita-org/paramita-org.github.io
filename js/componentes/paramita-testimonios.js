@@ -59,24 +59,31 @@
    manualmente (rueda, teclado si el CSS lo permite, swipe táctil),
    pero no se mueve solo.
 
-   FIX MÓVIL · Fase 6 (jul 2026)
-   ─────────────────────────────
-   Bug detectado en producción: en móvil el auto-avance no fluía.
-   Causa: los listeners `pointerover`/`pointerout` se disparaban
-   con el primer tap táctil (los eventos pointer se emiten también
-   para touch), poniendo `paused = true`. El `pointerout` correspondiente
-   no siempre llegaba (si el gesto se convierte en scroll vertical),
-   dejando el carrusel pausado indefinidamente hasta el siguiente
-   `touchend`.
+   FIX MÓVIL · Fase 6.1 (jul 2026)
+   ───────────────────────────────
+   Bug persistente en móvil: el auto-avance seguía sin fluir tras el
+   intento previo (filtrar pointerType === 'mouse'). Causa raíz más
+   profunda: iOS Safari emite eventos pointer con `pointerType` a veces
+   vacío o 'touch' incluso en fase inicial, y algunos taps táctiles
+   disparaban pointerover sin pointerout correspondiente.
 
-   Fix: los listeners de pointer que controlan la pausa por hover
-   ahora filtran por `e.pointerType === 'mouse'`. En táctil la pausa
-   la gestiona exclusivamente el par touchstart/touchend, que ya
-   existía y funciona correctamente (reanuda tras 600ms de soltar).
+   Solución estructural · media query de capacidad del dispositivo:
+     · matchMedia('(hover: hover) and (pointer: fine)') detecta si el
+       dispositivo tiene un puntero de precisión (ratón/trackpad).
+     · Los listeners de pausa por hover SOLO se registran si esa
+       condición es true. En dispositivos táctiles puros no existen.
+     · La pausa táctil sigue vía touchstart/touchend, que es fiable.
 
-   La clase `.is-active` (destacado visual) sí se sigue aplicando
-   con pointerover en cualquier tipo de puntero para conservar el
-   feedback visual del tap.
+   Esta técnica es la recomendada por MDN y Kilian Valkhof para
+   distinguir hover-capable de touch-only. Es más robusta que filtrar
+   por pointerType porque no depende del comportamiento por vendor.
+
+   VELOCIDAD · Fase 6.1
+   ────────────────────
+   Subida de 0.55 px/frame → 1.0 px/frame (aprox. 60 px/s a 60fps).
+   Sigue siendo contemplativo pero se percibe movimiento. Feedback
+   del uso real: a 0.55 se leía como "casi estático", con la
+   sensación de que "no se mueve".
 
    NOTA SOBRE EL RECÁLCULO
    ───────────────────────
@@ -114,7 +121,15 @@
   const half = () => track.scrollWidth / 2; // ancho de un set
 
   let paused = false;
-  const SPEED = 0.55; // px por frame (suave y contemplativo)
+  const SPEED = 1.0; // Fase 6.1: 0.55 → 1.0 (60 px/s, contemplativo pero perceptible)
+
+  // Fase 6.1 · detección estructural de dispositivo hover-capable
+  // ─────────────────────────────────────────────────────────────
+  // (hover: hover) → el puntero primario puede hacer hover
+  // (pointer: fine) → el puntero primario es preciso (ratón/trackpad)
+  // La combinación descarta táctil puro. En dispositivos táctiles esta
+  // condición es false → los listeners de pausa por hover NO se registran.
+  const hoverCapable = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   function normaliza() {
     const h = half();
@@ -141,26 +156,27 @@
 
   const cards = () => [...track.children];
 
-  // Cursor: pausa + destacado
-  // Fase 6 · La PAUSA por hover solo aplica a punteros mouse.
-  // En táctil (pointerType === 'touch'), los eventos pointer se disparan
-  // también pero dejaban el carrusel pausado indefinidamente porque el
-  // pointerout no siempre llegaba. La pausa táctil la gestionan más
-  // abajo los listeners touchstart/touchend. El destacado visual
-  // (.is-active) sí se sigue aplicando para cualquier tipo de puntero.
-  car.addEventListener('pointerover', e => {
-    const card = e.target.closest('.tcard');
-    if (card) {
-      if (e.pointerType === 'mouse') paused = true;
-      card.classList.add('is-active');
-    }
-  });
+  // Cursor (solo dispositivos hover-capable): pausa + destacado
+  // ────────────────────────────────────────────────────────────
+  // Fase 6.1 · Los listeners de pausa por hover se registran ÚNICAMENTE
+  // si el dispositivo tiene hover verdadero (ratón/trackpad). En táctil
+  // puro nunca se registran, evitando los pointerover fantasma de iOS
+  // Safari que dejaban el carrusel pausado indefinidamente.
+  if (hoverCapable) {
+    car.addEventListener('pointerover', e => {
+      const card = e.target.closest('.tcard');
+      if (card) {
+        paused = true;
+        card.classList.add('is-active');
+      }
+    });
 
-  car.addEventListener('pointerout', e => {
-    const card = e.target.closest('.tcard');
-    if (card) card.classList.remove('is-active');
-    if (e.pointerType === 'mouse' && !car.matches(':hover')) paused = false;
-  });
+    car.addEventListener('pointerout', e => {
+      const card = e.target.closest('.tcard');
+      if (card) card.classList.remove('is-active');
+      if (!car.matches(':hover')) paused = false;
+    });
+  }
 
   // Táctil: mantener pausa y destaca; soltar reanuda tras 600 ms
   car.addEventListener('touchstart', e => {

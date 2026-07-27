@@ -1355,30 +1355,30 @@
   }
 
   /* ─────────────────────────────────────────────────────────────────────
-     RESPONSIVE MÓVIL · tcard · Fase 6 (jul 2026)
+     RESPONSIVE MÓVIL · tcard · Fase 6.1 (jul 2026)
      ─────────────────────────────────────────────────────────────────────
-     Feedback visto en captura móvil (iPhone ~390px):
-       · La card resultaba muy estrecha (290px) y muy alta (~900px)
-         porque el min-height 340px + font-size del blockquote grande
-         + ancho corto obligaba a cortar la cita en 5-6 caracteres
-         por línea. Se leía como una columna vertical incómoda.
-       · La comilla watermark (18rem con left: -0.08em) quedaba
-         casi entera fuera del contenedor por la izquierda. Solo
-         asomaba su lado derecho, leyéndose como una mancha dorada
-         abstracta en vez de como signo tipográfico ".
+     Iteración sobre Fase 6 tras revisar en dispositivo real:
 
-     Estrategia · doble corrección coordinada:
-       · Card: flex-basis 78vw (~300px en 390px viewport), padding
-         reducido, min-height eliminado. La card se acomoda al
-         contenido y se lee proporcional.
-       · Blockquote: font-size más pequeño (clamp 1.05rem → 1.25rem)
-         y line-height compacto (1.35). Permite 10-14 caracteres
-         por línea, la cita fluye horizontalmente.
-       · Comilla: reposicionada a top -0.02em, left 0.04em (dentro
-         del contenedor). font-size reducido a clamp(9rem, 32vw,
-         12rem) para que quepa entera con sus dos puntitos visibles.
-         Opacidad subida a 0.22 (antes 0.14) porque el tamaño menor
-         necesita algo más de presencia para leerse como comilla.
+     · Comilla · opacity 0.22 → 0.32. A ese tamaño reducido, las dos
+       gotas del carácter " (U+201C, comilla doble tipográfica) se
+       leían como una sola mancha orgánica. Subiendo opacidad las
+       dos gotas se leen como lo que son: dos gotas.
+
+     · Blockquote · font-size subido a clamp(1.15rem, 5vw, 1.4rem)
+       porque el anterior (1.05rem base) se percibía demasiado
+       pequeño en proporción a la card. La cita es el contenido
+       principal, debe tener peso visual.
+
+     · ttrack padding-block · subido a var(--espacio-contemplativo)
+       (64px, ya lo tenía en base) pero AÑADIENDO padding inline
+       adicional en móvil. Motivo: en móvil, la card destacada con
+       scale(1.035) + box-shadow proyecta sombra por debajo que
+       queda cortada por el overflow-y: hidden implícito del
+       .tcarousel (obligatorio por el overflow-x: auto). No se
+       puede tener overflow-y: visible cuando overflow-x != visible
+       en CSS. La solución es aumentar el padding vertical del
+       .ttrack para que la sombra caiga dentro del área con
+       overflow. 80px arriba y abajo en móvil bastan.
      ───────────────────────────────────────────────────────────────────── */
 
   @media (max-width: 640px) {
@@ -1393,17 +1393,20 @@
       top: -0.02em;
       left: 0.04em;
       font-size: clamp(9rem, 32vw, 12rem);
-      opacity: 0.22;
+      opacity: 0.32;
     }
 
     .tcard blockquote {
-      font-size: clamp(1.05rem, 4.2vw, 1.25rem);
-      line-height: 1.35;
+      font-size: clamp(1.15rem, 5vw, 1.4rem);
+      line-height: 1.4;
     }
 
     .ttrack {
       gap: var(--espacio-elemento);
-      padding: var(--espacio-grupo) clamp(0.75rem, 4vw, 1.5rem);
+      /* padding-block ampliado a 80px para que la sombra de la card
+         destacada (~50px de proyección con scale 1.035) no se corte
+         por el overflow-y forzado del .tcarousel */
+      padding: 80px clamp(0.75rem, 4vw, 1.5rem);
     }
   }
 

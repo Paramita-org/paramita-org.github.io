@@ -187,10 +187,10 @@
        fallback cálido. */
     background:
       linear-gradient(90deg,
-        color-mix(in oklch, var(--arena) 82%, transparent) 0%,
-        color-mix(in oklch, var(--arena) 68%, transparent) 25%,
-        color-mix(in oklch, var(--arena) 42%, transparent) 55%,
-        color-mix(in oklch, var(--arena) 15%, transparent) 80%,
+        color-mix(in oklch, var(--arena) 92%, transparent) 0%,
+        color-mix(in oklch, var(--arena) 82%, transparent) 25%,
+        color-mix(in oklch, var(--arena) 55%, transparent) 55%,
+        color-mix(in oklch, var(--arena) 20%, transparent) 80%,
         transparent 100%),
       linear-gradient(160deg,
         color-mix(in oklch, var(--arena) 12%, transparent) 0%,
@@ -259,41 +259,33 @@
                  0 1px 3px  rgba(248, 244, 235, 0.65);
   }
 
-  /* «refugio de Dharma» (em) · Fase 6 · contorno reforzado
-     ──────────────────────────────────────────────────────
-     Feedback: el em dorado "no se acaba de leer del todo" sobre la
-     foto del edificio. Diagnóstico visto en captura: el dorado sobre
-     el gris cálido del edificio pierde contorno en las zonas donde
-     el velo arena está menos denso (centro-derecha), y su peso 300
-     heredado del h2 lo hace parecer un rótulo "más ligero" que el
-     texto azul, cuando por jerarquía identitaria debería ser el
-     acento más fuerte.
+  /* «refugio de Dharma» (em) · Fase 6c · vuelta a tipografía limpia
+     ────────────────────────────────────────────────────────────────
+     Historia de iteraciones sobre este em:
+       · Fase 4-ajustes: halo doble cálido (funcionaba, contraste algo
+         justo en zonas de la foto).
+       · Fase 6a (descartada): contorno oscuro cuádruple. Restaba
+         elegancia al Fraunces italic — se leía como "letra recortada".
+       · Fase 6b (descartada): fondo lino translúcido con box-decoration-
+         break. Se leía como post-it — mancha blanca sobre la foto.
 
-     Cambios respecto al halo doble anterior:
-       · font-weight: 400 (antes heredaba 300 del h2). El dorado con
-         más peso lee como acento intencional, no como "italic
-         ornamental".
-       · letter-spacing: -0.01em · compensa el peso extra y mantiene
-         la caja tipográfica ceñida.
-       · Contorno oscuro reforzado: azul-oscuro a 0.85 (antes 0.55)
-         en un radio de 1px repetido en cuatro direcciones. Dibuja
-         un borde definido del glifo dorado, funciona sobre cualquier
-         zona de la foto (arena densa, piedra visible o cielo).
-       · Halo cálido interno atenuado (0.95 → 0.55) · antes competía
-         con el contorno oscuro y difuminaba las serifas del Fraunces.
-       · Se retira el halo difuso amplio · con el contorno oscuro ya
-         no hace falta separación atmosférica; el em respira solo. */
+     Fase 6c · decisión estructural: el em NO carga con la muleta de
+     contraste. La carga la asume la SUPERFICIE de la banda, cuyo
+     velo arena se refuerza en la zona del texto (ver .band background,
+     gradiente 92→82→55→20→0% en vez de 82→68→42→15→0%). El em
+     queda limpio con su halo doble cálido original, que en esta
+     ocasión sí funciona porque el fondo bajo él ya es suficientemente
+     denso.
+
+     Este es el principio identitario correcto: la tipografía no
+     lleva contornos ni fondos locales. Los elementos respiran limpios
+     y la composición del entorno es la que garantiza la lectura. */
   .band h2 em {
     color: var(--dorado);
     font-style: italic;
-    font-weight: 400;
-    letter-spacing: -0.01em;
     text-shadow:
-       1px  0    0 rgba(11, 24, 44, 0.85),      /* contorno derecha */
-      -1px  0    0 rgba(11, 24, 44, 0.85),      /* contorno izquierda */
-       0    1px  0 rgba(11, 24, 44, 0.85),      /* contorno abajo */
-       0   -1px  0 rgba(11, 24, 44, 0.85),      /* contorno arriba */
-       0    1px 10px rgba(248, 244, 235, 0.55); /* halo cálido interno atenuado */
+      0 1px 12px rgba(248, 244, 235, 0.9),      /* halo cálido interno */
+      0 2px 26px rgba(248, 244, 235, 0.55);     /* halo cálido difuso */
   }
 
   .band p {
