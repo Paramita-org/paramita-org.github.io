@@ -141,49 +141,6 @@
 
 
   /* ═════════════════════════════════════════════════════════════════════
-     .head-centrado · gemela de .s-head para cabeceras centradas
-     ─────────────────────────────────────────────────────────────────────
-     Header apilado eyebrow + h2 + p, todo alineado al centro. Úsala en
-     secciones cuya cabecera va centrada (p. ej. mapa del sendero, faceta
-     de filtros, "cómo estudiamos"). Se puede combinar con clases BEM
-     específicas de la sección para overrides puntuales (font-size del h2,
-     márgenes, colores).
-
-     Uso:  <div class="head-centrado mapa__head"> ... </div>
-     ═════════════════════════════════════════════════════════════════════ */
-
-  .head-centrado {
-    text-align: center;
-    max-width: 640px;
-    margin-inline: auto;
-    margin-bottom: var(--espacio-contemplativo);
-  }
-
-  .head-centrado .eyebrow {
-    display: inline-block;
-    margin-bottom: var(--espacio-elemento);
-  }
-
-  .head-centrado h2 {
-    margin-inline: auto;              /* recentra el bloque estrecho por max-width */
-    margin-bottom: var(--espacio-elemento);
-    text-wrap: balance;
-  }
-
-  .head-centrado h2 em {
-    font-style: italic;
-    color: var(--dorado);
-  }
-
-  .head-centrado p {
-    max-width: 520px;
-    margin-inline: auto;
-    color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent));
-    font-size: var(--texto-cuerpo);
-  }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
      2 · BAND · banda de crowdfunding con respiratorio identitario
      ═════════════════════════════════════════════════════════════════════
      Bloque hero-secundario con foto de fondo, degradado identitario que
@@ -302,29 +259,41 @@
                  0 1px 3px  rgba(248, 244, 235, 0.65);
   }
 
-  /* «refugio de Dharma» (em) · Fase 4-ajustes · halo doble
+  /* «refugio de Dharma» (em) · Fase 6 · contorno reforzado
      ──────────────────────────────────────────────────────
-     Con el velo beige ahora lineal suave (sin columna 85% opaca),
-     el em dorado necesita reforzarse para leerse sobre la piedra
-     cálida que aún se percibe bajo el velo suave.
+     Feedback: el em dorado "no se acaba de leer del todo" sobre la
+     foto del edificio. Diagnóstico visto en captura: el dorado sobre
+     el gris cálido del edificio pierde contorno en las zonas donde
+     el velo arena está menos denso (centro-derecha), y su peso 300
+     heredado del h2 lo hace parecer un rótulo "más ligero" que el
+     texto azul, cuando por jerarquía identitaria debería ser el
+     acento más fuerte.
 
-     Estrategia · halo doble:
-       · Halo interno azul-oscuro muy tenue (55%) · dibuja el borde
-         del glifo desde dentro. A esta opacidad NO se percibe como
-         color, actúa como contorno tipográfico oscuro. El azul es
-         el color de referencia del sistema · reforzar con azul es
-         "contornear con la tinta del texto base".
-       · Halo cálido interno (blanco-lino denso) · amortigua el
-         fondo alrededor del glifo.
-       · Halo cálido difuso · aire ampliado, refuerza la lectura
-         cuando el em cae sobre zonas más luminosas del fondo. */
+     Cambios respecto al halo doble anterior:
+       · font-weight: 400 (antes heredaba 300 del h2). El dorado con
+         más peso lee como acento intencional, no como "italic
+         ornamental".
+       · letter-spacing: -0.01em · compensa el peso extra y mantiene
+         la caja tipográfica ceñida.
+       · Contorno oscuro reforzado: azul-oscuro a 0.85 (antes 0.55)
+         en un radio de 1px repetido en cuatro direcciones. Dibuja
+         un borde definido del glifo dorado, funciona sobre cualquier
+         zona de la foto (arena densa, piedra visible o cielo).
+       · Halo cálido interno atenuado (0.95 → 0.55) · antes competía
+         con el contorno oscuro y difuminaba las serifas del Fraunces.
+       · Se retira el halo difuso amplio · con el contorno oscuro ya
+         no hace falta separación atmosférica; el em respira solo. */
   .band h2 em {
     color: var(--dorado);
     font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
     text-shadow:
-      0 0 1px  rgba(11, 24, 44, 0.55),          /* contorno · azul-oscuro tenue */
-      0 1px 10px rgba(248, 244, 235, 0.95),     /* halo cálido interno */
-      0 2px 24px rgba(248, 244, 235, 0.55);     /* halo cálido difuso */
+       1px  0    0 rgba(11, 24, 44, 0.85),      /* contorno derecha */
+      -1px  0    0 rgba(11, 24, 44, 0.85),      /* contorno izquierda */
+       0    1px  0 rgba(11, 24, 44, 0.85),      /* contorno abajo */
+       0   -1px  0 rgba(11, 24, 44, 0.85),      /* contorno arriba */
+       0    1px 10px rgba(248, 244, 235, 0.55); /* halo cálido interno atenuado */
   }
 
   .band p {
@@ -335,16 +304,21 @@
                  0 2px 20px rgba(248, 244, 235, 0.5);
   }
 
-  /* Fase 5.5b · CTA de la banda migrado a .btn-umbral (secundario).
+  /* Fase 5.5b (renombrado en Fase 6) · CTA de la banda es secundario.
      Coherencia con la jerarquía de tres CTAs · el crowdfunding es una
      invitación cálida, no una conversión decisiva → el secundario es
      la elección correcta. Se conserva la composición anterior (ancho
      generoso, flecha a la derecha, respiro superior) mediante override
      contextual dentro de .band, sin modificar la definición base de
-     .btn-umbral. Las antiguas reglas .band .btn-claro se han retirado.
-     El texto en azul-oscuro del .btn-umbral funciona directamente
-     sobre el nuevo fondo luminoso (contraste WCAG AA superado). */
-  .band .btn-umbral {
+     .btn-secundario. Las antiguas reglas .band .btn-claro se han retirado.
+     El texto en azul-oscuro del .btn-secundario funciona directamente
+     sobre el nuevo fondo luminoso (contraste WCAG AA superado).
+
+     Fase 6 · corrección de nomenclatura: el selector era .btn-umbral
+     (obsoleto tras la unificación Fase 6 → .btn-secundario). Sin este
+     renombrado, el max-width no se aplicaba y el botón crecía hasta
+     el ancho completo de la banda en desktop. */
+  .band .btn-secundario {
     display: flex;
     width: 100%;
     max-width: 46ch;

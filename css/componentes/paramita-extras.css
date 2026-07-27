@@ -1354,6 +1354,59 @@
     background: linear-gradient(270deg, var(--base-bg), transparent);
   }
 
+  /* ─────────────────────────────────────────────────────────────────────
+     RESPONSIVE MÓVIL · tcard · Fase 6 (jul 2026)
+     ─────────────────────────────────────────────────────────────────────
+     Feedback visto en captura móvil (iPhone ~390px):
+       · La card resultaba muy estrecha (290px) y muy alta (~900px)
+         porque el min-height 340px + font-size del blockquote grande
+         + ancho corto obligaba a cortar la cita en 5-6 caracteres
+         por línea. Se leía como una columna vertical incómoda.
+       · La comilla watermark (18rem con left: -0.08em) quedaba
+         casi entera fuera del contenedor por la izquierda. Solo
+         asomaba su lado derecho, leyéndose como una mancha dorada
+         abstracta en vez de como signo tipográfico ".
+
+     Estrategia · doble corrección coordinada:
+       · Card: flex-basis 78vw (~300px en 390px viewport), padding
+         reducido, min-height eliminado. La card se acomoda al
+         contenido y se lee proporcional.
+       · Blockquote: font-size más pequeño (clamp 1.05rem → 1.25rem)
+         y line-height compacto (1.35). Permite 10-14 caracteres
+         por línea, la cita fluye horizontalmente.
+       · Comilla: reposicionada a top -0.02em, left 0.04em (dentro
+         del contenedor). font-size reducido a clamp(9rem, 32vw,
+         12rem) para que quepa entera con sus dos puntitos visibles.
+         Opacidad subida a 0.22 (antes 0.14) porque el tamaño menor
+         necesita algo más de presencia para leerse como comilla.
+     ───────────────────────────────────────────────────────────────────── */
+
+  @media (max-width: 640px) {
+    .tcard {
+      flex-basis: 78vw;
+      min-height: 0;
+      padding: var(--espacio-grupo);
+      gap: var(--espacio-elemento);
+    }
+
+    .tcard::before {
+      top: -0.02em;
+      left: 0.04em;
+      font-size: clamp(9rem, 32vw, 12rem);
+      opacity: 0.22;
+    }
+
+    .tcard blockquote {
+      font-size: clamp(1.05rem, 4.2vw, 1.25rem);
+      line-height: 1.35;
+    }
+
+    .ttrack {
+      gap: var(--espacio-elemento);
+      padding: var(--espacio-grupo) clamp(0.75rem, 4vw, 1.5rem);
+    }
+  }
+
 
   /* ═════════════════════════════════════════════════════════════════════
      7 · CTA-FINAL · zoom-word + halo radial dorado (Fase 5.4)

@@ -45,26 +45,33 @@
    · #4A9DD1  azul-sutil
    · #EBDEC4  cálido-zen
 
-   FÍSICA
+   FÍSICA · Fase 6 · ritmo ralentizado a la mitad (jul 2026)
    ──────
-   · Velocidad inicial: ±0.6 px/frame por eje
+   · Velocidad inicial: ±0.30 px/frame por eje  (antes ±0.60)
+   · Perturbación sinusoidal: 0.010                (antes 0.020)
    · Fricción (amortiguación): vx *= 0.99, vy *= 0.99
-   · Velocidad mínima: 0.3 (no se paran del todo)
-   · Velocidad máxima: 5.0 (no se disparan)
+   · Velocidad mínima: 0.15  (antes 0.30 · flotan más lento)
+   · Velocidad máxima: 2.5   (antes 5.0 · nunca se disparan)
    · Rebote: vx/vy *= -0.8 (pérdida de energía en cada choque)
-   · Radio de repulsión del cursor: 140 px
-   · Radio de impulso al clic: 170 px con fuerza 7
+   · Radio de repulsión del cursor: 140 px  (fuerza suavizada a 0.35)
+   · Radio de impulso al clic: 170 px con fuerza 4  (antes 7)
+
+   Feedback recurrente: las flores se percibían "nerviosas" respecto a
+   la voz contemplativa del sistema. La reducción a la mitad de todas
+   las magnitudes (velocidad, perturbación, impulso) mantiene la misma
+   composición visual pero con un ritmo que rima con la respiración
+   ambiental del resto de la home (24-27s por ciclo).
 
    CANTIDADES
    ──────────
-   · Móvil (≤640px):  10 lotos
-   · Escritorio:      16 lotos
-   · Radio:           28-54 px  (diámetro 56-108 px)
+   · Móvil (≤640px):  10 lotos  ·  radio 20-38 px  (diámetro 40-76 px)
+   · Escritorio:      16 lotos  ·  radio 28-54 px  (diámetro 56-108 px)
 
-   Estas cantidades y tamaños se ajustaron en Fase 5.6 respecto a las
-   originales (bolas circulares, N=28/16, r=16-42) para compensar la
-   mayor ocupación visual del loto y evitar saturación en el footer
-   más bajo del nuevo diseño.
+   El tamaño móvil se redujo en Fase 6 (~28% más pequeñas) porque en
+   pantallas estrechas los lotos de 108px de diámetro competían con
+   el texto "Practiquemos juntos" del prefooter. El nuevo rango 40-76
+   px deja la composición leerse como "flores flotando alrededor del
+   texto" en vez de "flores encima del texto".
 
    DEGRADACIÓN GRÁCIL
    ──────────────────
@@ -133,14 +140,18 @@
   addEventListener('resize', resize, { passive: true });
 
   // Cantidad y tamaño (ver cabecera para el histórico de ajustes)
-  const N = matchMedia('(max-width: 640px)').matches ? 10 : 16;
+  // Fase 6 · velocidad inicial reducida a la mitad, radio móvil reducido ~28%
+  const esMovil = matchMedia('(max-width: 640px)').matches;
+  const N = esMovil ? 10 : 16;
+  const R_MIN = esMovil ? 20 : 28;
+  const R_RANGO = esMovil ? 18 : 26;   // móvil: 20-38 · desktop: 28-54
   for (let i = 0; i < N; i++) {
     lotos.push({
       x: Math.random() * W,
       y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 1.2,
-      vy: (Math.random() - 0.5) * 1.2,
-      r: 28 + Math.random() * 26,   // diámetro 56-108 px
+      vx: (Math.random() - 0.5) * 0.6,   // Fase 6: era 1.2 (±0.6 → ±0.3)
+      vy: (Math.random() - 0.5) * 0.6,   // Fase 6: era 1.2
+      r: R_MIN + Math.random() * R_RANGO,
       c: COL[i % COL.length],
       ph: Math.random() * Math.PI * 2
     });
@@ -198,8 +209,8 @@
       const dy = b.y - p.y;
       const d = Math.hypot(dx, dy) || 1;
       if (d < 170) {
-        b.vx += dx / d * 7;
-        b.vy += dy / d * 7;
+        b.vx += dx / d * 4;   // Fase 6: era 7 (impulso más suave)
+        b.vy += dy / d * 4;
       }
     });
   });
@@ -229,24 +240,26 @@
 
     lotos.forEach(b => {
       // Perturbación sinusoidal lenta (evita trayectorias rectas)
+      // Fase 6: reducida a la mitad (0.02 → 0.01) para ritmo contemplativo
       const ang = t * 0.22 + b.ph;
-      b.vx += Math.cos(ang) * 0.02;
-      b.vy += Math.sin(ang * 1.3) * 0.02;
+      b.vx += Math.cos(ang) * 0.01;
+      b.vy += Math.sin(ang * 1.3) * 0.01;
 
-      // Repulsión del cursor
+      // Repulsión del cursor · Fase 6: fuerza 0.5 → 0.35
       const dx = b.x - mouse.x;
       const dy = b.y - mouse.y;
       const d = Math.hypot(dx, dy) || 1;
       if (d < 140) {
-        b.vx += dx / d * 0.5;
-        b.vy += dy / d * 0.5;
+        b.vx += dx / d * 0.35;
+        b.vy += dy / d * 0.35;
       }
 
       // Fricción y límites de velocidad
+      // Fase 6: MIN 0.3 → 0.15 · MAX 5 → 2.5 (movimiento a la mitad)
       b.vx *= 0.99;
       b.vy *= 0.99;
       const sp = Math.hypot(b.vx, b.vy) || 1e-4;
-      const MIN = 0.3, MAX = 5;
+      const MIN = 0.15, MAX = 2.5;
       if (sp < MIN) { b.vx = b.vx / sp * MIN; b.vy = b.vy / sp * MIN; }
       else if (sp > MAX) { b.vx = b.vx / sp * MAX; b.vy = b.vy / sp * MAX; }
 

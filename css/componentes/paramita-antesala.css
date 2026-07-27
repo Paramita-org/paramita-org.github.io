@@ -299,9 +299,9 @@
 
   .antesala__camino .cap-hover-halo {
     stroke: var(--dorado);
-    stroke-width: 10;
-    filter: blur(7px);
-    opacity: 0.55;
+    stroke-width: 5;
+    filter: blur(3px);
+    opacity: 0.45;
     stroke-dasharray: 100;
     stroke-dashoffset: calc(100 - var(--tramo-iluminado));
     transition: stroke-dashoffset var(--dur-deliberado) var(--ease-llegada);
@@ -324,12 +324,21 @@
 
   .antesala__camino .spotlight {
     fill: var(--dorado);
-    r: 8;
-    filter: blur(8px);
+    r: 4;
+    filter: blur(3px);
     opacity: 0;
 
     offset-rotate: 0deg;
     offset-distance: 0%;
+
+    /* Transiciones para el paso a estado "parado" (hover en card):
+       r y filter se interpolan suave; offset-distance salta a la
+       parada correspondiente (comportamiento deseado: el pin aparece
+       en su punto, no viaja hasta él). */
+    transition:
+      opacity var(--t-hover),
+      r var(--t-hover),
+      filter var(--t-hover);
 
     animation:
       spotlight-viaje var(--dur-spotlight) linear infinite,
@@ -343,20 +352,20 @@
 
   @keyframes spotlight-fade {
     0%, 5%    { opacity: 0; }
-    10%, 90%  { opacity: 0.75; }
+    10%, 90%  { opacity: 0.55; }
     95%, 100% { opacity: 0; }
   }
 
-  /* Al hover · spotlight se detiene en la parada correspondiente */
+  /* Al hover · spotlight se detiene en la parada correspondiente
+     como PIN nítido (sin blur, sin animación de pulso). Lectura
+     visual: "destino alcanzado" — un punto luminoso limpio en la
+     intersección de camino × card, no una explosión difusa. */
   .antesala__mapa:has(.antesala__puerta:is(:hover, :focus-visible)) .antesala__camino .spotlight {
-    animation: spotlight-parada 3s ease-in-out infinite;
+    animation: none;
     offset-distance: calc(var(--spotlight-parada) * 1%);
-    opacity: 0.85;
-  }
-
-  @keyframes spotlight-parada {
-    0%, 100% { opacity: 0.7;  scale: 1; }
-    50%      { opacity: 0.95; scale: 1.2; }
+    r: 3;
+    filter: none;
+    opacity: 1;
   }
 
   :root[style*="--identidad-estado: reposo"] .antesala__camino .spotlight {

@@ -59,6 +59,25 @@
    manualmente (rueda, teclado si el CSS lo permite, swipe táctil),
    pero no se mueve solo.
 
+   FIX MÓVIL · Fase 6 (jul 2026)
+   ─────────────────────────────
+   Bug detectado en producción: en móvil el auto-avance no fluía.
+   Causa: los listeners `pointerover`/`pointerout` se disparaban
+   con el primer tap táctil (los eventos pointer se emiten también
+   para touch), poniendo `paused = true`. El `pointerout` correspondiente
+   no siempre llegaba (si el gesto se convierte en scroll vertical),
+   dejando el carrusel pausado indefinidamente hasta el siguiente
+   `touchend`.
+
+   Fix: los listeners de pointer que controlan la pausa por hover
+   ahora filtran por `e.pointerType === 'mouse'`. En táctil la pausa
+   la gestiona exclusivamente el par touchstart/touchend, que ya
+   existía y funciona correctamente (reanuda tras 600ms de soltar).
+
+   La clase `.is-active` (destacado visual) sí se sigue aplicando
+   con pointerover en cualquier tipo de puntero para conservar el
+   feedback visual del tap.
+
    NOTA SOBRE EL RECÁLCULO
    ───────────────────────
    La función `half()` recalcula `scrollWidth / 2` cada vez que se
@@ -123,10 +142,16 @@
   const cards = () => [...track.children];
 
   // Cursor: pausa + destacado
+  // Fase 6 · La PAUSA por hover solo aplica a punteros mouse.
+  // En táctil (pointerType === 'touch'), los eventos pointer se disparan
+  // también pero dejaban el carrusel pausado indefinidamente porque el
+  // pointerout no siempre llegaba. La pausa táctil la gestionan más
+  // abajo los listeners touchstart/touchend. El destacado visual
+  // (.is-active) sí se sigue aplicando para cualquier tipo de puntero.
   car.addEventListener('pointerover', e => {
     const card = e.target.closest('.tcard');
     if (card) {
-      paused = true;
+      if (e.pointerType === 'mouse') paused = true;
       card.classList.add('is-active');
     }
   });
@@ -134,7 +159,7 @@
   car.addEventListener('pointerout', e => {
     const card = e.target.closest('.tcard');
     if (card) card.classList.remove('is-active');
-    if (!car.matches(':hover')) paused = false;
+    if (e.pointerType === 'mouse' && !car.matches(':hover')) paused = false;
   });
 
   // Táctil: mantener pausa y destaca; soltar reanuda tras 600 ms

@@ -75,8 +75,10 @@
 
    COMPATIBILIDAD · corner-shape (2025+)
    ─────────────────────────────────────
-   El .btn-primario usa corner-shape: superellipse(2.4) si el navegador lo
-   soporta (Chrome 133+, Safari 26+). Fallback: border-radius: 99px.
+   El .btn-primario usa corner-shape: superellipse(2.4) sobre border-radius
+   20px si el navegador lo soporta (Chrome 133+, Safari 26+). Fallback:
+   border-radius 14px (Fase 6 · antes 99px, se percibía como píldora plana
+   en móviles antiguos).
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @layer cta {
@@ -110,7 +112,16 @@
     padding: 0.66rem 1.45rem;
     border: none;
     cursor: pointer;
-    border-radius: 99px;
+    /* Fase 6 · fallback border-radius reducido de 99px a 14px.
+       Motivo: en móviles Safari <26 y Chrome <133 el `corner-shape:
+       superellipse` no se soporta y el botón caía al 99px (píldora
+       completa). Sobre viewports estrechos y botones altos (el hero
+       CTA principal en móvil ocupa casi todo el ancho), el 99px se
+       leía como cápsula plana, muy alejada del lenguaje orgánico
+       identitario. 14px preserva la sensación de "esquinas trabajadas"
+       en el fallback, mientras que los navegadores modernos siguen
+       viendo superellipse(2.4) sobre 20px. */
+    border-radius: 14px;
     outline: none;
     text-decoration: none;
     display: inline-block;
