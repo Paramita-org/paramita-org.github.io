@@ -1,0 +1,135 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-suscripcion.css — Formulario de suscripción (cierre de umbral)
+   ───────────────────────────────────────────────────────────────────────────
+   Fase 7 · componente extraído del patrón de newsletter que vivía inline en
+   emi-1-index.html (@layer emi, con prefijo `emi-`). Se promueve a componente
+   reutilizable porque ahora lo usan dos páginas: la home (cierre) y EMI.
+
+   DIFERENCIAS RESPECTO AL PATRÓN emi
+   ──────────────────────────────────
+   · Un solo campo (email) en vez de nombre + email. El recién llegado de la
+     home merece la mínima fricción; el nombre se pide después. En EMI hay más
+     compromiso, por eso allí sí se piden ambos.
+   · Botón `.btn-primario` (no el legacy `.btn-amigo` de emi-1, sin migrar aún).
+   · Centrado, para vivir dentro de `.cta-final` (que es text-align:center).
+
+   PENDIENTE · BACKEND (Alberto)
+   ─────────────────────────────
+   El formulario NO tiene endpoint. Hasta que el backend conecte el servicio
+   de email (Mailchimp / Brevo / propio), el envío es un mock visual gestionado
+   por js/componentes/paramita-suscripcion.js: valida, muestra el acuse y no
+   envía a ningún sitio. El `action`/`method` se añaden cuando el servicio esté
+   decidido.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer suscripcion {
+
+  /* Contenedor · columna estrecha centrada bajo el zoom-word del cierre */
+  .suscribe {
+    margin: var(--espacio-contenido) auto 0;
+    max-width: 30rem;
+    display: grid;
+    gap: 0.85rem;
+    text-align: left;   /* labels y consentimiento legibles a la izquierda */
+  }
+
+  /* Fila email + botón · se apilan en pantallas estrechas */
+  .suscribe__fila {
+    display: flex;
+    gap: 0.6rem;
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+
+  .suscribe__input {
+    flex: 1 1 14rem;
+    min-width: 0;
+    font-family: var(--body);
+    font-size: 1rem;
+    color: var(--antracita);
+    padding: 0.85rem 1.1rem;
+    border-radius: 14px;
+    border: 1px solid var(--hair);
+    background: var(--card);
+    transition: border-color var(--t-med), box-shadow var(--t-med), background var(--t-med);
+  }
+  @supports (corner-shape: superellipse(2)) {
+    .suscribe__input { border-radius: 16px; corner-shape: superellipse(2.2); }
+  }
+  .suscribe__input::placeholder {
+    color: color-mix(in oklch, var(--texto-suave) 60%, transparent);
+  }
+  .suscribe__input:focus {
+    outline: none;
+    border-color: color-mix(in oklch, var(--azul-oscuro) 55%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--azul-sutil) 16%, transparent);
+    background: var(--lino);
+  }
+
+  /* El botón usa .btn-primario (paramita-cta.css); aquí solo el encaje en la fila */
+  .suscribe__btn {
+    flex: 0 0 auto;
+    border: 0;
+    cursor: pointer;
+    font-family: var(--body);
+  }
+  .suscribe__btn[disabled] {
+    cursor: default;
+    opacity: 0.7;
+  }
+
+  /* Consentimiento RGPD · enlace a la política real de Paramita */
+  .suscribe__consent {
+    display: flex;
+    gap: 0.55rem;
+    align-items: flex-start;
+    font-size: 0.82rem;
+    color: var(--texto-suave);
+    line-height: 1.45;
+    cursor: pointer;
+  }
+  .suscribe__consent input {
+    margin-top: 0.18rem;
+    accent-color: var(--azul-oscuro);
+    flex: none;
+  }
+  .suscribe__consent a {
+    color: var(--azul-oscuro);
+    font-weight: 600;
+  }
+
+  /* Acuse de éxito · oculto hasta que el JS añade .is-sent al form */
+  .suscribe__ok {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--azul-oscuro);
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity var(--t-med), transform var(--t-med);
+  }
+  .suscribe.is-sent .suscribe__ok {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Vía de apoyo · discreta, bajo el formulario · hereda el centrado del cierre */
+  .suscribe__apoyo {
+    margin-top: var(--espacio-grupo);
+    font-size: 0.95rem;
+    color: var(--texto-suave);
+  }
+
+  /* Móvil · email y botón a ancho completo, apilados */
+  @media (max-width: 520px) {
+    .suscribe__fila { flex-direction: column; }
+    .suscribe__btn { width: 100%; }
+  }
+
+  /* Contrato de quietud */
+  @media (prefers-reduced-motion: reduce) {
+    .suscribe__input,
+    .suscribe__ok { transition: none; }
+  }
+}

@@ -35,6 +35,7 @@
 <script src="js/componentes/paramita-cta-zoom.js" defer></script>
 <script src="js/componentes/paramita-participacion.js" defer></script>
 <script src="js/componentes/paramita-testimonios.js" defer></script>
+<script src="js/componentes/paramita-suscripcion.js" defer></script>
 <script src="js/componentes/paramita-footer-lotos.js" defer></script>
 
 <!-- 1 · Reset · normalización de navegadores -->
@@ -60,6 +61,7 @@
 <link rel="stylesheet" href="css/componentes/paramita-sections.css">
 <link rel="stylesheet" href="css/componentes/paramita-antesala.css">
 <link rel="stylesheet" href="css/componentes/paramita-extras.css">
+<link rel="stylesheet" href="css/componentes/paramita-suscripcion.css">
 <link rel="stylesheet" href="css/componentes/paramita-modal.css">
 <link rel="stylesheet" href="css/componentes/paramita-footer.css">
 <link rel="stylesheet" href="css/base/paramita-responsive.css">
@@ -139,7 +141,7 @@
       <!-- CTAs a la derecha · nomenclatura Fase 6 -->
       <div class="ctas">
         <a class="btn-secundario" href="/unete">Únete</a>
-        <a class="btn-primario" href="/contribuir">Contribuir</a>
+        <a class="btn-secundario" href="/contribuir">Contribuir</a>
       </div>
 
     </nav>
@@ -206,6 +208,7 @@
 
       <div class="actions">
         <a class="btn-primario" href="https://cursos.paramita.org/home">Aprende a meditar</a>
+        <a class="btn-secundario" href="/formacion/">Explorar los cursos</a>
       </div>
     </div>
 
@@ -460,15 +463,28 @@
   <section class="cta-final wrap" id="amigo" aria-labelledby="cta-t">
     <span class="eyebrow" data-reveal="1">Da el primer paso</span>
     <h2 class="zoom-word" id="cta-t"><span>Respira.</span><em>Observa.</em><span>Suelta.</span></h2>
-    <p class="cta-sub">Empieza hoy, a tu ritmo. Aprende a meditar o acompáñanos contribuyendo en Paramita.</p>
-    <div class="actions">
-      <a class="t-link t-link--primario" href="https://cursos.paramita.org/home">
-        <span class="txt">Aprende a meditar</span><span class="arw" aria-hidden="true">→</span>
-      </a>
-      <a class="t-link t-link--primario" href="/contribuir">
-        <span class="txt">Contribuir</span><span class="arw" aria-hidden="true">→</span>
-      </a>
-    </div>
+    <p class="cta-sub">Ideas sencillas, propuestas de práctica y noticias de Paramita, de vez en cuando, en tu correo.</p>
+
+    <!-- Suscripción · la conversión honesta del que llega · un solo campo.
+         MOCK sin endpoint hasta que el backend conecte el servicio de email. -->
+    <form class="suscribe" id="suscribeForm" novalidate>
+      <div class="suscribe__fila">
+        <input class="suscribe__input" id="suscribe-email" name="email" type="email"
+               autocomplete="email" aria-label="Correo electrónico"
+               placeholder="Tu dirección de correo" required>
+        <button class="btn-primario suscribe__btn" type="submit">Suscribirme</button>
+      </div>
+      <label class="suscribe__consent">
+        <input type="checkbox" id="suscribe-consent" required>
+        <span>Acepto las <a href="https://www.paramita.org/politica-de-privacidad/" target="_blank" rel="noopener">políticas de privacidad</a> y recibir la newsletter de Paramita.</span>
+      </label>
+      <p class="suscribe__ok" role="status" aria-live="polite">Gracias. Te has suscrito correctamente.</p>
+    </form>
+
+    <!-- Vía de apoyo · presente pero en segundo plano, sin competir con la suscripción -->
+    <p class="suscribe__apoyo">¿Prefieres sostener el proyecto?
+      <a class="t-link" href="/contribuir"><span class="txt">Contribuir</span><span class="arw" aria-hidden="true">→</span></a>
+    </p>
   </section>
 
 </main>

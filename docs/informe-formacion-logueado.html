@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landing de cursos · practicante logueado · Informe de diseño</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F0E7; --paper-2:#FBF8F1; --ink:#211E1A; --slate:#6B655B;
+    --azul:#16324E; --azul-2:#0F2439; --dorado:#A8823F; --dorado-lite:#C9A96E;
+    --arena:#E8E0D0; --rule:#DED6C4; --rule-soft:#E9E3D6; --verde:#6E8B6A;
+    --col: min(720px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:clamp(1.02rem,0.5vw + 0.92rem,1.15rem);line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--dorado);z-index:60;transition:width .08s linear}
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dorado);margin:0 0 1.3rem}
+
+  .cover{padding:clamp(3.5rem,9vh,6.5rem) 0 clamp(2rem,5vh,3.5rem)}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.5rem,6.4vw,4.4rem);line-height:1.02;letter-spacing:-.015em;margin:0 0 1.3rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--azul)}
+  .deck{font-size:clamp(1.12rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.2rem}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.2rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--dorado-lite),var(--dorado),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.75rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.45;letter-spacing:-.01em;margin:2.4rem 0 0;color:var(--ink)}
+
+  section{padding:clamp(2.6rem,6vh,4.2rem) 0}
+  .sec-head{margin:0 0 1.8rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.2em;color:var(--dorado);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.08;letter-spacing:-.012em;margin:0}
+  h2 em{font-style:italic;color:var(--azul)}
+  p{margin:0 0 1.1rem}
+  strong{font-weight:650}
+  a{color:var(--azul);text-decoration:underline;text-decoration-color:var(--dorado);text-underline-offset:3px}
+  .drop::first-letter{font-family:"Fraunces",serif;font-weight:500;float:left;font-size:3.4em;line-height:.72;padding:.06em .09em 0 0;color:var(--azul)}
+  .pull{font-family:"Fraunces",serif;font-style:italic;font-weight:400;font-size:clamp(1.3rem,2.3vw,1.85rem);line-height:1.32;letter-spacing:-.01em;color:var(--azul);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:1.5rem 0;margin:2.2rem 0}
+
+  .tbl-wrap{margin:1.8rem 0;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.9rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:.8rem}
+  th,td{text-align:left;padding:.7rem .85rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  thead th{border-bottom:1.5px solid var(--ink);font-family:"Hanken Grotesk";font-weight:650;font-size:.8rem}
+  tbody td:first-child{font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--dorado);white-space:nowrap}
+  tbody tr:hover td{background:var(--paper-2)}
+
+  /* hallazgos (datos) */
+  .dato{border-left:3px solid var(--dorado);padding:0 0 0 1.3rem;margin:1.6rem 0}
+  .dato__k{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dorado);display:block;margin-bottom:.35rem}
+  .dato h3{font-family:"Fraunces",serif;font-weight:500;font-size:1.28rem;line-height:1.15;margin:0 0 .5rem;letter-spacing:-.01em}
+  .dato h3 em{font-style:italic;color:var(--azul)}
+  .dato p{margin:0 0 .6rem;font-size:.99rem;line-height:1.62}
+  .cifra{font-family:"Fraunces",serif;font-weight:500;color:var(--azul);font-size:1.05em}
+  .fuente{font-family:"JetBrains Mono",monospace;font-size:.66rem;color:var(--slate);letter-spacing:.02em}
+
+  /* sendero */
+  .sendero{position:relative;margin:1rem 0 0}
+  .sendero::before{content:"";position:absolute;left:9px;top:6px;bottom:14px;width:2px;background:linear-gradient(180deg,var(--azul),var(--dorado-lite) 55%,var(--dorado));border-radius:2px}
+  .estacion{position:relative;padding:0 0 2.8rem 3rem}
+  .estacion:last-child{padding-bottom:.5rem}
+  .estacion__nodo{position:absolute;left:2px;top:3px;width:18px;height:18px;border-radius:50%;background:var(--paper);border:2px solid var(--dorado);box-shadow:0 0 0 4px var(--paper)}
+  .estacion__nodo::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--dorado);opacity:.85}
+  .estacion__eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dorado);margin:0 0 .4rem}
+  .estacion h3{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.35rem,2.4vw,1.75rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 .3rem;color:var(--ink)}
+  .estacion h3 em{font-style:italic;color:var(--azul)}
+  .estacion__sum{color:var(--slate);font-size:.98rem;margin:0 0 1.1rem}
+  .bloque{margin:0 0 .85rem}
+  .bloque__k{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--azul);display:block;margin-bottom:.15rem;font-weight:500}
+  .bloque__k--ux{color:var(--dorado)}
+  .bloque p{margin:0;font-size:.98rem;line-height:1.62}
+  .capas{display:grid;grid-template-columns:1fr 1fr;gap:.2rem 1.6rem;margin:.85rem 0}
+  .capas .bloque{margin:0}
+
+  .oscuro{background:var(--azul-2);color:var(--paper)}
+  .oscuro h2{color:var(--paper)}.oscuro h2 em{color:var(--dorado-lite)}
+  .oscuro .eyebrow{color:var(--dorado-lite)}.oscuro p{color:#CBD3DC}.oscuro strong{color:#fff}
+  .principios{list-style:none;margin:1.4rem 0 0;padding:0;display:grid;gap:1rem}
+  .principios li{padding-left:1.7em;position:relative;color:#CBD3DC;font-size:.98rem;line-height:1.55}
+  .principios li::before{content:"—";position:absolute;left:0;color:var(--dorado-lite)}
+  .principios b{color:#fff;font-weight:600}
+
+  .note{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--dorado);padding:1.2rem 1.3rem;margin:1.6rem 0;font-size:.96rem;line-height:1.6}
+  .note .k{font-family:"JetBrains Mono",monospace;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dorado);display:block;margin-bottom:.45rem}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+  footer{border-top:1px solid var(--rule);padding:2.4rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em;line-height:1.7}
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (max-width:600px){ .capas{grid-template-columns:1fr} }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.sheen::after{animation:none;transform:translateX(80%)}.reveal{opacity:1;transform:none;transition:none}}
+  :focus-visible{outline:2.5px solid var(--dorado);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- COVER -->
+<header class="flow cover">
+  <p class="eyebrow">Informe de diseño · /formación-logueado/</p>
+  <h1>Reanudar,<br>no <em>convencer</em>.</h1>
+  <p class="deck">Por qué la landing de cursos del practicante logueado se diseñó así: el cambio de trabajo respecto al catálogo público, los datos que lo sostienen y las decisiones UX, UI y gráficas que se derivan.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Alcance</b> · página /formación-logueado/</span>
+    <span><b>Base</b> · estudio 2026 + identidad Paramita</span>
+    <span><b>Bloques</b> · 5</span>
+    <span><b>Fecha</b> · julio 2026</span>
+  </div>
+  <p class="lede">Un desconocido y un practicante no quieren lo mismo. La página pública ayuda a elegir; esta ayuda a continuar. Diseñar las dos igual sería el error caro.</p>
+</header>
+
+<hr class="divider">
+
+<!-- 00 · EL CAMBIO DE TRABAJO -->
+<section class="flow">
+  <div class="sec-head reveal"><span class="sec-num">00 — El cambio de trabajo</span><h2>La misma palabra, otro <em>trabajo</em>.</h2></div>
+  <p class="drop reveal">El catálogo público que rediseñamos hace un trabajo: ayudar a alguien que no nos conoce a orientarse y elegir un primer curso. La landing logueada hace el opuesto: sirve a alguien que <em>ya eligió</em>, que tiene un nivel, cursos empezados e historia con nosotros. Tratar las dos igual desperdicia lo que más importa del que vuelve —que ya no hay que convencerlo—.</p>
+  <p class="reveal">Por eso conviene redefinir "conversión" antes de diseñar. Para un centro de práctica no es vender: es <strong>completar</strong> (que los cursos empezados se terminen), <strong>continuar</strong> (que el sendero avance) y <strong>volver</strong> (recuperar al que se ausentó). Retención y profundización, no volumen. Es la misma ética del "auto-cualificación &gt; volumen" que ya guio el catálogo.</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Público vs. logueado · dos páginas, dos trabajos</caption>
+      <thead><tr><th></th><th>Catálogo público</th><th>Landing logueada</th></tr></thead>
+      <tbody>
+        <tr><td>Trabajo</td><td>Ayudar a elegir el primer curso</td><td>Reanudar y avanzar en el camino</td></tr>
+        <tr><td>Visitante</td><td>No nos conoce · sin nivel</td><td>Practicante · nivel e historial conocidos</td></tr>
+        <tr><td>Palanca</td><td>Orientación, confianza, filtro</td><td>Continuar, progreso, relevancia</td></tr>
+        <tr><td>Tono</td><td>Acoger y convencer</td><td>Reconocer y acompañar</td></tr>
+        <tr><td>"Conversión"</td><td>Primera inscripción cualificada</td><td>Completar · continuar · volver</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="pull reveal">Regla rectora: la capa personalizada va arriba y compacta; el catálogo explorable, reutilizado, va debajo.</p>
+</section>
+
+<hr class="divider">
+
+<!-- 01 · LOS DATOS -->
+<section class="flow">
+  <div class="sec-head reveal"><span class="sec-num">01 — La base de conversión</span><h2>Lo que dicen los <em>datos</em> (2026).</h2></div>
+  <p class="reveal">Seis hallazgos sostienen la estructura. Están contrastados con investigación de usabilidad, casos documentados y —en el punto más sensible para Paramita— con la evidencia sobre gamificación.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">01 · Nuevo vs. recurrente</span>
+    <h3>Son motivaciones <em>opuestas</em></h3>
+    <p>El nuevo responde a señales de confianza; el que vuelve, a relevancia y menos fricción, porque ya decidió que valemos su tiempo. En comercio, el recurrente convierte a <span class="cifra">~3,5–4,5%</span> frente al <span class="cifra">~2,5%</span> del nuevo. Casi todo lo que la página pública usa para <em>convencer</em> (puertas "empiezo hoy", cifras, tira de bienvenida) es ruido para quien ya está dentro.</p>
+    <p class="fuente">Fuentes · análisis de CRO nuevo/recurrente (2024–2025)</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">02 · La palanca principal</span>
+    <h3>"Continuar" es lo <em>primero</em></h3>
+    <p>El equivalente logueado de la tira "Empieza aquí", pero con <em>su</em> curso activo. En un rediseño de plataforma documentado, un botón de "Reanudar" bien colocado junto al progreso se asoció a <span class="cifra">+56%</span> de finalización, <span class="cifra">+60%</span> de engagement y <span class="cifra">−80%</span> de tickets de soporte. Un solo caso —señal, no ley—, pero el patrón es universal en aprendizaje.</p>
+    <p class="fuente">Fuente · caso de rediseño LMS (MyCaptain)</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">03 · Lo más importante para Paramita</span>
+    <h3>Progreso sí, gamificación <em>no</em></h3>
+    <p>Aquí la evidencia respalda el ethos. El efecto de sobrejustificación: al introducir recompensas externas (puntos, insignias, rachas) en algo que ya se disfrutaba —como la práctica—, la motivación intrínseca cae. La racha explota la aversión a la pérdida (se estudia por miedo a perder el número). Lo que sí funciona viene de la Teoría de la Autodeterminación: <strong>autonomía, competencia y relación</strong>. Y el efecto medio de la gamificación es pequeño (<span class="cifra">g ≈ 0,257</span>).</p>
+    <p class="fuente">Fuentes · literatura sobre motivación intrínseca y metaanálisis de gamificación</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">04 · Personalizar sin encerrar</span>
+    <h3>Relevancia, pero con una puerta <em>abierta</em></h3>
+    <p>La personalización retiene (las recomendaciones de Netflix, según sus responsables, ahorran del orden de <span class="cifra">1.000 M$/año</span> en cancelaciones). El matiz: no sobre-segmentar y mezclar lo personalizado con lo general; si solo muestras lo que ya gustó, matas el descubrimiento. Recomendaciones "para ti" arriba; catálogo completo, debajo.</p>
+    <p class="fuente">Fuentes · sistemas de recomendación y buenas prácticas de personalización</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">05 · El vecindario contemplativo</span>
+    <h3>Menos decisiones, feed del <em>día</em>, progreso-reflexión</h3>
+    <p>Insight Timer, Headspace y Calm coinciden en tres cosas: minimizar la toma de decisiones (llevar a la práctica en los menos clics posibles); una vista "Hoy" personalizada y consciente de la hora; y el progreso como <em>reflexión</em> (check-ins de estado) en vez de racha. Con un aviso: el home personalizado tiende a alargarse demasiado —conviene mantener la capa de arriba breve—.</p>
+    <p class="fuente">Fuentes · análisis de apps de meditación (2025–2026)</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">06 · Lo que hay que evitar</span>
+    <h3>El "dashboard de LMS" <em>genérico</em></h3>
+    <p>Casi todas las plantillas empujan al mismo sitio: un panel de métricas, gráficos y tarjetas tipo consola. Es la estética SaaS que choca de frente con la luz mediterránea y editorial de Paramita. La versión logueada usa la personalización; no la exhibe como un tablero.</p>
+    <p class="fuente">Fuentes · patrones de dashboards de aprendizaje</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 02 · LA ESTRUCTURA -->
+<section class="flow">
+  <div class="sec-head reveal"><span class="sec-num">02 — La estructura</span><h2>Cinco bloques, estación a <em>estación</em>.</h2></div>
+  <div class="sendero">
+
+    <article class="estacion reveal">
+      <span class="estacion__nodo" aria-hidden="true"></span>
+      <p class="estacion__eyebrow">01 · Reanuda</p>
+      <h3>Bienvenida contextual + <em>Continuar</em></h3>
+      <p class="estacion__sum">Sustituye al héroe público y a las puertas de perfil: el practicante ya se identificó.</p>
+      <div class="bloque"><span class="bloque__k">Se apoya en</span><p>Datos 01 (recurrente = velocidad/relevancia), 02 ("Continuar" es la palanca) y 05 (un toque para practicar).</p></div>
+      <div class="capas">
+        <div class="bloque"><span class="bloque__k bloque__k--ux">UX</span><p>Saludo sobrio consciente de la hora y, como foco único, la tarjeta del curso en marcha con un CTA "Continuar" a un toque.</p></div>
+        <div class="bloque"><span class="bloque__k">UI / gráfico</span><p>Hereda el idioma de la tarjeta (lino, trazo, dorado) a mayor escala; el progreso se dibuja con nodos estilo sendero.</p></div>
+      </div>
+    </article>
+
+    <article class="estacion reveal">
+      <span class="estacion__nodo" aria-hidden="true"></span>
+      <p class="estacion__eyebrow">02 · Tu sendero</p>
+      <h3>Progreso <em>no gamificado</em></h3>
+      <p class="estacion__sum">El mapa de cinco niveles, personalizado: completado, "estás aquí", por venir.</p>
+      <div class="bloque"><span class="bloque__k">Se apoya en</span><p>Dato 03: competencia y autonomía (SDT) sin recompensas externas. Progreso como orientación, no como marcador.</p></div>
+      <div class="capas">
+        <div class="bloque"><span class="bloque__k bloque__k--ux">UX</span><p>Sentido de avance y ubicación en el camino. Sin racha, sin puntos, sin ranking — nada que "perder".</p></div>
+        <div class="bloque"><span class="bloque__k">UI / gráfico</span><p>Reutiliza el mapa y el trazo; el nodo actual se ilumina en dorado, el recorrido hecho se marca sereno.</p></div>
+      </div>
+    </article>
+
+    <article class="estacion reveal">
+      <span class="estacion__nodo" aria-hidden="true"></span>
+      <p class="estacion__eyebrow">03 · Para ti</p>
+      <h3>Recomendación + <em>descubrimiento</em></h3>
+      <p class="estacion__sum">El siguiente paso del camino, con una carta fuera de nivel para no encerrar.</p>
+      <div class="bloque"><span class="bloque__k">Se apoya en</span><p>Dato 04: personalizar retiene, pero mezclando lo relevante con lo general. Aquí vive el upsell —suave, como paso natural—.</p></div>
+      <div class="capas">
+        <div class="bloque"><span class="bloque__k bloque__k--ux">UX</span><p>2–4 recomendaciones por nivel/camino y una de descubrimiento; el siguiente curso de pago se ofrece sin venta agresiva.</p></div>
+        <div class="bloque"><span class="bloque__k">UI / gráfico</span><p>Reutiliza el mismo carril horizontal validado en el catálogo (fila acotada, cartas que sangran).</p></div>
+      </div>
+    </article>
+
+    <article class="estacion reveal">
+      <span class="estacion__nodo" aria-hidden="true"></span>
+      <p class="estacion__eyebrow">04 · Explorar</p>
+      <h3>Mis cursos / Explorar <em>todo</em></h3>
+      <p class="estacion__sum">Reutiliza tal cual el catálogo público; no reconstruye nada.</p>
+      <div class="bloque"><span class="bloque__k">Se apoya en</span><p>Datos 04 y 06: exploración disponible pero secundaria; sin duplicar el motor de filtros ni caer en tablero.</p></div>
+      <div class="capas">
+        <div class="bloque"><span class="bloque__k bloque__k--ux">UX</span><p>Un conmutador entre "Mis cursos" (inscritos) y "Explorar todo"; el catálogo completo con filtros vive en /formación/.</p></div>
+        <div class="bloque"><span class="bloque__k">UI / gráfico</span><p>Misma cuadrícula y misma tarjeta; se ocultan la tira "Empieza aquí" y las puertas de perfil.</p></div>
+      </div>
+    </article>
+
+    <article class="estacion reveal">
+      <span class="estacion__nodo" aria-hidden="true"></span>
+      <p class="estacion__eyebrow">05 · Sangha</p>
+      <h3>Práctica <em>compartida</em></h3>
+      <p class="estacion__sum">Un bloque ligero de comunidad: la tercera pata de la SDT.</p>
+      <div class="bloque"><span class="bloque__k">Se apoya en</span><p>Dato 03: la relación (relatedness) sostiene la motivación. Paramita es sangha, no producto.</p></div>
+      <div class="capas">
+        <div class="bloque"><span class="bloque__k bloque__k--ux">UX</span><p>Próxima sesión en vivo o grupo de estudio, sin presión ni gancho.</p></div>
+        <div class="bloque"><span class="bloque__k">UI / gráfico</span><p>Banda azul sobria; el estudio en grupo por encima de cualquier marcador.</p></div>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="note reveal">
+    <span class="k">Lo que se retira (y por qué)</span>
+    Fuera las puertas de perfil, la tira "Empieza aquí" y el contenido de confianza para novatos (cifras, "quiénes somos"). Todo eso convence a un desconocido; a un practicante le sobra. Retirarlo es tan deliberado como lo que se añade.
+  </div>
+</section>
+
+<!-- 03 · PRINCIPIOS -->
+<section class="oscuro">
+  <div class="flow">
+    <div class="sec-head reveal"><span class="eyebrow">03 — Principios</span><h2>Las reglas que atraviesan la <em>página</em>.</h2></div>
+    <ul class="principios reveal">
+      <li><b>Personalizado arriba, exploratorio abajo.</b> La relevancia recibe; el descubrimiento evita la burbuja.</li>
+      <li><b>Un toque para continuar.</b> Velocidad y relevancia por encima de persuasión: es un recurrente.</li>
+      <li><b>Progreso = reflexión, jamás juego.</b> Ni rachas, ni puntos, ni ranking. El sendero como metáfora del avance.</li>
+      <li><b>Reutilizar, no reconstruir.</b> Toda la maquinaria del catálogo (filtro, rejilla, tarjeta, trazo) es la sección "Explorar"; lo logueado es una capa aditiva encima.</li>
+      <li><b>Identidad, no consola.</b> Nada de tiles de métricas ni gráficos: luz mediterránea, editorial, calma.</li>
+      <li><b>Estados considerados.</b> En curso · entre cursos · completado · inactivo. El re-enganche llama sin culpa ("te esperábamos"), nunca "perdiste tu racha".</li>
+    </ul>
+    <p class="pull reveal" style="color:var(--dorado-lite);border-color:rgba(255,255,255,.15)">Esta landing hace zoom sobre la dimensión "cursos" de la home logueada de siete bloques: la profundiza, no la duplica.</p>
+  </div>
+</section>
+
+<!-- 04 · ESTADO Y DEPENDENCIAS -->
+<section class="flow">
+  <div class="sec-head reveal"><span class="sec-num">04 — Estado y dependencias</span><h2>Qué falta para <em>poblarla</em>.</h2></div>
+  <div class="note reveal"><span class="k">Contenido simulado</span>Títulos, precios, imágenes, progreso y estado del practicante son placeholder para ver el diseño en contexto. Se sustituyen por datos reales del alumno.</div>
+  <div class="note reveal"><span class="k">Modelo de contenido (LMS)</span>La personalización real —qué curso está en marcha, en qué lección, qué se completó— necesita los datos del aula. Es la decisión pendiente con Alberto y Ale; la estructura es válida en cualquier caso, el <em>cómo</em> se puebla depende de ella.</div>
+  <div class="note reveal"><span class="k">Arquitectura</span>Dónde vive el área logueada (paramita.org vs. cursos.paramita.org) define la URL final. Por eso no conviene casarse aún con ninguna ruta.</div>
+  <div class="note reveal"><span class="k">Navbar-practicante</span>Construido de forma provisional sobre el sistema real (barra + menú): avatar con desplegable de cuenta, acceso directo a Cursos y Actividades, sin los CTAs del público. Se sustituye cuando exista el definitivo.</div>
+  <p class="pull reveal">La página está diseñada y justificada en todo lo que no dependía de decisiones externas. Lo demás es contenido real y una conversación pendiente con el equipo.</p>
+</section>
+
+<footer class="flow">
+  <div>Informe de diseño · Landing de cursos para practicante logueado · Fundació Sakya Paramita · julio 2026 · Documento autocontenido · Datos de terceros citados por fuente; contenido de la página, simulado.</div>
+</footer>
+
+<script>
+  var pb=document.getElementById('progress');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;pb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  }else{document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});}
+</script>
+</body>
+</html>

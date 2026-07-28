@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curso EMI 1: Calma y Lucidez · Paramita</title>
+<meta name="description" content="EMI 1: Calma y Lucidez. El primer módulo del Entrenamiento Mental Integral de Paramita: meditación estructurada, secular y profunda en lengua hispana. Inicio 2027.">
+<link rel="canonical" href="https://paramita.org/formacion/emi-1-calma-y-lucidez/">
+
+<!-- Orden de capas del sistema (determinista aunque se abra el archivo suelto) -->
+<style>@layer reset, tokens, base, fluid, bar, menu, hero, sections, cursos, modal, chat, extras, footer, paginas;</style>
+
+<!-- Tipografías del sistema -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- marca JS activo cuanto antes (evita el parpadeo de los revelados) -->
+<script>document.documentElement.classList.add('js')</script>
+
+<!-- ═══════════ CSS DEL SISTEMA · orden: tokens → base → componentes → páginas ═══════════ -->
+<!-- 1 · tokens -->
+<link rel="stylesheet" href="/css/tokens/paramita-color.css">
+<link rel="stylesheet" href="/css/tokens/paramita-tipografia.css">
+<link rel="stylesheet" href="/css/tokens/paramita-layout.css">
+<link rel="stylesheet" href="/css/tokens/paramita-movimiento.css">
+<!-- 2 · base -->
+<link rel="stylesheet" href="/css/base/paramita-reset.css">
+<link rel="stylesheet" href="/css/base/paramita-base.css">
+<!-- 3 · componentes -->
+<link rel="stylesheet" href="/css/componentes/paramita-fluido.css">
+<link rel="stylesheet" href="/css/componentes/paramita-bar.css">
+<link rel="stylesheet" href="/css/componentes/paramita-menu.css">
+<link rel="stylesheet" href="/css/componentes/paramita-hero.css">
+<link rel="stylesheet" href="/css/componentes/paramita-cursos.css">
+<link rel="stylesheet" href="/css/componentes/paramita-modal.css">
+<link rel="stylesheet" href="/css/componentes/paramita-chat.css">
+<link rel="stylesheet" href="/css/componentes/paramita-extras.css">
+<link rel="stylesheet" href="/css/componentes/paramita-footer.css">
+<!-- 4 · página -->
+<link rel="stylesheet" href="/css/paginas/paramita-curso.css">
+
+<!-- GSAP · ScrollTrigger (scroll effects) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+</head>
+
+<body data-estado="anonimo">
+
+<!-- FONDO GLOBAL · lienzo del fluido WebGL (capa de fondo, no interactiva). -->
+<canvas id="fluido" aria-hidden="true"></canvas>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     NAVBAR · componente compartido (paramita-bar.css + paramita-menu.css)
+     Variante PÚBLICA · IA: Meditación → Cursos → Actividades → Blog → Sobre
+     Pairing de CTAs «otras páginas»: .btn-secundario + .btn-primario
+     aria-current="page" en Cursos (esta ficha vive bajo /formacion/)
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<header class="bar">
+  <div class="bar-inner wrap">
+    <a class="logo" href="/" aria-label="Paramita · inicio">
+      <span class="logo-wave" role="img" aria-label="Paramita"></span>
+    </a>
+
+    <input class="nt" id="nt" type="checkbox" hidden>
+    <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
+
+    <nav class="menu" aria-label="Principal">
+      <ul class="links">
+        <li><a class="navlink" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a></li>
+        <li><a class="navlink" href="/formacion/" aria-current="page">Cursos</a></li>
+        <li class="has-sub">
+          <a class="navlink" href="#actividades" aria-haspopup="true">Actividades <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub" role="menu" aria-label="Actividades">
+            <li role="none"><a role="menuitem" href="#calendario"><strong>Calendario</strong><span>Sesiones y retiros</span></a></li>
+            <li role="none"><a role="menuitem" href="#visita"><strong>Visita el centro</strong><span>Ven a conocernos</span></a></li>
+          </ul>
+        </li>
+        <li><a class="navlink" href="/blog/">Blog</a></li>
+        <li class="has-sub end">
+          <a class="navlink" href="#sobre" aria-haspopup="true">Sobre <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub" role="menu" aria-label="Sobre nosotros">
+            <li role="none"><a role="menuitem" href="#maestros"><strong>Maestros</strong><span>Quién guía la práctica</span></a></li>
+            <li role="none"><a role="menuitem" href="#fundacion"><strong>La fundación</strong><span>Quiénes somos</span></a></li>
+          </ul>
+        </li>
+      </ul>
+      <span class="div" aria-hidden="true"></span>
+      <div class="ctas">
+        <a class="btn-secundario" href="#contacto">Contacto</a>
+        <a class="btn-primario" href="#amigo">Hazte amigo</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ═══ VISTA PREVIA · herramienta de desarrollo para revisar los 3 estados.
+       QUITAR EN PRODUCCIÓN: el estado real lo fija el backend/LMS con data-estado. ═══ -->
+  <div class="estado-toggle" role="group" aria-label="Vista previa del estado del visitante">
+    <span class="estado-toggle__k">vista&nbsp;previa</span>
+    <button type="button" data-set="anonimo" class="is-active">Anónimo</button>
+    <button type="button" data-set="logueado">Logueado</button>
+    <button type="button" data-set="inscrito">Inscrito</button>
+  </div>
+
+  <!-- ═══ BANDA DE ESTADO · una plantilla, tres estados.
+       Solo visible para logueado/inscrito. «Reanudar, no convencer»: el que vuelve
+       encuentra su siguiente paso arriba, sin que la ficha le revenda. ═══ -->
+  <div class="estado-band" role="status">
+    <div class="wrap estado-band__inner">
+      <p class="estado-band__msg estado-band__msg--log">
+        <span class="estado-band__dot" aria-hidden="true"></span>
+        Hola de nuevo, <b>Ana</b> — aún no estás inscrita en este curso.
+      </p>
+      <div class="estado-band__msg estado-band__msg--ins">
+        <p><span class="estado-band__dot" aria-hidden="true"></span>Continúas tu camino · <b>Lección 3 de 8</b></p>
+        <div class="estado-band__barra" aria-hidden="true"><span style="width:37.5%"></span></div>
+      </div>
+      <a class="btn-primario btn-primario--sm estado-band__cta" href="#reanudar">
+        <span class="cta-txt--log">Añadir a mi camino</span>
+        <span class="cta-txt--ins">Reanudar lección</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══ HERO · componente del sistema (paramita-hero.css) + meta de curso ═══ -->
+  <section class="hero" id="hero">
+    <div class="hero__bg" aria-hidden="true">
+      <div class="hero__bg-fallback"></div>
+      <picture class="hero__pic">
+        <source media="(max-width:600px)"  srcset="/assets/img/hero-emi1-movil.jpg">
+        <source media="(max-width:1024px)" srcset="/assets/img/hero-emi1-tablet.jpg">
+        <img src="/assets/img/hero-emi1-desktop.jpg" alt="" loading="eager" fetchpriority="high" onerror="this.closest('.hero__pic').remove()">
+      </picture>
+    </div>
+
+    <div class="wrap hero__inner">
+      <!-- Nodo del sendero · ubica el curso en los 5 niveles de /formacion/ -->
+      <div class="curso-nodo" aria-label="Nivel I · Introducción · primer módulo del sendero">
+        <span class="curso-nodo__puntos" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></span>
+        <span class="curso-nodo__label">Nivel&nbsp;I · Introducción</span>
+      </div>
+
+      <p class="eyebrow" data-reveal="1">El inicio de tu transformación interior</p>
+      <h1 data-reveal="2">Curso EMI 1: <em>Calma y Lucidez</em></h1>
+      <p class="lede">Redescubre tu vida y cultiva una mente en paz con el entrenamiento de meditación más estructurado y profundo en lengua hispana. Un viaje hacia tu potencial, guiado por la sabiduría milenaria.</p>
+
+      <div class="actions">
+        <a class="btn-primario cta-estado" href="#inscripcion"><span class="cta-txt--anon">Inscríbete al curso</span><span class="cta-txt--log">Añadir a mi camino</span><span class="cta-txt--ins">Reanudar · Lección 3</span></a>
+        <span class="meta"><span class="pulse" aria-hidden="true"></span>Inicio: <b>3 de febrero de 2027</b></span>
+      </div>
+
+      <!-- chips de curso: reversión de duda inmediata -->
+      <ul class="curso-chips" aria-label="Detalles del curso">
+        <li><b>8</b> lecciones</li>
+        <li><b>72&nbsp;€</b> pago único</li>
+        <li>Certificado al finalizar</li>
+        <li>Sin experiencia previa</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══ PRUEBA SOCIAL TEMPRANA · franja condensada, combate la duda en los primeros segundos ═══ -->
+  <section class="prueba" aria-label="Confianza de la comunidad">
+    <div class="wrap prueba__inner">
+      <div class="prueba__stat">
+        <strong>+2.400</strong>
+        <span>practicantes en lengua hispana</span>
+      </div>
+      <span class="prueba__sep" aria-hidden="true"></span>
+      <blockquote class="prueba__cita">
+        <p>«Me ha servido muchísimo para ordenar mi vida.»</p>
+        <cite>María Fernanda · practicante EMI</cite>
+      </blockquote>
+      <span class="prueba__sep" aria-hidden="true"></span>
+      <div class="prueba__rating" aria-label="Valoración media 4,9 sobre 5">
+        <span class="prueba__estrellas" aria-hidden="true">★★★★★</span>
+        <span>4,9 · 320 valoraciones</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ EL MAESTRO · credibilidad arriba (el activo diferencial de Paramita) ═══ -->
+  <section class="section wrap split" id="maestro" aria-labelledby="maes-t">
+    <div class="split__media">
+      <figure class="retrato">
+        <img src="/assets/img/khenpo-rinchen.jpg" alt="Ven. Khenpo Rinchen Gyaltsen" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
+      </figure>
+    </div>
+    <div class="split__body">
+      <span class="eyebrow" data-reveal="1">El maestro</span>
+      <h2 id="maes-t" data-reveal="2">Empieza a meditar con <em>Khenpo Rinchen</em>.</h2>
+      <p class="split__sub">Del Himalaya a tu pantalla: el origen de esta enseñanza.</p>
+      <p>Este curso ha sido diseñado por <b>Khenpo Rinchen Gyaltsen</b>, director y maestro residente en el Centro Budista Sakya (Alicante) y uno de los referentes en meditación y filosofía budista más importantes para el mundo hispanohablante. Tras diez años de formación en India, Nepal y Tíbet, Khenpo Rinchen sintetizó la práctica diaria de los grandes maestros:</p>
+      <ul class="checks">
+        <li>El <b>Lojong</b> (o Adiestramiento Mental en 7 Puntos): el manual de meditación más famoso del Tíbet.</li>
+        <li>Un proceso de actualización para que sea relevante en el siglo&nbsp;XXI.</li>
+        <li>Una enseñanza para personas seculares y espirituales por igual.</li>
+      </ul>
+      <figure class="cita-maestro">
+        <blockquote>Es un maestro muy valioso; todo el que lo siga irá por el buen camino.</blockquote>
+        <figcaption>— S. S. Gongma Trichen</figcaption>
+      </figure>
+      <a class="t-link" href="#sobre"><span class="txt">Quiero saber más de él</span> <span class="arw" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <!-- ═══ LA INVITACIÓN · vídeo + propósito ═══ -->
+  <section class="section wrap split split--inv" id="proposito" aria-labelledby="prop-t">
+    <div class="split__media">
+      <div class="video-facade" data-yt="4XPkYkF7MfQ" role="button" tabindex="0" aria-label="Reproducir la invitación en vídeo">
+        <div class="video-facade__play" aria-hidden="true"><span></span></div>
+      </div>
+    </div>
+    <div class="split__body">
+      <span class="eyebrow" data-reveal="1">La invitación</span>
+      <h2 id="prop-t" data-reveal="2">Mira la invitación de <em>Ven. Khenpo Rinchen</em>.</h2>
+      <p>«Calma y Lucidez» no es solo un curso de meditación; es el primer paso del <b>Entrenamiento Mental Integral (EMI)</b>: un programa de cuatro módulos diseñado para que dejes de sobrevivir al caos externo y comiences a habitar tu propia mente con claridad. A través de este módulo asentarás las bases para recuperar el control de tu mundo interno, fortaleciendo tu resiliencia ante los desafíos actuales.</p>
+      <p class="split__sub">¿Para quién es este programa? Para personas que buscan:</p>
+      <ul class="checks">
+        <li><b>Filtrar el ruido interno.</b> Purifica los bloqueos que nublan tu mente para ver y decidir con total nitidez.</li>
+        <li><b>Cultivar estabilidad.</b> Transforma las dificultades diarias en herramientas de estabilidad emocional profunda.</li>
+        <li><b>Vivir con intención.</b> Sal del piloto automático y conecta tus acciones con un sentido de beneficio real.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══ VENTAJAS · contraste ganas / dejas atrás ═══ -->
+  <section class="section wrap" id="ventajas" aria-labelledby="vent-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Por qué Paramita</span>
+      <h2 id="vent-t" data-reveal="2">¿Por qué entrenar tu mente con <em>Paramita</em>?</h2>
+      <p class="lede">Cultiva una mente clara en un mundo caótico.</p>
+    </div>
+    <div class="contraste">
+      <article class="contraste__gana">
+        <h3>Lo que ganas</h3>
+        <p>Una atención inquebrantable, una autoestima basada en el autoconocimiento y un refugio de paz interior que te acompaña a todas partes.</p>
+      </article>
+      <article class="contraste__deja">
+        <h3>Lo que dejas atrás</h3>
+        <p>La dispersión mental, la reactividad emocional y la sensación de ir «en piloto automático».</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ═══ TEMARIO · las 8 lecciones (corazón informativo) ═══ -->
+  <section class="section wrap temario" id="temario" aria-labelledby="tem-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Metodología</span>
+      <h2 id="tem-t" data-reveal="2">El programa está repartido en <em>8 lecciones</em>.</h2>
+      <p class="lede">Una lección nueva cada semana, para que avances a tu ritmo.</p>
+    </div>
+    <ol class="temario__lista">
+      <li class="leccion"><span class="leccion__n">Lección 01</span><h3>Aterrizar en la práctica</h3><p>Establecer una base sólida entre cuerpo y mente.</p></li>
+      <li class="leccion"><span class="leccion__n">Lección 02</span><h3>El soltar consciente</h3><p>Redefinir el desapego como libertad, no como carencia.</p></li>
+      <li class="leccion"><span class="leccion__n">Lección 03</span><h3>Aduéñate del presente</h3><p>Gestionar las emociones y la fusión cognitiva.</p></li>
+      <li class="leccion"><span class="leccion__n">Lección 04</span><h3>Maximizar la oportunidad</h3><p>Comprender el karma para tomar mejores decisiones.</p></li>
+      <li class="leccion"><span class="leccion__n">Lección 05</span><h3>Encuentra el equilibrio</h3><p>Ampliar la memoria y la observación en la era digital.</p></li>
+      <li class="leccion"><span class="leccion__n">Lección 06</span><h3>Entrenamiento transparente</h3><p>Transformar el victimismo en potencial evolutivo.</p></li>
+      <li class="leccion"><span class="leccion__n">Lección 07</span><h3>Equilibrio emocional</h3><p>Convertir la meditación en un estado permanente.</p></li>
+      <li class="leccion"><span class="leccion__n">Lección 08</span><h3>Entrenamiento total</h3><p>Consolidar hábitos y construir una autoestima sana.</p></li>
+    </ol>
+  </section>
+
+  <!-- ═══ QUÉ INCLUYE ═══ -->
+  <section class="section wrap split split--inv incluye" id="incluye" aria-labelledby="inc-t">
+    <div class="split__media">
+      <figure class="retrato retrato--material">
+        <img src="/assets/img/material-emi1.jpg" alt="Material del curso" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
+      </figure>
+    </div>
+    <div class="split__body">
+      <span class="eyebrow" data-reveal="1">El paquete</span>
+      <h2 id="inc-t" data-reveal="2">¿Qué incluye este módulo <em>EMI 1</em>?</h2>
+      <ul class="incluye__grid">
+        <li><h3>Material de audio</h3><p>8 meditaciones guiadas para integrar cada lección.</p></li>
+        <li><h3>Cuaderno de trabajo</h3><p>Cuaderno semanal en PDF con ejercicios de reflexión.</p></li>
+        <li><h3>Ejercicios prácticos</h3><p>Prácticas de aplicación diaria para profundizar en tu práctica personal.</p></li>
+        <li><h3>Transcripciones completas</h3><p>Lee y estudia cada palabra a tu propio ritmo.</p></li>
+      </ul>
+      <p class="incluye__foot">El material del curso es tuyo para siempre; repásalo cuando lo necesites. Al completar el 100&nbsp;% del curso podrás <b>descargar tu certificado de finalización</b>.</p>
+    </div>
+  </section>
+
+  <!-- ═══ INSCRIPCIÓN · dos modalidades ═══ -->
+  <section class="section wrap inscripcion" id="inscripcion" aria-labelledby="opc-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Inscripción</span>
+      <h2 id="opc-t" data-reveal="2">Elige la modalidad que mejor se <em>adapta a ti</em>.</h2>
+      <p class="lede"><span class="estado-abierto"><span class="pulse" aria-hidden="true"></span>¡Inscripciones activas!</span> Inscríbete ahora y recupera el control de tu mente.</p>
+    </div>
+
+    <div class="planes">
+      <article class="plan plan--destacada">
+        <span class="plan__badge">Interactivo</span>
+        <p class="plan__eyebrow">Modalidad interactiva · con tutor</p>
+        <h3>Conoce a Ven. Khenpo Rinchen</h3>
+        <p class="plan__precio">72<small>,00&nbsp;€</small> <span>pago único</span></p>
+        <ul class="checks checks--sm">
+          <li><b>Dos encuentros grupales en directo</b> con Khenpo Rinchen para resolver dudas con el Maestro.</li>
+          <li><b>Ritmo semanal con el grupo.</b> Un calendario fijo que fomenta la disciplina y el compromiso.</li>
+          <li><b>Acceso completo.</b> El mismo material de alta calidad que en Autoestudio.</li>
+          <li><b>Tutorías en grupos reducidos.</b> Un tutor modera un espacio semanal para compartir reflexiones. 8 sesiones.</li>
+          <li><b>Plazas limitadas.</b> La inscripción se cierra al llenar los cupos.</li>
+        </ul>
+        <p class="plan__ideal">Ideal para quienes valoran el compromiso grupal, el acompañamiento cercano y el aprendizaje compartido.</p>
+        <a class="btn-primario" href="#pago-interactiva">Inscribirme · Interactiva</a>
+      </article>
+
+      <article class="plan">
+        <span class="plan__badge plan__badge--claro">Autoestudio</span>
+        <p class="plan__eyebrow">Modalidad autoestudio · a tu propio ritmo</p>
+        <h3>A tu propio ritmo</h3>
+        <p class="plan__precio">72<small>,00&nbsp;€</small> <span>pago único</span></p>
+        <ul class="checks checks--sm">
+          <li><b>Una lección nueva cada semana</b>, que podrás ver cuando quieras.</li>
+          <li><b>Acceso completo.</b> Todos los vídeos, audios de meditación, transcripciones y cuadernos.</li>
+          <li><b>Estudio independiente.</b> Acceso a un foro comunitario para compartir experiencias.</li>
+          <li><b>Sin sesiones en directo.</b> Se accede únicamente al contenido base.</li>
+          <li><b>Plazas ilimitadas.</b> Empieza cuando quieras: EMI&nbsp;1 está abierto todo el año.</li>
+        </ul>
+        <p class="plan__ideal">Ideal para personas que necesitan máxima flexibilidad o prefieren un camino de estudio más autónomo.</p>
+        <a class="btn-secundario" href="#pago-autoestudio">Inscribirme · Autoestudio</a>
+      </article>
+    </div>
+    <p class="plazas-nota"><span class="pulse" aria-hidden="true"></span><b>Las plazas del formato Interactivo son limitadas.</b> Debido al número reducido de tutores, este formato tiene cupos limitados. Inscríbete ahora para aprovechar un seguimiento cercano.</p>
+  </section>
+
+  <!-- ═══ BECAS · reversión de riesgo, pegada al precio ═══ -->
+  <section class="section wrap becas" id="becas" aria-labelledby="becas-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Comunidad</span>
+      <h2 id="becas-t" data-reveal="2">Becas y <em>descuentos</em>.</h2>
+    </div>
+    <div class="becas__grid">
+      <article class="beca">
+        <h3>Beca del 50&nbsp;%</h3>
+        <p>Si tu situación económica es un obstáculo, puedes solicitar una beca del 50&nbsp;% sobre la matrícula.</p>
+        <a class="t-link" href="#beca"><span class="txt">Solicitar beca para «Calma y Lucidez»</span> <span class="arw" aria-hidden="true">→</span></a>
+      </article>
+      <article class="beca">
+        <h3>Amigos de la Fundación</h3>
+        <p>Como agradecimiento por su generoso apoyo, los Amigos de la Fundación Sakya reciben el descuento correspondiente a su membresía (hasta el 50&nbsp;%) sobre la matrícula.</p>
+        <a class="t-link" href="#amigo"><span class="txt">Quiero ser parte de esta comunidad</span> <span class="arw" aria-hidden="true">→</span></a>
+      </article>
+    </div>
+  </section>
+
+  <!-- ═══ TESTIMONIOS · prueba social completa ═══ -->
+  <section class="section wrap testis" id="testimonios" aria-labelledby="test-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Testimonios</span>
+      <h2 id="test-t" data-reveal="2">Voces de quienes ya <em>practican</em>.</h2>
+    </div>
+    <div class="testis__grid">
+      <figure class="testi">
+        <div class="video-facade" data-yt="AKQ1vWQUz1Y" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de María Fernanda Corona"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+        <blockquote>Lo recomiendo muchísimo: me ha servido mucho para ordenar mi vida.</blockquote>
+        <figcaption><span class="testi__avatar" aria-hidden="true">MF</span>María Fernanda Corona</figcaption>
+      </figure>
+      <figure class="testi">
+        <div class="video-facade" data-yt="JKKthx8ASls" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Valentina García"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+        <blockquote>Son enseñanzas complicadas explicadas de una manera tan cercana que absorberlas es mucho más fácil.</blockquote>
+        <figcaption><span class="testi__avatar" aria-hidden="true">VG</span>Valentina García</figcaption>
+      </figure>
+      <figure class="testi">
+        <div class="video-facade" data-yt="FnENOAZHOjk" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Oscar Conde"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+        <blockquote>Te da herramientas para corregir lo que más te aflige.</blockquote>
+        <figcaption><span class="testi__avatar" aria-hidden="true">OC</span>Oscar Conde</figcaption>
+      </figure>
+      <figure class="testi">
+        <div class="video-facade" data-yt="kl3-Nrxe8_k" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Juanita Galaz"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+        <blockquote>Si estudias el material que EMI te entrega, tu vida cambiará.</blockquote>
+        <figcaption><span class="testi__avatar" aria-hidden="true">JG</span>Juanita Galaz</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═══ RETIRO · extra presencial ═══ -->
+  <section class="retiro" id="retiro" aria-labelledby="ret-t">
+    <div class="wrap retiro__inner">
+      <span class="eyebrow" data-reveal="1">Extra presencial</span>
+      <h2 id="ret-t" data-reveal="2">Retiro de <em>Integración</em>.</h2>
+      <p>Al finalizar tus lecciones tendrás la oportunidad de participar en un Retiro de Integración en nuestra sede central, el Centro Budista Sakya de Pedreguer (Alicante, España). Un espacio sagrado para meditar en directo con Khenpo Rinchen y resolver dudas profundas.</p>
+      <a class="t-link t-link--claro" href="#retiro-detalle"><span class="txt">Ver detalles del Retiro</span> <span class="arw" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ · acordeón accesible (reversión de riesgo final) ═══ -->
+  <section class="section wrap faq" id="faq" aria-labelledby="faq-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">¿Tienes alguna duda?</span>
+      <h2 id="faq-t" data-reveal="2">Respuestas a las preguntas más <em>frecuentes</em>.</h2>
+    </div>
+    <div class="faq__lista">
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="fa1">¿Este curso tiene un enfoque religioso?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="fa1" role="region"><div class="faq__inner"><p>El propósito de «Calma y Lucidez» es facilitar tu <b>desarrollo mental</b> y ayudarte a manejar las adversidades cotidianas. Aunque incluye enseñanzas de origen budista, se ofrece desde una perspectiva <b>secular y práctica</b>, útil a personas de <b>cualquier creencia</b>. Y si buscas profundizar espiritualmente, también encontrarás recursos valiosos.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="fa2">¿Se otorga algún tipo de certificación al terminar el curso?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="fa2" role="region"><div class="faq__inner"><p>Sí. Al completar cada módulo recibirás un <b>certificado</b> que acredita tu participación y finalización. Solo necesitas visualizar <b>todas las lecciones</b> y completar el <b>cuaderno de trabajo semanal</b>.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="fa3">¿Qué sucede si falto o llego tarde a una sesión?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="fa3" role="region"><div class="faq__inner"><p>No te preocupes. <b>Todas las sesiones se graban</b> y quedan disponibles en línea durante <b>un año</b>: accede cuando y donde quieras y repasa el contenido <b>a tu propio ritmo</b>.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="fa4">¿Es necesario tener experiencia previa para inscribirse?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="fa4" role="region"><div class="faq__inner"><p><b>No es necesaria ninguna experiencia previa.</b> «Calma y Lucidez» es accesible y provechoso tanto para <b>principiantes</b> como para personas con experiencia en yoga y meditación.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="fa5">¿Puedo inscribirme si ya tengo experiencia en meditación?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="fa5" role="region"><div class="faq__inner"><p><b>Definitivamente, sí.</b> Muchos estudiantes con práctica avanzada encuentran valor en <b>revisitar los fundamentos</b> para superar periodos de estancamiento.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="fa6">¿Qué sucede después de inscribirte al curso?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="fa6" role="region"><div class="faq__inner"><p>Recibirás un <b>correo de confirmación</b> y accederás al curso desde tu perfil, en <b>«Mis Cursos»</b>. El contenido se habilita <b>semanalmente</b> —una lección por semana— para que avances a tu ritmo.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="fa7">¿Cómo funcionan las tutorías?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="fa7" role="region"><div class="faq__inner"><p>Al comenzar recibirás un <b>formulario</b> para elegir día y horario. Las tutorías empiezan en la <b>segunda semana</b>, las guía un <b>tutor del equipo Paramita</b>, y tendrás acceso a una <b>tutoría mensual con el Ven. Khenpo Rinchen</b>.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA FINAL ═══ -->
+  <section class="cta-final" id="cta-final" aria-labelledby="ctaf-t">
+    <div class="wrap cta-final__inner">
+      <p class="eyebrow" data-reveal="1">Da el primer paso</p>
+      <h2 class="cta-final__title" id="ctaf-t" data-reveal="2">Si sientes el llamado,<br><em>te esperamos</em>.</h2>
+      <div class="actions actions--centro">
+        <a class="btn-primario cta-estado" href="#inscripcion"><span class="cta-txt--anon">Inscríbete al curso</span><span class="cta-txt--log">Añadir a mi camino</span><span class="cta-txt--ins">Reanudar · Lección 3</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ NEWSLETTER ═══ -->
+  <section class="section wrap news" id="newsletter" aria-labelledby="news-t">
+    <div class="news__inner">
+      <span class="eyebrow" data-reveal="1">Newsletter</span>
+      <h2 id="news-t" data-reveal="2">Recibe inspiración y <em>sabiduría</em>.</h2>
+      <p>Ideas sencillas, propuestas de práctica y noticias de Paramita directamente en tu bandeja de entrada.</p>
+      <form class="news__form" id="newsForm" novalidate>
+        <div class="news__campo">
+          <label for="news-name">Nombre</label>
+          <input id="news-name" name="name" type="text" autocomplete="given-name" placeholder="Tu nombre" required>
+        </div>
+        <div class="news__campo">
+          <label for="news-email">Email</label>
+          <input id="news-email" name="email" type="email" autocomplete="email" placeholder="Tu dirección de correo" required>
+        </div>
+        <label class="news__consent"><input type="checkbox" id="news-consent" required> Acepto las <a href="https://www.paramita.org/politica-de-privacidad/" target="_blank" rel="noopener">políticas de privacidad</a> y recibir la newsletter.</label>
+        <button class="btn-primario" type="submit">Enviar suscripción</button>
+        <p class="news__ok" role="status" aria-live="polite">¡Gracias! Te has suscrito correctamente.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ═══ CTA STICKY · aparece tras el hero, se oculta al llegar a inscripción ═══ -->
+  <div class="cta-sticky" id="ctaSticky" aria-hidden="true">
+    <div class="cta-sticky__info">
+      <span class="cta-sticky__precio">72&nbsp;€ <small>pago único</small></span>
+      <span class="cta-sticky__lec">Lección 3 de 8</span>
+      <span class="cta-sticky__meta">Nivel I · 8 lecciones</span>
+    </div>
+    <a class="btn-primario cta-sticky__btn" href="#inscripcion">
+      <span class="cta-txt--anon">Inscríbete</span>
+      <span class="cta-txt--log">Añadir</span>
+      <span class="cta-txt--ins">Reanudar</span>
+    </a>
+  </div>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     FOOTER · componente compartido (paramita-footer.css) · variante pública
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<footer class="foot" id="contacto">
+  <div class="foot__hero">
+    <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
+    <div>
+      <h2 class="foot__h">Practiquemos <em>juntos</em>.</h2>
+      <p class="foot__hint">Pasa el cursor o toca entre las figuras.</p>
+    </div>
+  </div>
+  <div class="foot__info">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <span class="logo-wave" role="img" aria-label="Paramita"></span>
+          <p class="tagline">Meditación y enseñanzas del Buddha, como puente entre los Himalayas y el mundo hispanohablante.</p>
+          <div class="social">
+            <a href="#facebook" aria-label="Facebook"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M13.7 8.3c-1.5-.3-2.6.3-2.6 2V17"/><path d="M9.7 11.7h3.6"/></svg>Facebook</a>
+            <a href="#youtube" aria-label="YouTube"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4.2"/><path d="M10.4 9.4 15 12l-4.6 2.6z"/></svg>YouTube</a>
+            <a href="#instagram" aria-label="Instagram"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="16.8" cy="7.2" r=".7" fill="currentColor" stroke="none"/></svg>Instagram</a>
+            <a href="#spotify" aria-label="Spotify"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.4 9.7c3-.9 6.6-.6 9.1.9"/><path d="M8 12.6c2.4-.7 5.2-.4 7.2.8"/><path d="M8.6 15.4c1.9-.5 4-.3 5.6.6"/></svg>Spotify</a>
+          </div>
+        </div>
+        <div>
+          <h4>Navegar</h4>
+          <a class="fl" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a>
+          <a class="fl" href="/formacion/">Cursos</a>
+          <a class="fl" href="#actividades">Actividades</a>
+          <a class="fl" href="/blog/">Blog</a>
+          <a class="fl" href="#sobre">Sobre nosotros</a>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <address>
+            <b>Dirección</b><br>Av. de Comtat, 1 Bis, buzón 207<br>Pedreguer (Muntanya de la Sella)<br>03750 Alicante, España<br><br>
+            <b>Teléfono</b> (+34) 965 760 777<br>
+            <a class="fl" href="mailto:secretaria@paramita.org">secretaria@paramita.org</a>
+            <a class="fl" href="mailto:soporte@paramita.org">soporte@paramita.org</a><br>
+            <b>Horario</b> L–V · 10–13 h y 15–17 h
+          </address>
+        </div>
+      </div>
+      <div class="foot-base">
+        <span>© 2026 Fundación Paramita. Todos los seres, libres del sufrimiento.</span>
+        <span>Centro Budista Sakya · Alicante</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════ JS DEL SISTEMA · primitivos → componentes → páginas ═══════════ -->
+<!-- primitivos -->
+<script src="/js/primitivos/paramita-gsap-refresh.js" defer></script>
+<script src="/js/primitivos/paramita-reveal.js" defer></script>
+<!-- componentes (cargan en todas las páginas; salen sin coste si no encuentran su DOM) -->
+<script src="/js/componentes/paramita-bar.js" defer></script>
+<script src="/js/componentes/paramita-fluido.js" defer></script>
+<script src="/js/componentes/paramita-hero.js" defer></script>
+<script src="/js/componentes/paramita-footer-lotos.js" defer></script>
+<script src="/js/componentes/paramita-modal.js" defer></script>
+<script src="/js/componentes/paramita-chat.js" defer></script>
+<script src="/js/componentes/paramita-trazo-divisor.js" defer></script>
+<script src="/js/componentes/paramita-cta-zoom.js" defer></script>
+<!-- página -->
+<script src="/js/paginas/paramita-curso.js" defer></script>
+
+</body>
+</html>
