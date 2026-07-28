@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rediseño del catálogo de formación · Informe UX/UI y gráfico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F0E7;
+    --paper-2:#FBF8F1;
+    --ink:#211E1A;
+    --slate:#6B655B;
+    --azul:#16324E;
+    --azul-2:#0F2439;
+    --dorado:#A8823F;
+    --dorado-lite:#C9A96E;
+    --arena:#E8E0D0;
+    --rule:#DED6C4;
+    --rule-soft:#E9E3D6;
+    --col: min(720px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:clamp(1.02rem,0.5vw + 0.92rem,1.15rem);line-height:1.72;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--dorado);z-index:60;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dorado);margin:0 0 1.3rem}
+
+  /* cover */
+  .cover{padding:clamp(3.5rem,9vh,6.5rem) 0 clamp(2rem,5vh,3.5rem)}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.5rem,6.4vw,4.4rem);line-height:1.02;letter-spacing:-.015em;margin:0 0 1.3rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--azul)}
+  .deck{font-size:clamp(1.12rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.2rem}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.2rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--dorado-lite),var(--dorado),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.75rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.45;letter-spacing:-.01em;margin:2.4rem 0 0;color:var(--ink)}
+
+  section{padding:clamp(2.6rem,6vh,4.2rem) 0}
+  .sec-head{margin:0 0 1.8rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.2em;color:var(--dorado);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.08;letter-spacing:-.012em;margin:0}
+  h2 em{font-style:italic;color:var(--azul)}
+  p{margin:0 0 1.1rem}
+  strong{font-weight:650}
+  a{color:var(--azul);text-decoration:underline;text-decoration-color:var(--dorado);text-underline-offset:3px}
+
+  .drop::first-letter{font-family:"Fraunces",serif;font-weight:500;float:left;font-size:3.4em;line-height:.72;padding:.06em .09em 0 0;color:var(--azul)}
+
+  .pull{font-family:"Fraunces",serif;font-style:italic;font-weight:400;font-size:clamp(1.3rem,2.3vw,1.85rem);line-height:1.32;letter-spacing:-.01em;color:var(--azul);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:1.5rem 0;margin:2.2rem 0}
+
+  /* audit chips */
+  .chips{display:flex;flex-wrap:wrap;gap:.6rem;margin:1.4rem 0 0}
+  .chip{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.04em;padding:.4em .8em;border:1px solid var(--rule);border-radius:100px;color:var(--azul);background:var(--paper-2)}
+  .chip::before{content:"✓ ";color:var(--dorado)}
+
+  /* summary table */
+  .tbl-wrap{margin:1.8rem 0;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.9rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:.8rem}
+  th,td{text-align:left;padding:.7rem .85rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  thead th{border-bottom:1.5px solid var(--ink);font-family:"Hanken Grotesk";font-weight:650;font-size:.8rem}
+  tbody td:first-child{font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--dorado);white-space:nowrap}
+  tbody tr:hover td{background:var(--paper-2)}
+
+  /* SENDERO signature */
+  .sendero{position:relative;margin:1rem 0 0}
+  .sendero::before{content:"";position:absolute;left:9px;top:6px;bottom:14px;width:2px;background:linear-gradient(180deg,var(--azul),var(--dorado-lite) 55%,var(--dorado));border-radius:2px}
+  .estacion{position:relative;padding:0 0 2.8rem 3rem}
+  .estacion:last-child{padding-bottom:.5rem}
+  .estacion__nodo{position:absolute;left:2px;top:3px;width:18px;height:18px;border-radius:50%;background:var(--paper);border:2px solid var(--dorado);box-shadow:0 0 0 4px var(--paper)}
+  .estacion__nodo::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--dorado);opacity:.85}
+  .estacion__eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dorado);margin:0 0 .4rem}
+  .estacion h3{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.35rem,2.4vw,1.75rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 .3rem;color:var(--ink)}
+  .estacion h3 em{font-style:italic;color:var(--azul)}
+  .estacion__sum{color:var(--slate);font-size:.98rem;margin:0 0 1.1rem}
+
+  .bloque{margin:0 0 .85rem}
+  .bloque__k{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--azul);display:block;margin-bottom:.15rem;font-weight:500}
+  .bloque__k--ux{color:var(--dorado)}
+  .bloque p{margin:0;font-size:.98rem;line-height:1.62}
+  .capas{display:grid;grid-template-columns:1fr 1fr;gap:.2rem 1.6rem;margin:.85rem 0}
+  .capas .bloque{margin:0}
+  .files{margin-top:1rem;font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--slate)}
+  .files b{color:var(--ink);font-weight:500}
+  .files span{color:var(--azul)}
+
+  /* dark emphasis blocks */
+  .oscuro{background:var(--azul-2);color:var(--paper)}
+  .oscuro h2{color:var(--paper)}
+  .oscuro h2 em{color:var(--dorado-lite)}
+  .oscuro .eyebrow{color:var(--dorado-lite)}
+  .oscuro p{color:#CBD3DC}
+  .oscuro strong{color:#fff}
+
+  .principios{list-style:none;margin:1.4rem 0 0;padding:0;display:grid;gap:1rem}
+  .principios li{padding-left:1.7em;position:relative;color:#CBD3DC;font-size:.98rem;line-height:1.55}
+  .principios li::before{content:"—";position:absolute;left:0;color:var(--dorado-lite)}
+  .principios b{color:#fff;font-weight:600}
+
+  .note{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--dorado);padding:1.2rem 1.3rem;margin:1.6rem 0;font-size:.96rem;line-height:1.6}
+  .note .k{font-family:"JetBrains Mono",monospace;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dorado);display:block;margin-bottom:.45rem}
+
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+  footer{border-top:1px solid var(--rule);padding:2.4rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:600px){ .capas{grid-template-columns:1fr} }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .sheen::after{animation:none;transform:translateX(80%)}
+    .reveal{opacity:1;transform:none;transition:none}
+  }
+  :focus-visible{outline:2.5px solid var(--dorado);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- COVER -->
+<header class="flow cover">
+  <p class="eyebrow">Informe · Rediseño del catálogo · /formación/</p>
+  <h1>El sendero,<br><em>afinado</em>.</h1>
+  <p class="deck">Qué hemos hecho a la landing de cursos y por qué —a nivel de experiencia, interfaz y diseño gráfico—, partiendo del análisis de conversión y de la auditoría de lo que ya existía.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Alcance</b> · página /formación/ (catálogo)</span>
+    <span><b>Base</b> · análisis CRO + auditoría previa</span>
+    <span><b>Intervenciones</b> · 7</span>
+    <span><b>Fecha</b> · julio 2026</span>
+  </div>
+  <p class="lede">Ninguna intervención reinventa el catálogo. Todas afinan una base ya sólida, siguiendo una regla: lo expresivo se apoya en una arquitectura convencional, nunca la sustituye.</p>
+</header>
+
+<hr class="divider">
+
+<!-- PUNTO DE PARTIDA -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">00 — Punto de partida</span>
+    <h2>La base ya era <em>buena</em>.</h2>
+  </div>
+  <p class="drop reveal">Antes de tocar nada, la auditoría dejó algo claro y conviene decirlo: el catálogo ya aplicaba la mayor parte de lo que el análisis recomienda. El trabajo no fue rescatar una página rota, sino pulir una que ya partía de decisiones correctas. Reconocerlo importa, porque explica por qué los cambios son quirúrgicos y no refundacionales.</p>
+  <div class="chips reveal">
+    <span class="chip">Rejilla vertical (no carrusel)</span>
+    <span class="chip">Puertas por perfil (nuevo/medio/fiel)</span>
+    <span class="chip">Filtro por nivel · duración · modalidad · aportación</span>
+    <span class="chip">Gratis/pago visible en tarjeta</span>
+    <span class="chip">Chat de orientación</span>
+    <span class="chip">prefers-reduced-motion contemplado</span>
+  </div>
+  <p class="pull reveal">Sobre esa base, siete intervenciones. Cada una nace de un hallazgo del análisis y de un hueco concreto de la auditoría.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Las siete intervenciones · de un vistazo</caption>
+      <thead><tr><th>#</th><th>Problema (auditoría)</th><th>Intervención</th></tr></thead>
+      <tbody>
+        <tr><td>#1</td><td>Tres entradas al catálogo trabajando en paralelo; las puertas no persistían ni se reflejaban en el filtro.</td><td>Un único estado para puertas, mapa y frase-intención.</td></tr>
+        <tr><td>#2</td><td>Dos secciones entre el héroe y el primer curso: se tardaba en ver algo real.</td><td>Tira "Empieza aquí" (el único scroll horizontal permitido).</td></tr>
+        <tr><td>#3</td><td>24 imágenes cargando de golpe (background-image inline).</td><td>Carga diferida nativa con &lt;img loading="lazy"&gt;.</td></tr>
+        <tr><td>#4</td><td>Sin señal de "para quién es" más allá del nivel.</td><td>Micro-etiqueta de prerrequisito (mock).</td></tr>
+        <tr><td>#5</td><td>Contador sin contexto; "0 resultados" = callejón sin salida.</td><td>Contador "N de 20" + estado vacío con salidas.</td></tr>
+        <tr><td>#6</td><td>Retiros mezclados en el catálogo pese a tener lógica de actividad.</td><td>Retiros fuera → sustituidos por cursos.</td></tr>
+        <tr><td>#7</td><td>Al bajar por las 20 tarjetas, el filtro quedaba lejos.</td><td>Pill flotante de acceso al filtro.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SENDERO DE INTERVENCIONES -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — Las intervenciones</span>
+    <h2>El sendero, estación a <em>estación</em>.</h2>
+  </div>
+
+  <div class="sendero">
+
+    <!-- #1 -->
+    <article class="estacion reveal">
+      <span class="estacion__nodo" aria-hidden="true"></span>
+      <p class="estacion__eyebrow">#1 · Arquitectura de estado</p>
+      <h3>Un solo estado para las tres <em>entradas</em></h3>
+      <p class="estacion__sum">Puertas del héroe, mapa de niveles y frase-intención escriben ahora sobre un mismo objeto de filtro.</p>
+      <div class="bloque"><span class="bloque__k">Contexto</span><p>El mapa ya alimentaba el filtro, pero las puertas hacían un mostrar/ocultar manual al margen: dejaban la frase diciendo "de cualquier nivel" con el grid ya filtrado, se saltaban la animación y la selección no persistía. Además el modelo solo admitía un nivel, y las puertas seleccionan rangos (II·III, IV·V).</p></div>
+      <div class="bloque"><span class="bloque__k">Intervención</span><p>El estado de nivel pasa a admitir rango. Las puertas se reescriben para pasar por la misma función de filtrado que el resto; un helper mantiene coherente el nodo activo del mapa desde las tres vías. Reset compartido.</p></div>
+      <div class="capas">
+        <div class="bloque"><span class="bloque__k bloque__k--ux">Razón · UX</span><p>Un único modelo mental: la selección es visible en la frase, persiste y se puede refinar sin perderla.</p></div>
+        <div class="bloque"><span class="bloque__k">Razón · UI / gráfico</span><p>La misma familia de movimiento (desenfoque → reorganización → luz dorada) en las tres entradas: coherencia de sistema, no tres comportamientos distintos.</p></div>
+      </div>
+      <p class="files"><b>Archivos:</b> <span>paramita-formacion.js</span></p>
+    </article>
+
+    <!-- #2 -->
+    <article class="estacion reveal">
+      <span class="estacion__nodo" aria-hidden="true"></span>
+      <p class="estacion__eyebrow">#2 · Time-to-first-course</p>
+      <h3>Tira "Empieza aquí" · el único scroll <em>horizontal</em> permitido</h3>
+      <p class="estacion__sum">Una fila de cuatro cursos-puerta de Nivel I, justo tras el héroe.</p>
+      <div class="bloque"><span class="bloque__k">Contexto</span><p>Entre el héroe y la primera tarjeta había dos secciones completas (mapa + facetas). Con la decisión de compra en ~8 s y el riesgo de "ilusión de página completa", se tardaba demasiado en ver un curso real.</p></div>
+      <div class="bloque"><span class="bloque__k">Análisis</span><p>El estudio avala el scroll horizontal en un único caso: una fila acotada de destacados, con las cartas sangrando por el borde y sin ser navegación principal. Datos que lo sostienen: 75% no ve el scroll sin señal; −34% de profundidad en layouts horizontales; ~2% pasa del primer ítem de un carrusel.</p></div>
+      <div class="bloque"><span class="bloque__k">Intervención</span><p>Nueva sección que reutiliza el componente de tarjeta (sin variantes nuevas). Scroll nativo, cartas que sangran por la derecha, barra fina, flechas como mejora progresiva (nacen ocultas, se activan si desborda; ocultas en táctil) y pista "desliza →" en táctil. Tras verlo en navegador se afinó el aire vertical del carril —la sombra del hover se recortaba en seco— y se suavizó la barra.</p></div>
+      <div class="capas">
+        <div class="bloque"><span class="bloque__k bloque__k--ux">Razón · UX</span><p>Cursos visibles de inmediato; un atajo "empezar ya" sin recorrer todo el sendero.</p></div>
+        <div class="bloque"><span class="bloque__k">Razón · UI / gráfico</span><p>El sangrado es la señal de continuidad; barra dorada discreta; título de fila a la izquierda (no centrado) para anclar la lectura horizontal.</p></div>
+      </div>
+      <p class="files"><b>Archivos:</b> <span>index.html</span> · <span>paramita-formacion.css</span> · <span>paramita-formacion.js</span></p>
+    </article>
+
+    <!-- #3 -->
+    <article class="estacion reveal">
+      <span class="estacion__nodo" aria-hidden="true"></span>
+      <p class="estacion__eyebrow">#3 · Rendimiento</p>
+      <h3>Imágenes con carga <em>diferida</em></h3>
+      <p class="estacion__sum">De 24 fondos que cargaban de golpe a imágenes que se piden al acercarse.</p>
+      <div class="bloque"><span class="bloque__k">Contexto</span><p>Las 24 imágenes eran <code>background-image</code> inline —que no difiere de forma nativa—, así que se pedían todas en la carga inicial.</p></div>
+      <div class="bloque"><span class="bloque__k">Análisis</span><p>La velocidad es la primera palanca de conversión: 53% abandona por encima de 3 s; +4–7% por cada segundo ganado.</p></div>
+      <div class="bloque"><span class="bloque__k">Intervención</span><p>De <code>&lt;div&gt;</code> con fondo a <code>&lt;img loading="lazy" decoding="async"&gt;</code>. <code>object-fit</code> reproduce el <code>background-size</code>, con un color de placeholder para evitar el parpadeo. Sin JS (robusto: si el JS falla, cargan igual), accesible (<code>alt=""</code>) y con CSS scopeado.</p></div>
+      <div class="capas">
+        <div class="bloque"><span class="bloque__k bloque__k--ux">Razón · UX</span><p>Carga inicial y LCP mejores; solo se descargan las imágenes que van a verse.</p></div>
+        <div class="bloque"><span class="bloque__k">Razón · UI / gráfico</span><p>Mismo encuadre (cover/center), placeholder tenue de paleta y se conservan el <code>saturate</code> de reposo y el <code>scale</code> de hover.</p></div>
+      </div>
+      <p class="files"><b>Archivos:</b> <span>index.html</span> · <span>paramita-formacion.css</span></p>
+    </article>
+
+    <!-- #4 -->
+    <article class="estacion reveal">
+      <span class="estacion__nodo" aria-hidden="true"></span>
+      <p class="estacion__eyebrow">#4 · Auto-cualificación</p>
+      <h3>Micro-etiqueta de <em>prerrequisito</em> <span style="font-family:'JetBrains Mono',monospace;font-size:.6em;color:var(--dorado);vertical-align:.4em">MOCK</span></h3>
+      <p class="estacion__sum">Una señal de "para quién es", con una decisión de diseño asimétrica.</p>
+      <div class="bloque"><span class="bloque__k">Contexto</span><p>La tarjeta no daba señal de readiness más allá del nivel.</p></div>
+      <div class="bloque"><span class="bloque__k">Análisis</span><p>La auto-cualificación reduce inscripciones equivocadas y devoluciones —el punto ético clave para un centro de práctica, donde el objetivo no es maximizar volumen sino sostener una comunidad—.</p></div>
+      <div class="bloque"><span class="bloque__k">Intervención</span><p>Etiqueta con dos estados. Decisión asimétrica: la tira conserva "Sin experiencia previa" (acoge), y la rejilla muestra <em>solo</em> "Requiere X" (silencio = abierto). El contenido es simulado, pendiente de datos reales.</p></div>
+      <div class="capas">
+        <div class="bloque"><span class="bloque__k bloque__k--ux">Razón · UX</span><p>Cada contexto hace su trabajo: la tira tranquiliza, la rejilla cualifica. El "Requiere…" gana relieve al no competir con ruido en 8 tarjetas.</p></div>
+        <div class="bloque"><span class="bloque__k">Razón · UI / gráfico</span><p>Pill de dos tonos de paleta (azul acogedor / dorado de expectativa) con iconos de trazo fino: check y escalones ascendentes —que riman con la metáfora del sendero—.</p></div>
+      </div>
+      <p class="files"><b>Archivos:</b> <span>index.html</span> · <span>paramita-formacion.css</span></p>
+    </article>
+
+    <!-- #5 -->
+    <article class="estacion reveal">
+      <span class="estacion__nodo" aria-hidden="true"></span>
+      <p class="estacion__eyebrow">#5 · Feedback y recuperación</p>
+      <h3>Contador en vivo + estado <em>vacío</em></h3>
+      <p class="estacion__sum">"Mostrando N de 20" y, sin resultados, una salida en vez de un cero seco.</p>
+      <div class="bloque"><span class="bloque__k">Contexto</span><p>El contador actualizaba el número pero decía siempre "Mostrando N cursos"; y una combinación sin resultados mostraba "0" sin salida.</p></div>
+      <div class="bloque"><span class="bloque__k">Análisis</span><p>Baymard: mostrar los filtros aplicados y el recuento. Y un principio de diseño: una pantalla vacía es una invitación a actuar, no un callejón.</p></div>
+      <div class="bloque"><span class="bloque__k">Intervención</span><p>El contador pasa a "Mostrando N de 20". Con 0 resultados se oculta y aparece un bloque con dos salidas: <strong>Quitar filtros</strong> y <strong>Habla con nosotros</strong> (abre el chat de orientación existente). Reset compartido con "Empezar de nuevo".</p></div>
+      <div class="capas">
+        <div class="bloque"><span class="bloque__k bloque__k--ux">Razón · UX</span><p>Orientación (cuántos de cuántos), sin callejones, recuperación en un clic.</p></div>
+        <div class="bloque"><span class="bloque__k">Razón · UI / gráfico</span><p>Bloque vacío centrado y calmo, mensaje en serif, botones del sistema —nada de error rojo ni tono de disculpa—.</p></div>
+      </div>
+      <p class="files"><b>Archivos:</b> <span>index.html</span> · <span>paramita-formacion.js</span> · <span>paramita-formacion.css</span></p>
+    </article>
+
+    <!-- #6 -->
+    <article class="estacion reveal">
+      <span class="estacion__nodo" aria-hidden="true"></span>
+      <p class="estacion__eyebrow">#6 · Arquitectura de información</p>
+      <h3>Retiros <em>fuera</em> del catálogo</h3>
+      <p class="estacion__sum">Cursos y actividades son landings separadas; los retiros pertenecen a Actividades.</p>
+      <div class="bloque"><span class="bloque__k">Decisión</span><p>Cursos y actividades = landings completamente separadas. Los retiros tienen lógica de actividad (fecha, aforo, compromiso) y viven en /actividades.</p></div>
+      <div class="bloque"><span class="bloque__k">Intervención</span><p>Se sustituyeron 7 tarjetas de retiro (6 en la rejilla + 1 en la tira) por cursos no-retiro del mismo nivel, manteniendo 4 por nivel y los contadores intactos. Se actualizó la descripción del filtro "intensivo" (ya no dice "Retiro").</p></div>
+      <div class="capas">
+        <div class="bloque"><span class="bloque__k bloque__k--ux">Razón · UX / IA</span><p>Separación limpia de responsabilidades: el catálogo de cursos solo lista cursos; la lógica de reserva (fecha/aforo) vive donde corresponde.</p></div>
+        <div class="bloque"><span class="bloque__k">Razón · gráfico</span><p>Sin cambio visual: es un cambio de contenido y arquitectura, no de forma.</p></div>
+      </div>
+      <p class="files"><b>Archivos:</b> <span>index.html</span></p>
+    </article>
+
+    <!-- #7 -->
+    <article class="estacion reveal">
+      <span class="estacion__nodo" aria-hidden="true"></span>
+      <p class="estacion__eyebrow">#7 · Acceso persistente</p>
+      <h3>Pill flotante de acceso al <em>filtro</em></h3>
+      <p class="estacion__sum">Volver al filtro en un toque, desde cualquier punto del catálogo.</p>
+      <div class="bloque"><span class="bloque__k">Contexto</span><p>Dentro de las 20 tarjetas, la frase-intención queda muy arriba; refinar obligaba a volver a subir.</p></div>
+      <div class="bloque"><span class="bloque__k">Intervención</span><p>Un pill discreto abajo-izquierda (para no chocar con el chat, abajo-derecha) que aparece solo cuando la frase queda fuera y el catálogo sigue a la vista (dos observadores de intersección), con un badge del nº de filtros activos. Al pulsarlo: scroll suave de vuelta al filtro real y foco en él. No clona el filtro.</p></div>
+      <div class="capas">
+        <div class="bloque"><span class="bloque__k bloque__k--ux">Razón · UX</span><p>Reduce la fricción de refinar, sobre todo en móvil; el badge comunica el estado del filtro sin abrirlo.</p></div>
+        <div class="bloque"><span class="bloque__k">Razón · UI / gráfico</span><p>Pill calmo, no una barra "SaaS"; badge dorado; aparición suave que respeta reduce-motion. La frase-intención sigue siendo la pieza-firma y no se duplica.</p></div>
+      </div>
+      <p class="files"><b>Archivos:</b> <span>index.html</span> · <span>paramita-formacion.css</span> · <span>paramita-formacion.js</span></p>
+    </article>
+
+  </div>
+</section>
+
+<!-- PRINCIPIOS TRANSVERSALES -->
+<section class="oscuro">
+  <div class="flow">
+    <div class="sec-head reveal">
+      <span class="eyebrow">02 — Cómo se hizo</span>
+      <h2>Principios que atraviesan <em>todo</em>.</h2>
+    </div>
+    <p class="reveal">Más allá de cada intervención, hubo un método constante. Son las reglas que hicieron que los cambios encajaran en el sistema en vez de pelearse con él.</p>
+    <ul class="principios reveal">
+      <li><b>Leer antes de proponer.</b> Ahorró rehacer trabajo: el mapa ya alimentaba el estado del filtro, así que #1 solo tuvo que enganchar las puertas, no reconstruir nada.</li>
+      <li><b>Solo tokens del sistema.</b> Ningún color inventado: toda variación sale de la paleta oficial vía <code>color-mix(in oklch, …)</code>.</li>
+      <li><b>Mejora progresiva.</b> Lo esencial funciona sin JS: imágenes lazy nativas, carril scrolleable a mano. Las flechas y el pill son extras que nacen ocultos.</li>
+      <li><b>Accesibilidad de base.</b> Foco visible, operable por teclado, roles y <code>aria-label</code>, y <code>prefers-reduced-motion</code> respetado en cada animación nueva.</li>
+      <li><b>CSS scopeado.</b> Todo lo nuevo vive en la página /formación/ sin tocar el componente de tarjeta compartido ni la home.</li>
+      <li><b>Un cambio por concepto.</b> Cada intervención se validó en navegador antes de la siguiente; los ajustes finos (barra, sombra) salieron precisamente de esa validación.</li>
+    </ul>
+    <p class="pull reveal" style="color:var(--dorado-lite);border-color:rgba(255,255,255,.15)">La ambición visual del proyecto está a salvo: vive como capa expresiva sobre una arquitectura que convierte. El riesgo nunca fue la belleza, sino dejarla decidir la navegación.</p>
+  </div>
+</section>
+
+<!-- ESTADO Y SIGUIENTE -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — Estado y siguiente paso</span>
+    <h2>Qué queda por <em>cerrar</em>.</h2>
+  </div>
+  <div class="note reveal">
+    <span class="k">Contenido simulado (mock)</span>
+    Títulos, precios, fechas, maestros y —sobre todo— los textos de prerrequisito son placeholder para ver el diseño en contexto. Deben sustituirse por los datos reales de cada curso antes de publicar. El aviso queda marcado en el propio código (HTML y CSS).
+  </div>
+  <div class="note reveal">
+    <span class="k">Para revisión final</span>
+    Posición de la etiqueta de prerrequisito —bajo el título vs. en el pie junto a la meta— en tarjetas con título a dos líneas más texto largo (p. ej. "Requiere refugio + Nivel III"). Es un cambio de dos líneas cuando se decida.
+  </div>
+  <p class="reveal">El siguiente gran paso no es del catálogo, sino la pieza que aún no existe: la <strong>plantilla de página de curso individual</strong>. Su diseño depende de fijar antes el modelo de contenido de una ficha —temario, prerrequisitos reales, formato de inscripción, gratis vs. pago—. Ese es el trabajo que da forma a la plantilla.</p>
+  <p class="pull reveal">El catálogo queda coherente y cerrado en todo lo que no dependía de decisiones externas. Lo demás es contenido y una conversación pendiente.</p>
+</section>
+
+<footer class="flow">
+  <div>Informe del rediseño del catálogo de formación · Fundació Sakya Paramita · julio 2026 · Documento autocontenido · Contenido de ejemplo pendiente de datos reales</div>
+</footer>
+
+<script>
+  var pb=document.getElementById('progress');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;pb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  }else{document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});}
+</script>
+</body>
+</html>

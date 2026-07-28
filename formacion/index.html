@@ -185,6 +185,144 @@
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════════════════════════════════
+     TRAMO 1.5 · EMPIEZA AQUÍ · tira horizontal de primeros pasos
+     ───────────────────────────────────────────────────────────────────
+     Único uso sancionado del scroll horizontal (ver informe CRO): fila de
+     "destacados", NO navegación principal. Las cartas sangran por el borde
+     derecho para señalar que hay más; scroll NATIVO (sin scroll-jacking);
+     flechas como mejora progresiva (nacen [hidden], las activa el JS).
+     Reutiliza el componente .curso · sin variantes nuevas. Estas cartas
+     viven FUERA de #cuadricula, así que el filtro no las toca.
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="empieza" aria-labelledby="empieza-titulo">
+  <div class="empieza__head">
+    <span class="eyebrow">Empieza aquí</span>
+    <h2 id="empieza-titulo">Los primeros <em>pasos</em> del sendero.</h2>
+    <p>Cuatro cursos para empezar hoy, sin experiencia previa. Si prefieres ver el camino completo, el mapa está justo debajo.</p>
+  </div>
+
+  <div class="empieza__zona">
+    <button class="empieza__flecha empieza__flecha--prev" type="button" aria-label="Ver cursos anteriores" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6 L9 12 L15 18"/></svg>
+    </button>
+
+    <div class="empieza__rail" id="empiezaRail" tabindex="0" role="group" aria-label="Primeros cursos · desliza en horizontal para ver más">
+
+      <a class="curso" data-nivel="1" data-formato="corto" data-modalidad="auto" data-aportacion="gratuito" href="#">
+        <img class="curso__pic" src="/assets/img/curso-1.jpg" alt="" loading="lazy" decoding="async">
+        <div class="curso__trazo">
+          <svg viewBox="0 0 28 200" aria-hidden="true">
+            <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
+            <line class="curso__trazo-linea" x1="14" y1="108" x2="14" y2="200"/>
+            <circle class="curso__trazo-halo" cx="14" cy="100" r="10"/>
+            <circle class="curso__trazo-nodo" cx="14" cy="100" r="5"/>
+          </svg>
+        </div>
+        <div class="curso__body">
+          <div class="curso__eyebrow">
+            <span class="curso__nivel">Nivel <em>I</em></span>
+            <span class="curso__sep">·</span>
+            <span>Corto</span>
+          </div>
+          <div class="curso__aportacion">Gratuito</div>
+          <h3 class="curso__titulo">Introducción a la <em>meditación</em></h3>
+          <span class="curso__requisito curso__requisito--abierto"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-6.5"/></svg>Sin experiencia previa</span>
+          <div class="curso__foot">
+            <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
+            <div class="curso__meta">4 lecciones<span class="sep">·</span>autodirigido</div>
+          </div>
+        </div>
+      </a>
+
+      <a class="curso" data-nivel="1" data-formato="corto" data-modalidad="vivo" data-aportacion="gratuito" href="#">
+        <img class="curso__pic" src="/assets/img/curso-2.jpg" alt="" loading="lazy" decoding="async">
+        <div class="curso__trazo">
+          <svg viewBox="0 0 28 200" aria-hidden="true">
+            <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
+            <line class="curso__trazo-linea" x1="14" y1="108" x2="14" y2="200"/>
+            <circle class="curso__trazo-halo" cx="14" cy="100" r="10"/>
+            <circle class="curso__trazo-nodo" cx="14" cy="100" r="5"/>
+          </svg>
+        </div>
+        <div class="curso__body">
+          <div class="curso__eyebrow">
+            <span class="curso__nivel">Nivel <em>I</em></span>
+            <span class="curso__sep">·</span>
+            <span>Corto</span>
+          </div>
+          <div class="curso__aportacion">Gratuito</div>
+          <h3 class="curso__titulo">Introducción al <em>Lojong</em></h3>
+          <span class="curso__requisito curso__requisito--abierto"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-6.5"/></svg>Sin experiencia previa</span>
+          <div class="curso__foot">
+            <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
+            <div class="curso__meta">15 abr 2026<span class="sep">·</span>online en vivo</div>
+          </div>
+        </div>
+      </a>
+
+      <a class="curso" data-nivel="1" data-formato="largo" data-modalidad="vivo" data-aportacion="pago" href="#">
+        <img class="curso__pic" src="/assets/img/curso-3.jpg" alt="" loading="lazy" decoding="async">
+        <div class="curso__trazo">
+          <svg viewBox="0 0 28 200" aria-hidden="true">
+            <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
+            <line class="curso__trazo-linea" x1="14" y1="108" x2="14" y2="200"/>
+            <circle class="curso__trazo-halo" cx="14" cy="100" r="10"/>
+            <circle class="curso__trazo-nodo" cx="14" cy="100" r="5"/>
+          </svg>
+        </div>
+        <div class="curso__body">
+          <div class="curso__eyebrow">
+            <span class="curso__nivel">Nivel <em>I</em></span>
+            <span class="curso__sep">·</span>
+            <span>Largo</span>
+          </div>
+          <div class="curso__aportacion">120 €</div>
+          <h3 class="curso__titulo">EMI 1 · <em>Calma</em> y lucidez</h3>
+          <span class="curso__requisito curso__requisito--abierto"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-6.5"/></svg>Sin experiencia previa</span>
+          <div class="curso__foot">
+            <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
+            <div class="curso__meta">3 meses<span class="sep">·</span>online en vivo</div>
+          </div>
+        </div>
+      </a>
+
+      <a class="curso" data-nivel="1" data-formato="corto" data-modalidad="auto" data-aportacion="gratuito" href="#">
+        <img class="curso__pic" src="/assets/img/curso-6.jpg" alt="" loading="lazy" decoding="async">
+        <div class="curso__trazo">
+          <svg viewBox="0 0 28 200" aria-hidden="true">
+            <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
+            <line class="curso__trazo-linea" x1="14" y1="108" x2="14" y2="200"/>
+            <circle class="curso__trazo-halo" cx="14" cy="100" r="10"/>
+            <circle class="curso__trazo-nodo" cx="14" cy="100" r="5"/>
+          </svg>
+        </div>
+        <div class="curso__body">
+          <div class="curso__eyebrow">
+            <span class="curso__nivel">Nivel <em>I</em></span>
+            <span class="curso__sep">·</span>
+            <span>Corto</span>
+          </div>
+          <div class="curso__aportacion">Gratuito</div>
+          <h3 class="curso__titulo">Las cuatro <em>nobles verdades</em></h3>
+          <span class="curso__requisito curso__requisito--abierto"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-6.5"/></svg>Sin experiencia previa</span>
+          <div class="curso__foot">
+            <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
+            <div class="curso__meta">5 lecciones<span class="sep">·</span>autodirigido</div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <button class="empieza__flecha empieza__flecha--next" type="button" aria-label="Ver más cursos" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 L15 12 L9 18"/></svg>
+    </button>
+  </div>
+
+  <span class="empieza__hint" aria-hidden="true">desliza <span class="empieza__hint-flecha">→</span></span>
+</section>
+
 <section class="mapa">
   <div class="head-centrado mapa__head">
     <span class="eyebrow">El mapa del camino</span>
@@ -310,7 +448,7 @@
           <span class="popover__opcion-luz"></span>
           <span class="popover__opcion-textos">
             <span class="popover__opcion-etiqueta"><em>intensivo</em></span>
-            <span class="popover__opcion-desc">Retiro concentrado en días</span>
+            <span class="popover__opcion-desc">Concentrado en pocos días</span>
           </span>
         </span>
       </span>
@@ -376,8 +514,10 @@
 </section>
 
 <section class="cuadricula-seccion" id="catalogo">
-  <p class="contador-resultados">Mostrando <strong id="contador">20</strong> cursos del sendero</p>
+  <p class="contador-resultados" id="contadorLinea">Mostrando <strong id="contador">20</strong><span id="contadorDeTotal"></span> cursos del sendero</p>
 
+  <!-- ⚠ MOCKUP · las etiquetas .curso__requisito llevan PRERREQUISITO SIMULADO
+       (placeholder por nivel). Sustituir por el dato real de cada curso. -->
   <div class="cuadricula" id="cuadricula">
     <!-- ─── NIVEL I · FUNDAMENTOS ─────────────────────── -->
 
@@ -387,7 +527,7 @@
    data-modalidad="auto"
    data-aportacion="gratuito"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-1.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-1.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -418,7 +558,7 @@
    data-modalidad="vivo"
    data-aportacion="pago"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-3.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-3.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -446,11 +586,11 @@
 
     <a class="curso"
    data-nivel="1"
-   data-formato="intensivo"
-   data-modalidad="presencial"
-   data-aportacion="pago"
+   data-formato="corto"
+   data-modalidad="auto"
+   data-aportacion="gratuito"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-6.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-6.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -463,13 +603,13 @@
     <div class="curso__eyebrow">
       <span class="curso__nivel">Nivel <em>I</em></span>
       <span class="curso__sep">·</span>
-      <span>Intensivo</span>
+      <span>Corto</span>
     </div>
-    <div class="curso__aportacion">280 €</div>
-    <h3 class="curso__titulo">Retiro de <em>iniciación</em> a la práctica</h3>
+    <div class="curso__aportacion">Gratuito</div>
+    <h3 class="curso__titulo">Las cuatro <em>nobles verdades</em></h3>
     <div class="curso__foot">
       <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
-      <div class="curso__meta">9–12 oct 2026<span class="sep">·</span>Alicante</div>
+      <div class="curso__meta">5 lecciones<span class="sep">·</span>autodirigido</div>
     </div>
   </div>
 </a>
@@ -481,7 +621,7 @@
    data-modalidad="vivo"
    data-aportacion="gratuito"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-2.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-2.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -513,7 +653,7 @@
    data-modalidad="vivo"
    data-aportacion="pago"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-3.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-3.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -530,6 +670,7 @@
     </div>
     <div class="curso__aportacion">240 €</div>
     <h3 class="curso__titulo">El Camino del <em>Bodhisattva</em> · parte 1</h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere práctica previa</span>
     <div class="curso__foot">
       <div class="curso__maestro">S.S. el 42.º Sakya Trizin</div>
       <div class="curso__meta">6 meses<span class="sep">·</span>online en vivo</div>
@@ -544,7 +685,7 @@
    data-modalidad="auto"
    data-aportacion="gratuito"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-5.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-5.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -561,6 +702,7 @@
     </div>
     <div class="curso__aportacion">Gratuito</div>
     <h3 class="curso__titulo">Las <em>37 prácticas</em> del bodhisattva</h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere práctica previa</span>
     <div class="curso__foot">
       <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
       <div class="curso__meta">8 lecciones<span class="sep">·</span>autodirigido</div>
@@ -575,7 +717,7 @@
    data-modalidad="auto"
    data-aportacion="gratuito"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-1.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-1.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -592,6 +734,7 @@
     </div>
     <div class="curso__aportacion">Gratuito</div>
     <h3 class="curso__titulo">La Rueda de las <em>Armas</em> Afiladas</h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere práctica previa</span>
     <div class="curso__foot">
       <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
       <div class="curso__meta">27 jun 2026<span class="sep">·</span>online en vivo</div>
@@ -602,11 +745,11 @@
 
     <a class="curso"
    data-nivel="2"
-   data-formato="intensivo"
-   data-modalidad="presencial"
+   data-formato="largo"
+   data-modalidad="vivo"
    data-aportacion="pago"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-3.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-3.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -619,13 +762,14 @@
     <div class="curso__eyebrow">
       <span class="curso__nivel">Nivel <em>II</em></span>
       <span class="curso__sep">·</span>
-      <span>Intensivo</span>
+      <span>Largo</span>
     </div>
-    <div class="curso__aportacion">320 €</div>
-    <h3 class="curso__titulo">Retiro sobre las <em>paramitas</em></h3>
+    <div class="curso__aportacion">150 €</div>
+    <h3 class="curso__titulo">Las seis <em>perfecciones</em></h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere práctica previa</span>
     <div class="curso__foot">
       <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
-      <div class="curso__meta">18–22 nov 2026<span class="sep">·</span>Alicante</div>
+      <div class="curso__meta">10 semanas<span class="sep">·</span>online en vivo</div>
     </div>
   </div>
 </a>
@@ -638,7 +782,7 @@
    data-modalidad="vivo"
    data-aportacion="pago"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-4.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-4.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -655,6 +799,7 @@
     </div>
     <div class="curso__aportacion">1.200 €/año</div>
     <h3 class="curso__titulo">Programa <em>Dharma Chakra</em></h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere Nivel II</span>
     <div class="curso__foot">
       <div class="curso__maestro">S.S. el 42.º Sakya Trizin</div>
       <div class="curso__meta">5 años<span class="sep">·</span>online en vivo</div>
@@ -668,7 +813,7 @@
    data-modalidad="vivo"
    data-aportacion="pago"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-5.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-5.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -685,6 +830,7 @@
     </div>
     <div class="curso__aportacion">380 €</div>
     <h3 class="curso__titulo">Las <em>Tres Visiones</em></h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere Nivel II</span>
     <div class="curso__foot">
       <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
       <div class="curso__meta">8 meses<span class="sep">·</span>online en vivo</div>
@@ -700,7 +846,7 @@
    data-modalidad="auto"
    data-aportacion="gratuito"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-2.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-2.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -717,6 +863,7 @@
     </div>
     <div class="curso__aportacion">Gratuito</div>
     <h3 class="curso__titulo">Introducción al <em>Abhidharma</em></h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere Nivel II</span>
     <div class="curso__foot">
       <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
       <div class="curso__meta">5 lecciones<span class="sep">·</span>autodirigido</div>
@@ -730,7 +877,7 @@
    data-modalidad="vivo"
    data-aportacion="pago"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-3.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-3.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -747,6 +894,7 @@
     </div>
     <div class="curso__aportacion">220 €</div>
     <h3 class="curso__titulo">Los siete puntos <em>vajra</em></h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere Nivel II</span>
     <div class="curso__foot">
       <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
       <div class="curso__meta">8 sesiones<span class="sep">·</span>online en vivo</div>
@@ -762,7 +910,7 @@
    data-modalidad="presencial"
    data-aportacion="pago"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-4.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-4.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -779,6 +927,7 @@
     </div>
     <div class="curso__aportacion">680 €</div>
     <h3 class="curso__titulo">Introducción al <em>Vajrayana</em></h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere refugio + Nivel III</span>
     <div class="curso__foot">
       <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
       <div class="curso__meta">1 año<span class="sep">·</span>híbrido</div>
@@ -789,11 +938,11 @@
 
     <a class="curso"
    data-nivel="4"
-   data-formato="intensivo"
-   data-modalidad="presencial"
+   data-formato="largo"
+   data-modalidad="vivo"
    data-aportacion="pago"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-6.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-6.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -806,13 +955,14 @@
     <div class="curso__eyebrow">
       <span class="curso__nivel">Nivel <em>IV</em></span>
       <span class="curso__sep">·</span>
-      <span>Intensivo</span>
+      <span>Largo</span>
     </div>
-    <div class="curso__aportacion">450 €</div>
-    <h3 class="curso__titulo">Retiro de <em>Chenrezig</em></h3>
+    <div class="curso__aportacion">220 €</div>
+    <h3 class="curso__titulo">Introducción al <em>tantra</em></h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere refugio + Nivel III</span>
     <div class="curso__foot">
       <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
-      <div class="curso__meta">7 días<span class="sep">·</span>Alicante</div>
+      <div class="curso__meta">12 semanas<span class="sep">·</span>online en vivo</div>
     </div>
   </div>
 </a>
@@ -823,7 +973,7 @@
    data-modalidad="vivo"
    data-aportacion="pago"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-1.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-1.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -840,6 +990,7 @@
     </div>
     <div class="curso__aportacion">160 €</div>
     <h3 class="curso__titulo">Los tres cuerpos del <em>Buddha</em></h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere refugio + Nivel III</span>
     <div class="curso__foot">
       <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
       <div class="curso__meta">4 sesiones<span class="sep">·</span>online en vivo</div>
@@ -853,7 +1004,7 @@
    data-modalidad="presencial"
    data-aportacion="pago"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-2.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-2.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -868,11 +1019,12 @@
       <span class="curso__sep">·</span>
       <span>Intensivo</span>
     </div>
-    <div class="curso__aportacion">380 €</div>
-    <h3 class="curso__titulo">Retiro de <em>Tara Verde</em></h3>
+    <div class="curso__aportacion">180 €</div>
+    <h3 class="curso__titulo">El yoga de la <em>deidad</em></h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere refugio + Nivel III</span>
     <div class="curso__foot">
       <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
-      <div class="curso__meta">5 días<span class="sep">·</span>Alicante</div>
+      <div class="curso__meta">Fin de semana<span class="sep">·</span>Alicante</div>
     </div>
   </div>
 </a>
@@ -885,7 +1037,7 @@
    data-modalidad="presencial"
    data-aportacion="pago"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-3.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-3.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -902,6 +1054,7 @@
     </div>
     <div class="curso__aportacion">1.400 €</div>
     <h3 class="curso__titulo">El <em>Lamdré</em> · el camino y sus frutos</h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere iniciación previa</span>
     <div class="curso__foot">
       <div class="curso__maestro">S.S. el 42.º Sakya Trizin</div>
       <div class="curso__meta">3 años<span class="sep">·</span>híbrido</div>
@@ -911,11 +1064,11 @@
 
     <a class="curso"
    data-nivel="5"
-   data-formato="intensivo"
-   data-modalidad="presencial"
+   data-formato="largo"
+   data-modalidad="vivo"
    data-aportacion="pago"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-4.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-4.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -928,13 +1081,14 @@
     <div class="curso__eyebrow">
       <span class="curso__nivel">Nivel <em>V</em></span>
       <span class="curso__sep">·</span>
-      <span>Intensivo</span>
+      <span>Largo</span>
     </div>
-    <div class="curso__aportacion">720 €</div>
-    <h3 class="curso__titulo">Retiro de <em>Vajrayogini</em></h3>
+    <div class="curso__aportacion">300 €</div>
+    <h3 class="curso__titulo">Los preliminares (<em>ngöndro</em>)</h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere iniciación previa</span>
     <div class="curso__foot">
       <div class="curso__maestro">Lama Rinchen Gyaltsen</div>
-      <div class="curso__meta">10 días<span class="sep">·</span>Alicante</div>
+      <div class="curso__meta">6 meses<span class="sep">·</span>online en vivo</div>
     </div>
   </div>
 </a>
@@ -945,7 +1099,7 @@
    data-modalidad="vivo"
    data-aportacion="pago"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-5.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-5.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -962,6 +1116,7 @@
     </div>
     <div class="curso__aportacion">520 €</div>
     <h3 class="curso__titulo">La <em>naturaleza</em> de la mente</h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere iniciación previa</span>
     <div class="curso__foot">
       <div class="curso__maestro">S.S. el 42.º Sakya Trizin</div>
       <div class="curso__meta">1 año<span class="sep">·</span>online en vivo</div>
@@ -975,7 +1130,7 @@
    data-modalidad="presencial"
    data-aportacion="pago"
    href="#">
-  <div class="curso__pic" style="background-image:url('/assets/img/curso-6.jpg')"></div>
+  <img class="curso__pic" src="/assets/img/curso-6.jpg" alt="" loading="lazy" decoding="async">
   <div class="curso__trazo">
     <svg viewBox="0 0 28 200" aria-hidden="true">
       <line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/>
@@ -990,15 +1145,25 @@
       <span class="curso__sep">·</span>
       <span>Intensivo</span>
     </div>
-    <div class="curso__aportacion">980 €</div>
-    <h3 class="curso__titulo">Retiro largo de <em>Hevajra</em></h3>
+    <div class="curso__aportacion">260 €</div>
+    <h3 class="curso__titulo">El camino y su <em>fruto</em> (Lamdre)</h3>
+    <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere iniciación previa</span>
     <div class="curso__foot">
       <div class="curso__maestro">S.S. el 42.º Sakya Trizin</div>
-      <div class="curso__meta">14 días<span class="sep">·</span>Alicante</div>
+      <div class="curso__meta">Fin de semana intensivo<span class="sep">·</span>Alicante</div>
     </div>
   </div>
 </a>
 
+  </div>
+
+  <!-- #5 · Estado vacío · sin resultados → salida, no callejón (lo activa el JS) -->
+  <div class="catalogo-vacio" id="catalogoVacio" hidden>
+    <p class="catalogo-vacio__msg">Ningún curso coincide con esa combinación.</p>
+    <div class="catalogo-vacio__acciones">
+      <button type="button" class="btn-primario" id="vacioReset">Quitar filtros</button>
+      <button type="button" class="btn-secundario" id="vacioChat">Habla con nosotros</button>
+    </div>
   </div>
 </section>
 
@@ -1096,6 +1261,16 @@
 
 
 </main>
+
+<!-- #7 · Acceso al filtro persistente en scroll largo (pill flotante) -->
+<button type="button" class="filtro-pill" id="filtroPill" aria-label="Ir a los filtros">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <line x1="4" y1="8" x2="20" y2="8"/><circle cx="10" cy="8" r="2.4" fill="var(--card,#fff)"/>
+    <line x1="4" y1="16" x2="20" y2="16"/><circle cx="15" cy="16" r="2.4" fill="var(--card,#fff)"/>
+  </svg>
+  <span class="filtro-pill__txt">Filtrar</span>
+  <span class="filtro-pill__badge" hidden>0</span>
+</button>
 
 <div class="chat-widget" id="chatWidget" aria-live="polite">
 

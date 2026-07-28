@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Espectáculo vs. Conversión — Informe UI/UX + CRO 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;
+    --paper-2:#FBFAF7;
+    --ink:#191A1C;
+    --slate:#63656B;
+    --ink-deep:#132239;
+    --ink-deep-2:#0E1A2C;
+    --gold:#A8823F;
+    --gold-lite:#C9A96E;
+    --rule:#DAD6CC;
+    --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);
+    line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  /* progress bar */
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  /* layout grid */
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+  .flow > .bleed{grid-column:1/-1;width:100%}
+
+  /* ---------- COVER ---------- */
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;
+    font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--gold);margin:0 0 1.4rem
+  }
+  .cover h1{
+    font-family:"Fraunces",serif;
+    font-optical-sizing:auto;
+    font-weight:500;
+    font-size:clamp(2.6rem,7vw,4.8rem);
+    line-height:1.0;
+    letter-spacing:-.015em;
+    margin:0 0 1.4rem;
+  }
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{
+    font-size:clamp(1.15rem,1.4vw,1.4rem);
+    line-height:1.5;color:var(--slate);max-width:32em;margin:0 0 2.4rem;font-weight:400
+  }
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{
+    content:"";position:absolute;inset:0;width:38%;
+    background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);
+    animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite
+  }
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+
+  .lede{
+    font-family:"Fraunces",serif;font-weight:400;
+    font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.45;
+    letter-spacing:-.01em;margin:2.6rem 0 0;color:var(--ink)
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:clamp(3rem,7vh,5rem) 0}
+  .sec-head{margin:0 0 2rem}
+  .sec-num{
+    font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.2em;
+    color:var(--gold);display:block;margin-bottom:.7rem
+  }
+  h2{
+    font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;
+    font-size:clamp(1.85rem,3.6vw,2.85rem);line-height:1.08;letter-spacing:-.012em;margin:0
+  }
+  h3{
+    font-family:"Hanken Grotesk",sans-serif;font-weight:650;
+    font-size:1.18rem;letter-spacing:.005em;margin:2.6rem 0 .6rem;line-height:1.3
+  }
+  h3 .tag{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);letter-spacing:.14em;vertical-align:.35em;margin-right:.55em;text-transform:uppercase}
+  p{margin:0 0 1.15rem}
+  a{color:var(--ink-deep);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;text-decoration-thickness:1px}
+  a:hover{text-decoration-thickness:2px}
+  strong{font-weight:650}
+  em{font-style:italic}
+  .drop::first-letter{
+    font-family:"Fraunces",serif;font-weight:500;float:left;
+    font-size:3.5em;line-height:.72;padding:.06em .09em 0 0;color:var(--ink-deep)
+  }
+
+  /* pull quote */
+  .pull{
+    font-family:"Fraunces",serif;font-style:italic;font-weight:400;
+    font-size:clamp(1.35rem,2.4vw,1.9rem);line-height:1.32;letter-spacing:-.01em;
+    color:var(--ink-deep);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    padding:1.6rem 0;margin:2.4rem 0
+  }
+
+  /* stat grid */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .stat{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.9rem,3vw,2.6rem);line-height:1;letter-spacing:-.02em;color:var(--ink-deep)}
+  .stat .n small{font-size:.5em;color:var(--gold);font-weight:500}
+  .stat .l{font-family:"Hanken Grotesk",sans-serif;font-size:.9rem;line-height:1.35;color:var(--ink);margin-top:.6rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.66rem;color:var(--slate);margin-top:.5rem;letter-spacing:.02em}
+
+  /* callout note */
+  .note{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:1.3rem 1.4rem;margin:1.8rem 0;font-size:.98rem;line-height:1.62}
+  .note .k{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+
+  /* table */
+  .tbl-wrap{margin:2rem 0;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.92rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:.8rem}
+  th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  thead th{border-bottom:1.5px solid var(--ink);font-family:"Hanken Grotesk";font-weight:650;font-size:.82rem}
+  tbody td:first-child{font-weight:600}
+  .num{font-family:"JetBrains Mono",monospace;font-size:.85rem;white-space:nowrap;color:var(--ink-deep)}
+  tbody tr:hover td{background:var(--paper-2)}
+
+  /* two-job compare */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .split > div{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .split h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.25rem;margin:0 0 .3rem}
+  .split .role{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+  .split ul{margin:0;padding-left:1.05em;font-size:.94rem;line-height:1.55}
+  .split li{margin-bottom:.5rem}
+
+  /* ---------- horizontal demo (the signature) ---------- */
+  .demo{background:var(--ink-deep);color:var(--paper);padding:clamp(2.6rem,5vh,4rem) 0}
+  .demo .flow > *{grid-column:2}
+  .demo .eyebrow{color:var(--gold-lite)}
+  .demo h2{color:var(--paper)}
+  .demo p{color:#C3CAD6}
+  .demo .demo-label{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.12em;color:var(--gold-lite);text-transform:uppercase;margin-bottom:.9rem;display:flex;align-items:center;gap:.7rem}
+  .demo .demo-label .arrow{animation:nudge 2.2s ease-in-out infinite}
+  @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+  .rail{
+    display:grid;grid-auto-flow:column;grid-auto-columns:min(78%,320px);
+    gap:1.1rem;overflow-x:auto;scroll-snap-type:x mandatory;
+    padding:0 max(1.25rem,calc((100% - var(--wide))/2)) 1.4rem;
+    scrollbar-width:thin;scrollbar-color:var(--gold) transparent;
+    -webkit-overflow-scrolling:touch
+  }
+  .rail::-webkit-scrollbar{height:7px}
+  .rail::-webkit-scrollbar-track{background:rgba(255,255,255,.08)}
+  .rail::-webkit-scrollbar-thumb{background:var(--gold);border-radius:99px}
+  .card{
+    scroll-snap-align:start;background:var(--ink-deep-2);border:1px solid rgba(201,169,110,.25);
+    border-radius:2px;padding:1.4rem;display:flex;flex-direction:column;min-height:230px
+  }
+  .card .ct{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+  .chip{font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:.28em .55em;border:1px solid rgba(201,169,110,.5);color:var(--gold-lite);border-radius:99px}
+  .chip.free{border-color:rgba(150,200,160,.6);color:#9ECBA8}
+  .chip.paid{border-color:rgba(201,169,110,.6)}
+  .card h5{font-family:"Fraunces",serif;font-weight:500;font-size:1.35rem;line-height:1.12;margin:0 0 .5rem;color:var(--paper)}
+  .card p{font-size:.9rem;line-height:1.5;color:#AAB3C0;margin:0 0 1rem}
+  .card .foot{margin-top:auto;font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--gold-lite);letter-spacing:.04em}
+  .demo .why{font-size:.9rem;color:#8B94A2;font-family:"JetBrains Mono",monospace;letter-spacing:.02em;margin-top:1.2rem;line-height:1.6}
+
+  /* verdict dark block */
+  .verdict{background:var(--ink-deep-2);color:var(--paper);padding:clamp(3rem,7vh,5rem) 0}
+  .verdict h2{color:var(--paper)}
+  .verdict .eyebrow{color:var(--gold-lite)}
+  .verdict p{color:#C3CAD6}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2rem}
+  .checks h4{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 1rem;padding-bottom:.6rem;border-bottom:1px solid rgba(255,255,255,.15)}
+  .checks .yes h4{color:#9ECBA8}
+  .checks .no h4{color:#D98C8C}
+  .checks ul{list-style:none;margin:0;padding:0;font-size:.94rem;line-height:1.5}
+  .checks li{padding-left:1.5em;position:relative;margin-bottom:.9rem;color:#D6DBE3}
+  .checks .yes li::before{content:"✓";position:absolute;left:0;color:#9ECBA8;font-weight:700}
+  .checks .no li::before{content:"✕";position:absolute;left:0;color:#D98C8C;font-weight:700}
+
+  /* references */
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.76rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:620px){
+    .split{grid-template-columns:1fr}
+    .checks{grid-template-columns:1fr}
+    .cover h1{font-size:clamp(2.3rem,10vw,3rem)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .sheen::after{animation:none;transform:translateX(80%)}
+    .demo-label .arrow{animation:none}
+    .reveal{opacity:1;transform:none;transition:none}
+    *{scroll-behavior:auto}
+    .rail{scroll-snap-type:none}
+  }
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe · CRO + UI/UX + Diseño web · 2026</p>
+  <h1>Espectáculo<br><em>vs.</em> Conversión</h1>
+  <p class="deck">Qué estructuras convierten de verdad en webs con secciones de <strong>cursos</strong> y de <strong>actividades</strong> —y por qué el scroll horizontal casi nunca es la respuesta que promete ser.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Encargo</b> · Análisis profundo con datos contrastados</span>
+    <span><b>Fecha</b> · Julio 2026</span>
+    <span><b>Lectura</b> · ~22 min</span>
+  </div>
+  <p class="lede">La tesis en una frase: en 2026 lo que convierte no es lo que deslumbra, sino lo que reduce fricción. Lo experimental funciona solo cuando se apoya en una arquitectura convencional —nunca cuando la sustituye.</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 01 ===================== -->
+<section class="flow" id="s1">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — Bajo el ruido</span>
+    <h2>Qué convierte de verdad (y qué es humo de agencia)</h2>
+  </div>
+
+  <p class="drop reveal">El mercado de "tendencias 2026" está saturado de titulares espectaculares: IA que reordena el contenido en tiempo real, personalización por micro-comportamiento, layouts auto-optimizables. Para una fundación cultural o un centro de práctica, casi todo eso es sobreingeniería que consume presupuesto sin tocar la conversión. La palanca real es más aburrida y mucho más sólida: cada decisión de diseño <em>o elimina fricción o la crea</em>. No hay una tercera categoría.</p>
+
+  <p class="reveal">Conviene empezar con escepticismo sobre las propias cifras, porque parte de lo que circula es folclore de marketing. El dato más citado del sector —el "cada dólar invertido en UX devuelve 100" atribuido a Forrester— es exactamente eso: repetido hasta la saciedad, metodológicamente frágil y probablemente inflado. Lo incluyo no como prueba, sino como aviso: cuando una cifra suena demasiado redonda, trátala como marketing hasta que veas la muestra. Lo que sí tiene muestras grandes y consistentes es lo siguiente.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">53<small>%</small></div><div class="l">de usuarios abandonan una página que tarda más de 3 s en cargar</div><div class="src">MarketingLTB, 2026</div></div>
+    <div class="stat"><div class="n">+4–7<small>%</small></div><div class="l">de conversión por cada segundo de mejora en velocidad</div><div class="src">MarketingLTB, 2026</div></div>
+    <div class="stat"><div class="n">+32<small>%</small></div><div class="l">convierten mejor las páginas con un único CTA frente a las de 2 o más</div><div class="src">MarketingLTB, 2026</div></div>
+    <div class="stat"><div class="n">~6,6<small>%</small></div><div class="l">tasa mediana de conversión de landing pages (41.000 páginas, 464 M de visitas)</div><div class="src">Unbounce, benchmark</div></div>
+  </div>
+
+  <p class="reveal">A esto se suman efectos bien documentados y con lógica clara: el vídeo tiende a subir la conversión en torno a un tercio, los testimonios en torno a un 14%, los sellos de confianza entre un 7 y un 12%, y quitar los enlaces de navegación de una landing de conversión sube alrededor de un 15% (porque cada enlace es una vía de escape). Ninguno de estos es una tendencia de 2026; son fundamentos que llevan una década funcionando y que la mayoría de sitios sigue sin ejecutar bien.</p>
+
+  <h3 class="reveal"><span class="tag">clave ética</span>Auto-cualificación &gt; volumen</h3>
+  <p class="reveal">Hay un hallazgo de 2026 especialmente relevante para un centro de práctica, y va a contracorriente del instinto de "maximizar registros". El análisis de landings de curso muestra un patrón incómodo: <strong>cuando la conversión sube pero suben también el desenganche temprano y las devoluciones, la página está prometiendo de más respecto a lo que el alumno está preparado para recibir.</strong> La solución no es vender mejor, es dejar que el prospecto se descarte solo: prerrequisitos explícitos, expectativa de dedicación semanal, y alcance claro del acompañamiento. Eso baja el volumen bruto pero sube la <em>calidad</em> de la inscripción —que es lo que de verdad importa cuando el objetivo no es facturar sino sostener una comunidad de práctica.</p>
+
+  <div class="note reveal">
+    <span class="k">La otra tendencia real de 2026</span>
+    El diseño ético ha pasado de nicho a ventaja competitiva: evitar patrones manipuladores y construir experiencias transparentes. Para una fundación budista esto no es una concesión moral, es coherencia de marca. El resto del informe asume esta postura: nada de urgencia fabricada, nada de <em>dark patterns</em>.
+  </div>
+
+  <p class="pull reveal">Todo lo que sigue parte de una regla: la sección de cursos y la de actividades no son la misma máquina. Tienen objetivos distintos, y mezclarlas es el error estructural más caro.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 ===================== -->
+<section class="flow" id="s2">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — Cursos</span>
+    <h2>Son dos trabajos distintos, no uno</h2>
+  </div>
+
+  <p class="drop reveal">El fallo más común en secciones de cursos es tratar "el catálogo" y "la página del curso" como el mismo objeto. Son dos máquinas con objetivos opuestos. El catálogo sirve para <em>descubrir y filtrar</em> (findability): su enemigo es el ruido y su métrica es cuánto tarda alguien en encontrar lo suyo. La página individual sirve para <em>convertir</em>: su enemigo es la duda y su métrica es la inscripción cualificada. Requieren arquitecturas diferentes.</p>
+
+  <div class="split reveal">
+    <div>
+      <div class="role">Máquina A</div>
+      <h4>El catálogo</h4>
+      <ul>
+        <li>Trabajo: encontrar, no seducir.</li>
+        <li>Rejilla vertical escaneable, <strong>nunca</strong> carrusel ni scroll horizontal como navegación.</li>
+        <li>Filtros por los ejes reales: tema, nivel, duración, gratis/pago y <strong>perfil de usuario</strong>.</li>
+        <li>Filtros por persona (nuevo / medio / fiel) — documentados como best practice, no invención.</li>
+        <li>Previsualización al hover (patrón edX) para evaluar antes de entrar.</li>
+        <li>Mostrar siempre los filtros aplicados.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="role">Máquina B</div>
+      <h4>La página del curso</h4>
+      <ul>
+        <li>Trabajo: convertir la duda en decisión.</li>
+        <li>Héroe = encaje de audiencia + resultado + siguiente paso, sin scroll.</li>
+        <li>Prueba social <strong>temprana</strong>, no al pie de página.</li>
+        <li>Credibilidad del docente arriba (aquí el khenpo es el activo diferencial).</li>
+        <li>Temario, FAQ, reversión de riesgo, un único CTA.</li>
+        <li>Jerarquía pensada para móvil primero.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="reveal">Sobre el catálogo, la investigación de navegación es tajante: los menús desplegables por <em>hover</em> en escritorio rinden mejor que las alternativas porque dejan explorar categorías y seleccionar un alcance bien definido (Baymard). Y los filtros por persona —"primera vez", "cambio de rumbo"— aparecen en las guías de catálogos modernos como recomendación explícita. Es decir: el sistema nuevo / medio / fiel no es un capricho de autor, es exactamente lo que la evidencia pide para audiencias con niveles de compromiso distintos.</p>
+
+  <p class="reveal">Sobre la decisión de compra, el margen es brutal: el visitante decide en torno a <strong>8 segundos</strong>, y la mayoría de esa investigación ocurre en móvil. Por eso la pantalla de apertura debe fijar encaje + resultado + siguiente paso sin obligar a un scroll largo. El eje <strong>gratis vs. pago</strong> no cambia la estructura, cambia el CTA: gratis pide fricción mínima ("Empieza ahora"); pago pide más construcción de confianza y reversión de riesgo antes del botón.</p>
+
+  <h3 class="reveal"><span class="tag">datos contrastados</span>Formularios: menos campos casi siempre, pero no siempre</h3>
+  <p class="reveal">Aquí es donde la mayoría de "mejores prácticas" mienten por simplificar. El consenso general es correcto —cada campo introduce una micro-duda— pero la relación no es lineal y tiene excepciones que importan. Estos son datos de fuentes distintas, puestos uno al lado del otro para que se vea la tensión:</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Conversión de formularios según nº de campos — fuentes contrastadas</caption>
+      <thead><tr><th>Nº de campos</th><th>Conversión (Digital Applied, 2026)</th><th>Conversión (Neil Patel, 2026)</th><th>Lectura</th></tr></thead>
+      <tbody>
+        <tr><td>1 campo</td><td class="num">—</td><td class="num">18,2 %</td><td>Máximo absoluto</td></tr>
+        <tr><td>3 campos</td><td class="num">23,1 %</td><td class="num">11,5 %</td><td>Zona segura</td></tr>
+        <tr><td>5 campos</td><td class="num">17,0 %</td><td class="num">8,1 %</td><td>Antes del precipicio</td></tr>
+        <tr><td>7 campos</td><td class="num">11,4 %</td><td class="num">7,6 %</td><td>Caída fuerte</td></tr>
+        <tr><td>10+ campos</td><td class="num">6,9 %</td><td class="num">—</td><td>Solo si el valor lo justifica</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="reveal">Las cifras absolutas difieren entre fuentes (métodos y sectores distintos), pero la <em>forma</em> coincide: hay un precipicio entre 5 y 7 campos, donde cada campo añadido cuesta casi el doble que antes. Ahora la excepción que desmonta el dogma: Unbounce recortó un formulario de registro a una conferencia de 9 a 6 campos esperando subir la conversión —y cayó un 14%. ¿Por qué? Porque en un contexto de alto compromiso, los campos "de más" señalan seriedad y ayudan a auto-cualificar. La lección real no es "menos campos", es <strong>ajustar el número de campos al nivel de compromiso y al valor percibido</strong>. Un retiro de una semana puede permitirse pedir más que una newsletter.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">+86<small>%</small></div><div class="l">mejor conversión de los formularios multi-paso frente a los de un bloque</div><div class="src">HubSpot</div></div>
+    <div class="stat"><div class="n">+10–12<small>%</small></div><div class="l">de finalización con autocompletado activado</div><div class="src">Zuko / CRO stats</div></div>
+    <div class="stat"><div class="n">~5</div><div class="l">campos: el número medio de un formulario, pero rara vez el óptimo</div><div class="src">HubSpot</div></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 ===================== -->
+<section class="flow" id="s3">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — Actividades</span>
+    <h2>Otra lógica: fecha, aforo y compromiso</h2>
+  </div>
+
+  <p class="drop reveal">Eventos, retiros, celebraciones y visitas no son cursos. Tienen tres variables que los cursos no manejan igual: una <strong>fecha</strong> (caducan), un <strong>aforo</strong> (son finitos) y un <strong>nivel de compromiso</strong> radicalmente variable. Una visita abierta de una tarde y un retiro residencial de una semana no pueden compartir plantilla: exigen al usuario cosas distintas y merecen fricción distinta.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Matriz de plantillas por nivel de compromiso</caption>
+      <thead><tr><th>Tipo</th><th>Compromiso</th><th>Fricción admisible</th><th>Elemento que convierte</th></tr></thead>
+      <tbody>
+        <tr><td>Visita / puertas abiertas</td><td>Bajo</td><td>Mínima — 1 clic, quizá sin formulario</td><td>Claridad de "cuándo y dónde"</td></tr>
+        <tr><td>Celebración / evento puntual</td><td>Bajo-medio</td><td>Formulario corto (nombre + email)</td><td>Fecha + programa escaneable</td></tr>
+        <tr><td>Taller / jornada</td><td>Medio</td><td>Formulario medio, pago simple</td><td>Resultado concreto + docente</td></tr>
+        <tr><td>Retiro residencial</td><td>Alto</td><td>Alta — puede y debe pedir más</td><td>Confianza, logística, aforo real</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="reveal">En el registro, las reglas son consistentes con lo visto en cursos, pero con un matiz decisivo: <strong>empezar por las preguntas fáciles</strong> (nombre, email) para arrancar en piloto automático, y —crítico— no incluir ningún campo que obligue a la persona a irse a buscar un dato fuera. "Cualquier campo que te mande a comprobar un número de reserva o una fecha en otro sitio es donde pierdes al usuario" (UX Collective, vía Regpacks). Para formularios de varios pasos, indicador de progreso. Para grupos, permitir que una persona inscriba a varias. Y un CTA persistente: cabecera fija + enlaces ancla, para que "registrarse" esté a un clic desde cualquier punto del scroll.</p>
+
+  <h3 class="reveal"><span class="tag">frontera ética</span>Escasez honesta, no urgencia fabricada</h3>
+  <p class="reveal">Cada artículo de "landing de eventos" te empujará a contadores de cuenta atrás y disparadores de FOMO. Para Paramita, el único uso legítimo de la escasez es el <strong>aforo real de un retiro</strong>, que sí es finito de verdad: mostrar "quedan 4 plazas" es información útil y honesta. Un contador de "la oferta acaba en 03:59:12" en un retiro de meditación es un patrón manipulador que traiciona el mensaje del centro. La coherencia de marca aquí no es un lujo estético: es la diferencia entre captar a la persona adecuada y quemar la confianza de la comunidad.</p>
+</section>
+
+<!-- ===================== 04 · DEMO (signature) ===================== -->
+<section class="demo" id="s4">
+  <div class="flow">
+    <div class="sec-head reveal">
+      <span class="eyebrow">04 — El scroll horizontal</span>
+      <h2>El veredicto, con datos (y una demostración en vivo)</h2>
+    </div>
+    <p class="reveal">Aquí está el núcleo del encargo. La confusión habitual mezcla tres cosas muy distintas bajo la etiqueta "scroll horizontal". Separadas, la evidencia es clara: una es casi siempre mala idea, otra suele serlo, y solo la tercera funciona —con condiciones estrictas. Esta misma sección está construida en scroll horizontal a propósito, para demostrar el <em>único</em> caso en que se hace bien.</p>
+  </div>
+
+  <div class="flow">
+    <p class="demo-label reveal"><span class="arrow">→</span> Demostración: fila de destacados (no navegación principal). Desliza o arrastra.</p>
+  </div>
+
+  <div class="rail" tabindex="0" aria-label="Fila de contenido con scroll horizontal, demostración">
+    <article class="card">
+      <div class="ct"><span class="chip">Nuevo</span><span class="chip free">Gratis</span><span class="chip">4 sesiones</span></div>
+      <h5>Calma y Lucidez</h5>
+      <p>Introducción a la meditación para quien nunca ha practicado. Sin requisitos previos.</p>
+      <div class="foot">Curso · online</div>
+    </article>
+    <article class="card">
+      <div class="ct"><span class="chip">Medio</span><span class="chip paid">De pago</span><span class="chip">8 semanas</span></div>
+      <h5>Las Seis Pāramitās</h5>
+      <p>Estudio guiado de las perfecciones. Recomendado tras una base de práctica.</p>
+      <div class="foot">Curso · presencial + online</div>
+    </article>
+    <article class="card">
+      <div class="ct"><span class="chip">Fiel</span><span class="chip paid">De pago</span><span class="chip">Residencial</span></div>
+      <h5>Retiro de invierno</h5>
+      <p>Cuatro días de práctica intensiva con el khenpo. Aforo limitado real.</p>
+      <div class="foot">Actividad · Monte Sella</div>
+    </article>
+    <article class="card">
+      <div class="ct"><span class="chip">Todos</span><span class="chip free">Gratis</span><span class="chip">1 tarde</span></div>
+      <h5>Puertas abiertas</h5>
+      <p>Visita al centro y sesión de meditación abierta. Sin inscripción previa.</p>
+      <div class="foot">Actividad · visita</div>
+    </article>
+    <article class="card">
+      <div class="ct"><span class="chip">Todos</span><span class="chip free">Gratis</span><span class="chip">Anual</span></div>
+      <h5>Celebración de Losar</h5>
+      <p>Año Nuevo tibetano. Programa, horarios y cómo participar.</p>
+      <div class="foot">Actividad · celebración</div>
+    </article>
+    <article class="card">
+      <div class="ct"><span class="chip">Medio</span><span class="chip free">Gratis</span><span class="chip">Serie</span></div>
+      <h5>Entrevistas monásticas</h5>
+      <p>Conversaciones en vídeo. Formato en desarrollo para el canal.</p>
+      <div class="foot">Contenido · YouTube</div>
+    </article>
+  </div>
+
+  <div class="flow">
+    <p class="why reveal">// Por qué esta fila funciona: las tarjetas <b>sangran por el borde derecho</b> (siempre se ve media tarjeta más), lo que <b>señala que hay más contenido</b>; hay barra visible y snap; y —lo esencial— <b>no es el camino de navegación principal</b>, es un complemento dentro de una página vertical. Es el patrón Netflix, no una web horizontal.</p>
+  </div>
+
+  <div class="flow">
+    <h3 style="color:var(--paper)" class="reveal">Caso 1 · Navegación primaria horizontal → mala idea, con datos</h3>
+    <p class="reveal">El problema raíz tiene nombre: la <em>Illusion of Completeness</em>. En un estudio clásico de Nielsen Norman Group, <strong>el 75% de los usuarios no se dio cuenta de que podía hacer scroll</strong> y nunca llegó a averiguar qué ofrecía el sitio. Un test A/B real de layout (recogido por Neurosciencemarketing) comparó una home vertical con su versión horizontal: los visitantes hicieron scroll un <strong>34% más lejos en la vertical</strong>, y apenas se expusieron al contenido dispuesto en horizontal. La razón psicológica: una fila horizontal se confunde con el final de la página, mientras que una disposición vertical siempre indica que hay más debajo. NN/g lo resume sin anestesia: el scroll horizontal en escritorio es <em>una de las poquísimas interacciones que genera rechazo de forma consistente</em>. Mucha gente, directamente, cree que la página está rota.</p>
+
+    <h3 style="color:var(--paper)" class="reveal">Caso 2 · Carruseles auto-rotativos → evítalos casi siempre</h3>
+    <p class="reveal">El carrusel de héroe es el patrón más querido por los clientes y más castigado por los datos. Baymard: el <strong>46% de los carruseles de home</strong> en e-commerce tienen problemas de usabilidad, y una alternativa estática rinde igual de bien. La mayoría de usuarios no ve todas las diapositivas porque hace scroll o clic antes de completar una rotación. Y el dato demoledor sobre el <em>drop-off</em>: apenas un <strong>~2% llega más allá del primer ítem</strong> del carrusel. Todo lo que pongas en la diapositiva 3 es, a efectos prácticos, invisible.</p>
+
+    <h3 style="color:var(--paper)" class="reveal">Caso 3 · Sección acotada dentro de una página vertical → sí, con condiciones</h3>
+    <p class="reveal">Este es el caso que salva el instinto creativo, y es el que has visto arriba en vivo. Funciona para conjuntos de ítems "pares" —cursos destacados, testimonios, galería de una actividad— siempre que se cumplan tres condiciones no negociables: (1) el contenido <strong>sangra visiblemente por el borde derecho</strong>, para que el usuario entienda que hay más; (2) hay una señal clara de que se puede arrastrar (barra, cursor, flecha); y (3) <strong>no es el camino principal de conversión</strong>. Es el patrón que popularizó Netflix con sus filas de género. Bien hecho, concentra la atención en un grupo temático en lugar de dejar que se lo salten.</p>
+  </div>
+
+  <div class="flow">
+    <div class="stats reveal" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.18)">
+      <div class="stat" style="background:var(--ink-deep-2)"><div class="n" style="color:var(--gold-lite)">75<small>%</small></div><div class="l" style="color:#C3CAD6">no vio que podía hacer scroll (Illusion of Completeness)</div><div class="src">NN/g</div></div>
+      <div class="stat" style="background:var(--ink-deep-2)"><div class="n" style="color:var(--gold-lite)">34<small>%</small></div><div class="l" style="color:#C3CAD6">menos profundidad de scroll en el layout horizontal (test A/B)</div><div class="src">Neurosciencemarketing</div></div>
+      <div class="stat" style="background:var(--ink-deep-2)"><div class="n" style="color:var(--gold-lite)">~2<small>%</small></div><div class="l" style="color:#C3CAD6">pasa del primer ítem de un carrusel</div><div class="src">L. Eckman / estudios citados</div></div>
+      <div class="stat" style="background:var(--ink-deep-2)"><div class="n" style="color:var(--gold-lite)">46<small>%</small></div><div class="l" style="color:#C3CAD6">de carruseles de home con problemas de usabilidad</div><div class="src">Baymard</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 05 ===================== -->
+<section class="flow" id="s5">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — Reconciliación</span>
+    <h2>Lo experimental y la conversión no se pelean (si se ordenan bien)</h2>
+  </div>
+
+  <p class="drop reveal">La conclusión anterior no es "renuncia a la ambición visual". Es "colócala en el estrato correcto". La regla que ordena todo el informe: <strong>lo experimental vive por encima de una arquitectura de navegación convencional, nunca la reemplaza.</strong> Un ejemplo con datos lo demuestra.</p>
+
+  <p class="reveal">El portfolio de <strong>OHZI Interactive</strong> ganó Site of the Day y Developer Award de Awwwards por su ejecución de efectos WebGL: el cursor deforma la página en tiempo real y unos shaders GLSL calculan luz y brillo según la proximidad del puntero, creando efectos luminiscentes que responden a cada movimiento. Suena exactamente a un concepto de "vacuidad luminosa": una máscara de luz que revela contenido bajo el cursor. Y el dato que importa: mantiene <strong>60 fps en escritorio y 45–50 fps en móvil</strong>. Es decir, impacto visual y rendimiento <em>no</em> son excluyentes cuando la técnica está bien optimizada. La espectacularidad no es el problema; el problema es cuando esa espectacularidad se traga la navegación.</p>
+
+  <div class="note reveal">
+    <span class="k">El principio operativo</span>
+    Una máscara de luz-cursor sobre un titular es una <strong>capa estética</strong> montada sobre scroll vertical estándar: no bloquea nada, no confunde la navegación, y respeta <code>prefers-reduced-motion</code>. Es seguro. Un sitio horizontal completo, o un catálogo con <em>scroll-jacking</em> que secuestra el scroll vertical para moverte en horizontal, mete alto coste de interacción justo en el flujo crítico. Es peligroso.
+  </div>
+
+  <p class="reveal">Sobre el <em>scrollytelling</em> —narrativa que se despliega al hacer scroll, con GSAP ScrollTrigger atando la animación a la posición— la evidencia es matizada y favorable si se respetan dos cosas. A favor: cuando la persona controla el ritmo de la historia, se convierte en participante, no en espectadora, y eso genera implicación emocional. La condición: el rendimiento no es negociable. Un reportaje inmersivo sobre incendios reseñado en 2026 mantenía un <strong>score de rendimiento de 91</strong> pese a su carga visual —prueba de que el scrollytelling editorial no tiene por qué ser lento— pero arrastraba un CLS de 0,165, señal de que el "esqueleto" de la página no estaba definido antes de cargar el media. Traducción para tu contexto: dimensiona siempre los contenedores para evitar saltos de layout.</p>
+
+  <p class="pull reveal">La ambición visual de Paramita —el concepto de Vacuidad Luminosa, los efectos de aura y trazo— está a salvo. Vive donde debe: como capa expresiva sobre una arquitectura que convierte. El riesgo nunca fue la belleza; era dejar que la belleza tomara decisiones de navegación.</p>
+</section>
+
+<!-- ===================== VERDICT ===================== -->
+<section class="verdict" id="verdict">
+  <div class="flow">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Veredicto operativo</span>
+      <h2>Qué hacer y qué no, para las dos secciones</h2>
+    </div>
+    <div class="checks reveal">
+      <div class="yes">
+        <h4>Hazlo</h4>
+        <ul>
+          <li>Catálogo de cursos en rejilla vertical con filtros por tema, nivel, duración, gratis/pago y perfil (nuevo/medio/fiel).</li>
+          <li>Página de curso con encaje + resultado + siguiente paso sobre el pliegue; prueba social y credibilidad del docente arriba.</li>
+          <li>Fila horizontal solo para "destacados", con tarjetas que sangran por el borde derecho.</li>
+          <li>Plantillas de actividad diferenciadas por nivel de compromiso.</li>
+          <li>Escasez honesta: aforo real de retiros.</li>
+          <li>Efectos WebGL / máscara de luz como capa sobre scroll vertical, con <code>prefers-reduced-motion</code>.</li>
+          <li>Formularios: preguntas fáciles primero, multi-paso, autocompletado, sin campos que obliguen a salir.</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h4>Evítalo</h4>
+        <ul>
+          <li>Scroll horizontal o carrusel como navegación principal del catálogo.</li>
+          <li>Scroll-jacking (secuestrar el scroll vertical) en el flujo de conversión.</li>
+          <li>Carruseles de héroe auto-rotativos: el 98% no pasa del primer ítem.</li>
+          <li>Contadores de urgencia fabricada en actividades de práctica.</li>
+          <li>Filas horizontales sin sangrado en el borde: parecen el final de la página.</li>
+          <li>Recortar campos "por dogma" sin mirar el nivel de compromiso.</li>
+          <li>Múltiples CTA compitiendo en una misma landing.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== REFERENCES ===================== -->
+<section class="flow refs" id="fuentes">
+  <div class="sec-head reveal">
+    <span class="sec-num">Fuentes</span>
+    <h2>Referencias y salvedades</h2>
+  </div>
+  <p class="reveal" style="font-size:.94rem;color:var(--slate)">Nota de rigor: los agregadores de estadísticas CRO (MarketingLTB, Digital Applied, Neil Patel) recopilan datos de múltiples estudios de calidad desigual; sus cifras absolutas deben leerse como órdenes de magnitud, no como verdades exactas. Las fuentes de investigación primaria (NN/g, Baymard, Unbounce, HubSpot) son más sólidas. Donde había conflicto, lo he mostrado en lugar de esconderlo.</p>
+  <ol class="reveal">
+    <li><b>Nielsen Norman Group</b> — Illusion of Completeness; investigación sobre scroll y atención; scroll horizontal en escritorio.</li>
+    <li><b>Baymard Institute</b> — "10 UX Requirements for Homepage Carousels" (46% con problemas); navegación por hover; homepage &amp; category navigation.</li>
+    <li><b>Neurosciencemarketing</b> — test A/B layout vertical vs. horizontal (−34% profundidad de scroll).</li>
+    <li><b>Lucas Eckman (Medium)</b> — efecto de scroll horizontal y drop-off del carrusel (~2% pasa del primer ítem).</li>
+    <li><b>Unbounce</b> — benchmark de landing pages (41.000 páginas, 464 M visitas, mediana ~6,6%); caso formulario 9→6 campos (−14%).</li>
+    <li><b>Digital Applied</b> — "Form Conversion Rate Benchmarks 2026"; precipicio 5–7 campos.</li>
+    <li><b>Neil Patel</b> — conversión por nº de campos (404 landings).</li>
+    <li><b>HubSpot</b> — formularios multi-paso (+86%); nº medio de campos.</li>
+    <li><b>LearnWorlds / Teachery / Unicorn Platform</b> — estructura de landing de curso 2026; decisión en ~8 s; auto-cualificación y devoluciones.</li>
+    <li><b>Paradiso / Augusoft</b> — catálogos de curso: filtros por nivel/duración/formato y por persona.</li>
+    <li><b>Guidebook / Regpacks / Event Espresso</b> — registro de eventos: campos fáciles primero, no obligar a salir, CTA persistente.</li>
+    <li><b>Lovable / Scrollytelling.ai / Awwwards</b> — OHZI Interactive (WebGL, 60 fps desktop / 45–50 fps móvil); scrollytelling y rendimiento.</li>
+    <li><b>eDesign / MarketingLTB</b> — fundamentos 2026: velocidad, CTA único, vídeo, diseño ético.</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Informe generado para el rediseño de Fundació Sakya Paramita · Julio 2026 · Datos verificados en fuentes citadas · Documento autocontenido</div>
+</footer>
+
+<script>
+  // reading progress
+  var pb=document.getElementById('progress');
+  function onScroll(){
+    var h=document.documentElement;
+    var max=h.scrollHeight-h.clientHeight;
+    pb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';
+  }
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  // reveal on scroll (respects reduced motion via CSS; observer still adds .in harmlessly)
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});
+  }
+</script>
+</body>
+</html>
