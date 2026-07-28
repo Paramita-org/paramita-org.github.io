@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mis cursos · Paramita</title>
+  <meta name="description" content="Tu sendero de formación en Paramita: reanuda donde lo dejaste, avanza a tu ritmo y explora el catálogo.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- TOKENS -->
+  <link rel="stylesheet" href="../css/tokens/paramita-color.css">
+  <link rel="stylesheet" href="../css/tokens/paramita-tipografia.css">
+  <link rel="stylesheet" href="../css/tokens/paramita-layout.css">
+  <link rel="stylesheet" href="../css/tokens/paramita-movimiento.css">
+  <!-- BASE -->
+  <link rel="stylesheet" href="../css/base/paramita-reset.css">
+  <link rel="stylesheet" href="../css/base/paramita-base.css">
+  <!-- COMPONENTES -->
+  <link rel="stylesheet" href="../css/componentes/paramita-fluido.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-bar.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-menu.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-cta.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-sections.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-cursos.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-modal.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-extras.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-footer.css">
+  <!-- PÁGINAS · reutiliza el catálogo (rail, mapa, cuadrícula, tarjeta) + capa logueada -->
+  <link rel="stylesheet" href="../css/paginas/paramita-formacion.css">
+  <link rel="stylesheet" href="../css/paginas/paramita-formacion-logueado.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-chat.css">
+  <!-- Responsive común (al final) -->
+  <link rel="stylesheet" href="../css/base/paramita-responsive.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="gradSendero" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="oklch(38% 0.11 245)"/>
+      <stop offset="55%" stop-color="oklch(68% 0.13 235)"/>
+      <stop offset="100%" stop-color="oklch(78% 0.155 68)"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- ═══ NAVBAR-PRACTICANTE (provisional · construido sobre .bar/.menu real) ═══
+     Acceso directo a Cursos (actual) y Actividades; los CTAs Únete/Contribuir
+     del navbar público se sustituyen por el bloque .cuenta (avatar + menú).
+     Sustituir por el navbar-practicante definitivo cuando exista. -->
+<header class="bar">
+  <div class="bar-inner wrap">
+    <a class="logo" href="/" aria-label="Paramita · inicio">
+      <span class="logo-wave" role="img" aria-label="Paramita"></span>
+    </a>
+    <input class="nt" id="nt" type="checkbox" hidden>
+    <nav class="menu" aria-label="Principal">
+      <ul class="links">
+        <li><a class="navlink" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a></li>
+        <li><a class="navlink" href="/formacion-logueado/" aria-current="page">Cursos</a></li>
+        <li><a class="navlink" href="/actividades">Actividades</a></li>
+        <li><a class="navlink" href="/blog">Blog</a></li>
+        <li class="has-sub end">
+          <a class="navlink" href="/sobre" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub" role="menu" aria-label="Sobre Paramita">
+            <li role="none"><a role="menuitem" href="/sobre"><strong>La fundación</strong><span>Quiénes somos</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/maestros"><strong>Maestros</strong><span>Quién guía la práctica</span></a></li>
+          </ul>
+        </li>
+      </ul>
+      <span class="div" aria-hidden="true"></span>
+      <div class="cuenta">
+        <span class="practicante-tag">Practicante</span>
+        <button class="cuenta__btn" aria-haspopup="true" aria-expanded="false" aria-label="Mi cuenta">
+          <span class="avatar" aria-hidden="true">J</span>
+          <span class="cuenta__caret" aria-hidden="true"></span>
+        </button>
+        <div class="cuenta__panel" role="menu" aria-label="Cuenta">
+          <a role="menuitem" href="/cuenta"><strong>Mi cuenta</strong><small>Jana · practicante</small></a>
+          <a role="menuitem" href="/mi-progreso">Mi progreso</a>
+          <a role="menuitem" href="https://cursos.paramita.org/home">Ir al aula (LMS)</a>
+          <hr>
+          <a role="menuitem" class="salir" href="/logout">Cerrar sesión</a>
+        </div>
+      </div>
+    </nav>
+    <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
+  </div>
+</header>
+
+<main>
+
+<!-- ══ 01 · BIENVENIDA + CONTINUAR ══ -->
+<section class="bienvenida">
+  <div class="wrap">
+    <span class="eyebrow">Reanuda</span>
+    <p class="saludo">Buenas tardes, <b>Jana</b>. Retoma donde lo <em>dejaste</em>.</p>
+    <p class="subsaludo">Sigues en tu curso de Nivel II. Un toque y continúas por la lección siguiente, a tu ritmo.</p>
+
+    <!-- Estado por defecto: EN CURSO. Los estados «entre cursos», «completado» e
+         «inactivo» se sirven server-side según los datos del practicante. -->
+    <article class="continuar continuar--pago">
+      <img class="continuar__pic" src="/assets/img/curso-3.jpg" alt="" loading="eager" decoding="async">
+      <div class="continuar__trazo" aria-hidden="true"><span class="nodo-dot"></span></div>
+      <div class="continuar__body">
+        <div class="continuar__eyebrow"><span class="niv">Nivel II</span> · <span>En curso</span></div>
+        <div class="continuar__apo">Inscrito</div>
+        <h3 class="continuar__titulo">El despertar de la <em>bodhichitta</em></h3>
+        <div class="continuar__maestro">Lama Rinchen Gyaltsen</div>
+        <div class="progreso">
+          <p class="progreso__txt">Vas por la <b>lección 3 de 8</b> · a tu ritmo</p>
+          <div class="puntos" aria-hidden="true">
+            <span class="p hecho"></span><span class="ln hecho"></span>
+            <span class="p hecho"></span><span class="ln hecho"></span>
+            <span class="p aqui"></span><span class="ln"></span>
+            <span class="p"></span><span class="ln"></span>
+            <span class="p"></span><span class="ln"></span>
+            <span class="p"></span><span class="ln"></span>
+            <span class="p"></span><span class="ln"></span>
+            <span class="p"></span>
+          </div>
+        </div>
+        <div class="continuar__cta">
+          <a class="btn-primario" href="https://cursos.paramita.org/home">Continuar la lección 3 <span aria-hidden="true">→</span></a>
+          <a class="btn-secundario" href="#temario">Ver el temario</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ══ 02 · TU SENDERO (progreso no gamificado) ══ -->
+<section class="mapa mapa--personal">
+  <div class="head-centrado mapa__head">
+    <span class="eyebrow">Tu sendero</span>
+    <h2>Dónde estás en el <em>camino</em>.</h2>
+    <p>Tu recorrido por los cinco niveles del Buddhadharma. Avanza a tu ritmo: el camino no es una carrera.</p>
+  </div>
+  <div class="mapa__sendero">
+    <svg class="mapa__hilo" viewBox="0 0 1200 4" preserveAspectRatio="none">
+      <path class="mapa__hilo-path" d="M 0 2 L 1200 2" />
+    </svg>
+    <div class="mapa__nodos">
+      <div class="nodo is-hecho" data-nivel="1"><span class="nodo__punto"></span><span class="nodo__romano">I</span><span class="nodo__nombre">Fundamentos</span><span class="nodo__estado">Completado</span></div>
+      <div class="nodo is-aqui" data-nivel="2"><span class="nodo__punto"></span><span class="nodo__romano">II</span><span class="nodo__nombre">Profundización</span><span class="nodo__estado">Estás aquí</span></div>
+      <div class="nodo" data-nivel="3"><span class="nodo__punto"></span><span class="nodo__romano">III</span><span class="nodo__nombre">Filosofía</span><span class="nodo__estado">Por venir</span></div>
+      <div class="nodo" data-nivel="4"><span class="nodo__punto"></span><span class="nodo__romano">IV</span><span class="nodo__nombre">Vajrayana</span><span class="nodo__estado">Por venir</span></div>
+      <div class="nodo" data-nivel="5"><span class="nodo__punto"></span><span class="nodo__romano">V</span><span class="nodo__nombre">Práctica avanzada</span><span class="nodo__estado">Por venir</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 03 · PARA TI (recomendación + descubrimiento) ══ -->
+<section class="recomendados">
+  <div class="empieza__head">
+    <span class="eyebrow">Para ti</span>
+    <h2>Tu siguiente <em>paso</em>.</h2>
+  </div>
+  <div class="empieza__rail" tabindex="0" role="group" aria-label="Cursos recomendados · desliza en horizontal">
+
+    <a class="curso" data-nivel="2" data-formato="largo" data-modalidad="vivo" data-aportacion="pago" href="#">
+      <img class="curso__pic" src="/assets/img/curso-3.jpg" alt="" loading="lazy" decoding="async">
+      <div class="curso__trazo"><svg viewBox="0 0 28 200" aria-hidden="true"><line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/><line class="curso__trazo-linea" x1="14" y1="108" x2="14" y2="200"/><circle class="curso__trazo-halo" cx="14" cy="100" r="10"/><circle class="curso__trazo-nodo" cx="14" cy="100" r="5"/></svg></div>
+      <div class="curso__body">
+        <div class="curso__eyebrow"><span class="curso__nivel">Nivel <em>II</em></span><span class="curso__sep">·</span><span>Largo</span></div>
+        <div class="curso__aportacion">150 €</div>
+        <h3 class="curso__titulo">Las seis <em>perfecciones</em></h3>
+        <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Continúa tu nivel</span>
+        <div class="curso__foot"><div class="curso__maestro">Lama Rinchen Gyaltsen</div><div class="curso__meta">10 semanas<span class="sep">·</span>online en vivo</div></div>
+      </div>
+    </a>
+
+    <a class="curso" data-nivel="3" data-formato="largo" data-modalidad="vivo" data-aportacion="pago" href="#">
+      <img class="curso__pic" src="/assets/img/curso-4.jpg" alt="" loading="lazy" decoding="async">
+      <div class="curso__trazo"><svg viewBox="0 0 28 200" aria-hidden="true"><line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/><line class="curso__trazo-linea" x1="14" y1="108" x2="14" y2="200"/><circle class="curso__trazo-halo" cx="14" cy="100" r="10"/><circle class="curso__trazo-nodo" cx="14" cy="100" r="5"/></svg></div>
+      <div class="curso__body">
+        <div class="curso__eyebrow"><span class="curso__nivel">Nivel <em>III</em></span><span class="curso__sep">·</span><span>Largo</span></div>
+        <div class="curso__aportacion">180 €</div>
+        <h3 class="curso__titulo">Introducción al <em>madhyamaka</em></h3>
+        <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere Nivel II</span>
+        <div class="curso__foot"><div class="curso__maestro">Lama Rinchen Gyaltsen</div><div class="curso__meta">8 semanas<span class="sep">·</span>online en vivo</div></div>
+      </div>
+    </a>
+
+    <a class="curso" data-nivel="0" data-formato="corto" data-modalidad="auto" data-aportacion="gratuito" href="#">
+      <img class="curso__pic" src="/assets/img/curso-1.jpg" alt="" loading="lazy" decoding="async">
+      <div class="curso__trazo"><svg viewBox="0 0 28 200" aria-hidden="true"><line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/><line class="curso__trazo-linea" x1="14" y1="108" x2="14" y2="200"/><circle class="curso__trazo-halo" cx="14" cy="100" r="10"/><circle class="curso__trazo-nodo" cx="14" cy="100" r="5"/></svg></div>
+      <div class="curso__body">
+        <div class="curso__eyebrow"><span class="curso__nivel">Descubre</span><span class="curso__sep">·</span><span>Fuera de tu nivel</span></div>
+        <div class="curso__aportacion">Gratuito</div>
+        <h3 class="curso__titulo">Vivir el <em>Dharma</em> cada día</h3>
+        <div class="curso__foot"><div class="curso__maestro">Lama Rinchen Gyaltsen</div><div class="curso__meta">6 lecciones<span class="sep">·</span>autodirigido</div></div>
+      </div>
+    </a>
+
+    <a class="curso" data-nivel="2" data-formato="corto" data-modalidad="vivo" data-aportacion="pago" href="#">
+      <img class="curso__pic" src="/assets/img/curso-2.jpg" alt="" loading="lazy" decoding="async">
+      <div class="curso__trazo"><svg viewBox="0 0 28 200" aria-hidden="true"><line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/><line class="curso__trazo-linea" x1="14" y1="108" x2="14" y2="200"/><circle class="curso__trazo-halo" cx="14" cy="100" r="10"/><circle class="curso__trazo-nodo" cx="14" cy="100" r="5"/></svg></div>
+      <div class="curso__body">
+        <div class="curso__eyebrow"><span class="curso__nivel">Nivel <em>II</em></span><span class="curso__sep">·</span><span>Corto</span></div>
+        <div class="curso__aportacion">90 €</div>
+        <h3 class="curso__titulo">Los cuatro <em>inconmensurables</em></h3>
+        <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Continúa tu nivel</span>
+        <div class="curso__foot"><div class="curso__maestro">Lama Rinchen Gyaltsen</div><div class="curso__meta">4 semanas<span class="sep">·</span>online en vivo</div></div>
+      </div>
+    </a>
+
+  </div>
+  <p class="recomendados__nota">Recomendado según tu camino, con una carta de descubrimiento para no encerrarte en una sola dirección.</p>
+</section>
+
+<!-- ══ 04 · EXPLORAR (reutiliza el catálogo público) ══ -->
+<section class="explorar">
+  <div class="explorar__head">
+    <span class="eyebrow">Explorar</span>
+    <h2>Todo el <em>catálogo</em>.</h2>
+    <div class="vista-toggle" role="tablist" aria-label="Vista del catálogo">
+      <button role="tab" aria-pressed="true" data-vista="mis" id="tab-mis" aria-controls="vista-mis">Mis cursos</button>
+      <button role="tab" aria-pressed="false" data-vista="todos" id="tab-todos" aria-controls="vista-todos">Explorar todo</button>
+    </div>
+  </div>
+
+  <div class="vista-panel is-active" id="vista-mis" role="tabpanel" aria-labelledby="tab-mis">
+    <div class="cuadricula">
+      <a class="curso" data-nivel="2" data-aportacion="pago" href="#">
+        <img class="curso__pic" src="/assets/img/curso-3.jpg" alt="" loading="lazy" decoding="async">
+        <div class="curso__trazo"><svg viewBox="0 0 28 200" aria-hidden="true"><line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/><line class="curso__trazo-linea" x1="14" y1="108" x2="14" y2="200"/><circle class="curso__trazo-halo" cx="14" cy="100" r="10"/><circle class="curso__trazo-nodo" cx="14" cy="100" r="5"/></svg></div>
+        <div class="curso__body">
+          <div class="curso__eyebrow"><span class="curso__nivel">Nivel <em>II</em></span><span class="curso__sep">·</span><span>Largo</span></div>
+          <h3 class="curso__titulo">El despertar de la <em>bodhichitta</em></h3>
+          <span class="curso__estado curso__estado--curso">En curso · lección 3/8</span>
+          <div class="curso__foot"><div class="curso__maestro">Lama Rinchen Gyaltsen</div><div class="curso__meta">online en vivo</div></div>
+        </div>
+      </a>
+      <a class="curso" data-nivel="1" data-aportacion="pago" href="#">
+        <img class="curso__pic" src="/assets/img/curso-6.jpg" alt="" loading="lazy" decoding="async">
+        <div class="curso__trazo"><svg viewBox="0 0 28 200" aria-hidden="true"><line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/><line class="curso__trazo-linea" x1="14" y1="108" x2="14" y2="200"/><circle class="curso__trazo-halo" cx="14" cy="100" r="10"/><circle class="curso__trazo-nodo" cx="14" cy="100" r="5"/></svg></div>
+        <div class="curso__body">
+          <div class="curso__eyebrow"><span class="curso__nivel">Nivel <em>I</em></span><span class="curso__sep">·</span><span>Largo</span></div>
+          <h3 class="curso__titulo">EMI 1 · <em>Calma</em> y lucidez</h3>
+          <span class="curso__estado curso__estado--hecho">Completado</span>
+          <div class="curso__foot"><div class="curso__maestro">Lama Rinchen Gyaltsen</div><div class="curso__meta">online en vivo</div></div>
+        </div>
+      </a>
+      <a class="curso" data-nivel="1" data-aportacion="gratuito" href="#">
+        <img class="curso__pic" src="/assets/img/curso-1.jpg" alt="" loading="lazy" decoding="async">
+        <div class="curso__trazo"><svg viewBox="0 0 28 200" aria-hidden="true"><line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/><line class="curso__trazo-linea" x1="14" y1="108" x2="14" y2="200"/><circle class="curso__trazo-halo" cx="14" cy="100" r="10"/><circle class="curso__trazo-nodo" cx="14" cy="100" r="5"/></svg></div>
+        <div class="curso__body">
+          <div class="curso__eyebrow"><span class="curso__nivel">Nivel <em>I</em></span><span class="curso__sep">·</span><span>Corto</span></div>
+          <h3 class="curso__titulo">Introducción a la <em>meditación</em></h3>
+          <span class="curso__estado curso__estado--hecho">Completado</span>
+          <div class="curso__foot"><div class="curso__maestro">Lama Rinchen Gyaltsen</div><div class="curso__meta">autodirigido</div></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="vista-panel" id="vista-todos" role="tabpanel" aria-labelledby="tab-todos" hidden>
+    <div class="cuadricula">
+      <a class="curso" data-nivel="1" data-aportacion="gratuito" href="#">
+        <img class="curso__pic" src="/assets/img/curso-2.jpg" alt="" loading="lazy" decoding="async">
+        <div class="curso__trazo"><svg viewBox="0 0 28 200" aria-hidden="true"><line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/><line class="curso__trazo-linea" x1="14" y1="108" x2="14" y2="200"/><circle class="curso__trazo-halo" cx="14" cy="100" r="10"/><circle class="curso__trazo-nodo" cx="14" cy="100" r="5"/></svg></div>
+        <div class="curso__body">
+          <div class="curso__eyebrow"><span class="curso__nivel">Nivel <em>I</em></span><span class="curso__sep">·</span><span>Corto</span></div>
+          <div class="curso__aportacion">Gratuito</div>
+          <h3 class="curso__titulo">Las cuatro <em>nobles verdades</em></h3>
+          <div class="curso__foot"><div class="curso__maestro">Lama Rinchen Gyaltsen</div><div class="curso__meta">5 lecciones<span class="sep">·</span>autodirigido</div></div>
+        </div>
+      </a>
+      <a class="curso" data-nivel="3" data-aportacion="pago" href="#">
+        <img class="curso__pic" src="/assets/img/curso-4.jpg" alt="" loading="lazy" decoding="async">
+        <div class="curso__trazo"><svg viewBox="0 0 28 200" aria-hidden="true"><line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/><line class="curso__trazo-linea" x1="14" y1="108" x2="14" y2="200"/><circle class="curso__trazo-halo" cx="14" cy="100" r="10"/><circle class="curso__trazo-nodo" cx="14" cy="100" r="5"/></svg></div>
+        <div class="curso__body">
+          <div class="curso__eyebrow"><span class="curso__nivel">Nivel <em>III</em></span><span class="curso__sep">·</span><span>Largo</span></div>
+          <div class="curso__aportacion">180 €</div>
+          <h3 class="curso__titulo">Introducción al <em>madhyamaka</em></h3>
+          <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere Nivel II</span>
+          <div class="curso__foot"><div class="curso__maestro">Lama Rinchen Gyaltsen</div><div class="curso__meta">8 semanas<span class="sep">·</span>online en vivo</div></div>
+        </div>
+      </a>
+      <a class="curso" data-nivel="4" data-aportacion="pago" href="#">
+        <img class="curso__pic" src="/assets/img/curso-6.jpg" alt="" loading="lazy" decoding="async">
+        <div class="curso__trazo"><svg viewBox="0 0 28 200" aria-hidden="true"><line class="curso__trazo-linea" x1="14" y1="0" x2="14" y2="92"/><line class="curso__trazo-linea" x1="14" y1="108" x2="14" y2="200"/><circle class="curso__trazo-halo" cx="14" cy="100" r="10"/><circle class="curso__trazo-nodo" cx="14" cy="100" r="5"/></svg></div>
+        <div class="curso__body">
+          <div class="curso__eyebrow"><span class="curso__nivel">Nivel <em>IV</em></span><span class="curso__sep">·</span><span>Largo</span></div>
+          <div class="curso__aportacion">220 €</div>
+          <h3 class="curso__titulo">Introducción al <em>tantra</em></h3>
+          <span class="curso__requisito curso__requisito--requiere"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13h3v-3h3v-3h3v-3"/></svg>Requiere refugio + Nivel III</span>
+          <div class="curso__foot"><div class="curso__maestro">Lama Rinchen Gyaltsen</div><div class="curso__meta">12 semanas<span class="sep">·</span>online en vivo</div></div>
+        </div>
+      </a>
+    </div>
+    <div class="explorar__cta">
+      <a class="btn-secundario" href="/formacion/">Ver el catálogo completo, con filtros <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 05 · COMUNIDAD (sangha) ══ -->
+<section class="comunidad-sec">
+  <div class="wrap">
+    <div class="comunidad">
+      <div>
+        <span class="eyebrow">Sangha</span>
+        <h3>No caminas <em>solo</em>.</h3>
+        <p>Próxima sesión de práctica en comunidad: jueves, 19:00 (online). El estudio en grupo sostiene la práctica más que cualquier marcador.</p>
+      </div>
+      <a class="btn-primario" href="/actividades">Unirme a la sesión</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot" id="contacto">
+  <div class="foot__info">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <span class="logo-wave" role="img" aria-label="Paramita"></span>
+          <p class="tagline">Meditación y enseñanzas del Buddha, como puente entre los Himalayas y el mundo hispanohablante.</p>
+        </div>
+        <div>
+          <h4>Navegar</h4>
+          <a class="fl" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a>
+          <a class="fl" href="/formacion-logueado/">Cursos</a>
+          <a class="fl" href="/actividades">Actividades</a>
+          <a class="fl" href="/blog">Blog</a>
+          <a class="fl" href="/sobre">Sobre</a>
+        </div>
+        <div>
+          <h4>Tu cuenta</h4>
+          <a class="fl" href="/cuenta">Mi cuenta</a>
+          <a class="fl" href="/mi-progreso">Mi progreso</a>
+          <a class="fl" href="https://cursos.paramita.org/home">Ir al aula (LMS)</a>
+          <a class="fl" href="/logout">Cerrar sesión</a>
+        </div>
+      </div>
+      <div class="foot-base">
+        <span>© 2026 Fundación Paramita. Todos los seres, libres del sufrimiento.</span>
+        <span>Centro Budista Sakya · Alicante</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/componentes/paramita-bar.js" defer></script>
+<script src="../js/componentes/paramita-footer-lotos.js" defer></script>
+<script src="../js/paginas/paramita-formacion-logueado.js" defer></script>
+<script src="../js/componentes/paramita-chat.js" defer></script>
+
+</body>
+</html>

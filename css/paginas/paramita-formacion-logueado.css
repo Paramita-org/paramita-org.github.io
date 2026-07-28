@@ -1,0 +1,393 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-formacion-logueado.css — Página /formacion-logueado/
+   ─────────────────────────────────────────────────────────────────────────────
+   Capa personalizada del catálogo para el practicante logueado.
+
+   SE APOYA EN (ya enlazados en el <head>, no se redefinen):
+     · tokens/    → color, tipografía, layout, movimiento
+     · base/      → reset, base, responsive
+     · componentes/→ bar, menu, cta (.btn-primario/.btn-secundario),
+                     sections (.wrap, .head-centrado, .eyebrow),
+                     cursos (.curso y su anatomía), footer, chat
+     · paginas/paramita-formacion.css → .empieza__rail (rail), .cuadricula
+                     (grid), .mapa/.nodo (sendero), .curso__requisito.
+       Se REUTILIZAN tal cual: aquí NO se recrean.
+
+   AQUÍ VIVEN SOLO las piezas nuevas del logueado:
+     1 · navbar-practicante (avatar + desplegable de cuenta) — provisional,
+         construido sobre el sistema .bar/.menu hasta que exista el definitivo.
+     2 · bienvenida contextual (saludo)
+     3 · tarjeta CONTINUAR + progreso NO gamificado (posición en el curso)
+     4 · estados del sendero personal (.nodo.is-hecho / .is-aqui)
+     5 · toggle Mis cursos / Explorar todo
+     6 · estado de curso en tarjeta (.curso__estado)
+     7 · bloque comunidad
+
+   REGLA · sin colores fuera de la paleta: todo por color-mix(in oklch, …).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1 · NAVBAR-PRACTICANTE (provisional)
+   Reutiliza .bar / .bar-inner / .menu / .navlink. Añade el bloque de cuenta
+   (avatar + desplegable) en lugar de los CTAs Únete/Contribuir del público.
+   ───────────────────────────────────────────────────────────────────────── */
+/* Salvaguarda del logo · si paramita-bar.css enmascara .logo-wave con
+   var(--logo-mask), aquí queda definida apuntando al SVG servido desde la
+   raíz. Inofensiva si el sistema usa la ruta directa (variable no usada).
+   Requiere servir el sitio desde la raíz del proyecto (no file://). */
+:root { --logo-mask: url('/assets/img/logo.svg'); }
+
+.practicante-tag {
+  font-family: var(--body);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--azul-sutil);
+  border: 1px solid color-mix(in oklch, var(--azul-sutil) 32%, transparent);
+  border-radius: 100px;
+  padding: 0.3em 0.7em;
+  white-space: nowrap;
+}
+
+.cuenta {
+  position: relative;
+  flex: none;
+  margin-left: auto;        /* ancla el bloque de cuenta a la derecha del bar */
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-elemento, 14px);
+}
+/* En el flujo del .menu, empujamos la cuenta a la derecha */
+.menu .cuenta { margin-left: auto; }
+
+.cuenta__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0.2rem;
+  border-radius: 100px;
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--azul-oscuro);
+  color: var(--lino);
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.05rem;
+  border: 2px solid var(--dorado);
+  transition: box-shadow var(--t-defecto, 280ms), transform var(--t-defecto, 280ms);
+}
+.cuenta__btn:hover .avatar,
+.cuenta__btn:focus-visible .avatar {
+  box-shadow: 0 0 0 4px color-mix(in oklch, var(--dorado) 20%, transparent);
+}
+.cuenta__caret {
+  width: 0; height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid color-mix(in oklch, var(--antracita) 55%, transparent);
+  transition: transform var(--t-defecto, 280ms);
+}
+
+/* Desplegable de cuenta · panel glass, reutiliza el lenguaje de .sub */
+.cuenta__panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  min-width: 220px;
+  background: color-mix(in oklch, var(--card, #fff) 96%, transparent);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid color-mix(in oklch, var(--dorado) 20%, var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent)));
+  border-radius: 18px;
+  padding: 8px;
+  box-shadow: 0 30px 60px -26px rgba(20, 14, 8, 0.34);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity var(--t-defecto, 280ms), transform var(--t-defecto, 280ms), visibility var(--t-defecto, 280ms);
+  z-index: 30;
+}
+.cuenta:hover .cuenta__panel,
+.cuenta:focus-within .cuenta__panel {
+  opacity: 1; visibility: visible; transform: translateY(0);
+}
+.cuenta:hover .cuenta__caret,
+.cuenta:focus-within .cuenta__caret { transform: rotate(180deg); }
+
+.cuenta__panel a {
+  display: block;
+  padding: 0.6rem 0.8rem;
+  border-radius: 11px;
+  text-decoration: none;
+  color: var(--antracita);
+  font-size: 0.92rem;
+  transition: background var(--t-defecto, 280ms), color var(--t-defecto, 280ms);
+}
+.cuenta__panel a:hover { background: color-mix(in oklch, var(--dorado) 9%, transparent); color: var(--azul-oscuro); }
+.cuenta__panel a small { display: block; font-size: 0.72rem; color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent)); }
+.cuenta__panel hr { border: 0; border-top: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent)); margin: 6px 4px; }
+.cuenta__panel .salir { color: color-mix(in oklch, var(--arcilla, var(--dorado)) 80%, var(--antracita)); }
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2 · BIENVENIDA CONTEXTUAL
+   ───────────────────────────────────────────────────────────────────────── */
+.bienvenida {
+  padding-block: var(--espacio-grupo) var(--espacio-elemento);
+  background: var(--lino);
+}
+.saludo {
+  font-family: var(--display);
+  font-weight: var(--wght-contemplativo, 300);
+  font-size: clamp(1.7rem, 3.6vw, 2.6rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  color: var(--antracita);
+  margin: 0 0 0.4rem;
+  text-wrap: balance;
+}
+.saludo b { font-weight: 500; font-style: italic; color: var(--azul-oscuro); }
+.saludo em { font-style: italic; color: var(--dorado); }
+.subsaludo {
+  color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent));
+  max-width: 52ch;
+  margin: 0 0 var(--espacio-grupo);
+  font-size: 1.02rem;
+  line-height: 1.5;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   3 · TARJETA CONTINUAR + PROGRESO (no gamificado)
+   Hereda el idioma de .curso (lino, trazo, dorado) a mayor escala.
+   ───────────────────────────────────────────────────────────────────────── */
+.continuar {
+  display: grid;
+  grid-template-columns: 210px 30px 1fr;
+  gap: 24px;
+  align-items: stretch;
+  background: var(--card, #fff);
+  border: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent));
+  border-radius: 20px;
+  padding: 24px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+@supports (corner-shape: superellipse(2)) { .continuar { border-radius: 26px; corner-shape: superellipse(2.6); } }
+/* leve tinte dorado inferior-derecho, como .curso[data-aportacion="pago"] */
+.continuar--pago {
+  background: linear-gradient(135deg, var(--card, #fff) 0%, var(--card, #fff) 66%, color-mix(in oklch, var(--dorado) 8%, var(--card, #fff)) 100%);
+}
+.continuar__pic {
+  border-radius: 14px;
+  width: 100%;
+  height: 100%;
+  min-height: 210px;
+  object-fit: cover;
+  object-position: center;
+  background-color: color-mix(in oklch, var(--azul-sutil) 12%, var(--lino));
+  filter: saturate(0.92);
+}
+.continuar__trazo { display: flex; align-items: center; justify-content: center; position: relative; }
+.continuar__trazo::before {
+  content: "";
+  width: 1px; height: 100%;
+  background: color-mix(in oklch, var(--antracita) 16%, transparent);
+}
+.continuar__trazo .nodo-dot {
+  position: absolute;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--dorado);
+  box-shadow: 0 0 0 5px color-mix(in oklch, var(--dorado) 16%, transparent);
+}
+.continuar__body { display: flex; flex-direction: column; min-width: 0; }
+.continuar__eyebrow {
+  display: flex; align-items: baseline; gap: 0.7rem;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: color-mix(in oklch, var(--antracita) 62%, transparent);
+}
+.continuar__eyebrow .niv {
+  font-family: var(--display); font-weight: 300; font-style: italic;
+  font-size: 1.1rem; letter-spacing: 0; text-transform: none; color: var(--azul-oscuro);
+}
+.continuar__apo {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--dorado); margin: 0.5rem 0 0.1rem;
+}
+.continuar__titulo {
+  font-family: var(--display); font-weight: var(--wght-contemplativo, 300);
+  font-size: clamp(1.4rem, 2.2vw, 1.8rem); line-height: 1.12; letter-spacing: -0.015em;
+  color: var(--antracita); margin: 0.2rem 0 0.3rem; text-wrap: balance;
+}
+.continuar__titulo em { font-style: italic; color: var(--dorado); }
+.continuar__maestro {
+  font-family: var(--body); font-style: italic; font-size: 0.9rem;
+  color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent));
+}
+
+/* Progreso · posición en el curso, estilo sendero (NUNCA racha/puntos/%) */
+.progreso { margin: 1.1rem 0 1.3rem; }
+.progreso__txt {
+  font-family: var(--body); font-size: 0.84rem;
+  color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent));
+  margin-bottom: 0.55rem;
+}
+.progreso__txt b { color: var(--azul-oscuro); font-weight: 600; }
+.puntos { display: flex; align-items: center; max-width: 360px; }
+.puntos .p {
+  width: 11px; height: 11px; border-radius: 50%; flex: none;
+  border: 1.5px solid color-mix(in oklch, var(--azul-oscuro) 30%, transparent);
+  background: var(--card, #fff);
+}
+.puntos .ln { flex: 1 1 auto; height: 1.5px; background: color-mix(in oklch, var(--azul-oscuro) 16%, transparent); }
+.puntos .p.hecho { background: var(--dorado); border-color: var(--dorado); }
+.puntos .ln.hecho { background: var(--dorado); }
+.puntos .p.aqui { border-color: var(--dorado); box-shadow: 0 0 0 4px color-mix(in oklch, var(--dorado) 18%, transparent); }
+
+.continuar__cta { margin-top: auto; display: flex; gap: 0.7rem; flex-wrap: wrap; align-items: center; }
+.continuar__cta svg { width: 1.05em; height: 1.05em; flex: none; }
+
+@media (max-width: 640px) {
+  .continuar { grid-template-columns: 1fr; gap: 14px; padding: 18px; }
+  .continuar__pic { min-height: 150px; }
+  .continuar__trazo { display: none; }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   4 · SENDERO PERSONAL · estados sobre .mapa/.nodo (base en formacion.css)
+   ───────────────────────────────────────────────────────────────────────── */
+.mapa--personal .nodo { cursor: default; }
+.mapa--personal .nodo.is-hecho .nodo__punto {
+  background: var(--dorado);
+  border-color: var(--dorado);
+  color: var(--lino);
+}
+.mapa--personal .nodo.is-aqui .nodo__punto {
+  border-color: var(--dorado);
+  color: var(--dorado);
+  box-shadow: 0 0 0 6px color-mix(in oklch, var(--dorado) 16%, transparent);
+}
+.nodo__estado {
+  font-family: var(--body);
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--texto-tenue, color-mix(in oklch, var(--antracita) 42%, transparent));
+  display: block; margin-top: 4px;
+}
+.nodo.is-hecho .nodo__estado { color: color-mix(in oklch, var(--verde-salvia, #6E8B6A) 90%, var(--antracita)); }
+.nodo.is-aqui  .nodo__estado { color: var(--dorado); }
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   5 · SECCIÓN "PARA TI" · reutiliza .empieza__rail; solo el contenedor
+   ───────────────────────────────────────────────────────────────────────── */
+.recomendados { padding-block: var(--espacio-grupo); background: var(--lino); overflow: hidden; }
+.recomendados__nota {
+  font-family: var(--body); font-size: 0.8rem;
+  color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent));
+  max-width: 1200px; margin: 0.2rem auto 0; padding-inline: 20px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   6 · EXPLORAR · toggle Mis cursos / Explorar todo
+   ───────────────────────────────────────────────────────────────────────── */
+.explorar { padding-block: var(--espacio-grupo); background: var(--lino); }
+.explorar__head {
+  display: flex; align-items: center; gap: var(--espacio-contenido);
+  max-width: 1200px; margin: 0 auto var(--espacio-contenido); padding-inline: 20px;
+  flex-wrap: wrap;
+}
+.explorar__head h2 { font-family: var(--display); font-weight: 500; font-size: clamp(1.6rem, 2.8vw, 2.2rem); letter-spacing: -0.01em; margin: 0; }
+.explorar__head h2 em { font-style: italic; color: var(--dorado); }
+
+.vista-toggle {
+  display: inline-flex; margin-left: auto;
+  background: var(--arena); border-radius: 100px; padding: 4px; gap: 2px;
+}
+.vista-toggle button {
+  font-family: var(--body); font-weight: 600; font-size: 0.85rem;
+  border: 0; background: transparent; color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent));
+  padding: 0.45em 1.1em; border-radius: 100px; cursor: pointer;
+  transition: background var(--t-defecto, 280ms), color var(--t-defecto, 280ms);
+}
+.vista-toggle button[aria-pressed="true"] {
+  background: var(--card, #fff); color: var(--azul-oscuro);
+  box-shadow: 0 2px 8px -4px rgba(20, 14, 8, 0.25);
+}
+.vista-panel { display: none; }
+.vista-panel.is-active { display: block; }
+
+.explorar__cta {
+  max-width: 1200px; margin: var(--espacio-contenido) auto 0; padding-inline: 20px;
+  text-align: center;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   7 · ESTADO DE CURSO EN TARJETA · badge sobre .curso (En curso / Completado)
+   Comparte forma con .curso__requisito (definido en formacion.css).
+   ───────────────────────────────────────────────────────────────────────── */
+.curso__estado {
+  display: inline-flex; align-items: center; gap: 6px; align-self: flex-start;
+  margin-top: 10px; padding: 3px 11px;
+  font-family: var(--body); font-size: 0.72rem; font-weight: 500; line-height: 1.25;
+  border-radius: 100px; border: 1px solid transparent;
+}
+.curso__estado--curso {
+  color: var(--azul-oscuro);
+  background: color-mix(in oklch, var(--azul-sutil) 14%, transparent);
+  border-color: color-mix(in oklch, var(--azul-sutil) 24%, transparent);
+}
+.curso__estado--hecho {
+  color: color-mix(in oklch, var(--verde-salvia, #6E8B6A) 92%, var(--antracita));
+  background: color-mix(in oklch, var(--verde-salvia, #6E8B6A) 12%, transparent);
+  border-color: color-mix(in oklch, var(--verde-salvia, #6E8B6A) 30%, transparent);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   8 · COMUNIDAD (relatedness · SDT) · banda azul sobria
+   ───────────────────────────────────────────────────────────────────────── */
+.comunidad-sec { padding-block: var(--espacio-grupo); background: var(--lino); }
+.comunidad {
+  max-width: 1160px; margin-inline: auto;
+  background: var(--azul-oscuro); color: var(--lino);
+  border-radius: 22px; padding: clamp(1.6rem, 3vw, 2.6rem);
+  display: grid; grid-template-columns: 1fr auto; gap: 1.4rem; align-items: center;
+}
+@supports (corner-shape: superellipse(2)) { .comunidad { border-radius: 28px; corner-shape: superellipse(2.6); } }
+.comunidad .eyebrow { color: var(--dorado-suave, var(--dorado)); filter: brightness(1.35); }
+.comunidad h3 {
+  font-family: var(--display); font-weight: 300; font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  line-height: 1.15; margin: 0.5rem 0 0.4rem; color: #fff;
+}
+.comunidad h3 em { font-style: italic; color: color-mix(in oklch, var(--dorado) 60%, #fff); }
+.comunidad p { color: color-mix(in oklch, var(--lino) 78%, transparent); margin: 0; max-width: 52ch; font-size: 0.96rem; line-height: 1.5; }
+.comunidad .btn-primario { background: var(--dorado); color: var(--azul-oscuro); border-color: var(--dorado); }
+.comunidad .btn-primario:hover { background: color-mix(in oklch, var(--dorado) 80%, #fff); }
+@media (max-width: 640px) { .comunidad { grid-template-columns: 1fr; } }
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   RESPONSIVE + MOVIMIENTO REDUCIDO
+   ───────────────────────────────────────────────────────────────────────── */
+@media (max-width: 760px) {
+  .cuenta__panel { right: auto; left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .avatar, .cuenta__panel, .cuenta__caret,
+  .vista-toggle button { transition: none; }
+}
