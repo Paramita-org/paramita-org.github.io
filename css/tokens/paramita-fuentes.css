@@ -1,0 +1,66 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-fuentes.css — Fuentes autoalojadas (@font-face)
+   ───────────────────────────────────────────────────────────────────────────
+   Sustituye la carga desde Google Fonts. Se enlaza ANTES de
+   paramita-tipografia.css (que consume --display y --body).
+
+   FORMATO Y EJES
+   ──────────────
+   · woff2 variable, subseteado a latin + latin-ext + latin extended additional
+     (IAST: ā ī ū ṃ ḥ ṭ ḍ ṇ ś ṣ ṛ … para transliteración sánscrita/tibetana) +
+     puntuación tipográfica. Pesos reducidos ~50–67% frente al .ttf original.
+   · Fraunces conserva sus cuatro ejes: opsz, wght, SOFT, WONK. El eje SOFT
+     (el del cruce, animado por scroll con @property) sigue disponible: el
+     @font-face solo mapea peso y estilo; los ejes viven en el archivo variable
+     y se controlan desde los font-variation-settings de paramita-tipografia.css.
+
+   RUTA
+   ────
+   Este archivo vive en css/tokens/ ; las fuentes en assets/fonts/ (raíz).
+   Por eso el ../../ (sube de css/tokens a la raíz, baja a assets/fonts).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Cobertura de glifos declarada · si el navegador solo necesita estos rangos,
+   evita descargar la fuente para textos que no los usan. */
+/* stylelint-disable */
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("../../assets/fonts/fraunces-latin.woff2") format("woff2");
+  font-weight: 100 900;   /* rango: mantiene la interpolación variable de wght */
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, U+1E00-1EFF,
+                 U+2000-206F, U+2074, U+20AC, U+2122, U+0259, U+2212;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("../../assets/fonts/fraunces-italic-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, U+1E00-1EFF,
+                 U+2000-206F, U+2074, U+20AC, U+2122, U+0259, U+2212;
+}
+
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("../../assets/fonts/hanken-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, U+1E00-1EFF,
+                 U+2000-206F, U+2074, U+20AC, U+2122, U+0259, U+2212;
+}
+
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("../../assets/fonts/hanken-italic-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, U+1E00-1EFF,
+                 U+2000-206F, U+2074, U+20AC, U+2122, U+0259, U+2212;
+}

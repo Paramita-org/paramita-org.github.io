@@ -37,6 +37,7 @@
   /* ═══════════ NODO DEL SENDERO (hero) ═══════════ */
   .curso-nodo {
     display: inline-flex; align-items: center; gap: var(--espacio-atomo);
+    align-self: start; justify-self: start; width: fit-content; max-width: 100%;
     margin-bottom: var(--espacio-elemento);
     padding: .4rem .85rem .4rem .6rem; border-radius: 99px;
     background: color-mix(in oklch, var(--card) 76%, transparent);
@@ -179,20 +180,55 @@
   }
   .checks--sm li { font-size: .95rem; padding-left: 1.8rem; }
 
-  /* ═══════════ CONTRASTE (ganas / dejas atrás) ═══════════ */
-  .contraste { display: grid; grid-template-columns: 1fr 1fr; gap: var(--espacio-grupo); }
-  .contraste article { padding: var(--espacio-contenido); border-radius: 20px; }
-  .contraste h3 { font-size: 1.4rem; margin-bottom: .6rem; }
-  .contraste p { color: var(--texto-suave); }
-  .contraste__gana {
-    background: linear-gradient(155deg, color-mix(in oklch, var(--azul-sutil) 14%, var(--card)), var(--card));
-    border: 1px solid color-mix(in oklch, var(--azul-oscuro) 22%, transparent);
+  /* ═══════════ CRUCE · «lo que dejas / lo que ganas» (el cruce como acto) ═══════════
+     La orilla que se deja queda sobria y en reposo; la que se alcanza se eleva
+     luminosa y dorada. El paso, un nodo dorado con la travesía, las une. */
+  .cruce { display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch;
+    margin-top: var(--espacio-contenido); }
+  .cruce__orilla { padding: var(--espacio-contenido); border-radius: 22px; }
+  .cruce__tag { display: inline-block; font-family: var(--body); font-weight: var(--wght-firmeza);
+    font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; margin-bottom: var(--espacio-elemento); }
+  .cruce__lista { list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; }
+  .cruce__lista li { position: relative; padding-left: 1.9rem; line-height: 1.45; }
+
+  /* Orilla que se deja: sobria, en reposo */
+  .cruce__orilla--deja { background: transparent; }
+  .cruce__orilla--deja .cruce__tag { color: var(--texto-tenue); }
+  .cruce__orilla--deja .cruce__lista li { color: var(--texto-suave); }
+  .cruce__orilla--deja .cruce__lista li::before { content: ""; position: absolute; left: .1rem; top: .5em;
+    width: .7rem; height: .7rem; border-radius: 50%;
+    border: 1.5px solid color-mix(in oklch, var(--antracita) 26%, transparent); }
+
+  /* Orilla que se alcanza: luminosa, elevada, dorada */
+  .cruce__orilla--gana { position: relative; background: var(--card); overflow: hidden;
+    border: 1px solid color-mix(in oklch, var(--dorado) 40%, transparent);
+    box-shadow: 0 30px 70px -44px color-mix(in oklch, var(--azul-oscuro) 60%, transparent); }
+  .cruce__orilla--gana::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px;
+    background: linear-gradient(90deg, var(--azul-oscuro), var(--azul-sutil) 55%, var(--dorado)); }
+  .cruce__orilla--gana .cruce__tag { color: var(--dorado); }
+  .cruce__orilla--gana .cruce__lista li { color: var(--antracita); font-weight: var(--wght-firmeza); }
+  .cruce__orilla--gana .cruce__lista li::before { content: ""; position: absolute; left: 0; top: .12em;
+    width: 1.15rem; height: 1.15rem; border-radius: 50%; background: color-mix(in oklch, var(--dorado) 22%, transparent); }
+  .cruce__orilla--gana .cruce__lista li::after { content: ""; position: absolute; left: .4rem; top: .3em;
+    width: .32rem; height: .55rem; border: solid var(--dorado); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+
+  /* El paso · nodo dorado con la travesía (eco de los puntos del sendero) */
+  .cruce__paso { display: grid; place-items: center; padding-inline: var(--espacio-grupo); position: relative; }
+  .cruce__paso::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--dorado) 60%, transparent), transparent); }
+  .cruce__flecha { position: relative; z-index: 1; display: grid; place-items: center;
+    width: 54px; height: 54px; border-radius: 50%; color: var(--dorado); font-size: 1.5rem; line-height: 1;
+    background: var(--card); border: 1.5px solid color-mix(in oklch, var(--dorado) 55%, transparent);
+    box-shadow: 0 0 0 6px color-mix(in oklch, var(--dorado) 12%, transparent); }
+
+  @media (max-width: 760px) {
+    .cruce { grid-template-columns: 1fr; }
+    .cruce__orilla--deja { order: 0; } .cruce__paso { order: 1; } .cruce__orilla--gana { order: 2; }
+    .cruce__paso { padding: var(--espacio-elemento) 0; }
+    .cruce__paso::before { inset: 0 auto 0 50%; width: 2px; height: auto;
+      background: linear-gradient(180deg, transparent, color-mix(in oklch, var(--dorado) 60%, transparent), transparent); }
+    .cruce__flecha { transform: rotate(90deg); }
   }
-  .contraste__deja {
-    background: color-mix(in oklch, var(--arena) 70%, var(--card));
-    border: 1px solid color-mix(in oklch, var(--antracita) 10%, transparent);
-  }
-  @media (max-width: 720px) { .contraste { grid-template-columns: 1fr; } }
 
   /* ═══════════ TEMARIO · 8 lecciones ═══════════ */
   .temario__lista { list-style: none; margin: 0; padding: 0; counter-reset: lec; display: grid; gap: 1px;
@@ -293,6 +329,16 @@
   .retiro h2 em { color: var(--lino); }
   .retiro p { color: color-mix(in oklch, var(--lino) 82%, transparent); }
   .retiro .eyebrow { color: color-mix(in oklch, var(--dorado) 90%, var(--lino)); }
+  /* Tratamiento claro del enlace terciario sobre la banda oscura del retiro.
+     No existe .t-link--claro en el sistema; se resuelve como anulación de
+     contexto (mismo patrón que .comunidad .btn-primario en formacion-logueado).
+     Se anula el gradiente-clip del .txt (que dependía de colores oscuros)
+     por color sólido legible. */
+  .retiro .t-link,
+  .retiro .t-link .txt { color: var(--lino); -webkit-text-fill-color: var(--lino); background-image: none; }
+  .retiro .t-link:hover .txt,
+  .retiro .t-link:focus-visible .txt { color: var(--dorado); -webkit-text-fill-color: var(--dorado); }
+  .retiro .t-link::after { background: var(--dorado); }
 
   /* ═══════════ FAQ · acordeón ═══════════ */
   .faq__lista { border-top: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent)); }

@@ -5,9 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Paramita · Meditación y sabiduría de los Himalayas</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
 
 <!-- Marca JS activo cuanto antes · evita el parpadeo de los revelados al entrar en vista -->
 <script>document.documentElement.classList.add('js')</script>
@@ -34,7 +33,6 @@
      que reutiliza paramita-trazo-divisor.js (ya cargado arriba). -->
 <script src="js/componentes/paramita-cta-zoom.js" defer></script>
 <script src="js/componentes/paramita-participacion.js" defer></script>
-<script src="js/componentes/paramita-testimonios.js" defer></script>
 <script src="js/componentes/paramita-suscripcion.js" defer></script>
 <script src="js/componentes/paramita-footer-lotos.js" defer></script>
 
@@ -42,6 +40,7 @@
 <link rel="stylesheet" href="css/base/paramita-reset.css">
 
 <!-- 2 · Tokens · variables del sistema (color, tipografía, layout, movimiento) -->
+<link rel="stylesheet" href="css/tokens/paramita-fuentes.css">
 <link rel="stylesheet" href="css/tokens/paramita-color.css">
 <link rel="stylesheet" href="css/tokens/paramita-tipografia.css">
 <link rel="stylesheet" href="css/tokens/paramita-layout.css">
@@ -62,6 +61,7 @@
 <link rel="stylesheet" href="css/componentes/paramita-antesala.css">
 <link rel="stylesheet" href="css/componentes/paramita-extras.css">
 <link rel="stylesheet" href="css/componentes/paramita-suscripcion.css">
+<link rel="stylesheet" href="css/componentes/paramita-tradicion.css">
 <link rel="stylesheet" href="css/componentes/paramita-modal.css">
 <link rel="stylesheet" href="css/componentes/paramita-footer.css">
 <link rel="stylesheet" href="css/base/paramita-responsive.css">
@@ -189,9 +189,9 @@
     </div>
 
     <div class="wrap hero__inner">
-      <p class="eyebrow" data-reveal="1">Sistema completo de meditación</p>
+      <p class="eyebrow">Sistema completo de meditación</p>
 
-      <h1 data-reveal="2">
+      <h1>
         Despierta tu
         <span class="rotator" role="text" aria-label="sabiduría interior, mejor versión, naturaleza más profunda, potencial ilimitado, paz interior, claridad interior, mente y corazón">
           <em class="rotator__word is-active">sabiduría interior.</em>
@@ -375,29 +375,54 @@
     </section>
   </div>
 
-  <!-- ╔═══ 8 · TESTIMONIOS ═══╗  Carrusel horizontal infinito · auto + pausa al hover/touch + swipe -->
-  <section class="testimonios" id="testimonios" aria-label="Testimonios de la comunidad">
-    <div class="s-head wrap">
-      <div><span class="eyebrow" data-reveal="1">Testimonios</span>
-        <h2 id="test-t" data-reveal="2">Voces de quienes ya caminan.</h2></div>
-      <p>Se desplazan solas; pasa el cursor o mantén el dedo para detenerlas, o desliza para avanzar.</p>
+  <!-- ╔═══ 8 · UNA TRADICIÓN VIVA ═══╗  Presencia (maestro · linaje · sede · alcance),
+       no testimonios. Sustituye al carrusel de citas anónimas · Fase 7. -->
+  <section class="section wrap tradicion" id="tradicion" aria-labelledby="trad-t">
+    <div class="s-head">
+      <div><span class="eyebrow" data-reveal="1">Una tradición viva</span>
+        <h2 id="trad-t" data-reveal="2">No descargas un método.<br>Entras en un linaje.</h2></div>
+      <p>Detrás de cada curso hay un maestro, un linaje de siglos y una casa con puertas abiertas en Alicante.</p>
     </div>
-    <div class="tcarousel-wrap">
-      <div class="tcarousel" id="tcarousel" tabindex="0" role="region" aria-label="Citas de practicantes (desplazamiento horizontal)">
-        <div class="ttrack" id="ttrack">
-          <figure class="tcard"><blockquote>Aprendí a escucharme de una manera nueva, sin exigencia y con más confianza.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2022</figcaption></figure>
-          <figure class="tcard"><blockquote>Este espacio me ayudó a encontrar más presencia en medio del ritmo cotidiano.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2021</figcaption></figure>
-          <figure class="tcard"><blockquote>Llegué buscando respuestas y encontré una práctica que me acompaña cada día.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2024</figcaption></figure>
-          <figure class="tcard"><blockquote>Aquí descubrí que el bienestar no era algo que alcanzar, sino algo que podía cultivar.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2023</figcaption></figure>
-          <figure class="tcard"><blockquote>La práctica me ha enseñado a relacionarme con mis desafíos con más claridad y amabilidad.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2020</figcaption></figure>
-          <figure class="tcard"><blockquote>Encontré una comunidad donde puedo crecer a mi propio ritmo y sentirme acompañado.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2022</figcaption></figure>
-          <figure class="tcard"><blockquote>Cada encuentro me recuerda la importancia de detenerme, respirar y volver a lo esencial.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2021</figcaption></figure>
-          <figure class="tcard"><blockquote>Lo que empezó como curiosidad se convirtió en una forma de estar más presente en mi vida.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2024</figcaption></figure>
-          <figure class="tcard"><blockquote>He encontrado herramientas sencillas que transforman la manera en que vivo mi día a día.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2023</figcaption></figure>
-          <figure class="tcard"><blockquote>Aquí aprendí que la calma no depende de las circunstancias, sino de cómo me relaciono con ellas.</blockquote><figcaption><b>Nombre del practicante</b>Comunidad Paramita · desde 2022</figcaption></figure>
-        </div>
+
+    <div class="tradicion__grid">
+      <!-- Retrato del maestro -->
+      <figure class="tradicion__maestro" data-reveal="1">
+        <img src="assets/img/khenpo-luz-dorada-low.jpg"
+             alt="Lama Khenpo Rinchen Gyaltsen, director espiritual de Paramita"
+             loading="lazy" decoding="async">
+        <figcaption>
+          <b>Lama Khenpo Rinchen Gyaltsen</b>
+          <span>Director espiritual de Paramita</span>
+        </figcaption>
+      </figure>
+
+      <!-- Arraigo · lede + anclas -->
+      <div class="tradicion__cuerpo" data-reveal="2">
+        <p class="tradicion__lede">Paramita transmite la tradición Sakya —una de las cuatro grandes escuelas del budismo tibetano, con casi mil años de linaje ininterrumpido— a quienes practican en español. No es una app de bienestar: es una comunidad con maestro, sede y raíces.</p>
+        <dl class="tradicion__anclas">
+          <div>
+            <dt>Siglo&nbsp;XI</dt>
+            <dd>Origen del linaje Sakya, transmitido sin interrupción de maestro a discípulo hasta hoy.</dd>
+          </div>
+          <div>
+            <dt>2008</dt>
+            <dd>Paramita echa raíces en Alicante como fundación dedicada a la tradición.</dd>
+          </div>
+          <div>
+            <dt>+1&nbsp;millón</dt>
+            <dd>Practicantes de la tradición en todo el mundo.</dd>
+          </div>
+        </dl>
       </div>
     </div>
+
+    <!-- Sede física · el lugar real -->
+    <figure class="tradicion__sede" data-reveal="1">
+      <img src="assets/img/tempo-vista-aerea-luz-dorada.jpeg"
+           alt="Vista aérea del centro de Paramita en Alicante bajo luz dorada"
+           loading="lazy" decoding="async">
+      <figcaption>El centro de Paramita en Alicante — un lugar físico donde la práctica sucede, no una pantalla.</figcaption>
+    </figure>
   </section>
 
   <!-- ╔═══ 9 · ARTÍCULOS DEL BLOG ═══╗  Tarjetas en capas (barra-imagen que crece + glifo de fondo) -->

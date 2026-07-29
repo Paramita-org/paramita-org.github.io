@@ -8,7 +8,7 @@
 <link rel="canonical" href="https://paramita.org/formacion/emi-1-calma-y-lucidez/">
 
 <!-- Orden de capas del sistema (determinista aunque se abra el archivo suelto) -->
-<style>@layer reset, tokens, base, fluid, bar, menu, hero, sections, cursos, modal, chat, extras, footer, paginas;</style>
+<style>@layer reset, tokens, base, fluid, bar, menu, cta, hero, sections, cursos, modal, chat, extras, footer, paginas;</style>
 
 <!-- Tipografías del sistema -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,6 +31,7 @@
 <link rel="stylesheet" href="/css/componentes/paramita-fluido.css">
 <link rel="stylesheet" href="/css/componentes/paramita-bar.css">
 <link rel="stylesheet" href="/css/componentes/paramita-menu.css">
+<link rel="stylesheet" href="/css/componentes/paramita-cta.css">
 <link rel="stylesheet" href="/css/componentes/paramita-hero.css">
 <link rel="stylesheet" href="/css/componentes/paramita-cursos.css">
 <link rel="stylesheet" href="/css/componentes/paramita-modal.css">
@@ -130,9 +131,7 @@
     <div class="hero__bg" aria-hidden="true">
       <div class="hero__bg-fallback"></div>
       <picture class="hero__pic">
-        <source media="(max-width:600px)"  srcset="/assets/img/hero-emi1-movil.jpg">
-        <source media="(max-width:1024px)" srcset="/assets/img/hero-emi1-tablet.jpg">
-        <img src="/assets/img/hero-emi1-desktop.jpg" alt="" loading="eager" fetchpriority="high" onerror="this.closest('.hero__pic').remove()">
+        <img src="/assets/img/banner-hero-desktop-emi-1.jpg" alt="" loading="eager" fetchpriority="high" onerror="this.closest('.hero__pic').remove()">
       </picture>
     </div>
 
@@ -186,7 +185,7 @@
   <section class="section wrap split" id="maestro" aria-labelledby="maes-t">
     <div class="split__media">
       <figure class="retrato">
-        <img src="/assets/img/khenpo-rinchen.jpg" alt="Ven. Khenpo Rinchen Gyaltsen" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
+        <img src="/assets/img/khenpo-luz-dorada-low.jpg" alt="Ven. Khenpo Rinchen Gyaltsen" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
       </figure>
     </div>
     <div class="split__body">
@@ -227,21 +226,30 @@
     </div>
   </section>
 
-  <!-- ═══ VENTAJAS · contraste ganas / dejas atrás ═══ -->
-  <section class="section wrap" id="ventajas" aria-labelledby="vent-t">
+  <!-- ═══ VENTAJAS · el cruce (dejar una orilla para alcanzar otra) ═══ -->
+  <section class="section wrap cruce-seccion" id="ventajas" aria-labelledby="vent-t">
     <div class="seccion-head" data-reveal="1">
       <span class="eyebrow">Por qué Paramita</span>
       <h2 id="vent-t" data-reveal="2">¿Por qué entrenar tu mente con <em>Paramita</em>?</h2>
-      <p class="lede">Cultiva una mente clara en un mundo caótico.</p>
+      <p class="lede">Todo entrenamiento es un cruce: se deja una orilla para alcanzar otra.</p>
     </div>
-    <div class="contraste">
-      <article class="contraste__gana">
-        <h3>Lo que ganas</h3>
-        <p>Una atención inquebrantable, una autoestima basada en el autoconocimiento y un refugio de paz interior que te acompaña a todas partes.</p>
+    <div class="cruce">
+      <article class="cruce__orilla cruce__orilla--deja">
+        <span class="cruce__tag">Lo que dejas atrás</span>
+        <ul class="cruce__lista">
+          <li>La dispersión mental</li>
+          <li>La reactividad emocional</li>
+          <li>La sensación de ir en «piloto automático»</li>
+        </ul>
       </article>
-      <article class="contraste__deja">
-        <h3>Lo que dejas atrás</h3>
-        <p>La dispersión mental, la reactividad emocional y la sensación de ir «en piloto automático».</p>
+      <div class="cruce__paso" aria-hidden="true"><span class="cruce__flecha">→</span></div>
+      <article class="cruce__orilla cruce__orilla--gana">
+        <span class="cruce__tag">Lo que ganas</span>
+        <ul class="cruce__lista">
+          <li>Una atención inquebrantable</li>
+          <li>Autoestima basada en el autoconocimiento</li>
+          <li>Un refugio de paz interior que te acompaña</li>
+        </ul>
       </article>
     </div>
   </section>
@@ -385,7 +393,7 @@
       <span class="eyebrow" data-reveal="1">Extra presencial</span>
       <h2 id="ret-t" data-reveal="2">Retiro de <em>Integración</em>.</h2>
       <p>Al finalizar tus lecciones tendrás la oportunidad de participar en un Retiro de Integración en nuestra sede central, el Centro Budista Sakya de Pedreguer (Alicante, España). Un espacio sagrado para meditar en directo con Khenpo Rinchen y resolver dudas profundas.</p>
-      <a class="t-link t-link--claro" href="#retiro-detalle"><span class="txt">Ver detalles del Retiro</span> <span class="arw" aria-hidden="true">→</span></a>
+      <a class="t-link" href="#retiro-detalle"><span class="txt">Ver detalles del Retiro</span> <span class="arw" aria-hidden="true">→</span></a>
     </div>
   </section>
 
