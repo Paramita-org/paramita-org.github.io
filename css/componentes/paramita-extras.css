@@ -220,7 +220,7 @@
      ───────────────────────────────────────────────────────────────────── */
 
   .mission__video-wrap {
-    max-width: 1180px;
+    max-width: 920px;
     margin: 0 auto;
     /* Wrapper que recibe la sombra · sin clip-path ni overflow.
        Dos capas: contacto corto (definición local, opacidad más densa)

@@ -2,69 +2,61 @@
    PARAMITA · FUNDACIÓN SAKYA
    paramita-tradicion.css — Bloque "Una tradición viva"
    ───────────────────────────────────────────────────────────────────────────
-   Fase 7 · sustituye el carrusel de testimonios (.testimonios/.tcard, que vivía
-   en paramita-extras.css). El cambio no es de estilo sino de vehículo de
-   confianza: de citas anónimas ("Nombre del practicante") a PRESENCIA real
-   —maestro, linaje, sede, alcance—, según el informe de home 2026 y el
-   fundamento de identidad (doc 01: "una tradición viva, no un producto").
+   Fase 7 · sustituye el carrusel de testimonios por PRESENCIA real.
+   Estado actual: retrato del maestro (Khenpo) + cifras de arraigo.
 
-   El CSS de .testimonios en paramita-extras.css queda huérfano; puede borrarse.
-   El script js/componentes/paramita-testimonios.js ya no se enlaza.
+   PENDIENTE (con la landing de comunidad, patrón "cursos → ver todos"):
+   la foto del centro de Alicante vuelve como contexto de la comunidad
+   monástica, más un teaser de rostros que enlaza a la landing con todos.
+   Se retiró la foto del centro de aquí para no dejarla suelta y pobre
+   mientras esa landing no exista.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @layer tradicion {
 
   .tradicion__grid {
     display: grid;
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    gap: clamp(1.5rem, 4vw, 3.5rem);
+    grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+    gap: clamp(1.75rem, 5vw, 4rem);
     align-items: center;
     margin-top: var(--espacio-contenido);
   }
 
-  /* ── Retrato del maestro ─────────────────────────────────────────────── */
+  /* ── Retrato del maestro · tamaño medio, contenido ───────────────────── */
   .tradicion__maestro { margin: 0; }
   .tradicion__maestro img {
     width: 100%;
-    aspect-ratio: 4 / 5;          /* reserva el hueco · evita CLS */
+    aspect-ratio: 4 / 5;
     object-fit: cover;
     border-radius: 18px;
     display: block;
-    /* drop-shadow (no box-shadow) por si en el futuro se recorta con clip-path */
-    filter: drop-shadow(0 18px 40px color-mix(in oklch, var(--azul-oscuro) 22%, transparent));
+    filter: drop-shadow(0 16px 36px color-mix(in oklch, var(--azul-oscuro) 20%, transparent));
   }
   @supports (corner-shape: superellipse(2)) {
-    .tradicion__maestro img { border-radius: 24px; corner-shape: superellipse(2.4); }
+    .tradicion__maestro img { border-radius: 22px; corner-shape: superellipse(2.4); }
   }
   .tradicion__maestro figcaption {
-    margin-top: 1rem;
+    margin-top: 0.85rem;
     display: grid;
-    gap: 0.15rem;
+    gap: 0.12rem;
   }
   .tradicion__maestro b {
     font-family: var(--display);
     font-weight: 400;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     color: var(--azul-oscuro);
   }
-  .tradicion__maestro span {
-    font-size: 0.9rem;
-    color: var(--texto-suave);
-  }
+  .tradicion__maestro span { font-size: 0.88rem; color: var(--texto-suave); }
 
-  /* ── Cuerpo · lede + anclas de arraigo ───────────────────────────────── */
+  /* ── Cuerpo · lede + cifras de arraigo ───────────────────────────────── */
   .tradicion__lede {
-    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
     line-height: 1.6;
     color: var(--antracita);
     margin: 0 0 var(--espacio-grupo);
   }
 
-  .tradicion__anclas {
-    display: grid;
-    gap: 0;
-    margin: 0;
-  }
+  .tradicion__anclas { display: grid; gap: 0; margin: 0; }
   .tradicion__anclas > div {
     display: grid;
     grid-template-columns: minmax(6.5rem, auto) 1fr;
@@ -80,7 +72,7 @@
     font-size: clamp(1.6rem, 3vw, 2.4rem);
     line-height: 1;
     color: var(--dorado);
-    font-variation-settings: "opsz" 40, "SOFT" 40;
+    font-variation-settings: "opsz" 40;
   }
   .tradicion__anclas dd {
     margin: 0;
@@ -89,30 +81,41 @@
     color: var(--texto-suave);
   }
 
-  /* ── Sede física · banda ancha ───────────────────────────────────────── */
-  .tradicion__sede { margin: var(--espacio-contenido) 0 0; }
-  .tradicion__sede img {
+  /* ── Comunidad y lugar · dos fotos a tamaño medio, en pareja ─────────── */
+  .tradicion__par {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+    margin-top: var(--espacio-contenido);
+  }
+  .tradicion__foto { margin: 0; }
+  .tradicion__foto img {
     width: 100%;
-    aspect-ratio: 16 / 7;
+    aspect-ratio: 3 / 2;          /* contenida, no banda */
     object-fit: cover;
     border-radius: 18px;
     display: block;
   }
   @supports (corner-shape: superellipse(2)) {
-    .tradicion__sede img { border-radius: 24px; corner-shape: superellipse(2.4); }
+    .tradicion__foto img { border-radius: 22px; corner-shape: superellipse(2.4); }
   }
-  .tradicion__sede figcaption {
-    margin-top: 0.85rem;
-    text-align: center;
-    font-size: 0.92rem;
+  .tradicion__foto figcaption {
+    margin-top: 0.7rem;
+    font-size: 0.88rem;
     font-style: italic;
     color: var(--texto-suave);
+  }
+
+  /* Teaser a la landing de comunidad */
+  .tradicion__mas {
+    margin: var(--espacio-grupo) 0 0;
+    text-align: center;
   }
 
   /* ── Responsive ──────────────────────────────────────────────────────── */
   @media (max-width: 780px) {
     .tradicion__grid { grid-template-columns: 1fr; gap: 2rem; }
-    .tradicion__maestro { max-width: 22rem; }
-    .tradicion__maestro img { aspect-ratio: 3 / 4; }
+    .tradicion__maestro { max-width: 20rem; }
+    .tradicion__par { grid-template-columns: 1fr; gap: 1.5rem; }
   }
 }

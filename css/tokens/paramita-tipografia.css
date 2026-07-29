@@ -294,16 +294,23 @@
 @layer motion {
 
   /* ═══════════════════════════════════════════════════════════════════════
-     MOVIMIENTO DE FIRMA · el eje SOFT despierta con el scroll
-     Al comenzar la página la tipografía está firme (SOFT 0). Al llegar al
-     final del hero y entrar en el cuerpo se ablanda progresivamente
-     (SOFT 0 → 100), siguiendo la metáfora del cruce.
+     MOVIMIENTO DE FIRMA · el peso despierta con el scroll
+     El eje SOFT se mantiene FIRME (0) en toda la página — decisión de
+     identidad (jul 2026): la tipografía conserva sus serifas afiladas y su
+     alto contraste de principio a fin, como en el hero y en bienvenida.
+
+     El cruce se expresa ahora solo con un sutil aumento de peso
+     (--paramita-wght 300 → 320) en el primer 40% del scroll. Discreto.
+
+     · SOFT quedó en 0 constante (su initial-value en @property); ya no se
+       anima. Con Google Fonts nunca llegó a animarse (la URL solo cargaba
+       ital/opsz/wght), así que este es el aspecto de "siempre".
+     · Para recuperar el ablandado del cruce en el futuro: volver a animar
+       --paramita-soft en el keyframe (p. ej. 0 → 30 para un gesto sutil).
 
      Compatibilidad: Chrome 115+, Safari 26+, Firefox 133+.
-     Sin scroll-timeline la tipografía se queda en SOFT 0 (correcto).
-
      NOTA · Fase 0.1: este movimiento es «en respuesta a» el scroll del
-     usuario, no ambiental identitario. Sigue vigente sin cambios.
+     usuario, no ambiental identitario.
      ═══════════════════════════════════════════════════════════════════════ */
 
   @supports (animation-timeline: scroll()) {
@@ -316,11 +323,9 @@
 
     @keyframes paramita-cruce {
       from {
-        --paramita-soft: 0;
         --paramita-wght: 300;
       }
       to {
-        --paramita-soft: 100;
         --paramita-wght: 320;
       }
     }
