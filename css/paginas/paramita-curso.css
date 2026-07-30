@@ -16,6 +16,32 @@
 
 @layer paginas {
 
+  /* ═══════════ HERO · imagen de fondo (capa dentro del contrato del hero) ═══════════
+     El hero del sistema apila .hero__bg-fallback (degradado) y, encima, el velo
+     cálido .hero::after (z-index 1) bajo .hero__inner (z-index 2). Añadimos la
+     imagen del curso como capa de fondo tipo .hero__bg-video: si la imagen falta,
+     el degradado de .hero__bg-fallback queda visible por debajo. */
+  .hero__bg-img {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-size: cover; background-position: center;
+  }
+  /* Scrim de legibilidad para el texto (columna izquierda), por debajo del velo */
+  .hero__bg-img::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg,
+      color-mix(in oklch, var(--lino) 80%, transparent) 0%,
+      color-mix(in oklch, var(--lino) 42%, transparent) 40%,
+      transparent 70%);
+  }
+  @media (max-width: 760px) {
+    .hero__bg-img::after {
+      background: linear-gradient(180deg,
+        color-mix(in oklch, var(--lino) 70%, transparent) 0%,
+        color-mix(in oklch, var(--lino) 40%, transparent) 45%,
+        transparent 100%);
+    }
+  }
+
   /* Hairline reutilizada en toda la página, derivada del token de tinta */
   .split, .contraste, .temario, .incluye, .planes, .becas, .testis, .faq {
     --hair: color-mix(in oklch, var(--antracita) 10%, transparent);
@@ -378,7 +404,7 @@
     border: 1px solid color-mix(in oklch, var(--antracita) 14%, transparent); background: var(--card); color: var(--antracita); }
   .news__campo input:focus-visible { outline: 2px solid var(--azul-oscuro); outline-offset: 2px; }
   .news__consent { display: flex; gap: .5rem; font-size: .82rem; color: var(--texto-suave); }
-  .news__ok { display: none; color: var(--estado-exito, #3B8A4C); font-weight: var(--wght-asertivo); }
+  .news__ok { display: none; color: var(--azul-oscuro); font-weight: var(--wght-asertivo); }
   .news__form.is-enviado .news__ok { display: block; }
 
   /* ═══════════ CTA STICKY (móvil-primero) ═══════════ */
@@ -407,7 +433,7 @@
   .estado-toggle { position: fixed; top: calc(var(--bar-h, 80px) + 12px); right: 14px; z-index: 120;
     display: flex; align-items: center; gap: .35rem; padding: .35rem;
     background: color-mix(in oklch, var(--antracita) 92%, transparent); border-radius: 14px;
-    box-shadow: 0 10px 30px -14px rgba(0,0,0,.5); }
+    box-shadow: 0 10px 30px -14px color-mix(in oklch, var(--antracita) 55%, transparent); }
   .estado-toggle__k { font-family: var(--body); font-size: .6rem; letter-spacing: .16em; text-transform: uppercase;
     color: color-mix(in oklch, var(--lino) 60%, transparent); padding-inline: .5rem; }
   .estado-toggle button { font-family: var(--body); font-size: .74rem; font-weight: var(--wght-asertivo);

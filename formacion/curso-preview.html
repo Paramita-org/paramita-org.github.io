@@ -1,24 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Curso EMI 1: Calma y Lucidez · Paramita</title>
-<meta name="description" content="EMI 1: Calma y Lucidez. El primer módulo del Entrenamiento Mental Integral de Paramita: meditación estructurada, secular y profunda en lengua hispana. Inicio 2027.">
-<link rel="canonical" href="https://paramita.org/formacion/emi-1-calma-y-lucidez/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Curso EMI 1: Calma y Lucidez · Paramita</title>
+  <meta name="description" content="EMI 1: Calma y Lucidez. El primer módulo del Entrenamiento Mental Integral de Paramita: meditación estructurada, secular y profunda en lengua hispana.">
+  <link rel="canonical" href="https://paramita.org/formacion/emi-1-calma-y-lucidez/">
 
-<!-- Orden de capas del sistema (determinista aunque se abra el archivo suelto) -->
-<style>@layer reset, tokens, base, fluid, bar, menu, cta, hero, sections, cursos, modal, chat, extras, footer, paginas;</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- Tipografías del sistema -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- marca JS activo cuanto antes (gate de los revelados) -->
+  <script>document.documentElement.classList.add('js')</script>
 
-<!-- marca JS activo cuanto antes (evita el parpadeo de los revelados) -->
-<script>document.documentElement.classList.add('js')</script>
-
-<!-- ═══════════ CSS DEL SISTEMA · orden: tokens → base → componentes → páginas ═══════════ -->
 <style id="sistema">
 /* ==== paramita-color.css ==== */
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -450,16 +445,23 @@
 @layer motion {
 
   /* ═══════════════════════════════════════════════════════════════════════
-     MOVIMIENTO DE FIRMA · el eje SOFT despierta con el scroll
-     Al comenzar la página la tipografía está firme (SOFT 0). Al llegar al
-     final del hero y entrar en el cuerpo se ablanda progresivamente
-     (SOFT 0 → 100), siguiendo la metáfora del cruce.
+     MOVIMIENTO DE FIRMA · el peso despierta con el scroll
+     El eje SOFT se mantiene FIRME (0) en toda la página — decisión de
+     identidad (jul 2026): la tipografía conserva sus serifas afiladas y su
+     alto contraste de principio a fin, como en el hero y en bienvenida.
+
+     El cruce se expresa ahora solo con un sutil aumento de peso
+     (--paramita-wght 300 → 320) en el primer 40% del scroll. Discreto.
+
+     · SOFT quedó en 0 constante (su initial-value en @property); ya no se
+       anima. Con Google Fonts nunca llegó a animarse (la URL solo cargaba
+       ital/opsz/wght), así que este es el aspecto de "siempre".
+     · Para recuperar el ablandado del cruce en el futuro: volver a animar
+       --paramita-soft en el keyframe (p. ej. 0 → 30 para un gesto sutil).
 
      Compatibilidad: Chrome 115+, Safari 26+, Firefox 133+.
-     Sin scroll-timeline la tipografía se queda en SOFT 0 (correcto).
-
      NOTA · Fase 0.1: este movimiento es «en respuesta a» el scroll del
-     usuario, no ambiental identitario. Sigue vigente sin cambios.
+     usuario, no ambiental identitario.
      ═══════════════════════════════════════════════════════════════════════ */
 
   @supports (animation-timeline: scroll()) {
@@ -472,11 +474,9 @@
 
     @keyframes paramita-cruce {
       from {
-        --paramita-soft: 0;
         --paramita-wght: 300;
       }
       to {
-        --paramita-soft: 100;
         --paramita-wght: 320;
       }
     }
@@ -3403,6 +3403,532 @@
    FIN de paramita-hero.css
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/* ==== paramita-antesala.css ==== */
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-antesala.css — Bloque "Antesala del sendero" (home)
+   ═══════════════════════════════════════════════════════════════════════════
+
+   CONTEXTO
+   ────────
+   Prólogo de /formacion/. Introduce el sendero de cinco niveles con
+   un camino luminoso y tres puertas de entrada. NO es un mini-catálogo.
+
+   ESTRUCTURA VISUAL
+   ─────────────────
+   · Cabecera editorial (eyebrow "Cursos" + h2 con italic dorado + lede)
+   · Tres puertas en grid horizontal (I / II·III / IV·V)
+   · Camino luminoso (aura-stack de 4 capas SVG) por debajo de las cards
+   · Spotlight dorado viajero recorriendo el camino en 20s (loop)
+   · Al hover una card: tramo iluminado desde el inicio hasta la card
+     + spotlight se detiene en esa intersección
+
+   PORCENTAJES DE INTERSECCIÓN
+   ───────────────────────────
+   Card 1 (izq)     → 22% del camino
+   Card 2 (centro)  → 50%
+   Card 3 (der)     → 78%
+   Estos valores están calibrados para que el tramo iluminado termine
+   visualmente bajo el centro de cada card, considerando que el .wrap
+   tiene padding lateral y las cards tienen gap entre ellas.
+
+   TIPOGRAFÍA
+   ──────────
+   · Numerales I / II·III / IV·V → var(--display) = Fraunces
+     Peso 300, italic, opsz monumental (144) para expresión de serifas
+   · Título card → var(--body) = Hanken, peso firmeza (500)
+   · Descripción → var(--body), peso contemplativo (300)
+
+   TOKENS DEL SISTEMA (uso exclusivo)
+   ──────────────────────────────────
+   · --display, --body                     · familias
+   · --wght-contemplativo, --wght-firmeza  · pesos
+   · --opsz-monumental                     · óptico
+   · --texto-h2, --texto-h4, --texto-cuerpo · escala
+   · --leading-titulo, --leading-h4, --leading-cuerpo · alturas
+   · --dorado, --azul-oscuro, --lino, --antracita, --texto-suave · color
+   · --t-hover, --dur-deliberado, --dur-cinematografico · tiempos
+   · --ease-llegada · easing
+   · --espacio-*                            · espaciado
+
+   DEPENDENCIAS
+   ────────────
+   · js/componentes/paramita-trazo-divisor.js  (dibuja los paths con scroll)
+   · js/primitivos/paramita-reveal.js          (aplica .is-in al mapa)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer sections {
+
+  /* ═════════════════════════════════════════════════════════════════════
+     1 · CONTENEDOR
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .antesala {
+    --dur-spotlight: 20s;
+  }
+
+  .antesala__mapa {
+    position: relative;
+    margin-top: var(--espacio-contemplativo);
+    padding-bottom: 140px;
+    isolation: isolate;
+
+    --tramo-iluminado: 0;
+    --spotlight-parada: 0;
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     2 · GRID DE PUERTAS
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .antesala__puertas {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--espacio-grupo);
+    align-items: stretch;
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     3 · PUERTA INDIVIDUAL
+     ═════════════════════════════════════════════════════════════════════
+     Transparente al reposo (el camino se ve continuo por debajo).
+     Fondo lino sutil y borde dorado al hover.
+     ───────────────────────────────────────────────────────────────────── */
+
+  .antesala__puerta {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--espacio-contenido);
+    border-radius: 18px;
+
+    background: transparent;
+    border: 1px solid color-mix(in oklch, var(--azul-oscuro) 12%, transparent);
+
+    color: var(--antracita);
+    text-decoration: none;
+
+    transition:
+      background var(--t-hover),
+      border-color var(--t-hover),
+      transform var(--t-hover),
+      opacity var(--t-hover);
+  }
+
+  /* Hover honrado · atenúa hermanas */
+  .antesala__puertas:has(.antesala__puerta:hover, .antesala__puerta:focus-visible)
+    .antesala__puerta:not(:hover):not(:focus-visible) {
+    opacity: 0.45;
+  }
+
+  .antesala__puerta:hover,
+  .antesala__puerta:focus-visible {
+    background: color-mix(in oklch, var(--lino) 82%, transparent);
+    border-color: color-mix(in oklch, var(--dorado) 55%, transparent);
+    transform: translateY(-3px);
+    outline: none;
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     4 · CONTROL DE ILUMINACIÓN PARCIAL POR HOVER
+     ═════════════════════════════════════════════════════════════════════
+     Al :hover de una card, el .antesala__mapa recibe los valores
+     --tramo-iluminado y --spotlight-parada correspondientes al centro
+     de esa card:
+       Card 1 (izquierda) → 22%
+       Card 2 (centro)    → 50%
+       Card 3 (derecha)   → 78%
+     ───────────────────────────────────────────────────────────────────── */
+
+  .antesala__mapa:has(.antesala__puerta:nth-child(1):is(:hover, :focus-visible)) {
+    --tramo-iluminado: 22;
+    --spotlight-parada: 22;
+  }
+
+  .antesala__mapa:has(.antesala__puerta:nth-child(2):is(:hover, :focus-visible)) {
+    --tramo-iluminado: 50;
+    --spotlight-parada: 50;
+  }
+
+  .antesala__mapa:has(.antesala__puerta:nth-child(3):is(:hover, :focus-visible)) {
+    --tramo-iluminado: 78;
+    --spotlight-parada: 78;
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     5 · TIPOGRAFÍA DE LA PUERTA
+     ═════════════════════════════════════════════════════════════════════
+     Numerales en Fraunces italic (var(--display)) con opsz monumental
+     y peso contemplativo — el mismo patrón que usan los <em> de los
+     títulos en el sistema Paramita.
+     ───────────────────────────────────────────────────────────────────── */
+
+  .antesala__puerta__num {
+    display: block;
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: var(--wght-contemplativo);
+    font-size: var(--texto-h2);
+    line-height: var(--leading-titulo);
+    font-variation-settings:
+      "opsz" var(--opsz-monumental),
+      "SOFT" var(--paramita-soft, 0);
+    color: var(--azul-oscuro);
+    margin-bottom: var(--espacio-grupo);
+    transition: color var(--t-hover);
+  }
+
+  .antesala__puerta:hover .antesala__puerta__num,
+  .antesala__puerta:focus-visible .antesala__puerta__num {
+    color: var(--dorado);
+  }
+
+  .antesala__puerta__titulo {
+    font-family: var(--body);
+    font-weight: var(--wght-firmeza);
+    font-size: var(--texto-h4);
+    line-height: var(--leading-h4);
+    color: var(--antracita);
+    margin: 0 0 var(--espacio-elemento) 0;
+  }
+
+  .antesala__puerta__desc {
+    font-family: var(--body);
+    font-weight: var(--wght-contemplativo);
+    font-size: var(--texto-cuerpo);
+    line-height: var(--leading-cuerpo);
+    color: var(--texto-suave);
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     6 · CAMINO LUMINOSO
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .antesala__camino {
+    /* FULL BLEED · el camino ocupa todo el ancho del viewport, sin
+       importar el padding del .wrap padre.
+       Técnica: margin-left negativo compensa la diferencia entre el
+       ancho del padre (contenido) y el ancho del viewport, sacando
+       el elemento fuera del contenedor.
+       Es el patrón estándar para elementos full-bleed dentro de un
+       layout con contenedor centrado. */
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+    max-width: 100vw;
+    height: 140px;
+    z-index: 1;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .antesala__camino svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+  }
+
+  /* Reglas base compartidas por las 4 capas del camino.
+     (Antes en v4 se aplicaban vía la clase trazo-divisor__path; ahora
+     esa clase no existe en estos paths para evitar que paramita-trazo-
+     divisor.js les toque el dashoffset con lógica de scroll.) */
+  .antesala__camino .cap-1,
+  .antesala__camino .cap-2,
+  .antesala__camino .cap-3,
+  .antesala__camino .cap-4 {
+    fill: none;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* Capa 1 · halo extendido */
+  .antesala__camino .cap-1 {
+    stroke: var(--dorado);
+    stroke-width: 12;
+    filter: blur(10px);
+    opacity: 0.28;
+  }
+
+  /* Capa 2 · corona media */
+  .antesala__camino .cap-2 {
+    stroke: var(--dorado);
+    stroke-width: 5;
+    filter: blur(4px);
+    opacity: 0.5;
+  }
+
+  /* Capa 3 · borde suave */
+  .antesala__camino .cap-3 {
+    stroke: color-mix(in oklch, var(--dorado) 85%, var(--lino));
+    stroke-width: 2;
+    filter: blur(1.5px);
+    opacity: 0.7;
+  }
+
+  /* Capa 4 · core */
+  .antesala__camino .cap-4 {
+    stroke: color-mix(in oklch, var(--lino) 70%, var(--dorado));
+    stroke-width: 1.5;
+    opacity: 0.85;
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     7 · TRAMO ILUMINADO AL HOVER
+     ═════════════════════════════════════════════════════════════════════
+     Dos paths superpuestos (halo + core) que se dibujan del 0% al
+     tramo correspondiente cuando una card recibe hover.
+     stroke-linecap: round → punta redondeada al final del tramo.
+     ───────────────────────────────────────────────────────────────────── */
+
+  .antesala__camino .cap-hover-halo,
+  .antesala__camino .cap-hover {
+    fill: none;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .antesala__camino .cap-hover-halo {
+    stroke: var(--dorado);
+    stroke-width: 5;
+    filter: blur(3px);
+    opacity: 0.45;
+    stroke-dasharray: 100;
+    stroke-dashoffset: calc(100 - var(--tramo-iluminado));
+    transition: stroke-dashoffset var(--dur-deliberado) var(--ease-llegada);
+  }
+
+  .antesala__camino .cap-hover {
+    stroke: var(--dorado);
+    stroke-width: 2.5;
+    filter: blur(0.5px);
+    opacity: 1;
+    stroke-dasharray: 100;
+    stroke-dashoffset: calc(100 - var(--tramo-iluminado));
+    transition: stroke-dashoffset var(--dur-deliberado) var(--ease-llegada);
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     8 · SPOTLIGHT VIAJERO
+     ═════════════════════════════════════════════════════════════════════ */
+
+  .antesala__camino .spotlight {
+    fill: var(--dorado);
+    r: 4;
+    filter: blur(3px);
+    opacity: 0;
+
+    offset-rotate: 0deg;
+    offset-distance: 0%;
+
+    /* Transiciones para el paso a estado "parado" (hover en card):
+       r y filter se interpolan suave; offset-distance salta a la
+       parada correspondiente (comportamiento deseado: el pin aparece
+       en su punto, no viaja hasta él). */
+    transition:
+      opacity var(--t-hover),
+      r var(--t-hover),
+      filter var(--t-hover);
+
+    animation:
+      spotlight-viaje var(--dur-spotlight) linear infinite,
+      spotlight-fade var(--dur-spotlight) linear infinite;
+  }
+
+  @keyframes spotlight-viaje {
+    from { offset-distance: 0%; }
+    to   { offset-distance: 100%; }
+  }
+
+  @keyframes spotlight-fade {
+    0%, 5%    { opacity: 0; }
+    10%, 90%  { opacity: 0.55; }
+    95%, 100% { opacity: 0; }
+  }
+
+  /* Al hover · spotlight se detiene en la parada correspondiente
+     como PIN nítido (sin blur, sin animación de pulso). Lectura
+     visual: "destino alcanzado" — un punto luminoso limpio en la
+     intersección de camino × card, no una explosión difusa. */
+  .antesala__mapa:has(.antesala__puerta:is(:hover, :focus-visible)) .antesala__camino .spotlight {
+    animation: none;
+    offset-distance: calc(var(--spotlight-parada) * 1%);
+    r: 3;
+    filter: none;
+    opacity: 1;
+  }
+
+  :root[style*="--identidad-estado: reposo"] .antesala__camino .spotlight {
+    animation: none;
+    opacity: 0;
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     9 · MÓVIL · ≤860px
+     ═════════════════════════════════════════════════════════════════════ */
+
+  @media (max-width: 860px) {
+
+    .antesala__mapa {
+      padding-bottom: 0;
+      padding-left: 40px;
+    }
+
+    .antesala__camino {
+      display: none;
+    }
+
+    .antesala__puertas {
+      grid-template-columns: 1fr;
+      gap: var(--espacio-grupo);
+      position: relative;
+    }
+
+    .antesala__puertas::before {
+      content: "";
+      position: absolute;
+      left: -32px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        color-mix(in oklch, var(--dorado) 35%, transparent) 8%,
+        var(--dorado) 55%,
+        color-mix(in oklch, var(--dorado) 85%, var(--lino)) 92%,
+        transparent 100%
+      );
+      box-shadow:
+        0 0 6px color-mix(in oklch, var(--dorado) 40%, transparent),
+        0 0 12px color-mix(in oklch, var(--dorado) 20%, transparent);
+      transform-origin: top center;
+      transform: scaleY(0);
+      transition: transform var(--dur-cinematografico) var(--ease-llegada);
+      z-index: 1;
+    }
+
+    .antesala__mapa.is-in .antesala__puertas::before {
+      transform: scaleY(1);
+    }
+
+    .antesala__puertas::after {
+      content: "";
+      position: absolute;
+      left: -37px;
+      top: 8px;
+      width: 12px;
+      height: 40px;
+      background: radial-gradient(
+        circle at center,
+        var(--dorado) 0%,
+        color-mix(in oklch, var(--dorado) 40%, transparent) 40%,
+        transparent 70%
+      );
+      filter: blur(4px);
+      opacity: 0.75;
+      pointer-events: none;
+      z-index: 2;
+      animation: spotlight-vertical var(--dur-spotlight) linear infinite;
+    }
+
+    @keyframes spotlight-vertical {
+      0%, 5%    { opacity: 0; top: 8px; }
+      10%       { opacity: 0.75; }
+      90%       { opacity: 0.75; }
+      95%, 100% { opacity: 0; top: calc(100% - 40px); }
+    }
+
+    .antesala__puerta {
+      padding: var(--espacio-grupo);
+    }
+
+    .antesala__puerta::after {
+      content: "";
+      position: absolute;
+      left: -32px;
+      top: 50%;
+      width: 32px;
+      height: 2px;
+      background: linear-gradient(
+        to right,
+        var(--dorado) 0%,
+        color-mix(in oklch, var(--dorado) 30%, transparent) 80%,
+        transparent 100%
+      );
+      transform: translateY(-50%);
+      transform-origin: left center;
+      scale: 0 1;
+      opacity: 0;
+      transition:
+        scale var(--dur-deliberado) var(--ease-llegada),
+        opacity var(--dur-deliberado) var(--ease-llegada);
+      z-index: 3;
+    }
+
+    .antesala__puerta:hover::after,
+    .antesala__puerta:focus-visible::after {
+      scale: 1 1;
+      opacity: 1;
+    }
+
+    .antesala__mapa:has(.antesala__puerta:is(:hover, :focus-visible)) .antesala__puertas::after {
+      animation-play-state: paused;
+    }
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════════
+     10 · REDUCED MOTION
+     ═════════════════════════════════════════════════════════════════════ */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .antesala__camino .spotlight,
+    .antesala__puertas::after {
+      animation: none;
+      opacity: 0;
+    }
+
+    .antesala__puerta,
+    .antesala__camino .cap-hover,
+    .antesala__camino .cap-hover-halo {
+      transition: none;
+    }
+
+    .antesala__puerta:hover,
+    .antesala__puerta:focus-visible {
+      transform: none;
+    }
+
+    .antesala__puertas::before {
+      transform: scaleY(1) !important;
+      transition: none;
+    }
+  }
+
+}
+/* ═══════════════════════════════════════════════════════════════════════════
+   FIN de paramita-antesala.css
+   ═══════════════════════════════════════════════════════════════════════════ */
+
 /* ==== paramita-cursos.css ==== */
 /* ═══════════════════════════════════════════════════════════════════════
    PARAMITA · CURSOS · componente card v2.0 (V2b · Estación en el sendero)
@@ -3851,356 +4377,6 @@
    FIN de paramita-modal.css
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ==== paramita-chat.css ==== */
-/* ═══════════════════════════════════════════════════════════════════════
-   paramita-chat.css
-   Widget de chat global · guía conversacional para encontrar tu curso
-   
-   Es un componente global que puede aparecer en cualquier página.
-   Fijo abajo-derecha, cerrado por defecto. Tres preguntas → recomendación.
-   
-   Depende de: paramita-color.css, paramita-tipografia.css, paramita-base.css,
-               paramita-movimiento.css
-   ═══════════════════════════════════════════════════════════════════════ */
-
-.chat-widget {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 100;
-  font-family: var(--body);
-}
-
-/* ─── Burbuja de invitación · aparece con delay tras cargar ────────── */
-.chat-widget__invitacion {
-  position: absolute;
-  bottom: 76px;
-  right: 0;
-  width: 260px;
-  padding: 14px 18px;
-  background: var(--card, #fff);
-  border-radius: 22px 22px 8px 22px;
-  border: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent));
-  box-shadow:
-    0 20px 48px -18px rgba(20, 14, 8, 0.28),
-    0 0 0 1px color-mix(in oklch, var(--dorado) 12%, transparent);
-  font-family: var(--display);
-  font-weight: 300;
-  font-size: 0.98rem;
-  line-height: 1.35;
-  color: var(--antracita);
-  cursor: pointer;
-  opacity: 0;
-  transform: translateY(12px);
-  pointer-events: none;
-  transition:
-    opacity 500ms cubic-bezier(0.3, 0.7, 0.2, 1),
-    transform 500ms cubic-bezier(0.3, 0.7, 0.2, 1);
-}
-.chat-widget__invitacion em {
-  font-style: italic;
-  color: var(--dorado);
-}
-.chat-widget__invitacion.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-.chat-widget__invitacion:hover {
-  border-color: color-mix(in oklch, var(--dorado) 40%, transparent);
-  box-shadow:
-    0 20px 48px -18px rgba(20, 14, 8, 0.35),
-    0 0 0 1px color-mix(in oklch, var(--dorado) 30%, transparent),
-    0 0 32px -10px color-mix(in oklch, var(--dorado) 40%, transparent);
-}
-.chat-widget__invitacion-cerrar {
-  position: absolute;
-  top: 6px;
-  right: 8px;
-  background: transparent;
-  border: none;
-  font-size: 0.9rem;
-  color: var(--texto-tenue, color-mix(in oklch, var(--antracita) 42%, transparent));
-  cursor: pointer;
-  padding: 4px 6px;
-  line-height: 1;
-  border-radius: 50%;
-  transition: color var(--t-defecto, 280ms), background var(--t-defecto, 280ms);
-}
-.chat-widget__invitacion-cerrar:hover {
-  color: var(--antracita);
-  background: color-mix(in oklch, var(--antracita) 8%, transparent);
-}
-
-/* ─── Botón toggle flotante ────────────────────────────────────────── */
-.chat-widget__toggle {
-  position: relative;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: none;
-  background: linear-gradient(135deg,
-    var(--azul-oscuro) 0%,
-    var(--azul-sutil) 55%,
-    var(--dorado) 100%);
-  cursor: pointer;
-  box-shadow:
-    0 10px 30px -8px rgba(20, 14, 8, 0.35),
-    0 0 0 1px color-mix(in oklch, var(--dorado) 20%, transparent);
-  display: grid;
-  place-items: center;
-  color: var(--lino);
-  transition: transform var(--t-defecto, 280ms), box-shadow var(--t-defecto, 280ms);
-  isolation: isolate;
-}
-.chat-widget__toggle::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 50%;
-  background: linear-gradient(135deg,
-    color-mix(in oklch, var(--dorado) 40%, transparent),
-    color-mix(in oklch, var(--azul-sutil) 40%, transparent));
-  z-index: -1;
-  opacity: 0;
-  filter: blur(10px);
-  transition: opacity var(--t-defecto, 280ms);
-}
-.chat-widget__toggle:hover { transform: translateY(-2px); }
-.chat-widget__toggle:hover::before { opacity: 0.9; }
-.chat-widget__toggle svg {
-  width: 26px;
-  height: 26px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: transform var(--t-defecto, 280ms);
-}
-.chat-widget.is-abierto .chat-widget__toggle svg { transform: rotate(90deg); }
-.chat-widget.is-abierto .chat-widget__icono-chat { display: none; }
-.chat-widget:not(.is-abierto) .chat-widget__icono-cerrar { display: none; }
-
-/* ─── Ventana del chat ─────────────────────────────────────────────── */
-.chat-widget__ventana {
-  position: absolute;
-  bottom: 76px;
-  right: 0;
-  width: 360px;
-  max-width: calc(100vw - 48px);
-  max-height: min(560px, calc(100vh - 120px));
-  background: var(--card, #fff);
-  border-radius: 22px;
-  border: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent));
-  box-shadow:
-    0 30px 60px -20px rgba(20, 14, 8, 0.4),
-    0 0 0 1px color-mix(in oklch, var(--dorado) 15%, transparent);
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-  transform: translateY(20px) scale(0.96);
-  pointer-events: none;
-  transform-origin: bottom right;
-  transition:
-    opacity 320ms cubic-bezier(0.3, 0.7, 0.2, 1),
-    transform 320ms cubic-bezier(0.3, 0.7, 0.2, 1);
-  overflow: hidden;
-}
-.chat-widget.is-abierto .chat-widget__ventana {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
-}
-
-.chat-widget__cabecera {
-  padding: 20px 22px 18px;
-  background: linear-gradient(180deg,
-    color-mix(in oklch, var(--azul-oscuro) 8%, var(--card, #fff)) 0%,
-    var(--card, #fff) 100%);
-  border-bottom: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent));
-}
-.chat-widget__cabecera-eyebrow {
-  font-family: var(--body);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--azul-oscuro);
-  opacity: 0.85;
-  margin-bottom: 4px;
-}
-.chat-widget__cabecera-titulo {
-  font-family: var(--display);
-  font-weight: 300;
-  font-size: 1.2rem;
-  color: var(--antracita);
-  line-height: 1.2;
-}
-.chat-widget__cabecera-titulo em {
-  font-style: italic;
-  color: var(--dorado);
-}
-
-.chat-widget__mensajes {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--hair, #ddd) transparent;
-}
-.chat-widget__mensajes::-webkit-scrollbar { width: 6px; }
-.chat-widget__mensajes::-webkit-scrollbar-thumb {
-  background: var(--hair, #ddd);
-  border-radius: 3px;
-}
-
-.chat-msg {
-  display: flex;
-  animation: chat-msg-entrar 400ms cubic-bezier(0.3, 0.7, 0.2, 1);
-}
-@keyframes chat-msg-entrar {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.chat-msg--bot  { justify-content: flex-start; }
-.chat-msg--user { justify-content: flex-end; }
-.chat-msg__burbuja {
-  max-width: 82%;
-  padding: 10px 16px;
-  border-radius: 18px;
-  font-size: 0.92rem;
-  line-height: 1.4;
-}
-.chat-msg--bot .chat-msg__burbuja {
-  background: var(--arena);
-  color: var(--antracita);
-  border-radius: 18px 18px 18px 4px;
-}
-.chat-msg--user .chat-msg__burbuja {
-  background: linear-gradient(135deg,
-    var(--azul-oscuro) 0%,
-    var(--azul-sutil) 100%);
-  color: var(--lino);
-  border-radius: 18px 18px 4px 18px;
-}
-
-/* Opciones de respuesta (quick replies) */
-.chat-opciones {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 4px;
-  animation: chat-msg-entrar 400ms cubic-bezier(0.3, 0.7, 0.2, 1);
-}
-.chat-opcion {
-  padding: 10px 16px;
-  background: var(--card, #fff);
-  border: 1px solid color-mix(in oklch, var(--dorado) 30%, var(--hair, #ddd));
-  border-radius: 18px;
-  font-family: var(--body);
-  font-size: 0.9rem;
-  color: var(--antracita);
-  text-align: left;
-  cursor: pointer;
-  transition:
-    background var(--t-defecto, 280ms),
-    border-color var(--t-defecto, 280ms),
-    color var(--t-defecto, 280ms),
-    transform var(--t-defecto, 280ms),
-    box-shadow var(--t-defecto, 280ms);
-}
-.chat-opcion:hover {
-  background: color-mix(in oklch, var(--dorado) 10%, transparent);
-  border-color: var(--dorado);
-  color: var(--azul-oscuro);
-  transform: translateX(3px);
-  box-shadow: 0 4px 14px -6px color-mix(in oklch, var(--dorado) 30%, transparent);
-}
-
-/* Recomendación · tarjeta condensada dentro del chat */
-.chat-recomendacion {
-  display: block;
-  padding: 14px 16px;
-  background: linear-gradient(135deg,
-    color-mix(in oklch, var(--azul-oscuro) 92%, transparent) 0%,
-    color-mix(in oklch, var(--azul-sutil) 60%, var(--azul-oscuro)) 100%);
-  border-radius: 16px;
-  color: var(--lino);
-  text-decoration: none;
-  transition: transform var(--t-defecto, 280ms), box-shadow var(--t-defecto, 280ms);
-  animation: chat-msg-entrar 400ms cubic-bezier(0.3, 0.7, 0.2, 1);
-}
-.chat-recomendacion:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px -10px rgba(20, 14, 8, 0.4),
-              0 0 0 1px color-mix(in oklch, var(--dorado) 40%, transparent);
-}
-.chat-recomendacion__eyebrow {
-  font-family: var(--body);
-  font-size: 0.64rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: color-mix(in oklch, var(--lino) 82%, transparent);
-  margin-bottom: 4px;
-}
-.chat-recomendacion__eyebrow .aportacion { color: var(--dorado); }
-.chat-recomendacion__titulo {
-  font-family: var(--display);
-  font-weight: 300;
-  font-size: 1.02rem;
-  line-height: 1.25;
-  color: var(--lino);
-  margin-bottom: 6px;
-}
-.chat-recomendacion__titulo em {
-  font-style: italic;
-  color: var(--dorado);
-}
-.chat-recomendacion__meta {
-  font-size: 0.78rem;
-  color: color-mix(in oklch, var(--lino) 75%, transparent);
-}
-
-/* Barra de acciones inferior · reiniciar / limpiar */
-.chat-widget__acciones {
-  display: flex;
-  justify-content: center;
-  padding: 12px 16px 16px;
-  border-top: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent));
-  background: color-mix(in oklch, var(--arena) 30%, var(--card, #fff));
-}
-.chat-widget__reiniciar {
-  background: transparent;
-  border: none;
-  font-family: var(--body);
-  font-size: 0.82rem;
-  color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent));
-  cursor: pointer;
-  padding: 6px 12px;
-  border-radius: 100px;
-  transition: color var(--t-defecto, 280ms), background var(--t-defecto, 280ms);
-}
-.chat-widget__reiniciar:hover {
-  color: var(--dorado);
-  background: color-mix(in oklch, var(--dorado) 8%, transparent);
-}
-.chat-widget__reiniciar::before { content: '↺ '; }
-
-/* Móvil */
-@media (max-width: 500px) {
-  .chat-widget { bottom: 16px; right: 16px; }
-  .chat-widget__invitacion { width: calc(100vw - 88px); }
-  .chat-widget__ventana {
-    width: calc(100vw - 32px);
-    right: -8px;
-  }
-}
-
 /* ==== paramita-extras.css ==== */
 /* ═══════════════════════════════════════════════════════════════════════════
    PARAMITA · FUNDACIÓN SAKYA
@@ -4424,7 +4600,7 @@
      ───────────────────────────────────────────────────────────────────── */
 
   .mission__video-wrap {
-    max-width: 1180px;
+    max-width: 920px;
     margin: 0 auto;
     /* Wrapper que recibe la sombra · sin clip-path ni overflow.
        Dos capas: contacto corto (definición local, opacidad más densa)
@@ -5428,7 +5604,7 @@
      card, actúa como textura tipográfica de fondo, la cita pasa por
      delante con z-index: 1. */
   .tcard::before {
-    content: "C";
+    content: "\201C";
     position: absolute;
     top: -0.05em;
     left: -0.08em;
@@ -5774,532 +5950,6 @@
 
 /* ═══════════════════════════════════════════════════════════════════════════
    FIN de paramita-extras.css
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-/* ==== paramita-antesala.css ==== */
-/* ═══════════════════════════════════════════════════════════════════════════
-   PARAMITA · FUNDACIÓN SAKYA
-   paramita-antesala.css — Bloque "Antesala del sendero" (home)
-   ═══════════════════════════════════════════════════════════════════════════
-
-   CONTEXTO
-   ────────
-   Prólogo de /formacion/. Introduce el sendero de cinco niveles con
-   un camino luminoso y tres puertas de entrada. NO es un mini-catálogo.
-
-   ESTRUCTURA VISUAL
-   ─────────────────
-   · Cabecera editorial (eyebrow "Cursos" + h2 con italic dorado + lede)
-   · Tres puertas en grid horizontal (I / II·III / IV·V)
-   · Camino luminoso (aura-stack de 4 capas SVG) por debajo de las cards
-   · Spotlight dorado viajero recorriendo el camino en 20s (loop)
-   · Al hover una card: tramo iluminado desde el inicio hasta la card
-     + spotlight se detiene en esa intersección
-
-   PORCENTAJES DE INTERSECCIÓN
-   ───────────────────────────
-   Card 1 (izq)     → 22% del camino
-   Card 2 (centro)  → 50%
-   Card 3 (der)     → 78%
-   Estos valores están calibrados para que el tramo iluminado termine
-   visualmente bajo el centro de cada card, considerando que el .wrap
-   tiene padding lateral y las cards tienen gap entre ellas.
-
-   TIPOGRAFÍA
-   ──────────
-   · Numerales I / II·III / IV·V → var(--display) = Fraunces
-     Peso 300, italic, opsz monumental (144) para expresión de serifas
-   · Título card → var(--body) = Hanken, peso firmeza (500)
-   · Descripción → var(--body), peso contemplativo (300)
-
-   TOKENS DEL SISTEMA (uso exclusivo)
-   ──────────────────────────────────
-   · --display, --body                     · familias
-   · --wght-contemplativo, --wght-firmeza  · pesos
-   · --opsz-monumental                     · óptico
-   · --texto-h2, --texto-h4, --texto-cuerpo · escala
-   · --leading-titulo, --leading-h4, --leading-cuerpo · alturas
-   · --dorado, --azul-oscuro, --lino, --antracita, --texto-suave · color
-   · --t-hover, --dur-deliberado, --dur-cinematografico · tiempos
-   · --ease-llegada · easing
-   · --espacio-*                            · espaciado
-
-   DEPENDENCIAS
-   ────────────
-   · js/componentes/paramita-trazo-divisor.js  (dibuja los paths con scroll)
-   · js/primitivos/paramita-reveal.js          (aplica .is-in al mapa)
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-@layer sections {
-
-  /* ═════════════════════════════════════════════════════════════════════
-     1 · CONTENEDOR
-     ═════════════════════════════════════════════════════════════════════ */
-
-  .antesala {
-    --dur-spotlight: 20s;
-  }
-
-  .antesala__mapa {
-    position: relative;
-    margin-top: var(--espacio-contemplativo);
-    padding-bottom: 140px;
-    isolation: isolate;
-
-    --tramo-iluminado: 0;
-    --spotlight-parada: 0;
-  }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     2 · GRID DE PUERTAS
-     ═════════════════════════════════════════════════════════════════════ */
-
-  .antesala__puertas {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--espacio-grupo);
-    align-items: stretch;
-  }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     3 · PUERTA INDIVIDUAL
-     ═════════════════════════════════════════════════════════════════════
-     Transparente al reposo (el camino se ve continuo por debajo).
-     Fondo lino sutil y borde dorado al hover.
-     ───────────────────────────────────────────────────────────────────── */
-
-  .antesala__puerta {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: var(--espacio-contenido);
-    border-radius: 18px;
-
-    background: transparent;
-    border: 1px solid color-mix(in oklch, var(--azul-oscuro) 12%, transparent);
-
-    color: var(--antracita);
-    text-decoration: none;
-
-    transition:
-      background var(--t-hover),
-      border-color var(--t-hover),
-      transform var(--t-hover),
-      opacity var(--t-hover);
-  }
-
-  /* Hover honrado · atenúa hermanas */
-  .antesala__puertas:has(.antesala__puerta:hover, .antesala__puerta:focus-visible)
-    .antesala__puerta:not(:hover):not(:focus-visible) {
-    opacity: 0.45;
-  }
-
-  .antesala__puerta:hover,
-  .antesala__puerta:focus-visible {
-    background: color-mix(in oklch, var(--lino) 82%, transparent);
-    border-color: color-mix(in oklch, var(--dorado) 55%, transparent);
-    transform: translateY(-3px);
-    outline: none;
-  }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     4 · CONTROL DE ILUMINACIÓN PARCIAL POR HOVER
-     ═════════════════════════════════════════════════════════════════════
-     Al :hover de una card, el .antesala__mapa recibe los valores
-     --tramo-iluminado y --spotlight-parada correspondientes al centro
-     de esa card:
-       Card 1 (izquierda) → 22%
-       Card 2 (centro)    → 50%
-       Card 3 (derecha)   → 78%
-     ───────────────────────────────────────────────────────────────────── */
-
-  .antesala__mapa:has(.antesala__puerta:nth-child(1):is(:hover, :focus-visible)) {
-    --tramo-iluminado: 22;
-    --spotlight-parada: 22;
-  }
-
-  .antesala__mapa:has(.antesala__puerta:nth-child(2):is(:hover, :focus-visible)) {
-    --tramo-iluminado: 50;
-    --spotlight-parada: 50;
-  }
-
-  .antesala__mapa:has(.antesala__puerta:nth-child(3):is(:hover, :focus-visible)) {
-    --tramo-iluminado: 78;
-    --spotlight-parada: 78;
-  }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     5 · TIPOGRAFÍA DE LA PUERTA
-     ═════════════════════════════════════════════════════════════════════
-     Numerales en Fraunces italic (var(--display)) con opsz monumental
-     y peso contemplativo — el mismo patrón que usan los <em> de los
-     títulos en el sistema Paramita.
-     ───────────────────────────────────────────────────────────────────── */
-
-  .antesala__puerta__num {
-    display: block;
-    font-family: var(--display);
-    font-style: italic;
-    font-weight: var(--wght-contemplativo);
-    font-size: var(--texto-h2);
-    line-height: var(--leading-titulo);
-    font-variation-settings:
-      "opsz" var(--opsz-monumental),
-      "SOFT" var(--paramita-soft, 0);
-    color: var(--azul-oscuro);
-    margin-bottom: var(--espacio-grupo);
-    transition: color var(--t-hover);
-  }
-
-  .antesala__puerta:hover .antesala__puerta__num,
-  .antesala__puerta:focus-visible .antesala__puerta__num {
-    color: var(--dorado);
-  }
-
-  .antesala__puerta__titulo {
-    font-family: var(--body);
-    font-weight: var(--wght-firmeza);
-    font-size: var(--texto-h4);
-    line-height: var(--leading-h4);
-    color: var(--antracita);
-    margin: 0 0 var(--espacio-elemento) 0;
-  }
-
-  .antesala__puerta__desc {
-    font-family: var(--body);
-    font-weight: var(--wght-contemplativo);
-    font-size: var(--texto-cuerpo);
-    line-height: var(--leading-cuerpo);
-    color: var(--texto-suave);
-    margin: 0;
-    text-wrap: pretty;
-  }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     6 · CAMINO LUMINOSO
-     ═════════════════════════════════════════════════════════════════════ */
-
-  .antesala__camino {
-    /* FULL BLEED · el camino ocupa todo el ancho del viewport, sin
-       importar el padding del .wrap padre.
-       Técnica: margin-left negativo compensa la diferencia entre el
-       ancho del padre (contenido) y el ancho del viewport, sacando
-       el elemento fuera del contenedor.
-       Es el patrón estándar para elementos full-bleed dentro de un
-       layout con contenedor centrado. */
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    width: 100vw;
-    max-width: 100vw;
-    height: 140px;
-    z-index: 1;
-    pointer-events: none;
-    overflow: visible;
-  }
-
-  .antesala__camino svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-    overflow: visible;
-  }
-
-  /* Reglas base compartidas por las 4 capas del camino.
-     (Antes en v4 se aplicaban vía la clase trazo-divisor__path; ahora
-     esa clase no existe en estos paths para evitar que paramita-trazo-
-     divisor.js les toque el dashoffset con lógica de scroll.) */
-  .antesala__camino .cap-1,
-  .antesala__camino .cap-2,
-  .antesala__camino .cap-3,
-  .antesala__camino .cap-4 {
-    fill: none;
-    stroke-linecap: round;
-    vector-effect: non-scaling-stroke;
-  }
-
-  /* Capa 1 · halo extendido */
-  .antesala__camino .cap-1 {
-    stroke: var(--dorado);
-    stroke-width: 12;
-    filter: blur(10px);
-    opacity: 0.28;
-  }
-
-  /* Capa 2 · corona media */
-  .antesala__camino .cap-2 {
-    stroke: var(--dorado);
-    stroke-width: 5;
-    filter: blur(4px);
-    opacity: 0.5;
-  }
-
-  /* Capa 3 · borde suave */
-  .antesala__camino .cap-3 {
-    stroke: color-mix(in oklch, var(--dorado) 85%, var(--lino));
-    stroke-width: 2;
-    filter: blur(1.5px);
-    opacity: 0.7;
-  }
-
-  /* Capa 4 · core */
-  .antesala__camino .cap-4 {
-    stroke: color-mix(in oklch, var(--lino) 70%, var(--dorado));
-    stroke-width: 1.5;
-    opacity: 0.85;
-  }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     7 · TRAMO ILUMINADO AL HOVER
-     ═════════════════════════════════════════════════════════════════════
-     Dos paths superpuestos (halo + core) que se dibujan del 0% al
-     tramo correspondiente cuando una card recibe hover.
-     stroke-linecap: round → punta redondeada al final del tramo.
-     ───────────────────────────────────────────────────────────────────── */
-
-  .antesala__camino .cap-hover-halo,
-  .antesala__camino .cap-hover {
-    fill: none;
-    stroke-linecap: round;
-    vector-effect: non-scaling-stroke;
-  }
-
-  .antesala__camino .cap-hover-halo {
-    stroke: var(--dorado);
-    stroke-width: 5;
-    filter: blur(3px);
-    opacity: 0.45;
-    stroke-dasharray: 100;
-    stroke-dashoffset: calc(100 - var(--tramo-iluminado));
-    transition: stroke-dashoffset var(--dur-deliberado) var(--ease-llegada);
-  }
-
-  .antesala__camino .cap-hover {
-    stroke: var(--dorado);
-    stroke-width: 2.5;
-    filter: blur(0.5px);
-    opacity: 1;
-    stroke-dasharray: 100;
-    stroke-dashoffset: calc(100 - var(--tramo-iluminado));
-    transition: stroke-dashoffset var(--dur-deliberado) var(--ease-llegada);
-  }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     8 · SPOTLIGHT VIAJERO
-     ═════════════════════════════════════════════════════════════════════ */
-
-  .antesala__camino .spotlight {
-    fill: var(--dorado);
-    r: 4;
-    filter: blur(3px);
-    opacity: 0;
-
-    offset-rotate: 0deg;
-    offset-distance: 0%;
-
-    /* Transiciones para el paso a estado "parado" (hover en card):
-       r y filter se interpolan suave; offset-distance salta a la
-       parada correspondiente (comportamiento deseado: el pin aparece
-       en su punto, no viaja hasta él). */
-    transition:
-      opacity var(--t-hover),
-      r var(--t-hover),
-      filter var(--t-hover);
-
-    animation:
-      spotlight-viaje var(--dur-spotlight) linear infinite,
-      spotlight-fade var(--dur-spotlight) linear infinite;
-  }
-
-  @keyframes spotlight-viaje {
-    from { offset-distance: 0%; }
-    to   { offset-distance: 100%; }
-  }
-
-  @keyframes spotlight-fade {
-    0%, 5%    { opacity: 0; }
-    10%, 90%  { opacity: 0.55; }
-    95%, 100% { opacity: 0; }
-  }
-
-  /* Al hover · spotlight se detiene en la parada correspondiente
-     como PIN nítido (sin blur, sin animación de pulso). Lectura
-     visual: "destino alcanzado" — un punto luminoso limpio en la
-     intersección de camino × card, no una explosión difusa. */
-  .antesala__mapa:has(.antesala__puerta:is(:hover, :focus-visible)) .antesala__camino .spotlight {
-    animation: none;
-    offset-distance: calc(var(--spotlight-parada) * 1%);
-    r: 3;
-    filter: none;
-    opacity: 1;
-  }
-
-  :root[style*="--identidad-estado: reposo"] .antesala__camino .spotlight {
-    animation: none;
-    opacity: 0;
-  }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     9 · MÓVIL · ≤860px
-     ═════════════════════════════════════════════════════════════════════ */
-
-  @media (max-width: 860px) {
-
-    .antesala__mapa {
-      padding-bottom: 0;
-      padding-left: 40px;
-    }
-
-    .antesala__camino {
-      display: none;
-    }
-
-    .antesala__puertas {
-      grid-template-columns: 1fr;
-      gap: var(--espacio-grupo);
-      position: relative;
-    }
-
-    .antesala__puertas::before {
-      content: "";
-      position: absolute;
-      left: -32px;
-      top: 8px;
-      bottom: 8px;
-      width: 2px;
-      background: linear-gradient(
-        180deg,
-        transparent 0%,
-        color-mix(in oklch, var(--dorado) 35%, transparent) 8%,
-        var(--dorado) 55%,
-        color-mix(in oklch, var(--dorado) 85%, var(--lino)) 92%,
-        transparent 100%
-      );
-      box-shadow:
-        0 0 6px color-mix(in oklch, var(--dorado) 40%, transparent),
-        0 0 12px color-mix(in oklch, var(--dorado) 20%, transparent);
-      transform-origin: top center;
-      transform: scaleY(0);
-      transition: transform var(--dur-cinematografico) var(--ease-llegada);
-      z-index: 1;
-    }
-
-    .antesala__mapa.is-in .antesala__puertas::before {
-      transform: scaleY(1);
-    }
-
-    .antesala__puertas::after {
-      content: "";
-      position: absolute;
-      left: -37px;
-      top: 8px;
-      width: 12px;
-      height: 40px;
-      background: radial-gradient(
-        circle at center,
-        var(--dorado) 0%,
-        color-mix(in oklch, var(--dorado) 40%, transparent) 40%,
-        transparent 70%
-      );
-      filter: blur(4px);
-      opacity: 0.75;
-      pointer-events: none;
-      z-index: 2;
-      animation: spotlight-vertical var(--dur-spotlight) linear infinite;
-    }
-
-    @keyframes spotlight-vertical {
-      0%, 5%    { opacity: 0; top: 8px; }
-      10%       { opacity: 0.75; }
-      90%       { opacity: 0.75; }
-      95%, 100% { opacity: 0; top: calc(100% - 40px); }
-    }
-
-    .antesala__puerta {
-      padding: var(--espacio-grupo);
-    }
-
-    .antesala__puerta::after {
-      content: "";
-      position: absolute;
-      left: -32px;
-      top: 50%;
-      width: 32px;
-      height: 2px;
-      background: linear-gradient(
-        to right,
-        var(--dorado) 0%,
-        color-mix(in oklch, var(--dorado) 30%, transparent) 80%,
-        transparent 100%
-      );
-      transform: translateY(-50%);
-      transform-origin: left center;
-      scale: 0 1;
-      opacity: 0;
-      transition:
-        scale var(--dur-deliberado) var(--ease-llegada),
-        opacity var(--dur-deliberado) var(--ease-llegada);
-      z-index: 3;
-    }
-
-    .antesala__puerta:hover::after,
-    .antesala__puerta:focus-visible::after {
-      scale: 1 1;
-      opacity: 1;
-    }
-
-    .antesala__mapa:has(.antesala__puerta:is(:hover, :focus-visible)) .antesala__puertas::after {
-      animation-play-state: paused;
-    }
-  }
-
-
-  /* ═════════════════════════════════════════════════════════════════════
-     10 · REDUCED MOTION
-     ═════════════════════════════════════════════════════════════════════ */
-
-  @media (prefers-reduced-motion: reduce) {
-
-    .antesala__camino .spotlight,
-    .antesala__puertas::after {
-      animation: none;
-      opacity: 0;
-    }
-
-    .antesala__puerta,
-    .antesala__camino .cap-hover,
-    .antesala__camino .cap-hover-halo {
-      transition: none;
-    }
-
-    .antesala__puerta:hover,
-    .antesala__puerta:focus-visible {
-      transform: none;
-    }
-
-    .antesala__puertas::before {
-      transform: scaleY(1) !important;
-      transition: none;
-    }
-  }
-
-}
-/* ═══════════════════════════════════════════════════════════════════════════
-   FIN de paramita-antesala.css
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ==== paramita-footer.css ==== */
@@ -6659,8 +6309,7 @@
    FIN de paramita-footer.css
    ═══════════════════════════════════════════════════════════════════════════ */
 
-</style>
-<style id="pagina">
+/* ==== paramita-curso.css ==== */
 /* ═══════════════════════════════════════════════════════════════════════
    paramita-curso.css
    Estilos específicos de la plantilla de PÁGINA DE CURSO (/formacion/<curso>/)
@@ -6678,6 +6327,32 @@
    ═══════════════════════════════════════════════════════════════════════ */
 
 @layer paginas {
+
+  /* ═══════════ HERO · imagen de fondo (capa dentro del contrato del hero) ═══════════
+     El hero del sistema apila .hero__bg-fallback (degradado) y, encima, el velo
+     cálido .hero::after (z-index 1) bajo .hero__inner (z-index 2). Añadimos la
+     imagen del curso como capa de fondo tipo .hero__bg-video: si la imagen falta,
+     el degradado de .hero__bg-fallback queda visible por debajo. */
+  .hero__bg-img {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-size: cover; background-position: center;
+  }
+  /* Scrim de legibilidad para el texto (columna izquierda), por debajo del velo */
+  .hero__bg-img::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg,
+      color-mix(in oklch, var(--lino) 80%, transparent) 0%,
+      color-mix(in oklch, var(--lino) 42%, transparent) 40%,
+      transparent 70%);
+  }
+  @media (max-width: 760px) {
+    .hero__bg-img::after {
+      background: linear-gradient(180deg,
+        color-mix(in oklch, var(--lino) 70%, transparent) 0%,
+        color-mix(in oklch, var(--lino) 40%, transparent) 45%,
+        transparent 100%);
+    }
+  }
 
   /* Hairline reutilizada en toda la página, derivada del token de tinta */
   .split, .contraste, .temario, .incluye, .planes, .becas, .testis, .faq {
@@ -7041,7 +6716,7 @@
     border: 1px solid color-mix(in oklch, var(--antracita) 14%, transparent); background: var(--card); color: var(--antracita); }
   .news__campo input:focus-visible { outline: 2px solid var(--azul-oscuro); outline-offset: 2px; }
   .news__consent { display: flex; gap: .5rem; font-size: .82rem; color: var(--texto-suave); }
-  .news__ok { display: none; color: var(--estado-exito, #3B8A4C); font-weight: var(--wght-asertivo); }
+  .news__ok { display: none; color: var(--azul-oscuro); font-weight: var(--wght-asertivo); }
   .news__form.is-enviado .news__ok { display: block; }
 
   /* ═══════════ CTA STICKY (móvil-primero) ═══════════ */
@@ -7070,7 +6745,7 @@
   .estado-toggle { position: fixed; top: calc(var(--bar-h, 80px) + 12px); right: 14px; z-index: 120;
     display: flex; align-items: center; gap: .35rem; padding: .35rem;
     background: color-mix(in oklch, var(--antracita) 92%, transparent); border-radius: 14px;
-    box-shadow: 0 10px 30px -14px rgba(0,0,0,.5); }
+    box-shadow: 0 10px 30px -14px color-mix(in oklch, var(--antracita) 55%, transparent); }
   .estado-toggle__k { font-family: var(--body); font-size: .6rem; letter-spacing: .16em; text-transform: uppercase;
     color: color-mix(in oklch, var(--lino) 60%, transparent); padding-inline: .5rem; }
   .estado-toggle button { font-family: var(--body); font-size: .74rem; font-weight: var(--wght-asertivo);
@@ -7092,59 +6767,490 @@
   }
 }
 
+/* ==== paramita-chat.css ==== */
+/* ═══════════════════════════════════════════════════════════════════════
+   paramita-chat.css
+   Widget de chat global · guía conversacional para encontrar tu curso
+   
+   Es un componente global que puede aparecer en cualquier página.
+   Fijo abajo-derecha, cerrado por defecto. Tres preguntas → recomendación.
+   
+   Depende de: paramita-color.css, paramita-tipografia.css, paramita-base.css,
+               paramita-movimiento.css
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.chat-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  font-family: var(--body);
+}
+
+/* ─── Burbuja de invitación · aparece con delay tras cargar ────────── */
+.chat-widget__invitacion {
+  position: absolute;
+  bottom: 76px;
+  right: 0;
+  width: 260px;
+  padding: 14px 18px;
+  background: var(--card, #fff);
+  border-radius: 22px 22px 8px 22px;
+  border: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent));
+  box-shadow:
+    0 20px 48px -18px rgba(20, 14, 8, 0.28),
+    0 0 0 1px color-mix(in oklch, var(--dorado) 12%, transparent);
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: 0.98rem;
+  line-height: 1.35;
+  color: var(--antracita);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition:
+    opacity 500ms cubic-bezier(0.3, 0.7, 0.2, 1),
+    transform 500ms cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+.chat-widget__invitacion em {
+  font-style: italic;
+  color: var(--dorado);
+}
+.chat-widget__invitacion.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.chat-widget__invitacion:hover {
+  border-color: color-mix(in oklch, var(--dorado) 40%, transparent);
+  box-shadow:
+    0 20px 48px -18px rgba(20, 14, 8, 0.35),
+    0 0 0 1px color-mix(in oklch, var(--dorado) 30%, transparent),
+    0 0 32px -10px color-mix(in oklch, var(--dorado) 40%, transparent);
+}
+.chat-widget__invitacion-cerrar {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  font-size: 0.9rem;
+  color: var(--texto-tenue, color-mix(in oklch, var(--antracita) 42%, transparent));
+  cursor: pointer;
+  padding: 4px 6px;
+  line-height: 1;
+  border-radius: 50%;
+  transition: color var(--t-defecto, 280ms), background var(--t-defecto, 280ms);
+}
+.chat-widget__invitacion-cerrar:hover {
+  color: var(--antracita);
+  background: color-mix(in oklch, var(--antracita) 8%, transparent);
+}
+
+/* ─── Botón toggle flotante ────────────────────────────────────────── */
+.chat-widget__toggle {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg,
+    var(--azul-oscuro) 0%,
+    var(--azul-sutil) 55%,
+    var(--dorado) 100%);
+  cursor: pointer;
+  box-shadow:
+    0 10px 30px -8px rgba(20, 14, 8, 0.35),
+    0 0 0 1px color-mix(in oklch, var(--dorado) 20%, transparent);
+  display: grid;
+  place-items: center;
+  color: var(--lino);
+  transition: transform var(--t-defecto, 280ms), box-shadow var(--t-defecto, 280ms);
+  isolation: isolate;
+}
+.chat-widget__toggle::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,
+    color-mix(in oklch, var(--dorado) 40%, transparent),
+    color-mix(in oklch, var(--azul-sutil) 40%, transparent));
+  z-index: -1;
+  opacity: 0;
+  filter: blur(10px);
+  transition: opacity var(--t-defecto, 280ms);
+}
+.chat-widget__toggle:hover { transform: translateY(-2px); }
+.chat-widget__toggle:hover::before { opacity: 0.9; }
+.chat-widget__toggle svg {
+  width: 26px;
+  height: 26px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--t-defecto, 280ms);
+}
+.chat-widget.is-abierto .chat-widget__toggle svg { transform: rotate(90deg); }
+.chat-widget.is-abierto .chat-widget__icono-chat { display: none; }
+.chat-widget:not(.is-abierto) .chat-widget__icono-cerrar { display: none; }
+
+/* ─── Ventana del chat ─────────────────────────────────────────────── */
+.chat-widget__ventana {
+  position: absolute;
+  bottom: 76px;
+  right: 0;
+  width: 360px;
+  max-width: calc(100vw - 48px);
+  max-height: min(560px, calc(100vh - 120px));
+  background: var(--card, #fff);
+  border-radius: 22px;
+  border: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent));
+  box-shadow:
+    0 30px 60px -20px rgba(20, 14, 8, 0.4),
+    0 0 0 1px color-mix(in oklch, var(--dorado) 15%, transparent);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  pointer-events: none;
+  transform-origin: bottom right;
+  transition:
+    opacity 320ms cubic-bezier(0.3, 0.7, 0.2, 1),
+    transform 320ms cubic-bezier(0.3, 0.7, 0.2, 1);
+  overflow: hidden;
+}
+.chat-widget.is-abierto .chat-widget__ventana {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.chat-widget__cabecera {
+  padding: 20px 22px 18px;
+  background: linear-gradient(180deg,
+    color-mix(in oklch, var(--azul-oscuro) 8%, var(--card, #fff)) 0%,
+    var(--card, #fff) 100%);
+  border-bottom: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent));
+}
+.chat-widget__cabecera-eyebrow {
+  font-family: var(--body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--azul-oscuro);
+  opacity: 0.85;
+  margin-bottom: 4px;
+}
+.chat-widget__cabecera-titulo {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: 1.2rem;
+  color: var(--antracita);
+  line-height: 1.2;
+}
+.chat-widget__cabecera-titulo em {
+  font-style: italic;
+  color: var(--dorado);
+}
+
+.chat-widget__mensajes {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--hair, #ddd) transparent;
+}
+.chat-widget__mensajes::-webkit-scrollbar { width: 6px; }
+.chat-widget__mensajes::-webkit-scrollbar-thumb {
+  background: var(--hair, #ddd);
+  border-radius: 3px;
+}
+
+.chat-msg {
+  display: flex;
+  animation: chat-msg-entrar 400ms cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+@keyframes chat-msg-entrar {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.chat-msg--bot  { justify-content: flex-start; }
+.chat-msg--user { justify-content: flex-end; }
+.chat-msg__burbuja {
+  max-width: 82%;
+  padding: 10px 16px;
+  border-radius: 18px;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+.chat-msg--bot .chat-msg__burbuja {
+  background: var(--arena);
+  color: var(--antracita);
+  border-radius: 18px 18px 18px 4px;
+}
+.chat-msg--user .chat-msg__burbuja {
+  background: linear-gradient(135deg,
+    var(--azul-oscuro) 0%,
+    var(--azul-sutil) 100%);
+  color: var(--lino);
+  border-radius: 18px 18px 4px 18px;
+}
+
+/* Opciones de respuesta (quick replies) */
+.chat-opciones {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+  animation: chat-msg-entrar 400ms cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+.chat-opcion {
+  padding: 10px 16px;
+  background: var(--card, #fff);
+  border: 1px solid color-mix(in oklch, var(--dorado) 30%, var(--hair, #ddd));
+  border-radius: 18px;
+  font-family: var(--body);
+  font-size: 0.9rem;
+  color: var(--antracita);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background var(--t-defecto, 280ms),
+    border-color var(--t-defecto, 280ms),
+    color var(--t-defecto, 280ms),
+    transform var(--t-defecto, 280ms),
+    box-shadow var(--t-defecto, 280ms);
+}
+.chat-opcion:hover {
+  background: color-mix(in oklch, var(--dorado) 10%, transparent);
+  border-color: var(--dorado);
+  color: var(--azul-oscuro);
+  transform: translateX(3px);
+  box-shadow: 0 4px 14px -6px color-mix(in oklch, var(--dorado) 30%, transparent);
+}
+
+/* Recomendación · tarjeta condensada dentro del chat */
+.chat-recomendacion {
+  display: block;
+  padding: 14px 16px;
+  background: linear-gradient(135deg,
+    color-mix(in oklch, var(--azul-oscuro) 92%, transparent) 0%,
+    color-mix(in oklch, var(--azul-sutil) 60%, var(--azul-oscuro)) 100%);
+  border-radius: 16px;
+  color: var(--lino);
+  text-decoration: none;
+  transition: transform var(--t-defecto, 280ms), box-shadow var(--t-defecto, 280ms);
+  animation: chat-msg-entrar 400ms cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+.chat-recomendacion:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -10px rgba(20, 14, 8, 0.4),
+              0 0 0 1px color-mix(in oklch, var(--dorado) 40%, transparent);
+}
+.chat-recomendacion__eyebrow {
+  font-family: var(--body);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in oklch, var(--lino) 82%, transparent);
+  margin-bottom: 4px;
+}
+.chat-recomendacion__eyebrow .aportacion { color: var(--dorado); }
+.chat-recomendacion__titulo {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: 1.02rem;
+  line-height: 1.25;
+  color: var(--lino);
+  margin-bottom: 6px;
+}
+.chat-recomendacion__titulo em {
+  font-style: italic;
+  color: var(--dorado);
+}
+.chat-recomendacion__meta {
+  font-size: 0.78rem;
+  color: color-mix(in oklch, var(--lino) 75%, transparent);
+}
+
+/* Barra de acciones inferior · reiniciar / limpiar */
+.chat-widget__acciones {
+  display: flex;
+  justify-content: center;
+  padding: 12px 16px 16px;
+  border-top: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent));
+  background: color-mix(in oklch, var(--arena) 30%, var(--card, #fff));
+}
+.chat-widget__reiniciar {
+  background: transparent;
+  border: none;
+  font-family: var(--body);
+  font-size: 0.82rem;
+  color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent));
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 100px;
+  transition: color var(--t-defecto, 280ms), background var(--t-defecto, 280ms);
+}
+.chat-widget__reiniciar:hover {
+  color: var(--dorado);
+  background: color-mix(in oklch, var(--dorado) 8%, transparent);
+}
+.chat-widget__reiniciar::before { content: '↺ '; }
+
+/* Móvil */
+@media (max-width: 500px) {
+  .chat-widget { bottom: 16px; right: 16px; }
+  .chat-widget__invitacion { width: calc(100vw - 88px); }
+  .chat-widget__ventana {
+    width: calc(100vw - 32px);
+    right: -8px;
+  }
+}
+
 </style>
-
-<!-- GSAP · ScrollTrigger (scroll effects) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<style id="pagina-extra">
+/* ==== solo-preview: logo visible sin el asset de la mascara ==== */
+.bar .logo-wave{display:none!important}
+.bar .logo-fallback{display:block!important;width:150px;height:auto}
+</style>
 </head>
-
 <body data-estado="anonimo">
 
-<!-- FONDO GLOBAL · lienzo del fluido WebGL (capa de fondo, no interactiva). -->
+<!-- FONDO GLOBAL · lienzo del fluido WebGL -->
 <canvas id="fluido" aria-hidden="true"></canvas>
 
 <!-- ═══════════════════════════════════════════════════════════════════════════
-     NAVBAR · componente compartido (paramita-bar.css + paramita-menu.css)
-     Variante PÚBLICA · IA: Meditación → Cursos → Actividades → Blog → Sobre
-     Pairing de CTAs «otras páginas»: .btn-secundario + .btn-primario
-     aria-current="page" en Cursos (esta ficha vive bajo /formacion/)
+     PARAMITA · FUNDACIÓN SAKYA
+     partials/navbar-publico.html — Navbar público (usuarios sin sesión)
+     ───────────────────────────────────────────────────────────────────────────
+
+     CAMBIO FASE 7 · añadido .btn-acceso
+     ────────────────────────────────────
+     Añadido el círculo .btn-acceso al final del .bar-inner (fuera del .menu)
+     para dar entrada al login. Cuando el usuario se autentica, este mismo
+     círculo se sustituye por el .avatar-menu del navbar-practicante (misma
+     posición, mismo tamaño, misma familia lumínica) — continuidad visual
+     entre ambos navbars.
+
+     REORDENACIÓN DEL DOM
+     ────────────────────
+     El .burger se mueve al final del .bar-inner (antes estaba en 3ª posición).
+     El .btn-acceso queda como penúltimo hijo, justo antes del burger, para:
+       · En desktop: aparecer al final de la fila, después de los CTAs.
+       · En móvil: quedar visible en la barra sin abrir el hamburguesa.
+
+     La reordenación no rompe el sibling selector `.nt:checked ~ .menu`
+     porque el input.nt sigue estando ANTES del .menu en el DOM. El label
+     .burger[for="nt"] funciona por atributo, no por proximidad.
+
+     Depende de estos CSS del sistema (ya cargados):
+       · paramita-bar.css     → contenedor sticky, glass, logo
+       · paramita-menu.css    → menú horizontal, links, submenús, caret
+       · paramita-cta.css     → .btn-secundario, .btn-primario, .btn-acceso
+       · paramita-responsive.css → burger + comportamiento móvil
      ═══════════════════════════════════════════════════════════════════════════ -->
+
 <header class="bar">
   <div class="bar-inner wrap">
+
+    <!-- Logo · SVG imagotipo + wave fallback -->
     <a class="logo" href="/" aria-label="Paramita · inicio">
       <span class="logo-wave" role="img" aria-label="Paramita"></span>
+      <svg class="logo-fallback" viewBox="0 0 612.3 181.4" role="img" aria-label="Paramita" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#0d539f"><path d="M225.4,64c15.5,0,24.8,7,24.8,18.8s-8.5,19.7-22.9,20c-1.3,0-2.4,0-3.1,0l-.2-1.3c6.7-2.8,9.4-7.7,9.4-18.6s-3.9-15.8-11.9-15.8h-1.4v44.4c0,5.1,1.3,8.5,3.9,10.3v1.3h-23v-1.3c2.5-1.7,3.9-5.1,3.9-10.3v-35.7c0-5.2-1.3-8.7-3.9-10.3v-1.3h24.5Z"/><path d="M295.1,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM274.6,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M506.7,116.4c-3.4,4.5-9,7.4-14.6,7.4-8.1,0-11.6-4.7-11.6-14.4v-27.9h-5.5v-4.2c6.7-2.5,13.5-6.9,17-14h3v13.9l9.8-1-.8,5.2h-9v26.2c0,6,1.8,9,5.6,9s3.2-.4,5.3-1.3l.8,1.1Z"/><path d="M552.4,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM531.8,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M367.7,118.2c-3.1,0-4.6-1.5-4.6-4.4v-18c0-4.8-.3-7.9-2-11-2.3-4.6-7.4-7.2-17.7-7.2s-2.4,0-4.1.4c.7.9,1.2,1.6,1.7,2.6.5-.1.8-.2,2-.2,2.5,0,4.2,1.1,5,3.2.4,1.3.7,4.7.7,10.2v4.4c-1.3-.2-2.8-.3-4.5-.3-5.3,0-10,1.2-13.7,3.7-3.8,2.4-5.7,6-5.7,10.6,0,6.7,4.7,11.6,12,11.6s9.8-1.9,13-5.7c1.7,3.8,4.6,5.7,8.9,5.7s7.4-1.2,10.5-3.9v-1.6h-1.5ZM344.5,117.2c-3.5,0-5.4-2.9-5.4-6.7,0-5.9,3.2-9.5,9.5-9.5v10.8c0,1.3,0,2.5.3,3.5-1.1,1.3-2.6,1.9-4.3,1.9Z"/><path d="M444.2,111.4v-18.2c0-10.5-3-15.5-11.6-15.5s-12.5,3.4-16.4,8.8c-1.2-5.9-4.9-8.8-11-8.8s-11.5,2.9-15.8,8.8v-9.2c-4.9,1.8-10.9,3.5-18.2,5h-.1v1.4l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h22.6v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-22.9c2.2-1.1,4.5-1.7,6.7-1.7,4.2,0,6.3,2.4,6.3,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.2v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-18.8c0-1.5,0-2.9-.3-4.2,1.7-1,3.8-1.5,6.3-1.5,4.6,0,6.9,2.4,6.9,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.6v-1.3c-2.9-2-4.3-5.5-4.3-10.3Z"/><path d="M330.8,77.6c-5.3,0-12.3,4.5-15.5,9.7v-10.1c-5,1.8-10.9,3.6-18.3,5v1.3l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h24.8v-1.3c-4-1.8-6-5.3-6-10.3v-21.5c2.4-2.4,6.6-3.6,8.6-3.8.3,3.9,3.2,7.2,7.1,7.2s7.7-3.3,7.7-8-3.1-7.7-7.9-7.7Z"/><path d="M468.9,70.6c3.4-3.2,3.4-8.7,0-11.9-3.2-3.4-8.7-3.4-11.9,0-3.2,3.2-3.2,8.7,0,11.9,3.2,3.2,8.7,3.2,11.9,0Z"/><path d="M452.4,83.8v1.3l1,.5c1.3.8,2.9,3.4,2.9,6.7v19.1c0,5.1-1.4,8.5-4.3,10.3v1.3h23v-1.3c-2.9-2-4.3-5.5-4.3-10.3v-32.7c-4.9,1.8-10.9,3.6-18.3,5Z"/></g>
+        <g fill="#1cb1da"><circle cx="112.1" cy="58.6" r="10.1"/><path d="M94,67.6s2,5.3,8,10c6,4.7,8.6,10,9,20.3s.5,24.3.5,24.3c0,0-3.8-10.5-4.8-13.6s-4.2-15.9-9.7-21-7.9-5.6-7.9-5.6c0,0,1.1-8.3,4.9-14.4Z"/><path d="M130.3,67.6s-2,5.3-8,10c-6,4.7-8.6,10-9,20.3-.4,10.3-.5,24.3-.5,24.3,0,0,3.8-10.5,4.8-13.6,1-3.1,4.2-15.9,9.7-21,4.7-4.4,7.9-5.6,7.9-5.6,0,0-1.1-8.3-4.9-14.4Z"/></g>
+        <g fill="#0689c2"><path d="M74.3,74.8s2.6,4.3,5.7,5.6,11.6,4.7,15.5,8.6c3.9,3.9,11,25.5,11,25.5,0,0-3.6-5.7-13-9.7,0,0-5.3-2.1-9.7-2.6s-5.9-1.9-7.3-4.9-4.1-13.9-2.2-22.4Z"/><path d="M149.9,74.8s-2.6,4.3-5.7,5.6-11.6,4.7-15.5,8.6-11,25.5-11,25.5c0,0,3.6-5.7,13-9.7,0,0,5.3-2.1,9.7-2.6,4.4-.5,5.9-1.9,7.3-4.9s4.1-13.9,2.2-22.4Z"/></g>
+        <g fill="#0d539f"><path d="M109.8,124s-8.4-29.3-49.1-17.5c0,0,5.7.7,9.9,6,4.2,5.3,7.4,11.2,18,10.2,10.5-1,17.4-1.3,21.2,1.3Z"/><path d="M114.4,124s8.4-29.3,49.1-17.5c0,0-5.7.7-9.9,6s-7.4,11.2-18,10.2c-10.5-1-17.4-1.3-21.2,1.3Z"/></g>
+      </svg>
     </a>
 
+    <!-- Input hidden que controla el toggle del menú móvil.
+         DEBE ir antes del .menu para que `.nt:checked ~ .menu` funcione. -->
     <input class="nt" id="nt" type="checkbox" hidden>
-    <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
 
+    <!-- Menú principal -->
     <nav class="menu" aria-label="Principal">
       <ul class="links">
-        <li><a class="navlink" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a></li>
-        <li><a class="navlink" href="/formacion/" aria-current="page">Cursos</a></li>
-        <li class="has-sub">
-          <a class="navlink" href="#actividades" aria-haspopup="true">Actividades <i class="caret" aria-hidden="true"></i></a>
-          <ul class="sub" role="menu" aria-label="Actividades">
-            <li role="none"><a role="menuitem" href="#calendario"><strong>Calendario</strong><span>Sesiones y retiros</span></a></li>
-            <li role="none"><a role="menuitem" href="#visita"><strong>Visita el centro</strong><span>Ven a conocernos</span></a></li>
-          </ul>
+
+        <!-- 1 · Meditación -->
+        <li>
+          <a class="navlink" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a>
         </li>
-        <li><a class="navlink" href="/blog/">Blog</a></li>
+
+        <!-- 2 · Cursos · puerta pública al catálogo formativo (/formacion/, no el LMS) -->
+        <li>
+          <a class="navlink" href="/formacion/" aria-current="page">Cursos</a>
+        </li>
+
+        <!-- 3 · Actividades · enlace plano (sin desplegable) -->
+        <li>
+          <a class="navlink" href="/actividades">Actividades</a>
+        </li>
+
+        <!-- 4 · Blog · enlace plano (sin desplegable) -->
+        <li>
+          <a class="navlink" href="/blog">Blog</a>
+        </li>
+
+        <!-- 5 · Sobre · institucional, anclado a la derecha con .end -->
         <li class="has-sub end">
-          <a class="navlink" href="#sobre" aria-haspopup="true">Sobre <i class="caret" aria-hidden="true"></i></a>
-          <ul class="sub" role="menu" aria-label="Sobre nosotros">
-            <li role="none"><a role="menuitem" href="#maestros"><strong>Maestros</strong><span>Quién guía la práctica</span></a></li>
-            <li role="none"><a role="menuitem" href="#fundacion"><strong>La fundación</strong><span>Quiénes somos</span></a></li>
+          <a class="navlink" href="/sobre" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub" role="menu" aria-label="Sobre Paramita">
+            <li role="none"><a role="menuitem" href="/sobre"><strong>La fundación</strong><span>Quiénes somos</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/maestros"><strong>Maestros</strong><span>Quién guía la práctica</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/monasticos"><strong>Monásticos y monásticas</strong><span>La comunidad ordenada</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/faq"><strong>Preguntas frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
           </ul>
         </li>
+
       </ul>
+
       <span class="div" aria-hidden="true"></span>
+
       <div class="ctas">
-        <a class="btn-secundario" href="#contacto">Contacto</a>
-        <a class="btn-primario" href="#amigo">Hazte amigo</a>
+        <a class="btn-secundario" href="/unete">Únete</a>
+        <a class="btn-primario" href="/contribuir">Contribuir</a>
       </div>
+
     </nav>
+
+    <!-- ═════════════════════════════════════════════════════════════════
+         ACCESO A CUENTA · .btn-acceso · Fase 7
+         ─────────────────────────────────────────────────────────────────
+         Círculo con silueta de usuario que lleva al login. Cuando el
+         practicante inicia sesión, este mismo círculo se sustituye por
+         el .avatar-menu del navbar-practicante (Fase 8, pendiente) —
+         continuidad visual: la silueta anónima se convierte en el
+         avatar del usuario.
+
+         Ubicado FUERA del .menu para que en móvil quede siempre visible
+         en la barra sin necesidad de abrir el hamburguesa (patrón
+         consolidado en Notion, Linear, Gmail móvil).
+
+         El tooltip "Entrar" viene del CSS (::after). El aria-label es
+         explícito para lectores de pantalla.
+         ═════════════════════════════════════════════════════════════════ -->
+    <a class="btn-acceso" href="/login" aria-label="Entrar a mi cuenta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+      </svg>
+    </a>
+
+    <!-- Burger · toggle del menú en móvil (CSS puro con :checked).
+         Al final del .bar-inner, funciona por atributo `for="nt"`. -->
+    <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
+
   </div>
 </header>
 
@@ -7183,9 +7289,7 @@
   <section class="hero" id="hero">
     <div class="hero__bg" aria-hidden="true">
       <div class="hero__bg-fallback"></div>
-      <picture class="hero__pic">
-        <img src="/assets/img/banner-hero-desktop-emi-1.jpg" alt="" loading="eager" fetchpriority="high" onerror="this.closest('.hero__pic').remove()">
-      </picture>
+      <div class="hero__bg-img" style="background-image:url('../../assets/img/banner-hero-desktop-emi-1.jpg')"></div>
     </div>
 
     <div class="wrap hero__inner">
@@ -7238,7 +7342,7 @@
   <section class="section wrap split" id="maestro" aria-labelledby="maes-t">
     <div class="split__media">
       <figure class="retrato">
-        <img src="/assets/img/khenpo-luz-dorada-low.jpg" alt="Ven. Khenpo Rinchen Gyaltsen" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
+        <img src="../../assets/img/khenpo-luz-dorada-low.jpg" alt="Ven. Khenpo Rinchen Gyaltsen" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
       </figure>
     </div>
     <div class="split__body">
@@ -7330,7 +7434,7 @@
   <section class="section wrap split split--inv incluye" id="incluye" aria-labelledby="inc-t">
     <div class="split__media">
       <figure class="retrato retrato--material">
-        <img src="/assets/img/material-emi1.jpg" alt="Material del curso" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
+        <img src="../../assets/img/material-emi1.jpg" alt="Material del curso" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
       </figure>
     </div>
     <div class="split__body">
@@ -7537,20 +7641,13 @@
 
 </main>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     FOOTER · componente compartido (paramita-footer.css) · variante pública
-     ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- footer · sincronizado con partials/footer.html -->
 <footer class="foot" id="contacto">
-  <div class="foot__hero">
-    <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
-    <div>
-      <h2 class="foot__h">Practiquemos <em>juntos</em>.</h2>
-      <p class="foot__hint">Pasa el cursor o toca entre las figuras.</p>
-    </div>
-  </div>
   <div class="foot__info">
     <div class="wrap">
       <div class="foot-grid">
+
+        <!-- Columna 1 · marca + tagline + social -->
         <div>
           <span class="logo-wave" role="img" aria-label="Paramita"></span>
           <p class="tagline">Meditación y enseñanzas del Buddha, como puente entre los Himalayas y el mundo hispanohablante.</p>
@@ -7561,14 +7658,18 @@
             <a href="#spotify" aria-label="Spotify"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.4 9.7c3-.9 6.6-.6 9.1.9"/><path d="M8 12.6c2.4-.7 5.2-.4 7.2.8"/><path d="M8.6 15.4c1.9-.5 4-.3 5.6.6"/></svg>Spotify</a>
           </div>
         </div>
+
+        <!-- Columna 2 · Navegar (refleja la IA del navbar público) -->
         <div>
           <h4>Navegar</h4>
           <a class="fl" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a>
           <a class="fl" href="/formacion/">Cursos</a>
-          <a class="fl" href="#actividades">Actividades</a>
-          <a class="fl" href="/blog/">Blog</a>
-          <a class="fl" href="#sobre">Sobre nosotros</a>
+          <a class="fl" href="/actividades">Actividades</a>
+          <a class="fl" href="/blog">Blog</a>
+          <a class="fl" href="/sobre">Sobre</a>
         </div>
+
+        <!-- Columna 3 · Contacto -->
         <div>
           <h4>Contacto</h4>
           <address>
@@ -7579,88 +7680,22 @@
             <b>Horario</b> L–V · 10–13 h y 15–17 h
           </address>
         </div>
+
       </div>
+
+      <!-- Base del pie · copyright y firma -->
       <div class="foot-base">
         <span>© 2026 Fundación Paramita. Todos los seres, libres del sufrimiento.</span>
         <span>Centro Budista Sakya · Alicante</span>
       </div>
+
     </div>
   </div>
 </footer>
 
+<!-- JS · primitivos → componentes → página (rutas relativas, sin GSAP) -->
+
 <script>
-;(function(){/* paramita-gsap-refresh.js */
-/* ═══════════════════════════════════════════════════════════════════════════
-   PARAMITA · FUNDACIÓN SAKYA
-   paramita-gsap-refresh.js — Refresco global de ScrollTrigger
-   ───────────────────────────────────────────────────────────────────────────
-   Extraído en Fase 4 · Paso JS-9 del bloque §4 embebido en index.html
-   (líneas 759-762 del original).
-
-   QUÉ HACE
-   ────────
-   Llama a `ScrollTrigger.refresh()` en dos momentos:
-
-   1. Cuando la ventana termina de cargar TODO (evento `load`): fuentes,
-      imágenes, iframes, vídeos… en ese momento la altura del
-      documento suele haber cambiado respecto al `DOMContentLoaded`
-      inicial, y los ScrollTriggers pueden estar calibrados sobre una
-      altura obsoleta.
-
-   2. Cuando las fuentes tipográficas terminan de cargar
-      (`document.fonts.ready`): las fuentes web tardan más que el HTML
-      en aterrizar y su ancho de línea altera drásticamente la altura
-      de párrafos largos y titulares.
-
-   POR QUÉ ESTO ES CRÍTICO
-   ───────────────────────
-   Sin este refresco, los usuarios experimentan un bug característico:
-   los efectos scroll-driven (zoom de la Frase, zoom del CTA) parecen
-   "solo activarse al refrescar la página". Esto pasa porque
-   ScrollTrigger calcula sus posiciones al montarse, y esas posiciones
-   quedan desfasadas cuando el contenido reflowea al cargar fuentes,
-   imágenes o los clones del carrusel infinito de testimonios.
-
-   POR QUÉ ES UN ARCHIVO INDEPENDIENTE
-   ───────────────────────────────────
-   Este refresco no pertenece a ningún efecto concreto — es
-   infraestructura compartida por TODOS los ScrollTriggers del sitio:
-   frase-zoom, cta-zoom, trazo-divisor, y cualquier futuro efecto que
-   se añada. Por eso vive en /primitivos/ como utilidad transversal.
-
-   DEPENDENCIAS
-   ────────────
-   · GSAP core
-   · GSAP ScrollTrigger
-
-   Si GSAP no está disponible, el script no hace nada (safe fallback).
-
-   ORDEN DE CARGA
-   ──────────────
-   Este archivo puede cargarse en cualquier orden dentro del <head>
-   respecto a los otros JS que usan ScrollTrigger, porque solo se
-   engancha a eventos futuros (`load` y `fonts.ready`) que ocurren
-   DESPUÉS de que todos los efectos hayan registrado sus triggers.
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-(() => {
-  const hasGSAP = typeof window.gsap !== 'undefined';
-  if (!hasGSAP || !window.ScrollTrigger) return;
-
-  // Refresco al terminar de cargar TODO (fuentes, imágenes, iframes, vídeos)
-  window.addEventListener('load', () => ScrollTrigger.refresh());
-
-  // Refresco específico cuando las fuentes web están listas
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(() => ScrollTrigger.refresh());
-  }
-})();
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   FIN de paramita-gsap-refresh.js
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-})();
 ;(function(){/* paramita-reveal.js */
 /* ═══════════════════════════════════════════════════════════════════════════
    PARAMITA · FUNDACIÓN SAKYA
@@ -7825,6 +7860,195 @@
 
 /* ═══════════════════════════════════════════════════════════════════════════
    FIN de paramita-bar.js
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+})();
+;(function(){/* paramita-hero.js */
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-hero.js — Hero: rotador de palabras + vídeo de fondo + audio
+   ───────────────────────────────────────────────────────────────────────────
+   Extraído en Fase 4 · Paso JS-5 del bloque §2 embebido en index.html
+   (líneas 556-627 del original).
+
+   QUÉ HACE
+   ────────
+   Tres comportamientos coordinados dentro del hero:
+
+   1 · ROTADOR DE PALABRAS
+       Cicla entre las palabras marcadas con `.rotator__word`, alternando
+       la clase `.is-active` cada 3.6 segundos. El crossfade lo hace el
+       CSS (transición de opacidad). Sin CLS (Cumulative Layout Shift)
+       porque todas las palabras ocupan el mismo espacio superpuestas.
+
+   2 · VÍDEO DE FONDO RESPONSIVE
+       Elige la fuente `.mp4` según el ancho de pantalla (móvil vs
+       escritorio) y la inyecta como `<source>` dentro del `<video>`.
+       Arranca en mute con autoplay y gestiona pausa/reanudación según
+       visibilidad de pestaña y preferencia de reduced-motion.
+
+   3 · TOGGLE DE AUDIO CON FADE
+       Botón que activa/desactiva el sonido del vídeo con una transición
+       de volumen suave (600 ms) usando requestAnimationFrame. Necesita
+       un gesto del usuario (política de autoplay de los navegadores).
+
+   POR QUÉ 3.6 s POR PALABRA
+   ─────────────────────────
+   Es el ritmo contemplativo de "respiración Paramita" — deliberadamente
+   lento para que el ojo lea la palabra completa antes de cambiar. Un
+   ritmo más rápido (2 s) genera fatiga; uno más lento (5 s+) pierde el
+   efecto de rotación.
+
+   POR QUÉ ELEGIR EL SRC DEL VÍDEO CON JS Y NO CON <source media>
+   ──────────────────────────────────────────────────────────────
+   La sintaxis nativa `<source media="(max-width: 768px)" src="…">` es
+   ambigua en varios navegadores para elementos `<video>`. Elegirlo con
+   JS al cargar (matchMedia una vez) es más fiable y evita descargar
+   ambos vídeos.
+
+   NOTA: esto se decide UNA vez al cargar. Si el usuario cambia el
+   tamaño de la ventana atravesando el breakpoint, no se recarga el
+   vídeo — es aceptable porque cambiar de móvil a escritorio (o
+   viceversa) sin recargar es un caso extremo.
+
+   FALLBACKS Y RESILIENCIA
+   ───────────────────────
+   · Si el vídeo falla al cargar (`error` event) → se oculta el
+     elemento y el hero muestra su fallback estático (poster CSS).
+   · Si el navegador bloquea el autoplay → se atrapa la promesa
+     silenciosamente. El vídeo queda pausado y el usuario puede
+     activarlo con un gesto.
+   · Reduced-motion → el vídeo se pausa y el rotador no se activa.
+   · Pestaña oculta (visibilitychange) → pausa el vídeo para ahorrar
+     batería y CPU.
+
+   FADE DE VOLUMEN
+   ───────────────
+   El cambio de audio es una interacción sensible — un cambio brusco
+   de 0 a 0.3 asusta al usuario. El fade de 600 ms lo suaviza con
+   interpolación lineal frame a frame vía requestAnimationFrame.
+
+   ACCESIBILIDAD DEL TOGGLE
+   ────────────────────────
+   El botón actualiza dinámicamente `aria-pressed`, `aria-label` y
+   `title` según su estado, para que lectores de pantalla y tooltips
+   reflejen siempre la acción disponible ("Activar" vs "Silenciar").
+
+   DEPENDENCIAS
+   ────────────
+   Ninguna. Vanilla JS.
+
+   MARCADO ESPERADO EN HTML
+   ────────────────────────
+   <section class="hero">
+     <div class="rotator">
+       <span class="rotator__word is-active">meditación</span>
+       <span class="rotator__word">sabiduría</span>
+       <span class="rotator__word">compasión</span>
+     </div>
+     <video id="hero-bg-video" autoplay muted loop playsinline></video>
+     <button id="hero-sound-toggle" type="button" aria-pressed="false">…</button>
+   </section>
+
+   ASSETS
+   ──────
+   · assets/img/banner-home-home-2026.mp4   (escritorio ≥769px)
+   · assets/img/banner-movil-home-2026.mp4  (móvil ≤768px)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── 1 · Rotador de palabras (crossfade contemplativo, sin CLS) ── */
+  const rotator = document.querySelector('.rotator');
+  if (rotator && !reduce) {
+    const words = [...rotator.querySelectorAll('.rotator__word')];
+    if (words.length > 1) {
+      let i = 0;
+      setInterval(() => {
+        words[i].classList.remove('is-active');
+        i = (i + 1) % words.length;
+        words[i].classList.add('is-active');
+      }, 3600); // 3.6 s por palabra · respiración Paramita
+    }
+  }
+
+  /* ── 2 · Vídeo de fondo responsive ── */
+  const v = document.getElementById('hero-bg-video');
+  if (!v) return;
+
+  const isMobile = matchMedia('(max-width: 768px)').matches;
+  const src = isMobile
+    ? 'assets/img/banner-movil-home-2026.mp4'
+    : 'assets/img/banner-home-home-2026.mp4';
+
+  const source = document.createElement('source');
+  source.src = src;
+  source.type = 'video/mp4';
+  v.appendChild(source);
+
+  v.muted = true;
+  v.volume = 0.3;
+  v.load();
+
+  const tryPlay = () => v.play().catch(() => { /* autoplay bloqueado, silencio */ });
+  tryPlay();
+
+  // Fallo de carga → ocultar el vídeo
+  v.addEventListener('error', () => { v.style.display = 'none'; }, { once: true });
+
+  // Reduced-motion: pausar / reanudar dinámicamente
+  matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', e => {
+    e.matches ? v.pause() : tryPlay();
+  });
+
+  // Pestaña oculta: pausar para ahorrar batería y CPU
+  document.addEventListener('visibilitychange', () => {
+    document.hidden ? v.pause() : tryPlay();
+  }, { passive: true });
+
+  /* ── 3 · Toggle de audio (requiere gesto del usuario) ── */
+  const soundBtn = document.getElementById('hero-sound-toggle');
+  if (!soundBtn) return;
+
+  const TARGET_VOL = 0.3;
+  const FADE_MS = 600;
+
+  const fadeVolume = (to) => {
+    const from = v.volume;
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / FADE_MS);
+      v.volume = from + (to - from) * t;
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  soundBtn.addEventListener('click', () => {
+    const turningOn = v.muted;
+    if (turningOn) {
+      v.volume = 0;
+      v.muted = false;
+      v.play().catch(() => {});
+      fadeVolume(TARGET_VOL);
+      soundBtn.classList.add('is-on');
+      soundBtn.setAttribute('aria-pressed', 'true');
+      soundBtn.setAttribute('aria-label', 'Silenciar sonido del fondo');
+      soundBtn.title = 'Silenciar';
+    } else {
+      fadeVolume(0);
+      setTimeout(() => { v.muted = true; }, FADE_MS);
+      soundBtn.classList.remove('is-on');
+      soundBtn.setAttribute('aria-pressed', 'false');
+      soundBtn.setAttribute('aria-label', 'Activar sonido del fondo');
+      soundBtn.title = 'Activar sonido';
+    }
+  });
+})();
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FIN de paramita-hero.js
    ═══════════════════════════════════════════════════════════════════════════ */
 
 })();
@@ -8285,195 +8509,6 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 })();
-;(function(){/* paramita-hero.js */
-/* ═══════════════════════════════════════════════════════════════════════════
-   PARAMITA · FUNDACIÓN SAKYA
-   paramita-hero.js — Hero: rotador de palabras + vídeo de fondo + audio
-   ───────────────────────────────────────────────────────────────────────────
-   Extraído en Fase 4 · Paso JS-5 del bloque §2 embebido en index.html
-   (líneas 556-627 del original).
-
-   QUÉ HACE
-   ────────
-   Tres comportamientos coordinados dentro del hero:
-
-   1 · ROTADOR DE PALABRAS
-       Cicla entre las palabras marcadas con `.rotator__word`, alternando
-       la clase `.is-active` cada 3.6 segundos. El crossfade lo hace el
-       CSS (transición de opacidad). Sin CLS (Cumulative Layout Shift)
-       porque todas las palabras ocupan el mismo espacio superpuestas.
-
-   2 · VÍDEO DE FONDO RESPONSIVE
-       Elige la fuente `.mp4` según el ancho de pantalla (móvil vs
-       escritorio) y la inyecta como `<source>` dentro del `<video>`.
-       Arranca en mute con autoplay y gestiona pausa/reanudación según
-       visibilidad de pestaña y preferencia de reduced-motion.
-
-   3 · TOGGLE DE AUDIO CON FADE
-       Botón que activa/desactiva el sonido del vídeo con una transición
-       de volumen suave (600 ms) usando requestAnimationFrame. Necesita
-       un gesto del usuario (política de autoplay de los navegadores).
-
-   POR QUÉ 3.6 s POR PALABRA
-   ─────────────────────────
-   Es el ritmo contemplativo de "respiración Paramita" — deliberadamente
-   lento para que el ojo lea la palabra completa antes de cambiar. Un
-   ritmo más rápido (2 s) genera fatiga; uno más lento (5 s+) pierde el
-   efecto de rotación.
-
-   POR QUÉ ELEGIR EL SRC DEL VÍDEO CON JS Y NO CON <source media>
-   ──────────────────────────────────────────────────────────────
-   La sintaxis nativa `<source media="(max-width: 768px)" src="…">` es
-   ambigua en varios navegadores para elementos `<video>`. Elegirlo con
-   JS al cargar (matchMedia una vez) es más fiable y evita descargar
-   ambos vídeos.
-
-   NOTA: esto se decide UNA vez al cargar. Si el usuario cambia el
-   tamaño de la ventana atravesando el breakpoint, no se recarga el
-   vídeo — es aceptable porque cambiar de móvil a escritorio (o
-   viceversa) sin recargar es un caso extremo.
-
-   FALLBACKS Y RESILIENCIA
-   ───────────────────────
-   · Si el vídeo falla al cargar (`error` event) → se oculta el
-     elemento y el hero muestra su fallback estático (poster CSS).
-   · Si el navegador bloquea el autoplay → se atrapa la promesa
-     silenciosamente. El vídeo queda pausado y el usuario puede
-     activarlo con un gesto.
-   · Reduced-motion → el vídeo se pausa y el rotador no se activa.
-   · Pestaña oculta (visibilitychange) → pausa el vídeo para ahorrar
-     batería y CPU.
-
-   FADE DE VOLUMEN
-   ───────────────
-   El cambio de audio es una interacción sensible — un cambio brusco
-   de 0 a 0.3 asusta al usuario. El fade de 600 ms lo suaviza con
-   interpolación lineal frame a frame vía requestAnimationFrame.
-
-   ACCESIBILIDAD DEL TOGGLE
-   ────────────────────────
-   El botón actualiza dinámicamente `aria-pressed`, `aria-label` y
-   `title` según su estado, para que lectores de pantalla y tooltips
-   reflejen siempre la acción disponible ("Activar" vs "Silenciar").
-
-   DEPENDENCIAS
-   ────────────
-   Ninguna. Vanilla JS.
-
-   MARCADO ESPERADO EN HTML
-   ────────────────────────
-   <section class="hero">
-     <div class="rotator">
-       <span class="rotator__word is-active">meditación</span>
-       <span class="rotator__word">sabiduría</span>
-       <span class="rotator__word">compasión</span>
-     </div>
-     <video id="hero-bg-video" autoplay muted loop playsinline></video>
-     <button id="hero-sound-toggle" type="button" aria-pressed="false">…</button>
-   </section>
-
-   ASSETS
-   ──────
-   · assets/img/banner-home-home-2026.mp4   (escritorio ≥769px)
-   · assets/img/banner-movil-home-2026.mp4  (móvil ≤768px)
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-(() => {
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ── 1 · Rotador de palabras (crossfade contemplativo, sin CLS) ── */
-  const rotator = document.querySelector('.rotator');
-  if (rotator && !reduce) {
-    const words = [...rotator.querySelectorAll('.rotator__word')];
-    if (words.length > 1) {
-      let i = 0;
-      setInterval(() => {
-        words[i].classList.remove('is-active');
-        i = (i + 1) % words.length;
-        words[i].classList.add('is-active');
-      }, 3600); // 3.6 s por palabra · respiración Paramita
-    }
-  }
-
-  /* ── 2 · Vídeo de fondo responsive ── */
-  const v = document.getElementById('hero-bg-video');
-  if (!v) return;
-
-  const isMobile = matchMedia('(max-width: 768px)').matches;
-  const src = isMobile
-    ? 'assets/img/banner-movil-home-2026.mp4'
-    : 'assets/img/banner-home-home-2026.mp4';
-
-  const source = document.createElement('source');
-  source.src = src;
-  source.type = 'video/mp4';
-  v.appendChild(source);
-
-  v.muted = true;
-  v.volume = 0.3;
-  v.load();
-
-  const tryPlay = () => v.play().catch(() => { /* autoplay bloqueado, silencio */ });
-  tryPlay();
-
-  // Fallo de carga → ocultar el vídeo
-  v.addEventListener('error', () => { v.style.display = 'none'; }, { once: true });
-
-  // Reduced-motion: pausar / reanudar dinámicamente
-  matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', e => {
-    e.matches ? v.pause() : tryPlay();
-  });
-
-  // Pestaña oculta: pausar para ahorrar batería y CPU
-  document.addEventListener('visibilitychange', () => {
-    document.hidden ? v.pause() : tryPlay();
-  }, { passive: true });
-
-  /* ── 3 · Toggle de audio (requiere gesto del usuario) ── */
-  const soundBtn = document.getElementById('hero-sound-toggle');
-  if (!soundBtn) return;
-
-  const TARGET_VOL = 0.3;
-  const FADE_MS = 600;
-
-  const fadeVolume = (to) => {
-    const from = v.volume;
-    const start = performance.now();
-    const step = (now) => {
-      const t = Math.min(1, (now - start) / FADE_MS);
-      v.volume = from + (to - from) * t;
-      if (t < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  };
-
-  soundBtn.addEventListener('click', () => {
-    const turningOn = v.muted;
-    if (turningOn) {
-      v.volume = 0;
-      v.muted = false;
-      v.play().catch(() => {});
-      fadeVolume(TARGET_VOL);
-      soundBtn.classList.add('is-on');
-      soundBtn.setAttribute('aria-pressed', 'true');
-      soundBtn.setAttribute('aria-label', 'Silenciar sonido del fondo');
-      soundBtn.title = 'Silenciar';
-    } else {
-      fadeVolume(0);
-      setTimeout(() => { v.muted = true; }, FADE_MS);
-      soundBtn.classList.remove('is-on');
-      soundBtn.setAttribute('aria-pressed', 'false');
-      soundBtn.setAttribute('aria-label', 'Activar sonido del fondo');
-      soundBtn.title = 'Activar sonido';
-    }
-  });
-})();
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   FIN de paramita-hero.js
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-})();
 ;(function(){/* paramita-footer-lotos.js */
 /* ═══════════════════════════════════════════════════════════════════════════
    PARAMITA · FUNDACIÓN SAKYA
@@ -8772,342 +8807,303 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 })();
-;(function(){/* paramita-cta-zoom.js */
-/* ═══════════════════════════════════════════════════════════════════════════
-   PARAMITA · FUNDACIÓN SAKYA
-   paramita-cta-zoom.js — Zoom-stage del CTA principal
-   ───────────────────────────────────────────────────────────────────────────
-   Extraído en Fase 4 · Paso JS-8 del bloque §4d embebido en index.html
-   (líneas 745-756 del original).
+;(function(){/* paramita-chat.js */
+/* ═══════════════════════════════════════════════════════════════════════
+   paramita-chat.js
+   Widget de chat global · árbol de decisión para orientar al usuario
+   
+   Contenido:
+   · 3 preguntas predefinidas con respuestas rápidas (quick replies)
+   · Mapa de combinaciones → recomendación de 1-2 cursos
+   · Invitación automática tras 4 segundos (una vez por sesión)
+   · Puede ser lanzado externamente pulsando el elemento con id="ctaAbrirChat"
+   
+   Las recomendaciones son datos hardcodeados en esta muestra.
+   En producción deberían provenir del CMS o de una API de cursos.
+   ═══════════════════════════════════════════════════════════════════════ */
 
-   QUÉ HACE
-   ────────
-   Anima el elemento `.zoom-word` dentro de la sección `#amigo`
-   ("Hazte amigo") acompañando al scroll: arranca a escala 0.62 con
-   opacidad 0.35, y crece hasta escala 1 con opacidad completa cuando
-   el centro de la sección alcanza el centro del viewport.
+(function() {
+'use strict';
 
-   Es una variante más sutil del zoom de la Frase — misma familia
-   gestual, ritmo distinto. Refuerza el momento de conversión del CTA
-   sin gritar.
+const widget           = document.getElementById('chatWidget');
+const toggle           = document.getElementById('chatToggle');
+const ventana          = document.getElementById('chatVentana');
+const mensajesEl       = document.getElementById('chatMensajes');
+const reiniciar        = document.getElementById('chatReiniciar');
+const invitacion       = document.getElementById('chatInvitacion');
+const invitacionCerrar = document.getElementById('chatInvitacionCerrar');
+const ctaAbrirChat     = document.getElementById('ctaAbrirChat');
 
-   Nota: este era el bloque §4d del script inline original. El §4c
-   (ornamentos SVG laterales atados a ScrollTrigger) se retiró en la
-   Fase 5.4: no ligaba con la metáfora identitaria y en móvil solapaba
-   con este zoom-word. Fue sustituido por un halo radial dorado CSS
-   puro, sin JS asociado.
+if (!widget || !toggle) return;
 
-   PARÁMETROS DEL SCROLLTRIGGER
-   ────────────────────────────
-   · trigger: #amigo           → sección "Hazte amigo"
-   · start:   'top bottom'
-   · end:     'center center'
-   · scrub:   1                → atado al scroll con inercia de 1s
+/* ─── Árbol de decisión ────────────────────────────────────────────── */
+const preguntas = [
+  {
+    bot: '¡Hola! Bienvenido al sendero de Paramita. Para ayudarte a encontrar el curso adecuado, ¿cómo describirías tu experiencia con la meditación?',
+    opciones: [
+      { texto: 'Estoy empezando desde cero',       valor: 'inicio' },
+      { texto: 'Practico de forma regular',        valor: 'medio' },
+      { texto: 'Tengo formación budista previa',   valor: 'avanzado' },
+    ],
+    clave: 'experiencia'
+  },
+  {
+    bot: 'Bien. ¿Qué tipo de camino te llama más ahora mismo?',
+    opciones: [
+      { texto: 'Aprender lo esencial sin compromiso',  valor: 'ligero' },
+      { texto: 'Un estudio profundo y guiado',         valor: 'profundo' },
+      { texto: 'Retirarme unos días de forma intensa', valor: 'retiro' },
+    ],
+    clave: 'intensidad'
+  },
+  {
+    bot: 'Última pregunta. ¿Cómo prefieres estudiar?',
+    opciones: [
+      { texto: 'A mi ritmo, cuando pueda',           valor: 'auto' },
+      { texto: 'Clases en vivo, con acompañamiento', valor: 'vivo' },
+      { texto: 'Presencial, en Alicante',            valor: 'presencial' },
+    ],
+    clave: 'modalidad'
+  },
+];
 
-   La diferencia con la Frase (`scrub: true`) es que aquí `scrub: 1`
-   añade una ligera inercia — la animación se queda 1s "por detrás"
-   del scroll, dando una sensación más suave y menos mecánica.
+/* ─── Recomendaciones · combinación experiencia-intensidad-modalidad ── */
+const recomendaciones = {
+  _default: [
+    { nivel:'I', titulo:'Introducción a la <em>meditación</em>', meta:'4 lecciones · autodirigido', aportacion:'GRATUITO' },
+    { nivel:'I', titulo:'Las <em>Cuatro Nobles</em> Verdades',   meta:'3 lecciones · autodirigido', aportacion:'GRATUITO' },
+  ],
+  'inicio-ligero-auto': [
+    { nivel:'I', titulo:'Introducción a la <em>meditación</em>', meta:'4 lecciones · autodirigido', aportacion:'GRATUITO' },
+    { nivel:'I', titulo:'La vida del <em>Buddha</em>',           meta:'6 lecciones · autodirigido', aportacion:'GRATUITO' },
+  ],
+  'inicio-ligero-vivo': [
+    { nivel:'I', titulo:'Perlas de <em>sabiduría</em> · parte 5', meta:'2 mayo 2026 · online en vivo', aportacion:'GRATUITO' },
+    { nivel:'I', titulo:'Introducción al <em>Lojong</em>',        meta:'15 abr 2026 · online en vivo', aportacion:'GRATUITO' },
+  ],
+  'inicio-profundo-vivo': [
+    { nivel:'I', titulo:'EMI 1 · <em>Calma</em> y lucidez',       meta:'3 meses · online en vivo', aportacion:'120 €' },
+    { nivel:'I', titulo:'EMI 2 · <em>Compasión</em> en acción',   meta:'3 meses · online en vivo', aportacion:'120 €' },
+  ],
+  'inicio-profundo-auto': [
+    { nivel:'I', titulo:'Las <em>Cuatro Nobles</em> Verdades',    meta:'3 lecciones · autodirigido', aportacion:'GRATUITO' },
+    { nivel:'I', titulo:'EMI 1 · <em>Calma</em> y lucidez',       meta:'3 meses · online en vivo',   aportacion:'120 €' },
+  ],
+  'inicio-retiro-presencial': [
+    { nivel:'I', titulo:'Retiro de <em>iniciación</em> a la práctica', meta:'9–12 oct 2026 · Alicante', aportacion:'280 €' },
+  ],
+  'medio-ligero-auto': [
+    { nivel:'II', titulo:'Las <em>37 prácticas</em> del bodhisattva', meta:'8 lecciones · autodirigido', aportacion:'GRATUITO' },
+    { nivel:'II', titulo:'La Rueda de las <em>Armas</em> Afiladas',   meta:'27 jun 2026 · online en vivo', aportacion:'GRATUITO' },
+  ],
+  'medio-ligero-vivo': [
+    { nivel:'II', titulo:'La Rueda de las <em>Armas</em> Afiladas',   meta:'27 jun 2026 · online en vivo', aportacion:'GRATUITO' },
+    { nivel:'II', titulo:'El <em>Sutra</em> del Corazón',             meta:'6 lecciones · online en vivo', aportacion:'180 €' },
+  ],
+  'medio-profundo-vivo': [
+    { nivel:'II', titulo:'El Camino del <em>Bodhisattva</em> · parte 1', meta:'6 meses · online en vivo', aportacion:'240 €' },
+    { nivel:'II', titulo:'Entrenamiento mental en <em>7 puntos</em>',    meta:'4 meses · online en vivo', aportacion:'200 €' },
+  ],
+  'medio-profundo-auto': [
+    { nivel:'II', titulo:'Las <em>37 prácticas</em> del bodhisattva',    meta:'8 lecciones · autodirigido', aportacion:'GRATUITO' },
+    { nivel:'II', titulo:'El Camino del <em>Bodhisattva</em> · parte 1', meta:'6 meses · online en vivo',   aportacion:'240 €' },
+  ],
+  'medio-retiro-presencial': [
+    { nivel:'II', titulo:'Retiro sobre las <em>paramitas</em>',       meta:'18–22 nov 2026 · Alicante', aportacion:'320 €' },
+  ],
+  'avanzado-ligero-auto': [
+    { nivel:'III', titulo:'Introducción al <em>Abhidharma</em>',      meta:'5 lecciones · autodirigido', aportacion:'GRATUITO' },
+    { nivel:'III', titulo:'Los siete puntos <em>vajra</em>',          meta:'8 sesiones · online en vivo', aportacion:'220 €' },
+  ],
+  'avanzado-profundo-vivo': [
+    { nivel:'III', titulo:'Programa <em>Dharma Chakra</em>',          meta:'5 años · online en vivo', aportacion:'1.200 €/año' },
+    { nivel:'III', titulo:'Las <em>Tres Visiones</em>',                meta:'8 meses · online en vivo', aportacion:'380 €' },
+  ],
+  'avanzado-profundo-auto': [
+    { nivel:'III', titulo:'Introducción al <em>Madhyamaka</em>',      meta:'10 meses · online en vivo', aportacion:'420 €' },
+    { nivel:'III', titulo:'Los <em>tres códigos</em> · ética budista',meta:'7 meses · online en vivo',  aportacion:'380 €' },
+  ],
+  'avanzado-retiro-presencial': [
+    { nivel:'IV', titulo:'Retiro de <em>Chenrezig</em>',              meta:'7 días · Alicante', aportacion:'450 €' },
+    { nivel:'V', titulo:'Retiro de <em>Vajrayogini</em>',             meta:'10 días · Alicante', aportacion:'720 €' },
+  ],
+  'avanzado-retiro-vivo': [
+    { nivel:'IV', titulo:'Introducción al <em>Vajrayana</em>',        meta:'1 año · híbrido', aportacion:'680 €' },
+  ],
+};
 
-   DEPENDENCIAS
-   ────────────
-   · GSAP core
-   · GSAP ScrollTrigger
+/* ─── Estado ───────────────────────────────────────────────────────── */
+const respuestas = {};
+let pasoActual = 0;
 
-   FALLBACK
-   ────────
-   Sin GSAP o con reduced-motion, el elemento queda en su estado final
-   (escala 1, opacidad 1) por CSS.
+function scrollDown() {
+  requestAnimationFrame(() => {
+    if (mensajesEl) mensajesEl.scrollTop = mensajesEl.scrollHeight;
+  });
+}
 
-   MARCADO ESPERADO EN HTML
-   ────────────────────────
-   <section id="amigo">
-     <h2>Hazte <span class="zoom-word">amigo</span></h2>
-   </section>
-   ═══════════════════════════════════════════════════════════════════════════ */
+function anadirMensajeBot(texto, delay = 400) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'chat-msg chat-msg--bot';
+      el.innerHTML = `<div class="chat-msg__burbuja">${texto}</div>`;
+      mensajesEl.appendChild(el);
+      scrollDown();
+      resolve();
+    }, delay);
+  });
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-  const word = document.querySelector('.zoom-word');
-  if (!word) return;
+function anadirMensajeUser(texto) {
+  const el = document.createElement('div');
+  el.className = 'chat-msg chat-msg--user';
+  el.innerHTML = `<div class="chat-msg__burbuja">${texto}</div>`;
+  mensajesEl.appendChild(el);
+  scrollDown();
+}
 
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const hasGSAP = typeof window.gsap !== 'undefined';
-  if (!hasGSAP || reduce) return;
+function anadirOpciones(opciones, onSelect) {
+  const el = document.createElement('div');
+  el.className = 'chat-opciones';
+  opciones.forEach(op => {
+    const btn = document.createElement('button');
+    btn.className = 'chat-opcion';
+    btn.textContent = op.texto;
+    btn.addEventListener('click', () => {
+      anadirMensajeUser(op.texto);
+      el.remove();
+      onSelect(op.valor);
+    });
+    el.appendChild(btn);
+  });
+  mensajesEl.appendChild(el);
+  scrollDown();
+}
 
-  gsap.registerPlugin(ScrollTrigger);
+function anadirRecomendaciones(cursos) {
+  cursos.forEach((curso, i) => {
+    setTimeout(() => {
+      const el = document.createElement('a');
+      el.className = 'chat-recomendacion';
+      el.href = '#catalogo';
+      el.innerHTML = `
+        <div class="chat-recomendacion__eyebrow">
+          Nivel ${curso.nivel} · <span class="aportacion">${curso.aportacion}</span>
+        </div>
+        <div class="chat-recomendacion__titulo">${curso.titulo}</div>
+        <div class="chat-recomendacion__meta">${curso.meta}</div>
+      `;
+      el.addEventListener('click', () => {
+        setTimeout(() => cerrarChat(), 400);
+      });
+      mensajesEl.appendChild(el);
+      scrollDown();
+    }, 400 + i * 300);
+  });
+}
 
-  gsap.fromTo('.zoom-word',
-    { scale: 0.62, autoAlpha: 0.35 },
-    {
-      scale: 1,
-      autoAlpha: 1,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#amigo',
-        start: 'top bottom',
-        end: 'center center',
-        scrub: 1
-      }
-    }
-  );
+async function siguientePaso() {
+  if (pasoActual >= preguntas.length) {
+    const clave = `${respuestas.experiencia}-${respuestas.intensidad}-${respuestas.modalidad}`;
+    const cursos = recomendaciones[clave] || recomendaciones._default;
+
+    await anadirMensajeBot(
+      cursos.length === 1
+        ? 'Basándome en lo que me cuentas, este curso puede ser un buen comienzo:'
+        : 'Basándome en lo que me cuentas, te propongo estas opciones:',
+      600
+    );
+    anadirRecomendaciones(cursos);
+
+    setTimeout(() => {
+      if (reiniciar) reiniciar.style.display = 'inline-block';
+    }, 400 + cursos.length * 300 + 200);
+    return;
+  }
+
+  const p = preguntas[pasoActual];
+  await anadirMensajeBot(p.bot);
+
+  setTimeout(() => {
+    anadirOpciones(p.opciones, (valor) => {
+      respuestas[p.clave] = valor;
+      pasoActual++;
+      siguientePaso();
+    });
+  }, 500);
+}
+
+function iniciarConversacion() {
+  if (!mensajesEl) return;
+  mensajesEl.innerHTML = '';
+  Object.keys(respuestas).forEach(k => delete respuestas[k]);
+  pasoActual = 0;
+  if (reiniciar) reiniciar.style.display = 'none';
+  siguientePaso();
+}
+
+function abrirChat() {
+  widget.classList.add('is-abierto');
+  if (invitacion) invitacion.classList.remove('is-visible');
+  if (mensajesEl && !mensajesEl.querySelector('.chat-msg')) {
+    iniciarConversacion();
+  }
+}
+function cerrarChat() {
+  widget.classList.remove('is-abierto');
+}
+
+/* ─── Listeners ────────────────────────────────────────────────────── */
+toggle.addEventListener('click', () => {
+  if (widget.classList.contains('is-abierto')) cerrarChat();
+  else abrirChat();
 });
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   FIN de paramita-cta-zoom.js
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-})();
-;(function(){/* paramita-trazo-divisor.js */
-/* ═══════════════════════════════════════════════════════════════════════════
-   PARAMITA · FUNDACIÓN SAKYA
-   paramita-trazo-divisor.js — Dibujo del stroke SVG por scroll (§5c)
-   ───────────────────────────────────────────────────────────────────────────
-   Extraído en Fase 4 · Paso JS-11 del bloque §5c embebido en index.html
-   (líneas 1108-1146 del original).
-
-   QUÉ HACE
-   ────────
-   Anima el "dibujado" de trazos SVG (`.trazo-divisor__path`) atados al
-   scroll: el trazo empieza invisible (dashoffset = longitud total) y
-   se va dibujando progresivamente conforme el divisor asciende por el
-   viewport. Es bidireccional — al scrollear hacia arriba, el trazo se
-   desdibuja.
-
-   La técnica es el clásico truco de SVG con `stroke-dasharray` y
-   `stroke-dashoffset`, ambos igualados a la longitud total del path
-   (`getTotalLength()`), animando el offset entre 0 y esa longitud.
-
-   POR QUÉ VANILLA Y NO GSAP
-   ─────────────────────────
-   Este efecto NO usa ScrollTrigger. Se implementó con IntersectionObserver
-   + requestAnimationFrame por dos razones:
-
-   1. Independencia: si GSAP falla al cargar (CDN bloqueado), los
-      divisores siguen animándose. Son una expresión canónica de la
-      metáfora del cruce; no deben depender de una biblioteca externa.
-
-   2. Rendimiento: el listener de scroll se acopla SOLO cuando algún
-      divisor está en vista, y se desacopla cuando ninguno lo está.
-      Con rAF garantizamos un único cálculo por frame. Sin librería,
-      sin jank.
-
-   RANGO DE PROGRESO
-   ─────────────────
-   El progreso 0→1 se mide como `(vh - r.top) / (vh * 0.85)` acotado.
-
-   · Cuando el borde superior del divisor está a nivel del borde
-     inferior del viewport: progreso ≈ 0 (trazo invisible).
-   · Cuando el borde superior ha subido un 85% de la altura del
-     viewport: progreso = 1 (trazo dibujado del todo).
-
-   El 85% (no 100%) hace que el trazo termine de dibujarse un poco
-   ANTES de que salga por arriba — para que el usuario vea el trazo
-   completo antes de perderlo de vista.
-
-   DEPENDENCIAS
-   ────────────
-   Ninguna. Vanilla SVG + IntersectionObserver + rAF.
-
-   REDUCED-MOTION
-   ──────────────
-   Si el usuario tiene `prefers-reduced-motion: reduce`, el trazo se
-   dibuja instantáneamente en su estado final (offset = 0) y no se
-   engancha ningún listener. Cero animación, cero cómputo.
-
-   MARCADO ESPERADO EN HTML
-   ────────────────────────
-   <div class="trazo-divisor">
-     <svg viewBox="…">
-       <path class="trazo-divisor__path" d="…" />
-     </svg>
-   </div>
-
-   El `<path>` debe tener `stroke` y `fill: none` en CSS. El JS se
-   encarga del `stroke-dasharray` y del `stroke-dashoffset` inline.
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-(function initTrazoDivisor() {
-  const paths = [...document.querySelectorAll('.trazo-divisor__path')];
-  if (!paths.length) return;
-
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Preparar dasharray/dashoffset iniciales
-  paths.forEach(p => {
-    const L = p.getTotalLength();
-    p.dataset.len = L;
-    p.style.strokeDasharray = L;
-    p.style.strokeDashoffset = reduce ? 0 : L; // arranca sin dibujar
+if (invitacion) {
+  invitacion.addEventListener('click', (e) => {
+    if (e.target !== invitacionCerrar) abrirChat();
   });
-
-  if (reduce) return; // estado final directo, sin listeners
-
-  const active = new Set();
-  let ticking = false;
-
-  function update() {
-    ticking = false;
-    const vh = innerHeight;
-    active.forEach(p => {
-      const r = p.closest('.trazo-divisor').getBoundingClientRect();
-      // Progreso 0→1 conforme el divisor asciende por el viewport (bidireccional).
-      const prog = Math.max(0, Math.min(1, (vh - r.top) / (vh * 0.85)));
-      p.style.strokeDashoffset = parseFloat(p.dataset.len) * (1 - prog);
-    });
-  }
-
-  function onScroll() {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(update);
-    }
-  }
-
-  // Solo escuchamos scroll cuando algún divisor está en vista.
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      const p = e.target.querySelector('.trazo-divisor__path');
-      e.isIntersecting ? active.add(p) : active.delete(p);
-    });
-
-    if (active.size) {
-      addEventListener('scroll', onScroll, { passive: true });
-      update();
-    } else {
-      removeEventListener('scroll', onScroll);
-    }
-  }, {
-    threshold: 0,
-    rootMargin: '12% 0px 12% 0px'
-  });
-
-  document.querySelectorAll('.trazo-divisor').forEach(d => io.observe(d));
-})();
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   FIN de paramita-trazo-divisor.js
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-})();
-;(function(){/* paramita-modal.js */
-/* ═══════════════════════════════════════════════════════════════════════════
-   PARAMITA · FUNDACIÓN SAKYA
-   paramita-modal.js — Modal de vídeo de bienvenida
-   ───────────────────────────────────────────────────────────────────────────
-   Extraído en Fase 4 · Paso JS-4 del bloque §1 embebido en index.html
-   (líneas 536-552 del original).
-
-   QUÉ HACE
-   ────────
-   Gestiona la apertura y cierre del modal de vídeo que se dispara desde
-   el vídeo cinematográfico de la sección Bienvenidos. Al hacer clic (o
-   pulsar Enter/Espacio) sobre el elemento `#missionVideo`, se inyecta
-   dentro del modal un `<video>` con el contenido completo y se muestra
-   con animación (clase `.open`).
-
-   INYECCIÓN DIFERIDA DEL <VIDEO>
-   ──────────────────────────────
-   El `<video>` NO existe en el HTML: se crea con `innerHTML` en el
-   momento de abrir el modal, y se destruye al cerrarlo (`innerHTML=''`).
-   Esto tiene dos ventajas:
-
-   1. Rendimiento: el vídeo no se descarga hasta que el usuario lo pide.
-   2. Recursos: al cerrar, el navegador libera memoria y detiene el
-      buffer — evita que un vídeo siga cargando en segundo plano.
-
-   CIERRE POR TRES VÍAS
-   ────────────────────
-   El modal se puede cerrar de tres formas, todas convencionales para
-   preservar la accesibilidad:
-
-   · Clic en el botón de cierre (#vclose)
-   · Clic en el fondo del modal (fuera del contenido)
-   · Tecla Escape
-
-   ACCESIBILIDAD
-   ─────────────
-   · Se soporta activación por teclado (Enter y Espacio) sobre el
-     disparador, no solo clic.
-   · Al abrir, el foco se mueve al botón de cierre (para que Tab siga
-     una lectura lógica).
-   · Al cerrar, el foco vuelve al disparador (patrón de restauración de
-     foco esperado por lectores de pantalla y usuarios de teclado).
-
-   DEPENDENCIAS
-   ────────────
-   Ninguna. Vanilla JS.
-
-   MARCADO ESPERADO EN HTML
-   ────────────────────────
-   <!-- Disparador -->
-   <button id="missionVideo" type="button">…</button>
-
-   <!-- Modal (oculto por defecto vía CSS) -->
-   <div id="vmodal" role="dialog" aria-modal="true">
-     <button id="vclose" type="button" aria-label="Cerrar">×</button>
-     <div id="vframe"><!-- <video> inyectado aquí --></div>
-   </div>
-
-   CSS ASOCIADO
-   ────────────
-   Ver paramita-modal.css — reglas `#vmodal` y `#vmodal.open`.
-
-   NOTA SOBRE LOS ASSETS
-   ─────────────────────
-   Las rutas del vídeo y del poster están hardcodeadas:
-     · assets/img/bienvenida-paramita.jpg  (poster)
-     · assets/img/bienvenida-paramita.mp4  (fuente)
-   Si estas rutas cambian, editar aquí — no en el HTML.
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-(() => {
-  const trigger = document.getElementById('missionVideo');
-  const vmodal  = document.getElementById('vmodal');
-  const vframe  = document.getElementById('vframe');
-  const vclose  = document.getElementById('vclose');
-
-  if (!trigger || !vmodal || !vframe || !vclose) return;
-
-  const openV = () => {
-    vframe.innerHTML = `
-      <video controls autoplay playsinline poster="assets/img/bienvenida-paramita.jpg">
-        <source src="assets/img/bienvenida-paramita.mp4" type="video/mp4">
-      </video>`;
-    vmodal.classList.add('open');
-    vclose.focus();
-  };
-
-  const closeV = () => {
-    vmodal.classList.remove('open');
-    vframe.innerHTML = ''; // libera el vídeo y detiene la descarga
-    trigger.focus();
-  };
-
-  // Apertura: clic o teclado (Enter / Espacio)
-  trigger.addEventListener('click', openV);
-  trigger.addEventListener('keydown', e => {
+  invitacion.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      openV();
+      abrirChat();
     }
   });
+}
+if (invitacionCerrar) {
+  invitacionCerrar.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (invitacion) invitacion.classList.remove('is-visible');
+  });
+}
+if (reiniciar) {
+  reiniciar.addEventListener('click', iniciarConversacion);
+}
+if (ctaAbrirChat) {
+  ctaAbrirChat.addEventListener('click', abrirChat);
+}
 
-  // Cierre: botón, fondo, tecla Escape
-  vclose.addEventListener('click', closeV);
-  vmodal.addEventListener('click', e => {
-    if (e.target === vmodal) closeV();
-  });
-  addEventListener('keydown', e => {
-    if (e.key === 'Escape' && vmodal.classList.contains('open')) closeV();
-  });
+// Invitación tras 4 segundos (una sola vez por sesión)
+if (!sessionStorage.getItem('paramita-invitacion-vista')) {
+  setTimeout(() => {
+    if (!widget.classList.contains('is-abierto') && invitacion) {
+      invitacion.classList.add('is-visible');
+      sessionStorage.setItem('paramita-invitacion-vista', '1');
+    }
+  }, 4000);
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && widget.classList.contains('is-abierto')) {
+    cerrarChat();
+  }
+});
+
 })();
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   FIN de paramita-modal.js
-   ═══════════════════════════════════════════════════════════════════════════ */
-
 })();
-</script>
-<script>
+;(function(){/* paramita-curso.js */
 /* ═══════════════════════════════════════════════════════════════════════
    paramita-curso.js
    Lógica específica de la plantilla de PÁGINA DE CURSO.
@@ -9200,7 +9196,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 })();
 
+})();
 </script>
-
 </body>
 </html>
