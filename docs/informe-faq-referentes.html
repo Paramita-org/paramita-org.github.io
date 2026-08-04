@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El último cruce — Referentes y patrones de FAQ · Informe UI/UX + CRO 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;
+    --paper-2:#FBFAF7;
+    --ink:#191A1C;
+    --slate:#63656B;
+    --ink-deep:#132239;
+    --ink-deep-2:#0E1A2C;
+    --gold:#A8823F;
+    --gold-lite:#C9A96E;
+    --rule:#DAD6CC;
+    --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);
+    line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+  .flow > .bleed{grid-column:1/-1;width:100%}
+
+  /* ---------- COVER ---------- */
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;
+    font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--gold);margin:0 0 1.4rem
+  }
+  .cover h1{
+    font-family:"Fraunces",serif;
+    font-optical-sizing:auto;
+    font-weight:500;
+    font-size:clamp(2.6rem,7vw,4.8rem);
+    line-height:1.0;
+    letter-spacing:-.015em;
+    margin:0 0 1.4rem;
+  }
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{
+    font-size:clamp(1.15rem,1.4vw,1.4rem);
+    line-height:1.5;color:var(--slate);max-width:32em;margin:0 0 2.4rem;font-weight:400
+  }
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{
+    content:"";position:absolute;inset:0;width:38%;
+    background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);
+    animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite
+  }
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+
+  .lede{
+    font-family:"Fraunces",serif;font-weight:400;
+    font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.45;
+    letter-spacing:-.01em;margin:2.6rem 0 0;color:var(--ink)
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:clamp(3rem,7vh,5rem) 0}
+  .sec-head{margin:0 0 2rem}
+  .sec-num{
+    font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.2em;
+    color:var(--gold);display:block;margin-bottom:.7rem
+  }
+  h2{
+    font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;
+    font-size:clamp(1.85rem,3.6vw,2.85rem);line-height:1.08;letter-spacing:-.012em;margin:0
+  }
+  h3{
+    font-family:"Hanken Grotesk",sans-serif;font-weight:650;
+    font-size:1.18rem;letter-spacing:.005em;margin:2.6rem 0 .6rem;line-height:1.3
+  }
+  h3 .tag{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);letter-spacing:.14em;vertical-align:.35em;margin-right:.55em;text-transform:uppercase}
+  p{margin:0 0 1.15rem}
+  a{color:var(--ink-deep);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;text-decoration-thickness:1px}
+  a:hover{text-decoration-thickness:2px}
+  strong{font-weight:650}
+  em{font-style:italic}
+  .drop::first-letter{
+    font-family:"Fraunces",serif;font-weight:500;float:left;
+    font-size:3.5em;line-height:.72;padding:.06em .09em 0 0;color:var(--ink-deep)
+  }
+
+  .pull{
+    font-family:"Fraunces",serif;font-style:italic;font-weight:400;
+    font-size:clamp(1.35rem,2.4vw,1.9rem);line-height:1.32;letter-spacing:-.01em;
+    color:var(--ink-deep);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    padding:1.6rem 0;margin:2.4rem 0
+  }
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .stat{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.9rem,3vw,2.6rem);line-height:1;letter-spacing:-.02em;color:var(--ink-deep)}
+  .stat .n small{font-size:.5em;color:var(--gold);font-weight:500}
+  .stat .l{font-family:"Hanken Grotesk",sans-serif;font-size:.9rem;line-height:1.35;color:var(--ink);margin-top:.6rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.66rem;color:var(--slate);margin-top:.5rem;letter-spacing:.02em}
+
+  .note{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:1.3rem 1.4rem;margin:1.8rem 0;font-size:.98rem;line-height:1.62}
+  .note .k{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+
+  .tbl-wrap{margin:2rem 0;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.92rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:.8rem}
+  th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  thead th{border-bottom:1.5px solid var(--ink);font-family:"Hanken Grotesk";font-weight:650;font-size:.82rem}
+  tbody td:first-child{font-weight:600}
+  .num{font-family:"JetBrains Mono",monospace;font-size:.85rem;white-space:nowrap;color:var(--ink-deep)}
+  tbody tr:hover td{background:var(--paper-2)}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .split > div{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .split h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.25rem;margin:0 0 .3rem}
+  .split .role{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+  .split ul{margin:0;padding-left:1.05em;font-size:.94rem;line-height:1.55}
+  .split li{margin-bottom:.5rem}
+
+  .verdict{background:var(--ink-deep-2);color:var(--paper);padding:clamp(3rem,7vh,5rem) 0}
+  .verdict h2{color:var(--paper)}
+  .verdict .eyebrow{color:var(--gold-lite)}
+  .verdict p{color:#C3CAD6}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2rem}
+  .checks h4{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 1rem;padding-bottom:.6rem;border-bottom:1px solid rgba(255,255,255,.15)}
+  .checks .yes h4{color:#9ECBA8}
+  .checks .no h4{color:#D98C8C}
+  .checks ul{list-style:none;margin:0;padding:0;font-size:.94rem;line-height:1.5}
+  .checks li{padding-left:1.5em;position:relative;margin-bottom:.9rem;color:#D6DBE3}
+  .checks .yes li::before{content:"✓";position:absolute;left:0;color:#9ECBA8;font-weight:700}
+  .checks .no li::before{content:"✕";position:absolute;left:0;color:#D98C8C;font-weight:700}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.76rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .fit{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase}
+  .fit-alto{color:#3B7A4B}
+  .fit-medio{color:var(--gold)}
+  .fit-bajo{color:#9A5B4A}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:620px){
+    .split{grid-template-columns:1fr}
+    .checks{grid-template-columns:1fr}
+    .cover h1{font-size:clamp(2.3rem,10vw,3rem)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .sheen::after{animation:none;transform:translateX(80%)}
+    .reveal{opacity:1;transform:none;transition:none}
+    *{scroll-behavior:auto}
+  }
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe · FAQ · UI/UX + CRO + Diseño web · 2026</p>
+  <h1>El último<br><em>cruce</em></h1>
+  <p class="deck">Referentes y patrones para el bloque de preguntas frecuentes. Todo lo que salió en la investigación inicial, con su fuente y una lectura de encaje — para decidir el enfoque antes de implementar.</p>
+  <div class="sheen"></div>
+  <div class="meta">
+    <span><b>Ámbito</b> · Diseño gráfico + UX/UI + conversión</span>
+    <span><b>Uso</b> · FAQ de curso y FAQ general</span>
+    <span><b>Fecha</b> · Agosto 2026</span>
+    <span><b>Estado</b> · Decisión pendiente</span>
+  </div>
+  <p class="lede">La FAQ no es un cajón de dudas: es el último umbral antes del acto de inscribirse. Elegir cómo se presenta es elegir cómo se cruza ese umbral.</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 01 ===================== -->
+<section class="flow" id="s1">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — El criterio</span>
+    <h2>Qué estamos decidiendo</h2>
+  </div>
+
+  <p class="drop reveal">No decidimos «si FAQ sí o no», sino <strong>cómo se presenta</strong>. Sea cual sea el patrón elegido, hay una capa de no-negociables funcionales (sección 04) que se aplica igual a todos. Lo que cambia entre patrones es la <strong>forma de revelar</strong> las preguntas y el <strong>grado de dinamismo</strong>.</p>
+
+  <p class="reveal">Dos ejes ordenan toda la investigación y sirven para situar cualquier referente:</p>
+
+  <div class="split reveal">
+    <div>
+      <div class="role">Eje A · Revelado</div>
+      <h4>Visible ⟷ Oculto</h4>
+      <p style="font-size:.94rem;color:var(--slate);margin:0">¿Todo a la vista de un vistazo, o cada respuesta tras una interacción? Afecta a escaneabilidad, longitud de página y citación por IA.</p>
+    </div>
+    <div>
+      <div class="role">Eje B · Dinamismo</div>
+      <h4>Estático ⟷ Conversacional</h4>
+      <p style="font-size:.94rem;color:var(--slate);margin:0">¿Contenido fijo, o una capa de chat/buscador encima? Es donde vive el diferencial de 2026 — y donde Paramita ya tiene una pieza construida.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 ===================== -->
+<section class="flow" id="s2">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — Patrones de presentación</span>
+    <h2>Siete formas de mostrar una FAQ</h2>
+  </div>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Patrones · a favor / en contra / encaje con Paramita</caption>
+      <thead>
+        <tr><th>Patrón</th><th>A favor</th><th>En contra</th><th>Encaje</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Acordeón <span style="font-weight:400;color:var(--slate)">(divulgación progresiva)</span></td>
+          <td>Compacto; el usuario elige qué abrir; estándar reconocible; accesible y compatible con schema</td>
+          <td>A veces no se percibe que expande; cada clic añade fricción</td>
+          <td><span class="fit fit-alto">Alto</span></td>
+        </tr>
+        <tr>
+          <td>Lista abierta plana</td>
+          <td>Todo escaneable; cero fricción; ideal para IA</td>
+          <td>Solo con &lt; 15 preguntas y texto breve; alarga la página</td>
+          <td><span class="fit fit-medio">Medio</span></td>
+        </tr>
+        <tr>
+          <td>Tabs por categoría</td>
+          <td>Ordena mucho contenido; cambio inmediato de grupo</td>
+          <td>Máx. 5–8 pestañas; esconde lo inactivo (malo para IA); desaconsejado para FAQ</td>
+          <td><span class="fit fit-bajo">Bajo</span></td>
+        </tr>
+        <tr>
+          <td>FAQ con buscador</td>
+          <td>Escala en catálogos de dudas grandes</td>
+          <td>Injustificado con pocas preguntas; UI extra que mantener</td>
+          <td><span class="fit fit-bajo">Bajo</span></td>
+        </tr>
+        <tr>
+          <td>Dual estático + conversacional</td>
+          <td>Vanguardia 2026; resuelve la duda al instante; convierte soporte en conversión</td>
+          <td>Riesgo de gadget; debe degradar sin JS</td>
+          <td><span class="fit fit-alto">Alto*</span></td>
+        </tr>
+        <tr>
+          <td>Multimedia en respuestas</td>
+          <td>Reduce ambigüedad («esto se ve así»)</td>
+          <td>Sobrecarga y peso si se abusa</td>
+          <td><span class="fit fit-medio">Puntual</span></td>
+        </tr>
+        <tr>
+          <td>FAQ como refuerzo de marca</td>
+          <td>Genera confianza; extiende el tono</td>
+          <td>Si se fuerza, suena a discurso y no resuelve</td>
+          <td><span class="fit fit-alto">Alto</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="reveal"><span class="tag">detalle</span>Acordeón — el estándar correcto</h3>
+  <p class="reveal">Las fuentes coinciden en que sirve especialmente para FAQ y contenido con divulgación progresiva, siempre con semántica accesible (<strong>botón real</strong>, <em>aria-expanded</em>). Su punto débil —esconder información— se neutraliza con pocas preguntas y respuestas cortas: exactamente el caso del curso, con 7. Es el patrón que ya prototipamos como <em>acordeón-sendero</em>: nodos sobre un hilo, apertura en dorado.</p>
+
+  <h3 class="reveal"><span class="tag">detalle</span>Dual conversacional — el diferencial</h3>
+  <p class="reveal">La vanguardia combina FAQ tradicional con una capa conversacional, y <strong>Paramita ya tiene la pieza</strong>: el chat con árbol de decisión. No hace falta IA real — una entrada tipo «¿qué te frena?» que filtra las preguntas o abre el chat. La condición es que <strong>degrade con elegancia</strong>: sin JS, la FAQ estática sigue completa y citable. De ahí el asterisco: encaje alto, pero como capa opcional sobre el acordeón, no como sustituto.</p>
+
+  <div class="note reveal">
+    <span class="k">Descartes razonados</span>
+    <strong>Tabs y buscador</strong> quedan fuera para el curso: con 7 preguntas son sobreingeniería, y las pestañas esconden contenido que la IA no puede citar. Tendrían sentido solo en una FAQ general que creciera a decenas de preguntas.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 ===================== -->
+<section class="flow" id="s3">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — Referentes de marca</span>
+    <h2>Quién lo hace bien (según las fuentes)</h2>
+  </div>
+
+  <p class="reveal">Ejemplos citados por los artículos de recopilación. Valen como <strong>inspiración cualitativa</strong>, no como dato verificado uno a uno.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Referente · qué destaca · relevancia para Paramita</caption>
+      <thead><tr><th>Marca</th><th>Qué destaca</th><th>Relevancia</th></tr></thead>
+      <tbody>
+        <tr><td>Stripe · Shopify · Notion</td><td>Acordeón limpio, jerarquía impecable</td><td>Referencia de rigor y sobriedad</td></tr>
+        <tr><td>Glossier</td><td>Mucho aire, móvil primero, respuestas concisas</td><td>Lo más cercano a la luz cálida de Paramita</td></tr>
+        <tr><td>Warby Parker</td><td>Visuales dentro de las respuestas</td><td>Modelo de «multimedia puntual»</td></tr>
+        <tr><td>Allbirds</td><td>La FAQ explica valores (materiales, sostenibilidad)</td><td>«FAQ como marca» — encaja con el tono de Khenpo</td></tr>
+        <tr><td>Zappos</td><td>Tono amable, de servicio; escala a chat</td><td>Referencia de tono cálido, sin disculpa</td></tr>
+        <tr><td>ASOS</td><td>Pestañas por categoría + buscador</td><td>Útil solo si la FAQ general crece mucho</td></tr>
+        <tr><td>Anthropic (Claude)</td><td>Búsqueda conversacional junto a contenido estático</td><td>Referente directo del enfoque dual</td></tr>
+        <tr><td>Sephora · Starbucks · H&amp;M</td><td>Bots que resuelven y derivan</td><td>Inspiración para la capa conversacional (calma)</td></tr>
+        <tr><td>IKEA</td><td>Bot básico + FAQ detallada; reportan −30% llamadas</td><td>Prueba de que el híbrido reduce soporte</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 04 ===================== -->
+<section class="flow" id="s4">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — No-negociables</span>
+    <h2>Lo que aplica a cualquier patrón</h2>
+  </div>
+
+  <p class="reveal">Estas reglas no dependen del patrón elegido. Nuestro prototipo (<em>paramita-faqs</em>) ya las cumple todas.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">+28<small>%</small></div><div class="l">más citación por IA en páginas con schema <em>FAQPage</em></div><div class="src">Averi</div></div>
+    <div class="stat"><div class="n">4,4<small>×</small></div><div class="l">valor del tráfico que llega vía IA frente al orgánico</div><div class="src">Averi</div></div>
+    <div class="stat"><div class="n">6–10</div><div class="l">preguntas enfocadas — no un cajón de sastre</div><div class="src">limy.ai</div></div>
+    <div class="stat"><div class="n">40–60</div><div class="l">palabras por respuesta: directa primero, contexto después</div><div class="src">Averi · limy.ai</div></div>
+  </div>
+
+  <p class="reveal">A lo anterior se suman: <strong>accesibilidad = conversión</strong> (contraste, jerarquía de encabezados, teclado, áreas táctiles ≥ 44 px — el solapamiento con las buenas prácticas de conversión es casi total); <strong>ubicación cerca del CTA</strong>, resolviendo objeciones antes de que bloqueen, nunca enterrada al pie; <strong>tono llano y sin disculpa</strong>, en la voz de la marca; y <strong>motion funcional</strong>, que confirma y guía, nunca que late para reclamar atención.</p>
+
+  <div class="note reveal">
+    <span class="k">Contexto de mercado</span>
+    Se reporta un salto de <strong>+527%</strong> en sesiones referidas por IA (ene–may 2025) y que el <strong>88%</strong> no vuelve tras una mala experiencia, con el <strong>94%</strong> de las primeras impresiones basadas en el diseño. La FAQ estructurada es hoy uno de los formatos más citables que existen.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 05 ===================== -->
+<section class="flow" id="s5">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — Finalistas</span>
+    <h2>Tres caminos, un mismo componente</h2>
+  </div>
+
+  <p class="reveal">Cruzando los dos ejes con la identidad de Paramita quedan tres finalistas. Los tres comparten el mismo <em>.css</em> y <em>.js</em>; cambian en estructura de contenido y en si añaden capa conversacional.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Finalistas · a favor / en contra / cuándo</caption>
+      <thead><tr><th>Opción</th><th>A favor</th><th>En contra</th><th>Cuándo</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>A · Acordeón-sendero (base)</td>
+          <td>Cero riesgo; coherencia total; se ve hoy</td>
+          <td>Diferencial sutil (el hilo/nodo)</td>
+          <td>Página de curso, ya</td>
+        </tr>
+        <tr>
+          <td>B · A + capa conversacional</td>
+          <td>Diferencial 2026; reutiliza el chat; convierte duda en conversación</td>
+          <td>Más superficie; cuidar la degradación</td>
+          <td>Curso, 2ª iteración</td>
+        </tr>
+        <tr>
+          <td>C · A + agrupación por momento</td>
+          <td>Refuerza identidad y marco SDT; escala</td>
+          <td>Sobra estructura con solo 7 preguntas</td>
+          <td>FAQ general futura</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="pull reveal">Agrupar por momento del practicante —«antes de empezar», «el compromiso», «lo práctico», «después»— en vez de por tema administrativo convierte la FAQ en parte del sendero, no en un anexo.</p>
+</section>
+
+<!-- ===================== VERDICT ===================== -->
+<section class="flow verdict" id="verdict">
+  <p class="eyebrow reveal">Recomendación honesta</p>
+  <h2 class="reveal">Por dónde empezar</h2>
+  <p class="reveal">No hace falta elegir uno para siempre: el componente es el mismo. Solo decidimos por dónde empezamos a visualizar. Para el curso, arrancar por <strong>A</strong> (ya está, se ve hoy) y guardar <strong>B</strong> como evolución cuando quieras activar el diferencial conversacional. Para la FAQ general futura, <strong>C</strong> es la que mejor escala.</p>
+
+  <div class="checks reveal">
+    <div class="yes">
+      <h4>Ruta recomendada</h4>
+      <ul>
+        <li>Curso: empezar por A, visible hoy</li>
+        <li>Schema FAQPage desde el primer día</li>
+        <li>B como evolución del diferencial</li>
+        <li>C para la FAQ general cuando crezca</li>
+        <li>Agrupar por momento al escalar</li>
+      </ul>
+    </div>
+    <div class="no">
+      <h4>Qué evitaría ahora</h4>
+      <ul>
+        <li>Tabs con solo 7 preguntas</li>
+        <li>Buscador en la página de curso</li>
+        <li>Enterrar la FAQ al pie</li>
+        <li>Multimedia como norma</li>
+        <li>Un chat que no degrade sin JS</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== REFS ===================== -->
+<section class="flow refs" id="refs">
+  <div class="sec-head reveal">
+    <span class="sec-num">Fuentes</span>
+    <h2>De dónde sale cada dato</h2>
+  </div>
+  <ol class="reveal">
+    <li><b>Averi</b> — FAQ Optimization for AI Search (regla 40–60 palabras, schema +28%, tráfico IA 4,4×, +527% sesiones).</li>
+    <li><b>Stackmatix</b> — Optimizing FAQ Schema for Google AI Overviews 2026 (JSON-LD, schema como estándar).</li>
+    <li><b>limy.ai</b> — AI-optimized FAQ structures 2026 (6–10 preguntas, jerarquía H2/H3, agrupar por intención).</li>
+    <li><b>Brimar</b> — Structure FAQ Pages to Rank in AI Search 2026 (una página para conjuntos pequeños; no enterrar; lenguaje llano).</li>
+    <li><b>SliderRevolution</b> — Best FAQ Section Design Examples (lista abierta &lt;15; tabs 5–8; Stripe/Shopify/Notion; 88%/94%).</li>
+    <li><b>Eleken</b> — Accordion UI Examples (límites del acordeón; alternativas cuando hay que escanear).</li>
+    <li><b>UX Patterns for Developers</b> — Accordion Pattern (buen ajuste para FAQ; ARIA aria-expanded).</li>
+    <li><b>UX Collective</b> — Tabs vs. Accordions (tabs desaconsejadas para FAQ).</li>
+    <li><b>Shopify</b> — Accordion UI design (fricción y abandono al esconder información clave).</li>
+    <li><b>Link-Assistant</b> — 20+ FAQ Page Examples 2026 (buscador para producto complejo; Glossier, Warby Parker, Allbirds, Zappos).</li>
+    <li><b>ReveChat</b> — 25 Best FAQ Page Examples 2026 (enfoque dual; Anthropic, Sephora, IKEA −30%, Starbucks, H&amp;M).</li>
+    <li><b>branded by™</b> — UI/UX Trends 2026 (accesibilidad = conversión; micro-interacciones; jerarquía por profundidad).</li>
+    <li><b>Design Sphere · SoapMedia · dbbsoftware · Aimers</b> — CRO 2026 (divulgación progresiva, motion funcional, FAQ concisa junto al CTA).</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Informe de referentes de FAQ · Fundació Sakya Paramita · Agosto 2026 · Ejemplos de marca como inspiración cualitativa · Documento autocontenido · Decisión pendiente</div>
+</footer>
+
+<script>
+  // reading progress
+  var pb=document.getElementById('progress');
+  function onScroll(){
+    var h=document.documentElement;
+    var max=h.scrollHeight-h.clientHeight;
+    pb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';
+  }
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  // reveal on scroll (respects reduced motion via CSS; observer still adds .in harmlessly)
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});
+  }
+</script>
+</body>
+</html>

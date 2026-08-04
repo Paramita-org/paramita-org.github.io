@@ -1,0 +1,333 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-faqs.css — Componente de preguntas frecuentes · «el último cruce»
+   ───────────────────────────────────────────────────────────────────────────
+   Un solo componente, reutilizable en dos contextos:
+     · FAQ general / institucional
+     · FAQ de curso (reversión de objeciones junto al CTA)
+   Se instancia dos veces con contenido distinto; el CSS y el JS son únicos.
+
+   CONCEPTO
+   ────────
+   La FAQ no es un cajón de dudas: es el último umbral antes del acto de
+   inscribirse. Cada pregunta es un NODO en un hilo vertical del sendero.
+   Al abrir, el nodo se enciende en dorado y la respuesta fluye —gesto de la
+   familia B (convocado por el usuario): «intensifica lo que ya vive», no
+   dispara nada nuevo. Coherente con el mapa del sendero de /formación/.
+
+   DEPENDENCIAS DE TOKENS (no define ninguno propio de sistema)
+   ───────────────────────────────────────────────────────────
+   · Color:      --arena --card --antracita --dorado --azul-oscuro
+                 --texto-suave --hair
+   · Espaciado:  --espacio-elemento --espacio-grupo --espacio-contenido
+                 --espacio-contemplativo --espacio-orilla  --s-2
+   · Tipografía: --display --body --wght-* --texto-* --leading-* --tracking-h3
+                 --opsz-subtitulo --wonk-desactivado --paramita-soft
+   · Motion:     --t-hover --t-revelacion
+   · Layout:     --contenedor-lectura --contenedor-padding --target-min
+
+   AUTOSUFICIENTE
+   ──────────────
+   El encabezado se estiliza aquí (.faqs__head) en vez de depender de la
+   clase .head-centrado, que vive en paramita-formacion.css (página, no
+   componente). Así la FAQ funciona en cualquier página sin arrastrar CSS
+   de otra. Incluye la neutralización del max-width:20ch global del h2.
+
+   ACCESIBILIDAD (la maneja el JS, aquí solo el estilo)
+   ────────────────────────────────────────────────────
+   <button aria-expanded> dentro de <h3> · panel asociado por aria-controls ·
+   navegación por teclado (flechas) · foco visible · el panel cerrado queda
+   inerte. Áreas táctiles ≥ --target-min.
+
+   CONTRATO DE QUIETUD
+   ───────────────────
+   Todo el movimiento es familia B (hover/focus/click). Ninguna animación en
+   bucle. prefers-reduced-motion lleva cada estado a su forma final sin
+   recorrido (además de la salvaguarda global de paramita-movimiento.css).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer faqs {
+
+  /* ─────────────────────────────────────────────────────────────────────
+     SECCIÓN
+     ───────────────────────────────────────────────────────────────────── */
+  .faqs {
+    /* Geometría del hilo/nodo · un solo sitio para calibrar */
+    --faq-sangria: 44px;   /* espacio izquierdo reservado a nodo + hilo   */
+    --faq-hilo-x:  21px;   /* x del hilo y centro del nodo                */
+    --faq-nodo:    12px;   /* diámetro del nodo                           */
+
+    padding-block: var(--espacio-orilla);
+    background: var(--arena);
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     ENCABEZADO CENTRADO (propio · no usa .head-centrado de páginas)
+     ───────────────────────────────────────────────────────────────────── */
+  .faqs__head {
+    max-width: var(--contenedor-lectura);   /* 720px */
+    margin-inline: auto;
+    margin-bottom: var(--espacio-contemplativo);
+    padding-inline: var(--contenedor-padding);
+    text-align: center;
+  }
+
+  .faqs__head h2 {
+    /* Neutraliza el max-width:20ch del h2 global (paramita-tipografia):
+       sin esto el título queda como un bloque estrecho pegado a la
+       izquierda aunque el texto se centre. */
+    max-width: none;
+    margin-inline: auto;
+    margin-bottom: var(--espacio-elemento);
+    line-height: var(--leading-h3);
+  }
+  /* El <em> dorado ya lo aporta la regla global h2 em (Fase 0). */
+
+  .faqs__head p {
+    max-width: 52ch;
+    margin-inline: auto;
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: var(--wght-presencia);
+    font-size: var(--texto-lede);
+    line-height: var(--leading-lede);
+    color: var(--texto-suave);
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     LISTA · el hilo del sendero
+     El hilo es una hairline vertical que se desvanece en los extremos.
+     Los nodos son cuentas sobre ese hilo.
+     ───────────────────────────────────────────────────────────────────── */
+  .faqs__lista {
+    position: relative;
+    list-style: none;
+    margin-inline: auto;
+    padding: 0;
+    max-width: 760px;
+  }
+
+  .faqs__lista::before {
+    content: "";
+    position: absolute;
+    left: var(--faq-hilo-x);
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      var(--hair) 7%,
+      var(--hair) 93%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     ÍTEM
+     ───────────────────────────────────────────────────────────────────── */
+  .faq {
+    border-bottom: 1px solid var(--hair);
+  }
+  .faq:first-child {
+    border-top: 1px solid var(--hair);
+  }
+
+  /* El <h3> que envuelve al botón — sin estilo propio de título, el peso
+     tipográfico lo lleva .faq__texto. */
+  .faq__q {
+    margin: 0;
+    font: inherit;
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     DISPARADOR · el <button> de la pregunta
+     ───────────────────────────────────────────────────────────────────── */
+  .faq__disparador {
+    -webkit-appearance: none;
+    appearance: none;
+    position: relative;               /* ancla del nodo absoluto */
+    display: grid;
+    grid-template-columns: 1fr auto;  /* texto | signo (el nodo es absoluto) */
+    align-items: start;
+    gap: var(--espacio-elemento);
+    width: 100%;
+    margin: 0;
+    padding: var(--espacio-grupo) var(--s-2) var(--espacio-grupo) var(--faq-sangria);
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    color: var(--antracita);
+    min-height: var(--target-min);
+    transition: background-color var(--t-hover);
+  }
+
+  /* Hover / focus · «intensifica lo que ya vive»: fondo cálido tenue.
+     El nodo y el signo se tiñen de dorado (ver más abajo). */
+  .faq__disparador:hover,
+  .faq__disparador:focus-visible {
+    background: color-mix(in oklch, var(--arcilla) 45%, transparent);
+  }
+  .faq__disparador:focus-visible {
+    outline: 2px solid var(--azul-oscuro);
+    outline-offset: -2px;
+  }
+
+  /* Texto de la pregunta · Fraunces, tamaño h4 */
+  .faq__texto {
+    font-family: var(--display);
+    font-weight: var(--wght-presencia);
+    font-size: var(--texto-h4);
+    line-height: var(--leading-h4);
+    letter-spacing: var(--tracking-h3);
+    /* SOFT firme (0) como en todo el sitio · WONK preservado en su token */
+    font-variation-settings:
+      "opsz" var(--opsz-subtitulo),
+      "SOFT" var(--paramita-soft, 0),
+      "WONK" var(--wonk-desactivado);
+    text-wrap: pretty;
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     NODO · la cuenta sobre el hilo
+     ───────────────────────────────────────────────────────────────────── */
+  .faq__nodo {
+    position: absolute;
+    left: calc(var(--faq-hilo-x) - var(--faq-nodo) / 2);
+    top: calc(var(--espacio-grupo) + 0.55em);   /* alinea con la 1ª línea del texto */
+    width: var(--faq-nodo);
+    height: var(--faq-nodo);
+    border-radius: 50%;
+    background: var(--arena);                     /* tapa el hilo por detrás */
+    border: 1.5px solid color-mix(in oklch, var(--antracita) 30%, transparent);
+    transition:
+      background-color var(--t-hover),
+      border-color var(--t-hover),
+      box-shadow var(--t-hover);
+  }
+
+  .faq__disparador:hover .faq__nodo,
+  .faq__disparador:focus-visible .faq__nodo {
+    border-color: color-mix(in oklch, var(--dorado) 60%, transparent);
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     SIGNO · «+» hecho de dos trazos · al abrir colapsa el vertical → «–»
+     ───────────────────────────────────────────────────────────────────── */
+  .faq__signo {
+    position: relative;
+    flex: none;
+    width: 16px;
+    height: 16px;
+    margin-top: 0.4em;
+    color: var(--azul-oscuro);
+  }
+  .faq__signo::before,
+  .faq__signo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    background: currentColor;
+    border-radius: 1px;
+    transition: transform var(--t-hover), background-color var(--t-hover);
+  }
+  .faq__signo::before { width: 16px;  height: 1.5px; }  /* horizontal */
+  .faq__signo::after  { width: 1.5px; height: 16px;  }  /* vertical   */
+
+  .faq__disparador:hover .faq__signo,
+  .faq__disparador:focus-visible .faq__signo {
+    color: var(--dorado);
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     ESTADO ABIERTO · nodo dorado + signo a «–»
+     ───────────────────────────────────────────────────────────────────── */
+  .faq.is-abierto .faq__nodo {
+    background: var(--dorado);
+    border-color: var(--dorado);
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--dorado) 22%, transparent);
+  }
+  .faq.is-abierto .faq__signo {
+    color: var(--dorado);
+  }
+  .faq.is-abierto .faq__signo::after {
+    transform: scaleY(0);   /* el trazo vertical desaparece → queda «–» */
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     PANEL · la respuesta
+     Técnica moderna sin cálculo de alturas en JS: grid-template-rows 0fr→1fr.
+     El JS marca el panel como inerte al cerrar (fuera del foco y del árbol
+     de accesibilidad).
+     ───────────────────────────────────────────────────────────────────── */
+  .faq__r {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--t-revelacion);
+  }
+  .faq.is-abierto .faq__r {
+    grid-template-rows: 1fr;
+  }
+
+  .faq__r-inner {
+    min-height: 0;      /* imprescindible para que 1fr pueda colapsar a 0 */
+    overflow: hidden;
+  }
+
+  .faq__r-inner p {
+    margin: 0;
+    padding: 0 var(--s-2) var(--espacio-contenido) var(--faq-sangria);
+    max-width: var(--medida-cuerpo);   /* 62ch */
+    font-family: var(--body);
+    font-weight: var(--wght-contemplativo);
+    font-size: var(--texto-cuerpo);
+    line-height: var(--leading-cuerpo);
+    color: color-mix(in oklch, var(--antracita) 85%, transparent);
+  }
+  .faq__r-inner p + p {
+    padding-top: var(--espacio-elemento);
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     RESPONSIVE · en móvil se reduce la sangría del hilo
+     ───────────────────────────────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .faqs {
+      --faq-sangria: 34px;
+      --faq-hilo-x:  16px;
+    }
+    .faq__texto { font-size: var(--texto-cuerpo); }
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     CONTRATO prefers-reduced-motion · estado final sin recorrido
+     (la salvaguarda global de paramita-movimiento.css también aplica;
+      esto lo declara explícitamente a nivel de componente)
+     ───────────────────────────────────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .faq__r,
+    .faq__disparador,
+    .faq__nodo,
+    .faq__signo::before,
+    .faq__signo::after {
+      transition: none;
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FIN de paramita-faqs.css
+   ═══════════════════════════════════════════════════════════════════════════ */

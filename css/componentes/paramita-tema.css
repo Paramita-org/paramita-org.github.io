@@ -30,8 +30,11 @@
    2 · foot__hero azul luminoso: es color de marca fijo; en penumbra queda
        como isla brillante. Se deja tal cual en esta primera versión (a
        decidir si se atenúa).
-   3 · Footer: ya es oscuro. En penumbra se funde con el fondo; se le añade
-       un filo dorado superior para recuperar su separación.
+   3 · Footer: bloque de cierre con contraste propio (azul/antracita/lino).
+       Se construyó asumiendo --antracita oscuro y --lino como texto claro,
+       y su fondo se mezcla a partir de --antracita; la inversión global lo
+       rompía. No participa del tema: se le restauran los tokens a sus valores
+       claros en su scope y se ve igual que en luz.
 
    Se enlaza DESPUÉS de todas las hojas del sistema (tras paramita-responsive).
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -103,9 +106,27 @@
               0 0 60px 10px oklch(82% 0.14 72 / 0.10);
 }
 
-/* 3 · Footer: ya oscuro → filo dorado superior para separarlo del contenido */
-:root[data-tema="oscuro"] .foot__info {
-  border-top: 1px solid color-mix(in oklch, var(--dorado) 26%, transparent);
+/* 3 · Footer: bloque de cierre con contraste propio (azul arriba, oscuro
+   abajo, título antracita, texto lino). Se construyó asumiendo --antracita
+   OSCURO y --lino como TEXTO CLARO; además el fondo del .foot__info se mezcla
+   a partir de --antracita. La inversión global de nominales lo rompía por
+   completo (texto oscuro sobre oscuro, fondo aclarándose). Solución: el footer
+   NO participa del tema — se le restauran los tokens a sus valores CLAROS en su
+   propio scope, de modo que se ve idéntico a como se ve en luz. El foot__hero
+   azul marca la transición desde la penumbra del contenido. */
+:root[data-tema="oscuro"] .foot {
+  --lino:        oklch(97% 0.008 85);
+  --arena:       oklch(94% 0.014 82);
+  --arcilla:     oklch(90% 0.02 80);
+  --calido-zen:  oklch(88% 0.03 78);
+  --card:        oklch(98% 0.006 85);
+  --base-bg:     oklch(97% 0.008 85);
+  --antracita:   oklch(22% 0.02 250);
+  --texto-suave: oklch(58% 0.015 250);
+  --texto-tenue: oklch(72% 0.012 250);
+  --azul-oscuro: oklch(38% 0.11 245);
+  --hair:        rgba(29, 31, 38, 0.10);
+  --hair-fuerte: rgba(29, 31, 38, 0.22);
 }
 
 

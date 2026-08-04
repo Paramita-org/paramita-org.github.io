@@ -1,0 +1,403 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-home-logueado.css — Página /home-logueado/
+   ─────────────────────────────────────────────────────────────────────────────
+   Capa de aterrizaje del practicante autenticado (home logueada).
+   Prototipo PROVISIONAL · pendiente de las tres decisiones del doc 09
+   (modelo de contenido, arquitectura de dominio, plantilla de curso).
+
+   REPARTO DE ROLES (por qué la home NO clona /formacion-logueado/):
+     · /formacion-logueado/ = PROFUNDIDAD sobre tu aprendizaje
+       (sendero completo, recomendados, catálogo con filtros).
+     · /home-logueado/ (esta) = AMPLITUD de tu vida con la fundación HOY
+       (retomar la práctica + lo que vive FUERA de los cursos:
+        encuentros, enseñanza, novedades, lectura).
+
+   SE APOYA EN (ya enlazados en el <head>, no se redefinen):
+     · tokens/     → color, tipografía, layout, movimiento
+     · base/       → reset, base, responsive
+     · componentes/→ bar, menu, cta (.btn-*/.t-link), sections (.section,
+                     .s-head, .efx-card, .idx-foot, .tag), footer, chat
+     · paginas/paramita-formacion-logueado.css → navbar-practicante (.cuenta),
+                     .bienvenida, .continuar + progreso. SE REUTILIZAN tal cual.
+
+   AQUÍ VIVEN LAS PIEZAS PROPIAS de la home logueada:
+     0 · hero velado          (.hero--velado)  — hilo conductor: el vídeo del
+                                                 hero público, subordinado
+     A · sendero compacto     (.sendero-mini)  — orientación "estás aquí"
+     B · próximos encuentros  (.encuentros)    — vida de la fundación (eventos)
+     C · enseñanza del día    (.ensenanza)     — cita contemplativa diaria
+     D · novedades            (.novedades)     — avisos curados (no feed)
+     E · siguiente paso       (.siguiente-paso)— upsell editorial suave
+
+   REGLA · sin colores fuera de la paleta: todo por token o color-mix(in oklch,…).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   0 · HERO VELADO  (hilo conductor visual con la home pública)
+   ─────────────────────────────────────────────────────────────────────────
+   Reutiliza .hero / .hero__bg / .hero__bg-video / .hero__bg-fallback del hero
+   público (paramita-hero.css) con EL MISMO vídeo (banner-*-home-2026.mp4) →
+   continuidad de marca entre la puerta pública y la del practicante.
+
+   PERO subordinado, no cinematográfico: la home logueada es puerta calmada.
+     · Banda, no pantalla completa (min-height: auto, no 100svh).
+     · Vídeo más tenue (opacity 0.34 vs 0.62) — "menos protagonismo".
+     · Velo cálido (arena) reforzado para que el fondo no compita con el texto.
+   Diferencia además la home de /formacion-logueado/, que NO lleva vídeo.
+
+   Estas reglas VAN SIN @layer (capa de página) → ganan sobre @layer hero sin
+   pelear especificidad. El CTA del hero es el .btn-primario REAL del sistema.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.hero--velado {
+  min-height: auto;
+  padding-block: var(--espacio-contenido);
+}
+
+/* Vídeo subordinado · más tenue que en la home pública */
+.hero--velado .hero__bg-video { opacity: 0.34; }
+
+/* Velo cálido reforzado · sustituye al de .hero::after para restar
+   protagonismo al vídeo (arena densa arriba, aclarando hacia abajo) */
+.hero--velado::after {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--arena) 94%, transparent) 0%,
+      color-mix(in oklch, var(--arena) 80%, transparent) 46%,
+      color-mix(in oklch, var(--arena) 62%, transparent) 100%),
+    linear-gradient(90deg,
+      color-mix(in oklch, var(--arena) 42%, transparent) 0%,
+      transparent 55%);
+}
+
+/* Saludo dentro del hero · hereda .saludo (formacion-logueado.css); aquí solo
+   se asegura de no quedar limitado por medidas de otros contextos */
+.hero--velado .saludo { max-width: 22ch; }
+.hero--velado .lede   { margin-top: calc(var(--espacio-elemento) * -0.25); }
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   A · SENDERO COMPACTO
+   ─────────────────────────────────────────────────────────────────────────
+   Relectura del bloque 3 del doc 09: el progreso está PRESENTE pero no como
+   mapa duplicado. La versión ceremonial completa (cabecera + nodos con nombre
+   y estado) vive en /formacion-logueado/; aquí solo la orientación "estás aquí"
+   en una tira fina: cinco hitos sobre un hilo, el actual encendido.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.sendero-mini {
+  padding-block: var(--espacio-contemplativo);   /* 64px · menos que una .section */
+}
+
+.sendero-mini__inner {
+  max-width: 640px;
+  margin-inline: auto;
+  text-align: center;
+  display: grid;
+  gap: var(--espacio-elemento);
+  justify-items: center;
+}
+
+.sendero-mini__hilo {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Hilo base tras los nodos */
+.sendero-mini__hilo::before {
+  content: "";
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 50%;
+  height: 1px;
+  background: var(--hair-fuerte);
+  z-index: 0;
+}
+
+.smini {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  font-family: var(--body);
+}
+
+.smini__punto {
+  width: 11px;
+  height: 11px;
+  border-radius: 100px;
+  background: var(--base-bg);
+  border: 1.5px solid var(--hair-fuerte);
+  transition: transform var(--t-hover), background var(--t-hover), border-color var(--t-hover);
+}
+
+.smini__rom {
+  font-size: var(--texto-mini);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  color: var(--texto-tenue);
+}
+
+/* Completado · relleno azul sutil discreto */
+.smini.is-hecho .smini__punto {
+  background: color-mix(in oklch, var(--azul-sutil) 55%, transparent);
+  border-color: color-mix(in oklch, var(--azul-sutil) 55%, transparent);
+}
+.smini.is-hecho .smini__rom { color: var(--texto-suave); }
+
+/* Actual · dorado, algo mayor, con halo suave */
+.smini.is-aqui .smini__punto {
+  background: var(--dorado);
+  border-color: var(--dorado);
+  transform: scale(1.35);
+  box-shadow: 0 0 0 5px color-mix(in oklch, var(--dorado) 18%, transparent);
+}
+.smini.is-aqui .smini__rom { color: var(--dorado); }
+
+.sendero-mini__pie {
+  font-size: var(--texto-mini);
+  color: var(--texto-suave);
+}
+.sendero-mini__pie b { color: var(--azul-oscuro); font-weight: 600; }
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   B · PRÓXIMOS ENCUENTROS  (vida de la fundación · el diferenciador)
+   ─────────────────────────────────────────────────────────────────────────
+   Evolución del bloque 4 del doc 09 ("comunidad/retiro"): con cuerpo, no un
+   teaser de una línea. Un puñado de citas CURADAS con fecha, lugar y modalidad
+   → /actividades. Curado, no calendario denso; sin FOMO.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.encuentros__lista {
+  display: grid;
+  gap: var(--espacio-elemento);
+  margin-bottom: var(--espacio-contenido);
+}
+
+.encuentro {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--espacio-grupo);
+  padding: var(--espacio-elemento);
+  border: 1px solid var(--hair);
+  border-radius: 16px;
+  background: color-mix(in oklch, var(--lino) 40%, transparent);
+  transition: background var(--t-hover), border-color var(--t-hover), transform var(--t-hover);
+}
+.encuentro:hover {
+  background: color-mix(in oklch, var(--dorado) 6%, var(--lino));
+  border-color: color-mix(in oklch, var(--dorado) 30%, var(--hair));
+  transform: translateX(2px);
+}
+
+/* Chip de fecha · bloque tipo calendario (día grande + mes) */
+.encuentro__fecha {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  min-width: 58px;
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: color-mix(in oklch, var(--azul-sutil) 12%, transparent);
+  border: 1px solid color-mix(in oklch, var(--azul-sutil) 22%, transparent);
+  line-height: 1;
+}
+.encuentro__dia {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--azul-oscuro);
+}
+.encuentro__mes {
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--azul-sutil);
+  margin-top: 3px;
+}
+
+.encuentro__cuerpo { min-width: 0; display: grid; }
+.encuentro__titulo {
+  font-family: var(--display);
+  font-size: var(--texto-h4);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--azul-oscuro);
+}
+.encuentro__titulo em { font-style: italic; color: var(--dorado); }
+.encuentro__meta {
+  margin-top: 4px;
+  font-size: var(--texto-mini);
+  color: var(--texto-suave);
+}
+.encuentro__meta .sep { margin-inline: 0.5em; color: var(--texto-tenue); }
+
+/* Flecha de afordancia · aparece/avanza en hover */
+.encuentro__arw {
+  font-size: 1.1rem;
+  color: var(--dorado);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity var(--t-hover), transform var(--t-hover);
+}
+.encuentro:hover .encuentro__arw { opacity: 1; transform: translateX(0); }
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   C · ENSEÑANZA DEL DÍA
+   ─────────────────────────────────────────────────────────────────────────
+   Interludio contemplativo. Sin obligación de "consumirlo" (doc 09): una cita
+   que está ahí si el momento lo pide. Centrado, con el aire ampliado de
+   .section-contemplativa (192px). Rotación diaria servida server-side.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.ensenanza__inner {
+  max-width: var(--medida-cita);
+  margin-inline: auto;
+  text-align: center;
+  display: grid;
+  gap: var(--espacio-grupo);
+  justify-items: center;
+}
+
+.ensenanza__marca {
+  width: 40px; height: 2px; border: 0; margin: 0;
+  border-radius: 2px;
+  background: var(--dorado);
+  opacity: 0.85;
+}
+
+.ensenanza__cita {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 1rem + 2.4vw, var(--texto-h2));
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  color: var(--azul-oscuro);
+}
+.ensenanza__cita em { font-style: italic; color: var(--dorado); }
+
+.ensenanza__firma {
+  font-family: var(--body);
+  font-size: var(--texto-mini);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.ensenanza__audio { margin-top: var(--espacio-atomo); }
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   D · NOVEDADES  (avisos curados · fuera del guion del doc 09)
+   ─────────────────────────────────────────────────────────────────────────
+   Lo último de la fundación, CURADO — no un feed cronológico (el doc 09
+   descarta el feed por FOMO). Registro distinto al de encuentros: sin chip de
+   fecha grande, con .tag de tipo (reutilizado de sections.css) + fecha discreta.
+   COPY y curación · Ale/Khenpo.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.novedades__lista {
+  display: grid;
+  gap: 2px;
+  margin-bottom: var(--espacio-contenido);
+}
+
+.novedad {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--espacio-elemento);
+  padding: var(--espacio-elemento) var(--espacio-grupo);
+  border-radius: 12px;
+  transition: background var(--t-hover);
+}
+.novedad + .novedad { border-top: 1px solid var(--hair); border-radius: 0; }
+.novedad:hover { background: color-mix(in oklch, var(--dorado) 5%, transparent); }
+
+.novedad__titulo {
+  font-family: var(--body);
+  font-size: var(--texto-cuerpo);
+  color: var(--azul-oscuro);
+  min-width: 0;
+}
+.novedad__fecha {
+  font-size: var(--texto-mini);
+  color: var(--texto-tenue);
+  white-space: nowrap;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   E · SIGUIENTE PASO (upsell suave)
+   ─────────────────────────────────────────────────────────────────────────
+   Invitación contenida al siguiente nivel (doc 09): sin banner, sin descuento,
+   sin urgencia. Hairline superior que la separa del cierre. Se renderiza
+   server-side solo si el practicante está cerca de completar su nivel.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.siguiente-paso {
+  border-top: 1px solid var(--hair);
+  padding-block: var(--espacio-orilla);
+}
+
+.siguiente-paso__inner {
+  max-width: var(--medida-lede);
+  margin-inline: auto;
+  text-align: center;
+  display: grid;
+  gap: var(--espacio-elemento);
+  justify-items: center;
+}
+
+.siguiente-paso__frase {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: var(--texto-h4);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  color: var(--azul-oscuro);
+}
+.siguiente-paso__frase em { font-style: italic; color: var(--dorado); }
+
+.siguiente-paso .idx-foot { margin-top: var(--espacio-atomo); }
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   RESPONSIVE PROPIO (base/responsive.css cubre los componentes reutilizados)
+   ───────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .ensenanza__inner { gap: var(--espacio-elemento); }
+  .siguiente-paso   { padding-block: var(--espacio-contemplativo); }
+
+  /* Hero velado · un punto menos de aire vertical en móvil */
+  .hero--velado { padding-block: var(--espacio-contemplativo); }
+
+  /* Encuentros · el chip de fecha se acuesta a una línea sobre el cuerpo */
+  .encuentro {
+    grid-template-columns: auto 1fr;
+    gap: var(--espacio-elemento);
+  }
+  .encuentro__arw { display: none; }
+
+  /* Novedades · la fecha baja bajo el título */
+  .novedad {
+    grid-template-columns: auto 1fr;
+    row-gap: 4px;
+  }
+  .novedad__fecha { grid-column: 2; }
+}
