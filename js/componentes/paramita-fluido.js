@@ -66,15 +66,16 @@
 
    NOTA · PALETA DEL SHADER
    ────────────────────────
-   Los colores hardcodeados en el shader FS_DISP son:
-   · #00C7E5 (cyan digital)
-   · #FFB400 (dorado saturado)
+   La veladura del fluido es ahora monocromática cálida, alineada con
+   los tokens oficiales de paramita-color.css:
+   · --calido-zen (#EBDEC4) en reposo / velocidades bajas
+   · --dorado     (#ECAC55) en los picos de aceleración
 
-   El sistema de diseño Paramita ha migrado a azul-oscuro / azul-sutil /
-   dorado (paramita-color.css). El cyan digital `#00C7E5` fue retirado
-   del sistema en fases anteriores. → Pendiente de migrar en fase
-   futura para alinear el shader con la paleta oficial. Se deja tal cual
-   en esta extracción para preservar el comportamiento visual actual.
+   Se retiró el cruce azul→dorado anterior (cyan #00C7E5, ya eliminado
+   del sistema en Fase 1a, + dorado saturado #FFB400) por decisión de
+   diseño: la home pedía una luz cálida mediterránea sin frío digital.
+   Los valores vec3 del shader se derivan directamente del HEX de cada
+   token, no son colores inventados.
 
    RENDIMIENTO
    ───────────
@@ -217,7 +218,7 @@
 
   /* ── Fragment shader de VISUALIZACIÓN ─────────────────────────
      Fondo lino vivo + veladura cromática translúcida.
-     Azul-sutil en velocidades bajas → dorado en picos de aceleración.
+     Cálido-zen en velocidades bajas → dorado en picos de aceleración.
      Opacidad máxima 0.18 (seda de color que no tapa textos ni fondo). */
   const FS_DISP = `
     precision highp float;
@@ -248,12 +249,13 @@
       vec2 distortedUv = vUv + fluidData * ${DISTORT};
       vec3 base = fondo(distortedUv);
 
-      // Paleta actual del shader (ver nota de cabecera sobre migración pendiente)
-      vec3 colorAzul   = vec3(0.0, 0.78, 0.89);  // #00C7E5
-      vec3 colorDorado = vec3(1.0, 0.70, 0.0);   // #FFB400
+      // Paleta cálida monocromática · derivada de tokens oficiales
+      // Reposo → --calido-zen (#EBDEC4) · Pico → --dorado (#ECAC55)
+      vec3 colorReposo = vec3(0.922, 0.871, 0.769);  // --calido-zen
+      vec3 colorDorado = vec3(0.925, 0.675, 0.333);  // --dorado
 
       float colorMixFactor = smoothstep(0.10, 0.60, speed);
-      vec3 fluidColor = mix(colorAzul, colorDorado, colorMixFactor);
+      vec3 fluidColor = mix(colorReposo, colorDorado, colorMixFactor);
 
       float sx = length((texture2D(u_field, vUv + vec2(u_texel.x,0.0)).xy-0.5)*2.0)
                - length((texture2D(u_field, vUv - vec2(u_texel.x,0.0)).xy-0.5)*2.0);
