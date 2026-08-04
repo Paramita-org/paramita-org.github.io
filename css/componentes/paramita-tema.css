@@ -1,0 +1,165 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-tema.css — Tema penumbra/luz · EXPERIMENTO sobre la home
+   ───────────────────────────────────────────────────────────────────────────
+   QUÉ ES ESTO
+   ───────────
+   Un modo oscuro OPT-IN («penumbra») para la home pública, activado por el
+   usuario con el toggle del navbar. El claro sigue siendo el estado por
+   defecto y la cara de marca: sin preferencia guardada, la home arranca en
+   luz. No se sigue prefers-color-scheme (opt-in puro).
+
+   ENFOQUE · leer con atención
+   ───────────────────────────
+   La home consume los tokens NOMINALES del sistema (--lino, --antracita,
+   --azul-oscuro…) directamente en sus componentes. Para tematizar la home
+   completa sin reescribir sus doce CSS, este archivo REDEFINE esos nominales
+   bajo :root[data-tema="oscuro"] con un set oscuro pensado desde cero
+   (penumbra cálida — NO una inversión mecánica de la paleta clara).
+
+   Es la vía de EXPERIMENTO. Su coste conocido: el nombre --lino deja de
+   significar «hueso cálido» en oscuro. La vía de producción «bien hecha»
+   sería migrar la home a una capa semántica (--sup-base, --tinta, --enlace…);
+   se documenta como deuda cuando el experimento se valide.
+
+   TRES COSTURAS CONOCIDAS (se abordan aquí de forma provisional)
+   ─────────────────────────────────────────────────────────────
+   1 · Canvas WebGL del fluido: pinta «lino vivo» claro. En penumbra choca,
+       así que se OCULTA (#fluido display:none). La versión buena exige
+       reprogramar el shader — terreno de Gerard.
+   2 · foot__hero azul luminoso: es color de marca fijo; en penumbra queda
+       como isla brillante. Se deja tal cual en esta primera versión (a
+       decidir si se atenúa).
+   3 · Footer: ya es oscuro. En penumbra se funde con el fondo; se le añade
+       un filo dorado superior para recuperar su separación.
+
+   Se enlaza DESPUÉS de todas las hojas del sistema (tras paramita-responsive).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SET OSCURO · PENUMBRA CÁLIDA · redefinición de nominales
+   ─────────────────────────────────────────────────────────────────────────── */
+@layer tokens {
+  :root[data-tema="oscuro"] {
+
+    /* SUPERFICIES · penumbra cálida (matiz ~65°, croma bajo, L ascendente) */
+    --lino:       oklch(19% 0.012 65);   /* fondo global               */
+    --base-bg:    oklch(19% 0.012 65);   /* fondo del lienzo / fallback */
+    --arena:      oklch(23% 0.014 66);   /* secciones alternas         */
+    --arcilla:    oklch(27% 0.016 68);   /* hovers de superficie       */
+    --calido-zen: oklch(26% 0.020 66);   /* fondos cálidos / hovers    */
+    --card:       oklch(25% 0.015 66);   /* tarjetas, bloques elevados */
+
+    /* TINTA · hueso cálido claro */
+    --antracita:   oklch(92% 0.012 85);
+    --texto-suave: oklch(74% 0.012 82);
+    --texto-tenue: oklch(60% 0.012 80);
+
+    /* HILOS · derivados de la tinta (color-mix, no valores a ojo) */
+    --hair:        color-mix(in oklch, oklch(92% 0.012 85) 14%, transparent);
+    --hair-fuerte: color-mix(in oklch, oklch(92% 0.012 85) 26%, transparent);
+
+    /* MARCA · el azul-oscuro se usa DOBLE en el sistema: como color de texto/
+       enlace sobre superficie, y en los degradados de marca. Sobre penumbra,
+       el 38% de luminosidad no contrasta como texto, así que sube a luminoso.
+       Los degradados definidos con literales oklch en paramita-color.css NO se
+       ven afectados (usan valores fijos, no esta variable). El único degradado
+       que sí la referencia es el del .btn-primario::before, protegido abajo. */
+    --azul-oscuro: oklch(74% 0.12 232);
+
+    /* --azul-sutil y --dorado se mantienen: ya son luminosos y lucen sobre
+       oscuro. --dorado gana protagonismo natural en penumbra. */
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   OVERRIDES DE COMPONENTES EN OSCURO · sin @layer (ganan a las capas)
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* 1 · Fluido WebGL fuera en penumbra (lino vivo no encaja sobre oscuro) */
+:root[data-tema="oscuro"] #fluido { display: none !important; }
+
+/* 2 · btn-primario: su ::before referencia var(--azul-oscuro), que ahora es
+   luminoso; con texto blanco encima perdería contraste en el extremo azul.
+   Se re-ancla el degradado a paradas oscuras fijas (idéntico a claro) para
+   que el botón conserve su contraste y su carácter. La sombra también se
+   re-ancla a oscuro (si no, el azul luminoso la convertiría en halo). */
+:root[data-tema="oscuro"] .btn-primario::before {
+  background: linear-gradient(100deg,
+    oklch(38% 0.11 245), oklch(68% 0.13 235), oklch(78% 0.155 68),
+    oklch(68% 0.13 235), oklch(38% 0.11 245));
+  background-size: 200% 100%;
+}
+:root[data-tema="oscuro"] .btn-primario {
+  box-shadow: 0 14px 34px -20px oklch(12% 0.02 250),
+              0 4px 12px  -8px  oklch(12% 0.02 250);
+}
+:root[data-tema="oscuro"] .btn-primario:hover {
+  box-shadow: 0 18px 36px -14px oklch(12% 0.02 250),
+              0 0 14px 0    oklch(82% 0.14 72 / 0.36),
+              0 0 32px 6px  oklch(82% 0.14 72 / 0.20),
+              0 0 60px 10px oklch(82% 0.14 72 / 0.10);
+}
+
+/* 3 · Footer: ya oscuro → filo dorado superior para separarlo del contenido */
+:root[data-tema="oscuro"] .foot__info {
+  border-top: 1px solid color-mix(in oklch, var(--dorado) 26%, transparent);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOGGLE PENUMBRA / LUZ · círculo hermano del .btn-acceso (mismo idioma)
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.tema-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.4px solid color-mix(in oklch, var(--azul-oscuro) 40%, transparent);
+  color: var(--azul-oscuro);
+  cursor: pointer;
+  flex: none;
+  outline: none;
+  position: relative;
+  transition: border-color var(--t-defecto, .4s),
+              box-shadow var(--t-revelacion, .7s),
+              transform var(--t-defecto, .4s);
+}
+.tema-toggle svg { width: 19px; height: 19px; }
+.tema-toggle .ico-penumbra { display: none; }
+:root[data-tema="oscuro"] .tema-toggle .ico-luz      { display: none; }
+:root[data-tema="oscuro"] .tema-toggle .ico-penumbra { display: block; }
+
+.tema-toggle:hover,
+.tema-toggle:focus-visible {
+  border-color: var(--dorado);
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 3px oklch(78% 0.155 68 / 0.15),
+              0 0 18px 4px oklch(78% 0.155 68 / 0.24);
+}
+.tema-toggle:focus-visible { transform: none; }
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TRANSICIÓN DE TEMA · fundido breve al pulsar (no en carga)
+   La clase .tema-anim la añade el JS en el primer click, para que el estado
+   inicial (anti-FOUC) no anime. Respeta prefers-reduced-motion.
+   ─────────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  html.tema-anim body,
+  html.tema-anim body *:not(#fluido):not(canvas):not(.hero__bg-video) {
+    transition: background-color .45s var(--ease, ease),
+                border-color     .45s var(--ease, ease),
+                color            .45s var(--ease, ease);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FIN de paramita-tema.css
+   ═══════════════════════════════════════════════════════════════════════════ */
