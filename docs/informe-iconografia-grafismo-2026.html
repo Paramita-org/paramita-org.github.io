@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El signo que orienta — Iconografía, pictogramas y grafismo · Paramita · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;
+    --paper-2:#FBFAF7;
+    --ink:#191A1C;
+    --slate:#63656B;
+    --ink-deep:#132239;
+    --ink-deep-2:#0E1A2C;
+    --gold:#A8823F;
+    --gold-lite:#C9A96E;
+    --azul:#2E4C6D;
+    --azul-sutil:#5E7C9C;
+    --rule:#DAD6CC;
+    --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);
+    line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+  .flow > .bleed{grid-column:1/-1;width:100%}
+
+  /* cover */
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--azul-sutil),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.42;color:var(--ink-deep);margin:2rem 0 0;font-style:italic}
+
+  section{padding:clamp(2.6rem,6vh,4.2rem) 0}
+  .sec-head{margin-bottom:1.8rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 .3rem}
+  h2 em{font-style:italic;font-weight:400;color:var(--gold)}
+  h3{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.25rem,2vw,1.55rem);line-height:1.2;margin:2.4rem 0 .6rem;letter-spacing:-.005em}
+  h3 em{font-style:italic;color:var(--ink-deep)}
+  p{margin:0 0 1.15rem}
+  strong{font-weight:600;color:var(--ink)}
+  em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:color-mix(in oklab,var(--ink-deep) 8%,transparent);padding:.08em .38em;border-radius:5px;color:var(--ink-deep)}
+  .drop:first-letter{font-family:"Fraunces",serif;float:left;font-size:3.3rem;line-height:.82;font-weight:500;padding:.1em .12em 0 0;color:var(--ink-deep)}
+  .pull{font-family:"Fraunces",serif;font-weight:400;font-style:italic;font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.4;color:var(--ink-deep);border-left:2px solid var(--gold);padding-left:1.2rem;margin:2rem 0}
+  .tag{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid var(--rule);border-radius:2em;padding:.2em .8em;margin-right:.7em;vertical-align:middle}
+  .fuente{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.01em;margin-top:-.4rem}
+
+  /* dato card */
+  .dato{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:14px;padding:1.6rem 1.7rem;margin:1.4rem 0}
+  .dato__k{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+  .dato h3{margin:0 0 .5rem;font-size:clamp(1.15rem,1.8vw,1.4rem)}
+  .dato p{margin:0 0 .6rem}
+  .cifra{font-family:"Fraunces",serif;font-weight:600;color:var(--ink-deep);font-size:1.08em}
+
+  /* stats strip */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--rule);border-radius:14px;overflow:hidden;margin:1.6rem 0}
+  .stat{background:var(--paper-2);padding:1.4rem 1.1rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.7rem,3vw,2.3rem);line-height:1;color:var(--ink-deep)}
+  .stat .n small{font-size:.55em;font-weight:500}
+  .stat .l{font-size:.82rem;line-height:1.35;color:var(--slate);margin-top:.5rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);margin-top:.5rem;letter-spacing:.04em}
+
+  /* tables */
+  .tbl-wrap{margin:1.6rem 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.92rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+  th,td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:500;border-bottom:1.5px solid var(--rule)}
+  tbody td:first-child{font-weight:600;color:var(--ink);width:24%}
+  .yes{color:var(--ink-deep);font-weight:600}
+  .no{color:var(--gold);font-weight:600}
+
+  /* dark section */
+  .dark{background:var(--ink-deep-2);color:#E7E9EE}
+  .dark h2{color:#fff}
+  .dark h2 em{color:var(--gold-lite)}
+  .dark h3{color:#fff}
+  .dark .sec-num{color:var(--gold-lite)}
+  .dark strong{color:#fff}
+  .dark p{color:#C3CAD6}
+  .dark code{background:rgba(255,255,255,.1);color:#E7E9EE}
+  .dark .pull{color:var(--gold-lite);border-left-color:var(--gold-lite)}
+
+  /* anatomy list */
+  .anat{counter-reset:step;margin:1.6rem 0;padding:0;list-style:none}
+  .anat li{position:relative;padding:1.2rem 0 1.2rem 3.4rem;border-bottom:1px solid var(--rule-soft)}
+  .anat li:last-child{border-bottom:0}
+  .anat li::before{counter-increment:step;content:counter(step,decimal-leading-zero);position:absolute;left:0;top:1.25rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--gold);letter-spacing:.02em}
+  .anat h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.12rem;margin:0 0 .3rem}
+  .anat p{margin:0;font-size:.94rem;color:var(--slate);line-height:1.55}
+  .anat .why{display:block;font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--gold);margin-top:.5rem;letter-spacing:.03em}
+
+  /* ════════ MUESTRARIO SVG · signature del informe ════════ */
+  .spec{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:16px;padding:1.8rem;margin:1.6rem 0}
+  .spec__cap{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:0 0 1.3rem}
+  .spec-row{display:flex;flex-wrap:wrap;gap:1.4rem 1.1rem;align-items:flex-end}
+  .spec-item{display:flex;flex-direction:column;align-items:center;gap:.6rem;text-align:center}
+  .spec-item svg{display:block;color:var(--ink-deep)}
+  .spec-item .tt{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.03em;color:var(--slate);max-width:11ch;line-height:1.3}
+  .spec-item .tt b{color:var(--ink-deep);font-weight:600}
+  .draw{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s cubic-bezier(.22,1,.36,1)}
+  .spec.in .draw{stroke-dashoffset:0}
+  .lbl-demo{display:flex;gap:1.6rem;flex-wrap:wrap;margin-top:.4rem}
+  .lbl-chip{display:inline-flex;align-items:center;gap:.55rem;border:1px solid var(--rule);border-radius:11px;padding:.7rem 1rem;background:var(--paper);color:var(--ink-deep);font-weight:500;font-size:.92rem}
+  .lbl-chip svg{color:var(--ink-deep)}
+  .lbl-chip.bare{color:var(--slate)}
+  .spec-note{font-size:.86rem;color:var(--slate);margin:1.2rem 0 0;line-height:1.55}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.75rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:640px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .cover h1{font-size:clamp(2.3rem,10vw,3rem)}
+    tbody td:first-child{width:auto}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .sheen::after{animation:none;transform:translateX(80%)}
+    .reveal{opacity:1;transform:none;transition:none}
+    .draw{stroke-dashoffset:0;transition:none}
+    .breathe{animation:none !important}
+    *{scroll-behavior:auto}
+  }
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe · Iconografía · Pictogramas · Grafismo · 2026</p>
+  <h1>El signo<br>que <em>orienta</em></h1>
+  <p class="deck">Dónde, cómo y con qué efecto usar iconos, pictogramas y grafismo en Paramita —para marcar puntos de inflexión, destacar, ordenar listas y acompañar el cruce— sin importar el ruido de moda ni traicionar la luz mediterránea, el trazo humanista ni el contrato de quietud.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Encargo</b> · Investigación profunda · datos contrastados 2026</span>
+    <span><b>Fecha</b> · Agosto 2026</span>
+    <span><b>Lectura</b> · ~26 min</span>
+  </div>
+  <p class="lede">La tesis en una frase: en Paramita un icono no decora, señaliza el cruce —y lo disruptivo en 2026 no es fichar soft-3D, mascotas o neón, sino ejecutar el signo de línea humanista con un oficio de trazo que casi nadie alcanza, animado solo cuando el gesto tiene sentido y dibujado con la misma técnica del cruce que el sistema ya posee.</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 00 ENCUADRE ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">00 — Encuadre</span>
+    <h2>Tres cosas distintas que solemos llamar <em>"icono"</em></h2>
+  </div>
+  <p class="drop reveal">Antes de decidir dónde poner nada conviene separar tres familias que se confunden a diario. El <strong>icono</strong> es funcional: representa una acción o un objeto de interfaz y su trabajo es que sepas qué pasa si lo tocas (buscar, cerrar, reproducir). El <strong>pictograma</strong> es conceptual: no es accionable, ordena o etiqueta contenido (un símbolo junto a un nivel del sendero, junto a un tipo de curso, junto a una idea). El <strong>grafismo</strong> es expresivo: no representa nada literal —es trazo, divisor, textura, el hilo SVG que atraviesa una sección. Cada familia se juzga por criterios distintos, y la trampa más común es tratarlas igual: adornar con iconos donde hacía falta un pictograma, o cargar de decoración funcional lo que pedía silencio.</p>
+  <p class="reveal">Para Paramita la pregunta rectora no es "¿qué icono va aquí?" sino "¿este signo ayuda a cruzar?". La fundación no es un SaaS: no hay tablero de acciones que saturar, no hay <em>dashboard</em> que amueblar con glifos. Hay un visitante que llega sin conocernos y un practicante que vuelve, y el signo —cuando existe— está para <strong>orientar el gesto</strong>, no para llenar la pantalla. Esto ya es doctrina en el sistema: ausencia de badges, de streaks, de leaderboards. La iconografía hereda la misma disciplina.</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Tres familias · tres trabajos</caption>
+      <thead><tr><th>Familia</th><th>Qué hace</th><th>Se juzga por</th><th>En Paramita</th></tr></thead>
+      <tbody>
+        <tr><td>Icono</td><td>Acción / objeto de UI</td><td>Reconocimiento + interpretación</td><td>Escaso, siempre con etiqueta</td></tr>
+        <tr><td>Pictograma</td><td>Ordena / etiqueta contenido</td><td>Coherencia del sistema</td><td>Sendero, tipos de curso, ideas</td></tr>
+        <tr><td>Grafismo</td><td>Expresa (no representa)</td><td>Identidad + oficio</td><td>Trazo-divisor, hilo, lotos</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="pull reveal">La primera decisión de iconografía no es visual: es saber cuál de las tres familias pide el sitio en cada punto. La mayoría de los errores nacen de confundirlas.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 01 · EL DATO INCÓMODO ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — El dato incómodo</span>
+    <h2>Un icono sin etiqueta es un <em>acertijo</em></h2>
+  </div>
+  <p class="drop reveal">Es el dato más robusto de todo el informe y el que más gente ignora por estética. Cuando UserTesting midió cuántas veces un usuario acierta qué ocurrirá al tocar un icono, el resultado fue tajante: <strong>con etiqueta de texto, el 88%</strong>; sin etiqueta, cae al <strong>60%</strong>; y si el icono es propio de la marca —no un símbolo universal— sin etiqueta baja al <strong>34%</strong>. Dicho de otro modo: dos de cada tres personas fallan ante un icono singular sin palabra que lo acompañe. NN/g lo formula sin rodeos: como no existe un uso estándar para casi ningún icono, el texto es <em>necesario</em>, no opcional, y debe estar visible siempre —nunca escondido tras un hover, que además no traduce al táctil.</p>
+  <div class="stats reveal">
+    <div class="stat"><div class="n">88<small>%</small></div><div class="l">acierta la acción de un icono <b>con</b> etiqueta</div><div class="src">UserTesting</div></div>
+    <div class="stat"><div class="n">60<small>%</small></div><div class="l">acierta si el icono va <b>sin</b> etiqueta</div><div class="src">UserTesting</div></div>
+    <div class="stat"><div class="n">34<small>%</small></div><div class="l">acierta si es un icono propio de marca sin etiqueta</div><div class="src">UserTesting</div></div>
+    <div class="stat"><div class="n">95,9<small>%</small></div><div class="l">de las home tenían fallos WCAG detectables</div><div class="src">WebAIM 2026</div></div>
+  </div>
+  <p class="reveal">Hay un segundo motivo, puramente físico, para juntar icono y palabra: un objetivo que combina símbolo <em>y</em> texto es más grande que cualquiera de los dos por separado, y por la ley de Fitts un objetivo grande se pulsa antes y con menos error —importa especialmente en táctil. El icono no compite con la etiqueta: la agranda y la hace más tocable.</p>
+  <p class="reveal">Y el reverso: si el plan es poner etiqueta siempre, <strong>no todo enlace merece un icono</strong>. NN/g es explícito —un icono no es gratis: cuesta diseño, código, mantenimiento y espacio, y un conjunto de iconos mediocres o inconsistentes confunde más que un texto limpio. La conclusión operativa para Paramita: primero decidir si el signo aporta información o solo ruido; si aporta, ponerlo con etiqueta; si no, texto y punto.</p>
+  <div class="spec reveal" data-spec>
+    <p class="spec__cap">Muestra 01 · el mismo icono, con y sin palabra</p>
+    <div class="lbl-demo">
+      <span class="lbl-chip">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16 16l4.5 4.5"/></svg>
+        Buscar cursos
+      </span>
+      <span class="lbl-chip">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h13"/><path d="M12 6l6 6-6 6"/></svg>
+        Empezar aquí
+      </span>
+      <span class="lbl-chip bare" title="¿Qué hará esto?">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg>
+      </span>
+      <span class="lbl-chip bare" title="¿Y esto?">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4v16l7-4 7 4V4z"/></svg>
+      </span>
+    </div>
+    <p class="spec-note">Las dos primeras se leen sin pensar. Las dos últimas —icono singular sin palabra— obligan a adivinar: es exactamente la caída del 88% al 34%. En Paramita ningún icono de navegación o de acción va desnudo.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 · DOS POLOS ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — El eje de la iconografía 2026</span>
+    <h2>El signo también se parte en <em>dos polos</em></h2>
+  </div>
+  <p class="drop reveal">Igual que ocurría con la home, si se leen veinte informes de tendencias de iconografía aparece el mismo desdoblamiento. Un polo <em>cálido y táctil</em>: soft-3D de bordes redondeados y degradados pastel, mascotas que reaccionan y cambian de humor, micro-ilustraciones detalladas, retrofuturismo con glow de neón y cromados. Y un polo <em>depurado</em>: línea hiper-minimalista llevada a su trazo más fino, y —el que de verdad importa aquí— la vuelta de la <strong>mano humana</strong> como diferenciador: trazo dibujado, imperfecto, "con alma", precisamente porque cuando la IA inunda todo de perfección plana, la huella del autor se vuelve señal.</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Los dos polos del icono en 2026 · dónde vive Paramita</caption>
+      <thead><tr><th>Polo ruidoso</th><th>Polo de Paramita</th></tr></thead>
+      <tbody>
+        <tr><td>Soft-3D pastel, plastilina digital</td><td class="yes">Línea humanista, trazo con oficio</td></tr>
+        <tr><td>Mascotas que reclaman atención</td><td class="yes">Pictograma sobrio que ordena</td></tr>
+        <tr><td>Retrofuturismo, neón, glow, cromo</td><td class="yes">Luz mediterránea, dorado como acento</td></tr>
+        <tr><td>Glassmorphism, profundidad falsa</td><td class="yes">Papel cálido, un solo plano</td></tr>
+        <tr><td>Perfección plana generada por IA</td><td class="yes">Imperfección deliberada, mano visible</td></tr>
+        <tr><td>Iconos que "gritan" en bucle</td><td class="yes">Signo quieto; se dibuja al cruzar</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal">La columna derecha no es una aspiración: es punto por punto la identidad que Paramita fijó en Fase 0. Pero dentro del polo depurado hay una decisión fina que sí toca tomar. El minimalismo de línea tiene dos acabados en 2026: el <em>geométrico</em> (trazo uniforme, matemático, "de sistema operativo") y el <em>humanista</em> (trazo con inflexión, terminales que engrosan, ligera irregularidad de mano). Para un sitio cuyo rostro es Fraunces —una tipografía de contraste caligráfico, con ejes <code>opsz</code> y <code>WONK</code>— el icono geométrico sonaría a otra marca pegada encima. El icono <strong>humanista</strong> es el que rima con la letra.</p>
+  <p class="pull reveal">Estar "a la última" en iconografía 2026 y ser fiel a Paramita no es un equilibrio difícil: la vanguardia del año —mano humana, trazo con voz, señal frente a ruido— se ha movido a donde Paramita ya estaba.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 · EL TRAZO CON VOZ ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — El trazo con voz</span>
+    <h2>El icono como Fraunces <em>hecha símbolo</em></h2>
+  </div>
+  <p class="drop reveal">Aquí está la jugada disruptiva de verdad, y casi nadie la ejecuta bien. La tendencia técnica que domina 2026 son los <strong>iconos variables</strong>: igual que una fuente variable interpola pesos, un icono variable interpola ejes —peso (<code>weight</code>), relleno (<code>fill</code>), grado (<code>grade</code>) y tamaño óptico (<code>opsz</code>)— y reacciona al contexto y a la interacción. Y una de sus expresiones más comentadas del año es el <strong>trazo caligráfico</strong>: grosor que varía a lo largo del recorrido —grueso en las terminales, fino en las curvas— para inyectar el oficio y la personalidad que un trazo uniforme no puede dar.</p>
+  <p class="reveal">Léelo otra vez con los ojos de Paramita: <em>eje óptico</em>, <em>contraste de trazo grueso/fino</em>, <em>personalidad caligráfica</em>. Es, literalmente, la descripción de Fraunces. El sistema ya tomó esa decisión en la letra (los ejes <code>opsz</code> y <code>WONK</code> preservados, el <code>SOFT</code> congelado con intención). El movimiento coherente —y radicalmente distintivo— es <strong>llevar ese mismo contraste al icono</strong>: pictogramas cuyo trazo engorda y adelgaza como lo hace la letra, no un icon-set genérico de grosor plano descargado de una librería.</p>
+  <p class="reveal">Técnicamente hay dos caminos, ambos nativos. El barato: <code>stroke-linecap: round</code> + <code>stroke-linejoin: round</code> sobre un grosor moderado —que es <em>exactamente</em> lo que el sistema ya usa (<code>stroke-width: 1.25–1.4</code>, caps y joins redondeados en formación y en el buscador de FAQ). El caro y con voz: dibujar el glifo como <em>relleno</em> de una silueta de anchura variable (no como línea de grosor fijo), consiguiendo el engrosamiento caligráfico real. La regla: un pictograma identitario —el que va junto a un título, el que marca un nivel del sendero— merece el trazo con voz; un icono utilitario —cerrar, buscar— se queda en la línea limpia con caps redondeados. No todo pide oficio; el oficio se gasta donde se ve.</p>
+  <div class="spec reveal" data-spec>
+    <p class="spec__cap">Muestra 03 · escala de trazo · del utilitario al identitario</p>
+    <div class="spec-row">
+      <div class="spec-item">
+        <svg width="52" height="52" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 38V16l14-8 14 8v22"/><path d="M20 38V26h8v12"/></svg>
+        <span class="tt"><b>1.0</b><br>utilitario</span>
+      </div>
+      <div class="spec-item">
+        <svg width="52" height="52" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 38V16l14-8 14 8v22"/><path d="M20 38V26h8v12"/></svg>
+        <span class="tt"><b>1.4</b><br>sistema actual</span>
+      </div>
+      <div class="spec-item">
+        <svg width="52" height="52" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 38V16l14-8 14 8v22"/><path d="M20 38V26h8v12"/></svg>
+        <span class="tt"><b>2.0</b><br>destacado</span>
+      </div>
+      <div class="spec-item">
+        <svg width="52" height="52" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 38V16.6l14-8 14 8V38" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 38V16.6l14-8 14 8V38" fill="none" stroke="var(--paper-2)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" opacity=".0"/></svg>
+        <span class="tt"><b>caligráfico</b><br>identitario</span>
+      </div>
+    </div>
+    <p class="spec-note">Mismo glifo (un umbral / casa-refugio), cuatro registros. El sistema hoy vive en <code>1.4</code>; el destacado sube a <code>2.0</code>; el identitario aspira al contraste caligráfico —grueso que engorda—, la firma que rima con Fraunces.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 04 · COLOR DEL SIGNO ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — El color del signo</span>
+    <h2>Duotono 70/30: el degradado que <em>ya tienes</em></h2>
+  </div>
+  <p class="drop reveal">Otra tendencia del año que Paramita ya practica sin saberlo. En 2026 el relleno de icono dominante no es el 3D ni el plano monocromo: es el <strong>duotono</strong> —un degradado de dos colores aplicado al signo para dar profundidad sin el coste de render del 3D—, y con una regla clave: parejas <em>análogas</em> (azul→azul, azul→dorado cálido), nunca complementarios que se "enturbian" a tamaño pequeño. El sistema ya tiene esa pareja definida y bendecida por Khenpo: el degradado de marca 70% familia azul → 30% dorado. El pictograma identitario de Paramita no necesita inventar color; hereda el 70/30.</p>
+  <p class="reveal">Y ya existe el precedente técnico exacto en el código: el mapa del sendero pinta su trazo con <code>stroke: url(#gradSendero)</code> —un degradado aplicado sobre la línea, no sobre un relleno. Ese es el patrón canónico del duotono de trazo. Un pictograma de nivel, de tipo de curso o de idea puede usar el mismo recurso: <code>currentColor</code> por defecto (para que herede el color del texto y el modo de la sección, disciplina que el sistema ya respeta en todas partes), y el gradiente 70/30 reservado para el signo identitario que quiere brillar una vez.</p>
+  <p class="reveal">La disciplina de color se traslada intacta: nada de hex a ojo dentro de un SVG, ningún <code>#00C7E5</code> resucitado, ninguna paleta de "iconos de sistema" ajena. Todo sale de los tokens OKLCH y de <code>color-mix(in oklch, …)</code>. Un icono con un azul que no está en la paleta rompe la unidad cromática igual que la rompía el velo <code>#DBE8F4</code> inventado en la celda FLIP.</p>
+  <div class="spec reveal" data-spec>
+    <p class="spec__cap">Muestra 04 · currentColor · duotono 70/30 · velado</p>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <linearGradient id="g7030" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#1E3A5F"/>
+          <stop offset="0.68" stop-color="#5E7C9C"/>
+          <stop offset="1" stop-color="#A8823F"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="spec-row">
+      <div class="spec-item" style="color:var(--slate)">
+        <svg width="50" height="50" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 40c8-6 12-11 12-18a8 8 0 0 0-8-8c-2.4 0-3.8 1-4 2-.2-1-1.6-2-4-2a8 8 0 0 0-8 8c0 7 4 12 12 18z" transform="rotate(0 24 24)"/><path d="M24 8c3 4 4.5 8 4.5 12S27 30 24 34c-3-4-4.5-8-4.5-12S21 12 24 8z"/></svg>
+        <span class="tt"><b>currentColor</b><br>hereda el texto</span>
+      </div>
+      <div class="spec-item">
+        <svg width="50" height="50" viewBox="0 0 48 48" fill="none" stroke="url(#g7030)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 8c3 4 4.5 8 4.5 12S27 30 24 34c-3-4-4.5-8-4.5-12S21 12 24 8z"/><path d="M14 20c3 2 6 5 10 14 4-9 7-12 10-14"/></svg>
+        <span class="tt"><b>duotono 70/30</b><br>azul→dorado</span>
+      </div>
+      <div class="spec-item" style="color:var(--ink-deep)">
+        <svg width="50" height="50" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="15" fill="color-mix(in oklab,#132239 6%,transparent)"/><path d="M24 12c3 5 4.5 9 4.5 13S27 32 24 36c-3-4-4.5-8-4.5-11S21 17 24 12z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="tt"><b>velado</b><br>fondo derivado</span>
+      </div>
+    </div>
+    <p class="spec-note">El mismo signo (hoja / loto) en tres registros de color, todos derivados del sistema: hereda el texto, luce el 70/30 en el eje azul→dorado, o descansa sobre un halo hecho con <code>color-mix</code>. Cero color inventado.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 05 · MOTION DEL SIGNO ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — El motion del signo</span>
+    <h2>Qué se mueve, qué no, y <em>por qué</em></h2>
+  </div>
+  <p class="drop reveal">Aquí es donde la mayoría de sitios "modernos" se estrella y donde Paramita tiene una ventaja rara: ya tiene un contrato de movimiento escrito. Las reglas de quietud se aplican al icono sin traducción. <strong>Flujo, no pulso</strong>: un signo puede tener un degradado que lo atraviesa despacio (identitario), pero ningún icono late en bucle para reclamar la mirada —eso está prohibido por defecto. <strong>Hover intensifica lo que ya vive</strong>: si el pictograma tiene un trazo, en hover el trazo se completa; no aparece un gesto nuevo. <strong>Máximo dos elementos en movimiento</strong> en lo que el usuario ve. Y <code>prefers-reduced-motion</code> como capa del sistema, no como cortesía por componente.</p>
+  <p class="reveal">De ahí salen tres —y solo tres— efectos legítimos para el signo en Paramita:</p>
+  <ul class="anat reveal">
+    <li><h4>Dibujado por scroll <span style="font-weight:400;color:var(--slate)">(el cruce)</span></h4><p>El pictograma se traza a sí mismo cuando entra en vista, con <code>stroke-dasharray</code>/<code>stroke-dashoffset</code>. No es un adorno importado: es la técnica que <code>paramita-trazo-divisor.js</code> ya ejecuta —vanilla, con IntersectionObserver + rAF, bidireccional, independiente de GSAP. Es la expresión canónica del cruce llevada al icono.<span class="why">↳ reutiliza infraestructura existente · 0 KB nuevos</span></p></li>
+    <li><h4>Respiración identitaria <span style="font-weight:400;color:var(--slate)">(solo el signo de marca)</span></h4><p>Un degradado 70/30 que fluye por el trazo, con el ritmo del sistema (<code>--dur-respiro</code>, 25s). Reservado al signo identitario, nunca a un icono utilitario. Es flujo, no pulso: encarna la travesía, no la interrumpe.<span class="why">↳ familia identitaria · excepción documentada</span></p></li>
+    <li><h4>Hover que completa <span style="font-weight:400;color:var(--slate)">(convocado por el usuario)</span></h4><p>El feedback más importante y el más ignorado: la respuesta debe sentirse en <strong>menos de 100 ms</strong> (Google fija el INP "bueno" en menos de 200 ms para clicks y taps). Un icono que reacciona tarde se percibe roto. Aquí <code>--t-hover</code> (200 ms) y <code>--t-feedback</code> (80 ms) del sistema hacen justo el trabajo.<span class="why">↳ INP &lt; 200 ms · feedback &lt; 100 ms</span></p></li>
+  </ul>
+  <p class="reveal">Lo que <strong>no</strong> se hace: iconos que rebotan, giran o parpadean para "dar vida"; loaders con personalidad que se convierten en el protagonista; micro-animaciones dispersas por toda la página. La regla de las tendencias 2026 aplica sin piedad: el exceso de animación es hoy la principal <em>señal</em> de que algo se generó sin criterio. En un sitio contemplativo, el movimiento que no encarna el cruce es ruido con buena intención.</p>
+  <div class="spec reveal" data-spec>
+    <p class="spec__cap">Muestra 05 · el signo se dibuja al entrar en vista · haz scroll para verlo</p>
+    <div class="spec-row" style="justify-content:center;padding:.6rem 0">
+      <div class="spec-item">
+        <svg width="120" height="80" viewBox="0 0 120 80" fill="none" stroke="url(#g7030)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path class="draw" pathLength="1" d="M8 60 C 30 60, 34 22, 60 22 S 90 60, 112 60"/>
+          <circle class="draw" pathLength="1" cx="60" cy="22" r="5"/>
+        </svg>
+        <span class="tt"><b>el sendero se traza</b><br>al cruzar el viewport</span>
+      </div>
+    </div>
+    <p class="spec-note">Mismo principio que los divisores del sitio: el trazo empieza invisible (<code>dashoffset = longitud</code>) y se completa al aparecer. Con <code>prefers-reduced-motion</code> activo llega ya dibujado, sin recorrido. El signo no reclama: se revela.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 06 · ESTRATO TÉCNICO (DARK) ===================== -->
+<section class="dark flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — El estrato técnico</span>
+    <h2>SVG nativo, Lottie o Rive: <em>los números</em></h2>
+  </div>
+  <p class="drop reveal" style="color:#C3CAD6">La pregunta que llega tarde y decide el rendimiento: ¿con qué se construye la animación del signo? En 2026 el consenso es claro y, para Paramita, cómodo. Las <strong>animaciones CSS/SVG nativas</strong> corren en el hilo del compositor, no envían ni un KB de JavaScript y son "gratis" en rendimiento y en SEO —son la herramienta recomendada para micro-interacciones y para el dibujado de trazo. Solo cuando la ambición sube (una ilustración compleja, un personaje interactivo con estados) tiene sentido pagar el peso de una librería.</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Formatos de animación de icono · datos 2026</caption>
+      <thead><tr><th>Formato</th><th>Runtime</th><th>Coste</th><th>Cuándo</th></tr></thead>
+      <tbody>
+        <tr><td style="color:#fff">CSS / SVG nativo</td><td style="color:#C3CAD6">0 KB</td><td class="yes" style="color:var(--gold-lite)">Compositor · gratis</td><td style="color:#C3CAD6">Micro-interacciones, dibujado de trazo, hover</td></tr>
+        <tr><td style="color:#fff">Lottie (.lottie)</td><td style="color:#C3CAD6">~60 KB</td><td style="color:#C3CAD6">Ticker rAF por instancia; 5+ animaciones simultáneas disparan CPU en móvil</td><td style="color:#C3CAD6">Ilustración lineal de diseñador, una y aislada</td></tr>
+        <tr><td style="color:#fff">Rive</td><td style="color:#C3CAD6">~200 KB (WASM)</td><td style="color:#C3CAD6">Ficheros 3–5× menores que Lottie; ~0% CPU en reposo</td><td style="color:#C3CAD6">Personaje/estado interactivo; 10+ elementos a la vez</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal" style="color:#C3CAD6">El formato <code>.lottie</code> parsea 2–3× más rápido que el JSON equivalente y pesa un 70–80% menos; Rive presume de una reducción brutal de peso (Duolingo migró y bajó 15× el tamaño de sus personajes). Pero para Paramita ninguno de los dos es la respuesta por defecto: un pictograma que se dibuja, respira o completa su trazo en hover es <strong>SVG + CSS puro</strong>. La firma es nativa. Reservar Lottie/Rive, si acaso, para un único momento ilustrado excepcional —y ni siquiera ese es obligatorio. El contrato de quietud desaconseja justo el tipo de animación densa que justificaría su peso.</p>
+  <h3 class="reveal">El regalo del año: el cruce <em>entre páginas</em></h3>
+  <p class="reveal" style="color:#C3CAD6">Y aquí está el hallazgo más específico para Paramita, porque el sitio es multipágina estático. Dos APIs nativas alcanzaron soporte cross-browser en 2025–2026 y sustituyen a la mayoría de lo que antes pedía una librería JS: las <strong>animaciones dirigidas por scroll</strong> (<code>animation-timeline: scroll()/view()</code>, ~84% de soporte global a mediados de 2026, Chrome/Edge 115+, Firefox 132+, Safari 18+) y la <strong>View Transitions API</strong>. Su variante cross-document —una sola línea, <code>@view-transition { navigation: auto; }</code>, cero JavaScript— anima la transición de una página a otra en un sitio multipágina como el vuestro. Traducción literal: convierte la navegación misma en <em>el cruce como acto</em>. El grafismo que separa dos secciones puede ahora <strong>continuar de una página a la siguiente</strong>, morfando en el paso. Ningún otro sitio de una fundación hará esto en 2026, y para Paramita no es un truco: es el hilo conceptual hecho tecnología.</p>
+  <p class="reveal" style="color:#C3CAD6">El coste de adoptarlas es negativo, además: equipos que reemplazaron su librería de animación por estas APIs nativas reportan bundles de JS más ligeros (un caso: −38 KB) y mejor LCP (−320 ms). Con <code>@supports</code> como red de seguridad, los navegadores que no las entienden simplemente ven el estado final —el contenido nunca se rompe. Es exactamente la doctrina de <em>progressive enhancement</em> que el sistema ya sigue con el eje SOFT y los reveal on scroll.</p>
+  <p class="pull reveal">El signo de Paramita no necesita una librería para ser puntero. Necesita SVG bien dibujado, el compositor del navegador, y una API nativa que hace del cambio de página un cruce.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 07 · DÓNDE Y CON QUÉ EFECTO ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">07 — Dónde y con qué efecto</span>
+    <h2>El mapa de aplicación, punto por <em>punto</em></h2>
+  </div>
+  <p class="drop reveal">La parte operativa. Para cada lugar del sitio: qué familia de signo usar, con qué efecto y —tan importante— cuándo no poner nada. La escaneabilidad manda: los usuarios recorren en patrones F y Z, y un pictograma bien puesto es un <em>ancla visual</em> que acelera la lectura; mal puesto, es una mota que la frena.</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Iconografía por contexto · recomendación Paramita</caption>
+      <thead><tr><th>Contexto</th><th>Familia</th><th>Efecto</th><th>Regla</th></tr></thead>
+      <tbody>
+        <tr><td>Punto de inflexión (fin de sección, cambio de estado)</td><td>Grafismo</td><td>Trazo que se dibuja por scroll</td><td class="yes">El divisor ya existe; extenderlo</td></tr>
+        <tr><td>Título de sección / eyebrow</td><td>Pictograma</td><td>Estático, trazo con voz, currentColor</td><td>Solo si aporta información, no adorno</td></tr>
+        <tr><td>Niveles del sendero / tipos de curso</td><td>Pictograma</td><td>Duotono 70/30 sobre trazo</td><td class="yes">Sistema cerrado y consistente</td></tr>
+        <tr><td>Destacado / dato clave</td><td>Pictograma + cifra</td><td>Trazo 2.0, sin animar el número</td><td>Texto en lectura no se mueve</td></tr>
+        <tr><td>Listas (beneficios, pasos, qué incluye)</td><td>Pictograma</td><td>Un glifo por ítem, mismo peso</td><td>Consistencia &gt; variedad</td></tr>
+        <tr><td>CTA (botón primario/secundario)</td><td>Icono + etiqueta</td><td>Flecha que avanza en hover</td><td class="yes">Nunca icono solo · hover completa</td></tr>
+        <tr><td>Navegación</td><td>Texto (icono opcional)</td><td>Etiqueta siempre visible</td><td class="no">Jamás icono-only ni hover-label</td></tr>
+        <tr><td>Estados vacíos / error</td><td>Pictograma sereno + microcopy</td><td>Estático, tono del sistema</td><td>Dirige, no se disculpa ni dramatiza</td></tr>
+        <tr><td>Cuerpo de lectura largo</td><td>—</td><td>Nada</td><td class="no">El silencio también es diseño</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal">Dos apuntes sobre las <strong>listas</strong>, porque es donde más se pide iconografía y donde más se rompe la coherencia. Primero: un icono por ítem <em>solo</em> si cada ítem admite un glifo honesto y reconocible; si hay que forzar el símbolo, mejor una viñeta neutra —o el trazo-divisor en miniatura— repetida. Segundo: en una lista, la variedad es el enemigo. Ocho iconos de ocho estilos distintos gritan "banco de iconos"; ocho glifos del mismo peso, la misma familia y el mismo <code>currentColor</code> se leen como un sistema. La consistencia es lo que separa el oficio del <em>clip-art</em>.</p>
+  <div class="spec reveal" data-spec>
+    <p class="spec__cap">Muestra 07 · una lista coherente · mismo peso, misma familia, misma tinta</p>
+    <div class="spec-row" style="gap:1.6rem 2rem">
+      <div class="spec-item"><svg width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22c4-10 16-10 20 0"/><circle cx="16" cy="10" r="3"/></svg><span class="tt">Presencial</span></div>
+      <div class="spec-item"><svg width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4v10l6 4"/><circle cx="16" cy="16" r="12"/></svg><span class="tt">Ritmo propio</span></div>
+      <div class="spec-item"><svg width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h20v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/><path d="M6 8l10 8 10-8"/></svg><span class="tt">Acompañado</span></div>
+      <div class="spec-item"><svg width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6v18a2 2 0 0 0 2 2h14"/><path d="M12 12h9M12 18h9"/></svg><span class="tt">Materiales</span></div>
+    </div>
+    <p class="spec-note">Cuatro pictogramas, un solo peso (<code>1.5</code>), una sola tinta (<code>currentColor</code>), la misma retícula de <code>32×32</code>. Se leen como familia, no como colección. Esa uniformidad es la que casi nadie mantiene.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 08 · ACCESIBILIDAD ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">08 — Accesibilidad, no como extra</span>
+    <h2>El signo también se <em>oye</em> y se <em>toca</em></h2>
+  </div>
+  <p class="drop reveal">En 2026 la accesibilidad dejó de ser opcional en iconografía —y el dato que lo enmarca es demoledor: el informe WebAIM 2026 detectó fallos WCAG en el <strong>95,9%</strong> de las home analizadas. Que el sistema ya lleve <code>prefers-reduced-motion</code> como capa y <code>currentColor</code> como norma pone a Paramita muy por delante, pero el icono añade requisitos propios que conviene fijar de una vez.</p>
+  <p class="reveal">Cuatro reglas, todas baratas si se aplican desde el principio. <strong>Decorativo vs. significativo</strong>: un pictograma que solo acompaña texto lleva <code>aria-hidden="true"</code> —el lector de pantalla no debe leerlo dos veces; un icono que <em>es</em> el único contenido de un control (un botón sin texto visible, que en Paramita debería ser rarísimo) necesita <code>aria-label</code>. <strong>Tamaño de objetivo</strong>: WCAG 2.2 pide un mínimo de <strong>24×24 px</strong> para cualquier objetivo interactivo (criterio 2.5.8); combinar icono + etiqueta lo cumple de sobra y por eso, otra vez, la pareja gana. <strong>Contraste</strong>: un pictograma que transmite información necesita contraste suficiente contra su fondo cálido —no basta con que "se vea bonito" en lino. <strong>Movimiento</strong>: todo efecto de dibujado o respiración debe llegar a su estado final sin recorrido cuando el usuario pide menos movimiento; el signo se muestra completo, nunca a medias.</p>
+  <div class="dato reveal">
+    <span class="dato__k">Patrón de referencia</span>
+    <h3>Pictograma decorativo (lo habitual en Paramita)</h3>
+    <p><code>&lt;svg aria-hidden="true" focusable="false" …&gt;</code> junto a su etiqueta de texto real. El significado vive en la palabra; el signo solo la ancla y la agranda.</p>
+    <p style="margin:0"><span class="cifra">Regla:</span> si quitas el icono y la frase sigue completa, el icono es decorativo → <code>aria-hidden</code>. Si al quitarlo se pierde información, o le falta etiqueta, o lo uno o lo otro.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 09 · SÍNTESIS ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">09 — Síntesis</span>
+    <h2>Doctrina de iconografía <em>Paramita</em></h2>
+  </div>
+  <p class="drop reveal">Diez reglas operativas, cada una atada a algo que el sistema ya decidió. No son aspiraciones: son la traducción del hilo del cruce, del contrato de quietud y de la disciplina de token al terreno del signo.</p>
+  <ul class="anat reveal">
+    <li><h4>Primero la familia, luego el dibujo</h4><p>Decidir si el punto pide icono (acción), pictograma (orden) o grafismo (expresión) —o nada. La mayoría de errores nacen de confundirlas.</p></li>
+    <li><h4>Ningún icono desnudo</h4><p>Icono + etiqueta siempre en navegación y acción. 88% de acierto con palabra, 34% sin ella para un signo de marca. El texto no es opcional.</p></li>
+    <li><h4>Línea humanista, no geométrica</h4><p>El trazo rima con Fraunces: caps y joins redondeados, y contraste caligráfico —grueso/fino— en el signo identitario. Nunca un icon-set plano genérico.</p></li>
+    <li><h4>El color sale del sistema</h4><p><code>currentColor</code> por defecto; duotono 70/30 (azul→dorado) sobre el trazo para el signo de marca, con el patrón <code>gradSendero</code>. Cero hex a ojo.</p></li>
+    <li><h4>Tres efectos, ni uno más</h4><p>Dibujado por scroll (el cruce), respiración identitaria (solo marca), hover que completa (&lt;100 ms). Todo lo demás es ruido.</p></li>
+    <li><h4>Flujo, no pulso</h4><p>Ningún signo late en bucle para reclamar atención. Puede fluir; no puede parpadear. Es el contrato de quietud aplicado al icono.</p></li>
+    <li><h4>Nativo por defecto</h4><p>SVG + CSS en el compositor. Lottie/Rive solo para un momento ilustrado excepcional que casi nunca llega. La firma pesa 0 KB.</p></li>
+    <li><h4>El cruce entre páginas</h4><p>View Transitions cross-document (una línea, cero JS) hace de la navegación el cruce. El grafismo continúa de página a página. Con <code>@supports</code> de red.</p></li>
+    <li><h4>Consistencia sobre variedad</h4><p>En una lista, mismo peso, misma familia, misma tinta, misma retícula. Ocho estilos gritan clip-art; ocho glifos hermanos se leen como sistema.</p></li>
+    <li><h4>Accesible desde el trazo</h4><p><code>aria-hidden</code> si decora, <code>aria-label</code> si es el único contenido; 24×24 px mínimo; contraste real; estado final sin recorrido con reduced-motion.</p></li>
+  </ul>
+  <p class="pull reveal">Lo disruptivo en Paramita no es añadir signos llamativos: es la disciplina de poner pocos, dibujarlos con oficio de letra, animarlos solo cuando encarnan el cruce, y construirlos con lo que el navegador ya regala. El resto de las webs lo sabrá en 2027.</p>
+  <p class="reveal">Un cierre honesto, porque el sistema tiene derecho al <em>pushback</em>: la tentación al leer un informe de tendencias es hacer todo. La recomendación es la contraria. Empezar por <strong>formalizar el sistema de iconos que ya está latente</strong> en el código (el trazo de <code>1.4</code>, los caps redondeados, el <code>currentColor</code>, el <code>gradSendero</code>) como un token y una plantilla —no doce iconos nuevos—, y añadir signos uno a uno, validando cada uno contra el hilo antes que contra el gusto. El grafismo del cruce ya existe; lo que falta no es más, es <em>nombrarlo</em> como sistema.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== REFS ===================== -->
+<section class="flow refs">
+  <div class="sec-head reveal">
+    <span class="sec-num">Fuentes</span>
+    <h2>Datos y <em>referencias</em></h2>
+  </div>
+  <ol class="reveal">
+    <li><b>NN/g (Nielsen Norman Group)</b> — Icon Usability; Bad Icons; Icon Interpretation vs. Recognizability. Necesidad de etiquetas de texto siempre visibles; iconos como objetivos grandes.</li>
+    <li><b>UserTesting / Hannah Alvarez</b> (vía NN/g y CXL) — Acierto de tap: 88% con etiqueta, 60% sin etiqueta, 34% para icono singular de marca sin etiqueta.</li>
+    <li><b>WebAIM Million 2026</b> — 95,9% de home con fallos WCAG detectables (vía DigiDrub, benchmark 2026).</li>
+    <li><b>Iconly · Icon Design Trends 2026</b> — Iconos variables (weight, fill, grade, opsz); iconos como datos programables; accesibilidad por defecto (WCAG 2.2).</li>
+    <li><b>ManyPixels · Envato Elements / Author Hub</b> — Desdoblamiento soft-3D/mascota/micro-ilustrado vs. línea hiper-minimalista; retrofuturismo; micro-ilustración hecha a mano.</li>
+    <li><b>Icojoy · Icon Trends 2026</b> — Trazo caligráfico de anchura variable; marcas micro-animadas que "respiran"; relleno duotono de dos colores.</li>
+    <li><b>Behance · Design Trends 2026</b> — La mano humana como diferenciador frente a la perfección plana de la IA; duotonos y capas de gradiente.</li>
+    <li><b>Unicorn Icons · PkgPulse · LottieFiles · Rive · Superfiles</b> — Rive 3–5× menor que Lottie a escala icono; runtime Lottie ~60 KB vs Rive ~200 KB WASM; .lottie 2–3× más rápido y 70–80% menor; Duolingo −15× peso con Rive; CSS nativo en compositor para micro-interacciones.</li>
+    <li><b>CSSAwwwards · modern-css · Frontend Horizon · Locally Lost</b> — Scroll-driven animations ~84% soporte global (Chrome/Edge 115+, FF 132+, Safari 18+); View Transitions cross-document; migración a nativo −38 KB JS / −320 ms LCP; transform/opacity en compositor.</li>
+    <li><b>Google / web.dev · Contentsquare 2026 · DigiDrub</b> — INP "bueno" &lt; 200 ms; feedback percibido objetivo &lt; 100 ms; 35,2% de sesiones con fricción.</li>
+    <li><b>Sistema Paramita</b> — <code>paramita-movimiento.css</code> (contrato de quietud, familia identitaria, --dur-respiro); <code>paramita-color.css</code> (OKLCH, 70/30); <code>paramita-trazo-divisor.js</code> (dibujado por scroll vanilla); <code>paramita-formacion.css</code> (<code>gradSendero</code>, trazo currentColor 1.25–1.4); docs 01–04 (identidad, color, tipografía, motion).</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>
+    <p>Paramita · Fundación Sakya — Informe de iconografía, pictogramas y grafismo · Agosto 2026<br>
+    Investigación y redacción: Claude (Anthropic) · A validar contra el hilo "el cruce como acto" con Ale y Khenpo.</p>
+  </div>
+</footer>
+
+<script>
+  // Barra de progreso
+  var prog = document.getElementById('progress');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var p = max > 0 ? (h.scrollTop || document.body.scrollTop) / max : 0;
+    prog.style.width = (p * 100) + '%';
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // Reveal + dibujado de trazo por IntersectionObserver
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if ('IntersectionObserver' in window && !reduce){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:0.14, rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.reveal, [data-spec]').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal, [data-spec]').forEach(function(el){ el.classList.add('in'); });
+  }
+</script>
+</body>
+</html>

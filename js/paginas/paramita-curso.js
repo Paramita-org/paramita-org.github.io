@@ -88,4 +88,27 @@
     });
   })();
 
+  /* ── 6 · FAQ · buscador por palabra (filtra .faq__item en vivo) ── */
+  (function faqBuscador() {
+    var input = document.getElementById('faqBuscar');
+    var lista = document.querySelector('.faq__lista');
+    var vacio = document.getElementById('faqVacio');
+    if (!input || !lista) return;
+    var items = [].slice.call(lista.querySelectorAll('.faq__item'));
+
+    // Comparación sin acentos ni mayúsculas.
+    function norm(s) { return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
+
+    input.addEventListener('input', function () {
+      var q = norm(input.value.trim());
+      var visibles = 0;
+      items.forEach(function (it) {
+        var match = !q || norm(it.textContent).indexOf(q) > -1;
+        it.hidden = !match;
+        if (match) visibles++;
+      });
+      if (vacio) vacio.hidden = visibles > 0;
+    });
+  })();
+
 })();

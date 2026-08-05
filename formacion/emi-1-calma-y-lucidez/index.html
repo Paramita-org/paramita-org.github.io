@@ -349,17 +349,58 @@
   <section class="section wrap split split--inv incluye" id="incluye" aria-labelledby="inc-t">
     <div class="split__media">
       <figure class="retrato retrato--material">
-        <img src="../../assets/img/material-emi1.jpg" alt="Material del curso" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
+        <img src="../../assets/img/hombre-tablet.jpg" alt="Practicante siguiendo una lección de EMI 1 en una tablet" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
       </figure>
     </div>
     <div class="split__body">
       <span class="eyebrow" data-reveal="1">El paquete</span>
       <h2 id="inc-t" data-reveal="2">¿Qué incluye este módulo <em>EMI 1</em>?</h2>
       <ul class="incluye__grid">
-        <li><h3>Material de audio</h3><p>8 meditaciones guiadas para integrar cada lección.</p></li>
-        <li><h3>Cuaderno de trabajo</h3><p>Cuaderno semanal en PDF con ejercicios de reflexión.</p></li>
-        <li><h3>Ejercicios prácticos</h3><p>Prácticas de aplicación diaria para profundizar en tu práctica personal.</p></li>
-        <li><h3>Transcripciones completas</h3><p>Lee y estudia cada palabra a tu propio ritmo.</p></li>
+        <li>
+          <span class="incluye__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="10" x2="5" y2="14"/>
+              <line x1="8.5" y1="7" x2="8.5" y2="17"/>
+              <line x1="12" y1="4" x2="12" y2="20" stroke="var(--dorado)"/>
+              <line x1="15.5" y1="7" x2="15.5" y2="17"/>
+              <line x1="19" y1="10" x2="19" y2="14"/>
+            </svg>
+          </span>
+          <h3>Material de audio</h3><p>8 meditaciones guiadas para integrar cada lección.</p>
+        </li>
+        <li>
+          <span class="incluye__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="4" width="13" height="16" rx="2"/>
+              <line x1="9.5" y1="9" x2="16" y2="9"/>
+              <line x1="9.5" y1="12" x2="16" y2="12"/>
+              <line x1="9.5" y1="15" x2="13.5" y2="15"/>
+              <path d="M6 7.5 H3.2 M6 11.5 H3.2 M6 15.5 H3.2" stroke="var(--dorado)"/>
+            </svg>
+          </span>
+          <h3>Cuaderno de trabajo</h3><p>Cuaderno semanal en PDF con ejercicios de reflexión.</p>
+        </li>
+        <li>
+          <span class="incluye__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="8.5"/>
+              <circle cx="12" cy="12" r="5"/>
+              <circle cx="12" cy="12" r="1.7" stroke="var(--dorado)"/>
+            </svg>
+          </span>
+          <h3>Ejercicios prácticos</h3><p>Prácticas de aplicación diaria para profundizar en tu práctica personal.</p>
+        </li>
+        <li>
+          <span class="incluye__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="6" x2="20" y2="6"/>
+              <line x1="4" y1="10" x2="20" y2="10"/>
+              <line x1="4" y1="14" x2="20" y2="14"/>
+              <line x1="4" y1="18" x2="13" y2="18" stroke="var(--dorado)"/>
+            </svg>
+          </span>
+          <h3>Transcripciones completas</h3><p>Lee y estudia cada palabra a tu propio ritmo.</p>
+        </li>
       </ul>
       <p class="incluye__foot">El material del curso es tuyo para siempre; repásalo cuando lo necesites. Al completar el 100&nbsp;% del curso podrás <b>descargar tu certificado de finalización</b>.</p>
     </div>
@@ -475,6 +516,14 @@
       <span class="eyebrow">¿Tienes alguna duda?</span>
       <h2 id="faq-t" data-reveal="2">Respuestas a las preguntas más <em>frecuentes</em>.</h2>
     </div>
+    <div class="faq__buscador" data-reveal="2">
+      <input id="faqBuscar" type="text" autocomplete="off"
+             placeholder="Busca por palabra… certificado, tutorías, experiencia"
+             aria-label="Buscar en las preguntas frecuentes">
+      <span class="faq__buscador__icono" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21" stroke-linecap="round"></line></svg>
+      </span>
+    </div>
     <div class="faq__lista">
       <div class="faq__item">
         <button class="faq__q" type="button" aria-expanded="false" aria-controls="fa1">¿Este curso tiene un enfoque religioso?<span class="faq__sign" aria-hidden="true"></span></button>
@@ -505,6 +554,7 @@
         <div class="faq__panel" id="fa7" role="region"><div class="faq__inner"><p>Al comenzar recibirás un <b>formulario</b> para elegir día y horario. Las tutorías empiezan en la <b>segunda semana</b>, las guía un <b>tutor del equipo Paramita</b>, y tendrás acceso a una <b>tutoría mensual con el Ven. Khenpo Rinchen</b>.</p></div></div>
       </div>
     </div>
+    <p class="faq__vacio" id="faqVacio" hidden>Ninguna pregunta coincide con eso. Escríbenos y te orientamos.</p>
   </section>
 
   <!-- ═══ CTA FINAL ═══ -->

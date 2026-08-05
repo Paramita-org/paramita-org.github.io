@@ -271,6 +271,13 @@
   /* ═══════════ INCLUYE ═══════════ */
   .incluye__grid { list-style: none; margin: var(--espacio-contenido) 0 0; padding: 0;
     display: grid; grid-template-columns: 1fr 1fr; gap: var(--espacio-grupo); }
+  /* Cada ítem: pictograma en la columna 1 (abarca título + descripción),
+     texto en la columna 2. El pictograma ORDENA (familia pictograma), no decora:
+     línea humanista sobria, dorado solo como acento en un detalle. */
+  .incluye__grid li { display: grid; grid-template-columns: auto 1fr; align-items: start; column-gap: .85rem; }
+  .incluye__ico { grid-column: 1; grid-row: 1 / span 2; margin-top: .15rem;
+    width: 1.7rem; height: 1.7rem; color: color-mix(in oklch, var(--antracita) 58%, transparent); }
+  .incluye__ico svg { width: 100%; height: 100%; display: block; }
   .incluye__grid h3 { font-size: 1.1rem; margin-bottom: .3rem; }
   .incluye__grid p { color: var(--texto-suave); font-size: .95rem; }
   .incluye__foot { margin-top: var(--espacio-contenido); font-size: .95rem; color: var(--texto-suave);
@@ -367,13 +374,27 @@
   .retiro .t-link::after { background: var(--dorado); }
 
   /* ═══════════ FAQ · acordeón ═══════════ */
-  .faq__lista { border-top: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent)); }
+  /* Geometría del hilo/punto (Fase FAQ · buscador) */
+  .faq { --faq-sangria: 42px; --faq-hilo-x: 18px; --faq-nodo: 9px; }
+  .faq__lista { position: relative; border-top: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent)); }
+  /* Hilo conductor · muy tenue, desvanecido en los extremos */
+  .faq__lista::before { content: ""; position: absolute; left: var(--faq-hilo-x); top: 0; bottom: 0; width: 1px;
+    background: linear-gradient(180deg, transparent, color-mix(in oklch, var(--antracita) 11%, transparent) 8%,
+      color-mix(in oklch, var(--antracita) 11%, transparent) 92%, transparent); pointer-events: none; }
   .faq__item { border-bottom: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent)); }
-  .faq__q { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  .faq__q { position: relative; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
     background: none; border: 0; cursor: pointer; text-align: left;
-    padding: var(--espacio-elemento) 0; font-family: var(--display); font-size: 1.15rem;
+    padding: var(--espacio-elemento) 0 var(--espacio-elemento) var(--faq-sangria); font-family: var(--display); font-size: 1.15rem;
     color: var(--antracita); transition: color .3s var(--ease, ease); }
   .faq__q:hover { color: var(--azul-oscuro); }
+  /* Punto sobre el hilo · se enciende en dorado al abrir (Fase FAQ) */
+  .faq__q::before { content: ""; position: absolute; left: calc(var(--faq-hilo-x) - var(--faq-nodo) / 2);
+    top: 50%; transform: translateY(-50%); width: var(--faq-nodo); height: var(--faq-nodo); border-radius: 50%;
+    background: var(--lino); border: 1.5px solid color-mix(in oklch, var(--antracita) 22%, transparent);
+    transition: background-color .3s var(--ease, ease), border-color .3s var(--ease, ease), box-shadow .3s var(--ease, ease); }
+  .faq__q:hover::before { border-color: color-mix(in oklch, var(--dorado) 55%, transparent); }
+  .faq__q[aria-expanded="true"]::before { background: var(--dorado); border-color: var(--dorado);
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--dorado) 20%, transparent); }
   .faq__sign { position: relative; flex: none; width: 16px; height: 16px; }
   .faq__sign::before, .faq__sign::after { content: ""; position: absolute; background: var(--dorado);
     transition: transform .3s var(--ease, ease); }
@@ -383,8 +404,23 @@
   .faq__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s var(--ease, ease); }
   .faq__q[aria-expanded="true"] + .faq__panel { grid-template-rows: 1fr; }
   .faq__inner { overflow: hidden; }
-  .faq__inner p { color: var(--texto-suave); padding-bottom: var(--espacio-elemento); max-width: 68ch; }
+  .faq__inner p { color: var(--texto-suave); padding: 0 0 var(--espacio-elemento) var(--faq-sangria); max-width: 68ch; }
   .faq__inner b { color: var(--antracita); }
+
+  /* Buscador · línea inferior fina que se dora al enfocar (Fase FAQ) */
+  .faq__buscador { position: relative; max-width: 540px; margin-bottom: var(--espacio-contemplativo); }
+  .faq__buscador input { width: 100%; font-family: var(--body); font-size: 1.02rem; color: var(--antracita);
+    background: transparent; border: 0;
+    border-bottom: 1px solid var(--hair-fuerte, color-mix(in oklch, var(--antracita) 22%, transparent));
+    padding: .7em 2em .7em .1em; transition: border-color .3s var(--ease, ease); }
+  .faq__buscador input::placeholder { color: var(--texto-tenue); }
+  .faq__buscador input:focus-visible { outline: none; border-bottom-color: var(--dorado); }
+  .faq__buscador__icono { position: absolute; right: .1em; top: 50%; transform: translateY(-50%);
+    width: 17px; height: 17px; color: var(--texto-tenue); pointer-events: none; }
+  .faq__buscador__icono svg { width: 100%; height: 100%; display: block; stroke: currentColor; fill: none; stroke-width: 1.4; }
+  .faq__item[hidden] { display: none; }
+  .faq__vacio { padding: var(--espacio-contenido, 2rem) 0 0 var(--faq-sangria); color: var(--texto-suave);
+    font-family: var(--display); font-style: italic; font-size: 1.05rem; }
 
   /* ═══════════ CTA FINAL ═══════════ */
   .cta-final { padding-block: var(--espacio-otro-lado); text-align: center;
@@ -394,10 +430,13 @@
   .actions--centro { justify-content: center; margin-top: var(--espacio-contenido); }
 
   /* ═══════════ NEWSLETTER ═══════════ */
-  .news__inner { max-width: 34rem; }
+  /* Bloque centrado como momento-CTA terminal: cabecera centrada, pero los
+     campos del formulario se mantienen alineados a la izquierda dentro de la
+     columna centrada para no romper legibilidad (placeholder/label). */
+  .news__inner { max-width: 34rem; margin-inline: auto; text-align: center; }
   .news h2 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin: .5rem 0; }
   .news p { color: var(--texto-suave); }
-  .news__form { display: grid; gap: var(--espacio-elemento); margin-top: var(--espacio-contenido); }
+  .news__form { display: grid; gap: var(--espacio-elemento); margin-top: var(--espacio-contenido); text-align: left; }
   .news__campo { display: grid; gap: .35rem; }
   .news__campo label { font-size: .8rem; font-weight: var(--wght-firmeza); color: var(--texto-suave); }
   .news__campo input { font: inherit; padding: .8rem 1rem; border-radius: 12px;
@@ -451,6 +490,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .cta-sticky, .leccion, .video-facade__play span, .faq__sign::before, .faq__sign::after, .faq__panel { transition: none; }
+    .cta-sticky, .leccion, .video-facade__play span, .faq__sign::before, .faq__sign::after, .faq__panel,
+    .faq__q::before, .faq__buscador input { transition: none; }
   }
 }
