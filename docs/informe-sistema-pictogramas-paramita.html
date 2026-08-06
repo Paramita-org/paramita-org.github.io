@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El sistema de pictogramas de Paramita — Justificación técnica y de diseño</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ── TOKENS REALES · paramita-color.css ── */
+    --lino:#F8F4EB; --card:#FDFAF3; --arena:#EFE8DB; --arcilla:#E4D9C4; --zen:#EBDEC4;
+    --antracita:#1D1F26; --suave:#8A8B93; --tenue:#B0B0B6;
+    --azul-oscuro:#1F4E8F; --azul-sutil:#4A9DD1; --dorado:#ECAC55; --dorado-lite:#F3CB86;
+    --ink-deep:#0E1A2C;
+    --rule:#E4D9C4; --rule-soft:#EFE8DB;
+    --tinta: color-mix(in oklch, #1D1F26 58%, transparent);
+    --col: min(690px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--lino);color:var(--antracita);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:clamp(1.02rem,0.55vw + 0.9rem,1.15rem);line-height:1.72;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--dorado);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dorado);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.5rem,6.5vw,4.4rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--dorado)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--suave);max-width:34em;margin:0 0 2.4rem}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--azul-sutil),var(--dorado),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--suave);letter-spacing:.02em}
+  .meta b{color:var(--antracita);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2vw,1.65rem);line-height:1.42;color:var(--antracita);margin:2rem 0 0;font-style:italic}
+
+  section{padding:clamp(2.6rem,6vh,4rem) 0}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dorado);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.8rem,3.3vw,2.6rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 .3rem}
+  h2 em{font-style:italic;font-weight:400;color:var(--dorado)}
+  h3{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.22rem,2vw,1.5rem);line-height:1.2;margin:2.2rem 0 .5rem}
+  h3 em{font-style:italic;color:var(--dorado)}
+  p{margin:0 0 1.15rem}
+  strong{font-weight:600;color:var(--antracita)}
+  code{font-family:"JetBrains Mono",monospace;font-size:.85em;background:color-mix(in oklab,var(--antracita) 8%,transparent);padding:.08em .38em;border-radius:5px;color:var(--antracita)}
+  .drop:first-letter{font-family:"Fraunces",serif;float:left;font-size:3.3rem;line-height:.82;font-weight:500;padding:.1em .12em 0 0;color:var(--antracita)}
+  .pull{font-family:"Fraunces",serif;font-weight:400;font-style:italic;font-size:clamp(1.25rem,2vw,1.55rem);line-height:1.4;color:var(--antracita);border-left:2px solid var(--dorado);padding-left:1.2rem;margin:2rem 0}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--rule);border-radius:14px;overflow:hidden;margin:1.6rem 0}
+  .stat{background:var(--card);padding:1.4rem 1.05rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.6rem,2.8vw,2.2rem);line-height:1;color:var(--antracita)}
+  .stat .n small{font-size:.55em;font-weight:500}
+  .stat .l{font-size:.82rem;line-height:1.35;color:var(--suave);margin-top:.5rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--dorado);margin-top:.5rem}
+
+  .tbl-wrap{margin:1.6rem 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.92rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dorado);margin-bottom:.7rem}
+  th,td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);font-weight:500;border-bottom:1.5px solid var(--rule)}
+  tbody td:first-child{font-weight:600;color:var(--antracita);width:26%}
+  .no{color:#B23A1E;font-weight:600}
+  .si{color:#3B8A4C;font-weight:600}
+
+  .dark{background:var(--ink-deep);color:#E7E9EE}
+  .dark h2,.dark h3{color:#fff}
+  .dark h2 em,.dark h3 em{color:var(--dorado-lite)}
+  .dark .sec-num{color:var(--dorado-lite)}
+  .dark strong{color:#fff}
+  .dark p{color:#C3CAD6}
+  .dark code{background:rgba(255,255,255,.1);color:#E7E9EE}
+  .dark .pull{color:var(--dorado-lite);border-left-color:var(--dorado-lite)}
+  .codeblock{font-family:"JetBrains Mono",monospace;font-size:.78rem;line-height:1.65;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:1.2rem 1.3rem;overflow-x:auto;color:#D7DCE6;margin:1.3rem 0;white-space:pre}
+  .codeblock .k{color:var(--dorado-lite)} .codeblock .c{color:#7E8A9B}
+
+  .anat{counter-reset:step;margin:1.6rem 0;padding:0;list-style:none}
+  .anat li{position:relative;padding:1.2rem 0 1.2rem 3.4rem;border-bottom:1px solid var(--rule-soft)}
+  .anat li:last-child{border-bottom:0}
+  .anat li::before{counter-increment:step;content:counter(step,decimal-leading-zero);position:absolute;left:0;top:1.25rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--dorado)}
+  .anat h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.12rem;margin:0 0 .3rem}
+  .anat p{margin:0;font-size:.94rem;color:var(--suave);line-height:1.55}
+  .anat .why{display:block;font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--dorado);margin-top:.5rem}
+
+  /* specimens */
+  .spec{background:var(--card);border:1px solid var(--rule-soft);border-radius:16px;padding:1.7rem;margin:1.5rem 0}
+  .spec__cap{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dorado);margin:0 0 1.2rem}
+  .spec-note{font-size:.88rem;color:var(--suave);margin:1.1rem 0 0;line-height:1.55}
+  .spec-row{display:flex;flex-wrap:wrap;gap:1.6rem 2rem;align-items:flex-end}
+  .spec-item{display:flex;flex-direction:column;align-items:center;gap:.55rem;text-align:center}
+  .pico{color:var(--tinta)} .pico svg{display:block} .pico .acc{color:var(--dorado)}
+  .spec-item .tt{font-family:"JetBrains Mono",monospace;font-size:.64rem;color:var(--suave);line-height:1.3;max-width:14ch}
+  .spec-item .tt b{color:var(--antracita);font-weight:600}
+  .grid-demo{background:var(--lino);border:1px solid var(--rule);border-radius:12px;padding:.4rem}
+  .vs{display:flex;gap:1.6rem;flex-wrap:wrap;align-items:center}
+  .vs-card{display:flex;flex-direction:column;align-items:center;gap:.5rem;text-align:center}
+  .vs-card .tag{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.03em}
+  .draw{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s cubic-bezier(.22,1,.36,1)}
+  .in .draw{stroke-dashoffset:0}
+  .swatch{display:inline-block;width:.85em;height:.85em;border-radius:3px;vertical-align:-.08em;margin-right:.2em;border:1px solid rgba(0,0,0,.08)}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.75rem;line-height:1.7;color:var(--suave);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--antracita);font-weight:500}
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--suave)}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (max-width:640px){ .stats{grid-template-columns:repeat(2,1fr)} .cover h1{font-size:clamp(2.2rem,10vw,3rem)} tbody td:first-child{width:auto} }
+  @media (prefers-reduced-motion:reduce){ .sheen::after{animation:none;transform:translateX(80%)} .reveal{opacity:1;transform:none;transition:none} .draw{stroke-dashoffset:0;transition:none} *{scroll-behavior:auto} }
+  :focus-visible{outline:2.5px solid var(--dorado);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe técnico · Sistema de pictogramas · Paramita</p>
+  <h1>La <em>llama</em><br>y la tinta</h1>
+  <p class="deck">Justificación técnica, analítica y de diseño del sistema de pictogramas de Paramita: por qué la línea humanista, por qué tinta suave con un único acento dorado, por qué las velas y no un pictograma de nivel, por qué SVG nativo, y cómo todo deriva de tokens que ya existen.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Base</b> · paramita-color.css · paramita-curso.css · informe de iconografía 2026</span>
+    <span><b>Estado</b> · Documento de fundamento · previo a producción de SVG</span>
+    <span><b>Fecha</b> · Agosto 2026</span>
+  </div>
+  <p class="lede">La tesis: en Paramita el pictograma no decora, ordena; su cuerpo es tinta serena y su vida es una sola llama dorada —el mismo gesto que la vela de ofrenda, el nodo del cruce y el punto del FAQ. El sistema no inventa un lenguaje; nombra el que ya latía en el código.</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 00 ===================== -->
+<section class="flow">
+  <div class="sec-head reveal"><span class="sec-num">00 — Encuadre</span><h2>Qué justifica este <em>documento</em></h2></div>
+  <p class="drop reveal">Antes de dibujar un solo SVG de producción conviene fijar por escrito por qué cada decisión es la que es. No es burocracia: es la garantía de que cualquier glifo futuro —lo dibuje quien lo dibuje, dentro de un mes o de un año— nazca coherente con la identidad y no por gusto del momento. Este informe recoge el razonamiento completo, incluidas las <em>correcciones</em> que hicieron falta para llegar aquí, porque un sistema se entiende mejor sabiendo también lo que se descartó y por qué.</p>
+  <p class="reveal">Tres familias que se confunden y conviene separar. El <strong>icono</strong> es funcional (una acción de interfaz: buscar, cerrar). El <strong>pictograma</strong> es conceptual: no se pulsa, ordena o etiqueta contenido (modalidad de un curso, tipo de material, dato de una ficha). El <strong>grafismo</strong> es expresivo (el trazo-divisor, el hilo, los lotos del footer). Este documento trata sobre todo de la familia del medio —el pictograma—, que es la que el sitio necesita formalizar ahora, con incursiones en el grafismo identitario cuando el signo encarna el cruce.</p>
+  <p class="pull reveal">La pregunta rectora no es "¿qué icono va aquí?", sino "¿este signo ayuda a orientar el cruce, o solo llena la pantalla?". Paramita no es un SaaS: no hay tablero que amueblar de glifos.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 01 · BASE EMPÍRICA ===================== -->
+<section class="flow">
+  <div class="sec-head reveal"><span class="sec-num">01 — El fundamento empírico</span><h2>Por qué pocos, y por qué siempre con <em>palabra</em></h2></div>
+  <p class="drop reveal">La primera justificación es de usabilidad medida, no de estética. Cuando se prueba cuántas veces un usuario acierta qué hará un icono, el resultado es tajante: con etiqueta de texto, el 88%; sin etiqueta, el 60%; y si el signo es propio de la marca —no universal— sin etiqueta, el 34%. Es la razón por la que en Paramita ningún pictograma de navegación o de acción viaja desnudo: el texto no es un adorno redundante, es lo que sostiene el significado. El pictograma <em>ancla</em> y agranda el objetivo (mejor ley de Fitts, y de paso se cumple el mínimo táctil), pero la palabra hace el trabajo semántico.</p>
+  <div class="stats reveal">
+    <div class="stat"><div class="n">88<small>%</small></div><div class="l">acierto con etiqueta de texto</div><div class="src">UserTesting</div></div>
+    <div class="stat"><div class="n">60<small>%</small></div><div class="l">acierto sin etiqueta</div><div class="src">UserTesting</div></div>
+    <div class="stat"><div class="n">34<small>%</small></div><div class="l">acierto · icono de marca sin etiqueta</div><div class="src">UserTesting</div></div>
+    <div class="stat"><div class="n">24<small>px</small></div><div class="l">objetivo mínimo · WCAG 2.2 (2.5.8)</div><div class="src">W3C</div></div>
+  </div>
+  <p class="reveal">La segunda justificación es la <strong>escaneabilidad</strong>: el usuario recorre en patrones F y Z, y un pictograma consistente actúa de ancla visual que acelera la lectura. Pero "consistente" es la palabra clave: un conjunto disparejo la frena en vez de acelerarla. De ahí la regla que gobierna todo lo demás —<strong>consistencia sobre variedad</strong>— y su corolario incómodo: un pictograma cuesta diseño, código, mantenimiento y espacio, así que <em>no todo</em> merece uno. Cuando el signo no aporta información, texto y punto. El sistema se justifica tanto por lo que incluye como por lo que deja fuera.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 · LA RECETA CROMÁTICA ===================== -->
+<section class="flow">
+  <div class="sec-head reveal"><span class="sec-num">02 — La receta cromática</span><h2>Tinta serena, una sola <em>llama</em></h2></div>
+  <p class="drop reveal">Ésta es la decisión de diseño central, y no la inventé: la leí en tu propio CSS. El contenedor <code>.incluye__ico</code> declara color <code>antracita</code> al 58% —una tinta cálida y suave, heredada por los SVG vía <code>currentColor</code>— y tu comentario lo dice literal: <em>"línea humanista sobria, dorado solo como acento en un detalle"</em>. La receta, por tanto, es <strong>estructura en tinta + un único acento en <code>--dorado</code></strong>. Ni monocromo plano, ni —y aquí estuvo mi error inicial— un degradado 70/30 recorriendo todo el trazo.</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Los valores reales · paramita-color.css</caption>
+      <thead><tr><th>Token</th><th>Hex</th><th>OKLCH</th><th>Papel en el pictograma</th></tr></thead>
+      <tbody>
+        <tr><td>--antracita</td><td>#1D1F26</td><td>oklch(22% .02 250)</td><td>Cuerpo del glifo, al 58% vía currentColor</td></tr>
+        <tr><td>--dorado</td><td>#ECAC55</td><td>oklch(78% .155 68)</td><td>El único acento · la llama</td></tr>
+        <tr><td>--azul-oscuro</td><td>#1F4E8F</td><td>oklch(38% .11 245)</td><td>Inicio del 70/30 (solo acentos raros)</td></tr>
+        <tr><td>--azul-sutil</td><td>#4A9DD1</td><td>oklch(68% .13 235)</td><td>Centro del 70/30 (68%)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3 class="reveal">Por qué <em>no</em> el degradado en el trazo</h3>
+  <p class="reveal">Tres razones, y las tres técnicas. <strong>Una:</strong> un degradado sobre una línea de 1,5 px se enturbia —a ese grosor no hay superficie para que el ojo lea la transición, y el color se convierte en un promedio sucio; los degradados piden masa, no filo. <strong>Dos:</strong> compite con las velas. El sistema ya usa el dorado como <em>acontecimiento</em> —la llama que se enciende por posición, el nodo del cruce, el punto del FAQ que se ilumina al abrir—; si cada pictograma llevara su propio degradado, el dorado dejaría de significar "aquí pasa algo" para volverse ruido de fondo. <strong>Tres:</strong> contradice el propio token. El 70/30 en el código vive donde debe —<code>gradSendero</code> sobre el mapa, la viñeta del check, el borde del plan destacado—: acentos espaciales y raros, no relleno por defecto.</p>
+  <div class="spec reveal">
+    <p class="spec__cap">La prueba · mismo glifo, dos criterios</p>
+    <div class="vs">
+      <div class="vs-card">
+        <div class="pico"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <defs><linearGradient id="g7030" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F4E8F"/><stop offset="0.68" stop-color="#4A9DD1"/><stop offset="1" stop-color="#ECAC55"/></linearGradient></defs>
+          <path stroke="url(#g7030)" d="M4 20v-9l8-6 8 6v9"/><path stroke="url(#g7030)" d="M3 20h18"/><path stroke="url(#g7030)" d="M9.5 20v-5h5v5"/>
+        </svg></div>
+        <span class="tag no">✗ degradado en el trazo</span>
+      </div>
+      <div class="vs-card">
+        <div class="pico"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 20v-9l8-6 8 6v9"/><path d="M3 20h18"/><path class="acc" stroke="currentColor" d="M9.5 20v-5h5v5"/>
+        </svg></div>
+        <span class="tag si">✓ tinta + un acento</span>
+      </div>
+    </div>
+    <p class="spec-note">A la izquierda el degradado se ensucia y ninguna zona manda; a la derecha la tinta sostiene la forma y el dorado marca <em>lo vivo</em> —aquí, la puerta que se cruza. El segundo se lee de un vistazo; el primero compite con las velas por la mirada.</p>
+  </div>
+  <h3 class="reveal">La salvedad de contraste</h3>
+  <p class="reveal">El <code>--dorado</code> es un ámbar claro (L≈78%). Como <em>detalle</em> de acento sobre un pictograma es ideal —y coherente con cómo ya lo usas: la llama, las itálicas de los títulos, el "4 cursos"—, porque el significado lo llevan la etiqueta y la tinta, no el color. Pero como <em>texto</em> sobre fondos claros su contraste es bajo, así que se queda en decorativo o en gran tamaño, nunca en cuerpo ni como único portador de información. No es una limitación nueva: es tu práctica actual, aquí puesta por escrito.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 · CONSTRUCCIÓN ===================== -->
+<section class="flow">
+  <div class="sec-head reveal"><span class="sec-num">03 — La construcción</span><h2>Retícula, trazo y la mano <em>humanista</em></h2></div>
+  <p class="drop reveal">Lo que convierte un puñado de dibujos en un sistema no es el estilo de cada uno: es que todos obedezcan la misma retícula y el mismo trazo. Aquí también todo deriva de valores ya presentes en el código —el trazo <code>1.25–1.4</code> de formación, las terminales redondeadas del buscador de FAQ, el tamaño <code>1.7rem</code> de <code>.incluye__ico</code>.</p>
+  <div class="spec reveal"><div class="vs" style="align-items:center;gap:2rem">
+    <div class="grid-demo"><svg width="150" height="150" viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="0.5" y="0.5" width="23" height="23" fill="none" stroke="#E4D9C4" stroke-width="0.25"/>
+      <rect x="2" y="2" width="20" height="20" fill="none" stroke="#ECAC55" stroke-width="0.25" stroke-dasharray="1 1"/>
+      <line x1="12" y1="0" x2="12" y2="24" stroke="#E4D9C4" stroke-width="0.2"/><line x1="0" y1="12" x2="24" y2="12" stroke="#E4D9C4" stroke-width="0.2"/>
+      <g fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="color-mix(in oklch,#1D1F26 58%,transparent)" d="M4 20v-9l8-6 8 6v9"/>
+        <path stroke="color-mix(in oklch,#1D1F26 58%,transparent)" d="M3 20h18"/>
+        <path stroke="#ECAC55" d="M9.5 20v-5h5v5"/>
+      </g>
+    </svg></div>
+    <ul style="margin:0;padding-left:1.1rem">
+      <li style="margin-bottom:.5rem"><strong>Retícula 24×24</strong>, área viva 20 (keyline de 2).</li>
+      <li style="margin-bottom:.5rem"><strong>Trazo</strong> autorado a <code>1.5</code> → token propuesto <code>--pic-trazo</code>. Escala con el tamaño: rima con el eje óptico de Fraunces.</li>
+      <li style="margin-bottom:.5rem"><strong>Terminales redondeadas</strong> (<code>round</code>): lo humanista frente a lo geométrico.</li>
+      <li><strong>Color</strong> por <code>currentColor</code> + un <code>path.acc</code> en dorado.</li>
+    </ul>
+  </div></div>
+  <h3 class="reveal">Humanista, no geométrico — y por qué importa</h3>
+  <p class="reveal">Hay dos acabados de línea en 2026: el geométrico (trazo uniforme, matemático, "de sistema operativo") y el humanista (terminales redondeadas, ligera calidez, curvas antes que ángulos). La elección no es de gusto: es de <em>rima</em>. El rostro de Paramita es Fraunces, una tipografía de contraste caligráfico con ejes <code>opsz</code> y <code>WONK</code> preservados a propósito. Un icono geométrico sonaría a otra marca pegada encima; el humanista es el que pertenece a la misma familia que la letra. La coherencia tipografía↔pictograma es lo que hace que el conjunto se sienta de una sola mano.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 04 · TÉCNICO / NATIVO (DARK) ===================== -->
+<section class="dark flow">
+  <div class="sec-head reveal"><span class="sec-num">04 — El estrato técnico</span><h2>Por qué SVG nativo, y cómo se <em>gobierna</em></h2></div>
+  <p class="drop reveal" style="color:#C3CAD6">La pregunta que decide el rendimiento: ¿con qué se construye? En 2026 el consenso es claro y, para Paramita, cómodo. Las animaciones CSS/SVG nativas corren en el hilo del compositor, no envían ni un KB de JavaScript y son "gratis" en rendimiento y accesibilidad. Solo una ilustración compleja o un personaje interactivo justificarían el peso de una librería —y Paramita no tiene ninguno de esos. La firma del pictograma pesa 0 KB.</p>
+  <div class="tbl-wrap reveal"><table>
+    <caption>Formatos · por qué el nativo gana aquí</caption>
+    <thead><tr><th>Formato</th><th>Runtime</th><th>Veredicto Paramita</th></tr></thead>
+    <tbody>
+      <tr><td style="color:#fff">SVG + CSS</td><td style="color:#C3CAD6">0 KB · compositor</td><td class="si" style="color:var(--dorado-lite)">Elegido · micro-interacción, trazo, hover</td></tr>
+      <tr><td style="color:#fff">Lottie</td><td style="color:#C3CAD6">~60 KB · ticker por instancia</td><td style="color:#C3CAD6">Solo ilustración aislada excepcional</td></tr>
+      <tr><td style="color:#fff">Rive</td><td style="color:#C3CAD6">~200 KB · WASM</td><td style="color:#C3CAD6">Innecesario · contradice la quietud</td></tr>
+    </tbody>
+  </table></div>
+  <h3 class="reveal">El mecanismo · cómo hereda la tinta y luce el acento</h3>
+  <p class="reveal" style="color:#C3CAD6">El gobierno técnico es minúsculo y por eso robusto. El contenedor fija la tinta; el SVG la hereda con <code>currentColor</code>; un único <code>path</code> con la clase <code>.acc</code> rompe la herencia para lucir el dorado. Cambiar el color de sección (o el estado) recolorea todo el pictograma sin tocar el SVG. Ése es el valor de <code>currentColor</code>: un solo glifo sirve en claro, en oscuro y en hover.</p>
+  <div class="codeblock reveal"><span class="c">/* token de trazo · una vez, en tokens */</span>
+<span class="k">--pic-trazo</span>: 1.5;
+
+<span class="c">/* contenedor · generaliza .incluye__ico */</span>
+.pico { <span class="k">width</span>: 1.7rem; <span class="k">height</span>: 1.7rem;
+  <span class="k">color</span>: color-mix(in oklch, var(--antracita) 58%, transparent); }
+
+<span class="c">/* el ÚNICO acento · por CSS, no inline (ver más abajo) */</span>
+.pico .acc { <span class="k">stroke</span>: var(--dorado); }
+
+<span class="c">&lt;!-- glifo · estructura hereda, .acc luce --&gt;</span>
+&lt;svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+     stroke-width="1.5" stroke-linecap="round"
+     stroke-linejoin="round" <span class="k">aria-hidden</span>="true"&gt;
+  &lt;path d="M4 11l8-6 8 6"/&gt;              <span class="c">// tinta (currentColor)</span>
+  &lt;path <span class="k">class</span>="acc" d="M10 20v-5h4v5"/&gt;   <span class="c">// llama (--dorado)</span>
+&lt;/svg&gt;</div>
+  <p class="pull reveal">Un token de trazo, un contenedor con la tinta, una clase para el acento. Todo lo demás —color de sección, modo, hover, reduced-motion— lo resuelve el navegador solo.</p>
+
+  <h3 class="reveal">Cómo se incrusta · una copia, <em>inline</em></h3>
+  <p class="reveal" style="color:#C3CAD6">El método de incrustación no es un detalle: decide el mantenimiento a años vista. Y el propio requisito del pictograma —heredar la tinta con <code>currentColor</code> <em>y</em> lucir un acento <code>--dorado</code>— descarta de un plumazo tres técnicas habituales. Una <strong>fuente de iconos</strong> es monocolor e inaccesible: imposible el acento. Un <strong><code>&lt;img src="x.svg"&gt;</code></strong> aísla el SVG en su propio documento: ni hereda la tinta de la sección ni ve tu variable <code>--dorado</code>. Lo mismo con <strong><code>mask</code> / <code>background-image</code></strong>: un solo color. Solo dos métodos pueden pintar tinta + llama: <strong>SVG inline</strong> y <strong><code>&lt;use&gt;</code> con sprite</strong>.</p>
+  <div class="tbl-wrap reveal"><table>
+    <caption>Métodos de incrustación · cuál sirve aquí</caption>
+    <thead><tr><th>Método</th><th>¿Tinta + acento?</th><th>Veredicto</th></tr></thead>
+    <tbody>
+      <tr><td style="color:#fff">SVG inline (vía partial)</td><td class="si" style="color:var(--dorado-lite)">Sí · currentColor + .acc</td><td style="color:#C3CAD6">Elegido · ideal para tu volumen y arquitectura</td></tr>
+      <tr><td style="color:#fff">&lt;use&gt; + sprite</td><td class="si" style="color:var(--dorado-lite)">Sí</td><td style="color:#C3CAD6">Solo si repites docenas por página</td></tr>
+      <tr><td style="color:#fff">Icon-font</td><td class="no" style="color:#E0956F">No · monocolor</td><td style="color:#C3CAD6">Descartado · inaccesible</td></tr>
+      <tr><td style="color:#fff">&lt;img&gt; / mask</td><td class="no" style="color:#E0956F">No · aislado</td><td style="color:#C3CAD6">Descartado · no hereda ni ve tokens</td></tr>
+    </tbody>
+  </table></div>
+  <p class="reveal" style="color:#C3CAD6">Entre los dos válidos, para un sitio estático multipágina con pocos pictogramas por página, gana el <strong>SVG inline autorado una sola vez como partial</strong>: un archivo por icono que <code>sync.py</code> (hoy) o un shortcode de 11ty (mañana) inyecta al generar el HTML. Así se concilia lo que parecía opuesto: en el navegador el icono es inline —<code>currentColor</code>, acento, cero peticiones, cero JS, animable, accesible—; en el código fuente hay <strong>una sola copia</strong>, y cambiar un icono lo cambia en todo el sitio. Encaja con tu arquitectura de partials y con la migración a 11ty sin fricción.</p>
+  <div class="codeblock reveal"><span class="c"># hoy · sync.py inyecta el partial sustituyendo un token</span>
+&lt;span class="metatag"&gt;{{pico:presencial}} Presencial&lt;/span&gt;
+
+<span class="c"># mañana · el mismo .svg, shortcode de 11ty</span>
+&lt;span class="metatag"&gt;{% <span class="k">pico</span> "presencial" %} Presencial&lt;/span&gt;</div>
+  <h3 class="reveal">Por qué el acento va por CSS y no <em>inline</em></h3>
+  <p class="reveal" style="color:#C3CAD6">Un ajuste pequeño pero decisivo para la robustez. Tus cuatro pictos actuales cuelgan el dorado de <code>stroke="var(--dorado)"</code> <em>dentro</em> del SVG. Funciona en tu navegador, pero <code>var()</code> en un atributo de presentación es terreno resbaladizo entre motores y no está garantizado a años vista. Lo <em>bulletproof</em> es marcar el acento con <code>class="acc"</code> y colorearlo por CSS de verdad (<code>.acc { stroke: var(--dorado) }</code>). Ventajas: funciona el 100% de las veces, el markup del icono queda limpio (sin colores dentro), y deja la puerta abierta a un sprite el día que quieras, sin reescribir nada. Migrar los cuatro actuales es una sustitución de una línea cada uno.</p>
+  <h3 class="reveal">La carga, con números</h3>
+  <p class="reveal" style="color:#C3CAD6">Cada pictograma pesa <strong>~150–300 bytes</strong> comprimido —calderilla—; siete u ocho inline por página son unos cientos de bytes tras gzip, <strong>sin una sola petición de red</strong>. Un sprite solo ahorraría duplicación si repitieras docenas de iconos por página; con tu volumen contemplativo, el inline gana en simplicidad y en peso real (te ahorras hasta la petición del sprite). Una pasada por <strong>SVGO</strong> —quita metadatos, redondea coordenadas— recorta un 20–40% adicional.</p>
+  <p class="pull reveal">La receta de incrustación en una línea: un archivo por icono → inline vía partial → acento por CSS (<code>.acc</code>) → <code>aria-hidden</code> + etiqueta → SVGO. Lo más ligero, lo más accesible y lo que menos mantenimiento pide.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 05 · NIVELES / VELAS ===================== -->
+<section class="flow">
+  <div class="sec-head reveal"><span class="sec-num">05 — El caso de los niveles</span><h2>Por qué la vela, y no un <em>pictograma</em></h2></div>
+  <p class="drop reveal">Merece sección propia porque es el mejor ejemplo de la doctrina en acción. La propuesta inicial incluía un pictograma de "nodo del sendero" para los cinco niveles. Se descartó —y con razón—, porque el sistema <em>ya</em> resuelve los niveles con las velas, y las resuelve mejor. Añadir un pictograma encima habría sido tener dos signos para un solo trabajo: exactamente lo que la regla de "consistencia sobre variedad" prohíbe.</p>
+  <div class="tbl-wrap reveal"><table>
+    <caption>Vela vs. pictograma de nodo · por qué gana la vela</caption>
+    <thead><tr><th>Criterio</th><th>Vela (actual)</th><th>Nodo de sendero (descartado)</th></tr></thead>
+    <tbody>
+      <tr><td>Identidad</td><td class="si">Lámpara de ofrenda · propia de la tradición</td><td>Metáfora genérica de "camino"</td></tr>
+      <tr><td>Legibilidad</td><td class="si">Numeral romano + llama · inequívoca</td><td>"No se acaba de entender"</td></tr>
+      <tr><td>Progresión</td><td class="si">La llama se enciende en dorado por posición</td><td>Requiere variar el dibujo artificialmente</td></tr>
+      <tr><td>Economía</td><td class="si">Un signo, un trabajo</td><td>Duplica lo que ya existe</td></tr>
+    </tbody>
+  </table></div>
+  <p class="reveal">La vela es, además, la demostración perfecta de la receta cromática de la sección 02: masa en calma (el azul del numeral) y una sola llama que se enciende en dorado según dónde estás. Es el <em>duotono bien hecho</em> —acento por posición, no gradiente en el trazo—. El sistema de niveles no necesitaba un pictograma nuevo; necesitaba que reconociéramos que ya tenía el mejor posible.</p>
+  <p class="pull reveal">Descartar es diseñar. La mitad del valor de un sistema está en los signos que decide no crear.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 06 · VOCABULARIO ===================== -->
+<section class="flow">
+  <div class="sec-head reveal"><span class="sec-num">06 — El vocabulario</span><h2>El conjunto, y su lógica de <em>acento</em></h2></div>
+  <p class="drop reveal">Con la receta y las reglas fijadas, el vocabulario se ordena por necesidad real del sitio. Los cuatro del bloque "¿Qué incluye?" (audio, cuaderno, ejercicios, transcripciones) ya existen: son el canon. Lo que el sistema añade son sus <em>hermanos</em> para lo que aún no tiene glifo —modalidad y meta de curso—, con la misma tinta, el mismo trazo y un acento dorado cada uno.</p>
+  <div class="spec reveal"><p class="spec__cap">Los hermanos · tinta + un acento (el que marca lo vivo)</p>
+    <div class="spec-row">
+      <div class="spec-item"><div class="pico"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20v-9l8-6 8 6v9"/><path d="M3 20h18"/><path class="acc" stroke="currentColor" d="M9.5 20v-5h5v5"/></svg></div><span class="tt"><b>Presencial</b><br>la puerta</span></div>
+      <div class="spec-item"><div class="pico"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="11" rx="2"/><path d="M8 20h8M12 16v4"/><path class="acc" stroke="currentColor" d="M7.5 11c1.5-1.8 3-1.8 4.5 0s3 1.8 4.5 0"/></svg></div><span class="tt"><b>En línea</b><br>la señal</span></div>
+      <div class="spec-item"><div class="pico"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20v-7"/><path d="M8 20h8"/><path d="M12 13c-3.2 0-5.5-2.2-5.5-5.5C9.7 7.5 12 9.8 12 13z"/><path class="acc" stroke="currentColor" d="M12 13c3.2 0 5.5-2.2 5.5-5.5C14.3 7.5 12 9.8 12 13z"/></svg></div><span class="tt"><b>A tu ritmo</b><br>el brote</span></div>
+      <div class="spec-item"><div class="pico"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8.5" r="2.5"/><path d="M4 19c0-3.3 2.2-5.5 5-5.5s5 2.2 5 5.5"/><circle cx="16.5" cy="7.5" r="2"/><path class="acc" stroke="currentColor" d="M14.6 12.8c1-1 3.4-.8 4.7 1.4"/></svg></div><span class="tt"><b>Acompañado</b><br>la guía</span></div>
+      <div class="spec-item"><div class="pico"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path class="acc" stroke="currentColor" d="M12 7.5V12l3.5 2"/></svg></div><span class="tt"><b>Duración</b><br>las agujas</span></div>
+      <div class="spec-item"><div class="pico"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M4 12h16"/><path class="acc" stroke="currentColor" d="M12 4c2.6 2.3 2.6 13.7 0 16M12 4c-2.6 2.3-2.6 13.7 0 16"/></svg></div><span class="tt"><b>Idioma</b><br>los meridianos</span></div>
+    </div>
+    <p class="spec-note">La lógica del acento es semántica, no decorativa: el dorado marca siempre <em>lo que hace vivo al concepto</em> —la puerta que se cruza, la señal que conecta, el brote que crece, la guía que acompaña, el tiempo que corre, la voz que habla.</p>
+  </div>
+  <p class="reveal">Las etiquetas de modalidad y nivel son un punto de partida: se mapearán al modelo de contenidos definitivo del LMS cuando se cierre con Alberto y Khenpo. El dibujo aguanta el cambio de nombre —por eso el sistema separa el signo de su etiqueta—. Y el sistema <strong>crece de uno en uno</strong>: cada glifo nuevo se valida contra el hilo del cruce y contra el canon existente antes que contra el gusto.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 07 · MOVIMIENTO Y ACCESIBILIDAD ===================== -->
+<section class="flow">
+  <div class="sec-head reveal"><span class="sec-num">07 — Movimiento y accesibilidad</span><h2>Casi siempre quieto; siempre <em>legible</em></h2></div>
+  <p class="drop reveal">El pictograma es, por defecto, estático. El contrato de quietud del sistema se le aplica sin traducción, y solo autoriza tres movimientos, todos ya sostenidos por infraestructura existente.</p>
+  <ul class="anat reveal">
+    <li><h4>Dibujado por scroll · el cruce</h4><p>El signo se traza al entrar en vista con <code>stroke-dashoffset</code> —la técnica que <code>paramita-trazo-divisor.js</code> ya ejecuta en vanilla. Reservado al grafismo identitario.<span class="why">↳ 0 KB nuevos · reutiliza lo que existe</span></p></li>
+    <li><h4>Hover que completa · &lt;100 ms</h4><p>El feedback debe sentirse por debajo de 100 ms (Google fija el INP "bueno" en &lt;200 ms). Hover intensifica lo que ya vive; no dispara un gesto nuevo.<span class="why">↳ --t-hover / --t-feedback del sistema</span></p></li>
+    <li><h4>Respiración identitaria · solo marca</h4><p>Flujo lento del acento, nunca pulso en bucle. Exclusivo del signo de marca, jamás de un pictograma utilitario.<span class="why">↳ flujo ≠ pulso · reduced-motion respetado</span></p></li>
+  </ul>
+  <p class="reveal">En accesibilidad, cuatro reglas baratas si se aplican desde el trazo. <strong>Decorativo vs. significativo</strong>: <code>aria-hidden="true"</code> cuando el pictograma solo acompaña texto (el caso normal en Paramita); <code>aria-label</code> solo si fuera el único contenido de un control. <strong>Objetivo</strong>: 24×24 px mínimo (WCAG 2.2, 2.5.8) —que icono+etiqueta cumple de sobra—. <strong>Contraste</strong>: el dorado como acento, no como texto significativo. <strong>Movimiento</strong>: todo efecto llega a su estado final sin recorrido bajo <code>prefers-reduced-motion</code>. El sistema ya lleva esa capa; el pictograma solo la hereda.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 08 · REGISTRO DE DECISIONES ===================== -->
+<section class="flow">
+  <div class="sec-head reveal"><span class="sec-num">08 — Registro de decisiones</span><h2>Qué se descartó, y <em>por qué</em></h2></div>
+  <p class="drop reveal">Un sistema se entiende mejor con su historia de correcciones a la vista. Éstas son las decisiones que dieron forma al resultado —cada una, una regla aprendida.</p>
+  <div class="tbl-wrap reveal"><table>
+    <caption>Decisiones · rechazado → adoptado</caption>
+    <thead><tr><th>Se descartó</th><th>Se adoptó</th><th>Razón</th></tr></thead>
+    <tbody>
+      <tr><td class="no">Degradado 70/30 en el trazo</td><td class="si">Tinta + un acento dorado</td><td>Se enturbia a 1,5 px; compite con las velas; contradice el token</td></tr>
+      <tr><td class="no">Pictograma de nivel</td><td class="si">La vela</td><td>Duplicaba lo existente; la vela es más identitaria e inequívoca</td></tr>
+      <tr><td class="no">Dorado #A8823F (apagado)</td><td class="si">--dorado #ECAC55 real</td><td>Era la paleta del informe, no el token; se veía muerto sobre lino</td></tr>
+      <tr><td class="no">Lottie / Rive</td><td class="si">SVG + CSS nativo</td><td>0 KB, accesible, fiel a la quietud; su peso no se justifica</td></tr>
+      <tr><td class="no">Icono sin etiqueta</td><td class="si">Siempre icono + palabra</td><td>88% de acierto con texto frente a 34% sin él</td></tr>
+      <tr><td class="no">Línea geométrica</td><td class="si">Línea humanista</td><td>Rima con los ejes opsz/WONK de Fraunces</td></tr>
+      <tr><td class="no">Familia paralela nueva</td><td class="si">Hermanos del canon existente</td><td>Consistencia sobre variedad; los cuatro del paquete son el patrón</td></tr>
+      <tr><td class="no">Icon-font / &lt;img&gt; / mask</td><td class="si">SVG inline vía partial</td><td>Solo el inline hereda la tinta y ve el token --dorado</td></tr>
+      <tr><td class="no">Copiar SVG en cada página</td><td class="si">Una copia · sync.py / shortcode 11ty</td><td>Cambiar un icono lo cambia en todo el sitio</td></tr>
+      <tr><td class="no">stroke="var(--dorado)" inline</td><td class="si">Acento por CSS · class="acc"</td><td>var() en atributo de presentación es frágil entre navegadores</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 09 · DOCTRINA ===================== -->
+<section class="flow">
+  <div class="sec-head reveal"><span class="sec-num">09 — Doctrina</span><h2>Las reglas, en <em>firme</em></h2></div>
+  <ul class="anat reveal">
+    <li><h4>Primero la familia, luego el dibujo</h4><p>Icono, pictograma o grafismo —o nada. Confundirlos es el error raíz.</p></li>
+    <li><h4>Ningún signo desnudo</h4><p>Pictograma + etiqueta en navegación y acción. La palabra sostiene el significado.</p></li>
+    <li><h4>Tinta serena, una sola llama</h4><p>Antracita 58% por <code>currentColor</code> + un acento <code>--dorado</code>. Nunca degradado en el trazo.</p></li>
+    <li><h4>El acento es semántico</h4><p>El dorado marca lo vivo del concepto, un solo detalle. No decora: señala.</p></li>
+    <li><h4>Humanista, no geométrico</h4><p>Terminales redondeadas, trazo <code>--pic-trazo</code>. Rima con Fraunces.</p></li>
+    <li><h4>Nativo por defecto</h4><p>SVG + CSS en el compositor. La firma pesa 0 KB.</p></li>
+    <li><h4>Una copia, inline</h4><p>Un archivo por icono, inyectado como partial (<code>sync.py</code> / 11ty). El acento por CSS (<code>.acc</code>), no inline.</p></li>
+    <li><h4>No dupliques lo que existe</h4><p>Los niveles son la vela; los del paquete son el canon. Un trabajo, un signo.</p></li>
+    <li><h4>Consistencia sobre variedad</h4><p>Mismo peso, misma tinta, misma retícula. La uniformidad es el oficio.</p></li>
+    <li><h4>Accesible desde el trazo</h4><p><code>aria-hidden</code> si decora; 24 px mínimo; contraste real; estado final con reduced-motion.</p></li>
+    <li><h4>Crece de uno en uno</h4><p>Cada glifo se valida contra el hilo del cruce antes que contra el gusto.</p></li>
+  </ul>
+  <p class="pull reveal">Lo disruptivo en Paramita no es añadir signos llamativos: es la disciplina de poner pocos, dibujarlos con oficio de letra, encender una sola llama en cada uno, y construirlos con lo que el navegador ya regala.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== REFS ===================== -->
+<section class="flow refs">
+  <div class="sec-head reveal"><span class="sec-num">Fuentes</span><h2>Datos y <em>referencias</em></h2></div>
+  <ol class="reveal">
+    <li><b>NN/g · UserTesting</b> — Acierto de tap: 88% con etiqueta, 60% sin, 34% para icono de marca sin etiqueta; necesidad de etiqueta visible; el pictograma como objetivo grande.</li>
+    <li><b>W3C · WCAG 2.2</b> — Objetivo mínimo 24×24 px (2.5.8); pautas de contraste y de contenido no textual.</li>
+    <li><b>Google web.dev</b> — INP "bueno" &lt; 200 ms; feedback percibido objetivo &lt; 100 ms.</li>
+    <li><b>LottieFiles · Rive · consenso CSS 2026</b> — SVG/CSS nativo en compositor (0 KB) para micro-interacción; Lottie ~60 KB; Rive ~200 KB WASM.</li>
+    <li><b>Informe de iconografía Paramita 2026</b> — Dos polos del icono; línea humanista; consistencia sobre variedad; el degradado pide masa, no filo.</li>
+    <li><b>paramita-color.css</b> — Tokens OKLCH reales: --antracita #1D1F26, --dorado #ECAC55 (oklch 78% .155 68), --azul-oscuro #1F4E8F, --azul-sutil #4A9DD1; degradado 70/30 (0 → 68% → 100%); superficies lino/arena/card.</li>
+    <li><b>paramita-curso.css</b> — <code>.incluye__ico</code>: contenedor 1.7rem, color antracita 58%, "línea humanista sobria, dorado solo como acento"; velas, checks, nodo del cruce, punto del FAQ como precedentes del acento por posición.</li>
+    <li><b>Sistema Paramita</b> — <code>paramita-movimiento.css</code> (contrato de quietud); <code>paramita-trazo-divisor.js</code> (dibujado por scroll vanilla); <code>gradSendero</code> (70/30 sobre stroke); docs 01–04 (identidad, color, tipografía, motion).</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <p>Paramita · Fundación Sakya — Sistema de pictogramas · justificación técnica y de diseño · Agosto 2026<br>
+  Claude (Anthropic) · Documento de fundamento, previo a la producción de SVG · A validar contra "el cruce como acto" con Ale y Khenpo.</p>
+</footer>
+
+<script>
+  var prog=document.getElementById('progress');
+  function onScroll(){var h=document.documentElement,max=h.scrollHeight-h.clientHeight,p=max>0?(h.scrollTop||document.body.scrollTop)/max:0;prog.style.width=(p*100)+'%';}
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if('IntersectionObserver' in window && !reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.14,rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.reveal,.spec').forEach(function(el){io.observe(el);});
+  }else{document.querySelectorAll('.reveal,.spec').forEach(function(el){el.classList.add('in');});}
+</script>
+</body>
+</html>

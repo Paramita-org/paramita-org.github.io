@@ -1,0 +1,51 @@
+/* ═══════════════════════════════════════════════════════════════════
+   PARAMITA · PICTOGRAMAS
+   Primitivo de icono: línea humanista en tinta + un único acento dorado.
+   Deriva de .incluye__ico. Colorea el acento por CSS (no por
+   stroke="var(--dorado)" inline, que es frágil dentro de un atributo
+   de presentación).  Cargar en la cadena de <link>, capa componentes.
+   ═══════════════════════════════════════════════════════════════════ */
+
+@layer componentes {
+
+  :root{
+    /* Grosor de trazo del sistema de iconos. Autorado sobre retícula 24.
+       Si algún día quieres centralizarlo, quita el stroke-width inline de
+       los SVG y descomenta la regla .pico svg { stroke-width } de abajo. */
+    --pic-trazo: 1.5;
+  }
+
+  /* ── Primitivo · generaliza .incluye__ico para usar el picto en cualquier sitio ── */
+  .pico{
+    display: inline-flex;
+    flex: none;
+    width: 1.7rem;
+    height: 1.7rem;
+    /* La TINTA · antracita al 58%, heredada por el SVG vía currentColor */
+    color: color-mix(in oklch, var(--antracita) 58%, transparent);
+  }
+  .pico svg{
+    width: 100%;
+    height: 100%;
+    display: block;
+    /* stroke-width: var(--pic-trazo);  ← descomenta si quitas el inline de los SVG */
+  }
+
+  /* ── El ÚNICO acento dorado · robusto en todos los navegadores ── */
+  /* Cubre tanto el primitivo nuevo como el contenedor existente del bloque incluye */
+  .pico .acc,
+  .incluye__ico .acc{ stroke: var(--dorado); }
+
+  /* ── Tamaños ── */
+  .pico--sm{ width: 1rem;    height: 1rem;    }  /* meta inline · ~16 px */
+  .pico--md{ width: 1.7rem;  height: 1.7rem;  }  /* por defecto */
+  .pico--lg{ width: 2.75rem; height: 2.75rem; }  /* destacado · ~44 px */
+
+  /* ── En una fila de meta (chip) ── */
+  .metatag .pico{ width: 1rem; height: 1rem; }
+
+  /* ── Accesibilidad de movimiento (por si algún picto se dibuja) ── */
+  @media (prefers-reduced-motion: reduce){
+    .pico .draw{ stroke-dashoffset: 0 !important; transition: none !important; }
+  }
+}

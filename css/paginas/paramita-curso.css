@@ -287,28 +287,45 @@
 
   /* ═══════════ INSCRIPCIÓN · planes ═══════════ */
   .estado-abierto { display: inline-flex; align-items: center; gap: .45rem; font-weight: var(--wght-asertivo); color: var(--azul-oscuro); }
-  .planes { display: grid; grid-template-columns: 1fr 1fr; gap: var(--espacio-grupo); align-items: start; }
+  .planes { display: grid; grid-template-columns: 1fr 1fr; gap: var(--espacio-grupo); align-items: stretch; }
+  .planes__aviso { max-width: 62ch; margin: 0 0 var(--espacio-contenido); color: var(--texto-suave); font-size: .96rem; }
+  .planes__aviso b { color: var(--antracita); font-weight: var(--wght-asertivo); }
   .plan { position: relative; padding: var(--espacio-contenido); border-radius: 22px;
     background: var(--card); border: 1px solid color-mix(in oklch, var(--antracita) 10%, transparent);
-    display: grid; gap: .9rem; }
+    display: flex; flex-direction: column; gap: .9rem; }
   .plan--destacada {
     border-color: color-mix(in oklch, var(--dorado) 55%, transparent);
     box-shadow: 0 24px 60px -40px color-mix(in oklch, var(--dorado) 70%, transparent);
   }
-  .plan__badge { justify-self: start; font-family: var(--body); font-weight: var(--wght-firmeza);
-    font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
-    padding: .3rem .7rem; border-radius: 99px; color: var(--card);
-    background: linear-gradient(100deg, var(--azul-oscuro), var(--dorado)); }
-  .plan__badge--claro { color: var(--azul-oscuro); background: color-mix(in oklch, var(--azul-sutil) 22%, var(--card));
-    border: 1px solid color-mix(in oklch, var(--azul-oscuro) 30%, transparent); }
-  .plan__eyebrow { font-size: .82rem; color: var(--texto-suave); }
+  /* Franja luminosa superior de la card recomendada · MISMO idioma que la
+     "orilla que se gana" del cruce (gradiente de sistema), no un degradado
+     ad-hoc. Sustituye a la antigua pastilla degradada que competía con el CTA. */
+  .plan--destacada { overflow: hidden; }
+  .plan--destacada::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px;
+    background: linear-gradient(90deg, var(--azul-oscuro), var(--azul-sutil) 55%, var(--dorado)); }
+
+  /* Flag "Recomendado" · plano y sobrio, dorado solo como acento. Sin degradado:
+     el degradado es lenguaje exclusivo del CTA principal. */
+  .plan__flag { align-self: flex-start; display: inline-flex; align-items: center; gap: .4rem;
+    font-family: var(--body); font-weight: var(--wght-firmeza);
+    font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+    padding: .3rem .7rem .3rem .55rem; border-radius: 99px;
+    color: color-mix(in oklch, var(--dorado) 78%, var(--antracita));
+    background: color-mix(in oklch, var(--dorado) 12%, var(--card));
+    border: 1px solid color-mix(in oklch, var(--dorado) 40%, transparent); }
+  .plan__flag::before { content: ""; width: 6px; height: 6px; border-radius: 99px; background: var(--dorado);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--dorado) 22%, transparent); }
+
+  /* Kicker de modalidad · ahora es la etiqueta de la modalidad (antes, la pastilla) */
+  .plan__eyebrow { font-family: var(--body); font-weight: var(--wght-firmeza); font-size: .72rem;
+    letter-spacing: .13em; text-transform: uppercase; color: var(--texto-suave); }
   .plan h3 { font-size: 1.5rem; }
-  .plan__precio { font-family: var(--display); font-size: 2.4rem; color: var(--antracita); line-height: 1; }
+  .plan__precio { font-family: var(--display); font-size: clamp(2.8rem, 5vw, 3.4rem); color: var(--antracita); line-height: 1; }
   .plan__precio small { font-size: 1rem; }
   .plan__precio span { display: block; font-family: var(--body); font-size: .8rem; color: var(--texto-suave); margin-top: .2rem; }
   .plan__ideal { font-size: .9rem; font-style: italic; color: var(--texto-suave);
     padding-top: .6rem; border-top: 1px solid color-mix(in oklch, var(--antracita) 8%, transparent); }
-  .plan .btn-primario, .plan .btn-secundario { justify-self: stretch; text-align: center; }
+  .plan .btn-primario, .plan .btn-secundario { margin-top: auto; text-align: center; }
   .plazas-nota { margin-top: var(--espacio-grupo); display: flex; gap: .6rem; align-items: flex-start;
     font-size: .9rem; color: var(--texto-suave);
     background: color-mix(in oklch, var(--arena) 60%, var(--card));
