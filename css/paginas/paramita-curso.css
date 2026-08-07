@@ -314,6 +314,14 @@
   .plan__flag::before { content: ""; width: 6px; height: 6px; border-radius: 99px; background: var(--dorado);
     box-shadow: 0 0 0 3px color-mix(in oklch, var(--dorado) 22%, transparent); }
 
+  /* Pastilla subordinada · Autoestudio · verde de estado apagado, por debajo de Recomendado */
+  .plan__flag--sutil {
+    color: color-mix(in oklch, var(--estado-exito) 72%, var(--antracita));
+    background: color-mix(in oklch, var(--estado-exito) 15%, var(--card));
+    border-color: color-mix(in oklch, var(--estado-exito) 32%, transparent); }
+  .plan__flag--sutil::before { background: var(--estado-exito);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--estado-exito) 22%, transparent); }
+
   /* Kicker de modalidad · ahora es la etiqueta de la modalidad (antes, la pastilla) */
   .plan__eyebrow { font-family: var(--body); font-weight: var(--wght-firmeza); font-size: .72rem;
     letter-spacing: .13em; text-transform: uppercase; color: var(--texto-suave); }

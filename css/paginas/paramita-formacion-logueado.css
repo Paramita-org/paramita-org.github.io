@@ -310,7 +310,7 @@
   max-width: 1200px; margin: 0 auto var(--espacio-contenido); padding-inline: 20px;
   flex-wrap: wrap;
 }
-.explorar__head h2 { font-family: var(--display); font-weight: 500; font-size: clamp(1.6rem, 2.8vw, 2.2rem); letter-spacing: -0.01em; margin: 0; }
+.explorar__head h2 { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: clamp(1.6rem, 2.8vw, 2.2rem); letter-spacing: -0.01em; margin: 0; }
 .explorar__head h2 em { font-style: italic; color: var(--dorado); }
 
 .vista-toggle {
@@ -363,10 +363,22 @@
    ───────────────────────────────────────────────────────────────────────── */
 .comunidad-sec { padding-block: var(--espacio-grupo); background: var(--lino); }
 .comunidad {
+  position: relative; isolation: isolate; overflow: hidden;
   max-width: 1160px; margin-inline: auto;
-  background: var(--azul-oscuro); color: var(--lino);
+  /* Mismo tratamiento de fondo que .retiro (ficha de curso): base en
+     degradado diagonal azul-oscuro → azul-oscuro+antracita. */
+  background: linear-gradient(120deg,
+    var(--azul-oscuro),
+    color-mix(in oklch, var(--azul-oscuro) 60%, var(--antracita)));
+  color: var(--lino);
   border-radius: 22px; padding: clamp(1.6rem, 3vw, 2.6rem);
   display: grid; grid-template-columns: 1fr auto; gap: 1.4rem; align-items: center;
+}
+/* Resplandor dorado radial arriba a la derecha · igual que .retiro::after */
+.comunidad::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; opacity: .28;
+  pointer-events: none;
+  background: radial-gradient(120% 80% at 80% 20%, var(--dorado), transparent 60%);
 }
 @supports (corner-shape: superellipse(2)) { .comunidad { border-radius: 28px; corner-shape: superellipse(2.6); } }
 .comunidad .eyebrow { color: var(--dorado-suave, var(--dorado)); filter: brightness(1.35); }
@@ -376,8 +388,9 @@
 }
 .comunidad h3 em { font-style: italic; color: color-mix(in oklch, var(--dorado) 60%, #fff); }
 .comunidad p { color: color-mix(in oklch, var(--lino) 78%, transparent); margin: 0; max-width: 52ch; font-size: 0.96rem; line-height: 1.5; }
-.comunidad .btn-primario { background: var(--dorado); color: var(--azul-oscuro); border-color: var(--dorado); }
-.comunidad .btn-primario:hover { background: color-mix(in oklch, var(--dorado) 80%, #fff); }
+/* El .btn-primario del bloque comunidad usa el componente canónico tal cual
+   (degradado identitario + texto --lino/#fff). No se sobrescribe color aquí:
+   un override previo teñía el texto de azul-oscuro y rompía la lectura del CTA. */
 @media (max-width: 640px) { .comunidad { grid-template-columns: 1fr; } }
 
 

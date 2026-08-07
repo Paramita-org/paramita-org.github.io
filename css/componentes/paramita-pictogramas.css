@@ -34,7 +34,8 @@
   /* ── El ÚNICO acento dorado · robusto en todos los navegadores ── */
   /* Cubre tanto el primitivo nuevo como el contenedor existente del bloque incluye */
   .pico .acc,
-  .incluye__ico .acc{ stroke: var(--dorado); }
+  .incluye__ico .acc,
+  .principio__icono .acc{ stroke: var(--dorado); }
 
   /* ── Tamaños ── */
   .pico--sm{ width: 1rem;    height: 1rem;    }  /* meta inline · ~16 px */

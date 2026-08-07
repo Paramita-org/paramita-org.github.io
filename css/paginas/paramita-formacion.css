@@ -803,7 +803,7 @@
   height: 44px;
   margin-inline: auto;
   margin-bottom: var(--espacio-elemento);
-  color: var(--azul-oscuro);
+  color: color-mix(in oklch, var(--antracita) 58%, transparent);
   transition: color var(--t-defecto, 280ms), transform var(--t-defecto, 280ms);
 }
 .principio:hover .principio__icono {
@@ -815,7 +815,7 @@
   height: 100%;
   stroke: currentColor;
   fill: none;
-  stroke-width: 1.25;
+  stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
 }

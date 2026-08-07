@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="../../css/componentes/paramita-hero.css">
   <link rel="stylesheet" href="../../css/componentes/paramita-sections.css">
   <link rel="stylesheet" href="../../css/componentes/paramita-cursos.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-pictogramas.css">
   <link rel="stylesheet" href="../../css/componentes/paramita-modal.css">
   <link rel="stylesheet" href="../../css/componentes/paramita-extras.css">
   <link rel="stylesheet" href="../../css/componentes/paramita-footer.css">
@@ -225,7 +226,8 @@
 
       <!-- chips de curso: reversión de duda inmediata -->
       <ul class="curso-chips" aria-label="Detalles del curso">
-        <li><b>8</b> lecciones</li>
+        <li><span class="pico pico--sm" data-pico="duracion" aria-hidden="true"></span><b>8</b> lecciones</li>
+        <li><span class="pico pico--sm" data-pico="idioma" aria-hidden="true"></span>Español</li>
         <li><b>72&nbsp;€</b> pago único</li>
         <li>Certificado al finalizar</li>
         <li>Sin experiencia previa</li>
@@ -417,7 +419,7 @@
     <div class="planes">
       <article class="plan plan--destacada">
         <span class="plan__flag">Recomendado</span>
-        <p class="plan__eyebrow">Interactivo · con tutor</p>
+        <p class="plan__eyebrow">Interactivo<br>con tutor</p>
         <h3>Conoce a Ven. Khenpo Rinchen</h3>
         <p class="plan__precio">120<small>,00&nbsp;€</small> <span>pago único</span></p>
         <ul class="checks checks--sm">
@@ -432,7 +434,8 @@
       </article>
 
       <article class="plan">
-        <p class="plan__eyebrow">Autoestudio · autónomo</p>
+        <span class="plan__flag plan__flag--sutil">Autoestudio</span>
+        <p class="plan__eyebrow">Autoestudio<br>autónomo</p>
         <h3>A tu propio ritmo</h3>
         <p class="plan__precio">72<small>,00&nbsp;€</small> <span>pago único</span></p>
         <ul class="checks checks--sm">
