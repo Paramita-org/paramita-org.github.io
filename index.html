@@ -32,6 +32,7 @@
 <script src="js/componentes/paramita-hero.js" defer></script>
 <script src="js/componentes/paramita-fluido.js" defer></script>
 <script src="js/componentes/paramita-trazo-divisor.js" defer></script>
+<script src="js/componentes/paramita-antesala.js" defer></script>
 
 <!-- 3 · Páginas · efectos específicos de la homepage -->
 <script src="js/componentes/paramita-frase-zoom.js" defer></script>
@@ -109,7 +110,7 @@
 
         <!-- 1 · MEDITACIÓN · puerta ancha, primera entrada emocional -->
         <li>
-          <a class="navlink" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a>
+          <a class="navlink" href="/meditacion/meditacion.html">Meditación</a>
         </li>
 
         <!-- 2 · CURSOS · puerta pública al catálogo formativo (el sendero)
@@ -118,27 +119,27 @@
              El LMS se accede desde el navbar practicante o desde CTAs
              contextuales dentro de cada ficha de curso. -->
         <li>
-          <a class="navlink" href="/formacion/">Cursos</a>
+          <a class="navlink" href="/formacion/formacion-publica.html">Cursos</a>
         </li>
 
         <!-- 3 · ACTIVIDADES · enlace plano (sin desplegable) -->
         <li>
-          <a class="navlink" href="/actividades">Actividades</a>
+          <a class="navlink" href="/actividades/actividades.html">Actividades</a>
         </li>
 
         <!-- 4 · BLOG · enlace plano (sin desplegable) -->
         <li>
-          <a class="navlink" href="/blog">Blog</a>
+          <a class="navlink" href="/blog/blog.html">Blog</a>
         </li>
 
         <!-- 5 · SOBRE · institucional, anclado a la derecha con .end -->
         <li class="has-sub end">
           <a class="navlink" href="/sobre" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></a>
           <ul class="sub" role="menu" aria-label="Sobre Paramita">
-            <li role="none"><a role="menuitem" href="/sobre"><strong>La fundación</strong><span>Quiénes somos</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/maestros"><strong>Maestros</strong><span>Quién guía la práctica</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/monasticos"><strong>Monásticos y monásticas</strong><span>La comunidad ordenada</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/faq"><strong>Preguntas frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Quiénes somos</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quién guía la práctica</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/monasticos-monasticas/monasticos-monasticas.html"><strong>Monásticos y Monásticas</strong><span>La comunidad ordenada</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
           </ul>
         </li>
 
@@ -149,8 +150,8 @@
 
       <!-- CTAs a la derecha · nomenclatura Fase 6 -->
       <div class="ctas">
-        <a class="btn-secundario" href="/unete">Únete</a>
-        <a class="btn-secundario" href="/contribuir">Contribuir</a>
+        <a class="btn-secundario" href="/unete/unete.html">Únete</a>
+        <a class="btn-secundario" href="/contribuir/contribuir.html">Contribuir</a>
       </div>
 
     </nav>
@@ -182,7 +183,7 @@
       </svg>
     </button>
 
-    <a class="btn-acceso" href="/login" aria-label="Entrar a mi cuenta">
+    <a class="btn-acceso" href="/home-logueado/home-logueado.html" aria-label="Entrar a mi cuenta">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="12" cy="8" r="4"/>
         <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
@@ -349,9 +350,10 @@
           <path class="cap-hover" pathLength="100"
                 d="M 0,70 C 240,55 480,85 720,70 S 1200,55 1440,70" />
 
-          <!-- Spotlight viajero -->
-          <circle class="spotlight" cx="0" cy="0" r="8"
-                  style="offset-path: path('M 0,70 C 240,55 480,85 720,70 S 1200,55 1440,70');" />
+          <!-- Spotlight viajero · cx/cy los escribe paramita-antesala.js
+               sobre el propio path (misma matriz que el trazo → siempre
+               pisa la línea). Ya no usa offset-path. -->
+          <circle class="spotlight" cx="0" cy="0" r="8" />
         </svg>
       </div>
 
@@ -584,10 +586,10 @@
         <!-- COLUMNA 2 · Navegar (refleja la IA del navbar público) -->
         <div>
           <h4>Navegar</h4>
-          <a class="fl" href="https://paramita.org/entrenamiento-mental-integral/">Meditación</a>
-          <a class="fl" href="/formacion/">Cursos</a>
-          <a class="fl" href="/actividades">Actividades</a>
-          <a class="fl" href="/blog">Blog</a>
+          <a class="fl" href="/meditacion/meditacion.html">Meditación</a>
+          <a class="fl" href="/formacion/formacion-publica.html">Cursos</a>
+          <a class="fl" href="/actividades/actividades.html">Actividades</a>
+          <a class="fl" href="/blog/blog.html">Blog</a>
           <a class="fl" href="/sobre">Sobre</a>
         </div>
 

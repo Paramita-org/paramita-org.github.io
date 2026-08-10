@@ -47,7 +47,10 @@
 
    DEPENDENCIAS
    ────────────
-   · js/componentes/paramita-trazo-divisor.js  (dibuja los paths con scroll)
+   · js/componentes/paramita-antesala.js       (FUENTE ÚNICA de geometría:
+     mide las paradas reales bajo cada card → --parada-1/2/3, y posiciona
+     la bola sobre el path. Sin él, el tramo cae a los fallbacks 22/50/78
+     y la bola queda oculta — degradación elegante.)
    · js/primitivos/paramita-reveal.js          (aplica .is-in al mapa)
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -67,8 +70,10 @@
     padding-bottom: 140px;
     isolation: isolate;
 
+    /* --parada-1/2/3 las publica paramita-antesala.js (fracción 0..100
+       de arco bajo el centro real de cada card). --tramo-iluminado toma
+       una de ellas al hover (ver §4). */
     --tramo-iluminado: 0;
-    --spotlight-parada: 0;
   }
 
 
@@ -132,27 +137,24 @@
   /* ═════════════════════════════════════════════════════════════════════
      4 · CONTROL DE ILUMINACIÓN PARCIAL POR HOVER
      ═════════════════════════════════════════════════════════════════════
-     Al :hover de una card, el .antesala__mapa recibe los valores
-     --tramo-iluminado y --spotlight-parada correspondientes al centro
-     de esa card:
-       Card 1 (izquierda) → 22%
-       Card 2 (centro)    → 50%
-       Card 3 (derecha)   → 78%
+     Al :hover de una card, el .antesala__mapa toma como --tramo-iluminado
+     la PARADA MEDIDA de esa card (--parada-1/2/3, publicadas por
+     paramita-antesala.js = fracción de arco bajo el centro real de la
+     card). Los valores 22/50/78 quedan sólo como FALLBACK si el JS no
+     carga. La bola ya no se controla aquí: la posiciona el JS sobre el
+     mismo path (ver §8), garantizando que punta y bola coincidan.
      ───────────────────────────────────────────────────────────────────── */
 
   .antesala__mapa:has(.antesala__puerta:nth-child(1):is(:hover, :focus-visible)) {
-    --tramo-iluminado: 22;
-    --spotlight-parada: 22;
+    --tramo-iluminado: var(--parada-1, 22);
   }
 
   .antesala__mapa:has(.antesala__puerta:nth-child(2):is(:hover, :focus-visible)) {
-    --tramo-iluminado: 50;
-    --spotlight-parada: 50;
+    --tramo-iluminado: var(--parada-2, 50);
   }
 
   .antesala__mapa:has(.antesala__puerta:nth-child(3):is(:hover, :focus-visible)) {
-    --tramo-iluminado: 78;
-    --spotlight-parada: 78;
+    --tramo-iluminado: var(--parada-3, 78);
   }
 
 
@@ -322,55 +324,30 @@
      8 · SPOTLIGHT VIAJERO
      ═════════════════════════════════════════════════════════════════════ */
 
+  /* La POSICIÓN de la bola (cx/cy) y su OPACIDAD ambiental las gobierna
+     paramita-antesala.js sobre el propio path: al vivir dentro del mismo
+     <svg>, comparte la matriz de transformación del trazo, así que
+     siempre pisa la línea (ya NO usa offset-path, que resolvía en otro
+     espacio y provocaba el desfase). Aquí sólo queda el ASPECTO. */
   .antesala__camino .spotlight {
     fill: var(--dorado);
     r: 4;
     filter: blur(3px);
-    opacity: 0;
+    opacity: 0;               /* el JS la enciende al entrar en vista */
 
-    offset-rotate: 0deg;
-    offset-distance: 0%;
-
-    /* Transiciones para el paso a estado "parado" (hover en card):
-       r y filter se interpolan suave; offset-distance salta a la
-       parada correspondiente (comportamiento deseado: el pin aparece
-       en su punto, no viaja hasta él). */
+    /* Suaviza el paso viaje ↔ pin (r y blur). La posición y la opacidad
+       ambiental las escribe el JS frame a frame, sin transición. */
     transition:
-      opacity var(--t-hover),
       r var(--t-hover),
       filter var(--t-hover);
-
-    animation:
-      spotlight-viaje var(--dur-spotlight) linear infinite,
-      spotlight-fade var(--dur-spotlight) linear infinite;
   }
 
-  @keyframes spotlight-viaje {
-    from { offset-distance: 0%; }
-    to   { offset-distance: 100%; }
-  }
-
-  @keyframes spotlight-fade {
-    0%, 5%    { opacity: 0; }
-    10%, 90%  { opacity: 0.55; }
-    95%, 100% { opacity: 0; }
-  }
-
-  /* Al hover · spotlight se detiene en la parada correspondiente
-     como PIN nítido (sin blur, sin animación de pulso). Lectura
-     visual: "destino alcanzado" — un punto luminoso limpio en la
-     intersección de camino × card, no una explosión difusa. */
-  .antesala__mapa:has(.antesala__puerta:is(:hover, :focus-visible)) .antesala__camino .spotlight {
-    animation: none;
-    offset-distance: calc(var(--spotlight-parada) * 1%);
+  /* PIN nítido al hover/focus de una card (lo activa el JS con .is-pinned):
+     "destino alcanzado" — un punto luminoso limpio en la intersección de
+     camino × card, no una explosión difusa. */
+  .antesala__camino .spotlight.is-pinned {
     r: 3;
     filter: none;
-    opacity: 1;
-  }
-
-  :root[style*="--identidad-estado: reposo"] .antesala__camino .spotlight {
-    animation: none;
-    opacity: 0;
   }
 
 

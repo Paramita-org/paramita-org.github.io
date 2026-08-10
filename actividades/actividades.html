@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actividades · Paramita — Fundació Sakya</title>
+<meta name="description" content="Retiros, eventos, giras y celebraciones del calendario tibetano. Todo el año de práctica en Paramita, Monte Sella, Pedreguer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<style>
+@layer tokens, base, bar, menu, cta, hero, sections, actividades, footer, responsive;
+
+/* ══ TOKENS (paramita-color.css + tipografia + layout + movimiento) ══════ */
+@layer tokens {
+  :root {
+    --lino:       oklch(97% 0.008 85);
+    --arena:      oklch(94% 0.014 82);
+    --arcilla:    oklch(90% 0.02  80);
+    --calido-zen: oklch(88% 0.03  78);
+    --card:       oklch(98% 0.006 85);
+    --antracita:   oklch(22% 0.02 250);
+    --texto-suave: oklch(58% 0.015 250);
+    --texto-tenue: oklch(72% 0.012 250);
+    --azul-oscuro: oklch(38% 0.11 245);
+    --azul-sutil:  oklch(68% 0.13 235);
+    --dorado:      oklch(78% 0.155 68);
+    --hair:        rgba(29,31,38,.10);
+    --hair-fuerte: rgba(29,31,38,.22);
+    --degradado-marca-h: linear-gradient(90deg,
+      oklch(38% 0.11 245) 0%, oklch(68% 0.13 235) 68%, oklch(78% 0.155 68) 100%);
+    --display: 'Fraunces', Georgia, serif;
+    --body:    'Hanken Grotesk', system-ui, sans-serif;
+    --wght-contemplativo: 300;
+    --wght-asertivo: 600;
+    --bar-h: 80px;
+    --contenedor-max: 1200px;
+    --contenedor-padding: 1.5rem;
+    --espacio-orilla:    clamp(3rem, 8vh, 6rem);
+    --espacio-umbral:    clamp(2rem, 5vh, 4rem);
+    --espacio-grupo:     clamp(1.25rem, 3vh, 2.5rem);
+    --espacio-contenido: clamp(0.75rem, 1.5vw, 1.25rem);
+    --espacio-elemento:  clamp(0.5rem, 1vh, 1rem);
+    --t-defecto:   280ms ease;
+    --t-hover:     160ms ease;
+    --t-revelacion:520ms cubic-bezier(0.16,1,0.3,1);
+    --ease-identidad-flujo: cubic-bezier(0.4,0,0.6,1);
+    --dur-identidad-flujo: 11s;
+    --identidad-estado: running;
+    --scroll-fijacion: 0px 110px;
+  }
+}
+
+/* ══ BASE ════════════════════════════════════════════════════════════════ */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body { background: var(--lino); color: var(--antracita); font-family: var(--body); font-weight: 400; line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img, video { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { cursor: pointer; font-family: inherit; }
+  .wrap { width: min(var(--contenedor-max), 100% - var(--contenedor-padding) * 2); margin-inline: auto; }
+  .eyebrow { display: block; font-family: var(--body); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--azul-sutil); margin-bottom: 0.6rem; }
+  [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity 0.6s var(--ease-identidad-flujo), transform 0.6s var(--ease-identidad-flujo); }
+  .js [data-reveal].is-visible { opacity: 1; transform: none; }
+  @keyframes flow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+}
+
+/* ══ BAR — paramita-bar.css (real) ══════════════════════════════════════ */
+@layer bar {
+  .bar { position: sticky; top: 0; z-index: 100; /* relative para el menú absoluto móvil */ background: color-mix(in oklch, var(--arena) 70%, transparent); -webkit-backdrop-filter: saturate(150%) blur(14px); backdrop-filter: saturate(150%) blur(14px); border-bottom: 1px solid transparent; transition: border-color var(--t-defecto), background var(--t-defecto), box-shadow var(--t-defecto); }
+  .bar.scrolled { background: color-mix(in oklch, var(--arena) 90%, transparent); border-color: var(--hair); box-shadow: 0 12px 44px -30px rgba(40,33,26,.45); }
+  .bar-inner { display: flex; align-items: center; gap: var(--espacio-grupo); height: var(--bar-h); transition: height var(--t-defecto); }
+  .logo { flex: none; display: inline-flex; align-items: center; padding: 0.3rem; margin-left: -0.3rem; border-radius: 10px; }
+  .logo-wave { display: block; width: 150px; aspect-ratio: 612.3 / 181.4; background: linear-gradient(100deg, var(--azul-oscuro) 0%, var(--azul-sutil) 25%, var(--dorado) 50%, var(--azul-sutil) 75%, var(--azul-oscuro) 100%); background-size: 200% 100%; animation: flow var(--dur-identidad-flujo) var(--ease-identidad-flujo) infinite; -webkit-mask: url('../../assets/img/logo.svg') no-repeat center / contain; mask: url('../../assets/img/logo.svg') no-repeat center / contain; transition: filter var(--t-revelacion), width var(--t-defecto); will-change: background-position; }
+  @keyframes flow { to { background-position: 200% 0; } }
+  .bar:hover .logo-wave { animation-duration: 3.4s; filter: saturate(1.25) brightness(1.04); }
+  .logo-fallback { display: none; width: 150px; height: auto; }
+  @supports not ((-webkit-mask: url('../../assets/img/logo.svg')) or (mask: url('../../assets/img/logo.svg'))) { .logo-wave { display: none; } .logo-fallback { display: block; } }
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .bar-inner { animation: condense linear both; animation-timeline: scroll(root block); animation-range: var(--scroll-fijacion); }
+      @keyframes condense { to { height: 62px; } }
+      .logo-wave { animation: flow var(--dur-identidad-flujo) var(--ease-identidad-flujo) infinite, shrink linear both; animation-timeline: auto, scroll(root block); animation-range: auto, var(--scroll-fijacion); }
+      @keyframes shrink { to { width: 122px; } }
+    }
+  }
+  @media (prefers-reduced-motion: reduce) { .bar, .bar-inner, .logo-wave { transition: none; } .logo-wave { background-position: 40% 0; } }
+}
+
+/* ══ MENU — paramita-menu.css (real) ════════════════════════════════════ */
+@layer menu {
+  /* margin-left: auto empuja todo el menú a la derecha — clave del layout */
+  .menu { margin-left: auto; display: flex; align-items: center; gap: var(--espacio-grupo); }
+  .links { list-style: none; display: flex; align-items: center; gap: 0.3rem; }
+  .links > li { position: relative; }
+  .navlink { --w:400; position: relative; display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--body); font-size: 0.96rem; font-weight: var(--w); letter-spacing: -0.005em; color: var(--antracita); background: none; border: none; cursor: pointer; padding: 0.55rem 0.55rem; border-radius: 8px; transition: font-weight var(--t-hover), color var(--t-defecto), opacity var(--t-defecto); text-decoration: none; }
+  .navlink::after { content: ""; position: absolute; left: 50%; right: 50%; bottom: 0.28rem; height: 1.6px; border-radius: 2px; background: linear-gradient(90deg, var(--azul-oscuro), var(--azul-sutil), var(--dorado)); transition: left var(--t-defecto), right var(--t-defecto); }
+  .navlink:hover, .navlink:focus-visible { --w:600; color: var(--azul-oscuro); }
+  .navlink:hover::after, .navlink:focus-visible::after { left: 0.55rem; right: 0.55rem; }
+  .navlink[aria-current="page"] { --w:600; color: var(--azul-oscuro); }
+  .navlink[aria-current="page"]::after { left: 0.55rem; right: 0.55rem; }
+  .bar:has(.navlink:hover) .navlink:not(:hover) { opacity: 0.55; }
+  /* Caret — chevron real con border-right + border-bottom */
+  .caret { width: 0.5em; height: 0.5em; border-right: 1.7px solid currentColor; border-bottom: 1.7px solid currentColor; transform: rotate(45deg) translateY(-1px); transition: transform var(--t-hover); opacity: 0.6; }
+  .has-sub { position: relative; }
+  .has-sub:hover .caret, .has-sub:focus-within .caret, .has-sub .navlink[aria-expanded="true"] .caret { transform: rotate(-135deg) translateY(-1px); }
+  .div { width: 1px; height: 24px; background: var(--hair); flex: none; }
+  /* Sub — panel glass con delay de intención 140ms y franja decorativa */
+  .sub { position: absolute; top: calc(100% + 2px); left: 50%; translate: -50% 10px; min-width: 236px; padding: 0.45rem; list-style: none; display: grid; gap: 0.1rem; background: color-mix(in oklch, var(--card) 88%, transparent); -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%); border: 1px solid var(--hair); border-radius: 16px; overflow: hidden; box-shadow: 0 28px 64px -34px rgba(40,33,26,.5); opacity: 0; pointer-events: none; transition: opacity var(--t-defecto), translate var(--t-hover); transition-delay: 0ms; }
+  .sub::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 2px; background: linear-gradient(90deg, var(--azul-sutil), var(--dorado)); }
+  .has-sub:hover .sub { opacity: 1; pointer-events: auto; translate: -50% 0; transition-delay: 140ms; }
+  .has-sub:focus-within .sub { opacity: 1; pointer-events: auto; translate: -50% 0; transition-delay: 0ms; }
+  .has-sub.end .sub { left: auto; right: 0; translate: 0 10px; }
+  .has-sub.end:hover .sub, .has-sub.end:focus-within .sub { translate: 0 0; }
+  .sub a { display: grid; gap: 0.05rem; padding: 0.65rem 0.8rem; border-radius: 11px; transition: background var(--t-hover), padding var(--t-hover); }
+  .sub a:hover, .sub a:focus-visible { background: var(--arcilla); padding-left: 1rem; }
+  .sub a[aria-current="page"] { background: color-mix(in oklch, var(--arcilla) 60%, transparent); }
+  .sub strong { font-weight: 500; font-size: 0.92rem; color: var(--antracita); }
+  .sub span { font-size: 0.76rem; color: var(--texto-suave); }
+  /* Burger y nt ocultos en escritorio */
+  .nt { display: none; }
+  .burger { display: none; }
+  @media (prefers-reduced-motion: reduce) { .navlink, .navlink::after, .caret, .sub, .sub a { transition: none; } .sub { translate: -50% 0; transition-delay: 0ms; } .has-sub.end .sub { translate: 0 0; } .has-sub:hover .sub { transition-delay: 0ms; } }
+}
+
+/* ══ CTA (paramita-cta.css) ══════════════════════════════════════════════ */
+@layer cta {
+  .ctas { display: flex; align-items: center; gap: 0.7rem; }
+  .btn-primario { position: relative; isolation: isolate; overflow: hidden; font-family: var(--body); font-size: 0.96rem; font-weight: 600; color: #fff; padding: 0.66rem 1.45rem; border: none; cursor: pointer; border-radius: 14px; outline: none; text-decoration: none; display: inline-block; box-shadow: 0 12px 28px -14px var(--azul-oscuro), inset 0 1px 0 rgba(255,255,255,.28); transition: transform var(--t-defecto), box-shadow var(--t-revelacion); }
+  @supports (corner-shape: superellipse(2)) { .btn-primario { border-radius: 16px; corner-shape: superellipse(2.2); } }
+  .btn-primario::before { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, var(--azul-oscuro), var(--azul-sutil), var(--dorado), var(--azul-sutil), var(--azul-oscuro)); background-size: 200% 100%; animation: flow 6s var(--ease-identidad-flujo) infinite; animation-play-state: var(--identidad-estado); z-index: -1; }
+  .btn-primario:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -20px var(--azul-oscuro), 0 0 0 3px oklch(78% 0.155 68 / 0.28), 0 0 18px 4px oklch(78% 0.155 68 / 0.24), 0 0 40px 8px oklch(78% 0.155 68 / 0.10); }
+  .bar:hover .btn-primario::before { animation-duration: 3.4s; }
+  .btn-secundario { display: inline-flex; align-items: center; gap: 0.55em; font-family: var(--body); font-size: 0.95rem; font-weight: 450; color: var(--azul-oscuro) !important; background: transparent; border: none; cursor: pointer; outline: none; padding: 0.66rem 1.4rem; border-radius: 12px; position: relative; transform: translateZ(0); text-decoration: none; transition: transform var(--t-defecto), box-shadow var(--t-revelacion); }
+  .btn-secundario::before { content: ""; position: absolute; inset: 0; border-radius: 12px; padding: 1px; background: linear-gradient(100deg, var(--azul-oscuro), var(--azul-sutil), var(--dorado), var(--azul-sutil), var(--azul-oscuro)); background-size: 200% 100%; background-position: 0% 50%; opacity: 0.9; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; transition: none; animation: none; }
+  .btn-secundario > * { position: relative; z-index: 1; }
+  .btn-secundario:hover { transform: translateY(-2px) translateZ(0); background: transparent !important; color: var(--azul-oscuro) !important; box-shadow: 0 0 8px 1px oklch(68% 0.13 235 / 0.22), 0 0 22px 4px oklch(78% 0.155 68 / 0.14), 0 0 40px 8px oklch(38% 0.11 245 / 0.10); }
+  .btn-secundario:hover::before { animation: flow 3.4s var(--ease-identidad-flujo) infinite; }
+  .btn-secundario--claro { color: var(--lino) !important; text-shadow: 0 1px 14px rgba(33,30,26,.28); }
+  .btn-secundario--claro:hover { color: var(--lino) !important; }
+  .btn-secundario--claro::before { opacity: 1; }
+  .t-link { display: inline-flex; align-items: center; gap: 0.4em; font-weight: 500; color: var(--azul-oscuro); text-decoration: none; position: relative; }
+  .t-link::after { content: ""; position: absolute; bottom: -1px; left: 0; right: 0; height: 1.5px; background: var(--degradado-marca-h); background-size: 200% 100%; animation: flow 4s var(--ease-identidad-flujo) infinite; border-radius: 2px; }
+}
+
+/* ══ FOOTER (paramita-footer.css) ════════════════════════════════════════ */
+@layer footer {
+  .foot { position: relative; z-index: 2; background: var(--azul-sutil); color: var(--lino); overflow: hidden; }
+  .foot__hero { position: relative; min-height: clamp(36vh, 44vh, 52vh); display: grid; place-items: center; text-align: center; padding: clamp(2.4rem, 6vh, 4.5rem) 1.2rem; background: radial-gradient(ellipse 65% 72% at 50% 40%, rgba(255,255,255,.32) 0%, transparent 68%), linear-gradient(180deg, color-mix(in oklch, var(--azul-sutil) 72%, #fff) 0%, var(--azul-sutil) 45%, color-mix(in oklch, var(--azul-sutil) 55%, var(--azul-oscuro)) 100%); overflow: hidden; }
+  .foot__canvas { position: absolute; inset: 0; z-index: 1; display: block; }
+  .foot__hero > div { position: relative; z-index: 2; pointer-events: none; }
+  .foot__h { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: clamp(2.4rem, 8vw, 5.5rem); line-height: 1.02; letter-spacing: -0.02em; color: var(--antracita); }
+  .foot__h em { font-style: italic; color: var(--lino); text-shadow: 0 1px 14px rgba(33,30,26,.28); }
+  .foot__hint { margin-top: var(--espacio-elemento); color: color-mix(in oklch, var(--antracita) 62%, transparent); font-size: 0.85rem; }
+  .foot__info { position: relative; z-index: 2; border-top: 1px solid rgba(250,246,240,.12); padding-block: var(--espacio-umbral); background: radial-gradient(ellipse at 30% 20%, color-mix(in oklch, var(--antracita) 70%, var(--azul-oscuro) 30%) 0%, color-mix(in oklch, var(--antracita) 92%, #000) 60%, color-mix(in oklch, var(--antracita) 68%, #000) 100%); }
+  .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: var(--espacio-grupo) var(--espacio-contenido); align-items: start; }
+  .foot .logo-wave { width: 170px; animation-duration: 14s; }
+  .foot .tagline { margin-top: var(--espacio-elemento); max-width: 34ch; color: rgba(250,246,240,.62); font-size: 0.98rem; }
+  .foot h4 { font-family: var(--body); font-weight: var(--wght-asertivo); font-size: 0.74rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--dorado); margin-bottom: var(--espacio-elemento); }
+  .foot a.fl { display: block; padding: 0.28rem 0; color: var(--lino); font-size: 0.96rem; width: max-content; text-shadow: 0 0 12px oklch(78% 0.155 68 / 0.35); transition: color var(--t-defecto), padding var(--t-defecto), text-shadow var(--t-defecto); }
+  .foot a.fl:hover { color: var(--dorado); padding-left: 0.4rem; text-shadow: 0 0 18px oklch(78% 0.155 68 / 0.6), 0 0 4px oklch(78% 0.155 68 / 0.8); }
+  .foot a.email { text-shadow: 0 0 10px oklch(68% 0.13 235 / 0.30); }
+  .foot a.email:hover { color: var(--azul-sutil); }
+  .foot address { font-style: normal; color: rgba(250,246,240,.62); font-size: 0.94rem; line-height: 1.85; }
+  .foot address b { color: var(--lino); font-weight: 600; }
+  .social { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.6rem; pointer-events: auto; }
+  .social a { display: inline-flex; align-items: center; gap: 0.5em; font-size: 0.84rem; color: rgba(250,246,240,.7); border: 1px solid rgba(250,246,240,.18); padding: 0.42rem 0.85rem; border-radius: 99px; transition: color var(--t-defecto), border-color var(--t-defecto), background var(--t-defecto), transform var(--t-defecto); }
+  .social a:hover { color: var(--dorado); border-color: color-mix(in oklch, var(--dorado) 50%, transparent); background: color-mix(in oklch, var(--dorado) 12%, transparent); transform: translateY(-1px); }
+  .ico { width: 16px; height: 16px; flex: none; display: block; }
+  .ico * { vector-effect: non-scaling-stroke; }
+  .foot-base { margin-top: var(--espacio-grupo); padding-top: var(--espacio-grupo); border-top: 1px solid rgba(250,246,240,.12); display: flex; justify-content: space-between; gap: var(--espacio-elemento); flex-wrap: wrap; font-size: 0.8rem; color: rgba(250,246,240,.5); }
+}
+
+/* ══ ACTIVIDADES (estilos específicos de la página) ═══════════════════════ */
+@layer actividades {
+
+  /* HERO — modelo exacto de paramita-hero.css del sistema (Fase 5.6) */
+  .act-hero {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    min-height: calc(100svh - var(--bar-h));
+    display: grid;
+    grid-template-rows: auto;
+    align-content: start;
+    /* Idéntico al .hero real */
+    padding-block: var(--espacio-contenido) var(--espacio-orilla);
+    background: radial-gradient(120% 85% at 80% -12%, var(--calido-zen), transparent 62%);
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .act-hero > * { position: relative; z-index: 2; }
+
+  /* Fondo: imagen + fallback animado */
+  .act-hero__bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .act-hero__bg-img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center;
+    opacity: 0.62; mix-blend-mode: multiply;
+  }
+  .act-hero__bg-fallback {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0.85;
+    background:
+      radial-gradient(70% 60% at 78% 50%, color-mix(in oklch, var(--dorado) 24%, transparent), transparent 70%),
+      radial-gradient(60% 70% at 95% 80%, color-mix(in oklch, var(--azul-sutil) 18%, transparent), transparent 65%),
+      conic-gradient(from 200deg at 80% 40%,
+        color-mix(in oklch, var(--azul-oscuro) 12%, transparent),
+        color-mix(in oklch, var(--dorado) 14%, transparent),
+        color-mix(in oklch, var(--arcilla) 80%, transparent));
+    filter: blur(40px) saturate(1.1);
+    animation: fallbackFlow 18s var(--ease-identidad-flujo) infinite alternate;
+  }
+  @keyframes fallbackFlow { 0%{transform:scale(1.05) translate(0,0)} 100%{transform:scale(1.12) translate(-2%,1%)} }
+
+  /* Velo cálido — idéntico al .hero::after del sistema, reforzado para foto fija */
+  .act-hero::after {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      /* Velo lateral izquierdo — hace legible el texto sobre foto */
+      linear-gradient(90deg,
+        color-mix(in oklch, var(--arena) 75%, transparent) 0%,
+        color-mix(in oklch, var(--arena) 50%, transparent) 35%,
+        color-mix(in oklch, var(--arena) 18%, transparent) 58%,
+        transparent 72%),
+      /* Velo superior */
+      linear-gradient(180deg,
+        color-mix(in oklch, var(--arena) 88%, transparent) 0%,
+        color-mix(in oklch, var(--arena) 62%, transparent) 22%,
+        transparent 55%),
+      /* Velo inferior */
+      linear-gradient(180deg,
+        transparent 65%,
+        color-mix(in oklch, var(--arena) 55%, transparent) 100%);
+  }
+
+  /* hero__inner — grid con gap mínimo; el espaciado lo dan los margin de cada elemento */
+  .act-hero__inner {
+    width: min(var(--contenedor-max), 100% - var(--contenedor-padding) * 2);
+    margin-inline: auto;
+    display: grid;
+    gap: 0; /* Sin gap — cada elemento gestiona su propio espacio inferior */
+    padding-top: clamp(2rem, 6vh, 4rem); /* Empujar el contenido hacia abajo */
+  }
+
+  .act-hero .eyebrow {
+    color: var(--azul-sutil);
+    margin-bottom: clamp(1rem, 2.5vh, 1.8rem); /* Espacio eyebrow → h1 */
+  }
+
+  .act-hero__h1 {
+    font-family: var(--display);
+    font-size: clamp(2.6rem, 7.5vw, 4.6rem);
+    font-weight: var(--wght-contemplativo);
+    line-height: 0.96;
+    letter-spacing: -0.025em;
+    color: var(--antracita);
+    margin: 0 0 clamp(1.2rem, 3vh, 2rem) 0; /* Espacio h1 → lede */
+    padding: 0;
+    max-width: var(--medida-titulo, 18ch);
+    text-wrap: balance;
+  }
+  .act-hero__h1 em { font-style: italic; color: var(--azul-oscuro); }
+
+  .act-hero__sub {
+    font-family: var(--body);
+    font-style: normal;
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    line-height: 1.65;
+    max-width: 46ch;
+    color: var(--texto-suave);
+    margin-bottom: clamp(1.5rem, 3.5vh, 2.5rem); /* Espacio lede → badge */
+  }
+
+  .act-hero .actions {
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: var(--espacio-grupo);
+    margin-top: clamp(0.8rem, 2vh, 1.5rem); /* Espacio badge → CTAs */
+  }
+  /* Badge pastilla próximo Düchen — sobre fondo cálido, tono del sistema */
+  .duchen-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    align-self: start;       /* no estira el ancho completo del grid */
+    width: fit-content;      /* solo tan ancho como su contenido */
+    background: color-mix(in oklch, var(--lino) 88%, transparent);
+    border: 1px solid var(--hair-fuerte);
+    border-radius: 99px;
+    padding: 0.45rem 1.1rem 0.45rem 0.6rem;
+    backdrop-filter: blur(10px);
+    font-size: 0.82rem;
+  }
+  .duchen-badge__dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--dorado);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--dorado) 25%, transparent);
+    flex-shrink: 0;
+    animation: beat 2.6s ease infinite;
+  }
+  @keyframes beat { 0%{box-shadow:0 0 0 0 color-mix(in oklch,var(--dorado) 55%,transparent)} 70%{box-shadow:0 0 0 8px transparent} 100%{box-shadow:0 0 0 0 transparent} }
+  .duchen-badge__txt { color: var(--texto-suave); }
+  .duchen-badge__txt strong { color: var(--antracita); font-weight: 600; }
+  .duchen-badge__txt em { font-style: italic; color: var(--azul-oscuro); font-family: var(--display); }
+
+  /* CALENDARIO SAGRADO */
+  .cal-section { background: var(--lino); padding-block: var(--espacio-orilla); }
+  .cal-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.4rem; flex-wrap: wrap; gap: 1rem; }
+  .cal-h2 { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.05; letter-spacing: -0.02em; color: var(--azul-oscuro); }
+  .cal-h2 em { font-style: italic; color: var(--azul-oscuro); }
+  .cal-header__sub { font-size: 0.78rem; color: var(--texto-tenue); font-style: italic; text-align: right; max-width: 22ch; line-height: 1.5; align-self: flex-end; }
+  .cal-tabla { border: 1px solid var(--hair); border-radius: 14px; overflow: hidden; contain: paint; }
+  .cal-tabla__head { display: grid; grid-template-columns: 88px 1fr 170px; background: var(--azul-oscuro); }
+  .cal-th { padding: 12px 18px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(248,244,235,.4); }
+  .cal-fila { display: grid; grid-template-columns: 88px 1fr 170px; border-bottom: 1px solid var(--hair); cursor: pointer; transition: background var(--t-hover); position: relative; }
+  .cal-fila:last-child { border-bottom: none; }
+  .cal-fila:hover { background: var(--arena); }
+  .cal-fila:hover .cal-cta-btn:not(.is-primary) .txt { background-size: 100% 100%; -webkit-text-fill-color: transparent; }
+  .cal-fila.is-major { background: color-mix(in oklch, var(--dorado) 5%, var(--lino)); }
+  .cal-fila.is-major:hover { background: color-mix(in oklch, var(--dorado) 9%, var(--lino)); }
+  .cal-fila.is-proximo { background: color-mix(in oklch, var(--azul-sutil) 6%, var(--lino)); outline: 1px solid color-mix(in oklch, var(--azul-sutil) 30%, transparent); outline-offset: -1px; }
+  .cal-fecha { padding: 1.2rem 1rem; border-right: 1px solid var(--hair); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .cal-dia { font-family: var(--display); font-style: italic; font-size: 1.7rem; line-height: 1; color: var(--antracita); }
+  .cal-fila.is-major .cal-dia { color: var(--azul-oscuro); }
+  .cal-fila.is-proximo .cal-dia { color: var(--azul-sutil); }
+  .cal-mes { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--texto-tenue); margin-top: 3px; }
+  .cal-contenido { padding: 1.1rem 1.2rem; display: flex; flex-direction: column; justify-content: center; }
+  .cal-badge { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; margin-bottom: 6px; width: fit-content; }
+  .badge--duchen  { background: color-mix(in oklch, var(--dorado) 18%, transparent); color: color-mix(in oklch, var(--dorado) 70%, var(--antracita)); }
+  .badge--mayor   { background: color-mix(in oklch, var(--azul-oscuro) 12%, transparent); color: var(--azul-oscuro); }
+  .badge--mes     { background: color-mix(in oklch, var(--azul-sutil) 12%, transparent); color: var(--azul-sutil); }
+  .badge--losar   { background: color-mix(in oklch, var(--arcilla) 80%, transparent); color: color-mix(in oklch, var(--antracita) 70%, var(--azul-oscuro)); }
+  .cal-titulo { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: 1.06rem; color: var(--antracita); line-height: 1.2; margin-bottom: 3px; }
+  .cal-fila.is-major .cal-titulo { font-size: 1.18rem; }
+  .cal-tibetano { font-size: 0.9rem; color: var(--dorado); letter-spacing: 0.04em; margin-bottom: 4px; opacity: 0.85; }
+  .cal-sub { font-size: 0.8rem; color: var(--texto-suave); line-height: 1.5; }
+  .cal-merito { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+  .merito-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--dorado); box-shadow: 0 0 6px var(--dorado); flex-shrink: 0; }
+  .merito-txt { font-size: 0.72rem; color: var(--dorado); letter-spacing: 0.06em; }
+  .cal-accion {
+    border-left: 1px solid var(--hair);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.2rem 1.4rem;
+  }
+  /* ── Botón terciario — t-link real del sistema (paramita-cta.css) ── */
+  .cal-cta-btn {
+    position: relative;
+    display: inline-flex; align-items: center; gap: 0.5em;
+    font-family: var(--body); font-size: 0.85rem; font-weight: 500;
+    letter-spacing: 0.005em; color: var(--azul-oscuro);
+    background: none; border: none; cursor: pointer;
+    padding: 0.2em 0 0.5em; text-decoration: none; white-space: nowrap;
+    transition: gap var(--t-defecto), letter-spacing var(--t-defecto);
+  }
+  /* Línea inferior fluyendo — idéntica al t-link::after del sistema */
+  .cal-cta-btn::after {
+    content: "";
+    position: absolute; left: 0; right: 1.4em; bottom: 0;
+    height: 1.5px; border-radius: 2px;
+    background: linear-gradient(100deg,
+      var(--azul-oscuro), var(--azul-sutil), var(--dorado),
+      var(--azul-sutil), var(--azul-oscuro));
+    background-size: 200% 100%;
+    animation: flow 14s var(--ease-identidad-flujo) infinite;
+  }
+  .cal-cta-btn .txt {
+    display: inline-block; line-height: 1.15;
+    color: var(--azul-oscuro); -webkit-text-fill-color: currentColor;
+    background-image: linear-gradient(100deg, var(--azul-oscuro), var(--azul-sutil) 45%, var(--dorado));
+    background-size: 0% 100%; background-repeat: no-repeat; background-position: left;
+    -webkit-background-clip: text; background-clip: text;
+    transition: background-size var(--t-revelacion), -webkit-text-fill-color var(--t-defecto);
+  }
+  .cal-cta-btn .arw { color: currentColor; transition: transform var(--t-defecto); font-style: normal; }
+  .cal-cta-btn:hover { gap: 0.85em; letter-spacing: 0.015em; }
+  .cal-cta-btn:hover .txt { background-size: 100% 100%; -webkit-text-fill-color: transparent; color: transparent; }
+  .cal-cta-btn:hover .arw { transform: translateX(4px); color: var(--azul-oscuro); }
+  .cal-cta-btn:hover::after { animation-duration: 5s; }
+
+  /* ── Variante primaria — btn-primario real del sistema ── */
+  .cal-cta-btn.is-primary {
+    position: relative; isolation: isolate;
+    font-size: 0.82rem; font-weight: 600; letter-spacing: 0.005em;
+    color: #fff;
+    /* Reset del padding del t-link base (que incluye espacio para la línea inferior) */
+    padding: 0.55rem 1.1rem;
+    border-radius: 14px; background: none;
+    white-space: nowrap;
+    box-shadow: 0 8px 24px -12px var(--azul-oscuro);
+    transition: transform var(--t-defecto), box-shadow var(--t-revelacion),
+                letter-spacing var(--t-defecto), gap var(--t-defecto);
+  }
+  @supports (corner-shape: superellipse(2)) {
+    .cal-cta-btn.is-primary { border-radius: 14px; corner-shape: superellipse(2); }
+  }
+  /* Degradado respirando */
+  .cal-cta-btn.is-primary::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(100deg, var(--azul-oscuro), var(--azul-sutil), var(--dorado), var(--azul-sutil), var(--azul-oscuro));
+    background-size: 200% 100%;
+    animation: flow 6s var(--ease-identidad-flujo) infinite;
+  }
+  /* Reset de la línea inferior del t-link — el primario no la necesita */
+  .cal-cta-btn.is-primary::after {
+    display: none;
+  }
+  /* Shine en hover — solo en contextos con overflow:hidden; en el calendario omitido */
+  .cal-cta-btn.is-primary .txt { color: #fff; -webkit-text-fill-color: #fff; background-image: none; }
+  .cal-cta-btn.is-primary .arw { color: rgba(255,255,255,.75); }
+  .cal-cta-btn.is-primary:hover {
+    transform: translateY(-2px); letter-spacing: 0.02em; gap: 0.65em; color: #fff;
+    box-shadow: 0 14px 28px -10px var(--azul-oscuro),
+                0 0 14px oklch(78% 0.155 68 / 0.3),
+                0 0 32px 6px oklch(78% 0.155 68 / 0.15);
+  }
+  .cal-cta-btn.is-primary:hover .txt { -webkit-text-fill-color: #fff; color: #fff; }
+  .proximo-tag { position: absolute; top: 50%; right: 185px; transform: translateY(-50%); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; background: var(--azul-sutil); color: #fff; padding: 3px 9px; border-radius: 99px; }
+  .cal-nota { margin-top: 1rem; font-size: 0.78rem; color: var(--texto-tenue); line-height: 1.6; }
+
+  /* VISTA SECTION */
+  .vista-section { background: var(--arena); padding-block: var(--espacio-orilla); }
+  .vista-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.2rem; flex-wrap: wrap; gap: 1.2rem; }
+  .vista-h2 { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.05; letter-spacing: -0.02em; color: var(--azul-oscuro); }
+  .vista-h2 em { font-style: italic; }
+  .vista-toggle { display: flex; background: var(--lino); border: 1px solid var(--hair); border-radius: 10px; padding: 4px; gap: 4px; }
+  .vista-btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 16px; border-radius: 7px; border: none; background: transparent; font-family: var(--body); font-size: 0.82rem; font-weight: 500; color: var(--texto-suave); cursor: pointer; transition: background var(--t-hover), color var(--t-hover); }
+  .vista-btn svg { flex-shrink: 0; stroke: currentColor; fill: none; stroke-width: 1.5; }
+  .vista-btn.is-active { background: var(--azul-oscuro); color: #fff; }
+
+  /* FILTROS */
+  .filtros-bar { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .filtro-chip { display: inline-flex; align-items: center; gap: 6px; padding: 0.42rem 1.1rem; border-radius: 99px; border: 1px solid var(--hair-fuerte); background: transparent; font-family: var(--body); font-size: 0.82rem; font-weight: 500; color: var(--antracita); cursor: pointer; transition: background var(--t-hover), color var(--t-hover), border-color var(--t-hover), box-shadow var(--t-defecto); }
+  .filtro-chip[data-tipo]:not([data-tipo="todos"])::before { content: ''; display: block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+  .filtro-chip.is-active { background: var(--azul-oscuro); color: #fff; border-color: var(--azul-oscuro); box-shadow: 0 0 14px oklch(38% 0.11 245 / 0.3); }
+  .filtro-chip[data-tipo="retiro"].is-active { background: color-mix(in oklch, var(--azul-oscuro) 85%, var(--dorado)); border-color: transparent; }
+  .filtro-chip[data-tipo="evento"].is-active { background: var(--azul-sutil); border-color: transparent; }
+  .filtro-chip[data-tipo="gira"].is-active { background: color-mix(in oklch, var(--azul-oscuro) 60%, var(--azul-sutil)); border-color: transparent; }
+  .filtro-chip[data-tipo="celebracion"].is-active { background: var(--dorado); color: var(--antracita); border-color: transparent; }
+  .filtros-limpiar { background: none; border: none; font-family: var(--body); font-size: 0.82rem; color: var(--texto-suave); cursor: pointer; padding: 6px 12px; border-radius: 99px; opacity: 0; pointer-events: none; transition: opacity var(--t-defecto), color var(--t-defecto); }
+  .filtros-limpiar::before { content: '↺ '; }
+  .filtros-limpiar.is-visible { opacity: 1; pointer-events: auto; }
+  .filtros-limpiar:hover { color: var(--dorado); }
+  .filtros-contador { margin-left: auto; font-size: 0.8rem; color: var(--texto-tenue); }
+  .filtros-contador strong { color: var(--antracita); }
+
+  /* GRID CARDS */
+  .act-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.4rem; }
+  .act-card { position: relative; border-radius: 14px; overflow: hidden; background: var(--card); border: 1px solid var(--hair); cursor: pointer; transition: transform var(--t-defecto), box-shadow var(--t-defecto); }
+  .act-card:hover { transform: translateY(-3px); box-shadow: 0 16px 48px -12px rgba(29,31,38,.18); }
+  .act-card.is-oculto { display: none; }
+  @keyframes iluminacion { 0%{box-shadow:0 0 0 0 rgba(236,172,85,.0)} 40%{box-shadow:0 0 28px 4px rgba(236,172,85,.28)} 100%{box-shadow:0 0 0 0 rgba(236,172,85,.0)} }
+  .act-card.is-iluminando { animation: iluminacion 640ms ease; }
+  .act-card__img { aspect-ratio: 16/9; background: linear-gradient(135deg, var(--arcilla) 0%, var(--calido-zen) 100%); position: relative; overflow: hidden; }
+  .act-card__img-inner { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.5s var(--ease-identidad-flujo); }
+  .act-card:hover .act-card__img-inner { transform: scale(1.04); }
+  .act-card__img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, color-mix(in oklch, var(--antracita) 55%, transparent) 0%, transparent 50%); pointer-events: none; }
+  .act-card__tipo { position: absolute; top: 12px; left: 12px; z-index: 3; display: inline-flex; align-items: center; gap: 5px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 10px; border-radius: 99px; background: color-mix(in oklch, var(--lino) 88%, transparent); border: 0.5px solid rgba(29,31,38,.12); backdrop-filter: blur(10px); color: var(--azul-oscuro); }
+  .act-card__tipo::before { content: ''; display: block; width: 5px; height: 5px; border-radius: 50%; background: currentColor; box-shadow: 0 0 6px currentColor; }
+  .act-card[data-tipo="retiro"]      .act-card__tipo { color: color-mix(in oklch, var(--dorado) 78%, var(--antracita)); }
+  .act-card[data-tipo="evento"]      .act-card__tipo { color: var(--azul-sutil); }
+  .act-card[data-tipo="gira"]        .act-card__tipo { color: color-mix(in oklch, var(--azul-oscuro) 50%, var(--azul-sutil)); }
+  .act-card[data-tipo="celebracion"] .act-card__tipo { color: color-mix(in oklch, var(--dorado) 85%, var(--azul-oscuro)); }
+  .act-card__body { padding: 1.2rem; }
+  .act-card__fecha { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--texto-tenue); margin-bottom: 6px; }
+  .act-card__titulo { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: 1.15rem; line-height: 1.2; color: var(--antracita); margin-bottom: 6px; }
+  .act-card__titulo em { font-style: italic; color: var(--azul-oscuro); }
+  .act-card__desc { font-size: 0.83rem; color: var(--texto-suave); line-height: 1.6; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .act-card__footer { display: flex; justify-content: space-between; align-items: center; padding-top: 0.8rem; border-top: 1px solid var(--hair); gap: 0.5rem; flex-wrap: wrap; }
+  .act-card__meta { font-size: 0.75rem; color: var(--texto-tenue); display: flex; align-items: center; gap: 6px; }
+  .act-card__meta svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.5; flex-shrink: 0; }
+  .act-card__plazas { font-size: 0.72rem; font-weight: 600; color: color-mix(in oklch, var(--dorado) 72%, var(--antracita)); display: flex; align-items: center; gap: 4px; }
+  .plazas-ind { width: 5px; height: 5px; border-radius: 50%; background: var(--dorado); box-shadow: 0 0 5px var(--dorado); }
+
+  /* VISTA CALENDARIO */
+  .vista-cal-wrapper { display: none; }
+  .mes-cal { margin-bottom: 2rem; }
+  .mes-cal__nombre { font-family: var(--display); font-style: italic; font-size: 1.1rem; color: var(--azul-oscuro); margin-bottom: 0.8rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--hair); }
+  .mes-cal__eventos { display: flex; flex-direction: column; gap: 6px; }
+  .mes-evento { display: grid; grid-template-columns: 48px 1fr auto; align-items: center; gap: 0.8rem; padding: 10px 14px; border-radius: 10px; background: var(--card); border: 1px solid var(--hair); cursor: pointer; transition: background var(--t-hover); }
+  .mes-evento:hover { background: var(--lino); }
+  .mes-evento.is-oculto { display: none; }
+  .mes-evento__dia { font-family: var(--display); font-style: italic; font-size: 1.4rem; color: var(--azul-oscuro); text-align: center; line-height: 1; }
+  .mes-evento__titulo { font-size: 0.9rem; font-weight: 500; color: var(--antracita); }
+  .mes-evento__tipo { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; background: color-mix(in oklch, var(--azul-sutil) 12%, transparent); color: var(--azul-sutil); white-space: nowrap; }
+
+  /* VISITA AL CENTRO — degradado idéntico al bloque .retiro de paramita-curso.css */
+  .visita-section {
+    position: relative; isolation: isolate;
+    padding-block: var(--espacio-orilla); overflow: hidden;
+    background: linear-gradient(120deg, var(--azul-oscuro), color-mix(in oklch, var(--azul-oscuro) 60%, var(--antracita)));
+  }
+  /* Halo dorado ambiental — exacto al .retiro::after */
+  .visita-section::after { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .28; background: radial-gradient(120% 80% at 80% 20%, var(--dorado), transparent 60%); pointer-events: none; }
+  .visita-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .visita-texto .eyebrow { color: color-mix(in oklch, var(--dorado) 90%, var(--lino)); }
+  .visita-h2-el { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.05; letter-spacing: -0.02em; color: var(--lino); margin-bottom: 1.2rem; }
+  .visita-h2-el em { font-style: italic; color: var(--lino); }
+  .visita-desc { font-size: 1rem; color: color-mix(in oklch, var(--lino) 82%, transparent); line-height: 1.7; margin-bottom: 1.8rem; max-width: 44ch; }
+  .visita-datos { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 2rem; }
+  .visita-dato { display: flex; align-items: flex-start; gap: 10px; font-size: 0.88rem; color: color-mix(in oklch, var(--lino) 62%, transparent); line-height: 1.5; }
+  .visita-dato svg { width: 16px; height: 16px; stroke: var(--dorado); fill: none; stroke-width: 1.5; flex-shrink: 0; margin-top: 2px; }
+  .visita-dato strong { color: color-mix(in oklch, var(--lino) 92%, transparent); display: block; margin-bottom: 1px; }
+  .visita-media {
+    border-radius: 16px; overflow: hidden; aspect-ratio: 4/3; position: relative;
+    border: 1px solid rgba(255,255,255,.10);
+    background:
+      url('/assets/img/tempo-vista-aerea-luz-dorada.jpeg') center/cover no-repeat,
+      linear-gradient(135deg, var(--arcilla), var(--calido-zen));
+  }
+  /* Velo sutil inferior para que la etiqueta flote sobre la foto */
+  .visita-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,20,30,.45) 0%, transparent 45%); pointer-events: none; }
+  .visita-media-label { position: absolute; bottom: 1rem; left: 1rem; font-size: 0.75rem; color: rgba(248,244,235,.7); display: flex; align-items: center; gap: 6px; background: rgba(29,31,38,.4); backdrop-filter: blur(8px); padding: 5px 12px; border-radius: 99px; }
+  .visita-media-label::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--dorado); box-shadow: 0 0 6px var(--dorado); flex-shrink: 0; }
+}
+
+/* ══ BTN-ACCESO (navbar-publico.html Fase 7) ═════════════════════════════ */
+/* Definición inline para previsualización — en producción viene de paramita-cta.css */
+.btn-acceso {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px; border-radius: 50%; background: transparent;
+  border: 1.4px solid color-mix(in oklch, var(--azul-oscuro) 40%, transparent);
+  color: var(--azul-oscuro); text-decoration: none; cursor: pointer;
+  flex: none; outline: none;
+  transition: transform var(--t-defecto), border-color var(--t-defecto), box-shadow var(--t-revelacion);
+}
+.btn-acceso svg { width: 20px; height: 20px; }
+.btn-acceso:hover {
+  border-color: var(--dorado); transform: translateY(-1px);
+  box-shadow: 0 0 0 3px oklch(78% 0.155 68 / 0.15), 0 0 18px 4px oklch(78% 0.155 68 / 0.24);
+}
+/* logo-fallback — se oculta cuando logo-wave carga */
+.logo-fallback { display: none; }
+.logo-wave + .logo-fallback { display: none; }
+
+/* ══ RESPONSIVE ══════════════════════════════════════════════════════════ */
+@layer responsive {
+  @media (max-width: 980px) {
+    /* ── navbar móvil — paramita-responsive.css real ── */
+    .burger { display: inline-flex; flex-direction: column; gap: 5px; width: 44px; height: 44px; align-items: center; justify-content: center; border-radius: 11px; cursor: pointer; background: none; border: none; }
+    .burger span { width: 22px; height: 2px; background: var(--antracita); border-radius: 2px; transition: transform var(--t-defecto), opacity var(--t-defecto); }
+    .nt:checked ~ .burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nt:checked ~ .burger span:nth-child(2) { opacity: 0; }
+    .nt:checked ~ .burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .menu { position: absolute; top: 100%; left: 0; right: 0; margin: 0; flex-direction: column; align-items: stretch; gap: 0.2rem; padding: var(--espacio-elemento) 5vw var(--espacio-grupo); background: color-mix(in oklch, var(--arena) 97%, transparent); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border-bottom: 1px solid var(--hair); box-shadow: 0 26px 50px -32px rgba(40,33,26,.5); opacity: 0; translate: 0 -12px; display: none; transition: opacity var(--t-defecto), translate var(--t-defecto), display var(--t-defecto) allow-discrete; }
+    .nt:checked ~ .menu { display: flex; opacity: 1; translate: 0 0; }
+    @starting-style { .nt:checked ~ .menu { opacity: 0; translate: 0 -12px; } }
+    .links { flex-direction: column; align-items: stretch; gap: 0.1rem; width: 100%; }
+    .navlink { width: 100%; justify-content: space-between; padding: 0.85rem 0.35rem; font-size: 1.05rem; }
+    .navlink::after { display: none; }
+    .div { display: none; }
+    .sub, .has-sub.end .sub { position: static; translate: 0; opacity: 1; pointer-events: auto; min-width: 0; box-shadow: none; left: auto; right: auto; background: var(--arcilla); margin: 0.2rem 0 0.4rem; -webkit-backdrop-filter: none; backdrop-filter: none; }
+    .ctas { flex-direction: column; align-items: stretch; gap: 0.6rem; margin-top: 0.8rem; }
+    .btn-acceso { margin-left: auto; }
+    .btn-acceso::after { display: none; }
+    .bar:has(.navlink:hover) .navlink:not(:hover) { opacity: 1; }
+    /* ── actividades ── */
+    .duchen-badge { width: fit-content; font-size: 0.75rem; }
+    .cal-tabla__head, .cal-fila { grid-template-columns: 72px 1fr; }
+    .cal-accion, .cal-th:last-child { display: none; }
+    .proximo-tag { right: 12px; }
+    .visita-inner { grid-template-columns: 1fr; }
+    .visita-media { order: -1; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .act-grid { grid-template-columns: 1fr; }
+    .act-hero { min-height: 88svh; }
+    .foot-grid { grid-template-columns: 1fr; }
+    .cal-fecha { padding: 0.9rem 0.7rem; }
+    .cal-dia { font-size: 1.4rem; }
+    .mes-evento { grid-template-columns: 40px 1fr; }
+    .mes-evento__tipo { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+    [data-reveal] { opacity: 1; transform: none; }
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ PARTIAL: partials/navbar-publico.html ═══ -->
+<header class="bar">
+  <div class="bar-inner wrap">
+    <a class="logo" href="/" aria-label="Paramita · inicio">
+      <span class="logo-wave" role="img" aria-label="Paramita"></span>
+      <svg class="logo-fallback" viewBox="0 0 612.3 181.4" role="img" aria-label="Paramita" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#0d539f"><path d="M225.4,64c15.5,0,24.8,7,24.8,18.8s-8.5,19.7-22.9,20c-1.3,0-2.4,0-3.1,0l-.2-1.3c6.7-2.8,9.4-7.7,9.4-18.6s-3.9-15.8-11.9-15.8h-1.4v44.4c0,5.1,1.3,8.5,3.9,10.3v1.3h-23v-1.3c2.5-1.7,3.9-5.1,3.9-10.3v-35.7c0-5.2-1.3-8.7-3.9-10.3v-1.3h24.5Z"/><path d="M295.1,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM274.6,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M506.7,116.4c-3.4,4.5-9,7.4-14.6,7.4-8.1,0-11.6-4.7-11.6-14.4v-27.9h-5.5v-4.2c6.7-2.5,13.5-6.9,17-14h3v13.9l9.8-1-.8,5.2h-9v26.2c0,6,1.8,9,5.6,9s3.2-.4,5.3-1.3l.8,1.1Z"/><path d="M552.4,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM531.8,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M367.7,118.2c-3.1,0-4.6-1.5-4.6-4.4v-18c0-4.8-.3-7.9-2-11-2.3-4.6-7.4-7.2-17.7-7.2s-2.4,0-4.1.4c.7.9,1.2,1.6,1.7,2.6.5-.1.8-.2,2-.2,2.5,0,4.2,1.1,5,3.2.4,1.3.7,4.7.7,10.2v4.4c-1.3-.2-2.8-.3-4.5-.3-5.3,0-10,1.2-13.7,3.7-3.8,2.4-5.7,6-5.7,10.6,0,6.7,4.7,11.6,12,11.6s9.8-1.9,13-5.7c1.7,3.8,4.6,5.7,8.9,5.7s7.4-1.2,10.5-3.9v-1.6h-1.5ZM344.5,117.2c-3.5,0-5.4-2.9-5.4-6.7,0-5.9,3.2-9.5,9.5-9.5v10.8c0,1.3,0,2.5.3,3.5-1.1,1.3-2.6,1.9-4.3,1.9Z"/><path d="M444.2,111.4v-18.2c0-10.5-3-15.5-11.6-15.5s-12.5,3.4-16.4,8.8c-1.2-5.9-4.9-8.8-11-8.8s-11.5,2.9-15.8,8.8v-9.2c-4.9,1.8-10.9,3.5-18.2,5h-.1v1.4l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h22.6v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-22.9c2.2-1.1,4.5-1.7,6.7-1.7,4.2,0,6.3,2.4,6.3,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.2v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-18.8c0-1.5,0-2.9-.3-4.2,1.7-1,3.8-1.5,6.3-1.5,4.6,0,6.9,2.4,6.9,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.6v-1.3c-2.9-2-4.3-5.5-4.3-10.3Z"/><path d="M330.8,77.6c-5.3,0-12.3,4.5-15.5,9.7v-10.1c-5,1.8-10.9,3.6-18.3,5v1.3l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h24.8v-1.3c-4-1.8-6-5.3-6-10.3v-21.5c2.4-2.4,6.6-3.6,8.6-3.8.3,3.9,3.2,7.2,7.1,7.2s7.7-3.3,7.7-8-3.1-7.7-7.9-7.7Z"/><path d="M468.9,70.6c3.4-3.2,3.4-8.7,0-11.9-3.2-3.4-8.7-3.4-11.9,0-3.2,3.2-3.2,8.7,0,11.9,3.2,3.2,8.7,3.2,11.9,0Z"/><path d="M452.4,83.8v1.3l1,.5c1.3.8,2.9,3.4,2.9,6.7v19.1c0,5.1-1.4,8.5-4.3,10.3v1.3h23v-1.3c-2.9-2-4.3-5.5-4.3-10.3v-32.7c-4.9,1.8-10.9,3.6-18.3,5Z"/></g>
+        <g fill="#1cb1da"><circle cx="112.1" cy="58.6" r="10.1"/><path d="M94,67.6s2,5.3,8,10c6,4.7,8.6,10,9,20.3s.5,24.3.5,24.3c0,0-3.8-10.5-4.8-13.6s-4.2-15.9-9.7-21-7.9-5.6-7.9-5.6c0,0,1.1-8.3,4.9-14.4Z"/><path d="M130.3,67.6s-2,5.3-8,10c-6,4.7-8.6,10-9,20.3-.4,10.3-.5,24.3-.5,24.3,0,0,3.8-10.5,4.8-13.6,1-3.1,4.2-15.9,9.7-21,4.7-4.4,7.9-5.6,7.9-5.6,0,0-1.1-8.3-4.9-14.4Z"/></g>
+        <g fill="#0689c2"><path d="M74.3,74.8s2.6,4.3,5.7,5.6,11.6,4.7,15.5,8.6c3.9,3.9,11,25.5,11,25.5,0,0-3.6-5.7-13-9.7,0,0-5.3-2.1-9.7-2.6s-5.9-1.9-7.3-4.9-4.1-13.9-2.2-22.4Z"/><path d="M149.9,74.8s-2.6,4.3-5.7,5.6-11.6,4.7-15.5,8.6-11,25.5-11,25.5c0,0,3.6-5.7,13-9.7,0,0,5.3-2.1,9.7-2.6,4.4-.5,5.9-1.9,7.3-4.9s4.1-13.9,2.2-22.4Z"/></g>
+        <g fill="#0d539f"><path d="M109.8,124s-8.4-29.3-49.1-17.5c0,0,5.7.7,9.9,6,4.2,5.3,7.4,11.2,18,10.2,10.5-1,17.4-1.3,21.2,1.3Z"/><path d="M114.4,124s8.4-29.3,49.1-17.5c0,0-5.7.7-9.9,6s-7.4,11.2-18,10.2c-10.5-1-17.4-1.3-21.2,1.3Z"/></g>
+      </svg>
+    </a>
+
+    <input class="nt" id="nt" type="checkbox" hidden>
+
+    <nav class="menu" aria-label="Principal">
+      <ul class="links">
+        <li><a class="navlink" href="/meditacion/meditacion.html">Meditación</a></li>
+        <li><a class="navlink" href="/formacion/formacion-publica.html">Cursos</a></li>
+        <li><a class="navlink" href="/actividades/actividades.html" aria-current="page">Actividades</a></li>
+        <li><a class="navlink" href="/blog/blog.html">Blog</a></li>
+        <li class="has-sub end">
+          <a class="navlink" href="/sobre" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub" role="menu" aria-label="Sobre Paramita">
+            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Quiénes somos</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quién guía la práctica</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/monasticos-monasticas/monasticos-monasticas.html"><strong>Monásticos y Monásticas</strong><span>La comunidad ordenada</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
+          </ul>
+        </li>
+      </ul>
+      <span class="div" aria-hidden="true"></span>
+      <div class="ctas">
+        <a class="btn-secundario" href="/unete/unete.html">Únete</a>
+        <a class="btn-secundario" href="/contribuir/contribuir.html">Contribuir</a>
+      </div>
+    </nav>
+
+    <a class="btn-acceso" href="/home-logueado/home-logueado.html" aria-label="Entrar a mi cuenta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+      </svg>
+    </a>
+
+    <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
+  </div>
+</header>
+<!-- ═══ /PARTIAL navbar-publico.html ═══ -->
+
+<main>
+
+<!-- ══ HERO — cálido, imagen aérea, estilo home ══════════════════════════ -->
+<section class="act-hero" id="hero" aria-labelledby="hero-h1">
+
+  <!-- Fondo: imagen + fallback animado -->
+  <div class="act-hero__bg" aria-hidden="true">
+    <div class="act-hero__bg-fallback"></div>
+    <img class="act-hero__bg-img"
+         src="/assets/img/tempo-vista-aerea-luz-dorada.jpeg"
+         alt=""
+         loading="eager"
+         fetchpriority="high"
+         onerror="this.style.display='none'">
+  </div>
+
+  <div class="wrap act-hero__inner">
+    <span class="eyebrow" data-reveal>Retiros · Enseñanzas · Celebraciones</span>
+
+    <h1 class="act-hero__h1" id="hero-h1" data-reveal>
+      Un año completo<br>de <em>práctica.</em>
+    </h1>
+
+    <p class="act-hero__sub" data-reveal>
+      Retiros guiados, giras del Khenpo y las festividades del calendario budista tibetano. Todo en un solo lugar.
+    </p>
+
+    <!-- Badge pastilla próximo Düchen — integrado en el flujo editorial -->
+    <div class="duchen-badge" data-reveal aria-label="Próximo día sagrado">
+      <span class="duchen-badge__dot" aria-hidden="true"></span>
+      <span class="duchen-badge__txt">
+        Próximo Düchen: <em>Lhabab Düchen</em> · <strong id="hnd-dias">—</strong> días · mérito ×10M
+      </span>
+    </div>
+
+    <div class="actions" data-reveal>
+      <a class="btn-primario" href="#actividades">Ver actividades</a>
+      <a class="btn-secundario" href="#calendario">Calendario sagrado</a>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ══ I · CALENDARIO SAGRADO ════════════════════════════════════════════ -->
+<section class="cal-section" id="calendario" aria-labelledby="cal-h2-el">
+  <div class="wrap">
+
+    <div class="cal-header">
+      <div data-reveal>
+        <span class="eyebrow">Calendario sagrado</span>
+        <h2 class="cal-h2" id="cal-h2-el">Festividades del <em>año tibetano</em></h2>
+      </div>
+      <p class="cal-header__sub" data-reveal>
+        2027 · Año de la Serpiente de Fuego.
+        <em>El mérito de toda acción se multiplica diez millones de veces.</em>
+      </p>
+    </div>
+
+    <div class="cal-tabla" role="table" aria-label="Festividades del calendario tibetano 2026" data-reveal>
+      <div class="cal-tabla__head" role="row">
+        <div class="cal-th" role="columnheader">Fecha</div>
+        <div class="cal-th" role="columnheader">Festividad</div>
+        <div class="cal-th" role="columnheader" style="text-align:center">Participar</div>
+      </div>
+
+      <div class="cal-fila" role="row" tabindex="0">
+        <div class="cal-fecha" role="cell"><div class="cal-dia">18</div><div class="cal-mes">Feb</div></div>
+        <div class="cal-contenido" role="cell">
+          <span class="cal-badge badge--losar">Año nuevo</span>
+          <div class="cal-titulo">Losar — Año Nuevo Tibetano 2153</div>
+          <div class="cal-tibetano">ལོ་གསར།</div>
+          <div class="cal-sub">Serpiente de Fuego · Purificación y renovación de intenciones para el ciclo que comienza</div>
+          <div class="cal-merito"><span class="merito-dot"></span><span class="merito-txt">Mérito × 100.000</span></div>
+        </div>
+        <div class="cal-accion" role="cell"><button class="cal-cta-btn"><span class="txt">Ver celebración</span><span class="arw" aria-hidden="true">→</span></button></div>
+      </div>
+
+      <div class="cal-fila is-major" role="row" tabindex="0">
+        <div class="cal-fecha" role="cell"><div class="cal-dia">05</div><div class="cal-mes">Mar</div></div>
+        <div class="cal-contenido" role="cell">
+          <span class="cal-badge badge--duchen">Düchen</span>
+          <div class="cal-titulo">Chötrul Düchen · Día de los Milagros</div>
+          <div class="cal-tibetano">འཕགས་པའི་ཡིད་འཕྲོག།</div>
+          <div class="cal-sub">El Buda desplegó poderes milagrosos durante quince días · Fin del Gran Festival de los Rezos</div>
+          <div class="cal-merito"><span class="merito-dot"></span><span class="merito-txt">Mérito × 10.000.000</span></div>
+        </div>
+        <div class="cal-accion" role="cell"><button class="cal-cta-btn"><span class="txt">Práctica del día</span><span class="arw" aria-hidden="true">→</span></button></div>
+      </div>
+
+      <div class="cal-fila" role="row" tabindex="0">
+        <div class="cal-fecha" role="cell"><div class="cal-dia">01</div><div class="cal-mes">May</div></div>
+        <div class="cal-contenido" role="cell">
+          <span class="cal-badge badge--mes">Mes sagrado</span>
+          <div class="cal-titulo">Inicio Saga Dawa — Mes de los méritos</div>
+          <div class="cal-tibetano">སཀ་ཟླ།</div>
+          <div class="cal-sub">Todo mayo es propicio para la práctica virtuosa · Actividades especiales durante el mes completo</div>
+          <div class="cal-merito"><span class="merito-dot"></span><span class="merito-txt">Todo el mes multiplicado</span></div>
+        </div>
+        <div class="cal-accion" role="cell"><button class="cal-cta-btn"><span class="txt">Ver programa</span><span class="arw" aria-hidden="true">→</span></button></div>
+      </div>
+
+      <div class="cal-fila is-major" role="row" tabindex="0">
+        <div class="cal-fecha" role="cell"><div class="cal-dia">31</div><div class="cal-mes">May</div></div>
+        <div class="cal-contenido" role="cell">
+          <span class="cal-badge badge--mayor">Düchen mayor · El más sagrado</span>
+          <div class="cal-titulo">Saga Dawa Düchen</div>
+          <div class="cal-tibetano">སཀ་ཟླའི་དུས་ཆེན།</div>
+          <div class="cal-sub">Conmemora el nacimiento, la iluminación y el parinirvana del Buda Shakyamuni simultáneamente</div>
+          <div class="cal-merito"><span class="merito-dot"></span><span class="merito-txt">Mérito × 100.000.000</span></div>
+        </div>
+        <div class="cal-accion" role="cell"><button class="cal-cta-btn"><span class="txt">Preparar práctica</span><span class="arw" aria-hidden="true">→</span></button></div>
+      </div>
+
+      <div class="cal-fila is-major" role="row" tabindex="0">
+        <div class="cal-fecha" role="cell"><div class="cal-dia">18</div><div class="cal-mes">Jul</div></div>
+        <div class="cal-contenido" role="cell">
+          <span class="cal-badge badge--duchen">Düchen</span>
+          <div class="cal-titulo">Chökhor Düchen · Primera enseñanza del Buda</div>
+          <div class="cal-tibetano">འཁོར་ལོ་བསྐོར་བའི་དུས་ཆེན།</div>
+          <div class="cal-sub">El Buda giró por primera vez la Rueda del Dharma en Sarnath · Las Cuatro Nobles Verdades</div>
+          <div class="cal-merito"><span class="merito-dot"></span><span class="merito-txt">Mérito × 10.000.000</span></div>
+        </div>
+        <div class="cal-accion" role="cell"><button class="cal-cta-btn"><span class="txt">Unirse a la puja</span><span class="arw" aria-hidden="true">→</span></button></div>
+      </div>
+
+      <div class="cal-fila is-major is-proximo" role="row" tabindex="0">
+        <div class="cal-fecha" role="cell"><div class="cal-dia">03</div><div class="cal-mes">Nov</div></div>
+        <div class="cal-contenido" role="cell">
+          <span class="cal-badge badge--duchen">Düchen</span>
+          <div class="cal-titulo">Lhabab Düchen · Descenso del Buda</div>
+          <div class="cal-tibetano">ལྷ་བབ་དུས་ཆེན།</div>
+          <div class="cal-sub">Retorno desde los cielos tras enseñar el Abhidharma a su madre · El día más propicio del otoño</div>
+          <div class="cal-merito"><span class="merito-dot"></span><span class="merito-txt">Mérito × 10.000.000</span></div>
+        </div>
+        <div class="cal-accion" role="cell"><button class="cal-cta-btn is-primary"><span class="txt">Práctica del día</span><span class="arw" aria-hidden="true">→</span></button></div>
+        <span class="proximo-tag">Próximo</span>
+      </div>
+
+    </div>
+    <p class="cal-nota">Las fechas siguen el calendario lunar tibetano (tradición Phugpa) y varían cada año al convertirse al gregoriano. El texto tibetano es el nombre original en la tradición Sakya.</p>
+  </div>
+</section>
+
+
+<!-- ══ II · ACTIVIDADES + FILTROS + TOGGLE VISTA ═════════════════════════ -->
+<section class="vista-section" id="actividades" aria-labelledby="act-h2-el">
+  <div class="wrap">
+
+    <div class="vista-header">
+      <div data-reveal>
+        <span class="eyebrow">Actividades 2027</span>
+        <h2 class="vista-h2" id="act-h2-el">Todo el año,<br><em>en un solo lugar</em></h2>
+      </div>
+      <div class="vista-toggle" role="group" aria-label="Cambiar vista" data-reveal>
+        <button class="vista-btn is-active" id="btn-lista" aria-pressed="true">
+          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><line x1="2" y1="3" x2="12" y2="3"/><line x1="2" y1="7" x2="12" y2="7"/><line x1="2" y1="11" x2="12" y2="11"/></svg>Cards
+        </button>
+        <button class="vista-btn" id="btn-cal" aria-pressed="false">
+          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="2" width="10" height="10" rx="1.5"/><line x1="5" y1="1" x2="5" y2="3"/><line x1="9" y1="1" x2="9" y2="3"/><line x1="2" y1="5" x2="12" y2="5"/></svg>Calendario
+        </button>
+      </div>
+    </div>
+
+    <!-- Filtros — mismo idioma que paramita-formacion.js -->
+    <div class="filtros-bar" role="group" aria-label="Filtrar por tipo">
+      <button class="filtro-chip is-active" data-tipo="todos">Todos</button>
+      <button class="filtro-chip" data-tipo="retiro">Retiro</button>
+      <button class="filtro-chip" data-tipo="evento">Evento</button>
+      <button class="filtro-chip" data-tipo="gira">Gira</button>
+      <button class="filtro-chip" data-tipo="celebracion">Celebración</button>
+      <button class="filtros-limpiar" id="filtros-limpiar">Limpiar</button>
+      <span class="filtros-contador" aria-live="polite">Mostrando <strong id="act-contador">10</strong> actividades</span>
+    </div>
+
+    <!-- VISTA CARDS -->
+    <div id="vista-cards">
+      <div class="act-grid" id="act-cuadricula">
+
+        <article class="act-card" data-tipo="retiro" tabindex="0">
+          <div class="act-card__img"><div class="act-card__img-inner" style="background:linear-gradient(135deg,oklch(38% 0.11 245) 0%,oklch(68% 0.13 235) 100%)"></div><span class="act-card__tipo">Retiro</span></div>
+          <div class="act-card__body">
+            <div class="act-card__fecha">17–20 Enero 2027 · 4 días</div>
+            <h3 class="act-card__titulo">Retiro de Invierno <em>en Silencio</em></h3>
+            <p class="act-card__desc">Cuatro días de práctica continuada de shamatha y vipassana en el silencio de Monte Sella. Pensión completa vegetariana. Guiado por el Khenpo.</p>
+            <div class="act-card__footer">
+              <span class="act-card__meta"><svg viewBox="0 0 14 14"><path d="M7 1C4.2 1 2 3.2 2 6c0 3.8 5 7 5 7s5-3.2 5-7c0-2.8-2.2-5-5-5z"/><circle cx="7" cy="6" r="1.5"/></svg>Monte Sella</span>
+              <span class="act-card__plazas"><span class="plazas-ind"></span>6 plazas</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="act-card" data-tipo="celebracion" tabindex="0">
+          <div class="act-card__img"><div class="act-card__img-inner" style="background:linear-gradient(135deg,oklch(78% 0.155 68) 0%,oklch(68% 0.13 235) 100%)"></div><span class="act-card__tipo">Celebración</span></div>
+          <div class="act-card__body">
+            <div class="act-card__fecha">18 Febrero 2027 · Acceso libre</div>
+            <h3 class="act-card__titulo">Losar — <em>Año Nuevo Tibetano</em></h3>
+            <p class="act-card__desc">Puja ceremonial de inauguración del Año de la Oveja de Fuego. Práctica colectiva, ofrenda de incienso y thangkas en procesión. Toda la comunidad bienvenida.</p>
+            <div class="act-card__footer">
+              <span class="act-card__meta"><svg viewBox="0 0 14 14"><path d="M7 1C4.2 1 2 3.2 2 6c0 3.8 5 7 5 7s5-3.2 5-7c0-2.8-2.2-5-5-5z"/><circle cx="7" cy="6" r="1.5"/></svg>Monte Sella · Online disponible</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="act-card" data-tipo="celebracion" tabindex="0">
+          <div class="act-card__img"><div class="act-card__img-inner" style="background:linear-gradient(135deg,oklch(90% 0.02 80) 0%,oklch(78% 0.155 68) 100%)"></div><span class="act-card__tipo">Celebración</span></div>
+          <div class="act-card__body">
+            <div class="act-card__fecha">05 Marzo 2027 · Düchen · Libre</div>
+            <h3 class="act-card__titulo">Chötrul Düchen · <em>Día de los Milagros</em></h3>
+            <p class="act-card__desc">Puja ceremonial en el día de mayor mérito del primer mes tibetano. Las acciones virtuosas de este día tienen un efecto diez millones de veces más poderoso.</p>
+            <div class="act-card__footer">
+              <span class="act-card__meta"><svg viewBox="0 0 14 14"><path d="M7 1C4.2 1 2 3.2 2 6c0 3.8 5 7 5 7s5-3.2 5-7c0-2.8-2.2-5-5-5z"/><circle cx="7" cy="6" r="1.5"/></svg>Monte Sella</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="act-card" data-tipo="evento" tabindex="0">
+          <div class="act-card__img"><div class="act-card__img-inner" style="background:linear-gradient(135deg,oklch(68% 0.13 235) 0%,oklch(38% 0.11 245) 100%)"></div><span class="act-card__tipo">Evento</span></div>
+          <div class="act-card__body">
+            <div class="act-card__fecha">08 Marzo 2027 · Gratuito</div>
+            <h3 class="act-card__titulo">Charla pública: <em>La mente de despertar</em></h3>
+            <p class="act-card__desc">Introducción abierta a la bodhichita impartida por el Venerable Khenpo Rinchen Gyaltsen. Aforo limitado a 80 personas. Retransmisión online disponible.</p>
+            <div class="act-card__footer">
+              <span class="act-card__meta"><svg viewBox="0 0 14 14"><path d="M7 1C4.2 1 2 3.2 2 6c0 3.8 5 7 5 7s5-3.2 5-7c0-2.8-2.2-5-5-5z"/><circle cx="7" cy="6" r="1.5"/></svg>Sala principal · Online</span>
+              <span class="act-card__plazas"><span class="plazas-ind"></span>32 plazas</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="act-card" data-tipo="retiro" tabindex="0">
+          <div class="act-card__img"><div class="act-card__img-inner" style="background:linear-gradient(135deg,oklch(38% 0.11 245) 0%,oklch(78% 0.155 68) 100%)"></div><span class="act-card__tipo">Retiro</span></div>
+          <div class="act-card__body">
+            <div class="act-card__fecha">21–28 Marzo 2027 · 7 días</div>
+            <h3 class="act-card__titulo">Semana de Primavera: <em>Bodichita</em></h3>
+            <p class="act-card__desc">Siete días de práctica guiada sobre la mente del despertar. Enseñanzas matinales, meditación vespertina y práctica en silencio. Alojamiento disponible.</p>
+            <div class="act-card__footer">
+              <span class="act-card__meta"><svg viewBox="0 0 14 14"><path d="M7 1C4.2 1 2 3.2 2 6c0 3.8 5 7 5 7s5-3.2 5-7c0-2.8-2.2-5-5-5z"/><circle cx="7" cy="6" r="1.5"/></svg>Monte Sella</span>
+              <span class="act-card__plazas"><span class="plazas-ind"></span>4 plazas</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="act-card" data-tipo="gira" tabindex="0">
+          <div class="act-card__img"><div class="act-card__img-inner" style="background:linear-gradient(135deg,oklch(68% 0.13 235) 0%,oklch(78% 0.155 68) 100%)"></div><span class="act-card__tipo">Gira</span></div>
+          <div class="act-card__body">
+            <div class="act-card__fecha">10–14 Abril 2027 · Madrid y Barcelona</div>
+            <h3 class="act-card__titulo">Gira del Khenpo: <em>Sufrimiento y liberación</em></h3>
+            <p class="act-card__desc">El Venerable Khenpo Rinchen Gyaltsen imparte enseñanzas públicas en Madrid (11 abr) y Barcelona (13 abr). Las sesiones son abiertas y gratuitas, con aforo limitado.</p>
+            <div class="act-card__footer">
+              <span class="act-card__meta"><svg viewBox="0 0 14 14"><path d="M7 1C4.2 1 2 3.2 2 6c0 3.8 5 7 5 7s5-3.2 5-7c0-2.8-2.2-5-5-5z"/><circle cx="7" cy="6" r="1.5"/></svg>Madrid · Barcelona</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="act-card" data-tipo="celebracion" tabindex="0">
+          <div class="act-card__img"><div class="act-card__img-inner" style="background:linear-gradient(135deg,oklch(78% 0.155 68) 0%,oklch(38% 0.11 245) 100%)"></div><span class="act-card__tipo">Celebración</span></div>
+          <div class="act-card__body">
+            <div class="act-card__fecha">31 Mayo 2027 · Düchen mayor</div>
+            <h3 class="act-card__titulo">Saga Dawa Düchen · <em>El día más sagrado</em></h3>
+            <p class="act-card__desc">La festividad más importante del año. Conmemora el nacimiento, la iluminación y el parinirvana del Buda. Puja de larga vida + práctica colectiva. Online y presencial.</p>
+            <div class="act-card__footer">
+              <span class="act-card__meta"><svg viewBox="0 0 14 14"><path d="M7 1C4.2 1 2 3.2 2 6c0 3.8 5 7 5 7s5-3.2 5-7c0-2.8-2.2-5-5-5z"/><circle cx="7" cy="6" r="1.5"/></svg>Monte Sella · Online disponible</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="act-card" data-tipo="evento" tabindex="0">
+          <div class="act-card__img"><div class="act-card__img-inner" style="background:linear-gradient(135deg,oklch(68% 0.13 235) 0%,oklch(90% 0.02 80) 100%)"></div><span class="act-card__tipo">Evento</span></div>
+          <div class="act-card__body">
+            <div class="act-card__fecha">14–16 Junio 2027 · Fin de semana</div>
+            <h3 class="act-card__titulo">Taller: <em>Introducción al Dzogchen</em></h3>
+            <p class="act-card__desc">Fin de semana intensivo sobre la Gran Perfección. Enseñanzas de introducción y práctica de la naturaleza de la mente. 20 plazas máximo.</p>
+            <div class="act-card__footer">
+              <span class="act-card__meta"><svg viewBox="0 0 14 14"><path d="M7 1C4.2 1 2 3.2 2 6c0 3.8 5 7 5 7s5-3.2 5-7c0-2.8-2.2-5-5-5z"/><circle cx="7" cy="6" r="1.5"/></svg>Monte Sella</span>
+              <span class="act-card__plazas"><span class="plazas-ind"></span>11 plazas</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="act-card" data-tipo="gira" tabindex="0">
+          <div class="act-card__img"><div class="act-card__img-inner" style="background:linear-gradient(135deg,oklch(38% 0.11 245) 0%,oklch(68% 0.13 235) 100%)"></div><span class="act-card__tipo">Gira</span></div>
+          <div class="act-card__body">
+            <div class="act-card__fecha">18–28 Julio 2027 · México y Colombia</div>
+            <h3 class="act-card__titulo">Gira Latinoamérica: <em>El Buda y nosotros</em></h3>
+            <p class="act-card__desc">Gira anual del Khenpo por Ciudad de México (19–23 jul) y Bogotá (25–28 jul). Enseñanzas públicas, puja del Chökhor Düchen y encuentro con la comunidad hispanohablante.</p>
+            <div class="act-card__footer">
+              <span class="act-card__meta"><svg viewBox="0 0 14 14"><path d="M7 1C4.2 1 2 3.2 2 6c0 3.8 5 7 5 7s5-3.2 5-7c0-2.8-2.2-5-5-5z"/><circle cx="7" cy="6" r="1.5"/></svg>México · Colombia</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="act-card" data-tipo="retiro" tabindex="0">
+          <div class="act-card__img"><div class="act-card__img-inner" style="background:linear-gradient(135deg,oklch(38% 0.11 245) 0%,oklch(68% 0.13 235) 50%,oklch(78% 0.155 68) 100%)"></div><span class="act-card__tipo">Retiro</span></div>
+          <div class="act-card__body">
+            <div class="act-card__fecha">25 Oct – 2 Nov 2027 · 9 días</div>
+            <h3 class="act-card__titulo">Gran Retiro <em>de Otoño</em></h3>
+            <p class="act-card__desc">El retiro más largo del año: nueve días de práctica intensiva culminando el día anterior al Lhabab Düchen. Meditación, enseñanzas y trabajo interno sobre la impermanencia.</p>
+            <div class="act-card__footer">
+              <span class="act-card__meta"><svg viewBox="0 0 14 14"><path d="M7 1C4.2 1 2 3.2 2 6c0 3.8 5 7 5 7s5-3.2 5-7c0-2.8-2.2-5-5-5z"/><circle cx="7" cy="6" r="1.5"/></svg>Monte Sella</span>
+              <span class="act-card__plazas"><span class="plazas-ind"></span>2 plazas</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- VISTA CALENDARIO (meses) -->
+    <div class="vista-cal-wrapper" id="vista-calendario">
+
+      <div class="mes-cal" data-reveal>
+        <div class="mes-cal__nombre">Enero 2027</div>
+        <div class="mes-cal__eventos">
+          <div class="mes-evento" data-tipo="retiro" tabindex="0"><div class="mes-evento__dia">17</div><div class="mes-evento__titulo">Retiro de Invierno en Silencio <small style="color:var(--texto-tenue)">· 4 días</small></div><span class="mes-evento__tipo" style="background:color-mix(in oklch,var(--azul-oscuro) 10%,transparent);color:var(--azul-oscuro)">Retiro</span></div>
+        </div>
+      </div>
+
+      <div class="mes-cal">
+        <div class="mes-cal__nombre">Febrero 2027</div>
+        <div class="mes-cal__eventos">
+          <div class="mes-evento" data-tipo="celebracion" tabindex="0"><div class="mes-evento__dia">18</div><div class="mes-evento__titulo">Losar — Año Nuevo Tibetano</div><span class="mes-evento__tipo" style="background:color-mix(in oklch,var(--dorado) 12%,transparent);color:color-mix(in oklch,var(--dorado) 70%,var(--antracita))">Celebración</span></div>
+        </div>
+      </div>
+
+      <div class="mes-cal">
+        <div class="mes-cal__nombre">Marzo 2027</div>
+        <div class="mes-cal__eventos">
+          <div class="mes-evento" data-tipo="celebracion" tabindex="0"><div class="mes-evento__dia">05</div><div class="mes-evento__titulo">Chötrul Düchen · Día de los Milagros</div><span class="mes-evento__tipo" style="background:color-mix(in oklch,var(--dorado) 12%,transparent);color:color-mix(in oklch,var(--dorado) 70%,var(--antracita))">Celebración</span></div>
+          <div class="mes-evento" data-tipo="evento" tabindex="0"><div class="mes-evento__dia">08</div><div class="mes-evento__titulo">Charla pública: La mente de despertar</div><span class="mes-evento__tipo">Evento</span></div>
+          <div class="mes-evento" data-tipo="retiro" tabindex="0"><div class="mes-evento__dia">21</div><div class="mes-evento__titulo">Semana de Primavera: Bodichita <small style="color:var(--texto-tenue)">· 7 días</small></div><span class="mes-evento__tipo" style="background:color-mix(in oklch,var(--azul-oscuro) 10%,transparent);color:var(--azul-oscuro)">Retiro</span></div>
+        </div>
+      </div>
+
+      <div class="mes-cal">
+        <div class="mes-cal__nombre">Abril 2027</div>
+        <div class="mes-cal__eventos">
+          <div class="mes-evento" data-tipo="gira" tabindex="0"><div class="mes-evento__dia">10</div><div class="mes-evento__titulo">Gira del Khenpo: Madrid y Barcelona <small style="color:var(--texto-tenue)">· 5 días</small></div><span class="mes-evento__tipo" style="background:color-mix(in oklch,var(--azul-sutil) 12%,transparent);color:var(--azul-sutil)">Gira</span></div>
+        </div>
+      </div>
+
+      <div class="mes-cal">
+        <div class="mes-cal__nombre">Mayo 2027 · <em style="color:var(--dorado);font-size:.85em">Mes del Saga Dawa</em></div>
+        <div class="mes-cal__eventos">
+          <div class="mes-evento" data-tipo="celebracion" tabindex="0"><div class="mes-evento__dia">31</div><div class="mes-evento__titulo">Saga Dawa Düchen · El día más sagrado del año</div><span class="mes-evento__tipo" style="background:color-mix(in oklch,var(--dorado) 12%,transparent);color:color-mix(in oklch,var(--dorado) 70%,var(--antracita))">Celebración</span></div>
+        </div>
+      </div>
+
+      <div class="mes-cal">
+        <div class="mes-cal__nombre">Junio 2027</div>
+        <div class="mes-cal__eventos">
+          <div class="mes-evento" data-tipo="evento" tabindex="0"><div class="mes-evento__dia">14</div><div class="mes-evento__titulo">Taller: Introducción al Dzogchen <small style="color:var(--texto-tenue)">· 2 días</small></div><span class="mes-evento__tipo">Evento</span></div>
+        </div>
+      </div>
+
+      <div class="mes-cal">
+        <div class="mes-cal__nombre">Julio 2027</div>
+        <div class="mes-cal__eventos">
+          <div class="mes-evento" data-tipo="gira" tabindex="0"><div class="mes-evento__dia">18</div><div class="mes-evento__titulo">Gira Latinoamérica: México y Colombia <small style="color:var(--texto-tenue)">· 11 días</small></div><span class="mes-evento__tipo" style="background:color-mix(in oklch,var(--azul-sutil) 12%,transparent);color:var(--azul-sutil)">Gira</span></div>
+        </div>
+      </div>
+
+      <div class="mes-cal">
+        <div class="mes-cal__nombre">Octubre–Noviembre 2027</div>
+        <div class="mes-cal__eventos">
+          <div class="mes-evento" data-tipo="retiro" tabindex="0"><div class="mes-evento__dia">25</div><div class="mes-evento__titulo">Gran Retiro de Otoño <small style="color:var(--texto-tenue)">· 9 días</small></div><span class="mes-evento__tipo" style="background:color-mix(in oklch,var(--azul-oscuro) 10%,transparent);color:var(--azul-oscuro)">Retiro</span></div>
+          <div class="mes-evento" data-tipo="celebracion" tabindex="0"><div class="mes-evento__dia">03</div><div class="mes-evento__titulo">Lhabab Düchen · Descenso del Buda</div><span class="mes-evento__tipo" style="background:color-mix(in oklch,var(--dorado) 12%,transparent);color:color-mix(in oklch,var(--dorado) 70%,var(--antracita))">Celebración</span></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══ III · VISITA AL CENTRO ════════════════════════════════════════════ -->
+<section class="visita-section" aria-labelledby="visita-h2-el">
+  <div class="wrap">
+    <div class="visita-inner">
+
+      <div class="visita-texto" data-reveal>
+        <span class="eyebrow">El lugar</span>
+        <h2 class="visita-h2-el" id="visita-h2-el">Monte Sella,<br><em>Pedreguer</em></h2>
+        <p class="visita-desc">La sede de Paramita es un espacio de práctica en las montañas del norte de Alicante, a treinta minutos de la costa. Un lugar donde la naturaleza mediterránea y la arquitectura contemplativa generan las condiciones para la práctica profunda.</p>
+
+        <div class="visita-datos">
+          <div class="visita-dato">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1C5.2 1 3 3.2 3 6c0 3.8 5 9 5 9s5-5.2 5-9c0-2.8-2.2-5-5-5z"/><circle cx="8" cy="6" r="1.5" fill="none"/></svg>
+            <div><strong>Cómo llegar</strong>Fundació Sakya Paramita · Monte Sella, Pedreguer (Alicante). A 30 min de Dénia, Gandia y Xàbia. Parking propio.</div>
+          </div>
+          <div class="visita-dato">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 3V2M11 3V2M2 7h12"/></svg>
+            <div><strong>Horario de atención</strong>Martes a sábado de 10 h a 13 h y de 15 h a 17 h. Consultas: secretaria@paramita.org</div>
+          </div>
+          <div class="visita-dato">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2C5.2 2 3 4.2 3 7c0 3.8 5 7 5 7s5-3.2 5-7c0-2.8-2.2-5-5-5z"/><path d="M8 5v3l2 2"/></svg>
+            <div><strong>Alojamiento y manutención</strong>Disponibles para retiros y actividades de varios días. Habitaciones individuales y compartidas. Cocina vegetariana.</div>
+          </div>
+          <div class="visita-dato">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 4v4l3 3"/></svg>
+            <div><strong>Acceso a los templos</strong>El Templo del Buda y el Templo de Tara están abiertos para práctica personal durante las horas de atención.</div>
+          </div>
+        </div>
+
+        <div class="ctas">
+          <a class="btn-primario" href="/contacto/">Cómo llegar</a>
+          <a class="btn-secundario btn-secundario--claro" href="/sobre/">La Fundación</a>
+        </div>
+      </div>
+
+      <div class="visita-media" data-reveal>
+        <span class="visita-media-label">Monte Sella · Pedreguer, Alicante</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+
+<!-- ═══ PARTIAL: partials/prefooter.html ═══ -->
+<section class="foot__hero" aria-labelledby="prefooter-titulo">
+  <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
+  <div>
+    <h2 class="foot__h" id="prefooter-titulo">Practiquemos <em>juntos</em>.</h2>
+    <p class="foot__hint">Pasa el cursor o toca entre las figuras.</p>
+  </div>
+</section>
+<!-- ═══ /PARTIAL prefooter.html ═══ -->
+
+<!-- ═══ PARTIAL: partials/footer.html ═══ -->
+<footer class="foot" id="contacto">
+  <div class="foot__info">
+    <div class="wrap">
+      <div class="foot-grid">
+
+        <div>
+          <span class="logo-wave" role="img" aria-label="Paramita"></span>
+          <p class="tagline">Meditación y enseñanzas del Buddha, como puente entre los Himalayas y el mundo hispanohablante.</p>
+          <div class="social">
+            <a href="#facebook" aria-label="Facebook"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M13.7 8.3c-1.5-.3-2.6.3-2.6 2V17"/><path d="M9.7 11.7h3.6"/></svg>Facebook</a>
+            <a href="#youtube" aria-label="YouTube"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4.2"/><path d="M10.4 9.4 15 12l-4.6 2.6z"/></svg>YouTube</a>
+            <a href="#instagram" aria-label="Instagram"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="16.8" cy="7.2" r=".7" fill="currentColor" stroke="none"/></svg>Instagram</a>
+            <a href="#spotify" aria-label="Spotify"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.4 9.7c3-.9 6.6-.6 9.1.9"/><path d="M8 12.6c2.4-.7 5.2-.4 7.2.8"/><path d="M8.6 15.4c1.9-.5 4-.3 5.6.6"/></svg>Spotify</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>Navegar</h4>
+          <a class="fl" href="/meditacion/meditacion.html">Meditación</a>
+          <a class="fl" href="/formacion/formacion-publica.html">Cursos</a>
+          <a class="fl" href="/actividades/actividades.html">Actividades</a>
+          <a class="fl" href="/blog/blog.html">Blog</a>
+          <a class="fl" href="/sobre">Sobre</a>
+        </div>
+
+        <div>
+          <h4>Contacto</h4>
+          <address>
+            <b>Dirección</b><br>Av. de Comtat, 1 Bis, buzón 207<br>Pedreguer (Muntanya de la Sella)<br>03750 Alicante, España<br><br>
+            <b>Teléfono</b> (+34) 965 760 777<br>
+            <a class="fl" href="mailto:secretaria@paramita.org">secretaria@paramita.org</a>
+            <a class="fl" href="mailto:soporte@paramita.org">soporte@paramita.org</a><br>
+            <b>Horario</b> L–V · 10–13 h y 15–17 h
+          </address>
+        </div>
+
+      </div>
+
+      <div class="foot-base">
+        <span>© 2026 Fundación Paramita. Todos los seres, libres del sufrimiento.</span>
+        <span>Centro Budista Sakya · Alicante</span>
+      </div>
+
+    </div>
+  </div>
+</footer>
+<!-- ═══ /PARTIAL footer.html ═══ -->
+
+
+<!-- SCRIPTS — orden del sistema: primitivos → componentes → páginas -->
+<script src="/js/primitivos/paramita-reveal.js" defer></script>
+<script src="/js/primitivos/paramita-gsap-refresh.js" defer></script>
+<script src="/js/componentes/paramita-bar.js" defer></script>
+<script src="/js/componentes/paramita-footer-lotos.js" defer></script>
+
+<script>
+(function () {
+'use strict';
+
+/* ── Countdown Lhabab Düchen ─────────────────────────────────────────── */
+(function () {
+  const target = new Date('2026-11-03T00:00:00');
+  const diff   = Math.ceil((target - new Date()) / 86400000);
+  const el     = document.getElementById('hnd-dias');
+  if (el) el.textContent = diff > 0 ? diff : 'Hoy';
+})();
+
+/* ── paramita-bar.js fallback (si no carga el script externo) ────────── */
+if (!window._paramitaBar) {
+  const bar = document.querySelector('header.bar');
+  if (bar) {
+    const onScroll = () => bar.classList.toggle('scrolled', window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+}
+
+/* ── Toggle vista cards / calendario ─────────────────────────────────── */
+const btnLista = document.getElementById('btn-lista');
+const btnCal   = document.getElementById('btn-cal');
+const vCards   = document.getElementById('vista-cards');
+const vCal     = document.getElementById('vista-calendario');
+
+vCal.style.display = 'none';
+
+function setVista(modo) {
+  const esCards = modo === 'cards';
+  btnLista.classList.toggle('is-active', esCards);
+  btnCal.classList.toggle('is-active', !esCards);
+  btnLista.setAttribute('aria-pressed', String(esCards));
+  btnCal.setAttribute('aria-pressed',  String(!esCards));
+  vCards.style.display = esCards ? '' : 'none';
+  vCal.style.display   = esCards ? 'none' : '';
+  aplicarFiltros();
+}
+
+btnLista.addEventListener('click', () => setVista('cards'));
+btnCal.addEventListener('click',   () => setVista('cal'));
+
+/* ── Filtros con FLIP (mismo idioma que paramita-formacion.js) ───────── */
+const chips   = Array.from(document.querySelectorAll('.filtro-chip'));
+const limpiar = document.getElementById('filtros-limpiar');
+const contador= document.getElementById('act-contador');
+const cards   = Array.from(document.querySelectorAll('#act-cuadricula .act-card'));
+const calEvts = Array.from(document.querySelectorAll('.mes-evento'));
+
+let filtroActivo = 'todos';
+
+function aplicarFiltros() {
+  const esCards = vCards.style.display !== 'none';
+
+  if (esCards) {
+    /* ── FLIP ── */
+    const prevPos = new Map();
+    cards.forEach(c => {
+      if (!c.classList.contains('is-oculto'))
+        prevPos.set(c, c.getBoundingClientRect());
+    });
+
+    const salientes = cards.filter(c =>
+      !c.classList.contains('is-oculto') &&
+      filtroActivo !== 'todos' &&
+      c.dataset.tipo !== filtroActivo
+    );
+    salientes.forEach(c => { c.style.opacity = '0.3'; c.style.transform = 'scale(0.97)'; });
+
+    setTimeout(() => {
+      const pasan = new Set();
+      cards.forEach(c => {
+        const ok = filtroActivo === 'todos' || c.dataset.tipo === filtroActivo;
+        if (ok) { c.classList.remove('is-oculto'); pasan.add(c); }
+        else    { c.classList.add('is-oculto'); }
+        c.style.opacity = '';
+        c.style.transform = '';
+      });
+
+      if (contador) contador.textContent = pasan.size;
+
+      /* Mover con FLIP */
+      cards.forEach(c => {
+        if (c.classList.contains('is-oculto')) return;
+        const before = prevPos.get(c);
+        if (!before) return;
+        const after = c.getBoundingClientRect();
+        const dx = before.left - after.left;
+        const dy = before.top  - after.top;
+        if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
+          c.style.transition = 'none';
+          c.style.transform  = `translate(${dx}px, ${dy}px)`;
+          requestAnimationFrame(() => {
+            c.style.transition = 'transform 520ms cubic-bezier(0.28,0.68,0.28,1)';
+            c.style.transform  = '';
+          });
+        }
+      });
+
+      /* Luz al seleccionar */
+      setTimeout(() => {
+        pasan.forEach(c => {
+          c.classList.add('is-iluminando');
+          setTimeout(() => c.classList.remove('is-iluminando'), 640);
+        });
+      }, 60);
+
+    }, salientes.length > 0 ? 160 : 0);
+
+  } else {
+    /* Vista calendario */
+    calEvts.forEach(e => {
+      const ok = filtroActivo === 'todos' || e.dataset.tipo === filtroActivo;
+      e.classList.toggle('is-oculto', !ok);
+    });
+    document.querySelectorAll('.mes-cal').forEach(m => {
+      const v = m.querySelectorAll('.mes-evento:not(.is-oculto)').length;
+      m.style.display = v > 0 ? '' : 'none';
+    });
+  }
+}
+
+chips.forEach(chip => {
+  chip.addEventListener('click', () => {
+    chips.forEach(c => c.classList.remove('is-active'));
+    chip.classList.add('is-active');
+    filtroActivo = chip.dataset.tipo;
+    limpiar.classList.toggle('is-visible', filtroActivo !== 'todos');
+    aplicarFiltros();
+  });
+});
+
+limpiar.addEventListener('click', () => {
+  filtroActivo = 'todos';
+  chips.forEach(c => c.classList.toggle('is-active', c.dataset.tipo === 'todos'));
+  limpiar.classList.remove('is-visible');
+  aplicarFiltros();
+});
+
+if (contador) contador.textContent = cards.length;
+
+/* ── Reveal on scroll (fallback si paramita-reveal.js no carga) ──────── */
+if (typeof window._paramitaReveal === 'undefined') {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
+}
+
+/* ── Accesibilidad teclado en tablas ─────────────────────────────────── */
+document.querySelectorAll('.cal-fila, .mes-evento').forEach(fila => {
+  fila.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fila.querySelector('button')?.click(); }
+  });
+});
+
+})();
+</script>
+
+</body>
+</html>
