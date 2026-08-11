@@ -111,12 +111,21 @@ body{
 .sub span{display:block;font-size:.8rem;color:var(--texto-suave);margin-top:.1rem}
 .div{width:1px;height:26px;background:var(--hair-fuerte);flex:none}
 .ctas{display:flex;align-items:center;gap:.6rem}
-.btn-secundario{position:relative;font-family:var(--body);font-weight:var(--wght-firmeza);font-size:.9rem;
-  color:var(--azul-oscuro);text-decoration:none;background:transparent;white-space:nowrap;
-  padding:.5rem 1.1rem;border-radius:12px;border:1px solid color-mix(in oklch,var(--azul-oscuro) 32%,transparent);
-  transition:border-color .3s,background .3s}
-.btn-secundario:hover{background:color-mix(in oklch,var(--azul-oscuro) 6%,transparent);
-  border-color:color-mix(in oklch,var(--azul-oscuro) 55%,transparent)}
+/* .btn-secundario · real (paramita-cta.css): degradado en el BORDE + glow triple en hover */
+.btn-secundario{display:inline-flex;align-items:center;gap:.55em;font-family:var(--body);font-size:.95rem;font-weight:450;
+  letter-spacing:.01em;color:var(--azul-oscuro)!important;background:transparent;border:none;cursor:pointer;outline:none;
+  padding:.66rem 1.4rem;border-radius:12px;position:relative;box-shadow:none;text-decoration:none;transform:translateZ(0);white-space:nowrap;
+  transition:transform var(--t-defecto),box-shadow var(--t-revelacion)}
+.btn-secundario::before{content:"";position:absolute;inset:0;border-radius:12px;padding:1px;
+  background:linear-gradient(100deg,var(--azul-oscuro),var(--azul-sutil),var(--dorado),var(--azul-sutil),var(--azul-oscuro));
+  background-size:200% 100%;background-position:0% 50%;opacity:.9;
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+          mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:0;transition:none;animation:none}
+.btn-secundario:hover::before,.btn-secundario:focus-visible::before{animation:flow 3.4s cubic-bezier(.45,0,.15,1) infinite}
+.btn-secundario:hover{transform:translateY(-2px) translateZ(0);background:transparent!important;color:var(--azul-oscuro)!important;
+  box-shadow:0 0 8px 1px oklch(68% 0.13 235 / 0.22),0 0 22px 4px oklch(78% 0.155 68 / 0.14),0 0 40px 8px oklch(38% 0.11 245 / 0.10)}
+.btn-secundario>*{position:relative;z-index:1}
 /* Contribuir = btn-primario (pairing de páginas ≠ home, doc 05) */
 .ctas .btn-primario{padding:.52rem 1.15rem;font-size:.9rem;box-shadow:0 10px 26px -18px var(--azul-oscuro)}
 .btn-acceso{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;
@@ -414,7 +423,7 @@ html.js .efx-card:not(.efx-in){opacity:0;transform:translateY(28px)}
         <li><a class="navlink" href="#">Meditación</a></li>
         <li><a class="navlink" href="#">Cursos</a></li>
         <li><a class="navlink" href="#">Actividades</a></li>
-        <li><a class="navlink" href="#" aria-current="page">Blog</a></li>
+        <li><a class="navlink" href="/blog/blog.html" aria-current="page">Blog</a></li>
         <li class="has-sub end">
           <a class="navlink" href="#" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></a>
           <ul class="sub" role="menu" aria-label="Sobre Paramita">
