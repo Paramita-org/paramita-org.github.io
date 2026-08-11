@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es" data-tema="claro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mandarava: la mujer que emergió del fuego — Paramita · maqueta /blog/</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Maqueta: Fraunces + Hanken vía Google Fonts como stand-in visual.
+     En producción se usan los .woff2 autoalojados del sitio (SOFT firme 0). -->
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   TOKENS REALES · copiados de paramita-color.css y paramita-tipografia.css
+   (NADA inventado — mismos valores OKLCH con fallback hex del sistema)
+   ═══════════════════════════════════════════════════════════════════════ */
+:root{
+  /* Superficies */
+  --lino:#F8F4EB;   --arena:#EFE8DB;   --arcilla:#E4D9C4;
+  --calido-zen:#EBDEC4;   --card:#FDFAF3;
+  /* Tinta */
+  --antracita:#1D1F26;   --texto-suave:#8A8B93;   --texto-tenue:#B0B0B6;
+  /* Marca 70/30 */
+  --azul-oscuro:#1F4E8F;   --azul-sutil:#4A9DD1;   --dorado:#ECAC55;
+  /* Hilos */
+  --hair:rgba(29,31,38,.10);   --hair-fuerte:rgba(29,31,38,.22);
+  /* Tipografía */
+  --display:"Fraunces",Georgia,serif;
+  --body:"Hanken Grotesk",system-ui,sans-serif;
+  --wght-contemplativo:300; --wght-presencia:400; --wght-firmeza:500; --wght-asertivo:600;
+  /* Medidas de lectura reales */
+  --medida-cuerpo:62ch; --medida-lede:42ch; --medida-cita:50ch;
+  /* Espaciado y motion · aprox. de paramita-layout/movimiento (no subidos) */
+  --espacio-atomo:.35rem; --espacio-elemento:1.15rem; --espacio-grupo:1.5rem; --espacio-contenido:2rem;
+  --t-revelacion:.55s cubic-bezier(.45,0,.15,1); --t-defecto:.3s ease;
+  /* Degradado de marca real */
+  --degradado-marca:linear-gradient(135deg,#1F4E8F 0%,#4A9DD1 68%,#ECAC55 100%);
+  --degradado-marca-h:linear-gradient(90deg,#1F4E8F 0%,#4A9DD1 68%,#ECAC55 100%);
+}
+@supports (color:oklch(50% 0.1 250)){
+  :root{
+    --lino:oklch(97% 0.008 85); --arena:oklch(94% 0.014 82); --arcilla:oklch(90% 0.02 80);
+    --calido-zen:oklch(88% 0.03 78); --card:oklch(98% 0.006 85);
+    --antracita:oklch(22% 0.02 250); --texto-suave:oklch(58% 0.015 250); --texto-tenue:oklch(72% 0.012 250);
+    --azul-oscuro:oklch(38% 0.11 245); --azul-sutil:oklch(68% 0.13 235); --dorado:oklch(78% 0.155 68);
+    --degradado-marca:linear-gradient(135deg,oklch(38% 0.11 245) 0%,oklch(68% 0.13 235) 68%,oklch(78% 0.155 68) 100%);
+  }
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--lino);color:var(--antracita);
+  font-family:var(--body);font-weight:var(--wght-contemplativo);
+  font-size:clamp(1.06rem,.4vw + .98rem,1.18rem);line-height:1.78;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+
+/* Barra de progreso de lectura */
+.progreso{position:fixed;top:0;left:0;height:2px;width:0;background:var(--dorado);z-index:60;transition:width .08s linear}
+
+/* ── Navbar · partials/navbar-publico.html (estructura y clases reales) ── */
+.bar{position:sticky;top:0;z-index:100;
+  background:color-mix(in oklch,var(--arena) 70%,transparent);
+  -webkit-backdrop-filter:saturate(150%) blur(14px);backdrop-filter:saturate(150%) blur(14px);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s,background .3s,box-shadow .3s}
+.bar.scrolled{background:color-mix(in oklch,var(--arena) 90%,transparent);
+  border-color:var(--hair);box-shadow:0 12px 44px -30px rgba(40,33,26,.45)}
+.bar-inner{display:flex;align-items:center;gap:1.2rem;height:72px;
+  max-width:1240px;margin-inline:auto;padding-inline:clamp(1rem,4vw,2rem)}
+.logo{flex:none;display:inline-flex;align-items:center;text-decoration:none;padding:.3rem;margin-left:-.3rem;border-radius:10px}
+.logo-wave{display:block;width:140px;aspect-ratio:612.3/181.4;
+  background:linear-gradient(100deg,var(--azul-oscuro) 0%,var(--azul-sutil) 25%,var(--dorado) 50%,var(--azul-sutil) 75%,var(--azul-oscuro) 100%);
+  background-size:200% 100%;
+  -webkit-mask:url('/assets/img/logo.svg') no-repeat center / contain;
+          mask:url('/assets/img/logo.svg') no-repeat center / contain;
+  animation:flow 16s linear infinite}       /* respiración identitaria (dur. aprox.) */
+@keyframes flow{to{background-position:200% 0}}
+.bar:hover .logo-wave{animation-duration:3.4s}
+.logo-fallback{display:none}                 /* el fallback solo si el mask no carga */
+@supports not ((-webkit-mask:url('#')) or (mask:url('#'))){
+  .logo-wave{display:none}.logo-fallback{display:block;width:140px;height:auto}
+}
+.nt{display:none}
+.menu{display:flex;align-items:center;gap:1rem;margin-left:auto}
+.links{display:flex;align-items:center;gap:.1rem;list-style:none;margin:0;padding:0}
+.navlink{position:relative;display:inline-flex;align-items:center;gap:.4rem;
+  font-family:var(--body);font-size:.96rem;font-weight:var(--wght-presencia);letter-spacing:-.005em;
+  color:var(--antracita);text-decoration:none;padding:.55rem;border-radius:8px;
+  transition:font-weight .2s,color .3s}
+.navlink::after{content:"";position:absolute;left:.55rem;right:.55rem;bottom:.32rem;height:1.6px;border-radius:2px;
+  background:var(--degradado-marca-h);transform:scaleX(0);transform-origin:left;transition:transform .32s cubic-bezier(.45,0,.15,1)}
+.navlink:hover{font-weight:var(--wght-firmeza)}
+.navlink:hover::after,.navlink[aria-current="page"]::after{transform:scaleX(1)}
+.navlink[aria-current="page"]{color:var(--azul-oscuro);font-weight:var(--wght-firmeza)}
+.caret{width:.46em;height:.46em;border-right:1.7px solid currentColor;border-bottom:1.7px solid currentColor;
+  transform:rotate(45deg) translateY(-1px);opacity:.55;transition:transform .25s}
+/* submenú "Sobre" (has-sub end) */
+.has-sub{position:relative}
+.has-sub .sub{position:absolute;top:calc(100% + .35rem);right:0;min-width:255px;list-style:none;margin:0;padding:.45rem;
+  background:var(--card);border:1px solid var(--hair);border-radius:12px;
+  box-shadow:0 22px 52px -26px rgba(40,33,26,.42);
+  opacity:0;visibility:hidden;transform:translateY(-6px);
+  transition:opacity .25s,transform .25s,visibility .25s}
+.has-sub:hover .sub,.has-sub:focus-within .sub{opacity:1;visibility:visible;transform:none}
+.has-sub:hover .caret,.has-sub:focus-within .caret{transform:rotate(45deg) translateY(1px)}
+.sub a{display:block;padding:.6rem .8rem;border-radius:8px;text-decoration:none;transition:background .2s}
+.sub a:hover{background:color-mix(in oklch,var(--dorado) 9%,transparent)}
+.sub strong{display:block;font-family:var(--body);font-weight:var(--wght-firmeza);font-size:.92rem;color:var(--antracita)}
+.sub span{display:block;font-size:.8rem;color:var(--texto-suave);margin-top:.1rem}
+.div{width:1px;height:26px;background:var(--hair-fuerte);flex:none}
+.ctas{display:flex;align-items:center;gap:.6rem}
+.btn-secundario{position:relative;font-family:var(--body);font-weight:var(--wght-firmeza);font-size:.9rem;
+  color:var(--azul-oscuro);text-decoration:none;background:transparent;white-space:nowrap;
+  padding:.5rem 1.1rem;border-radius:12px;border:1px solid color-mix(in oklch,var(--azul-oscuro) 32%,transparent);
+  transition:border-color .3s,background .3s}
+.btn-secundario:hover{background:color-mix(in oklch,var(--azul-oscuro) 6%,transparent);
+  border-color:color-mix(in oklch,var(--azul-oscuro) 55%,transparent)}
+/* Contribuir = btn-primario (pairing de páginas ≠ home, doc 05) */
+.ctas .btn-primario{padding:.52rem 1.15rem;font-size:.9rem;box-shadow:0 10px 26px -18px var(--azul-oscuro)}
+.btn-acceso{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;
+  border:1px solid var(--hair-fuerte);background:transparent;color:var(--azul-oscuro);text-decoration:none;
+  transition:border-color .3s,color .3s}
+.btn-acceso:hover{border-color:color-mix(in oklch,var(--dorado) 55%,transparent);color:var(--dorado)}
+.btn-acceso svg{width:22px;height:22px}
+.burger{display:none}
+@media(max-width:920px){
+  .menu{position:fixed;top:72px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;margin:0;
+    background:var(--card);border-bottom:1px solid var(--hair);padding:1rem clamp(1rem,4vw,2rem) 1.4rem;
+    transform:translateY(-130%);transition:transform .35s cubic-bezier(.45,0,.15,1);
+    box-shadow:0 22px 44px -22px rgba(40,33,26,.3)}
+  .nt:checked ~ .menu{transform:none}
+  .links{flex-direction:column;align-items:stretch;gap:.1rem}
+  .navlink{padding:.7rem .4rem}
+  .navlink::after{display:none}
+  .has-sub .sub{position:static;opacity:1;visibility:visible;transform:none;box-shadow:none;border:none;
+    background:transparent;padding:0 0 0 1rem;min-width:0}
+  .div{display:none}
+  .ctas{flex-direction:column;gap:.5rem;margin-top:.8rem}
+  .ctas .btn-secundario,.ctas .btn-primario{width:100%;text-align:center;padding:.7rem 1rem}
+  .burger{display:flex;flex-direction:column;gap:5px;width:42px;height:42px;flex:none;margin-left:auto;
+    justify-content:center;align-items:center;background:transparent;
+    border:1px solid var(--hair-fuerte);border-radius:10px;cursor:pointer}
+  .burger span{width:18px;height:1.8px;background:var(--antracita);border-radius:2px}
+}
+
+/* ── Cabecera del artículo ── */
+.hero{background:linear-gradient(180deg,var(--calido-zen) 0%,var(--lino) 100%);
+  padding:clamp(2.5rem,6vh,5rem) clamp(1rem,4vw,2rem) clamp(1.5rem,3vh,2.5rem)}
+.hero__wrap{max-width:760px;margin-inline:auto;text-align:center}
+.cats{display:flex;gap:.6rem;justify-content:center;margin-bottom:1.4rem;flex-wrap:wrap}
+.cat{font-family:var(--body);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--azul-oscuro);border:1px solid color-mix(in oklch,var(--azul-oscuro) 35%,transparent);
+  padding:.28em .7em;border-radius:99px;text-decoration:none}
+.cat:hover{background:color-mix(in oklch,var(--azul-oscuro) 8%,transparent)}
+h1{font-family:var(--display);font-weight:var(--wght-contemplativo);
+  font-size:clamp(2.4rem,6vw,4rem);line-height:1.04;letter-spacing:-.015em;
+  margin:0 0 1.1rem;text-wrap:balance}
+h1 em{font-style:italic;color:var(--dorado);font-weight:var(--wght-contemplativo)}
+/* Deck: mismo patrón que el hero de Home y Actividades — Hanken normal,
+   color texto-suave, SIN cursiva ni peso fuerte (Cursos es la excepción). */
+.deck{font-family:var(--body);font-weight:var(--wght-presencia);
+  font-size:clamp(1.08rem,1.6vw,1.3rem);line-height:1.5;color:var(--texto-suave);
+  max-width:36em;margin:0 auto 1.8rem;text-wrap:pretty}
+.meta{display:flex;gap:.5rem 1.4rem;justify-content:center;flex-wrap:wrap;align-items:center;
+  font-family:var(--body);font-size:.74rem;letter-spacing:.02em;color:var(--texto-tenue)}
+.meta b{color:var(--texto-suave);font-weight:500}
+.meta .dot{opacity:.5}
+
+/* imagen protagonista */
+.hero__media{max-width:1000px;margin:2rem auto 0;padding-inline:clamp(1rem,4vw,2rem)}
+.hero__media figure{margin:0;filter:drop-shadow(0 24px 50px rgba(29,31,38,.18))}
+.hero__media img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;
+  border-radius:6px;background:var(--arcilla)}
+.hero__media figcaption{font-family:var(--body);font-size:.68rem;color:var(--texto-tenue);
+  text-align:center;margin-top:.7rem;letter-spacing:.02em}
+
+/* ── Cuerpo con índice lateral ── */
+.lectura{max-width:1080px;margin:clamp(2rem,5vh,3.5rem) auto;
+  padding-inline:clamp(1rem,4vw,2rem);
+  display:grid;grid-template-columns:220px minmax(0,1fr);gap:clamp(2rem,5vw,4rem);align-items:start}
+@media(max-width:920px){.lectura{grid-template-columns:1fr;gap:1.5rem}}
+
+/* Índice (materializa el patrón capa-pastel) */
+.toc{position:sticky;top:5rem}
+.toc__k{font-family:var(--body);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--dorado);margin:0 0 1rem}
+.toc ol{list-style:none;margin:0;padding:0;counter-reset:t}
+.toc li{counter-increment:t;margin-bottom:.2rem}
+.toc a{display:grid;grid-template-columns:1.6em 1fr;gap:.4em;align-items:baseline;
+  padding:.4rem 0;font-size:.86rem;line-height:1.3;color:var(--texto-suave);
+  text-decoration:none;border-left:2px solid transparent;padding-left:.9rem;margin-left:-.9rem;
+  transition:color .25s,border-color .25s}
+.toc a::before{content:counter(t);font-family:var(--body);font-size:.72rem;color:var(--texto-tenue)}
+.toc a:hover{color:var(--antracita)}
+.toc a.activo{color:var(--azul-oscuro);border-left-color:var(--dorado);font-weight:var(--wght-firmeza)}
+.toc a.activo::before{color:var(--dorado)}
+@media(max-width:920px){
+  .toc{position:static;background:var(--card);border:1px solid var(--hair);
+    border-radius:10px;padding:1.2rem 1.3rem}
+  .toc a{border-left:0;margin-left:0;padding-left:0}
+  .toc a.activo{border-left:0}
+}
+
+/* Artículo */
+.articulo{max-width:var(--medida-cuerpo);min-width:0}
+.articulo>p{margin:0 0 1.35rem;text-wrap:pretty}
+.articulo>p:first-of-type.entrada::first-letter{
+  font-family:var(--display);font-weight:var(--wght-firmeza);float:left;
+  font-size:3.6em;line-height:.7;padding:.05em .1em 0 0;color:var(--azul-oscuro)}
+.articulo h2{font-family:var(--display);font-weight:var(--wght-contemplativo);
+  font-size:clamp(1.65rem,3.4vw,2.35rem);line-height:1.12;letter-spacing:-.01em;
+  margin:2.8rem 0 .3rem;scroll-margin-top:5rem;text-wrap:balance}
+.articulo h2 .n{font-family:var(--display);font-style:italic;font-size:.62em;font-weight:400;
+  color:var(--dorado);vertical-align:.12em;margin-right:.45em}
+.articulo h3{font-family:var(--display);font-weight:var(--wght-presencia);font-style:italic;
+  font-size:1.28rem;line-height:1.25;margin:2rem 0 .2rem;color:var(--antracita)}
+.articulo a.enlace{color:var(--azul-oscuro);text-decoration:underline;
+  text-decoration-color:color-mix(in oklch,var(--dorado) 70%,transparent);
+  text-underline-offset:3px;text-decoration-thickness:1.5px}
+
+/* cita destacada (real) */
+.cita{font-family:var(--display);font-style:italic;font-weight:var(--wght-presencia);
+  font-size:clamp(1.3rem,2.4vw,1.7rem);line-height:1.4;letter-spacing:-.005em;
+  color:var(--azul-oscuro);max-width:var(--medida-cita);
+  border-top:1px solid var(--hair-fuerte);border-bottom:1px solid var(--hair-fuerte);
+  padding:1.5rem 0;margin:2.4rem 0}
+.cita cite{display:block;font-family:var(--body);font-style:normal;font-size:.7rem;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--texto-tenue);margin-top:1rem}
+
+/* imagen intercalada */
+.articulo figure{margin:2.2rem 0;filter:drop-shadow(0 18px 40px rgba(29,31,38,.16))}
+.articulo figure img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;
+  border-radius:6px;background:var(--arcilla)}
+.articulo figcaption{font-family:var(--body);font-size:.66rem;color:var(--texto-tenue);
+  margin-top:.6rem;letter-spacing:.02em}
+
+/* trazo-divisor · línea nítida ENCIMA + resplandor que emana desde DEBAJO
+   (capas difusas dobladas hacia abajo; el core va sin blur, definido). */
+.trazo{display:block;margin:3rem auto;width:150px;height:30px;overflow:visible}
+.trazo path{fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke;
+  stroke-dasharray:var(--len,160);stroke-dashoffset:var(--len,160);
+  transition:stroke-dashoffset 1.5s cubic-bezier(.45,0,.15,1)}
+.trazo.dibujado path{stroke-dashoffset:0}
+.trazo .glow-a{stroke:var(--dorado);stroke-width:8;filter:blur(6px);opacity:.30}   /* halo bajo */
+.trazo .glow-b{stroke:var(--dorado);stroke-width:4;filter:blur(2.5px);opacity:.42} /* corona baja */
+.trazo .core{stroke:var(--dorado);stroke-width:1.8;filter:none;opacity:1}          /* línea nítida encima */
+
+/* empujón suave inline (t-link editorial · única forma de CTA en párrafo) */
+.nudge{margin:2rem 0}
+.t-link{display:inline-flex;align-items:center;gap:.5em;font-family:var(--body);
+  font-weight:var(--wght-firmeza);font-size:1.02rem;color:var(--azul-oscuro);
+  text-decoration:none;position:relative;padding:.1em 0 .35em}
+.t-link::after{content:"";position:absolute;left:0;bottom:.1em;height:1.5px;width:100%;
+  background:var(--dorado);transform:scaleX(.35);transform-origin:left;transition:transform .3s ease}
+.t-link:hover::after,.t-link:focus-visible::after{transform:scaleX(1)}
+.t-link .arw{transition:transform .3s ease}
+.t-link:hover .arw{transform:translateX(4px)}
+
+/* ── Cierre: reflexión + suscripción honesta ── */
+.reflexion{background:var(--card);border:1px solid var(--hair);border-radius:14px;
+  padding:clamp(1.6rem,4vw,2.4rem);margin:3rem 0 0}
+.reflexion h3{font-family:var(--display);font-weight:var(--wght-presencia);font-style:normal;
+  font-size:1.5rem;line-height:1.2;margin:0 0 .8rem}
+.reflexion p{margin:0 0 1rem;font-size:1.02rem}
+.reflexion p:last-child{margin-bottom:0}
+
+.suscribe-wrap{margin:2.5rem 0 0;background:var(--calido-zen);
+  border-radius:16px;padding:clamp(1.8rem,4vw,2.6rem);text-align:center}
+.suscribe-wrap .k{font-family:var(--body);font-size:.68rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--azul-oscuro);margin:0 0 .7rem}
+.suscribe-wrap h3{font-family:var(--display);font-weight:var(--wght-contemplativo);
+  font-size:clamp(1.5rem,3vw,2rem);line-height:1.15;margin:0 0 .5rem}
+.suscribe-wrap h3 em{font-style:italic;color:var(--dorado)}
+.suscribe-wrap p{color:var(--texto-suave);max-width:34em;margin:0 auto 1.5rem;font-size:.98rem}
+.suscribe{max-width:440px;margin-inline:auto}
+.suscribe__fila{display:flex;gap:.6rem}
+.suscribe__input{flex:1;font-family:var(--body);font-size:1rem;padding:.8rem 1rem;
+  border:1px solid var(--hair-fuerte);border-radius:12px;background:var(--card);color:var(--antracita)}
+.suscribe__input::placeholder{color:var(--texto-tenue)}
+.suscribe__input:focus{outline:2px solid var(--azul-sutil);outline-offset:1px;border-color:transparent}
+.btn-primario{font-family:var(--body);font-weight:var(--wght-asertivo);font-size:.96rem;color:#fff;
+  background:var(--degradado-marca);border:none;border-radius:14px;padding:.8rem 1.5rem;cursor:pointer;
+  box-shadow:0 14px 34px -20px var(--azul-oscuro),0 4px 12px -8px var(--azul-oscuro);
+  transition:transform .25s ease,box-shadow .25s ease;white-space:nowrap}
+.btn-primario:hover{transform:translateY(-1px);box-shadow:0 18px 40px -18px var(--azul-oscuro)}
+.btn-primario:focus-visible{outline:2.5px solid var(--dorado);outline-offset:3px}
+.suscribe__consent{display:flex;gap:.5em;align-items:flex-start;justify-content:center;
+  font-size:.78rem;color:var(--texto-suave);margin-top:.9rem;text-align:left;max-width:400px;margin-inline:auto}
+.suscribe__consent a{color:var(--azul-oscuro)}
+.suscribe__ok{max-height:0;overflow:hidden;opacity:0;transition:max-height .4s ease,opacity .4s ease;
+  font-family:var(--display);font-style:italic;color:var(--azul-oscuro)}
+.suscribe.is-sent .suscribe__ok{max-height:80px;opacity:1;margin-top:1rem}
+.suscribe.is-sent .suscribe__fila,.suscribe.is-sent .suscribe__consent{display:none}
+@media(max-width:520px){.suscribe__fila{flex-direction:column}.btn-primario{width:100%}}
+
+/* ── Caja de autoría · tradición viva ── */
+.autor{display:flex;gap:1.2rem;align-items:center;margin:3rem 0 0;
+  padding:1.5rem;background:var(--card);border:1px solid var(--hair);border-radius:14px}
+.autor img{width:72px;height:72px;border-radius:50%;object-fit:cover;flex:0 0 auto;background:var(--arcilla)}
+.autor .k{font-family:var(--body);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dorado);margin:0 0 .3rem}
+.autor h4{font-family:var(--display);font-weight:var(--wght-presencia);font-size:1.25rem;margin:0 0 .2rem}
+.autor p{margin:0;font-size:.92rem;color:var(--texto-suave);line-height:1.5}
+
+/* ── Seguir leyendo (stretched-link accesible) ── */
+.seguir{background:var(--arena);margin-top:clamp(3rem,7vh,5rem);
+  padding:clamp(2.5rem,6vh,4rem) clamp(1rem,4vw,2rem)}
+.seguir__wrap{max-width:1080px;margin-inline:auto}
+.seguir__head{text-align:center;margin-bottom:2rem}
+.seguir__head .k{font-family:var(--body);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dorado);margin:0 0 .5rem}
+.seguir__head h2{font-family:var(--display);font-weight:var(--wght-contemplativo);
+  font-size:clamp(1.6rem,3vw,2.3rem);margin:0;line-height:1.1}
+/* ── Seguir leyendo · CSS real del bloque Diario de la home (sections.css) ── */
+.grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+  gap:var(--espacio-grupo);margin-top:var(--espacio-contenido)}
+html.js .efx-card:not(.efx-in){opacity:0;transform:translateY(28px)}
+.efx-card{position:relative;display:block;background:var(--card);border:1px solid var(--hair);
+  border-radius:20px;overflow:hidden;will-change:transform,opacity;
+  transition:opacity var(--t-revelacion),transform var(--t-revelacion),background var(--t-revelacion),box-shadow var(--t-revelacion)}
+@supports (corner-shape:superellipse(2)){.efx-card{border-radius:26px;corner-shape:superellipse(2.6)}}
+.efx-card.efx-in:hover,.efx-card.efx-in:focus-within{
+  background:color-mix(in oklch,var(--arena) 70%,transparent);
+  transform:translateY(-4px);box-shadow:0 30px 60px -34px rgba(33,33,33,.4)}
+/* banda-imagen · crece en hover (82 → 208) */
+.efx-card .bar-img{position:relative;height:82px;overflow:hidden;border-bottom:1px solid var(--hair);
+  transition:height var(--t-revelacion)}
+.efx-card:hover .bar-img,.efx-card:focus-within .bar-img{height:208px}
+.efx-card .bar-img .pic{position:absolute;inset:0;background-size:cover;background-position:center;
+  transform:scale(1.12);transition:transform var(--t-revelacion)}
+.efx-card:hover .bar-img .pic{transform:scale(1)}
+/* glifo fantasma · asoma detrás */
+.efx-card .ghost{position:absolute;top:54px;left:var(--espacio-elemento);z-index:0;
+  font-family:var(--display);font-style:italic;font-size:2.6rem;color:var(--azul-oscuro);
+  opacity:.14;pointer-events:none;transition:opacity var(--t-revelacion),top var(--t-revelacion)}
+.efx-card:hover .ghost{opacity:.07;top:30px}
+.efx-card .body{position:relative;z-index:1;padding:var(--espacio-elemento) var(--espacio-elemento) var(--espacio-grupo)}
+.efx-card .kicker{font-family:var(--body);font-size:.7rem;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--azul-oscuro)}
+.efx-card h3{font-family:var(--display);font-weight:400;font-size:1.3rem;line-height:1.16;
+  letter-spacing:-.01em;margin:var(--espacio-atomo) 0;text-wrap:balance}
+.efx-card h3 em{font-style:italic;color:var(--dorado)}
+.efx-card .body p{color:var(--texto-suave);font-size:.92rem;line-height:1.5;margin:0}
+/* "Leer más" · azul → dorado en hover (único enlace de la tarjeta) */
+.efx-card__more{display:inline-flex;align-items:center;gap:.4em;margin-top:var(--espacio-elemento);
+  font-family:var(--body);font-weight:600;font-size:.86rem;color:var(--azul-oscuro);text-decoration:none;
+  transition:gap var(--t-defecto),color var(--t-defecto)}
+.efx-card__more span{transition:transform var(--t-defecto)}
+.efx-card:hover .efx-card__more,.efx-card__more:hover{color:var(--dorado)}
+.efx-card__more:hover{gap:.7em}
+.efx-card__more:hover span{transform:translateX(3px)}
+.efx-card:focus-within{outline:none}
+.efx-card__more:focus-visible{outline:2.5px solid var(--dorado);outline-offset:3px;border-radius:4px}
+
+/* ── Footer · partials/footer.html (CSS recreado con tokens del sistema) ── */
+.foot{background:var(--antracita);color:color-mix(in oklch,var(--lino) 86%,transparent);
+  margin-top:clamp(3rem,7vh,5rem)}
+.foot .wrap{max-width:1200px;margin-inline:auto;padding-inline:clamp(1rem,4vw,2rem)}
+.foot__info{padding-top:clamp(3rem,6vh,4.5rem)}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1.5fr;gap:clamp(2rem,5vw,4rem);padding-bottom:2.6rem}
+@media(max-width:820px){.foot-grid{grid-template-columns:1fr;gap:2.4rem}}
+.foot .logo-wave{width:150px;margin-bottom:1.1rem}
+.foot .tagline{color:color-mix(in oklch,var(--lino) 66%,transparent);font-size:.95rem;line-height:1.6;
+  max-width:34ch;margin:0 0 1.5rem}
+.social{display:flex;flex-wrap:wrap;gap:.6rem 1.3rem}
+.social a{display:inline-flex;align-items:center;gap:.5em;
+  color:color-mix(in oklch,var(--lino) 74%,transparent);text-decoration:none;font-size:.9rem;transition:color .3s}
+.social a:hover{color:var(--dorado)}
+.social .ico{width:20px;height:20px;flex:none}
+.foot h4{font-family:var(--display);font-weight:var(--wght-presencia);font-size:1.08rem;
+  color:var(--lino);margin:0 0 1rem}
+.foot .fl{display:block;color:color-mix(in oklch,var(--lino) 72%,transparent);text-decoration:none;
+  font-size:.92rem;padding:.32rem 0;transition:color .3s,padding-left .3s}
+.foot .fl:hover{color:var(--dorado);padding-left:.3rem}
+.foot address{font-style:normal;color:color-mix(in oklch,var(--lino) 72%,transparent);font-size:.9rem;line-height:1.75}
+.foot address b{color:var(--lino);font-weight:var(--wght-firmeza)}
+.foot-base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem 1.5rem;
+  border-top:1px solid color-mix(in oklch,var(--lino) 16%,transparent);
+  padding:1.5rem 0 2.2rem;font-size:.82rem;color:color-mix(in oklch,var(--lino) 55%,transparent)}
+
+/* reveal genérico */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal,.efx-card{opacity:1;transform:none;transition:none}
+  .trazo path{stroke-dashoffset:0;transition:none}
+  .btn-primario,.t-link .arw,.efx-card{transition:none}
+}
+:focus-visible{outline:2.5px solid var(--dorado);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progreso" id="progreso"></div>
+
+<!-- ── Navbar · partials/navbar-publico.html ── -->
+<header class="bar" id="bar">
+  <div class="bar-inner wrap">
+    <a class="logo" href="#" aria-label="Paramita · inicio">
+      <span class="logo-wave" role="img" aria-label="Paramita"></span>
+      <svg class="logo-fallback" viewBox="0 0 612.3 181.4" role="img" aria-label="Paramita" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#0d539f"><path d="M225.4,64c15.5,0,24.8,7,24.8,18.8s-8.5,19.7-22.9,20c-1.3,0-2.4,0-3.1,0l-.2-1.3c6.7-2.8,9.4-7.7,9.4-18.6s-3.9-15.8-11.9-15.8h-1.4v44.4c0,5.1,1.3,8.5,3.9,10.3v1.3h-23v-1.3c2.5-1.7,3.9-5.1,3.9-10.3v-35.7c0-5.2-1.3-8.7-3.9-10.3v-1.3h24.5Z"/><path d="M295.1,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM274.6,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M506.7,116.4c-3.4,4.5-9,7.4-14.6,7.4-8.1,0-11.6-4.7-11.6-14.4v-27.9h-5.5v-4.2c6.7-2.5,13.5-6.9,17-14h3v13.9l9.8-1-.8,5.2h-9v26.2c0,6,1.8,9,5.6,9s3.2-.4,5.3-1.3l.8,1.1Z"/><path d="M552.4,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM531.8,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M367.7,118.2c-3.1,0-4.6-1.5-4.6-4.4v-18c0-4.8-.3-7.9-2-11-2.3-4.6-7.4-7.2-17.7-7.2s-2.4,0-4.1.4c.7.9,1.2,1.6,1.7,2.6.5-.1.8-.2,2-.2,2.5,0,4.2,1.1,5,3.2.4,1.3.7,4.7.7,10.2v4.4c-1.3-.2-2.8-.3-4.5-.3-5.3,0-10,1.2-13.7,3.7-3.8,2.4-5.7,6-5.7,10.6,0,6.7,4.7,11.6,12,11.6s9.8-1.9,13-5.7c1.7,3.8,4.6,5.7,8.9,5.7s7.4-1.2,10.5-3.9v-1.6h-1.5ZM344.5,117.2c-3.5,0-5.4-2.9-5.4-6.7,0-5.9,3.2-9.5,9.5-9.5v10.8c0,1.3,0,2.5.3,3.5-1.1,1.3-2.6,1.9-4.3,1.9Z"/><path d="M444.2,111.4v-18.2c0-10.5-3-15.5-11.6-15.5s-12.5,3.4-16.4,8.8c-1.2-5.9-4.9-8.8-11-8.8s-11.5,2.9-15.8,8.8v-9.2c-4.9,1.8-10.9,3.5-18.2,5h-.1v1.4l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h22.6v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-22.9c2.2-1.1,4.5-1.7,6.7-1.7,4.2,0,6.3,2.4,6.3,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.2v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-18.8c0-1.5,0-2.9-.3-4.2,1.7-1,3.8-1.5,6.3-1.5,4.6,0,6.9,2.4,6.9,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.6v-1.3c-2.9-2-4.3-5.5-4.3-10.3Z"/><path d="M330.8,77.6c-5.3,0-12.3,4.5-15.5,9.7v-10.1c-5,1.8-10.9,3.6-18.3,5v1.3l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h24.8v-1.3c-4-1.8-6-5.3-6-10.3v-21.5c2.4-2.4,6.6-3.6,8.6-3.8.3,3.9,3.2,7.2,7.1,7.2s7.7-3.3,7.7-8-3.1-7.7-7.9-7.7Z"/><path d="M468.9,70.6c3.4-3.2,3.4-8.7,0-11.9-3.2-3.4-8.7-3.4-11.9,0-3.2,3.2-3.2,8.7,0,11.9,3.2,3.2,8.7,3.2,11.9,0Z"/><path d="M452.4,83.8v1.3l1,.5c1.3.8,2.9,3.4,2.9,6.7v19.1c0,5.1-1.4,8.5-4.3,10.3v1.3h23v-1.3c-2.9-2-4.3-5.5-4.3-10.3v-32.7c-4.9,1.8-10.9,3.6-18.3,5Z"/></g>
+        <g fill="#1cb1da"><circle cx="112.1" cy="58.6" r="10.1"/><path d="M94,67.6s2,5.3,8,10c6,4.7,8.6,10,9,20.3s.5,24.3.5,24.3c0,0-3.8-10.5-4.8-13.6s-4.2-15.9-9.7-21-7.9-5.6-7.9-5.6c0,0,1.1-8.3,4.9-14.4Z"/><path d="M130.3,67.6s-2,5.3-8,10c-6,4.7-8.6,10-9,20.3-.4,10.3-.5,24.3-.5,24.3,0,0,3.8-10.5,4.8-13.6,1-3.1,4.2-15.9,9.7-21,4.7-4.4,7.9-5.6,7.9-5.6,0,0-1.1-8.3-4.9-14.4Z"/></g>
+        <g fill="#0689c2"><path d="M74.3,74.8s2.6,4.3,5.7,5.6,11.6,4.7,15.5,8.6c3.9,3.9,11,25.5,11,25.5,0,0-3.6-5.7-13-9.7,0,0-5.3-2.1-9.7-2.6s-5.9-1.9-7.3-4.9-4.1-13.9-2.2-22.4Z"/><path d="M149.9,74.8s-2.6,4.3-5.7,5.6-11.6,4.7-15.5,8.6-11,25.5-11,25.5c0,0,3.6-5.7,13-9.7,0,0,5.3-2.1,9.7-2.6,4.4-.5,5.9-1.9,7.3-4.9s4.1-13.9,2.2-22.4Z"/></g>
+        <g fill="#0d539f"><path d="M109.8,124s-8.4-29.3-49.1-17.5c0,0,5.7.7,9.9,6,4.2,5.3,7.4,11.2,18,10.2,10.5-1,17.4-1.3,21.2,1.3Z"/><path d="M114.4,124s8.4-29.3,49.1-17.5c0,0-5.7.7-9.9,6s-7.4,11.2-18,10.2c-10.5-1-17.4-1.3-21.2,1.3Z"/></g>
+      </svg>
+    </a>
+
+    <input class="nt" id="nt" type="checkbox" hidden>
+
+    <nav class="menu" aria-label="Principal">
+      <ul class="links">
+        <li><a class="navlink" href="#">Meditación</a></li>
+        <li><a class="navlink" href="#">Cursos</a></li>
+        <li><a class="navlink" href="#">Actividades</a></li>
+        <li><a class="navlink" href="#" aria-current="page">Blog</a></li>
+        <li class="has-sub end">
+          <a class="navlink" href="#" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub" role="menu" aria-label="Sobre Paramita">
+            <li role="none"><a role="menuitem" href="#"><strong>La Fundación</strong><span>Quiénes somos</span></a></li>
+            <li role="none"><a role="menuitem" href="#"><strong>Maestros</strong><span>Quién guía la práctica</span></a></li>
+            <li role="none"><a role="menuitem" href="#"><strong>Monásticos y Monásticas</strong><span>La comunidad ordenada</span></a></li>
+            <li role="none"><a role="menuitem" href="#"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <span class="div" aria-hidden="true"></span>
+
+      <div class="ctas">
+        <a class="btn-secundario" href="#">Únete</a>
+        <a class="btn-primario" href="#">Contribuir</a>
+      </div>
+    </nav>
+
+    <a class="btn-acceso" href="#" aria-label="Entrar a mi cuenta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+      </svg>
+    </a>
+
+    <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
+  </div>
+</header>
+
+<!-- ── Cabecera del artículo ── -->
+<header class="hero" id="arriba">
+  <div class="hero__wrap">
+    <div class="cats">
+      <a href="#" class="cat">Historia</a>
+      <a href="#" class="cat">Maestros</a>
+    </div>
+    <h1>Mandarava: la mujer que emergió <em>del fuego</em></h1>
+    <p class="deck">Tres veces intentaron apagarla. Tres veces emergió más luminosa. La historia de la princesa Mandarava trasciende el tiempo y las circunstancias.</p>
+    <div class="meta">
+      <span><b>Anahí Yanez Pagans</b></span>
+      <span class="dot">·</span>
+      <span>10 jun 2026</span>
+      <span class="dot">·</span>
+      <span>13 min de lectura</span>
+    </div>
+  </div>
+  <div class="hero__media">
+    <figure>
+      <img src="/assets/img/blog-1-color.jpg" alt="Mandarava emergiendo del fuego sobre un loto" loading="eager">
+    </figure>
+  </div>
+</header>
+
+<!-- ── Cuerpo con índice ── -->
+<div class="lectura">
+
+  <!-- Índice (capa-pastel) -->
+  <nav class="toc" aria-label="Contenidos del artículo">
+    <p class="toc__k">Contenidos</p>
+    <ol>
+      <li><a href="#s1">Su infancia y su llamada interior</a></li>
+      <li><a href="#s2">Las expectativas sociales: el precio de seguir su camino</a></li>
+      <li><a href="#s3">El encuentro con Padmasambhava y la primera gran prueba</a></li>
+      <li><a href="#s4">Una dakini inmortal en acción</a></li>
+      <li><a href="#s5">Un legado que trasciende el tiempo</a></li>
+    </ol>
+  </nav>
+
+  <!-- Artículo -->
+  <article class="articulo">
+    <p class="entrada">En una larga lista de grandes figuras del budismo tibetano, el nombre de Mandarava resuena una y otra vez como el de una de las practicantes más extraordinarias de todos los tiempos.</p>
+
+    <p>En el siglo VIII, en el noreste de India, una princesa tomó una decisión que cambiaría el curso de su vida y dejaría una huella en la historia del budismo que llega hasta hoy. Tenía todo lo que su nacimiento podía ofrecerle: belleza, inteligencia, riqueza, un linaje real y pretendientes de los reinos más poderosos de su época. Y renunció a todo.</p>
+
+    <p>Lo hizo porque llevaba dentro una convicción que ningún privilegio podía callar: había venido a este mundo con un propósito diferente. Y ese norte la guió con cada decisión de su vida. Esta es su historia. Y quizás, también, una invitación a preguntarnos qué llevamos dentro que ninguna presión podría hacernos abandonar.</p>
+
+    <h2 id="s1"><span class="n">01</span>Su infancia y su llamada interior</h2>
+    <h3>Señales de un destino extraordinario</h3>
+    <p>Mandarava no vino al mundo por azar. Según los textos, en vidas anteriores había acumulado un mérito singular. Ella misma había sido la buddha femenina Pandaravasini, y eligió conscientemente reencarnar en el reino de Zahor, en el noreste de India, una región de profunda tradición budista.</p>
+    <p>Tanto su padre —encarnación de Shuddhodana, padre del Buddha Shakyamuni— como su madre, una <a href="#" class="enlace">dakini</a>, tuvieron sueños auspiciosos antes de su nacimiento. Prodigios anunciaron su venida: un arcoíris de cinco colores sobre el rey y la reina, una lluvia de lotos rojos y magnolias doradas, el sonido de instrumentos invisibles entre las nubes. La niña nació en gozo y sin dolor, se levantó, se postró ante sus padres y les ofreció un canto de gratitud. No era la heredera del trono. Era Mandarava.</p>
+
+    <figure>
+      <img src="https://www.paramita.org/wp-content/uploads/2026/06/Mandarava-6.jpg" alt="Representación de Mandarava" loading="lazy">
+    </figure>
+
+    <h3>Mucho más allá del palacio</h3>
+    <p>Desde los 8 años, Mandarava había expresado su deseo de dedicarse al Dharma. Aprendió literatura, composición, idiomas, poética, lógica, gramática, canto, medicina y astrología. A los 13 años era ya la mayor erudita de su tiempo. Pero cuanto más sabía, más clara tenía una certeza: el sufrimiento inherente del samsara era inevitable, y nada de lo que la vida podía ofrecerle lograba calmar esa inquietud más arraigada.</p>
+
+    <!-- empujón suave inline (única forma de CTA en párrafo) -->
+    <div class="nudge">
+      <a href="#suscribe" class="t-link"><span>Si estas historias te resuenan, escribimos cada semana</span><span class="arw" aria-hidden="true">→</span></a>
+    </div>
+
+    <svg class="trazo" viewBox="0 0 150 30" aria-hidden="true"><path class="glow-a" d="M6 15 Q40 8 75 15 T146 15"/><path class="glow-b" d="M6 13 Q40 6 75 13 T146 13"/><path class="core" d="M6 11 Q40 4 75 11 T146 11"/></svg>
+
+    <h2 id="s3"><span class="n">03</span>El encuentro con Padmasambhava y la primera gran prueba</h2>
+    <p>Una noche, Mandarava tuvo un sueño extraordinario. De unos rayos de cinco colores surgía una flor dorada y, sobre ella, la emanación de un buddha le decía: «Mañana, ve a la cima de la colina. Allí te daré las instrucciones que conducen a la liberación en una sola vida». Al día siguiente apareció ante ella Gurú Padmasambhava, irradiando una luz de todos los colores del arcoíris.</p>
+    <p>Cuando el maestro anunció que partía hacia Maratika, sus últimas palabras sobre la impermanencia calaron tan hondo en Mandarava que ella emprendió su propio camino, también hacia allí, con la determinación de quien ya no tiene nada que perder. Montañas inhóspitas, junglas densas, cementerios. En el instante más difícil, invocó a su gurú, y él acudió a ella:</p>
+
+    <blockquote class="cita">
+      Un entorno estremecedor como este es precisamente el catalizador para que emerja la verdadera práctica. Las condiciones adversas son la auténtica riqueza del practicante. Un lugar incómodo y aterrador es el cuchillo que corta el pensamiento discursivo.
+      <cite>Gurú Padmasambhava</cite>
+    </blockquote>
+
+    <p>Tras escuchar estas palabras, todos los velos que oscurecían la mente de Mandarava se purificaron y algo en ella se abrió de forma irreversible.</p>
+
+    <svg class="trazo" viewBox="0 0 150 30" aria-hidden="true"><path class="glow-a" d="M6 15 Q40 8 75 15 T146 15"/><path class="glow-b" d="M6 13 Q40 6 75 13 T146 13"/><path class="core" d="M6 11 Q40 4 75 11 T146 11"/></svg>
+
+    <h2 id="s5"><span class="n">05</span>Un legado que trasciende el tiempo</h2>
+    <p>La vida de Mandarava tiene trece siglos de antigüedad. Con todo, algo en ella se siente cercano, inmediato, casi familiar. Quizás porque las preguntas que ella se hizo —¿qué es lo que realmente importa?, ¿a qué estoy dispuesta a renunciar por seguir ese camino verdadero?— son preguntas que siguen resonando en el interior de cualquier persona que mira hacia dentro.</p>
+    <p>Lo que nos deja no son las circunstancias de su época ni las batallas que tuvo que librar. Nos ofrece algo mucho más perdurable: la determinación valiente, la compasión inquebrantable, la devoción inagotable, y la capacidad de transformar cada obstáculo en un paso más hacia la libertad… y un faro para nuestra propia búsqueda.</p>
+
+    <!-- reflexión (real) -->
+    <section class="reflexion">
+      <h3>¿Te ha inspirado la historia de Mandarava?</h3>
+      <p>Su vida nos invita a reflexionar sobre la nuestra. ¿Qué cualidades de Mandarava resuenan contigo? ¿Qué obstáculos en tu propia vida podrían convertirse en un catalizador para crecer? Tómate un momento para contemplarlo.</p>
+      <p>Y si sientes curiosidad por conocer más sobre las grandes mujeres en el budismo, te invitamos a seguir explorando.</p>
+    </section>
+
+    <!-- suscripción honesta · un solo campo -->
+    <section class="suscribe-wrap" id="suscribe">
+      <p class="k">La newsletter de Paramita</p>
+      <h3>Recibe cada semana una <em>lectura</em> como esta</h3>
+      <p>Historias, enseñanzas y prácticas de la tradición Sakya. Sin ruido, a tu ritmo. Un correo, cuando hay algo que merece tu tiempo.</p>
+      <form class="suscribe" id="form-suscribe" novalidate>
+        <div class="suscribe__fila">
+          <input class="suscribe__input" type="email" id="email" placeholder="tu@correo.com" aria-label="Tu correo electrónico" required>
+          <button class="btn-primario" type="submit">Suscribirme</button>
+        </div>
+        <label class="suscribe__consent">
+          <input type="checkbox" id="consent" required>
+          <span>Acepto recibir la newsletter y la <a href="#">política de privacidad</a>.</span>
+        </label>
+        <p class="suscribe__ok" role="status">Gracias. Te hemos apuntado — revisa tu correo.</p>
+      </form>
+    </section>
+
+    <!-- autoría · tradición viva -->
+    <aside class="autor">
+      <img src="https://www.paramita.org/wp-content/uploads/2023/12/Anahi_Yanez_Pagans_.jpg" alt="Anahí Yanez Pagans">
+      <div>
+        <p class="k">Escrito por</p>
+        <h4>Anahí Yanez Pagans</h4>
+        <p>Especialista en marketing y panadera artesanal. Estudiante de filosofía y meditación budista.</p>
+      </div>
+    </aside>
+  </article>
+</div>
+
+<!-- ── Seguir leyendo ── -->
+<section class="seguir">
+  <div class="seguir__wrap">
+    <div class="seguir__head">
+      <p class="k">Seguir leyendo</p>
+      <h2>De la misma senda</h2>
+    </div>
+    <div class="grid-cards" id="blogCards">
+      <article class="efx-card">
+        <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-2-color.jpg'),linear-gradient(150deg,#EBDEC4,#E4D9C4)"></div></div>
+        <span class="ghost" aria-hidden="true">行</span>
+        <div class="body">
+          <span class="kicker">Práctica</span>
+          <h3><em>Kora</em> budista: qué es la circunvalación sagrada y cómo practicarla</h3>
+          <p>El sentido de caminar en círculo alrededor de lo sagrado, y cómo hacerlo.</p>
+          <a class="efx-card__more" href="#">Leer más <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+      <article class="efx-card">
+        <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-3-color.jpg'),linear-gradient(150deg,#E4D9C4,#EBDEC4)"></div></div>
+        <span class="ghost" aria-hidden="true">供</span>
+        <div class="body">
+          <span class="kicker">Filosofía</span>
+          <h3>El arte de la ofrenda perfecta: intención, mérito y dedicación</h3>
+          <p>Qué convierte un gesto sencillo en una práctica que genera mérito.</p>
+          <a class="efx-card__more" href="#">Leer más <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+      <article class="efx-card">
+        <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-4-color.jpg'),linear-gradient(150deg,#EBDEC4,#EFE8DB)"></div></div>
+        <span class="ghost" aria-hidden="true">輪</span>
+        <div class="body">
+          <span class="kicker">Textos</span>
+          <h3><em>La rueda de las armas afiladas</em>: el texto que cambia la mirada</h3>
+          <p>Una obra del lojong que da la vuelta a cómo entendemos la adversidad.</p>
+          <a class="efx-card__more" href="#">Leer más <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- footer · sincronizado con partials/footer.html -->
+<footer class="foot" id="contacto">
+  <div class="foot__info">
+    <div class="wrap">
+      <div class="foot-grid">
+
+        <!-- Columna 1 · marca + tagline + social -->
+        <div>
+          <span class="logo-wave" role="img" aria-label="Paramita"></span>
+          <p class="tagline">Meditación y enseñanzas del Buddha, como puente entre los Himalayas y el mundo hispanohablante.</p>
+          <div class="social">
+            <a href="#facebook" aria-label="Facebook"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M13.7 8.3c-1.5-.3-2.6.3-2.6 2V17"/><path d="M9.7 11.7h3.6"/></svg>Facebook</a>
+            <a href="#youtube" aria-label="YouTube"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4.2"/><path d="M10.4 9.4 15 12l-4.6 2.6z"/></svg>YouTube</a>
+            <a href="#instagram" aria-label="Instagram"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="16.8" cy="7.2" r=".7" fill="currentColor" stroke="none"/></svg>Instagram</a>
+            <a href="#spotify" aria-label="Spotify"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.4 9.7c3-.9 6.6-.6 9.1.9"/><path d="M8 12.6c2.4-.7 5.2-.4 7.2.8"/><path d="M8.6 15.4c1.9-.5 4-.3 5.6.6"/></svg>Spotify</a>
+          </div>
+        </div>
+
+        <!-- Columna 2 · Navegar (refleja la IA del navbar público) -->
+        <div>
+          <h4>Navegar</h4>
+          <a class="fl" href="/meditacion/meditacion.html">Meditación</a>
+          <a class="fl" href="/formacion/formacion-publica.html">Cursos</a>
+          <a class="fl" href="/actividades/actividades.html">Actividades</a>
+          <a class="fl" href="/blog/blog.html">Blog</a>
+          <a class="fl" href="/sobre">Sobre</a>
+        </div>
+
+        <!-- Columna 3 · Contacto -->
+        <div>
+          <h4>Contacto</h4>
+          <address>
+            <b>Dirección</b><br>Av. de Comtat, 1 Bis, buzón 207<br>Pedreguer (Muntanya de la Sella)<br>03750 Alicante, España<br><br>
+            <b>Teléfono</b> (+34) 965 760 777<br>
+            <a class="fl" href="mailto:secretaria@paramita.org">secretaria@paramita.org</a>
+            <a class="fl" href="mailto:soporte@paramita.org">soporte@paramita.org</a><br>
+            <b>Horario</b> L–V · 10–13 h y 15–17 h
+          </address>
+        </div>
+
+      </div>
+
+      <!-- Base del pie · copyright y firma -->
+      <div class="foot-base">
+        <span>© 2026 Fundación Paramita. Todos los seres, libres del sufrimiento.</span>
+        <span>Centro Budista Sakya · Alicante · maqueta /blog/</span>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.add('js'); // progressive enhancement (como la home)
+// Barra de progreso + estado scrolled del navbar (como la home)
+var pb=document.getElementById('progreso');
+var bar=document.getElementById('bar');
+function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;
+  pb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';
+  if(bar){bar.classList.toggle('scrolled',h.scrollTop>8);}}
+document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Índice activo (capa-pastel) + trazos + reveal
+if('IntersectionObserver' in window){
+  // resaltar sección activa en el índice
+  var secciones=[...document.querySelectorAll('.articulo h2[id]')];
+  var enlaces={};
+  document.querySelectorAll('.toc a').forEach(function(a){enlaces[a.getAttribute('href').slice(1)]=a;});
+  var actual=null;
+  var ioToc=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        if(actual)actual.classList.remove('activo');
+        var a=enlaces[e.target.id];
+        if(a){a.classList.add('activo');actual=a;}
+      }
+    });
+  },{rootMargin:'-20% 0px -70% 0px'});
+  secciones.forEach(function(s){ioToc.observe(s);});
+
+  // trazos-divisores · mide la longitud real del path y dibuja las 4 capas
+  var trazos=[...document.querySelectorAll('.trazo')];
+  trazos.forEach(function(t){
+    var core=t.querySelector('.core');
+    if(core&&core.getTotalLength){var L=Math.ceil(core.getTotalLength());t.style.setProperty('--len',L);}
+  });
+  if(!reduce){
+    var ioTr=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('dibujado');ioTr.unobserve(e.target);}});},{threshold:.6});
+    trazos.forEach(function(t){ioTr.observe(t);});
+  }else{trazos.forEach(function(t){t.classList.add('dibujado');});}
+
+  // cascada de tarjetas (emula paramita-blog-cascada.js · stagger 110ms)
+  var cards=[...document.querySelectorAll('.efx-card')];
+  if(reduce){cards.forEach(function(c){c.classList.add('efx-in');});}
+  else{
+    var ioC=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){var i=Math.max(0,cards.indexOf(e.target));
+        setTimeout(function(){e.target.classList.add('efx-in');},i*110);ioC.unobserve(e.target);}});},{threshold:.18});
+    cards.forEach(function(c){ioC.observe(c);});
+  }
+}else{
+  document.querySelectorAll('.efx-card,.trazo').forEach(function(el){el.classList.add('efx-in','dibujado');});
+}
+
+// Suscripción · validación + acuse (mock, sin endpoint · como en la home)
+var form=document.getElementById('form-suscribe');
+form.addEventListener('submit',function(ev){
+  ev.preventDefault();
+  var email=document.getElementById('email');
+  var consent=document.getElementById('consent');
+  if(!email.value||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)){email.focus();return;}
+  if(!consent.checked){consent.focus();return;}
+  form.classList.add('is-sent'); // muestra el acuse
+});
+</script>
+</body>
+</html>
