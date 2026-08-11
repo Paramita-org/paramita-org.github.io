@@ -11,8 +11,10 @@ Resumen rápido de qué está construido y qué falta:
 | Home pública (`index.html`) | ✅ Cerrada (Fase 7) |
 | Home del practicante (`home-logueado/`) | 🟡 A medias |
 | Catálogo público de cursos (`formacion/`) | ✅ Terminado |
-| Catálogo del practicante (`formacion-logueado/`) | 🟡 Diseño por concretar |
+| Catálogo del practicante (`formacion-logueado/`) | 🟡 Construido · navbar practicante provisional |
 | Plantilla de curso individual (`formacion/emi-1-calma-y-lucidez/`) | 🟡 Hecha · pendiente de repaso |
+| Actividades (`actividades/`) | 🟡 En construcción activa |
+| Medita con nosotros (`meditacion/`) | ⬜ Investigación + maqueta de hero hechas · aún sin commit |
 | Navbar público + navbar practicante | ✅ Ambos existen |
 | Footer | 🟡 Solo genérico · footer privado por decidir |
 | Resto de landings | ⬜ Pendientes |
@@ -47,10 +49,10 @@ sirve `carpeta/index.html` como `carpeta/`, así que las URLs quedan limpias
 ├── formacion/
 │   ├── index.html                          ← catálogo público · ✅ terminado
 │   └── emi-1-calma-y-lucidez/index.html    ← plantilla de curso individual · 🟡 hecha, a repasar
-├── formacion-logueado/index.html           ← catálogo del practicante · 🟡 diseño por concretar
+├── formacion-logueado/index.html           ← catálogo del practicante · 🟡 construido · navbar provisional
 │
-├── meditacion/index.html                   ← pendiente
-├── actividades/index.html                  ← pendiente
+├── meditacion/index.html                   ← 🟡 investigación + maqueta de hero · aún sin commit
+├── actividades/index.html                  ← 🟡 en construcción activa
 ├── blog/index.html                         ← pendiente
 ├── crowdfunding/index.html                 ← pendiente
 ├── unete/index.html                        ← pendiente (destino CTA "Únete")
@@ -102,11 +104,20 @@ partials/
 ├── navbar-publico.html       ← navbar del sitio anónimo
 ├── navbar-practicante.html   ← navbar del practicante autenticado
 ├── footer.html               ← footer genérico (público y privado por ahora)
-└── prefooter.html            ← bloque previo al footer
+├── prefooter.html            ← bloque previo al footer
+├── pictogramas/              ← SVGs del sistema de pictogramas (+ su README.md)
+└── sync.py                   ← propaga partials y pictogramas a las landings
 ```
 
 `sync.py` admite las flags `--aria-current` (marca la página activa en el
-navbar) y `--with-prefooter` (incluye el prefooter al sincronizar).
+navbar), `--with-prefooter` (incluye el prefooter al sincronizar) y
+`--only-pictos` (sincroniza solo los pictogramas; admite globs tipo
+`formacion/*/index.html`).
+
+Los pictogramas SVG viven en `partials/pictogramas/` y se inyectan en las
+landings con `sync.py --only-pictos`, que sustituye el contenido de cada
+`<span data-pico="nombre">` conservando sus clases (`pico--sm`, etc.). Ver
+`partials/pictogramas/README.md`.
 
 **Footer privado — decisión abierta.** Hoy existe un único footer genérico que
 sirve tanto al sitio público como al del practicante. Está pendiente decidir si
@@ -144,6 +155,16 @@ Se precargan con `<link rel="preload" ... crossorigin>`. Para propagarlas al res
 de páginas, seguir `traspaso-fuentes-autoalojadas.md`. Nota: el eje `SOFT` de
 Fraunces se mantiene firme en 0 en toda la home, y `WONK` se conserva con default 0
 (no eliminar el eje: el CSS lo referencia).
+
+**Tema oscuro «penumbra» — opt-in, solo home.** Existe un modo oscuro opt-in
+para la home pública en `css/componentes/paramita-tema.css`, activado por el
+toggle del navbar. El claro sigue siendo el estado por defecto y la cara de
+marca: no se sigue `prefers-color-scheme`, la home arranca en luz salvo que haya
+preferencia guardada. Persiste en `localStorage` (clave `paramita-tema`) y se
+aplica con `data-tema="oscuro"` en `<html>`. Redefine los tokens nominales bajo
+`:root[data-tema="oscuro"]` con una penumbra cálida pensada desde cero, no una
+inversión mecánica de la paleta clara. Es un experimento acotado a la home;
+extenderlo al resto de páginas queda pendiente.
 
 **Nomenclatura Fase 6 de CTAs:**
 
@@ -199,5 +220,6 @@ en el código). Empezar por `docs/00-indice.md`.
 | `formacion/index.html` | ✅ público | ✅ | Terminada · aria-current="page" en Cursos |
 | `formacion/emi-1-calma-y-lucidez/index.html` | ✅ público | ✅ | Plantilla · pendiente de repaso |
 | `home-logueado/index.html` | ✅ practicante | ✅ | A medias |
-| `formacion-logueado/index.html` | ✅ practicante | ✅ | Diseño por concretar |
+| `formacion-logueado/index.html` | ✅ practicante | ✅ | Construido · navbar provisional |
+| `actividades/index.html` | ✅ público | ✅ + prefooter | En construcción · aria-current="page" en Actividades |
 | todas las demás | — | — | Pendientes de crear |

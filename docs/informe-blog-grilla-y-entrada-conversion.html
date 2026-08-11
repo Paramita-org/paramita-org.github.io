@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leer es un cruce — Grilla de blog y página de entrada · Informe UX/UI + CRO 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;
+    --paper-2:#FBFAF7;
+    --ink:#191A1C;
+    --slate:#63656B;
+    --ink-deep:#132239;
+    --ink-deep-2:#0E1A2C;
+    --gold:#A8823F;           /* acento decorativo (sheen, barra, bordes) */
+    --gold-ink:#836528;       /* texto pequeño sobre fondo claro · WCAG AA 4.81:1 */
+    --gold-lite:#C9A96E;      /* texto sobre bloques oscuros · AA 7:1+ */
+    --rule:#DAD6CC;
+    --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);
+    line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+  .flow > .bleed{grid-column:1/-1;width:100%}
+
+  /* ---------- COVER ---------- */
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;
+    font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--gold-ink);margin:0 0 1.4rem
+  }
+  .cover h1{
+    font-family:"Fraunces",serif;
+    font-optical-sizing:auto;
+    font-weight:500;
+    font-size:clamp(2.6rem,7vw,4.8rem);
+    line-height:1.0;
+    letter-spacing:-.015em;
+    margin:0 0 1.4rem;
+  }
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{
+    font-size:clamp(1.15rem,1.4vw,1.4rem);
+    line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400
+  }
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{
+    content:"";position:absolute;inset:0;width:38%;
+    background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);
+    animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite
+  }
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+
+  .lede{
+    font-family:"Fraunces",serif;font-weight:400;
+    font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.45;
+    letter-spacing:-.01em;margin:2.6rem 0 0;color:var(--ink)
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:clamp(3rem,7vh,5rem) 0}
+  .sec-head{margin:0 0 2rem}
+  .sec-num{
+    font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.2em;
+    color:var(--gold-ink);display:block;margin-bottom:.7rem
+  }
+  h2{
+    font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;
+    font-size:clamp(1.85rem,3.6vw,2.85rem);line-height:1.08;letter-spacing:-.012em;margin:0
+  }
+  h3{
+    font-family:"Hanken Grotesk",sans-serif;font-weight:650;
+    font-size:1.18rem;letter-spacing:.005em;margin:2.6rem 0 .6rem;line-height:1.3
+  }
+  h3 .tag{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold-ink);letter-spacing:.14em;vertical-align:.35em;margin-right:.55em;text-transform:uppercase}
+  p{margin:0 0 1.15rem}
+  a{color:var(--ink-deep);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;text-decoration-thickness:1px}
+  a:hover{text-decoration-thickness:2px}
+  strong{font-weight:650}
+  em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.82em;background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:3px;padding:.05em .35em;color:var(--ink-deep)}
+  .drop::first-letter{
+    font-family:"Fraunces",serif;font-weight:500;float:left;
+    font-size:3.5em;line-height:.72;padding:.06em .09em 0 0;color:var(--ink-deep)
+  }
+
+  .pull{
+    font-family:"Fraunces",serif;font-style:italic;font-weight:400;
+    font-size:clamp(1.35rem,2.4vw,1.9rem);line-height:1.32;letter-spacing:-.01em;
+    color:var(--ink-deep);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    padding:1.6rem 0;margin:2.4rem 0
+  }
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .stat{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.9rem,3vw,2.6rem);line-height:1;letter-spacing:-.02em;color:var(--ink-deep)}
+  .stat .n small{font-size:.5em;color:var(--gold-ink);font-weight:500}
+  .stat .l{font-family:"Hanken Grotesk",sans-serif;font-size:.9rem;line-height:1.35;color:var(--ink);margin-top:.6rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.66rem;color:var(--slate);margin-top:.5rem;letter-spacing:.02em}
+
+  .note{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:1.3rem 1.4rem;margin:1.8rem 0;font-size:.98rem;line-height:1.62}
+  .note .k{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-ink);display:block;margin-bottom:.5rem}
+
+  .tbl-wrap{margin:2rem 0;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.92rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:.8rem}
+  th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  thead th{border-bottom:1.5px solid var(--ink);font-family:"Hanken Grotesk";font-weight:650;font-size:.82rem}
+  tbody td:first-child{font-weight:600}
+  .num{font-family:"JetBrains Mono",monospace;font-size:.85rem;white-space:nowrap;color:var(--ink-deep)}
+  tbody tr:hover td{background:var(--paper-2)}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .split > div{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .split h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.25rem;margin:0 0 .3rem}
+  .split .role{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink);margin-bottom:1rem}
+  .split ul{margin:0;padding-left:1.05em;font-size:.94rem;line-height:1.55}
+  .split li{margin-bottom:.5rem}
+
+  /* ---------- bento demo (dark signature) ---------- */
+  .demo{background:var(--ink-deep);color:var(--paper);padding:clamp(2.6rem,5vh,4rem) 0}
+  .demo .eyebrow{color:var(--gold-lite)}
+  .demo h2{color:var(--paper)}
+  .demo p{color:#C3CAD6}
+  .demo .demo-label{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.12em;color:var(--gold-lite);text-transform:uppercase;margin:.4rem 0 1.1rem}
+  .demo .why{font-size:.9rem;color:#8B94A2;font-family:"JetBrains Mono",monospace;letter-spacing:.02em;margin-top:1.2rem;line-height:1.6}
+
+  .bento{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:.5rem 0 0}
+  .bento .b{
+    background:var(--ink-deep-2);border:1px solid rgba(201,169,110,.22);
+    border-radius:3px;padding:1.2rem;min-height:150px;display:flex;flex-direction:column
+  }
+  .bento .b.feature{grid-column:1/3;grid-row:1/3;min-height:0}
+  .bento .b .cat{font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-lite);margin-bottom:.7rem}
+  .bento .b h5{font-family:"Fraunces",serif;font-weight:500;line-height:1.14;margin:0 0 .5rem;color:var(--paper)}
+  .bento .b.feature h5{font-size:clamp(1.5rem,2.6vw,2.1rem)}
+  .bento .b:not(.feature) h5{font-size:1.12rem}
+  .bento .b p{font-size:.86rem;line-height:1.45;color:#AAB3C0;margin:0}
+  .bento .b .foot{margin-top:auto;padding-top:.9rem;font-family:"JetBrains Mono",monospace;font-size:.64rem;color:#8B94A2;letter-spacing:.03em;display:flex;gap:.9rem}
+  @media (max-width:620px){
+    .bento{grid-template-columns:1fr 1fr}
+    .bento .b.feature{grid-column:1/3;grid-row:auto}
+  }
+
+  /* ---------- anatomy card ---------- */
+  .anatomy{background:var(--paper-2);border:1px solid var(--rule);border-radius:4px;padding:1.6rem;margin:2rem 0}
+  .anatomy .row{display:flex;gap:1rem;align-items:baseline;padding:.55rem 0;border-bottom:1px dashed var(--rule-soft)}
+  .anatomy .row:last-child{border-bottom:0}
+  .anatomy .lbl{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-ink);flex:0 0 34%;padding-top:.2em}
+  .anatomy .val{flex:1}
+  .anatomy .val b{font-weight:650}
+  .anatomy .val .m{display:block;font-size:.86rem;color:var(--slate);margin-top:.15rem}
+
+  /* ---------- flow ladder ---------- */
+  .ladder{position:relative;margin:1.5rem 0 .5rem;padding-left:1.6rem}
+  .ladder::before{content:"";position:absolute;left:6px;top:8px;bottom:12px;width:2px;background:linear-gradient(180deg,var(--gold-lite),var(--gold) 45%,var(--ink-deep))}
+  .ladder .step{position:relative;margin-bottom:1.4rem}
+  .ladder .step::before{content:"";position:absolute;left:-1.6rem;top:.35em;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--gold)}
+  .ladder .step h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+  .ladder .step h4 em{font-style:italic;color:var(--gold-ink)}
+  .ladder .step p{font-size:.95rem;line-height:1.55;margin:0;color:var(--ink)}
+  .ladder .step .cta{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.06em;color:var(--slate);margin-top:.35rem}
+
+  /* ---------- verdict ---------- */
+  .verdict{background:var(--ink-deep-2);color:var(--paper);padding:clamp(3rem,7vh,5rem) 0}
+  .verdict h2{color:var(--paper)}
+  .verdict .eyebrow{color:var(--gold-lite)}
+  .verdict p{color:#C3CAD6}
+  .verdict h3{color:var(--paper)}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2rem}
+  .checks h4{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 1rem;padding-bottom:.6rem;border-bottom:1px solid rgba(255,255,255,.15)}
+  .checks .yes h4{color:#9ECBA8}
+  .checks .no h4{color:#D98C8C}
+  .checks ul{list-style:none;margin:0;padding:0;font-size:.94rem;line-height:1.5}
+  .checks li{padding-left:1.5em;position:relative;margin-bottom:.9rem;color:#D6DBE3}
+  .checks .yes li::before{content:"✓";position:absolute;left:0;color:#9ECBA8;font-weight:700}
+  .checks .no li::before{content:"✕";position:absolute;left:0;color:#D98C8C;font-weight:700}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.76rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:620px){
+    .split{grid-template-columns:1fr}
+    .checks{grid-template-columns:1fr}
+    .cover h1{font-size:clamp(2.3rem,10vw,3rem)}
+    .anatomy .lbl{flex-basis:100%}
+    .anatomy .row{flex-wrap:wrap;gap:.2rem}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .sheen::after{animation:none;transform:translateX(80%)}
+    .reveal{opacity:1;transform:none;transition:none}
+    *{scroll-behavior:auto}
+  }
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe · Blog · CRO + UX/UI + Diseño web · 2026</p>
+  <h1>Leer<br>es un <em>cruce</em></h1>
+  <p class="deck">Qué estructura convierte de verdad en una <strong>grilla de blog</strong> y en la <strong>página de entrada de un artículo</strong> —y por qué, para Paramita, lo más disruptivo de 2026 es tratar la lectura como un acto, no como un feed.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Encargo</b> · Análisis profundo con datos contrastados</span>
+    <span><b>Fase</b> · 7 · preludio de la landing /blog/</span>
+    <span><b>Fecha</b> · Agosto 2026 · rev. 2 (auditoría UX/a11y externa)</span>
+    <span><b>Lectura</b> · ~26 min</span>
+  </div>
+  <p class="lede">La tesis en una frase: la grilla y la entrada no son la misma máquina. La grilla existe para <em>orientar la curiosidad</em>; la entrada, para <em>sostener la atención y convertirla en vínculo</em>. Y el vínculo honesto de un blog no es la donación —es la suscripción y la lectura que continúa.</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 01 ===================== -->
+<section class="flow" id="s1">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — El marco</span>
+    <h2>Dos máquinas, no una</h2>
+  </div>
+
+  <p class="drop reveal">El error estructural más caro en un blog es diseñar "la grilla" y "el artículo" como el mismo objeto con distinto tamaño. Son dos máquinas con enemigos opuestos. La grilla (el índice, <code>/blog/</code>) sirve para <em>descubrir</em>: su enemigo es el ruido y su métrica es cuánto tarda alguien en encontrar algo que le llame lo suficiente como para entrar. La entrada (el artículo, <code>/blog/&lt;post&gt;/</code>) sirve para <em>sostener y vincular</em>: su enemigo es el abandono a mitad de lectura, y su métrica no es una compra sino la profundidad de lectura y el paso siguiente —suscribirse, leer otro, entrar en un curso.</p>
+
+  <p class="reveal">Esta distinción no es teórica: cambia cada decisión de layout. Una grilla necesita jerarquía visual, escaneo rápido y filtros; un artículo necesita medida de lectura, ritmo tipográfico y una sola salida clara al final. Confundirlas produce los dos fallos más comunes del blog institucional: índices que parecen catálogos de e-commerce (todas las tarjetas iguales, sin jerarquía, con "leer más" repetido veinte veces) y artículos que interrumpen la lectura con peticiones agresivas antes de haber dado nada.</p>
+
+  <div class="split reveal">
+    <div>
+      <div class="role">Máquina A · la grilla</div>
+      <h4>Orientar la curiosidad</h4>
+      <ul>
+        <li>Trabajo: que se encuentre y se entre, no seducir con volumen.</li>
+        <li>Jerarquía editorial: un destacado manda, el resto acompaña.</li>
+        <li>Rejilla vertical escaneable — <strong>nunca</strong> carrusel como navegación.</li>
+        <li>Organización por <strong>tema o serie</strong>, no por nube de etiquetas.</li>
+        <li>Tarjeta con categoría, tiempo de lectura y fecha; sin urgencia falsa.</li>
+        <li>Reutiliza la cascada existente (<code>.efx-card</code> + <code>paramita-blog-cascada.js</code>).</li>
+      </ul>
+    </div>
+    <div>
+      <div class="role">Máquina B · la entrada</div>
+      <h4>Sostener y vincular</h4>
+      <ul>
+        <li>Trabajo: llevar de la primera línea a la última sin fricción.</li>
+        <li>Medida de lectura óptima (~65–75 caracteres), Fraunces firme.</li>
+        <li>Barra de progreso e índice fijo en piezas largas (patrón capa-pastel).</li>
+        <li>Conversión <strong>suave</strong> al final: suscripción, no donación.</li>
+        <li>"Seguir leyendo": 2–3 artículos afines + navegación de serie.</li>
+        <li>Caja de autoría → <em>tradición viva</em> (credibilidad por presencia).</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="pull reveal">Todo lo que sigue parte de una regla heredada del proyecto: la home es un hub, la landing de campaña es una máquina de un solo CTA, y el blog es un tercer animal —el que construye <em>autoridad intelectual</em> como forma de confianza.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 ===================== -->
+<section class="flow" id="s2">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — 2026, sin humo</span>
+    <h2>Lo disruptivo, para Paramita, es la calma</h2>
+  </div>
+
+  <p class="reveal">El discurso de "tendencias 2026" tira en dos direcciones a la vez, y conviene nombrarlas para no importar la equivocada. Un polo es <strong>ruidoso</strong>: maximalismo, 3D por defecto, glass translúcido, IA que reordena la página, motion espectacular. El otro es <strong>calmado</strong>: claridad, patrones reconocibles, minimalismo expresivo, tipografía que respira, diseño ético y control del usuario. La propia literatura del año lo admite: el foco se ha desplazado de la novedad visual hacia la usabilidad, la confianza y resultados medibles.</p>
+
+  <p class="reveal">Para una fundación budista que traduce una tradición milenaria, la columna calmada no es "quedarse corto": <em>es</em> estar a la vanguardia. La trampa —la misma que ya se documentó al cerrar la home— es importar el polo ruidoso para "parecer moderno". Un blog de Paramita con parallax agresivo, autoplay de vídeo y pop-ups de suscripción a los tres segundos sería, técnicamente, muy 2026 y, para esta identidad, un fracaso. Lo verdaderamente disruptivo aquí es hacer que leer se sienta como un gesto deliberado en un ecosistema diseñado para el scroll infinito.</p>
+
+  <div class="note reveal">
+    <span class="k">La tendencia que sí importa</span>
+    El diseño ético pasó de nicho a ventaja competitiva: nada de urgencia fabricada, nada de <em>dark patterns</em>, control del usuario sobre lo que ocurre. Coincide punto por punto con lo ya fijado en <code>01-fundamentos-de-identidad.md</code>: ni streaks, ni badges, ni "solo quedan 3 plazas". El blog hereda esa postura sin excepción.
+  </div>
+
+  <p class="reveal">Hay elementos del polo ruidoso que sí pueden entrar —pero <em>traducidos</em> a la gramática cálida del sistema. El <strong>bento grid</strong> (bloques modulares de distinto tamaño) sirve para dar jerarquía a la grilla sin convertirla en cuadrícula uniforme, siempre que la asimetría sea contenida y no un collage. La <strong>expresividad tipográfica</strong> —fuentes variables que "despiertan" el texto— ya vive en el proyecto: Fraunces autoalojada, con sus ejes disponibles. El <strong>motion con propósito</strong> es el trazo-divisor y los reveal que ya existen. La diferencia entre tendencia y ruido es si el gesto sirve a la lectura o compite con ella.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 ===================== -->
+<section class="flow" id="s3">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — La grilla</span>
+    <h2>Una rejilla que orienta, no que apila</h2>
+  </div>
+
+  <p class="reveal">Empecemos por cómo lee la gente, porque condiciona todo lo demás. Dos décadas de eye-tracking del Nielsen Norman Group dan un dato incómodo y estable: en la web <strong>no se lee, se escanea</strong>. La gente absorbe entre el 20% y el 28% de las palabras de una página, y una mayoría amplia escanea en busca de algo concreto en vez de leer en orden. En una grilla, esto significa que la persona no va a "leer" veinte tarjetas: va a barrer la página buscando una señal —un tema, una imagen, un titular— que justifique el clic.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">20–28<small>%</small></div><div class="l">de las palabras de una página es lo que un usuario llega a leer de media</div><div class="src">Nielsen Norman Group</div></div>
+    <div class="stat"><div class="n">~16<small>%</small></div><div class="l">lee un texto entero; el resto escanea en busca de información útil</div><div class="src">NN/g (síntesis)</div></div>
+    <div class="stat"><div class="n">&lt;15<small>s</small></div><div class="l">es lo que muchos usuarios pasan en una página antes de decidir si se quedan</div><div class="src">Time / síntesis del sector</div></div>
+    <div class="stat"><div class="n">~2<small>%</small></div><div class="l">avanza más allá del primer ítem de un carrusel automático</div><div class="src">Informe home Paramita, 2026</div></div>
+  </div>
+
+  <h3 class="reveal"><span class="tag">estructura</span>Jerarquía editorial, no cuadrícula uniforme</h3>
+  <p class="reveal">La consecuencia directa: la grilla necesita una jerarquía que guíe el escaneo, no una malla de clones. El patrón que funciona es el <strong>destacado + resto</strong>: un artículo principal grande (el más reciente, o el editorialmente prioritario) que ancla la parte superior, y debajo una rejilla de piezas menores. Es la lógica bento aplicada con contención —y es coherente con la metáfora del sendero que ya organiza <code>/formacion/</code>: hay un punto de entrada evidente y luego el recorrido se abre. Debajo puede repetirse por secciones temáticas ("Meditación", "Filosofía", "Vida de práctica"), cada una con su propio destacado.</p>
+
+  <div class="note reveal">
+    <span class="k">Ya existe · no reinventar</span>
+    El proyecto ya tiene la entrada escalonada de tarjetas: <code>paramita-blog-cascada.js</code> observa las <code>.efx-card</code> y las revela en cascada con un stagger de 110&nbsp;ms por índice, una sola vez, respetando <code>prefers-reduced-motion</code>. La grilla <code>/blog/</code> debe <strong>heredar ese componente</strong>, no crear uno nuevo. La cascada refuerza justo lo que aquí interesa: la lectura secuencial de un conjunto.
+  </div>
+
+  <h3 class="reveal"><span class="tag">tarjeta</span>Anatomía honesta de una tarjeta</h3>
+  <p class="reveal">Cada tarjeta es una promesa mínima. Lo que ayuda al escaneo y lo que no está bien documentado: categoría visible (para el barrido temático), titular en Fraunces (la señal fuerte), una línea de resumen, y metadatos discretos —fecha y <strong>tiempo de lectura</strong>—. El tiempo de lectura no es decoración: orienta el compromiso ("¿tengo 4 minutos o 12?") y reduce el abandono por expectativa fallida. Lo que <em>no</em> entra: contadores regresivos, "trending", badges de popularidad ni "leer más" repetido como muletilla.</p>
+
+  <div class="anatomy reveal" aria-label="Anatomía de una tarjeta de la grilla">
+    <div class="row"><span class="lbl">Categoría</span><span class="val"><b>Eyebrow mono, dorado</b><span class="m">Ancla el escaneo temático. Reutiliza el tratamiento de <code>.eyebrow</code>.</span></span></div>
+    <div class="row"><span class="lbl">Titular</span><span class="val"><b>Fraunces 500, medida corta</b><span class="m">La señal fuerte del barrido. Con <code>em</code> dorado si hay énfasis (regla del sistema).</span></span></div>
+    <div class="row"><span class="lbl">Resumen</span><span class="val"><b>1–2 líneas, texto-suave</b><span class="m">Suficiente para decidir. No el primer párrafo entero.</span></span></div>
+    <div class="row"><span class="lbl">Metadatos</span><span class="val"><b>Fecha · tiempo de lectura</b><span class="m">Mono, <code>--texto-tenue</code>. Orientan el compromiso, sin presión.</span></span></div>
+    <div class="row"><span class="lbl">Imagen</span><span class="val"><b>Opcional, formato 3/2</b><span class="m">Con la luz cálida del sistema. Sombra vía <code>drop-shadow</code> en envoltorio si hay recorte.</span></span></div>
+    <div class="row"><span class="lbl">Afordancia</span><span class="val"><b>Tarjeta clicable · patrón stretched-link</b><span class="m">Enlace real en el titular + <code>::before</code> que cubre la tarjeta. <strong>No</strong> envolver la tarjeta en un <code>&lt;a&gt;</code>: el lector de pantalla leería todo el contenido como nombre del enlace. Sin botón "leer más".</span></span></div>
+  </div>
+
+  <h3 class="reveal"><span class="tag">navegación</span>Filtro por tema, paginación controlada</h3>
+  <p class="reveal">La organización debe seguir los ejes reales por los que alguien busca: <strong>tema</strong> y <strong>serie</strong>, no una nube de etiquetas automática. Si más adelante hay volumen, el filtro puede tomar prestado el gesto de la "frase-intención" de <code>/formacion/</code> (facetas como elección editorial en Fraunces italic dorado, no dropdowns aislados) — coherencia de sistema, cero coste de aprendizaje. Para la carga incremental, la recomendación es un botón <strong>"Cargar más"</strong> controlado por el usuario, no scroll infinito. Aquí no hablo solo desde la doctrina del proyecto: el Nielsen Norman Group sitúa el botón "cargar más" como una de las tres alternativas sanas al scroll infinito, y su objeción principal coincide con el argumento clave para Paramita —el infinito <strong>dificulta llegar al footer</strong>, que es justo donde vive la suscripción—. Baymard añade que, con "cargar más", la gente lee los ítems mostrados más despacio y con más atención que en el infinito. Un matiz para cuando el blog crezca: bajo el botón conviene que existan <strong>URLs paginadas reales y rastreables</strong> (<code>/blog/pagina/2/</code>…), porque los rastreadores no siempre disparan el "cargar más" y se perdería contenido en buscadores. Es la misma lógica que separa "carrusel automático" de "scroll horizontal controlado" ya fijada en el proyecto.</p>
+
+  <p class="reveal">Sobre el <em>hover</em>: una previsualización sutil al pasar (elevación + trazo, quizá primeras palabras del cuerpo) ayuda a evaluar antes de entrar, patrón validado en catálogos editoriales. Debe ser un refuerzo, no un requisito: en táctil no existe hover, así que toda la información necesaria vive ya en la tarjeta en reposo.</p>
+
+  <div class="note reveal">
+    <span class="k">Corrección accesible · cómo se hace clicable</span>
+    Hacer clicable "toda la tarjeta" tiene una trampa documentada: envolverla en un <code>&lt;a&gt;</code> hace que el lector de pantalla anuncie todo el texto de la tarjeta como nombre del enlace, no anuncia bien la imagen y el texto deja de ser seleccionable. El patrón correcto es <strong>stretched-link</strong>: un único enlace real en el titular y un pseudo-elemento (<code>::before</code>) posicionado que estira el área de clic sobre toda la tarjeta. Consecuencia de diseño: la <strong>categoría no debe ser un segundo enlace</strong> dentro de esa área (dos enlaces solapados confunden a teclado y lector de pantalla). Si se quiere que la categoría enlace a su archivo, se saca del área con <code>z-index</code>, o se deja como etiqueta no interactiva.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== BENTO DEMO ===================== -->
+<section class="demo">
+  <div class="flow">
+    <p class="eyebrow reveal">Demostración · jerarquía de grilla</p>
+    <h2 class="reveal">Destacado + resto, con aire</h2>
+    <p class="demo-label reveal">Bento contenido — asimetría al servicio del escaneo, no un collage</p>
+  </div>
+  <div class="flow">
+    <div class="wide">
+      <div class="bento reveal">
+        <article class="b feature">
+          <span class="cat">Filosofía · destacado</span>
+          <h5>Qué significa "cruzar a la otra orilla" cuando ya estás en el agua</h5>
+          <p>La pieza ancla de la semana. Ocupa dos columnas y dos filas: manda en el escaneo sin gritar.</p>
+          <div class="foot"><span>12 min</span><span>07 ago 2026</span></div>
+        </article>
+        <article class="b">
+          <span class="cat">Meditación</span>
+          <h5>Shamatha para principiantes reales</h5>
+          <div class="foot"><span>6 min</span></div>
+        </article>
+        <article class="b">
+          <span class="cat">Vida de práctica</span>
+          <h5>La sangha como espejo</h5>
+          <div class="foot"><span>8 min</span></div>
+        </article>
+        <article class="b">
+          <span class="cat">Linaje</span>
+          <h5>Sakya, siglo XI: por qué importa hoy</h5>
+          <div class="foot"><span>9 min</span></div>
+        </article>
+        <article class="b">
+          <span class="cat">Serie · Lojong</span>
+          <h5>Entrenar la mente, máxima a máxima</h5>
+          <div class="foot"><span>Serie · 3/7</span></div>
+        </article>
+      </div>
+      <p class="why reveal">// Un solo destacado grande da jerarquía inmediata al barrido. El resto comparte tamaño y respira con la cascada existente. La serie se señala como serie —invita a la lectura encadenada, que es retención pura.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 04 ===================== -->
+<section class="flow" id="s4">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — La entrada</span>
+    <h2>Sostener la lectura es la conversión</h2>
+  </div>
+
+  <p class="reveal">Si en la grilla la gente escanea, en el artículo el reto es convertir ese escaneo en lectura. La investigación describe varios patrones de escaneo; el más eficaz —el que conviene <em>diseñar para provocar</em>— es el <strong>capa-pastel</strong>: el ojo salta de encabezado en encabezado y solo se detiene a leer donde el título promete lo que busca. Un muro de texto sin subtítulos fuerza el patrón peor (la F), donde se pierden trozos enteros. La conclusión operativa de NN/g es directa: trocear el contenido en secciones con subtítulos con sentido, listas y palabras clave destacadas. La estructura tipográfica <em>es</em> la usabilidad del artículo.</p>
+
+  <h3 class="reveal"><span class="tag">cabecera</span>Anatomía de la entrada</h3>
+  <p class="reveal">La cabecera del artículo hace en tres segundos lo que la tarjeta prometió: confirma tema, da confianza y arranca la lectura. Eyebrow de categoría (mono, dorado), <strong>H1 en Fraunces</strong> —el elemento LCP, que debe pintarse instantáneo, sin depender de JS, como se corrigió en la home—, un <em>deck</em> de una o dos frases, y una fila de metadatos con autoría, fecha y tiempo de lectura. Debajo, un <em>lede</em> en Fraunces que da el tono. La primera imagen grande, si la hay, va después del lede, no partiendo el titular.</p>
+
+  <h3 class="reveal"><span class="tag">cuerpo</span>Medida, ritmo y andamiaje de lectura</h3>
+  <p class="reveal">El cuerpo se rige por la medida: <strong>≈50–75 caracteres por línea</strong> (con el óptimo citado con frecuencia en torno a 66) es el rango donde el ojo no se pierde al saltar de línea. Fraunces se mantiene firme (<code>SOFT</code> 0) como en el resto del sitio; el peso contemplativo (300) es el reposo. Para sostener el capa-pastel, dos andamios probados:</p>
+  <p class="reveal"><strong>Barra de progreso de lectura</strong> —la que corona este mismo informe—. Es un patrón editorial reconocible (Medium lo popularizó) que informa del avance sin coste cognitivo y reduce el abandono por incertidumbre ("¿cuánto queda?"). <strong>Índice fijo (TOC)</strong> en piezas largas: una columna lateral en escritorio que resalta la sección activa. No es solo navegación: <em>materializa</em> el patrón capa-pastel, dándole al escáner los encabezados de un vistazo.</p>
+
+  <div class="note reveal">
+    <span class="k">Gestos de identidad que ya existen</span>
+    La <strong>capitular</strong> (drop cap) que abre cada sección de este informe es un gesto editorial de bajo coste y alta personalidad —firma de "esto es lectura, no feed". El <strong>trazo-divisor</strong> (<code>paramita-trazo-divisor.js</code>) puede separar movimientos del artículo con motion contemplativo. Y los <strong>reveal</strong> (<code>paramita-reveal.js</code>) dosifican la aparición sin espectáculo. Nada nuevo que construir: el vocabulario de motion ya está.
+  </div>
+
+  <div class="anatomy reveal" aria-label="Andamiaje de una página de entrada">
+    <div class="row"><span class="lbl">Progreso</span><span class="val"><b>Barra superior, 2px dorado</b><span class="m">Avance de lectura. Reduce abandono por incertidumbre.</span></span></div>
+    <div class="row"><span class="lbl">Índice (TOC)</span><span class="val"><b>Lateral fijo en piezas largas</b><span class="m">Materializa el patrón capa-pastel. Resalta sección activa.</span></span></div>
+    <div class="row"><span class="lbl">Medida</span><span class="val"><b>65–75 caracteres/línea</b><span class="m">Fraunces firme, peso contemplativo en reposo.</span></span></div>
+    <div class="row"><span class="lbl">Troceado</span><span class="val"><b>Subtítulos con sentido</b><span class="m">Encabezados que prometen contenido, no genéricos.</span></span></div>
+    <div class="row"><span class="lbl">Énfasis</span><span class="val"><b>Cita destacada · nota · imagen</b><span class="m">Respiraderos visuales. Sombra vía envoltorio (<code>drop-shadow</code>).</span></span></div>
+    <div class="row"><span class="lbl">Cierre</span><span class="val"><b>Un solo gesto de conversión</b><span class="m">Suscripción suave + seguir leyendo. Ver §05–06.</span></span></div>
+  </div>
+
+  <h3 class="reveal"><span class="tag">autoría</span>La firma como tradición viva</h3>
+  <p class="reveal">Al pie del artículo (o en el lateral), una caja de autoría breve. Aquí el proyecto tiene una ventaja identitaria clara: la credibilidad no se construye con reseñas estilo SaaS sino <strong>por presencia</strong> —el mismo principio con el que se sustituyó el carrusel de testimonios de la home por el retrato de Khenpo Rinchen Gyaltsen y la prueba de linaje—. Un artículo firmado por un maestro de la tradición, con una línea de contexto y un enlace a la comunidad, pesa más que cualquier sello. La firma no es un metadato: es una parte de la prueba de que se entra en una tradición viva.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 05 ===================== -->
+<section class="flow" id="s5">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — Disruptivo, pero alineado</span>
+    <h2>Qué significa "lo último de 2026" aquí</h2>
+  </div>
+
+  <p class="reveal">"Disruptivo" no es importar el efecto de moda; es hacer algo que el resto del sector no se atreve a hacer porque va contra el instinto del feed. Para Paramita, la disrupción es <strong>diseñar la lectura como un ritual</strong> en un ecosistema que la ha convertido en scroll. Cinco movimientos, todos alineados con el sistema y ninguno inventado:</p>
+
+  <h3 class="reveal">1 · Tipografía viva, no decorativa</h3>
+  <p class="reveal">Fraunces autoalojada tiene ejes variables disponibles (<code>opsz</code>, <code>wght</code> y, en el archivo completo, <code>SOFT</code>). El gesto del "cruce" —una modulación sutil de peso al descender— ya existe en el sistema. En un artículo largo, esa modulación puede marcar el paso entre movimientos de lectura de forma casi imperceptible. Es expresividad tipográfica de 2026 servida en la gramática del proyecto, no un truco.</p>
+
+  <h3 class="reveal">2 · Penumbra cálida para lectura larga</h3>
+  <p class="reveal">El modo oscuro ya está implementado como <em>opt-in</em> con persistencia (<code>data-tema="oscuro"</code>, <code>localStorage</code>, <code>paramita-tema.css</code>). La página de entrada es <strong>el mejor candidato</strong> del sitio para extenderlo: lectura sostenida, de noche, en móvil. No como dirección de marca —eso se rechazó— sino como comodidad de lectura ofrecida al usuario. Disruptivo por coherencia: dark mode donde de verdad sirve, no por estética.</p>
+
+  <h3 class="reveal">3 · Motion contemplativo con propósito</h3>
+  <p class="reveal">La tendencia real de 2026 es "purposeful motion": animación que resuelve algo. El sistema ya la tiene —trazo-divisor, reveal, la cascada del blog—. La entrada la usa para dosificar la lectura (secciones que aparecen, un divisor que se traza entre movimientos), nunca para llamar la atención sobre sí misma. El criterio: si el motion compite con el texto, sobra.</p>
+
+  <h3 class="reveal">4 · Bento con contención</h3>
+  <p class="reveal">El bento grid es de las estructuras más citadas de 2026. En la grilla se usa para el destacado + resto (ver §03). Dentro de un artículo, con muchísima moderación, para una pieza de "lecturas relacionadas" o un resumen visual. La regla: asimetría al servicio de la jerarquía, nunca un mosaico que fragmente la lectura.</p>
+
+  <h3 class="reveal">5 · Lo que deliberadamente NO se hace</h3>
+  <p class="reveal">La disrupción también es una lista de ausencias, como en el resto del sistema: sin pop-up de suscripción a los 3 segundos, sin autoplay con sonido, sin "artículos que quizá te pierdas" con FOMO, sin contador de "X personas leyendo ahora", sin muro que corte el texto a la mitad para pedir email. En 2026, cuando todo el sector hace justo eso, no hacerlo <em>es</em> la señal de marca.</p>
+
+  <p class="pull reveal">La vanguardia de Paramita y su fidelidad a la identidad son la misma cosa. Cada vez que hay que elegir entre parecer moderno y respetar la lectura, gana la lectura —y eso, en 2026, resulta ser lo moderno.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 06 ===================== -->
+<section class="flow" id="s6">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — Conversión honesta</span>
+    <h2>El blog convierte en confianza, no en dinero</h2>
+  </div>
+
+  <p class="reveal">Aquí está el núcleo del encargo, y va a contracorriente del instinto de "maximizar". El blog de una fundación de práctica no tiene como conversión primaria la donación —pedir dinero a alguien que acaba de leer su primer artículo invierte la lógica de la confianza, igual que se corrigió en la home—. La conversión honesta del lector es un <strong>escalón</strong>: dejar un correo a cambio de seguir recibiendo algo de valor, o leer una pieza más. La donación y la inscripción llegan después, cuando ya se ha recibido algo.</p>
+
+  <div class="note reveal">
+    <span class="k">Dato que cambia la estrategia</span>
+    En contenido educativo, los CTA <em>suaves</em> —newsletter, guía relacionada, lista de lectura— convierten mejor que la venta dura, porque coinciden con la etapa del lector. Y como recurso a cambio del correo, los materiales de valor (informes, guías, plantillas, listas) elevan la implicación tras el opt-in muy por encima de un genérico "suscríbete". Traducción para Paramita: el imán no es "apúntate", es "recibe la próxima reflexión / la guía de meditación / el calendario de Düchen".
+  </div>
+
+  <h3 class="reveal"><span class="tag">momento</span>Dónde y cómo pedir</h3>
+  <p class="reveal">La colocación importa tanto como la oferta. La suscripción principal va <strong>al final del artículo</strong> —después de que el lector haya recibido valor, en el punto de máximo compromiso— y reutiliza el componente que ya existe: el formulario de <strong>un solo campo</strong> de la home (<code>paramita-suscripcion</code>, email + consentimiento RGPD + primario), que nombra explícitamente la newsletter. Menos campos elevan la finalización; se pide solo el correo. Opcionalmente, un <strong>enlace inline suave</strong> (<code>.t-link</code>) a mitad de una pieza larga —"si esto te resuena, aquí escribimos cada semana"— porque el terciario editorial es la única forma de CTA que no rompe el ritmo de lectura dentro de un párrafo. Nada de <em>overlay</em> que tape el texto.</p>
+
+  <h3 class="reveal"><span class="tag">retención</span>El siguiente artículo es media conversión</h3>
+  <p class="reveal">Que alguien lea un segundo artículo es una de las señales de vínculo más fuertes —y de las más baratas de provocar—. El enlazado interno relevante mejora tiempo en sitio, páginas por sesión y rebote, encauzando la lectura en vez de la salida. El patrón: al final, <strong>2–3 piezas afines</strong> (mismo tema o misma serie), no "lo más leído". Y si el artículo pertenece a una <strong>serie</strong>, navegación explícita anterior/siguiente: la lectura encadenada es retención pura y encaja con la lógica de "sendero" del proyecto.</p>
+
+  <h3 class="reveal"><span class="tag">arco</span>Del lector casual al practicante</h3>
+  <p class="reveal">La conversión del blog es un recorrido de compromiso creciente. Cada escalón tiene su CTA suave; ninguno salta al final antes de tiempo. Es la misma auto-cualificación que ya guía el proyecto: dejar que la relación madure en vez de forzarla.</p>
+
+  <div class="ladder reveal">
+    <div class="step">
+      <h4>Lector <em>casual</em></h4>
+      <p>Llega de una búsqueda o un enlace. Objetivo: que termine de leer y no rebote.</p>
+      <div class="cta">CTA · seguir leyendo (2–3 afines) · barra de progreso</div>
+    </div>
+    <div class="step">
+      <h4>Lector <em>recurrente</em></h4>
+      <p>Ha leído más de uno. Objetivo: capturar el correo con una oferta de valor.</p>
+      <div class="cta">CTA · suscripción de un campo al cierre · newsletter nombrada</div>
+    </div>
+    <div class="step">
+      <h4>Suscriptor <em>implicado</em></h4>
+      <p>Recibe la newsletter. Objetivo: llevar a la práctica real.</p>
+      <div class="cta">CTA · "Aprende a meditar" · antesala del sendero → /formacion/</div>
+    </div>
+    <div class="step">
+      <h4><em>Practicante</em></h4>
+      <p>Ya practica o estudia. Aquí sí tienen sentido el apoyo y la comunidad.</p>
+      <div class="cta">CTA · contribuir · comunidad · voluntariado</div>
+    </div>
+  </div>
+
+  <p class="reveal">Nótese que la donación aparece <strong>solo en el último escalón</strong>. En el artículo de entrada, el acto principal es suscribirse o seguir leyendo. Pedir dinero antes no es más eficaz: es menos honesto y, medido, convierte peor con este público.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 07 · VERDICT ===================== -->
+<section class="verdict">
+  <div class="flow">
+    <p class="eyebrow reveal">07 — Propuestas</p>
+    <h2 class="reveal">Mejores prácticas, en tokens reales</h2>
+    <p class="reveal">Todo lo que sigue se apoya en componentes y decisiones que <strong>ya existen</strong> en el sistema. Cero valores inventados: los colores salen de la paleta OKLCH, los CTAs de <code>paramita-cta.css</code>, la cascada y el formulario de sus archivos.</p>
+
+    <h3 class="reveal" style="margin-top:2.4rem">La grilla · /blog/</h3>
+    <div class="checks reveal">
+      <div class="yes">
+        <h4>Hacer</h4>
+        <ul>
+          <li>Jerarquía destacado + resto (bento contenido).</li>
+          <li>Heredar <code>.efx-card</code> + <code>paramita-blog-cascada.js</code>.</li>
+          <li>Organizar por tema y serie; filtro estilo "frase-intención" si hay volumen.</li>
+          <li>Tarjeta con categoría, fecha y <strong>tiempo de lectura</strong>.</li>
+          <li>"Cargar más" controlado + URLs paginadas rastreables.</li>
+          <li>Tarjeta clicable vía stretched-link (enlace en titular + <code>::before</code>).</li>
+          <li>Par de CTAs de página: <code>.btn-secundario</code> + <code>.btn-primario</code>.</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h4>Evitar</h4>
+        <ul>
+          <li>Cuadrícula de clones sin jerarquía.</li>
+          <li>Carrusel automático como navegación (~2% avanza).</li>
+          <li>Nube de etiquetas automática en vez de temas reales.</li>
+          <li>Scroll infinito que secuestra el footer y la suscripción.</li>
+          <li>"Trending", badges de popularidad, urgencia falsa.</li>
+          <li>"Leer más" repetido como muletilla en cada tarjeta.</li>
+          <li>Envolver toda la tarjeta en un <code>&lt;a&gt;</code> (rompe el lector de pantalla).</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="reveal" style="margin-top:2.8rem">La entrada · /blog/&lt;post&gt;/</h3>
+    <div class="checks reveal">
+      <div class="yes">
+        <h4>Hacer</h4>
+        <ul>
+          <li>H1 Fraunces como LCP, pintado sin depender de JS.</li>
+          <li>Medida ~65–75 car.; troceo con subtítulos con sentido.</li>
+          <li>Barra de progreso + TOC lateral en piezas largas.</li>
+          <li>Capitular, trazo-divisor y reveal como andamiaje.</li>
+          <li>Suscripción de un campo al cierre (<code>paramita-suscripcion</code>).</li>
+          <li>Seguir leyendo (2–3 afines) + navegación de serie.</li>
+          <li>Caja de autoría como prueba de tradición viva.</li>
+          <li>Ofrecer penumbra cálida (dark opt-in) para lectura larga.</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h4>Evitar</h4>
+        <ul>
+          <li>Pop-up de suscripción a los 3 s / overlay que tape el texto.</li>
+          <li>Muro que corte el artículo para pedir email.</li>
+          <li>Donación como CTA principal de la entrada.</li>
+          <li>Autoplay con sonido; motion que compita con la lectura.</li>
+          <li>"X personas leyendo ahora", FOMO, contadores.</li>
+          <li>Medida de línea larguísima de punta a punta.</li>
+          <li>Primario o secundario dentro de un párrafo (usar <code>.t-link</code>).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note reveal" style="background:rgba(255,255,255,.04);border-color:rgba(201,169,110,.3);color:#D6DBE3;margin-top:2.6rem">
+      <span class="k" style="color:var(--gold-lite)">Rendimiento · umbrales heredados</span>
+      Los mismos Core Web Vitals que se fijaron para la home aplican al blog: <strong>LCP ≤ 2,5&nbsp;s · INP ≤ 200&nbsp;ms · CLS ≤ 0,1</strong>. El artículo es texto: debe cargar rápido y estable. Fuentes autoalojadas y precargadas, imágenes con dimensiones reservadas (sin salto de layout), y el H1 pintado al primer frame. La velocidad no es un extra —el 53% abandona una página que tarda más de 3&nbsp;s, dato ya citado en el proyecto.
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== CONCLUSIÓN ===================== -->
+<section class="flow" id="conclusion">
+  <div class="sec-head reveal">
+    <span class="sec-num">Cierre</span>
+    <h2>Leer, aquí, es cruzar</h2>
+  </div>
+
+  <p class="reveal">El hilo conceptual del sistema es "el cruce como acto". El blog es donde ese hilo se vuelve más literal: cada artículo es un pequeño cruce —de la primera línea a la última, del no-saber al comprender un poco más—. Diseñar la grilla y la entrada no es, entonces, un problema de conversión al uso; es la pregunta de cómo se acompaña ese cruce sin empujar.</p>
+
+  <p class="reveal">La respuesta que da este informe se resume en tres decisiones. Primera: <strong>separar las dos máquinas</strong> —la grilla orienta la curiosidad, la entrada sostiene la lectura— porque cada una tiene un enemigo distinto. Segunda: <strong>tratar la lectura como un ritual</strong>, que es lo más disruptivo que un blog puede hacer en 2026, y hacerlo con el vocabulario que el sistema ya tiene (Fraunces viva, motion contemplativo, penumbra cálida, cascada existente). Tercera: <strong>convertir en confianza, no en dinero</strong> —la suscripción suave y el siguiente artículo antes que cualquier petición—, dejando que la relación madure escalón a escalón.</p>
+
+  <p class="reveal">Ninguna de estas decisiones exige inventar nada. La grilla hereda la cascada; la entrada hereda la barra de progreso, la capitular, el trazo-divisor, el formulario de un campo y los reveal; la conversión hereda la doctrina de auto-cualificación y la prueba de tradición viva. Lo nuevo no es el material: es el orden en que se coloca. Esa es, exactamente, la diferencia entre parecer moderno e ir por delante.</p>
+
+  <p class="pull reveal">En un ecosistema diseñado para que nadie termine de leer nada, ofrecer una lectura que se pueda cruzar entera —con calma, con tipografía firme, con una sola salida honesta al final— es la propuesta más contemporánea posible. Y la más fiel a lo que Paramita es.</p>
+
+  <div class="note reveal">
+    <span class="k">Pendientes que este informe deja abiertos</span>
+    Copy provisional a validar por Ale/Khenpo. Endpoint real de la newsletter (Alberto), como en la home. Taxonomía definitiva de temas y series (contenido). Decisión sobre extender la penumbra cálida a <code>/blog/&lt;post&gt;/</code>. Y, antes de producción, una maqueta de la grilla y una del artículo para validar en navegador, según el método del proyecto: investigación → demo visual → producción.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== REFERENCIAS ===================== -->
+<section class="flow refs" id="refs">
+  <div class="sec-head reveal">
+    <span class="sec-num">Fuentes</span>
+    <h2>Bases contrastadas</h2>
+  </div>
+  <p class="reveal" style="color:var(--slate);font-size:.95rem">Investigación externa contrastada con las decisiones ya documentadas del proyecto. Donde la fuente del sector chocaba con la identidad de Paramita, se ha priorizado la coherencia del sistema y se ha explicado el porqué.</p>
+  <ol class="reveal">
+    <li><b>Nielsen Norman Group</b> — patrones de escaneo (F, capa-pastel, spotted, commitment); "Text Scanning Patterns: Eyetracking Evidence"; el 20–28% de palabras leídas; trocear con subtítulos.</li>
+    <li><b>NN/g</b> — "F-Shaped Pattern of Reading: Misunderstood, But Still Relevant (Even on Mobile)".</li>
+    <li><b>Síntesis del sector (Time, SEOZoom, adsy)</b> — ~16% lee entero; &lt;15 s por página en muchos casos.</li>
+    <li><b>Personizely / Trackingplan</b> — profundidad de scroll como diagnóstico; en contenido educativo, CTA suaves (newsletter, guía, lista) convierten mejor por etapa.</li>
+    <li><b>Stripo</b> — "Opt-in email marketing statistics 2026": recursos de valor (informes, guías, plantillas, listas) elevan la implicación tras el opt-in.</li>
+    <li><b>Incremys / HEC Montréal</b> — enlazado interno relevante mejora tiempo en sitio, páginas por sesión y rebote; patrón artículo → pilar + 2–3 afines.</li>
+    <li><b>NN/g</b> — "Infinite Scrolling: When to Use It, When to Avoid It" y "3 Alternatives to Infinite Scrolling": el botón "cargar más" como alternativa sana; el infinito dificulta el acceso al footer.</li>
+    <li><b>Baymard / Smashing Magazine</b> — con "cargar más" se exploran y leen los ítems con más atención que con scroll infinito.</li>
+    <li><b>DAISY Accessible Publishing KB · Adrian Roselli</b> — las capitulares dificultan seguir el flujo a lectores con dislexia y a lectores de pantalla; si se usan, vía <code>::first-letter</code>/<code>initial-letter</code>. (Corrección aplicada: una sola capitular, la de apertura.)</li>
+    <li><b>Berkeley DAP · Nomensa · Adrian Roselli · W3C</b> — patrón de tarjeta clicable accesible: enlace en el titular + <code>::before</code> (stretched-link); no anidar enlaces ni envolver la tarjeta en un <code>&lt;a&gt;</code>.</li>
+    <li><b>MarTech · Simpleview (magnitud de proveedor)</b> — mostrar el tiempo de lectura reduce el rebote y sube el engagement; dirección corroborada, magnitud tratada con cautela.</li>
+    <li><b>WCAG 2.x · SC 1.4.3</b> — contraste mínimo 4.5:1 para texto normal. (Corrección aplicada: el dorado de etiquetas sobre fondo claro pasa de 3.13:1 a 4.81:1 con <code>--gold-ink</code>.)</li>
+    <li><b>Promodo / Mockflow / Raw.Studio / Tubik</b> — tendencias UX/UI 2026: bento grid, expresividad tipográfica, motion con propósito, y el giro hacia claridad, confianza y control frente a la novedad visual.</li>
+    <li><b>Miquido / MarketingLTB (vía informes previos)</b> — velocidad: 53% abandona &gt;3 s; el CTA único frente a varios.</li>
+    <li><b>Proyecto Paramita — documentos internos</b> — <code>01-fundamentos-de-identidad.md</code> ("el cruce como acto", ausencias); <code>02-sistema-de-color.md</code> (OKLCH, regla 70/30); <code>05-sistema-de-ctas.md</code> (primario/secundario/t-link, pairing); <code>13-home-publica.md</code> (hub vs. landing, dos polos, CWV, tradición viva, suscripción de un campo); <code>paramita-blog-cascada.js</code> (cascada <code>.efx-card</code>).</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Informe generado para el rediseño de la Fundació Sakya Paramita · Agosto 2026 · Preludio de la landing <code>/blog/</code> y de la página de entrada · Datos verificados en las fuentes citadas · Documento autocontenido · Copy y taxonomía provisionales, a validar por Ale/Khenpo.</div>
+</footer>
+
+<script>
+  // reading progress
+  var pb=document.getElementById('progress');
+  function onScroll(){
+    var h=document.documentElement;
+    var max=h.scrollHeight-h.clientHeight;
+    pb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';
+  }
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  // reveal on scroll
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});
+  }
+</script>
+</body>
+</html>
