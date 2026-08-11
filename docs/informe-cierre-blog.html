@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diario: cierre de la superficie /blog/ — Resumen de trabajo y conclusiones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC; --paper-2:#FBFAF7; --ink:#191A1C; --slate:#63656B;
+    --ink-deep:#132239; --ink-deep-2:#0E1A2C;
+    --gold:#A8823F;           /* acento decorativo */
+    --gold-ink:#836528;       /* texto pequeño sobre claro · WCAG AA 4.81:1 */
+    --gold-lite:#C9A96E;      /* texto sobre bloques oscuros */
+    --rule:#DAD6CC; --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);line-height:1.72;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-ink);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.45;letter-spacing:-.01em;margin:2.6rem 0 0;color:var(--ink)}
+
+  section{padding:clamp(3rem,7vh,5rem) 0}
+  .sec-head{margin:0 0 2rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.2em;color:var(--gold-ink);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(1.85rem,3.6vw,2.85rem);line-height:1.08;letter-spacing:-.012em;margin:0}
+  h3{font-family:"Hanken Grotesk",sans-serif;font-weight:650;font-size:1.18rem;letter-spacing:.005em;margin:2.6rem 0 .6rem;line-height:1.3}
+  h3 .tag{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold-ink);letter-spacing:.14em;vertical-align:.35em;margin-right:.55em;text-transform:uppercase}
+  p{margin:0 0 1.15rem}
+  a{color:var(--ink-deep);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;text-decoration-thickness:1px}
+  strong{font-weight:650}
+  em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.82em;background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:3px;padding:.05em .35em;color:var(--ink-deep)}
+  .drop::first-letter{font-family:"Fraunces",serif;font-weight:500;float:left;font-size:3.5em;line-height:.72;padding:.06em .09em 0 0;color:var(--ink-deep)}
+
+  .pull{font-family:"Fraunces",serif;font-style:italic;font-weight:400;font-size:clamp(1.35rem,2.4vw,1.9rem);line-height:1.32;letter-spacing:-.01em;color:var(--ink-deep);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:1.6rem 0;margin:2.4rem 0}
+
+  .note{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:1.3rem 1.4rem;margin:1.8rem 0;font-size:.98rem;line-height:1.62}
+  .note .k{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-ink);display:block;margin-bottom:.5rem}
+
+  .tbl-wrap{margin:2rem 0;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.9rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:.8rem}
+  th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  thead th{border-bottom:1.5px solid var(--ink);font-family:"Hanken Grotesk";font-weight:650;font-size:.82rem}
+  tbody td:first-child{font-weight:600}
+  .mono{font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--ink-deep);white-space:nowrap}
+  tbody tr:hover td{background:var(--paper-2)}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .split > div{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .split h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.25rem;margin:0 0 .3rem}
+  .split .role{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink);margin-bottom:1rem}
+  .split ul{margin:0;padding-left:1.05em;font-size:.94rem;line-height:1.55}
+  .split li{margin-bottom:.5rem}
+
+  .demo{background:var(--ink-deep);color:var(--paper);padding:clamp(2.6rem,5vh,4rem) 0}
+  .demo .eyebrow{color:var(--gold-lite)}
+  .demo h2{color:var(--paper)}
+  .demo p{color:#C3CAD6}
+  .demo .demo-label{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.12em;color:var(--gold-lite);text-transform:uppercase;margin:.4rem 0 1.1rem}
+
+  .steps{counter-reset:s;margin:1.5rem 0 0;padding:0;list-style:none}
+  .steps li{counter-increment:s;position:relative;padding-left:2.6rem;margin-bottom:1.3rem}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:-.1em;width:1.9rem;height:1.9rem;border-radius:50%;
+    background:var(--paper-2);border:1.5px solid var(--gold);color:var(--gold-ink);
+    font-family:"JetBrains Mono",monospace;font-size:.82rem;display:grid;place-items:center}
+  .steps li b{font-weight:650}
+
+  .verdict{background:var(--ink-deep-2);color:var(--paper);padding:clamp(3rem,7vh,5rem) 0}
+  .verdict h2{color:var(--paper)}
+  .verdict .eyebrow{color:var(--gold-lite)}
+  .verdict p{color:#C3CAD6}
+  .verdict h3{color:var(--paper)}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2rem}
+  .checks h4{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 1rem;padding-bottom:.6rem;border-bottom:1px solid rgba(255,255,255,.15)}
+  .checks .yes h4{color:#9ECBA8}
+  .checks .no h4{color:#D98C8C}
+  .checks ul{list-style:none;margin:0;padding:0;font-size:.94rem;line-height:1.5}
+  .checks li{padding-left:1.5em;position:relative;margin-bottom:.9rem;color:#D6DBE3}
+  .checks .yes li::before{content:"✓";position:absolute;left:0;color:#9ECBA8;font-weight:700}
+  .checks .no li::before{content:"✕";position:absolute;left:0;color:#D98C8C;font-weight:700}
+
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:620px){.split{grid-template-columns:1fr}.checks{grid-template-columns:1fr}.cover h1{font-size:clamp(2.3rem,10vw,3rem)}}
+  @media (prefers-reduced-motion:reduce){.sheen::after{animation:none;transform:translateX(80%)}.reveal{opacity:1;transform:none;transition:none}}
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<header class="flow cover">
+  <p class="eyebrow">Cierre de trabajo · Superficie /blog/ · Fase 7</p>
+  <h1>Diario:<br>la lectura, <em>cerrada</em></h1>
+  <p class="deck">Qué se construyó, qué se decidió y qué queda abierto tras levantar las dos superficies del blog —la grilla y la página de entrada— sobre el sistema de diseño existente.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Alcance</b> · /blog/ · grilla + entrada</span>
+    <span><b>Fase</b> · 7</span>
+    <span><b>Fecha</b> · Agosto 2026</span>
+    <span><b>Lectura</b> · ~12 min</span>
+  </div>
+  <p class="lede">Se entrega la sección /blog/ completa a nivel de maqueta: un artículo-plantilla y su índice, navegables entre sí y desde la home, construidos íntegramente con tokens reales del proyecto y sin un solo valor inventado.</p>
+</header>
+
+<hr class="divider">
+
+<!-- 01 -->
+<section class="flow" id="s1">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — Qué se construyó</span>
+    <h2>Dos superficies, un solo sistema</h2>
+  </div>
+  <p class="drop reveal">El punto de partida fue el informe de conversión previo, que separaba el blog en dos máquinas con trabajos opuestos: la <strong>grilla</strong> orienta la curiosidad, y la <strong>entrada</strong> sostiene la lectura y la convierte en vínculo. Sobre esa tesis se levantaron dos maquetas autocontenidas, ambas heredando el navbar, el footer, la paleta OKLCH, las tipografías autoalojadas y los componentes ya existentes del sistema.</p>
+  <p class="reveal">La decisión de método fue empezar por <strong>la entrada, no por la grilla</strong>, por tres razones: la tarjeta de la grilla es una promesa del artículo (no se diseña bien la promesa sin conocer lo prometido); la entrada es donde se juega la tesis de conversión honesta; y estaba menos bloqueada, porque la grilla depende de la taxonomía de temas, aún pendiente. Como instancia real se usó el artículo <em>«Mandarava: la mujer que emergió del fuego»</em>, replicando el patrón de la plantilla de curso (una instancia real como referencia).</p>
+
+  <div class="split reveal">
+    <div>
+      <div class="role">Superficie A · la grilla</div>
+      <h4>blog.html</h4>
+      <ul>
+        <li>Cabecera editorial (<code>.s-head</code>), buscador y filtro por temas.</li>
+        <li>Destacado grande + rejilla de tarjetas heredada del bloque Diario.</li>
+        <li>«Cargar más» con nota de paginación rastreable.</li>
+        <li>Vive en <code>/blog/blog.html</code> — coincide con el navbar.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="role">Superficie B · la entrada</div>
+      <h4>maqueta-blog-entrada.html</h4>
+      <ul>
+        <li>Cabecera, cuerpo con índice lateral y barra de progreso.</li>
+        <li>Suscripción contextual, autoría y «seguir leyendo».</li>
+        <li>Andamiaje de lectura: capitular, trazos, reveal.</li>
+        <li>Instancia real (Mandarava); a producción irá como slug.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 02 -->
+<section class="flow" id="s2">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — La página de entrada</span>
+    <h2>Diseñar la lectura como un acto</h2>
+  </div>
+  <p class="reveal">La entrada se construyó para llevar de la primera línea a la última sin fricción, y solo al final convertir la atención en vínculo. Decisiones cerradas:</p>
+
+  <h3 class="reveal"><span class="tag">cabecera</span>Editorial, sobre calidez</h3>
+  <p class="reveal">Eyebrow de categorías, H1 en Fraunces con énfasis dorado (regla del sistema), <em>deck</em> en Hanken recto, y una fila de metadatos con la autoría atenuada para no competir con la fecha. La imagen protagonista usa un asset real (<code>blog-1-color.jpg</code>).</p>
+
+  <h3 class="reveal"><span class="tag">andamiaje</span>Índice, progreso y trazos</h3>
+  <p class="reveal">Un <strong>índice lateral fijo</strong> resalta la sección activa al hacer scroll: materializa el patrón capa-pastel de lectura. Lo acompañan una <strong>barra de progreso</strong> y los <strong>trazos-divisores</strong>, reelaborados a partir del camino luminoso de cursos —una línea nítida encima y el resplandor emanando desde debajo, no un borrón plano—. Del abuso de capitulares se pasó a <strong>una sola</strong>, por accesibilidad.</p>
+
+  <h3 class="reveal"><span class="tag">conversión</span>Honesta y contextual</h3>
+  <p class="reveal">El cierre no pide dinero: ofrece una <strong>suscripción de un solo campo</strong> tras haber dado valor, más un empujón suave inline (<code>.t-link</code>) a mitad de lectura. La autoría se trata como prueba de <em>tradición viva</em>. Y «seguir leyendo» reutiliza el <strong>bloque Diario de la home 1:1</strong>, con su hover real (la banda de imagen crece de 82 a 208&nbsp;px, la imagen se asienta y el glifo de fondo asoma).</p>
+
+  <div class="note reveal">
+    <span class="k">Hallazgo de accesibilidad</span>
+    El bloque Diario de la home no envuelve la tarjeta en un enlace: la tarjeta es un <code>&lt;article&gt;</code> y el único enlace es «Leer más». Ese patrón ya es accesible por sí mismo (un enlace claro por tarjeta), así que se replicó tal cual, sin necesidad del <em>stretched-link</em> —resolviendo de raíz la tensión entre fidelidad a la home y accesibilidad.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 03 -->
+<section class="flow" id="s3">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — La grilla</span>
+    <h2>Orientar sin apilar</h2>
+  </div>
+  <p class="reveal">La grilla se montó sobre el patrón de tarjeta real (<code>.efx-card</code> / <code>.grid-cards</code>) más una cabecera, una zona de búsqueda-filtro y un destacado. Decisiones cerradas:</p>
+
+  <h3 class="reveal"><span class="tag">búsqueda</span>Patrón del buscador de FAQ</h3>
+  <p class="reveal">La primera versión (píldora) resultaba plana y desalineada. Se sustituyó por el <strong>buscador de FAQ de la plantilla de curso</strong>: un input <em>underline</em> cuya línea inferior pasa de gris a dorada al enfocar, con la lupa a la derecha iluminándose y un leve resplandor bajo la línea. Editorial y coherente con la gráfica.</p>
+
+  <h3 class="reveal"><span class="tag">filtro</span>Chips con profundidad</h3>
+  <p class="reveal">Como FAQ no tiene filtro por temas, los chips son propuesta propia: se les dio fondo y sombra suave (dejan de ser planos), elevación en hover y un glow dorado en el activo. La búsqueda y el filtro operan combinados, con estado de «sin resultados». La taxonomía es provisional, pendiente de contenido.</p>
+
+  <h3 class="reveal"><span class="tag">estructura</span>Destacado, rejilla y paginación</h3>
+  <p class="reveal">Un <strong>destacado</strong> a dos columnas ancla la parte superior; debajo, la rejilla hereda el bloque Diario. El CTA <strong>«Cargar más»</strong> usa el <code>.btn-secundario</code> real del sistema (degradado en el borde y glow triple en hover), con una nota de que en producción bajo él viven URLs paginadas rastreables para SEO. Las imágenes de demo siguen un ciclo limpio de 1 a 4.</p>
+</section>
+
+<hr class="divider">
+
+<!-- 04 -->
+<section class="flow" id="s4">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — Correcciones transversales</span>
+    <h2>Lo que se unificó por el camino</h2>
+  </div>
+  <p class="reveal">Además de construir, la sesión cerró varias inconsistencias del sistema que afloraron al comparar superficies:</p>
+
+  <ol class="steps reveal">
+    <li><b>Deck unificado.</b> Cursos era la única landing con el subtítulo en Fraunces italic. Se corrigió en <code>paramita-formacion.css</code> (<code>.entrada .lede</code> → Hanken recto), replicando el override que <code>.hero .lede</code> ya aplicaba. Alcance verificado: solo afecta a formación pública; las páginas logueadas no se tocan.</li>
+    <li><b>Tipografía.</b> Se había colado una fuente mono en metadatos y etiquetas; se retiró y se unificó a Hanken con <em>letter-spacing</em>, como el resto del sistema.</li>
+    <li><b>CTA real.</b> El botón secundario pasó de una recreación simplificada al <code>.btn-secundario</code> real (borde de degradado vía <code>mask-composite</code> + glow triple), aplicado tanto al navbar como a «Cargar más», en las dos maquetas.</li>
+    <li><b>Contraste.</b> En el material de informe, el dorado sobre fondo claro no llegaba a WCAG AA (3,13:1). Se introdujo un dorado de texto (<code>--gold-ink</code>, 4,81:1) para etiquetas pequeñas.</li>
+    <li><b>Navegación.</b> La home enlaza el bloque Diario a la entrada; el navbar «Blog» apunta a <code>/blog/blog.html</code>. Rutas absolutas para navbar y assets; relativas entre artículos vecinos.</li>
+  </ol>
+
+  <div class="note reveal">
+    <span class="k">Método sostenido</span>
+    Cada paso siguió el mismo protocolo: leer el archivo real del proyecto antes de proponer, verificar que no entrara ningún color fuera del sistema de tokens, y avanzar de una decisión en una decisión con validación en navegador. Donde hubo duda de criterio (contraste, capitulares, tarjeta clicable, paginación), se contrastó con fuentes externas —NN/g, Baymard, DAISY, WCAG— además de los documentos del proyecto.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 05 · patrones establecidos -->
+<section class="verdict">
+  <div class="flow">
+    <p class="eyebrow reveal">05 — Patrones que quedan establecidos</p>
+    <h2 class="reveal">Heredables para el resto del blog</h2>
+    <p class="reveal">Lo aprendido en estas dos superficies se puede reutilizar tal cual en las siguientes páginas del blog (categorías, series, autores).</p>
+    <div class="checks reveal">
+      <div class="yes">
+        <h4>Hacer</h4>
+        <ul>
+          <li>Heredar navbar, footer y tarjeta (<code>.efx-card</code>) del sistema.</li>
+          <li>Tarjeta = <code>&lt;article&gt;</code> con un único enlace «Leer más».</li>
+          <li>Buscador underline con línea dorada en foco (patrón FAQ).</li>
+          <li>«Cargar más» con <code>.btn-secundario</code> real + URLs paginadas.</li>
+          <li>Suscripción contextual al cierre del artículo, no donación.</li>
+          <li>Deck en Hanken recto; énfasis dorado solo en titulares.</li>
+          <li>Servir desde la raíz; verificar contraste AA del texto pequeño.</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h4>Evitar</h4>
+        <ul>
+          <li>Envolver la tarjeta entera en un enlace.</li>
+          <li>Capitulares repetidas; una sola por documento.</li>
+          <li>Fuentes o colores fuera del sistema de tokens.</li>
+          <li>Scroll infinito que secuestre el footer.</li>
+          <li>Deck en Fraunces italic (Cursos era la excepción, ya corregida).</li>
+          <li>CTA de donación como conversión principal de un artículo.</li>
+          <li>Rutas absolutas si se va a previsualizar con <code>file://</code>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 06 · conclusiones -->
+<section class="flow" id="s6">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — Conclusiones</span>
+    <h2>Lo que deja la sesión</h2>
+  </div>
+  <p class="reveal">La superficie /blog/ queda levantada de extremo a extremo a nivel de maqueta, y —lo más importante— <strong>sin deuda de sistema</strong>: no se inventó ningún valor, se reutilizaron los componentes reales, y de paso se corrigieron inconsistencias que venían de antes (el deck de Cursos, el contraste del dorado, la fuente mono infiltrada). El blog no solo se construyó: dejó el sistema un poco más coherente de como lo encontró.</p>
+  <p class="reveal">La tesis del informe de conversión se sostiene en el resultado: la grilla orienta con jerarquía y filtros, y la entrada sostiene la lectura con andamiaje contemplativo y convierte con suavidad. La disrupción, para Paramita, fue tratar la lectura como un ritual —índice, progreso, trazos con luz— en lugar de importar el ruido del feed.</p>
+  <p class="pull reveal">El material no es nuevo: es el sistema de siempre, colocado en el orden correcto. Esa es la diferencia entre parecer moderno e ir por delante.</p>
+</section>
+
+<hr class="divider">
+
+<!-- 07 · pendientes + inventario -->
+<section class="flow" id="s7">
+  <div class="sec-head reveal">
+    <span class="sec-num">07 — Traspaso</span>
+    <h2>Pendientes e inventario</h2>
+  </div>
+
+  <h3 class="reveal">Abierto, por responsable</h3>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Decisiones pendientes</caption>
+      <thead><tr><th>Pendiente</th><th>Responsable</th><th>Bloquea</th></tr></thead>
+      <tbody>
+        <tr><td>Taxonomía real de temas y series</td><td>Ale</td><td>Filtro de la grilla</td></tr>
+        <tr><td>Copy definitivo de landings y artículos</td><td>Ale / Khenpo</td><td>Cierre de contenido</td></tr>
+        <tr><td>Endpoint real de la newsletter</td><td>Alberto</td><td>Suscripción funcional</td></tr>
+        <tr><td>Búsqueda contra índice si crece el volumen</td><td>Alberto</td><td>Escala de la grilla</td></tr>
+        <tr><td>Artículo a producción como <code>blog/&lt;slug&gt;/index.html</code></td><td>Jana</td><td>URLs limpias</td></tr>
+        <tr><td>Tokens de movimiento (<code>--dur/ease-identidad-flujo</code>)</td><td>Jana</td><td>Timings exactos</td></tr>
+        <tr><td>Imágenes destacadas reales por artículo</td><td>Jana / contenido</td><td>Acabado visual</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="reveal">Archivos entregados</h3>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Inventario</caption>
+      <thead><tr><th>Archivo</th><th>Qué es</th><th>Ubicación</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">blog.html</td><td>Grilla / índice del blog</td><td class="mono">/blog/</td></tr>
+        <tr><td class="mono">maqueta-blog-entrada.html</td><td>Artículo-plantilla (Mandarava)</td><td class="mono">/blog/</td></tr>
+        <tr><td class="mono">index.html</td><td>Home, con el bloque Diario enlazado</td><td class="mono">raíz</td></tr>
+        <tr><td class="mono">paramita-formacion.css</td><td>Deck de formación unificado</td><td class="mono">css/paginas/</td></tr>
+        <tr><td class="mono">informe-…-conversion.html</td><td>Investigación + auditoría UX/a11y</td><td class="mono">documentación</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note reveal">
+    <span class="k">Nota de despliegue</span>
+    Servir siempre desde la raíz del repo (<code>python3 -m http.server 8000</code> o Go Live). Con <code>file://</code> fallan la máscara del logo, las imágenes y las rutas absolutas <code>/blog/…</code> y <code>/assets/…</code>. En producción, el artículo debería migrar a <code>blog/&lt;slug&gt;/index.html</code> y sus enlaces «Leer más» en la grilla, a los slugs reales.
+  </div>
+
+  <p class="reveal">Con esto se cierra el trabajo de la superficie /blog/ para esta fase. El siguiente paso natural, cuando llegue la taxonomía de Ale, es generar las páginas de categoría y serie reutilizando estos mismos patrones; y, con el visto bueno de contenido, migrar el artículo-plantilla a su slug de producción.</p>
+</section>
+
+<footer class="flow">
+  <div>Cierre de trabajo · Superficie /blog/ de la Fundació Sakya Paramita · Fase 7 · Agosto 2026 · Maquetas autocontenidas con tokens reales del sistema · Copy y taxonomía provisionales, a validar por Ale/Khenpo.</div>
+</footer>
+
+<script>
+  var pb=document.getElementById('progress');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;pb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  } else { document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')}); }
+</script>
+</body>
+</html>
