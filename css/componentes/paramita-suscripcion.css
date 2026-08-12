@@ -124,6 +124,11 @@
   /* Móvil · email y botón a ancho completo, apilados */
   @media (max-width: 520px) {
     .suscribe__fila { flex-direction: column; }
+    /* Fix desproporción · al pasar la fila a columna, el `flex-basis: 14rem`
+       del input (pensado como ANCHO mínimo en fila) se reinterpreta como
+       ALTO de base y, con flex-grow: 1, la caja se estiraba a ~14rem de alto.
+       Se neutraliza: altura natural por contenido, ancho completo. */
+    .suscribe__input { flex: 0 0 auto; width: 100%; }
     .suscribe__btn { width: 100%; }
   }
 

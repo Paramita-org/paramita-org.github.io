@@ -504,6 +504,30 @@
     .trazo-divisor__path {
       stroke-width: 3.5;
     }
+
+    /* .band · velo UNIFORME en móvil
+       ─────────────────────────────────────────────────────────────────
+       En desktop el fondo es un degradado direccional 90° (izq→dcha) que
+       reserva la columna del texto a la izquierda y deja respirar la foto
+       a la derecha. En móvil el texto ocupa todo el ancho, así que ese
+       degradado horizontal dejaba el lado derecho transparente y el texto
+       sin fondo legible (y el fundido "se quedaba corto").
+
+       Se sustituye por un velo cálido UNIFORME a todo el ancho: la foto
+       se sigue percibiendo atenuada por igual y el texto (azul-oscuro) se
+       lee en toda la caja. Densidad ajustable (76→70%) según cuánta foto
+       quieras dejar ver. */
+    .band {
+      background:
+        linear-gradient(180deg,
+          color-mix(in oklch, var(--arena) 76%, transparent) 0%,
+          color-mix(in oklch, var(--arena) 70%, transparent) 100%),
+        linear-gradient(160deg,
+          color-mix(in oklch, var(--arena) 12%, transparent) 0%,
+          color-mix(in oklch, var(--calido-zen) 12%, transparent) 100%),
+        url("../../assets/img/imagen-muestra-crowfunding.jpg") center/cover no-repeat,
+        linear-gradient(120deg, var(--calido-zen), var(--arcilla));
+    }
   }
 
 

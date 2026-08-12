@@ -32,8 +32,8 @@
   background-image: url('/assets/img/camino-naturaleza.jpg');
   background-size: cover;
   background-position: center 70%;
-  filter: saturate(0.6) contrast(0.96) brightness(1.04);
-  opacity: 0.48;
+  filter: saturate(0.4) contrast(0.92) brightness(1.08);
+  opacity: 0.32;
   animation: entrada-img-latir 40s ease-in-out infinite alternate;
 }
 @keyframes entrada-img-latir {
@@ -82,6 +82,14 @@
   color: var(--dorado);
 }
 .entrada .lede {
+  /* Doctrina de hero · el lede/subtítulo SIEMPRE Hanken Grotesk recto,
+     nunca Fraunces italic. El .lede base (paramita-tipografia.css) es
+     display+italic para usos editoriales; aquí, al vivir en un hero, se
+     override a cuerpo recto igual que `.hero .lede`. */
+  font-family: var(--body);
+  font-style: normal;
+  font-weight: var(--wght-presencia);
+  font-variation-settings: normal;
   font-size: clamp(1.05rem, 1.5vw, 1.2rem);
   color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent));
   max-width: 620px;
@@ -373,7 +381,10 @@
 }
 .nodo__nombre {
   font-family: var(--display);
-  font-size: clamp(0.98rem, 1.3vw, 1.15rem);
+  /* Proporción · el nombre del nivel se quedaba pequeño frente al romano
+     y a la sección. Subido para que "Fundamentos", "Profundización"… tengan
+     presencia editorial. Valor ajustable si lo quieres mayor/menor. */
+  font-size: clamp(1.15rem, 1.6vw, 1.45rem);
   font-weight: 300;
   color: var(--antracita);
   display: block;

@@ -314,7 +314,11 @@
       <p class="zen-frase__eyebrow">Centro Budista Paramita</p>
       <h2 class="zen-frase__titulo" id="fraseZoom"><span>El Camino hacia</span><span>la Orilla de la Liberación</span></h2>
     </div>
-    <div class="zen-intro_scroll-hint">Desciende</div>
+    <!-- Indicador de scroll · Fase 6+ · se retira la palabra "Desciende":
+         el imperativo competía con la línea poética y rompía el tono
+         contemplativo. Se conserva SOLO la línea fina que se desvanece
+         (::after) + el bob sutil, que el JS retira al primer scroll. -->
+    <div class="zen-intro_scroll-hint" aria-hidden="true"></div>
   </section>
 
   <!-- ╔═══ 5 · ANTESALA DEL SENDERO ═══╗  Fase 7
