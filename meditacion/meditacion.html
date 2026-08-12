@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- COPY PROVISIONAL · pendiente de Ale/Khenpo -->
+  <title>Aprende a meditar · Meditación guiada para principiantes · Paramita</title>
+  <meta name="description" content="Aprende a meditar con una primera práctica guiada, gratis y sin registro. No hace falta experiencia ni creer en nada. Centro Budista Sakya, Monte Sella (Pedreguer, Alicante).">
+
+  <!-- marca JS activo cuanto antes (gate de los revelados) -->
+  <script>document.documentElement.classList.add('js')</script>
+
+  <!-- FUENTES autoalojadas (antes de tipografía, que consume --display/--body) -->
+  <link rel="stylesheet" href="../css/tokens/paramita-fuentes.css">
+  <!-- TOKENS -->
+  <link rel="stylesheet" href="../css/tokens/paramita-color.css">
+  <link rel="stylesheet" href="../css/tokens/paramita-tipografia.css">
+  <link rel="stylesheet" href="../css/tokens/paramita-layout.css">
+  <link rel="stylesheet" href="../css/tokens/paramita-movimiento.css">
+  <!-- BASE -->
+  <link rel="stylesheet" href="../css/base/paramita-reset.css">
+  <link rel="stylesheet" href="../css/base/paramita-base.css">
+  <!-- COMPONENTES -->
+  <link rel="stylesheet" href="../css/componentes/paramita-bar.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-menu.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-cta.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-sections.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-hero.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-extras.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-footer.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-chat.css">
+  <!-- PÁGINA -->
+  <link rel="stylesheet" href="../css/paginas/paramita-meditacion.css">
+  <!-- Responsive común (al final) -->
+  <link rel="stylesheet" href="../css/base/paramita-responsive.css">
+</head>
+<body>
+
+  <!-- sync.py rellena este contenedor con partials/navbar-publico.html -->
+  <header class="bar"></header>
+
+  <main>
+
+    <!-- ════════ HERO-UMBRAL ════════ -->
+    <section class="hero hero--meditacion">
+      <!-- Fondo · imagen real (patrón .hero__bg-video). Si no carga, queda el
+           degradado cálido del propio .hero como fallback. -->
+      <div class="hero__bg" aria-hidden="true">
+        <img class="hero__bg-img" src="/assets/img/mujer-meditacion-casa-horizontal.jpg" alt="">
+      </div>
+
+      <div class="hero__inner">
+        <!-- eyebrow y h1 SIN data-reveal · doctrina LCP -->
+        <span class="eyebrow">Meditación · Centro Budista Sakya</span>
+        <h1>Aprende a meditar. Empieza <em>respirando</em>.</h1>
+        <p class="lede">No hace falta experiencia ni creer en nada. Solo unos minutos, una voz que te acompaña y un lugar real detrás.</p>
+        <div class="actions">
+          <button class="btn-primario" id="cta-practica" type="button">Empiezo a respirar</button>
+        </div>
+        <p class="meta">
+          <span class="pulse" aria-hidden="true"></span>
+          Guiado por <b>Lama Rinchen Gyaltsen</b> · 24 años de práctica · Monte Sella, Pedreguer
+        </p>
+      </div>
+    </section>
+
+    <!-- ════════ PRIMERA PRÁCTICA · se revela al pulsar el primario ════════ -->
+    <section class="practica" id="practica" aria-live="polite">
+      <h2 class="practica__k" id="practica-titulo">Tu primera práctica</h2>
+      <p class="practica__lede">No tienes que dejar la mente en blanco. Solo notar cuándo se va, y volver. Una y otra vez. Eso ya es meditar.</p>
+
+      <!-- Orbe que respira · asentarse antes de la guía -->
+      <div class="respirador">
+        <div class="orbe-wrap"><span class="orbe" aria-hidden="true"></span></div>
+        <p class="respira-label" id="respira-label">Respira con el círculo</p>
+      </div>
+
+      <p class="practica__sep">o sigue la meditación guiada</p>
+
+      <!-- Meditación guiada de Lama Rinchen (confirmada guiada-para-hacer).
+           youtube-nocookie + rel=0 para no soltar al visitante en recomendaciones. -->
+      <div class="video">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/XPWCPzu36t4?rel=0&modestbranding=1"
+          title="Meditación guiada · Lama Rinchen Gyaltsen"
+          loading="lazy"
+          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+
+      <!-- Cierre sobrio · sin puntuación, sin racha -->
+      <div class="cierre">
+        <p>Cuando termines, no hay nada que puntuar. Ya has meditado.</p>
+        <div class="next">
+          <a href="/actividades/actividades.html" class="btn-secundario">Meditar en el centro</a>
+          <a href="/formacion/formacion-publica.html" class="t-link">Empezar el nivel I →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Siguiente al hacer scroll (opción B): bloque "qué es meditar aquí".
+         Pendiente de maquetar · copy Ale/Khenpo. -->
+
+  </main>
+
+  <!-- sync.py rellena este contenedor con partials/footer.html -->
+  <footer class="foot"></footer>
+
+  <script src="../js/paginas/paramita-meditacion.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   paramita-meditacion.css
+   Estilos específicos de /meditacion/meditacion.html
+   ───────────────────────────────────────────────────────────────────────
+   Depende de: paramita-color, paramita-tipografia, paramita-layout,
+               paramita-movimiento, paramita-hero, paramita-cta (heredados).
+   Contiene SOLO lo propio de esta página. Todo lo del sistema (tokens,
+   tipografía, botones, barra, hero base, footer) se hereda de sus hojas.
+
+   REGLA · sin colores fuera de los tokens; toda derivación con
+   color-mix(in oklch, …). Sin hex sueltos. Espaciados con --espacio-*.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@layer paginas {
+
+  /* Ritmo de la respiración guiada · funcional (debe casar con el JS de la
+     etiqueta: inhala 4s + sostén 2s + exhala 5s = 11s). Vive a nivel de
+     página porque no hay token semántico del sistema para una cadencia
+     respiratoria; si se reutiliza en otras páginas, promover a token. */
+  .hero--meditacion { --respiro-guia: 11s; }
+
+
+  /* ═══════════ HERO · imagen de fondo + velo de legibilidad ═══════════ */
+
+  /* Imagen dentro de .hero__bg (que ya posiciona absoluto, inset 0). Variante
+     de .hero__bg-video: sin mix-blend multiply para no ensuciar la foto. */
+  .hero--meditacion .hero__bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center right;
+    opacity: 0.92;
+  }
+
+  /* Velo cálido y luminoso · pesa a la izquierda (donde va el texto) y deja
+     ver la foto a la derecha. Nada de oscurecer: mantiene la luz mediterránea.
+     Sobrescribe el ::after vertical del hero base solo en esta página. */
+  .hero--meditacion::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      linear-gradient(95deg,
+        var(--lino) 0%,
+        color-mix(in oklch, var(--lino) 80%, transparent) 38%,
+        color-mix(in oklch, var(--lino) 32%, transparent) 60%,
+        transparent 82%),
+      linear-gradient(180deg,
+        transparent 55%,
+        color-mix(in oklch, var(--lino) 45%, transparent));
+  }
+
+
+  /* ═══════════ PRIMERA PRÁCTICA ═══════════ */
+
+  .practica {
+    width: min(920px, 100% - var(--contenedor-padding) * 2);
+    margin-inline: auto;
+    padding-block: var(--espacio-orilla) var(--espacio-contemplativo);
+  }
+
+  /* Oculta la práctica solo si hay JS (gate .js). Sin JS se ve entera. */
+  .js .practica { display: none; }
+  .js .practica.is-open { display: block; animation: med-subir var(--t-cinematica) both; }
+
+  @keyframes med-subir {
+    from { opacity: 0; transform: translateY(26px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .practica__k {
+    font-family: var(--body);
+    font-weight: var(--wght-asertivo);
+    font-size: var(--texto-label);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--dorado);
+    text-align: center;
+    margin: 0 0 var(--espacio-elemento);
+  }
+
+  .practica__lede {
+    font-family: var(--body);
+    font-weight: var(--wght-presencia);
+    font-size: var(--texto-lede);
+    line-height: var(--leading-lede);
+    color: var(--antracita);
+    text-align: center;
+    max-width: 34ch;
+    margin: 0 auto var(--espacio-contenido);
+  }
+
+  /* Orbe que respira + aura de anillos (misma rampa cálida --calido-zen→--dorado) */
+  .respirador {
+    display: grid;
+    place-items: center;
+    gap: var(--espacio-grupo);
+    margin-bottom: var(--espacio-contenido);
+  }
+
+  .orbe-wrap {
+    display: grid;
+    place-items: center;
+    width: 220px;
+    height: 220px;
+  }
+
+  .orbe {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 42%,
+      color-mix(in oklch, var(--dorado) 72%, var(--calido-zen)),
+      color-mix(in oklch, var(--dorado) 22%, var(--calido-zen)));
+    animation: med-respira var(--respiro-guia) var(--ease-ambiental) infinite;
+    will-change: transform;
+  }
+
+  /* Cadencia 11s: inhala 0→36% (~4s) · sostén 36→54% (~2s) · exhala 54→100% (~5s) */
+  @keyframes med-respira {
+    0% {
+      transform: scale(0.72);
+      box-shadow:
+        0 0 0 8px  oklch(78% 0.155 68 / 0.10),
+        0 0 0 18px oklch(78% 0.155 68 / 0.05),
+        0 0 0 30px oklch(78% 0.155 68 / 0.02);
+    }
+    36%, 54% {
+      transform: scale(1.12);
+      box-shadow:
+        0 0 0 20px oklch(78% 0.155 68 / 0.16),
+        0 0 0 44px oklch(78% 0.155 68 / 0.08),
+        0 0 0 72px oklch(78% 0.155 68 / 0.035);
+    }
+    100% {
+      transform: scale(0.72);
+      box-shadow:
+        0 0 0 8px  oklch(78% 0.155 68 / 0.10),
+        0 0 0 18px oklch(78% 0.155 68 / 0.05),
+        0 0 0 30px oklch(78% 0.155 68 / 0.02);
+    }
+  }
+
+  .respira-label {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: var(--wght-presencia);
+    font-size: var(--texto-h4);
+    color: var(--texto-suave);
+    min-height: 1.6em;
+    font-variation-settings: "opsz" var(--opsz-subtitulo);
+    margin: 0;
+  }
+
+  /* Separador "o sigue la meditación guiada" */
+  .practica__sep {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-elemento);
+    color: var(--texto-tenue);
+    font-family: var(--body);
+    font-size: var(--texto-mini);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    margin: 0 0 var(--espacio-grupo);
+  }
+  .practica__sep::before,
+  .practica__sep::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: var(--hair);
+  }
+
+  /* Vídeo guiado embebido */
+  .video {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--hair);
+    box-shadow: 0 24px 60px -30px var(--azul-oscuro);
+  }
+  .video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* Cierre */
+  .cierre {
+    text-align: center;
+    margin-top: var(--espacio-contenido);
+  }
+  .cierre p {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: var(--wght-presencia);
+    font-size: var(--texto-h4);
+    color: var(--antracita);
+    margin: 0 0 var(--espacio-grupo);
+    font-variation-settings: "opsz" var(--opsz-subtitulo);
+  }
+  .cierre .next {
+    display: flex;
+    gap: var(--espacio-grupo);
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+
+  /* ═══════════ Móvil ═══════════ */
+  @media (max-width: 768px) {
+    .orbe-wrap { width: 180px; height: 180px; }
+    .orbe { width: 100px; height: 100px; }
+    /* el subject de la foto centrado en pantallas estrechas */
+    .hero--meditacion .hero__bg-img { object-position: center; }
+  }
+
+
+  /* ═══════════ Movimiento reducido ═══════════ */
+  @media (prefers-reduced-motion: reduce) {
+    .orbe { animation: none; transform: scale(1); }
+    .js .practica.is-open { animation: none; }
+  }
+
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FIN de paramita-meditacion.css
+   ═══════════════════════════════════════════════════════════════════════ */
