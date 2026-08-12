@@ -42,6 +42,8 @@
 .pagina-khenpo .cita__frase em{color:var(--dorado);font-style:italic}
 .pagina-khenpo .cita__autor{font-family:var(--body);font-size:var(--texto-mini);letter-spacing:.14em;text-transform:uppercase;color:color-mix(in oklch,var(--lino) 65%,transparent);opacity:0;transform:translateY(12px);transition:opacity 1s var(--ease-llegada) .35s,transform 1s var(--ease-llegada) .35s}
 .pagina-khenpo .cita.is-in .cita__eyebrow,.pagina-khenpo .cita.is-in .cita__frase,.pagina-khenpo .cita.is-in .cita__autor{opacity:1;transform:none}
+/* la cita es una sección SIEMPRE oscura → en penumbra restauramos el lino claro para su texto (patrón del footer) */
+[data-tema="oscuro"] .pagina-khenpo .cita{--lino:oklch(97% 0.008 85)}
 
 /* ═══ 4 · LINAJE · timeline alternado, trazo central ESTÁTICO (CSS puro) ═══ */
 .pagina-khenpo .linaje{padding-block:var(--espacio-orilla)}
@@ -52,7 +54,7 @@
 .pagina-khenpo .linaje__spine::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:300px;transform:translateX(-50%);background:radial-gradient(ellipse 52% 92% at 50% 50%,color-mix(in oklch,var(--dorado) 18%,transparent),color-mix(in oklch,var(--dorado) 6%,transparent) 44%,transparent 72%);filter:blur(46px);pointer-events:none;z-index:0}
 /* trazo: dorado, estático, va del primer al último punto (cada nodo mide 108px, punto centrado → 54px de margen arriba/abajo) */
 .pagina-khenpo .rail{position:absolute;left:50%;top:54px;bottom:54px;width:2px;transform:translateX(-50%);background:linear-gradient(180deg,color-mix(in oklch,var(--dorado) 55%,var(--lino)),var(--dorado));border-radius:2px;z-index:1;box-shadow:0 0 12px 1px color-mix(in oklch,var(--dorado) 40%,transparent)}
-.pagina-khenpo .nodo{position:relative;z-index:2;display:grid;grid-template-columns:1fr 44px 1fr;align-items:center;column-gap:1rem;height:108px}
+.pagina-khenpo .nodo{position:relative;z-index:2;display:grid;grid-template-columns:1fr 44px 1fr;align-items:center;align-content:center;column-gap:1rem;height:108px}
 .pagina-khenpo .nodo__dot{grid-column:2;justify-self:center;width:15px;height:15px;border-radius:50%;background:var(--dorado);border:2px solid var(--dorado);box-shadow:0 0 0 5px color-mix(in oklch,var(--dorado) 14%,transparent),0 0 14px 1px color-mix(in oklch,var(--dorado) 42%,transparent);transition:transform var(--t-defecto),box-shadow var(--t-defecto)}
 .pagina-khenpo .nodo:last-child .nodo__dot{width:19px;height:19px;box-shadow:0 0 0 6px color-mix(in oklch,var(--dorado) 18%,transparent),0 0 20px 2px color-mix(in oklch,var(--dorado) 48%,transparent)}
 .pagina-khenpo .nodo--izq .nodo__content{grid-column:1;text-align:right}
@@ -108,8 +110,8 @@
 .pagina-khenpo .ensen__head{max-width:40ch;margin-bottom:clamp(2rem,5vh,3rem)}
 .pagina-khenpo .ensen__grid{display:grid;gap:var(--espacio-grupo);grid-template-columns:1fr}
 @media(min-width:768px){.pagina-khenpo .ensen__grid{grid-template-columns:1fr 1fr}}
-.pagina-khenpo .tarjeta{background:var(--card,var(--lino));border:1px solid color-mix(in oklch,var(--dorado) 24%,var(--hair));border-radius:16px;padding:clamp(1.6rem,3vw,2.2rem);box-shadow:0 10px 30px -24px color-mix(in oklch,var(--dorado) 60%,transparent);transition:transform var(--t-defecto),box-shadow var(--t-revelacion),border-color var(--t-defecto)}
-.pagina-khenpo .tarjeta:hover{transform:translateY(-4px);box-shadow:0 22px 46px -26px color-mix(in oklch,var(--dorado) 70%,var(--azul-oscuro)),0 0 22px -6px color-mix(in oklch,var(--dorado) 40%,transparent);border-color:color-mix(in oklch,var(--dorado) 50%,transparent)}
+.pagina-khenpo .tarjeta{background:var(--card,var(--lino));border:1px solid var(--hair);border-radius:16px;padding:clamp(1.6rem,3vw,2.2rem);box-shadow:0 14px 34px -28px color-mix(in oklch,var(--antracita) 34%,transparent);transition:transform var(--t-defecto),box-shadow var(--t-revelacion),border-color var(--t-defecto)}
+.pagina-khenpo .tarjeta:hover{transform:translateY(-4px);box-shadow:0 26px 54px -30px color-mix(in oklch,var(--antracita) 42%,transparent);border-color:color-mix(in oklch,var(--dorado) 45%,transparent)}
 .pagina-khenpo .tarjeta h3{margin-bottom:.5rem}
 .pagina-khenpo .tarjeta p{color:var(--texto-suave);font-size:.96rem;margin-bottom:1rem}
 
