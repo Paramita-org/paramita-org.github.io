@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maestros, sangha y el eje — IA + UX/UI/gráfico · Paramita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;
+    --paper-2:#FBFAF7;
+    --ink:#191A1C;
+    --slate:#63656B;
+    --ink-deep:#132239;
+    --ink-deep-2:#0E1A2C;
+    --gold:#A8823F;
+    --gold-lite:#C9A96E;
+    --rule:#DAD6CC;
+    --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);
+    line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+  .flow > .bleed{grid-column:1/-1;width:100%}
+
+  /* cover */
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:33em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.42;color:var(--ink-deep);margin:2rem 0 0;font-style:italic}
+
+  section{padding:clamp(2.6rem,6vh,4.2rem) 0}
+  .sec-head{margin-bottom:1.8rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 .3rem}
+  h2 em{font-style:italic;font-weight:400;color:var(--gold)}
+  h3{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.25rem,2vw,1.55rem);line-height:1.2;margin:2.4rem 0 .6rem;letter-spacing:-.005em}
+  h3 em{font-style:italic;color:var(--ink-deep)}
+  p{margin:0 0 1.15rem}
+  strong{font-weight:600;color:var(--ink)}
+  em{font-style:italic}
+  .drop:first-letter{font-family:"Fraunces",serif;float:left;font-size:3.3rem;line-height:.82;font-weight:500;padding:.1em .12em 0 0;color:var(--ink-deep)}
+  .pull{font-family:"Fraunces",serif;font-weight:400;font-style:italic;font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.4;color:var(--ink-deep);border-left:2px solid var(--gold);padding-left:1.2rem;margin:2rem 0}
+  .tag{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid var(--rule);border-radius:2em;padding:.2em .8em;margin-right:.7em;vertical-align:middle}
+  .fuente{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.01em;margin-top:-.4rem}
+
+  /* dato card */
+  .dato{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:14px;padding:1.6rem 1.7rem;margin:1.4rem 0}
+  .dato__k{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+  .dato h3{margin:0 0 .5rem;font-size:clamp(1.15rem,1.8vw,1.4rem)}
+  .dato p{margin:0 0 .6rem}
+  .cifra{font-family:"Fraunces",serif;font-weight:600;color:var(--ink-deep);font-size:1.08em}
+
+  /* stats strip */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--rule);border-radius:14px;overflow:hidden;margin:1.6rem 0}
+  .stat{background:var(--paper-2);padding:1.4rem 1.1rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.7rem,3vw,2.3rem);line-height:1;color:var(--ink-deep)}
+  .stat .n small{font-size:.55em;font-weight:500}
+  .stat .l{font-size:.82rem;line-height:1.35;color:var(--slate);margin-top:.5rem}
+
+  /* tables */
+  .tbl-wrap{margin:1.6rem 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.92rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+  th,td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:500;border-bottom:1.5px solid var(--rule)}
+  tbody td:first-child{font-weight:600;color:var(--ink);width:26%}
+  .yes{color:var(--ink-deep);font-weight:600}
+  .no{color:var(--gold);font-weight:600}
+
+  /* dark section */
+  .dark{background:var(--ink-deep-2);color:#E7E9EE;border-radius:0}
+  .dark h2{color:#fff}
+  .dark h2 em{color:var(--gold-lite)}
+  .dark h3{color:#fff}
+  .dark .sec-num{color:var(--gold-lite)}
+  .dark strong{color:#fff}
+  .dark p{color:#C3CAD6}
+  .dark .pull{color:var(--gold-lite);border-left-color:var(--gold-lite)}
+
+  /* anatomy list */
+  .anat{counter-reset:step;margin:1.6rem 0;padding:0;list-style:none}
+  .anat li{position:relative;padding:1.2rem 0 1.2rem 3.4rem;border-bottom:1px solid var(--rule-soft)}
+  .anat li:last-child{border-bottom:0}
+  .anat li::before{counter-increment:step;content:counter(step,decimal-leading-zero);position:absolute;left:0;top:1.25rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--gold);letter-spacing:.02em}
+  .anat h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.12rem;margin:0 0 .3rem}
+  .anat p{margin:0;font-size:.94rem;color:var(--slate);line-height:1.55}
+  .anat .why{display:block;font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--gold);margin-top:.5rem;letter-spacing:.03em}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.75rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:640px){
+    .stats{grid-template-columns:1fr}
+    .cover h1{font-size:clamp(2.3rem,10vw,3rem)}
+    tbody td:first-child{width:auto}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .sheen::after{animation:none;transform:translateX(80%)}
+    .reveal{opacity:1;transform:none;transition:none}
+    *{scroll-behavior:auto}
+  }
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe · IA + UX/UI/gráfico · Maestros · Sangha · Khenpo</p>
+  <h1>Quién <em>guía</em>,<br>quién <em>acompaña</em></h1>
+  <p class="deck">Cómo presentar a los maestros, a la comunidad monástica y —sobre todo— a Khenpo. Dónde vive cada uno en la arquitectura, qué pregunta responde y con qué ritmo visual, sin traicionar la tradición viva ni convertir a las personas en fichas.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Encargo</b> · Estudio de arquitectura + diseño para las páginas de personas</span>
+    <span><b>Fecha</b> · Agosto 2026</span>
+    <span><b>Lectura</b> · ~14 min</span>
+  </div>
+  <p class="lede">La tesis en una frase: no son dos páginas, son tres. Maestros y sangha responden a preguntas distintas y piden ritmos distintos; y Khenpo no cabe <em>dentro</em> de ninguna de las dos —es el eje, y merece página propia, enlazada desde ambas.</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 00 ENCUADRE ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">00 — Encuadre</span>
+    <h2>Qué trabajo hacen estas páginas <em>de verdad</em></h2>
+  </div>
+  <p class="drop reveal">Ninguna de estas páginas es una landing de conversión. No tienen un CTA único ni un embudo. Son <strong>páginas de presencia</strong>: heredan directamente la doctrina que ya fijó la home en el bloque "Una tradición viva" —que la credibilidad de una tradición no se argumenta, se muestra: linaje, maestro, sede, comunidad—. Rostros humanos reales pesan más que un edificio o que un texto. Ese es el trabajo: dar confianza por presencia, no por promesa.</p>
+  <p class="reveal">Pero "presencia" no es lo mismo en las tres. La diferencia entre ellas no es de tono ni de plantilla: es de <em>pregunta del visitante</em>. Y esa pregunta es la que decide si van juntas o separadas, y dónde encaja Khenpo.</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Tres páginas, tres preguntas distintas</caption>
+      <thead><tr><th></th><th>Pregunta del visitante</th><th>Qué necesita ver</th></tr></thead>
+      <tbody>
+        <tr><td>Maestros</td><td>«¿Quién me va a enseñar? ¿En quién confío la transmisión?»</td><td>Autoridad, linaje, profundidad individual</td></tr>
+        <tr><td>Comunidad monástica</td><td>«¿Hay una sangha real viva detrás de esto?»</td><td>Presencia colectiva, refugio, el cuerpo de la comunidad</td></tr>
+        <tr><td>Khenpo</td><td>«¿Quién sostiene y funda todo esto?»</td><td>El eje: director espiritual, maestro raíz, linaje</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal">Confundir estas tres preguntas es el error de diseño clásico de las páginas de "equipo": una rejilla uniforme de retratos donde el fundador, un maestro invitado y un monje recién ordenado ocupan la misma casilla del mismo tamaño. Eso aplana la jerarquía real y —en un contexto de tradición— es doctrinalmente impreciso.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 01 UNA O DOS ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — La primera decisión</span>
+    <h2>¿Una landing o dos? <em>Dos</em> —y ya está acordado</h2>
+  </div>
+  <p class="reveal">Tu intuición es correcta, y además coincide con lo que ya está fijado en el proyecto. El doc <strong>06 · Navbar</strong> coloca <em>Maestros</em> como sub-punto de «Sobre nosotros». El doc <strong>13 · Home pública</strong> teasea una landing aparte para la sangha —el <code>t-link</code> «Conoce a toda la sangha monástica» → <code>/comunidad</code>—. Es decir: <strong>maestros y monásticos ya viven en ramas distintas de la IA.</strong> Este estudio no lo inventa; lo confirma con razones y lo termina de resolver.</p>
+
+  <h3>Por qué separarlas es lo correcto</h3>
+  <ul class="anat reveal">
+    <li>
+      <h4>Distinta pregunta, distinto trabajo</h4>
+      <p>Maestros sostiene una decisión de confianza («¿recibo enseñanza de esta casa?»). Comunidad da pertenencia y prueba de vida («esto es una tradición habitada, no una tienda de cursos»). Una sola página que intente las dos cosas diluye ambas.</p>
+      <span class="why">principio · auto-cualificación &gt; volumen (doc 13)</span>
+    </li>
+    <li>
+      <h4>Distinta escala → distinto patrón visual</h4>
+      <p>Los maestros son pocos: piden profundidad individual —retrato, semblanza, linaje, transmisión recibida—. La sangha es numerosa: pide presencia colectiva —rejilla de rostros, breadth sobre depth—. El doc 13 ya descartó el carrusel para la comunidad y fijó el patrón «teaser → landing con todos». Son dos gramáticas visuales que no caben en una plantilla.</p>
+      <span class="why">doc 13 §4.3 · patrón comunidad ya decidido</span>
+    </li>
+    <li>
+      <h4>Distinción doctrinalmente real</h4>
+      <p>No todo maestro es monástico, ni todo monástico es maestro. Un lama puede no ser monje; un monje joven no es aún maestro. Fundir las dos categorías insinuaría que autoridad de enseñanza = ordenación, lo cual es sensible y no siempre cierto en la tradición. Separarlas respeta la distinción.</p>
+      <span class="why">a validar · Khenpo / Ale</span>
+    </li>
+  </ul>
+
+  <p class="pull reveal">El único argumento honesto a favor de fusionarlas —el solapamiento de Khenpo, que es maestro <em>y</em> monástico <em>y</em> director— no se resuelve fusionando páginas. Se resuelve dándole a Khenpo la suya.</p>
+
+  <p class="reveal">Y ahí aparece la segunda decisión, la que de verdad te preocupa.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 DÓNDE VA KHENPO ===================== -->
+<section class="flow dark">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — El nudo</span>
+    <h2>Dónde va Khenpo: ni «dentro de Maestros», ni «un punto de Sobre» — <em>página propia</em></h2>
+  </div>
+  <p class="reveal">Planteas dos ubicaciones y dudas entre ellas. La respuesta es que ninguna de las dos, por separado, hace justicia a lo que Khenpo <em>es</em> para la fundación —y que las dos, combinadas, sí—. Veámoslas de frente.</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Las tres opciones sobre la mesa</caption>
+      <thead><tr><th>Opción</th><th>Qué comunica</th><th>Problema</th></tr></thead>
+      <tbody>
+        <tr><td class="no">A · Una ficha dentro de Maestros</td><td>«Es uno de nuestros profesores»</td><td>Lo iguala al resto. Es el <em>eje</em>, no un ítem de una lista.</td></tr>
+        <tr><td class="no">B · Un sub-punto de «Sobre»</td><td>«Forma parte de la ficha institucional»</td><td>Riesgo de bio de organigrama. Lo entierra un nivel y le quita la dignidad de maestro.</td></tr>
+        <tr><td class="yes">C · Página propia, bajo «Sobre», anclada también desde Maestros</td><td>«Es quien guía y funda esta tradición»</td><td>Ninguno, si se resuelve la duplicación (un solo lugar canónico).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Por qué la opción C</h3>
+  <p class="reveal"><strong>Un solo lugar canónico, muchas puertas de entrada.</strong> Khenpo tiene <em>una</em> página —la más cuidada del sitio— y todo lo demás enlaza a ella: el bloque «tradición viva» de la home (ya lo hace con su retrato), una card destacada al inicio de Maestros, y una mención en la comunidad. No se duplica su biografía en tres sitios; se centraliza y se referencia. Eso disuelve el único problema real de separar las páginas.</p>
+  <p class="reveal"><strong>La jerarquía se comunica por tratamiento, no por profundidad de menú.</strong> Khenpo no necesita ser una sexta entrada del navbar —el doc 06 es tajante: «la navegación es de solo cinco puntos; añadir un sexto obliga a repensar la IA entera»—. Lo que necesita es ser la página con <em>más</em> profundidad editorial y visual de todo el sitio. Su peso no viene de dónde esté el enlace, sino de cómo esté hecha la página.</p>
+  <p class="reveal"><strong>Vive bajo «Sobre» porque «Sobre» ya es literalmente él.</strong> El doc 06 define esa rama como «quién guía la práctica y qué es la fundación». Khenpo <em>es</em> quién guía la práctica. No es un anexo de la ficha institucional: es su origen. Colgar de «Sobre» no lo institucionaliza —lo sitúa en la raíz de la identidad, que es donde está.</p>
+  <p class="pull reveal">Regla mental: Maestros lo <em>presenta</em>; «Sobre» lo <em>alberga</em>; la home lo <em>anuncia</em>. Pero solo hay un Khenpo, y solo hay una página de Khenpo.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02b IA CONCRETA ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">02b — Aterrizaje</span>
+    <h2>Cómo queda la arquitectura</h2>
+  </div>
+  <p class="reveal">Submenú de «Sobre nosotros», estructura definitiva —todo cuelga de <code>/sobre/</code>:</p>
+  <div class="dato reveal">
+    <span class="dato__k">Navbar · Sobre nosotros ▾</span>
+    <p><span class="cifra">1.</span> <strong>Maestros</strong> — quienes transmiten la enseñanza · <code>/sobre/maestros/</code></p>
+    <p><span class="cifra">2.</span> <strong>Khenpo Rinchen Gyaltsen</strong> — el director espiritual · <code>/sobre/khenpo/</code></p>
+    <p><span class="cifra">3.</span> <strong>Comunidad monástica</strong> — monásticos y monásticas · <code>/sobre/sangha-monastica/</code></p>
+    <p><span class="cifra">4.</span> <strong>La Fundación</strong> — historia, misión, la tradición Sakya · <code>/sobre/la-fundacion/</code></p>
+  </div>
+  <p class="reveal">Nota sobre el orden: colocar Maestros antes que Khenpo es coherente con la propia tesis de este estudio —el peso de Khenpo no viene de su posición en el menú, sino del tratamiento de su página—. La rama entera unificada bajo <code>/sobre/</code> es además más limpia para el futuro 11ty: una sola carpeta, una sola plantilla de personas.</p>
+  <p class="reveal"><strong>Decidido:</strong> <code>/sobre/khenpo/</code> —dentro de la rama «Sobre», por coherencia con toda la familia—. Queda descartada la variante <code>/khenpo/</code> a nivel raíz.</p>
+  <p class="reveal"><strong>Implicación a no olvidar.</strong> El <code>t-link</code> de la home «Conoce a toda la sangha monástica» apunta hoy a <code>/comunidad</code> (doc 13). Con el destino canónico ya en <code>/sobre/sangha-monastica/</code>, hay que repuntar ese enlace —o dejar un redirect de <code>/comunidad</code>→ para no romper el teaser. Lo mismo si algún borrador enlazaba a <code>/comunidad/</code>.</p>
+  <p class="reveal"><strong>Sobre el título y el tratamiento.</strong> «Khenpo» ya es un título honorífico en la tradición; el orden exacto del nombre, el tratamiento (Khenpo / Lama / Rinpoche) y la fórmula del rol («director espiritual», «maestro raíz») son <em>decisión doctrinal</em>. Aquí van como marcador provisional, a validar por Khenpo/Ale antes de fijar copy.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 PÁGINA KHENPO ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — La página más importante del sitio</span>
+    <h2>Khenpo · una <em>semblanza</em>, no un CV</h2>
+  </div>
+  <p class="reveal">Debe leerse como la página más reverente y editorial de todo Paramita: fotografía-primero, aire generoso de papel/lino, el dorado usado como un solo filete de acento —nunca decorativo—. Es el lugar donde «el cruce como acto» resuena de forma literal: la <em>transmisión</em> es el paso de la enseñanza de una orilla a otra a través de las generaciones. El arco: <strong>presencia → linaje → labor → enseñanza → invitación</strong>.</p>
+  <ul class="anat reveal">
+    <li>
+      <h4>Hero de retrato</h4>
+      <p>Su retrato como media protagonista —a escala grande, con luz cálida y aire, no como banda de punta a punta que compita—. Nombre en Fraunces (LCP instantáneo, <em>sin</em> <code>data-reveal</code>), eyebrow con el rol, una sola línea contemplativa. Ningún CTA que grite.</p>
+      <span class="why">doctrina LCP + jerarquía de imagen (doc 13 §4.4, §4.6)</span>
+    </li>
+    <li>
+      <h4>Semblanza</h4>
+      <p>Quién es, en prosa editorial cálida (lede Fraunces + cuerpo Hanken, hasta la capitular <code>.drop</code> del sistema de informes). No una lista de méritos: un retrato en palabras.</p>
+    </li>
+    <li>
+      <h4>Linaje y transmisión — la columna vertebral</h4>
+      <p>El elemento doctrinal y el más distintivo de la página: una <em>línea de transmisión</em> visual y contenida (Sakya → sus maestros raíz → él), con nodos en dorado sobre un filete fino. Preciso y reverente, no un artificio WebGL. Aquí el gesto del cruce se hace argumento.</p>
+      <span class="why">hilo · «el cruce como acto» (doc 01)</span>
+    </li>
+    <li>
+      <h4>Labor en la fundación</h4>
+      <p>Lo que funda y sostiene (fundación en 2008, el centro, el programa de enseñanza). Este bloque es exactamente por qué la página cuelga de «Sobre»: aquí Khenpo <em>es</em> la fundación.</p>
+    </li>
+    <li>
+      <h4>Sus enseñanzas</h4>
+      <p>Tira curada que enlaza a sus cursos (EMI…), charlas y artículos. CTA suave —«Recibe sus enseñanzas», provisional—. Invitación a la práctica, no escaparate.</p>
+      <span class="why">CTA secundario+primario en no-home (doc 06)</span>
+    </li>
+    <li>
+      <h4>Cierre / invitación</h4>
+      <p>Un gesto contemplativo de salida: una frase, la invitación a asistir a una enseñanza o visitar el centro. Coherente con el «cierre de umbral» del resto del sitio.</p>
+    </li>
+  </ul>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 04 MAESTROS ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — Landing</span>
+    <h2>Maestros · <em>profundidad</em>, no rejilla</h2>
+  </div>
+  <p class="reveal">Al ser pocos, el error a evitar es una rejilla de equipo que se vea vacía o que iguale a todos. El patrón correcto es <strong>jerárquico</strong>:</p>
+  <ul class="anat reveal">
+    <li>
+      <h4>Khenpo como card destacada de apertura</h4>
+      <p>La sección arranca con él a gran tamaño —retrato + nombre + una línea— enlazando a su página. Así Maestros nunca empieza «en vacío»: empieza con el eje.</p>
+    </li>
+    <li>
+      <h4>Intro editorial breve</h4>
+      <p>Una o dos frases sobre qué significa «maestro» aquí: quienes sostienen y transmiten la enseñanza. Fija el marco antes de los rostros.</p>
+    </li>
+    <li>
+      <h4>Maestros de la casa · maestros invitados</h4>
+      <p>Si la fundación recibe Rinpoches o lamas invitados, sepáralos de los residentes en dos bloques. Es una distinción real y útil que ordena la página. Si hoy no hay invitados, el bloque simplemente no existe todavía.</p>
+      <span class="why">depende · ¿hay maestros invitados hoy?</span>
+    </li>
+    <li>
+      <h4>Disciplina de recorte</h4>
+      <p>Todos los retratos con el mismo encuadre, la misma luz y el mismo tratamiento. La coherencia del recorte <em>es</em> la dignidad de la página: retratos dispares leen como amateur; retratos consistentes leen como institución.</p>
+      <span class="why">dependencia · plan fotográfico</span>
+    </li>
+  </ul>
+  <div class="dato reveal">
+    <span class="dato__k">Aviso de alcance honesto</span>
+    <p>Si a día de hoy Maestros sería <strong>solo Khenpo</strong>, no la publiquemos como página de una card —se vería pobre—. Dos caminos: (a) esperar a tener al menos los maestros/lamas residentes; o (b) que Khenpo abra y los maestros invitados se incorporen según lleguen. Es una decisión de contenido, no de diseño.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 05 COMUNIDAD ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — Landing</span>
+    <h2>Comunidad monástica · <em>presencia</em>, no profundidad</h2>
+  </div>
+  <p class="reveal">El inverso exacto de Maestros. Aquí no se trata de la biografía de cada uno, sino del <strong>cuerpo de la sangha</strong> como prueba de tradición habitada. El doc 13 ya fijó el patrón —«teaser → landing con todos»— y descartó el carrusel (~2% pasa del primer ítem). Formato: <strong>rejilla</strong> si caben pocos por vista, o <strong>scroll horizontal controlado por el usuario</strong> con las tres condiciones del informe: sangrado a la derecha, señal de arrastre visible y fuera del camino principal.</p>
+  <ul class="anat reveal">
+    <li>
+      <h4>Hero de comunidad</h4>
+      <p>«La sangha monástica» / «Una comunidad viva». Título Fraunces, una línea sobre qué es la comunidad ordenada. Cálido, sin banda gigante.</p>
+    </li>
+    <li>
+      <h4>Qué es la vida monástica aquí</h4>
+      <p>Breve, digno, sensible: refugio, votos, renuncia. Copy doctrinal → sign-off de Khenpo/Ale.</p>
+    </li>
+    <li>
+      <h4>La sangha · rejilla de rostros</h4>
+      <p>Monjes y monjas con recorte consistente, nombre + una línea (año de ordenación / rol). El peso está en la <em>acumulación</em> de presencia, no en cada ficha.</p>
+    </li>
+    <li>
+      <h4>El centro como contexto</h4>
+      <p>Reincorporar aquí la foto del centro de Alicante (Monte Sella, Pedreguer) —el doc 13 lo dejó anotado—: el lugar donde la comunidad vive. Aquí sí tiene sentido, como contexto de la sangha.</p>
+      <span class="why">doc 13 §6 · pendiente anotado</span>
+    </li>
+    <li>
+      <h4>Invitación</h4>
+      <p>«Visita el centro» o «Conoce la vida de la comunidad». CTA suave, sin embudo.</p>
+    </li>
+  </ul>
+  <div class="dato reveal">
+    <span class="dato__k">Micro-decisión de alcance</span>
+    <p>Ruta canónica: <code>/sobre/sangha-monastica/</code>. Recomiendo mantener esta página <strong>solo para la comunidad ordenada</strong> —monásticos y monásticas—. La comunidad laica de practicantes pertenece a otra rama (Únete / participación), para no mezclar «sangha monástica» con «cómo me implico». A confirmar.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 06 SISTEMA + DEPENDENCIAS ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — Lo que comparten y lo que bloquea</span>
+    <h2>Una familia, tres ritmos</h2>
+  </div>
+  <p class="reveal">Las tres —más las páginas institucionales de «Sobre»— comparten ADN: fotografía-primero, editorial, cálidas, con <code>reveal</code> al scroll y el motion ambiental de siempre. Eso pide <strong>una capa de plantilla compartida</strong> (una «semblanza» base) en lugar de tres CSS sueltos. Es, punto por punto, el tipo de duplicación que la migración a Eleventy está pensada para resolver: mismo layout, datos distintos.</p>
+  <div class="stats reveal">
+    <div class="stat"><div class="n">1</div><div class="l">plantilla compartida de «página de personas» — encaja con el futuro 11ty</div></div>
+    <div class="stat"><div class="n">3</div><div class="l">ritmos distintos sobre esa base: eje · profundidad · presencia</div></div>
+    <div class="stat"><div class="n">0</div><div class="l">carruseles automáticos, badges o urgencia — como en todo el sitio</div></div>
+  </div>
+
+  <h3>La dependencia que manda: la fotografía</h3>
+  <p class="reveal">Estas páginas viven o mueren por la fotografía. La doctrina del proyecto es explícita —el 46% juzga la credibilidad por lo que ve, y los rostros pesan más que los edificios—. Sin retratos reales, dignos, bien iluminados y con recorte consistente (Khenpo, cada maestro, la sangha, el centro), ninguna de las tres puede salir bien. <strong>Es la dependencia crítica</strong>, al mismo nivel que el copy: hay que planificar una sesión o curar el material existente antes de maquetar en serio.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Bloqueos y responsables</caption>
+      <thead><tr><th>Qué falta</th><th>De quién depende</th></tr></thead>
+      <tbody>
+        <tr><td>Fotografía consistente (retratos + sangha + centro)</td><td>Fundación · plan fotográfico</td></tr>
+        <tr><td>Copy y datos de linaje / semblanza</td><td>Ale + Khenpo (doctrinal)</td></tr>
+        <tr><td>Título, tratamiento y URL de Khenpo</td><td>Khenpo / Ale · decisión menor</td></tr>
+        <tr><td>¿Hay maestros invitados? ¿Alcance de «comunidad»?</td><td>Fundación · contenido</td></tr>
+        <tr><td>Destino real de los CTA (enseñanzas, cursos)</td><td>Alberto · endpoints/LMS</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 07 RECOMENDACIÓN ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">07 — Recomendación</span>
+    <h2>Qué haría, y por dónde <em>tiro</em></h2>
+  </div>
+  <ol class="anat reveal">
+    <li>
+      <h4>Confirmar: tres páginas, no dos</h4>
+      <p>Maestros (<code>/sobre/maestros/</code>) · Comunidad monástica (<code>/sobre/sangha-monastica/</code>) · Khenpo (<code>/sobre/khenpo/</code>, anclada desde Maestros y la home). Toda la rama bajo <code>/sobre/</code>.</p>
+    </li>
+    <li>
+      <h4>Empezar por Khenpo</h4>
+      <p>Es la más importante y es el <em>ancla</em> que las otras dos referencian. Diseñarla primero fija el registro reverente del que las demás derivan. Además, funciona sola aunque Maestros aún esté escasa de contenido.</p>
+    </li>
+    <li>
+      <h4>Precederla de su informe editorial</h4>
+      <p>Como todo hito del proyecto: un <code>informe-*.html</code> con la estructura, el tratamiento de la línea de linaje y el copy provisional, para llevar a Khenpo/Ale <em>antes</em> de maquetar. Este documento es el marco; ese informe sería el detalle de la página.</p>
+    </li>
+    <li>
+      <h4>En paralelo, arrancar el plan fotográfico</h4>
+      <p>Sin fotos no hay página que valga. Es lo que más tarda en conseguirse, así que conviene moverlo ya.</p>
+    </li>
+  </ol>
+  <p class="pull reveal">Mi propuesta concreta: cierro este estudio aquí y, cuando me digas «tira», preparo el informe editorial de la <em>página de Khenpo</em> —estructura, línea de linaje y copy marcador— para que lo valides con Khenpo/Ale. ¿Tiro por ahí, o prefieres que aterrice antes alguna de las micro-decisiones (URL, alcance de «comunidad»)?</p>
+</section>
+
+<!-- ===================== REFS ===================== -->
+<section class="flow refs">
+  <div class="sec-head reveal">
+    <span class="sec-num">Fundamento</span>
+    <h2>De dónde sale cada decisión</h2>
+  </div>
+  <p class="reveal" style="font-size:.95rem;color:var(--slate)">Este estudio no importa datos externos: se apoya en las decisiones ya tomadas y documentadas en el propio proyecto. Todo lo que propone es coherente con —o cierra huecos de— esos documentos.</p>
+  <ol class="reveal">
+    <li><b>doc 01 · Fundamentos de identidad</b> · el hilo «el cruce como acto»; «tradición viva, no producto»; rechazo de estética wellness-app.</li>
+    <li><b>doc 06 · Navbar</b> · IA de cinco puntos; «Maestros» bajo «Sobre nosotros»; la navegación no admite un sexto punto.</li>
+    <li><b>doc 13 · Home pública §4.3</b> · «Una tradición viva»; Khenpo como rostro de credibilidad; teaser → <code>/comunidad</code>; descarte del carrusel; condiciones del scroll controlado.</li>
+    <li><b>doc 13 · Home pública §4.4 / §4.6</b> · jerarquía de imagen (nada de bandas que compitan); doctrina LCP (sin <code>data-reveal</code> en el titular).</li>
+    <li><b>doc 13 · §6</b> · pendiente de la landing de comunidad y la foto del centro como contexto.</li>
+    <li><b>doc 12 · Hoja de ruta</b> · migración a Eleventy como solución estructural a la duplicación de plantillas.</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Paramita · Fundación Sakya — Informe interno · Maestros, comunidad monástica y la página de Khenpo · Complementa «Home + CRO + Tendencias 2026».</div>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    bar.style.width = (scrolled * 100) + '%';
+  };
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+</body>
+</html>

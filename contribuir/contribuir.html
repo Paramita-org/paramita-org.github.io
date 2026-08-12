@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="../css/componentes/paramita-bar.css">
   <link rel="stylesheet" href="../css/componentes/paramita-menu.css">
   <link rel="stylesheet" href="../css/componentes/paramita-cta.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-hero.css">
   <link rel="stylesheet" href="../css/componentes/paramita-pictogramas.css">
   <link rel="stylesheet" href="../css/componentes/paramita-footer.css">
 
@@ -165,11 +166,12 @@
 </header>
 
 <main class="ap">
-<section class="entrada">
-  <div class="entrada__img" aria-hidden="true"></div>
-  <div class="entrada__scrim" aria-hidden="true"></div>
-  <div class="wrap entrada__inner">
-    <span class="eyebrow">Amigos de la Fundación Sakya</span>
+<section class="hero hero--foto" id="hero">
+  <div class="hero__bg" aria-hidden="true">
+    <div class="hero__bg-img"></div>
+  </div>
+  <div class="wrap hero__inner">
+    <p class="eyebrow">Amigos de la Fundación Sakya</p>
     <h1>Sostener el Dharma es <em>practicar</em> la generosidad</h1>
     <p class="lede">El Dharma se ofrece sin precio. Camina con nosotros mes a mes, o deja hoy una única ofrenda. Ambas sostienen lo mismo.</p>
     <div class="actions">
@@ -199,49 +201,43 @@
     <div class="cuotas" data-reveal>
       <div class="cuota">
         <div class="cuota__top">
-          <span class="pico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.6 7-11a7 7 0 0 0-14 0c0 5.4 7 11 7 11z"/><circle class="acc" cx="12" cy="10" r="2.4"/></svg></span>
-          <span class="cuota__rango">Amigo de Bronce</span>
+          <span class="cuota__rango">Amigo/a de Paramita</span>
         </div>
         <div class="cuota__precio">10 €<small> / mes</small></div>
         <p class="cuota__decir">Un gesto sostenido que ya sostiene mucho.</p>
         <ul class="cuota__benef">
+          <li>Sostiene los cursos en línea, abiertos a todo el mundo</li>
           <li>Deducción fiscal en España</li>
-          <li>10 % en cursos de la Fundación</li>
-          <li>Curso exclusivo y calendario anual</li>
         </ul>
-        <a class="btn-secundario" href="#">Ser amigo de Bronce</a>
+        <a class="btn-secundario" href="#">Hazte amigo/a</a>
       </div>
       <div class="cuota cuota--destacada">
-        <span class="cuota__flag">Recomendado</span>
+        <span class="cuota__flag">La más elegida</span>
         <div class="cuota__top">
-          <span class="pico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l2.3 5.6L20 9l-4.4 3.9L17 19l-5-3.2L7 19l1.4-6.1L4 9l5.7-.4z" class="acc"/></svg></span>
-          <span class="cuota__rango">Amigo de Plata</span>
+          <span class="cuota__rango">Amigo/a de Paramita</span>
         </div>
         <div class="cuota__precio">30 €<small> / mes</small></div>
         <p class="cuota__decir">Un acompañamiento firme, mes a mes.</p>
         <ul class="cuota__benef">
+          <li>Sostiene además las becas para quien lo necesita</li>
           <li>Deducción fiscal en España</li>
-          <li>25 % en cursos de la Fundación</li>
-          <li>Curso exclusivo y calendario anual</li>
         </ul>
-        <a class="btn-secundario" href="#">Ser amigo de Plata</a>
+        <a class="btn-secundario" href="#">Hazte amigo/a</a>
       </div>
       <div class="cuota">
         <div class="cuota__top">
-          <span class="pico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path class="acc" d="M12 7.5v9M7.5 12h9"/></svg></span>
-          <span class="cuota__rango">Amigo de Oro</span>
+          <span class="cuota__rango">Amigo/a de Paramita</span>
         </div>
         <div class="cuota__precio">60 €<small> / mes</small></div>
         <p class="cuota__decir">Un sostén profundo de la continuidad del Dharma.</p>
         <ul class="cuota__benef">
+          <li>Sostiene además la actividad viva del Centro</li>
           <li>Deducción fiscal en España</li>
-          <li>50 % en cursos de la Fundación</li>
-          <li>Curso exclusivo y calendario anual</li>
         </ul>
-        <a class="btn-secundario" href="#">Ser amigo de Oro</a>
+        <a class="btn-secundario" href="#">Hazte amigo/a</a>
       </div>
     </div>
-    <p class="cuotas-nota" data-reveal>Puedes cambiar o dejar tu aportación cuando quieras. Sin permanencia.</p>
+    <p class="cuotas-nota" data-reveal>Elijas lo que elijas, eres <em>Amigo/a de Paramita</em>: la aportación cambia lo que sostienes, no quién eres. Puedes cambiarla o dejarla cuando quieras. Sin permanencia.</p>
   </div>
 </section>
 
@@ -266,7 +262,7 @@
         <div class="donar-fila">
           <button class="btn-primario" id="donar"><span class="spin" aria-hidden="true"></span><span class="donar-txt">Donar 50 €</span></button>
           <div class="wallets" aria-hidden="true">
-            <span class="pico" style="width:20px;height:20px"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path class="acc" d="M3 10h18"/></svg></span>
+            <span class="pico pico--sm" data-pico="tarjeta" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path class="acc" d="M3 10.5h18"/></svg></span>
             <span>Apple&nbsp;Pay · Google&nbsp;Pay · tarjeta</span>
           </div>
         </div>
@@ -290,32 +286,32 @@
     </div>
     <div class="destinos" data-reveal>
       <div class="destino">
-        <span class="pico pico--lg" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="12" rx="1.5"/><path class="acc" d="M8 20h8M12 16.5V20"/></svg></span>
+        <span class="pico" data-pico="en-linea" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="11" rx="1.5"/><path d="M9 20h6M12 16v4"/><path class="acc" d="M8 11c1.3-1.5 2.7-1.5 4 0s2.7 1.5 4 0"/></svg></span>
         <h4>Cursos en línea sin coste</h4>
         <p>Que cualquiera, en cualquier lugar, pueda acceder a las enseñanzas y meditaciones con una presentación clara y práctica.</p>
       </div>
       <div class="destino">
-        <span class="pico pico--lg" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 4.5h11v15H7a2 2 0 0 1-2-2z"/><path class="acc" d="M9 8.5h5M9 11.5h5"/></svg></span>
+        <span class="pico" data-pico="idioma" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M4 12h16"/><path class="acc" d="M12 4c2.6 2.3 2.6 13.7 0 16M12 4c-2.6 2.3-2.6 13.7 0 16"/></svg></span>
         <h4>Traducir el canon al español</h4>
         <p>Manuales de meditación, discursos del Buddha y tratados clásicos, para poder estudiarlos año tras año en nuestro idioma.</p>
       </div>
       <div class="destino">
-        <span class="pico pico--lg" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 21V13l7-4 7 4v8"/><path class="acc" d="M12 9V4M9.5 6h5"/><path d="M9 21v-4a3 3 0 0 1 6 0v4"/></svg></span>
+        <span class="pico" data-pico="templo" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M6 20v-8l6-4 6 4v8"/><path class="acc" d="M12 8V4"/></svg></span>
         <h4>Cuidar el Centro Budista Sakya</h4>
         <p>Para que quien lo visite disponga de las mejores condiciones para su estudio, reflexión y meditación.</p>
       </div>
       <div class="destino">
-        <span class="pico pico--lg" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/><path class="acc" d="M16.5 5.5l1.5-1.5"/></svg></span>
+        <span class="pico" data-pico="becas" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 15c2.5-1.5 5.5-1.5 8 0h4.6a1.7 1.7 0 0 1 0 3.4H9.5c-1.8 0-3.6-.5-5-1.5z"/><path class="acc" d="M12 5.2c1.5-1.7 4 .7 0 3.2C8 5.9 10.5 3.5 12 5.2z"/></svg></span>
         <h4>Becas a quien lo necesita</h4>
         <p>El Buddha no hizo distinciones económicas. Ofrecemos descuentos en cursos, retiros y actividades a quien atraviesa dificultades.</p>
       </div>
       <div class="destino">
-        <span class="pico pico--lg" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="14" rx="1.5"/><path d="M3 8.5h18"/><path class="acc" d="M7 12.5h6"/></svg></span>
+        <span class="pico" data-pico="web" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.6"/><path d="M3 9h18"/><path class="acc" d="M11 12.4l5.6 2.3-2.4.9-.9 2.4z"/></svg></span>
         <h4>Mantener y mejorar la web</h4>
         <p>El aprendizaje en línea es esencial hoy: facilitar su uso todo lo posible es una de nuestras prioridades.</p>
       </div>
       <div class="destino">
-        <span class="pico pico--lg" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M8 3.5v3M16 3.5v3M3.5 9.5h17"/><circle class="acc" cx="12" cy="14.5" r="1.6"/></svg></span>
+        <span class="pico" data-pico="acompanado" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="2.6"/><path d="M6.5 19c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5"/><path class="acc" d="M5 8.5c2-2.5 12-2.5 14 0"/></svg></span>
         <h4>Encuentros semanales en directo</h4>
         <p>Practicar arropado por Lama Rinchen, la sangha del Centro y estudiantes de todo el mundo, cada semana.</p>
       </div>
@@ -327,7 +323,7 @@
 <section class="sec-arena">
   <div class="wrap">
     <div class="fiscal" data-reveal>
-      <span class="pico pico--lg" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5h9l4 4V20a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z"/><path class="acc" d="M9 12l2 2 4-4"/></svg></span>
+      <span class="pico" data-pico="documento" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path class="acc" d="M8.5 14.5l2 2 3.5-4"/></svg></span>
       <div>
         <div class="clave">Tu donativo desgrava</div>
         <p>Si resides en España, la deducción fiscal se aplica tanto a personas físicas como jurídicas, conforme al <a href="https://www.boe.es/boe/dias/2002/12/24/pdfs/A45229-45243.pdf" target="_blank" rel="noopener">art. 19 de la Ley 49/2002</a> y al <a href="https://www.boe.es/buscar/pdf/2006/BOE-A-2006-20764-consolidado.pdf" target="_blank" rel="noopener">art. 68.3a de la Ley del IRPF</a>.</p>
@@ -376,19 +372,19 @@
     </div>
     <div class="otras" data-reveal>
       <div class="otra-card">
-        <span class="pico pico--lg" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="acc" d="M12 20s-6.5-4.2-9-8.2C1.3 8.9 3 5.5 6.3 5.5 8.6 5.5 10 7 12 9c2-2 3.4-3.5 5.7-3.5 3.3 0 5 3.4 3.3 6.3-2.5 4-9 8.2-9 8.2z"/></svg></span>
+        <span class="pico" data-pico="voluntariado" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20S5 15.5 5 10.6A3.7 3.7 0 0 1 12 8.7 3.7 3.7 0 0 1 19 10.6C19 15.5 12 20 12 20z"/><path class="acc" d="M12 6.4V4M9.4 4.9 8.4 3.1M14.6 4.9 15.6 3.1"/></svg></span>
         <div><h4>Voluntariado</h4><p>Tu tiempo y energía sostienen el Centro tanto como un donativo.</p><a class="t-link" href="/unete/unete.html"><span class="txt">Colaborar</span><span class="arw">→</span></a></div>
       </div>
       <div class="otra-card">
-        <span class="pico pico--lg" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.4"/><circle class="acc" cx="18" cy="6" r="2.4"/><circle class="acc" cx="18" cy="18" r="2.4"/><path d="M8.1 10.9l7.8-3.7M8.1 13.1l7.8 3.7"/></svg></span>
+        <span class="pico" data-pico="difundir" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="12" r="2.2"/><circle cx="17.5" cy="6.5" r="2.2"/><circle cx="17.5" cy="17.5" r="2.2"/><path class="acc" d="M7.9 11 15.6 7M7.9 13 15.6 17"/></svg></span>
         <div><h4>Difundir</h4><p>Compartir las enseñanzas abiertas también es una forma de generosidad.</p><a class="t-link" href="#"><span class="txt">Compartir</span><span class="arw">→</span></a></div>
       </div>
       <div class="otra-card">
-        <span class="pico pico--lg" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path class="acc" d="M3 10h18"/></svg></span>
-        <div><h4>Transferencia o Bizum</h4><p>Si prefieres no usar tarjeta, escríbenos y te damos los datos.</p><a class="t-link" href="#contacto"><span class="txt">Cómo hacerlo</span><span class="arw">→</span></a></div>
+        <span class="pico" data-pico="crowdfunding" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="10.5" r="1.9"/><circle cx="17.5" cy="10.5" r="1.9"/><path d="M3.2 18c0-2 1.5-3.6 3.3-3.6M20.8 18c0-2-1.5-3.6-3.3-3.6"/><path d="M8 18c0-2.3 1.8-4.1 4-4.1s4 1.8 4 4.1"/><circle class="acc" cx="12" cy="8.5" r="2.1"/></svg></span>
+        <div><h4>Crowdfunding</h4><p>Súmate a una campaña concreta, con un objetivo y un plazo, junto a mucha más gente.</p><a class="t-link" href="/crowdfunding/crowdfunding.html"><span class="txt">Ver la campaña</span><span class="arw">→</span></a></div>
       </div>
       <div class="otra-card">
-        <span class="pico pico--lg" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 21V13l7-4 7 4v8"/><path class="acc" d="M12 9V4M9.5 6h5"/><path d="M9 21v-4a3 3 0 0 1 6 0v4"/></svg></span>
+        <span class="pico" data-pico="sangha" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19c-4.5 0-7.6-2.9-7.6-2.9C7 12.4 9.5 11.4 12 11.4s5 1 7.6 4.7c0 0-3.1 2.9-7.6 2.9z"/><path d="M12 19v-7.6"/><path class="acc" d="M12 11.4c0-3.3 2.3-5.6 2.3-5.6M12 11.4c0-3.3-2.3-5.6-2.3-5.6"/></svg></span>
         <div><h4>Sostener a la sangha monástica</h4><p>Ofrecer a quienes sostienen los votos es un acto de dāna propio, con su lugar en la comunidad.</p><a class="t-link" href="/sobre/monasticos-monasticas/monasticos-monasticas.html"><span class="txt">Conoce a la sangha</span><span class="arw">→</span></a></div>
       </div>
     </div>
@@ -479,6 +475,28 @@
 
 <!-- Específico de esta página · selección de importe y flujo de donación -->
 <script src="../js/paginas/paramita-contribuir.js" defer></script>
+
+<!-- Red de seguridad de revelado · autosuficiente.
+     Si paramita-reveal.js no llegara a cargar, esto garantiza que el contenido
+     [data-reveal] se muestre (con animación al hacer scroll, o de golpe si no
+     hay IntersectionObserver o el usuario prefiere menos movimiento).
+     Añade la MISMA clase is-in que usa el sistema, así no duplica efecto. -->
+<script>
+(function () {
+  var els = document.querySelectorAll('.ap [data-reveal]');
+  if (!els.length) return;
+  var show = function (el) { el.classList.add('is-in'); };
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(show);
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function (el) { io.observe(el); });
+}());
+</script>
 
 </body>
 </html>

@@ -134,11 +134,13 @@
 
         <!-- 5 · SOBRE · institucional, anclado a la derecha con .end -->
         <li class="has-sub end">
-          <a class="navlink" href="/sobre" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></a>
+          <!-- Padre NO navegable · solo abre el submenú (button, no <a href>). -->
+          <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></button>
           <ul class="sub" role="menu" aria-label="Sobre Paramita">
-            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Quiénes somos</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quién guía la práctica</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/monasticos-monasticas/monasticos-monasticas.html"><strong>Monásticos y Monásticas</strong><span>La comunidad ordenada</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quienes transmiten la enseñanza</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/sangha-monastica/sangha-monastica.html"><strong>Comunidad Monástica</strong><span>Monásticos y monásticas</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span></a></li>
             <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
           </ul>
         </li>
@@ -617,27 +619,9 @@
   </div>
 </footer>
 
-<!-- TEMA · listener del toggle penumbra/luz (EXPERIMENTO) -->
-<script>
-(function(){
-  var root = document.documentElement;
-  var btn  = document.getElementById('temaToggle');
-  if (!btn) return;
-  function sync(){
-    var oscuro = root.getAttribute('data-tema') === 'oscuro';
-    btn.setAttribute('aria-pressed', oscuro ? 'true' : 'false');
-    btn.setAttribute('title', oscuro ? 'Luz' : 'Penumbra');
-  }
-  btn.addEventListener('click', function(){
-    root.classList.add('tema-anim'); // activa la transición solo tras interacción
-    var oscuro = root.getAttribute('data-tema') === 'oscuro';
-    if (oscuro) { root.removeAttribute('data-tema'); try{localStorage.setItem('paramita-tema','claro');}catch(e){} }
-    else        { root.setAttribute('data-tema','oscuro'); try{localStorage.setItem('paramita-tema','oscuro');}catch(e){} }
-    sync();
-  });
-  sync();
-})();
-</script>
+<!-- TEMA · listener del toggle penumbra/luz · ahora compartido (era inline).
+     Mismo archivo en todas las páginas; ruta relativa según profundidad. -->
+<script src="js/componentes/paramita-tema.js" defer></script>
 
 </body>
 </html>

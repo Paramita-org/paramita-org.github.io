@@ -73,11 +73,19 @@
 
         <!-- 5 · Sobre · institucional, anclado a la derecha con .end -->
         <li class="has-sub end">
-          <a class="navlink" href="/sobre" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></a>
+          <!-- Padre NO navegable · solo abre el submenú (no lleva a página).
+               <button> en vez de <a href>: en móvil el tap abre el desplegable
+               en lugar de navegar; .navlink ya normaliza el estilo del button
+               (background:none, border:none, cursor:pointer). aria-haspopup se
+               mantiene; el aria-expanded queda en false (hover/focus-within CSS
+               puro en escritorio — un toggle JS del aria-expanded para móvil/
+               teclado sería refinamiento de fase posterior, no se necesita aún). -->
+          <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></button>
           <ul class="sub" role="menu" aria-label="Sobre Paramita">
-            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Quiénes somos</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quién guía la práctica</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/monasticos-monasticas/monasticos-monasticas.html"><strong>Monásticos y Monásticas</strong><span>La comunidad ordenada</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quienes transmiten la enseñanza</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/sangha-monastica/sangha-monastica.html"><strong>Comunidad Monástica</strong><span>Monásticos y monásticas</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span></a></li>
             <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
           </ul>
         </li>
@@ -86,9 +94,15 @@
 
       <span class="div" aria-hidden="true"></span>
 
+      <!-- Par de secundarios · el navbar no lleva acción prioritaria en NINGUNA
+           página: la acción principal vive siempre en el hero/contexto. Así el
+           navbar es idéntico en home y resto (sync sin excepciones) y Contribuir
+           no compite con el primario del hero. Revisa la regla previa de doc
+           06/13 (secundario+primario fuera de la home): queda unificada a par
+           de secundarios en todo el sitio. -->
       <div class="ctas">
         <a class="btn-secundario" href="/unete/unete.html">Únete</a>
-        <a class="btn-primario" href="/contribuir/contribuir.html">Contribuir</a>
+        <a class="btn-secundario" href="/contribuir/contribuir.html">Contribuir</a>
       </div>
 
     </nav>
@@ -109,6 +123,22 @@
          El tooltip "Entrar" viene del CSS (::after). El aria-label es
          explícito para lectores de pantalla.
          ═════════════════════════════════════════════════════════════════ -->
+
+    <!-- TEMA · toggle penumbra/luz · hermano del .btn-acceso.
+         Vive en el partial (no solo en la home) para que la penumbra sea una
+         preferencia de lectura GLOBAL, disponible desde cualquier página.
+         Requiere en cada página: el script anti-FOUC en el <head>, el <link>
+         a paramita-tema.css y el listener paramita-tema.js (ver notas de sync). -->
+    <button class="tema-toggle" id="temaToggle" type="button" aria-label="Cambiar entre luz y penumbra" aria-pressed="false" title="Penumbra">
+      <svg class="ico-luz" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+      </svg>
+      <svg class="ico-penumbra" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+      </svg>
+    </button>
+
     <a class="btn-acceso" href="/home-logueado/home-logueado.html" aria-label="Entrar a mi cuenta">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="12" cy="8" r="4"/>

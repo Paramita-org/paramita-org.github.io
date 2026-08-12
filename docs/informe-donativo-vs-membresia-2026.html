@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El don y la pertenencia — Donativo, dāna y membresía · Paramita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC; --paper-2:#FBFAF7; --ink:#191A1C; --slate:#63656B;
+    --ink-deep:#132239; --ink-deep-2:#0E1A2C; --gold:#A8823F; --gold-lite:#C9A96E;
+    --rule:#DAD6CC; --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+  .flow > .bleed{grid-column:1/-1;width:100%}
+
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:33em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.42;color:var(--ink-deep);margin:2rem 0 0;font-style:italic}
+
+  section{padding:clamp(2.6rem,6vh,4.2rem) 0}
+  .sec-head{margin-bottom:1.8rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 .3rem}
+  h2 em{font-style:italic;font-weight:400;color:var(--gold)}
+  h3{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.25rem,2vw,1.55rem);line-height:1.2;margin:2.4rem 0 .6rem;letter-spacing:-.005em}
+  h3 em{font-style:italic;color:var(--ink-deep)}
+  p{margin:0 0 1.15rem}
+  strong{font-weight:600;color:var(--ink)}
+  em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:color-mix(in srgb,var(--gold) 12%,transparent);padding:.05em .35em;border-radius:4px;color:var(--ink-deep)}
+  .drop:first-letter{font-family:"Fraunces",serif;float:left;font-size:3.3rem;line-height:.82;font-weight:500;padding:.1em .12em 0 0;color:var(--ink-deep)}
+  .pull{font-family:"Fraunces",serif;font-weight:400;font-style:italic;font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.4;color:var(--ink-deep);border-left:2px solid var(--gold);padding-left:1.2rem;margin:2rem 0}
+  .tag{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid var(--rule);border-radius:2em;padding:.2em .8em;margin-right:.7em;vertical-align:middle}
+  .fuente{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.01em;margin-top:-.4rem}
+
+  .dato{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:14px;padding:1.6rem 1.7rem;margin:1.4rem 0}
+  .dato__k{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+  .dato h3{margin:0 0 .5rem;font-size:clamp(1.15rem,1.8vw,1.4rem)}
+  .dato p{margin:0 0 .6rem}
+  .cifra{font-family:"Fraunces",serif;font-weight:600;color:var(--ink-deep);font-size:1.08em}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--rule);border-radius:14px;overflow:hidden;margin:1.6rem 0}
+  .stat{background:var(--paper-2);padding:1.4rem 1.1rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.7rem,3vw,2.3rem);line-height:1;color:var(--ink-deep)}
+  .stat .n small{font-size:.55em;font-weight:500}
+  .stat .l{font-size:.82rem;line-height:1.35;color:var(--slate);margin-top:.5rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);margin-top:.5rem;letter-spacing:.04em}
+  @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+  .tbl-wrap{margin:1.6rem 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.92rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+  th,td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:500;border-bottom:1.5px solid var(--rule)}
+  tbody td:first-child{font-weight:600;color:var(--ink);width:26%}
+  .yes{color:var(--ink-deep);font-weight:600}
+  .no{color:var(--gold);font-weight:600}
+
+  .dark{background:var(--ink-deep-2);color:#E7E9EE}
+  .dark h2{color:#fff}.dark h2 em{color:var(--gold-lite)}.dark h3{color:#fff}
+  .dark .sec-num{color:var(--gold-lite)}.dark strong{color:#fff}.dark p{color:#C3CAD6}
+  .dark code{background:rgba(255,255,255,.12);color:#EEDFC4}
+  .dark .pull{color:var(--gold-lite);border-left-color:var(--gold-lite)}
+
+  .anat{counter-reset:step;margin:1.6rem 0;padding:0;list-style:none}
+  .anat li{position:relative;padding:1.2rem 0 1.2rem 3.4rem;border-bottom:1px solid var(--rule-soft)}
+  .anat li:last-child{border-bottom:0}
+  .anat li::before{counter-increment:step;content:counter(step,decimal-leading-zero);position:absolute;left:0;top:1.25rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--gold);letter-spacing:.02em}
+  .anat h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.12rem;margin:0 0 .3rem}
+  .anat p{margin:0;font-size:.94rem;color:var(--slate);line-height:1.55}
+  .anat .why{display:block;font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--gold);margin-top:.5rem;letter-spacing:.03em}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.75rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}.sheen::after{animation:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ══════════════ COVER ══════════════ -->
+<header class="cover flow">
+  <p class="eyebrow reveal">Informe interno · Donativo vs. membresía · UX/estrategia 2026</p>
+  <h1 class="reveal">El don y la <em>pertenencia</em></h1>
+  <p class="deck reveal">Dar sin esperar nada a cambio y suscribirse para recibir algo son dos actos distintos. Este informe examina, con evidencia, si conviene mezclarlos en una misma landing —y qué hacer con los nombres «Bronce / Plata / Oro», que convierten la generosidad en un escalafón.</p>
+  <div class="meta reveal">
+    <span>Ámbito · <b>/apoyo · /contribuir</b></span>
+    <span>Estado · <b>decisión de fondo, previa a maqueta</b></span>
+  </div>
+  <p class="lede reveal">La pregunta no es «¿cuánto recaudamos?», sino «¿qué le pedimos a la persona que sea mientras da?». Un donante o un cliente. No es lo mismo.</p>
+</header>
+
+<div class="flow"><hr class="divider reveal"></div>
+
+<!-- ══════════════ 1 · LA PREGUNTA CORRECTA ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — El planteamiento</span>
+    <h2>Dos actos que no comparten <em>gramática</em></h2>
+  </div>
+  <p class="drop reveal">Tu intuición es exacta y merece pararse aquí. Un <strong>donativo</strong> es un gesto que se agota en sí mismo: doy porque valoro lo que hacéis, sin esperar contraprestación. Una <strong>suscripción</strong> es un intercambio: pago una cuota y a cambio recibo un paquete de beneficios —descuentos, contenido exclusivo, un título. Psicológicamente activan circuitos distintos: el primero es identidad («soy alguien generoso»); la segunda es transacción («¿me sale a cuenta?»). Cuando se mezclan sin cuidado, el marco transaccional gana —porque es el que trae condiciones, precios y comparación— y erosiona justo la motivación que sostiene a una fundación budista.</p>
+  <p class="reveal">Esto no es una objeción moral abstracta: está medido. Y para Paramita tiene una capa extra, porque el nombre de la casa viene de las <em>pāramitās</em> y <strong>dāna</strong> —la generosidad— es la primera. La landing no es un funnel de captación de socios; es una invitación a practicar dāna. Si el diseño le dice a la persona «hazte socio y llévate esto», la estamos sacando de la práctica y metiéndola en un carrito.</p>
+  <p class="pull reveal">El donante contento vuelve. El cliente calcula. Diseñar para lo segundo mata lo primero.</p>
+  <p class="reveal">La buena noticia: no hay que elegir entre sostenibilidad y coherencia. Como veremos, la recurrencia —lo más valioso para las finanzas— <strong>funciona mejor cuando se enmarca como generosidad sostenida, no como suscripción</strong>. El problema nunca fue pedir apoyo mensual; fue vestirlo de tarifa con premios.</p>
+</section>
+
+<!-- ══════════════ 2 · LA EVIDENCIA ══════════════ -->
+<section class="flow dark bleed">
+  <div class="flow" style="grid-column:1/-1">
+    <div class="sec-head reveal">
+      <span class="sec-num">02 — Lo que dice la investigación</span>
+      <h2>Cuando premias un don, <em>lo encoges</em></h2>
+    </div>
+    <p class="reveal">Hay medio siglo de investigación sobre lo que ocurre cuando se añade una recompensa extrínseca a un acto motivado por dentro. El fenómeno tiene nombre: <strong>expulsión de la motivación intrínseca</strong> (<em>crowding-out</em>). Richard Titmuss lo intuyó en 1970 al estudiar la donación de sangre: pagar a los donantes podía <em>reducir</em> la oferta, no aumentarla. Tres décadas de experimentos le dieron en gran medida la razón.</p>
+    <div class="stats reveal" style="grid-column:1/-1">
+      <div class="stat"><div class="n">menos</div><div class="l">dinero recaudado por voluntarios cuando se les ofreció una comisión</div><div class="src">Gneezy &amp; Rustichini 2000</div></div>
+      <div class="stat"><div class="n">1 de 7</div><div class="l">personas dispuestas a vacunarse dejó de estarlo al mencionarles un pago</div><div class="src">estudio de <em>priming</em>, 2021</div></div>
+      <div class="stat"><div class="n">público</div><div class="l">el incentivo monetario expulsa la «motivación de imagen» sobre todo cuando el gesto es visible</div><div class="src">Ariely, Bracha &amp; Meier 2009</div></div>
+      <div class="stat"><div class="n">regalo-<br>gracias</div><div class="l">los obsequios de agradecimiento pueden <em>reducir</em> la donación, no elevarla</div><div class="src">Newman &amp; Shen 2012</div></div>
+    </div>
+    <p class="reveal">En un experimento ya clásico, estudiantes que recaudaban donativos puerta a puerta <strong>reunieron menos dinero cuando se les pagó una comisión</strong> que cuando lo hacían por la causa. La lógica se traslada casi literal a una página de apoyo: en cuanto la persona percibe que <em>recibe algo</em> por dar, el gesto deja de servirle como señal de que es generosa —y, como muestran Bénabou y Tirole, esa auto-señal es buena parte de por qué damos.</p>
+    <p class="pull reveal">«Una buena acción se considera menos buena si te pagan por ella.» Es la tesis de Titmuss, y sobrevive a la prueba experimental.</p>
+    <p class="reveal">Matiz importante, no coartada: el efecto es más fuerte cuando la recompensa es <strong>visible y explícita</strong> («paga 60 € y obtén 50 % de descuento»). Un agradecimiento sobrio y sin condiciones no dispara el mismo mecanismo. La lección de diseño no es «nunca agradezcas»; es <strong>no construir la petición sobre la contraprestación</strong>. El beneficio, si existe, va subordinado y en voz baja —nunca como titular ni como precio.</p>
+  </div>
+</section>
+
+<!-- ══════════════ 3 · LA RECURRENCIA ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — El otro lado del dato</span>
+    <h2>La recurrencia sí es <em>oro</em> (de verdad)</h2>
+  </div>
+  <p class="reveal">Si el apartado anterior pareciera un argumento contra pedir apoyo mensual, no lo es. La recurrencia es, con diferencia, lo más valioso y sostenible que puede construir una organización —y la evidencia de 2025–2026 es contundente. La clave está en <strong>cómo se enmarca</strong>, no en si se ofrece.</p>
+  <div class="stats reveal" style="grid-column:1/-1">
+    <div class="stat"><div class="n">43,3<small>%</small></div><div class="l">retención media de donantes; primer donativo solo 18,9 %</div><div class="src">FEP · Q4 2025</div></div>
+    <div class="stat"><div class="n">~80–90<small>%</small></div><div class="l">retención de donantes mensuales: juegan en otra liga</div><div class="src">FEP · benchmarks 2025–26</div></div>
+    <div class="stat"><div class="n">~30<small>%</small></div><div class="l">de los ingresos online proceden ya del donativo recurrente</div><div class="src">M+R Benchmarks 2025</div></div>
+    <div class="stat"><div class="n">+1.519<small>%</small></div><div class="l">dan quienes sostienen cinco años frente a un donativo único</div><div class="src">Neon One · 2025</div></div>
+  </div>
+  <p class="reveal">¿Por qué el recurrente retiene tanto mejor? Porque invierte la carga de la decisión: el donante único debe <em>decidir volver</em>; el mensual debe <em>decidir parar</em>. El compromiso por ciclo es pequeño y fácil de sostener, y quien ya da cada mes ha cruzado el umbral de «apoyo esto». Además, retener cuesta una fracción de captar —cerca de <span class="cifra">0,20 €</span> por euro frente a <span class="cifra">1,50 €</span> de la captación—. Por eso el modelo de medios públicos es <strong>«sustainer-first»</strong>: destacan la opción mensual en la página y en cada llamada.</p>
+  <div class="dato reveal">
+    <span class="dato__k">Traducción para Paramita</span>
+    <h3>Sí a la recurrencia; no a la «suscripción»</h3>
+    <p>Ofrecer —y destacar— el apoyo mensual es una decisión financiera acertada y respaldada por los datos. Lo que conviene evitar es <strong>vestirla de suscripción con contraprestación</strong>. El apoyo recurrente de Paramita no es una cuota que compra beneficios: es <em>dāna sostenida</em>, generosidad que se renueva cada mes. Misma mecánica (domiciliación, importe fijo), marco opuesto.</p>
+  </div>
+</section>
+
+<!-- ══════════════ 4 · EL NAMING ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — Bronce, Plata, Oro</span>
+    <h2>Un escalafón que hace sentir <em>pequeño</em></h2>
+  </div>
+  <p class="reveal">Aquí está tu segunda intuición, y también es correcta. «Bronce / Plata / Oro» es familiar y fácil de entender —por eso se usa tanto—, pero codifica exactamente lo que no queremos: una <strong>jerarquía de estatus</strong>. Todo el mundo sabe que el oro vale más que la plata y la plata más que el bronce. Quien solo puede dar la cuota baja no lee «gracias»: lee «eres de bronce», el peldaño inferior de una escalera de mérito. En una fundación budista, donde dāna es igual en espíritu con independencia del importe, ese mensaje es doblemente disonante.</p>
+  <p class="reveal">La práctica actualizada del sector va en la misma dirección. Los análisis de tramos de 2025–2026 señalan que <strong>las estructuras genéricas de metales, sin lenguaje de impacto, rinden peor</strong> que los nombres ligados a la misión, con los que el donante se identifica y de los que se siente orgulloso. La recomendación repetida: nombra los niveles por lo que <em>hacen posible</em>, no por su rango.</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Tres caminos para los niveles</caption>
+      <thead><tr><th>Enfoque</th><th>Cómo se siente</th><th>Encaje con dāna</th></tr></thead>
+      <tbody>
+        <tr><td>Metales (Bronce/Plata/Oro)</td><td>Escalafón de estatus; el importe bajo = rango bajo</td><td class="no">Choca — rankea a las personas</td></tr>
+        <tr><td>Sin niveles nombrados</td><td>Importes sugeridos + impacto concreto, misma dignidad</td><td class="yes">Limpio y neutral</td></tr>
+        <tr><td>Identidad única</td><td>Todos son «Amigos de Paramita», dé lo que dé</td><td class="yes">Comunidad, no jerarquía</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal">Un dato de diseño que sí conviene conservar: la gente tiende a elegir la <strong>segunda opción</strong> de la serie. Se puede orientar con suavidad —destacando con luz el importe intermedio, como ya hicimos con la card recomendada— sin necesidad de un escalafón de metales. Guía, no ranking.</p>
+  <div class="dato reveal">
+    <span class="dato__k">Decisión de naming · tomada</span>
+    <h3>Identidad única: «Amigo/a de Paramita»</h3>
+    <p>Retirado el escalafón Bronce / Plata / Oro. En su lugar, una <em>única identidad</em> —<strong>«Amigo/a de Paramita»</strong>, idéntica para todos—: la aportación (10 / 30 / 60 € al mes) cambia <em>lo que sostienes</em>, no <em>quién eres</em>. Cada tramo se nombra por lo que hace posible (cursos abiertos, becas, la actividad del Centro), no por un rango. Se descartó la vía alternativa «sin ningún nombre de nivel» por perder el gesto cálido de nombrar la pertenencia. Copy final por afinar.</p>
+  </div>
+</section>
+
+<!-- ══════════════ 5 · ¿UNA O DOS LANDINGS? ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — La arquitectura</span>
+    <h2>¿Una landing, o <em>dos</em>?</h2>
+  </div>
+  <p class="reveal">La pregunta operativa. Hay tres formas de resolverlo, y la evidencia inclina hacia una:</p>
+  <ol class="anat reveal">
+    <li>
+      <h4>Todo mezclado en una página como «planes de socio»</h4>
+      <p>Es lo que teníamos camino de hacer. Máxima fricción conceptual: convierte el don en tarifa y arrastra el marco transaccional a toda la página.</p>
+      <span class="why">descartado — activa el crowding-out</span>
+    </li>
+    <li>
+      <h4>Dos landings totalmente separadas (donar / hacerse socio)</h4>
+      <p>Limpio conceptualmente, pero fragmenta a una persona que aún no sabe si quiere dar una vez o cada mes, y duplica mantenimiento. Además obliga a elegir marco antes de tiempo.</p>
+      <span class="why">posible, pero costoso y prematuro</span>
+    </li>
+    <li>
+      <h4>Una landing de dāna, con dos puertas del mismo acto</h4>
+      <p>«Dar una vez» y «Sostener cada mes» como dos ritmos de una misma generosidad, no como producto único vs. suscripción. Beneficios ausentes del titular; la contraprestación, si la hay, separada y en voz baja.</p>
+      <span class="why">recomendado — sostenibilidad sin traicionar el marco</span>
+    </li>
+  </ol>
+  <p class="reveal">La opción tres es la que sostienen tanto la evidencia de recurrencia como la ética dāna. En el modelo de medios públicos, el recurrente se llama <strong>«sustainer»</strong> y el donante <em>fija el importe que quiera</em> —no escoge un metal—; la página lo presenta como «apoyo mensual, sin permanencia». Es exactamente el tono que buscamos: una sola casa, dos ritmos, ninguna escalera.</p>
+  <div class="pull reveal">Una landing. Dos puertas del mismo gesto: darlo hoy, o sostenerlo cada mes.</div>
+</section>
+
+<!-- ══════════════ 6 · EL COSTE FISCAL ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — La capa que no se suele ver</span>
+    <h2>La contraprestación tiene un <em>coste fiscal</em></h2>
+  </div>
+  <p class="reveal">Hay un argumento más, muy concreto, a favor de no vestir el apoyo de suscripción-con-premios. En el modelo estadounidense de medios públicos, el importe deducible se calcula <strong>restando el valor de cualquier regalo de agradecimiento</strong>. La lógica de fondo es universal: si recibes algo a cambio, esa parte ya no es donativo.</p>
+  <p class="reveal">En España, el atractivo fiscal de Paramita se apoya en la Ley 49/2002 y en el IRPF, y esos incentivos se reservan a donativos con carácter de <em>liberalidad</em> —dados sin contraprestación. Vincular una cuota a beneficios tangibles (descuentos, acceso exclusivo, obsequios) podría comprometer, en todo o en parte, esa deducibilidad. <strong>No soy asesor fiscal y esto debe verificarlo el asesor de la fundación</strong>, pero el principio es lo bastante claro como para pesar en la decisión de diseño: cuanto más «suscripción con ventajas», más frágil el argumento «tu donativo desgrava».</p>
+  <div class="dato reveal">
+    <span class="dato__k">Implicación de diseño</span>
+    <h3>El beneficio y el don, en cajas distintas</h3>
+    <p>Si en algún momento se ofrecen ventajas tangibles (p. ej. acceso a un curso), conviene mantenerlas <strong>separadas del donativo deducible</strong> y nombradas como agradecimiento, no como contrapartida contratada. Así se protege a la vez la motivación intrínseca y la ventaja fiscal. A confirmar: alcance exacto con el asesor de la fundación y con Alberto (facturación/recibos).</p>
+  </div>
+</section>
+
+<!-- ══════════════ 7 · RECOMENDACIÓN ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">07 — Qué haría</span>
+    <h2>Recomendación para <em>Paramita</em></h2>
+  </div>
+  <p class="reveal">Reuniendo todo, una landing única de dāna con esta anatomía:</p>
+  <ol class="anat reveal">
+    <li>
+      <h4>Marco dāna de principio a fin</h4>
+      <p>La página es una invitación a practicar la generosidad, no un catálogo de planes. El titular habla de sostener el Dharma, no de «hazte socio».</p>
+      <span class="why">protege la motivación intrínseca</span>
+    </li>
+    <li>
+      <h4>Dos puertas del mismo acto</h4>
+      <p>«Dar una vez» y «Sostener cada mes», con el mensual destacado y presentado como generosidad renovada. El donante fija el importe (con sugerencias), estilo <em>sustainer</em>.</p>
+      <span class="why">recurrencia sostenible sin marco de suscripción</span>
+    </li>
+    <li>
+      <h4>Identidad única, sin escalafón</h4>
+      <p>Fuera Bronce/Plata/Oro. Todos son <strong>«Amigo/a de Paramita»</strong>, den lo que den; cada tramo se nombra por lo que sostiene (cursos, becas, el Centro), no por un rango. Se orienta con luz al importe intermedio, sin rankear personas.</p>
+      <span class="why">nadie se siente «de bronce»</span>
+    </li>
+    <li>
+      <h4>Beneficios en voz baja y separados</h4>
+      <p>Nada de «paga X, llévate Y» como titular. Si hay agradecimientos, van subordinados, sin condiciones, y las ventajas tangibles se mantienen fuera del donativo deducible.</p>
+      <span class="why">evita crowding-out y protege la deducción</span>
+    </li>
+    <li>
+      <h4>Transparencia como sustituto del premio</h4>
+      <p>Lo que mueve a repetir no es el regalo, es saber a dónde va el dinero. «A qué destinamos» e impacto concreto ocupan el lugar que en un funnel ocuparían las recompensas.</p>
+      <span class="why">la confianza es el verdadero incentivo</span>
+    </li>
+  </ol>
+  <p class="reveal">En corto: <strong>la maqueta ya integra esto</strong> —marco dāna, dos puertas, card destacada con luz y, ahora, la identidad única «Amigo/a de Paramita» en lugar de los metales—. Los tramos se nombran por lo que sostienen, no por rango. Lo que queda es fino: revisar que ningún beneficio se presente como contrapartida contratada (los porcentajes de descuento escalados se sustituyeron por líneas de impacto), cerrar el copy y verificar el encaje fiscal. Ajustes, no reconstrucción.</p>
+  <p class="pull reveal">No vendemos pertenencia a cambio de una cuota. Ofrecemos la práctica de dar, y acompañamos a quien la elige.</p>
+  <div class="dato reveal">
+    <span class="dato__k">Decisiones que quedan por cerrar</span>
+    <h3>Lo que este informe no puede cerrar solo</h3>
+    <p>El naming ya está decidido (identidad única «Amigo/a de Paramita»). Queda: el copy exacto de las dos puertas y de la etiqueta del tramo destacado (ahora «La más elegida», a confirmar que sea cierto o cambiar por una fórmula sin afirmación); si se ofrece —y cómo— algún agradecimiento sin cruzar a contraprestación; y la verificación fiscal con el asesor de la fundación. Las cifras de impacto por importe siguen pendientes de dato real —no inventar.</p>
+  </div>
+</section>
+
+<div class="flow"><hr class="divider"></div>
+
+<!-- ══════════════ FUENTES ══════════════ -->
+<section class="refs flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">Fuentes</span>
+    <h2>De dónde salen los <em>datos</em></h2>
+  </div>
+  <ol class="reveal">
+    <li><b>Titmuss (1970), <em>The Gift Relationship</em></b> · pagar a donantes de sangre puede reducir la oferta; origen de la hipótesis de <em>crowding-out</em>.</li>
+    <li><b>Gneezy &amp; Rustichini (2000), «A Fine is a Price» / «Pay Enough or Don't Pay at All»</b> · voluntarios recaudaron menos con comisión; incentivos que expulsan motivación.</li>
+    <li><b>Ariely, Bracha &amp; Meier (2009), «Doing Good or Doing Well?»</b> · los incentivos monetarios expulsan la motivación de imagen, sobre todo en actos visibles.</li>
+    <li><b>Newman &amp; Shen (2012), «The counterintuitive effects of thank-you gifts»</b> · los obsequios de agradecimiento pueden reducir la donación.</li>
+    <li><b>Bénabou &amp; Tirole (2006); Frey &amp; Jegen (2001)</b> · marco teórico del <em>crowding-out</em> y de la donación como auto-señal de altruismo.</li>
+    <li><b>Fundraising Effectiveness Project · Q4 2025</b> · retención global 43,3 %; primer donativo 18,9 %; el recurrente retiene en la horquilla alta (~80–90 %).</li>
+    <li><b>M+R Benchmarks 2025</b> · el donativo recurrente ≈ 30 % de los ingresos online; el mensual crece mientras el único cae.</li>
+    <li><b>Neon One · Generosity Report 2025</b> · donantes recurrentes +32 % (2023–25); quien sostiene 5 años da +1.519 % frente al donativo único; retener ≈ 0,20 € vs. captar ≈ 1,50 €.</li>
+    <li><b>Zeffy; DoubleTheDonation; CauseVox (2025–2026)</b> · los metales genéricos sin impacto rinden peor; nombres de misión y bloques de impacto; la segunda opción es la más elegida.</li>
+    <li><b>Medios públicos: MPR, American Public Media, CapRadio, WPR, NHPR; Current / Greater Public</b> · modelo «sustainer»: importe libre, «apoyo mensual sin permanencia»; deducible restando el valor del regalo-gracias.</li>
+    <li><b>Spirit Rock; Insight Meditation Center/Society; Thubten Chodron; Sati Center; Dharma Gates</b> · dāna = dar libremente sin esperar retorno; «contento antes, durante y después»; enseñanza sin precio; modelos dāna e híbridos.</li>
+    <li><b>Marco fiscal · Ley 49/2002 e IRPF (España)</b> · el donativo, para desgravar, ha de ser liberalidad sin contraprestación — a verificar por el asesor de la fundación.</li>
+    <li><b>Paramita · docs. internos</b> · 01 (identidad, rechazo de la estética transaccional), 05 (jerarquía de CTAs), informe previo «El don que no se arranca». </li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Paramita · Fundació Sakya — Informe interno · Donativo, dāna y membresía · 2026. Complementa «El don que no se arranca» (donaciones/CRO). Copy y decisiones de identidad, por cerrar. No constituye asesoramiento fiscal ni legal.</div>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    bar.style.width = (scrolled * 100) + '%';
+  };
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+</body>
+</html>
