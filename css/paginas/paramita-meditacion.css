@@ -215,6 +215,170 @@
   }
 
 
+  /* ═══════════ SECCIONES INFERIORES ═══════════ */
+
+  /* Atmósfera de página · degradado cálido continuo detrás de TODO el contenido
+     (sustituye al lino plano; en penumbra se adapta porque usa tokens). */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(115% 60% at 50% -8%, color-mix(in oklch, var(--calido-zen) 45%, transparent), transparent 55%),
+      linear-gradient(180deg, var(--lino), color-mix(in oklch, var(--arena) 26%, var(--lino)) 55%, var(--lino));
+  }
+
+  /* Zonas de luz · sustituyen a las bandas planas. Difuminado cálido (no color
+     plano) con los bordes desvanecidos: diferencia el bloque sin costura dura. */
+  .zona-luz { position: relative; isolation: isolate; }
+  .zona-luz::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(78% 66% at 82% 6%, color-mix(in oklch, var(--calido-zen) 62%, transparent), transparent 58%),
+      radial-gradient(66% 58% at 6% 100%, color-mix(in oklch, var(--dorado) 12%, transparent), transparent 62%),
+      linear-gradient(180deg, transparent,
+        color-mix(in oklch, var(--arena) 42%, transparent) 16%,
+        color-mix(in oklch, var(--arena) 42%, transparent) 84%, transparent);
+  }
+
+  .med-p {
+    font-size: var(--texto-lede);
+    line-height: var(--leading-lede);
+    color: var(--antracita);
+    max-width: var(--medida-cuerpo);
+    margin: 0 0 var(--espacio-elemento);
+  }
+  .med-p--intro { margin-bottom: var(--espacio-contenido); }
+  .med-p--nota { color: var(--texto-suave); font-size: var(--texto-cuerpo); margin-top: var(--espacio-contenido); margin-bottom: 0; }
+
+  .section > .contenedor > .eyebrow,
+  .section > .contenedor-lectura > .eyebrow { margin-bottom: var(--espacio-atomo); }
+  .section h2 { margin-bottom: var(--espacio-grupo); }
+
+  /* Para qué · las tarjetas las aporta el componente css/componentes/paramita-tarjetas.css */
+
+  /* Cómo empezar · escalera numerada */
+  .escalera { counter-reset: paso; list-style: none; margin: var(--espacio-contenido) 0 0; padding: 0; }
+  .escalera li {
+    position: relative;
+    padding: var(--espacio-grupo) 0 var(--espacio-grupo) 3.2rem;
+    border-top: 1px solid var(--hair);
+  }
+  .escalera li:last-child { border-bottom: 1px solid var(--hair); }
+  .escalera li::before {
+    counter-increment: paso;
+    content: counter(paso, decimal-leading-zero);
+    position: absolute; left: 0; top: calc(var(--espacio-grupo) + 0.15rem);
+    font-family: var(--display); font-size: var(--texto-cuerpo);
+    color: var(--dorado); font-variation-settings: "opsz" var(--opsz-cuerpo);
+  }
+  .escalera__cuando {
+    font-family: var(--body); font-weight: var(--wght-firmeza);
+    font-size: var(--texto-mini); letter-spacing: var(--tracking-label);
+    text-transform: uppercase; color: var(--texto-tenue); margin: 0 0 var(--espacio-atomo);
+  }
+  .escalera h3 { margin: 0 0 var(--espacio-atomo); }
+  .escalera p { color: var(--texto-suave); margin: 0 0 var(--espacio-elemento); }
+
+  /* Quién guía · retrato + anclas (eco del bloque "tradición viva" de la home) */
+  .guia__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+    gap: clamp(1.75rem, 5vw, 4rem);
+    align-items: start;
+    margin-top: var(--espacio-contenido);
+  }
+  .guia__maestro { margin: 0; }
+  /* Caja de la foto · mantiene proporción y color aunque la imagen falte
+     (así la columna no se colapsa y el pie no "flota"). */
+  .guia__foto {
+    display: block; aspect-ratio: 4 / 5; overflow: hidden;
+    background: color-mix(in oklch, var(--arcilla) 70%, var(--calido-zen));
+    border-radius: 18px;
+    filter: drop-shadow(0 16px 36px color-mix(in oklch, var(--azul-oscuro) 20%, transparent));
+  }
+  @supports (corner-shape: superellipse(2)) { .guia__foto { border-radius: 22px; corner-shape: superellipse(2.4); } }
+  .guia__foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .guia__maestro figcaption { margin-top: 0.85rem; display: grid; gap: 0.12rem; }
+  .guia__maestro b { font-family: var(--display); font-weight: var(--wght-presencia); font-size: var(--texto-h4); color: var(--azul-oscuro); }
+  .guia__maestro span { font-size: var(--texto-mini); color: var(--texto-suave); }
+  .guia__lede { font-size: var(--texto-lede); line-height: var(--leading-lede); color: var(--antracita); margin: 0 0 var(--espacio-grupo); }
+  .guia__anclas { display: grid; margin: 0; }
+  .guia__anclas > div {
+    display: grid; grid-template-columns: minmax(6rem, auto) 1fr;
+    gap: clamp(1rem, 2.5vw, 1.75rem); align-items: baseline;
+    padding-block: var(--espacio-elemento); border-top: 1px solid var(--hair);
+  }
+  .guia__anclas > div:last-child { border-bottom: 1px solid var(--hair); }
+  .guia__anclas dt { font-family: var(--display); font-weight: var(--wght-presencia); font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1; color: var(--dorado); font-variation-settings: "opsz" 40; }
+  .guia__anclas dd { margin: 0; font-size: var(--texto-cuerpo); line-height: 1.5; color: var(--texto-suave); }
+  .guia__mas { margin: var(--espacio-grupo) 0 0; }
+
+  /* FAQ · ahora la aporta el componente reutilizable css/componentes/paramita-faq.css */
+
+  /* Cierre · invitación centrada */
+  .cierre-invita { text-align: center; }
+  .cierre-invita .contenedor-lectura { display: grid; justify-items: center; }
+  .cierre-invita h2 { max-width: none; margin-inline: auto; } /* neutraliza medida-titulo en centrado */
+  .cierre-invita .med-p { color: var(--texto-suave); max-width: 40ch; margin-inline: auto; }
+  .cierre-invita__ctas { display: flex; gap: var(--espacio-grupo); align-items: center; justify-content: center; flex-wrap: wrap; margin-top: var(--espacio-grupo); }
+
+  /* Móvil · secciones inferiores */
+  @media (max-width: 768px) {
+    .guia__grid { grid-template-columns: 1fr; gap: 2rem; }
+    .guia__maestro { max-width: 20rem; }
+  }
+
+
+  /* ═══════════ LUZ AMBIENTAL DEL HERO ═══════════
+     Aura cálida que respira + barrido de luz muy lento. Identitario y calmo.
+     z-index 0 explícito para quedar sobre la foto pero bajo el velo (::after, z1)
+     y el contenido (.hero > * → z2). */
+  .hero--meditacion .hero__aura {
+    position: absolute; inset: -12%; z-index: 0; pointer-events: none;
+    background: radial-gradient(40% 44% at 70% 32%,
+      color-mix(in oklch, var(--dorado) 42%, transparent), transparent 70%);
+    opacity: 0.8;
+    animation: med-aura 22s var(--curva-ambiental) infinite;
+    will-change: transform, opacity;
+  }
+  @keyframes med-aura {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1);      opacity: 0.7; }
+    50%      { transform: translate3d(-2%, 1.5%, 0) scale(1.1); opacity: 1;   }
+  }
+
+  .hero--meditacion .hero__sweep {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  }
+  .hero--meditacion .hero__sweep::before {
+    content: ""; position: absolute; inset: -20% -40%;
+    background: linear-gradient(112deg,
+      transparent 42%,
+      color-mix(in oklch, var(--lino) 40%, transparent) 50%,
+      transparent 58%);
+    translate: -60% 0;
+    animation: med-sweep 17s var(--curva-ambiental) infinite;
+    will-change: translate, opacity;
+  }
+  @keyframes med-sweep {
+    0%   { translate: -70% 0; opacity: 0; }
+    35%  { opacity: 0.9; }
+    70%  { translate: 120% 0; opacity: 0; }
+    100% { translate: 120% 0; opacity: 0; }
+  }
+
+  /* ═══════════ ESCALONADO DE LAS ENTRADAS REVELADAS ═══════════
+     paramita-reveal.js aplica .is-in al entrar; el fade-in-up base vive en el
+     sistema. Aquí solo escalonamos los hijos de rejillas/listas para que no
+     entren todos a la vez. (Sin efecto bajo reduced-motion: reveal.js pone
+     .is-in de golpe y no hay transición.) */
+  .destinos [data-reveal]:nth-child(1) { transition-delay: 0ms; }
+  .destinos [data-reveal]:nth-child(2) { transition-delay: 90ms; }
+  .destinos [data-reveal]:nth-child(3) { transition-delay: 180ms; }
+  .destinos [data-reveal]:nth-child(4) { transition-delay: 270ms; }
+  .escalera [data-reveal]:nth-child(1) { transition-delay: 0ms; }
+  .escalera [data-reveal]:nth-child(2) { transition-delay: 110ms; }
+  .escalera [data-reveal]:nth-child(3) { transition-delay: 220ms; }
+
+
   /* ═══════════ Móvil ═══════════ */
   @media (max-width: 768px) {
     .orbe-wrap { width: 180px; height: 180px; }
@@ -228,6 +392,8 @@
   @media (prefers-reduced-motion: reduce) {
     .orbe { animation: none; transform: scale(1); }
     .js .practica.is-open { animation: none; }
+    .hero--meditacion .hero__aura { animation: none; }
+    .hero--meditacion .hero__sweep::before { animation: none; opacity: 0; }
   }
 
 }

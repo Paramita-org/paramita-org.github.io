@@ -421,6 +421,27 @@
 /* ─────────────────────────────────────────────────────────────────────────
    RESPONSIVE + MOVIMIENTO REDUCIDO
    ───────────────────────────────────────────────────────────────────────── */
+/* ESCRITORIO · un solo ancla a la derecha
+   ─────────────────────────────────────────
+   En el navbar de escritorio, .menu YA lleva margin-left:auto (paramita-menu.css)
+   y empuja TODO el grupo derecho —links, divisor, Contribuir y .bar-derecha—
+   hacia el borde. El margin-left:auto propio de .bar-derecha (arriba) es un
+   SEGUNDO ancla hermano: con dos margin-left:auto en el mismo flex, el espacio
+   libre se REPARTE entre ambos y aparece un hueco desproporcionado entre
+   Contribuir y el toggle. Aquí lo anulamos: .bar-derecha se pega al menú con
+   el gap normal del .bar-inner (--espacio-grupo), igual que el .btn-acceso del
+   navbar público.
+
+   Se mantiene el margin-left:auto de .bar-derecha en móvil (base, arriba):
+   al colapsar el .menu en el hamburguesa por debajo de 980px, .bar-derecha
+   necesita su propio ancla para no descolgarse a la izquierda.
+
+   El breakpoint 981px refleja el colapso del navbar (paramita-responsive.css,
+   @media max-width:980px). Si ese umbral cambia, este debe seguirlo. */
+@media (min-width: 981px) {
+  .bar--practicante .bar-derecha { margin-left: 0; }
+}
+
 @media (max-width: 760px) {
   .cuenta__panel { right: auto; left: 0; }
 }

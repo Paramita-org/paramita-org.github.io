@@ -32,8 +32,8 @@
   background-image: url('/assets/img/camino-naturaleza.jpg');
   background-size: cover;
   background-position: center 70%;
-  filter: saturate(0.4) contrast(0.92) brightness(1.08);
-  opacity: 0.32;
+  filter: saturate(0.6) contrast(0.96) brightness(1.04);
+  opacity: 0.48;
   animation: entrada-img-latir 40s ease-in-out infinite alternate;
 }
 @keyframes entrada-img-latir {
@@ -803,7 +803,7 @@
   height: 44px;
   margin-inline: auto;
   margin-bottom: var(--espacio-elemento);
-  color: color-mix(in oklch, var(--antracita) 58%, transparent);
+  color: var(--azul-oscuro);
   transition: color var(--t-defecto, 280ms), transform var(--t-defecto, 280ms);
 }
 .principio:hover .principio__icono {
@@ -815,7 +815,7 @@
   height: 100%;
   stroke: currentColor;
   fill: none;
-  stroke-width: 1.5;
+  stroke-width: 1.25;
   stroke-linecap: round;
   stroke-linejoin: round;
 }

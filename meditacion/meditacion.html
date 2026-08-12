@@ -1,63 +1,145 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- COPY PROVISIONAL · pendiente de Ale/Khenpo -->
-  <title>Aprende a meditar · Meditación guiada para principiantes · Paramita</title>
-  <meta name="description" content="Aprende a meditar con una primera práctica guiada, gratis y sin registro. No hace falta experiencia ni creer en nada. Centro Budista Sakya, Monte Sella (Pedreguer, Alicante).">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- COPY PROVISIONAL · pendiente de Ale/Khenpo -->
+<title>Aprende a meditar · Meditación guiada para principiantes · Paramita</title>
+<meta name="description" content="Aprende a meditar con una primera práctica guiada, gratis y sin registro. No hace falta experiencia ni creer en nada. Centro Budista Sakya, Monte Sella (Pedreguer, Alicante).">
 
-  <!-- marca JS activo cuanto antes (gate de los revelados) -->
-  <script>document.documentElement.classList.add('js')</script>
+<link rel="preload" href="../assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
 
-  <!-- FUENTES autoalojadas (antes de tipografía, que consume --display/--body) -->
-  <link rel="stylesheet" href="../css/tokens/paramita-fuentes.css">
-  <!-- TOKENS -->
-  <link rel="stylesheet" href="../css/tokens/paramita-color.css">
-  <link rel="stylesheet" href="../css/tokens/paramita-tipografia.css">
-  <link rel="stylesheet" href="../css/tokens/paramita-layout.css">
-  <link rel="stylesheet" href="../css/tokens/paramita-movimiento.css">
-  <!-- BASE -->
-  <link rel="stylesheet" href="../css/base/paramita-reset.css">
-  <link rel="stylesheet" href="../css/base/paramita-base.css">
-  <!-- COMPONENTES -->
-  <link rel="stylesheet" href="../css/componentes/paramita-bar.css">
-  <link rel="stylesheet" href="../css/componentes/paramita-menu.css">
-  <link rel="stylesheet" href="../css/componentes/paramita-cta.css">
-  <link rel="stylesheet" href="../css/componentes/paramita-sections.css">
-  <link rel="stylesheet" href="../css/componentes/paramita-hero.css">
-  <link rel="stylesheet" href="../css/componentes/paramita-extras.css">
-  <link rel="stylesheet" href="../css/componentes/paramita-footer.css">
-  <link rel="stylesheet" href="../css/componentes/paramita-chat.css">
-  <!-- PÁGINA -->
-  <link rel="stylesheet" href="../css/paginas/paramita-meditacion.css">
-  <!-- Responsive común (al final) -->
-  <link rel="stylesheet" href="../css/base/paramita-responsive.css">
+<!-- Marca JS activo cuanto antes · gate de los revelados -->
+<script>document.documentElement.classList.add('js')</script>
+
+<!-- TEMA · anti-FOUC · aplica la penumbra guardada ANTES de pintar -->
+<script>
+  try { if (localStorage.getItem('paramita-tema') === 'oscuro') document.documentElement.setAttribute('data-tema','oscuro'); } catch(e){}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+<!-- Primitivos + comportamientos que usa esta página -->
+<script src="../js/primitivos/paramita-reveal.js" defer></script>
+<script src="../js/primitivos/paramita-gsap-refresh.js" defer></script>
+<script src="../js/componentes/paramita-bar.js" defer></script>
+<script src="../js/componentes/paramita-footer-lotos.js" defer></script>
+<script src="../js/componentes/paramita-faq.js" defer></script>
+
+<!-- CSS · reset primero, luego fuentes + tokens, base, componentes, página, responsive, tema (último) -->
+<link rel="stylesheet" href="../css/base/paramita-reset.css">
+<link rel="stylesheet" href="../css/tokens/paramita-fuentes.css">
+<link rel="stylesheet" href="../css/tokens/paramita-color.css">
+<link rel="stylesheet" href="../css/tokens/paramita-tipografia.css">
+<link rel="stylesheet" href="../css/tokens/paramita-layout.css">
+<link rel="stylesheet" href="../css/tokens/paramita-movimiento.css">
+<link rel="stylesheet" href="../css/base/paramita-base.css">
+<link rel="stylesheet" href="../css/componentes/paramita-bar.css">
+<link rel="stylesheet" href="../css/componentes/paramita-menu.css">
+<link rel="stylesheet" href="../css/componentes/paramita-cta.css">
+<link rel="stylesheet" href="../css/componentes/paramita-hero.css">
+<link rel="stylesheet" href="../css/componentes/paramita-sections.css">
+<link rel="stylesheet" href="../css/componentes/paramita-extras.css">
+<link rel="stylesheet" href="../css/componentes/paramita-footer.css">
+<link rel="stylesheet" href="../css/componentes/paramita-chat.css">
+<link rel="stylesheet" href="../css/componentes/paramita-faq.css">
+<link rel="stylesheet" href="../css/componentes/paramita-pictogramas.css">
+<link rel="stylesheet" href="../css/componentes/paramita-tarjetas.css">
+<link rel="stylesheet" href="../css/paginas/paramita-meditacion.css">
+<link rel="stylesheet" href="../css/base/paramita-responsive.css">
+<link rel="stylesheet" href="../css/componentes/paramita-tema.css">
 </head>
 <body>
 
-  <!-- sync.py rellena este contenedor con partials/navbar-publico.html -->
-  <header class="bar"></header>
+<!-- ════════════════════════════════════════════════════════════════════
+     NAVBAR PÚBLICO · copia del partial partials/navbar-publico.html.
+     Idempotente con sync.py:
+       python3 partials/sync.py meditacion/meditacion.html --tema --aria-current="Meditación"
+     aria-current="page" en Meditación (esta página).
+     ════════════════════════════════════════════════════════════════════ -->
+<header class="bar">
+  <div class="bar-inner wrap">
+
+    <a class="logo" href="/" aria-label="Paramita · inicio">
+      <span class="logo-wave" role="img" aria-label="Paramita"></span>
+      <svg class="logo-fallback" viewBox="0 0 612.3 181.4" role="img" aria-label="Paramita" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#0d539f"><path d="M225.4,64c15.5,0,24.8,7,24.8,18.8s-8.5,19.7-22.9,20c-1.3,0-2.4,0-3.1,0l-.2-1.3c6.7-2.8,9.4-7.7,9.4-18.6s-3.9-15.8-11.9-15.8h-1.4v44.4c0,5.1,1.3,8.5,3.9,10.3v1.3h-23v-1.3c2.5-1.7,3.9-5.1,3.9-10.3v-35.7c0-5.2-1.3-8.7-3.9-10.3v-1.3h24.5Z"/><path d="M295.1,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM274.6,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M506.7,116.4c-3.4,4.5-9,7.4-14.6,7.4-8.1,0-11.6-4.7-11.6-14.4v-27.9h-5.5v-4.2c6.7-2.5,13.5-6.9,17-14h3v13.9l9.8-1-.8,5.2h-9v26.2c0,6,1.8,9,5.6,9s3.2-.4,5.3-1.3l.8,1.1Z"/><path d="M552.4,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM531.8,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M367.7,118.2c-3.1,0-4.6-1.5-4.6-4.4v-18c0-4.8-.3-7.9-2-11-2.3-4.6-7.4-7.2-17.7-7.2s-2.4,0-4.1.4c.7.9,1.2,1.6,1.7,2.6.5-.1.8-.2,2-.2,2.5,0,4.2,1.1,5,3.2.4,1.3.7,4.7.7,10.2v4.4c-1.3-.2-2.8-.3-4.5-.3-5.3,0-10,1.2-13.7,3.7-3.8,2.4-5.7,6-5.7,10.6,0,6.7,4.7,11.6,12,11.6s9.8-1.9,13-5.7c1.7,3.8,4.6,5.7,8.9,5.7s7.4-1.2,10.5-3.9v-1.6h-1.5ZM344.5,117.2c-3.5,0-5.4-2.9-5.4-6.7,0-5.9,3.2-9.5,9.5-9.5v10.8c0,1.3,0,2.5.3,3.5-1.1,1.3-2.6,1.9-4.3,1.9Z"/><path d="M444.2,111.4v-18.2c0-10.5-3-15.5-11.6-15.5s-12.5,3.4-16.4,8.8c-1.2-5.9-4.9-8.8-11-8.8s-11.5,2.9-15.8,8.8v-9.2c-4.9,1.8-10.9,3.5-18.2,5h-.1v1.4l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h22.6v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-22.9c2.2-1.1,4.5-1.7,6.7-1.7,4.2,0,6.3,2.4,6.3,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.2v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-18.8c0-1.5,0-2.9-.3-4.2,1.7-1,3.8-1.5,6.3-1.5,4.6,0,6.9,2.4,6.9,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.6v-1.3c-2.9-2-4.3-5.5-4.3-10.3Z"/><path d="M330.8,77.6c-5.3,0-12.3,4.5-15.5,9.7v-10.1c-5,1.8-10.9,3.6-18.3,5v1.3l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h24.8v-1.3c-4-1.8-6-5.3-6-10.3v-21.5c2.4-2.4,6.6-3.6,8.6-3.8.3,3.9,3.2,7.2,7.1,7.2s7.7-3.3,7.7-8-3.1-7.7-7.9-7.7Z"/><path d="M468.9,70.6c3.4-3.2,3.4-8.7,0-11.9-3.2-3.4-8.7-3.4-11.9,0-3.2,3.2-3.2,8.7,0,11.9,3.2,3.2,8.7,3.2,11.9,0Z"/><path d="M452.4,83.8v1.3l1,.5c1.3.8,2.9,3.4,2.9,6.7v19.1c0,5.1-1.4,8.5-4.3,10.3v1.3h23v-1.3c-2.9-2-4.3-5.5-4.3-10.3v-32.7c-4.9,1.8-10.9,3.6-18.3,5Z"/></g>
+        <g fill="#1cb1da"><circle cx="112.1" cy="58.6" r="10.1"/><path d="M94,67.6s2,5.3,8,10c6,4.7,8.6,10,9,20.3s.5,24.3.5,24.3c0,0-3.8-10.5-4.8-13.6s-4.2-15.9-9.7-21-7.9-5.6-7.9-5.6c0,0,1.1-8.3,4.9-14.4Z"/><path d="M130.3,67.6s-2,5.3-8,10c-6,4.7-8.6,10-9,20.3-.4,10.3-.5,24.3-.5,24.3,0,0,3.8-10.5,4.8-13.6,1-3.1,4.2-15.9,9.7-21,4.7-4.4,7.9-5.6,7.9-5.6,0,0-1.1-8.3-4.9-14.4Z"/></g>
+        <g fill="#0689c2"><path d="M74.3,74.8s2.6,4.3,5.7,5.6,11.6,4.7,15.5,8.6c3.9,3.9,11,25.5,11,25.5,0,0-3.6-5.7-13-9.7,0,0-5.3-2.1-9.7-2.6s-5.9-1.9-7.3-4.9-4.1-13.9-2.2-22.4Z"/><path d="M149.9,74.8s-2.6,4.3-5.7,5.6-11.6,4.7-15.5,8.6-11,25.5-11,25.5c0,0,3.6-5.7,13-9.7,0,0,5.3-2.1,9.7-2.6c4.4-.5,5.9-1.9,7.3-4.9s4.1-13.9,2.2-22.4Z"/></g>
+        <g fill="#0d539f"><path d="M109.8,124s-8.4-29.3-49.1-17.5c0,0,5.7.7,9.9,6,4.2,5.3,7.4,11.2,18,10.2,10.5-1,17.4-1.3,21.2,1.3Z"/><path d="M114.4,124s8.4-29.3,49.1-17.5c0,0-5.7.7-9.9,6s-7.4,11.2-18,10.2c-10.5-1-17.4-1.3-21.2,1.3Z"/></g>
+      </svg>
+    </a>
+
+    <input class="nt" id="nt" type="checkbox" hidden>
+
+    <nav class="menu" aria-label="Principal">
+      <ul class="links">
+        <li><a class="navlink" href="/meditacion/meditacion.html" aria-current="page">Meditación</a></li>
+        <li><a class="navlink" href="/formacion/formacion-publica.html">Cursos</a></li>
+        <li><a class="navlink" href="/actividades/actividades.html">Actividades</a></li>
+        <li><a class="navlink" href="/blog/blog.html">Blog</a></li>
+        <li class="has-sub end">
+          <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></button>
+          <ul class="sub" role="menu" aria-label="Sobre Paramita">
+            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quienes transmiten la enseñanza</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/sangha-monastica/sangha-monastica.html"><strong>Comunidad Monástica</strong><span>Monásticos y monásticas</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <span class="div" aria-hidden="true"></span>
+
+      <div class="ctas">
+        <a class="btn-secundario" href="/unete/unete.html">Únete</a>
+        <a class="btn-secundario" href="/contribuir/contribuir.html">Contribuir</a>
+      </div>
+    </nav>
+
+    <button class="tema-toggle" id="temaToggle" type="button" aria-label="Cambiar entre luz y penumbra" aria-pressed="false" title="Penumbra">
+      <svg class="ico-luz" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+      </svg>
+      <svg class="ico-penumbra" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+      </svg>
+    </button>
+
+    <a class="btn-acceso" href="/home-logueado/home-logueado.html" aria-label="Entrar a mi cuenta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+      </svg>
+    </a>
+
+    <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
+
+  </div>
+</header>
 
   <main>
 
     <!-- ════════ HERO-UMBRAL ════════ -->
     <section class="hero hero--meditacion">
-      <!-- Fondo · imagen real (patrón .hero__bg-video). Si no carga, queda el
-           degradado cálido del propio .hero como fallback. -->
       <div class="hero__bg" aria-hidden="true">
         <img class="hero__bg-img" src="/assets/img/mujer-meditacion-casa-horizontal.jpg" alt="">
       </div>
+      <div class="hero__aura" aria-hidden="true"></div>
+      <div class="hero__sweep" aria-hidden="true"></div>
 
       <div class="hero__inner">
-        <!-- eyebrow y h1 SIN data-reveal · doctrina LCP -->
         <span class="eyebrow">Meditación · Centro Budista Sakya</span>
         <h1>Aprende a meditar. Empieza <em>respirando</em>.</h1>
-        <p class="lede">No hace falta experiencia ni creer en nada. Solo unos minutos, una voz que te acompaña y un lugar real detrás.</p>
-        <div class="actions">
+        <p class="lede" data-reveal>No hace falta experiencia ni creer en nada. Solo unos minutos, una voz que te acompaña y un lugar real detrás.</p>
+        <div class="actions" data-reveal>
           <button class="btn-primario" id="cta-practica" type="button">Empiezo a respirar</button>
         </div>
-        <p class="meta">
+        <p class="meta" data-reveal>
           <span class="pulse" aria-hidden="true"></span>
           Guiado por <b>Lama Rinchen Gyaltsen</b> · 24 años de práctica · Monte Sella, Pedreguer
         </p>
@@ -69,7 +151,6 @@
       <h2 class="practica__k" id="practica-titulo">Tu primera práctica</h2>
       <p class="practica__lede">No tienes que dejar la mente en blanco. Solo notar cuándo se va, y volver. Una y otra vez. Eso ya es meditar.</p>
 
-      <!-- Orbe que respira · asentarse antes de la guía -->
       <div class="respirador">
         <div class="orbe-wrap"><span class="orbe" aria-hidden="true"></span></div>
         <p class="respira-label" id="respira-label">Respira con el círculo</p>
@@ -77,8 +158,6 @@
 
       <p class="practica__sep">o sigue la meditación guiada</p>
 
-      <!-- Meditación guiada de Lama Rinchen (confirmada guiada-para-hacer).
-           youtube-nocookie + rel=0 para no soltar al visitante en recomendaciones. -->
       <div class="video">
         <iframe
           src="https://www.youtube-nocookie.com/embed/XPWCPzu36t4?rel=0&modestbranding=1"
@@ -88,24 +167,242 @@
           allowfullscreen></iframe>
       </div>
 
-      <!-- Cierre sobrio · sin puntuación, sin racha -->
       <div class="cierre">
         <p>Cuando termines, no hay nada que puntuar. Ya has meditado.</p>
         <div class="next">
           <a href="/actividades/actividades.html" class="btn-secundario">Meditar en el centro</a>
-          <a href="/formacion/formacion-publica.html" class="t-link">Empezar el nivel I →</a>
+          <a href="/formacion/formacion-publica.html" class="t-link"><span class="txt">Empezar el nivel I</span><span class="arw" aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>
 
-    <!-- Siguiente al hacer scroll (opción B): bloque "qué es meditar aquí".
-         Pendiente de maquetar · copy Ale/Khenpo. -->
+    <!-- ════════ QUÉ ES MEDITAR AQUÍ ════════ · copy provisional (Ale/Khenpo) -->
+    <section class="section" id="que-es">
+      <div class="contenedor-lectura">
+        <p class="eyebrow" data-reveal>Antes de empezar</p>
+        <h2 data-reveal>Qué es meditar <em>aquí</em></h2>
+        <p class="med-p" data-reveal>Meditar no es poner la mente en blanco ni dejar de pensar. Es entrenar la atención: elegir dónde la pones y, cuando se escapa —que se escapará—, traerla de vuelta sin regañarte. Eso es todo. Y es suficiente.</p>
+        <p class="med-p" data-reveal>Aquí lo aprendes desde una tradición viva —la práctica que el budismo tibetano ha cuidado durante siglos—, pero no necesitas creer en nada para empezar. Solo sentarte y respirar.</p>
+      </div>
+    </section>
+
+    <!-- ════════ PARA QUÉ SIRVE ════════ · zona de luz · copy provisional (Ale/Khenpo) -->
+    <section class="section zona-luz" id="para-que">
+      <div class="contenedor">
+        <p class="eyebrow" data-reveal>Qué puedes esperar</p>
+        <h2 data-reveal>Para qué <em>sirve</em></h2>
+        <p class="med-p med-p--intro" data-reveal>Meditar no arregla la vida. Entrena la forma de estar en ella. Con práctica regular, la mayoría de la gente nota:</p>
+        <div class="destinos destinos--4">
+          <div class="destino" data-reveal>
+            <span class="pico" data-pico="calma" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle class="acc" cx="12" cy="12" r="2.2"/><path d="M7 12a5 5 0 0 1 10 0"/><path d="M3.5 12a8.5 8.5 0 0 1 17 0"/></svg></span>
+            <h4>Más calma</h4>
+            <p>Menos reactividad ante el estrés y las prisas.</p>
+          </div>
+          <div class="destino" data-reveal>
+            <span class="pico" data-pico="foco" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle class="acc" cx="12" cy="12" r="1.4"/></svg></span>
+            <h4>Más foco</h4>
+            <p>Una mente menos dispersa, más presente en lo que haces.</p>
+          </div>
+          <div class="destino" data-reveal>
+            <span class="pico" data-pico="equilibrio" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="16.6" rx="5" ry="2"/><ellipse cx="12" cy="11.8" rx="3.5" ry="1.7"/><ellipse class="acc" cx="12" cy="7.6" rx="2.2" ry="1.4"/></svg></span>
+            <h4>Equilibrio</h4>
+            <p>Observar lo que sientes sin ahogarte en ello.</p>
+          </div>
+          <div class="destino" data-reveal>
+            <span class="pico" data-pico="descanso" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13.4A7.5 7.5 0 1 1 10.6 4a6 6 0 0 0 9.4 9.4z"/><path class="acc" d="M16.6 5l.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5z"/></svg></span>
+            <h4>Mejor descanso</h4>
+            <p>Una mente que aprende a soltar duerme mejor.</p>
+          </div>
+        </div>
+        <p class="med-p med-p--nota" data-reveal>No es magia ni una solución rápida: es una práctica. Como toda práctica, da fruto con el tiempo.</p>
+      </div>
+    </section>
+
+    <!-- ════════ CÓMO EMPEZAR · la escalera ════════ · copy provisional (Ale/Khenpo) -->
+    <section class="section" id="empezar">
+      <div class="contenedor-lectura">
+        <p class="eyebrow" data-reveal>Tu camino</p>
+        <h2 data-reveal>Cómo <em>empezar</em></h2>
+        <ol class="escalera">
+          <li data-reveal>
+            <p class="escalera__cuando">Hoy</p>
+            <h3>Respira una vez con nosotros</h3>
+            <p>La práctica guiada de arriba no pide nada a cambio. Es el primer paso, y ya lo tienes aquí.</p>
+          </li>
+          <li data-reveal>
+            <p class="escalera__cuando">Esta semana</p>
+            <h3>Medita en grupo</h3>
+            <p>De lunes a viernes, a las 19:30, guiamos una meditación en el centro del Monte Sella y en directo por YouTube. Sin experiencia previa.</p>
+            <a href="/actividades/actividades.html" class="btn-secundario">Meditar en el centro</a>
+          </li>
+          <li data-reveal>
+            <p class="escalera__cuando">Cuando quieras profundizar</p>
+            <h3>Empieza el camino de formación</h3>
+            <p>El nivel I te da las bases para sostener una práctica por ti mismo, paso a paso.</p>
+            <a href="/formacion/formacion-publica.html" class="t-link"><span class="txt">Ver el nivel I</span><span class="arw" aria-hidden="true">→</span></a>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ════════ QUIÉN GUÍA · tradición viva ════════ · zona de luz · copy y cifras provisionales (Khenpo) -->
+    <section class="section zona-luz" id="quien-guia">
+      <div class="contenedor">
+        <p class="eyebrow" data-reveal>Quién te acompaña</p>
+        <h2 data-reveal>No es una app.<br>Es una <em>tradición viva</em>.</h2>
+        <div class="guia__grid">
+          <figure class="guia__maestro" data-reveal>
+            <span class="guia__foto"><img src="/assets/img/khenpo-luz-dorada-exterior.jpg" alt="Lama Khenpo Rinchen Gyaltsen" onerror="this.style.display='none'"></span>
+            <figcaption>
+              <b>Lama Khenpo Rinchen Gyaltsen</b>
+              <span>Director espiritual · Fundación Sakya</span>
+            </figcaption>
+          </figure>
+          <div class="guia__cuerpo" data-reveal>
+            <p class="guia__lede">Cuando meditas aquí, te guía un maestro real dentro de un linaje real. Lama Khenpo Rinchen Gyaltsen lleva 24 años de práctica y dirige la Fundación Sakya desde el Centro Budista de Pedreguer, en el Monte Sella.</p>
+            <dl class="guia__anclas">
+              <div><dt>s. XI</dt><dd>El linaje Sakya del budismo tibetano, transmitido sin interrupción hasta hoy.</dd></div>
+              <div><dt>2008</dt><dd>El año en que se fundó la Fundación Sakya en España.</dd></div>
+              <div><dt>+31 M</dt><dd>Reproducciones de las enseñanzas de Paramita en YouTube.</dd></div>
+            </dl>
+            <p class="guia__mas"><a href="/sobre/khenpo/khenpo.html" class="t-link"><span class="txt">Conoce a Khenpo y la comunidad</span><span class="arw" aria-hidden="true">→</span></a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ PREGUNTAS FRECUENTES ════════ · componente reutilizable · copy provisional (Ale/Khenpo) -->
+    <section class="section faq" id="preguntas" aria-labelledby="faq-t">
+      <div class="contenedor-lectura">
+        <p class="eyebrow" data-reveal>Dudas frecuentes</p>
+        <h2 id="faq-t" data-reveal>Preguntas de quien <em>empieza</em>.</h2>
+
+        <div class="faq__buscador" data-reveal>
+          <input id="faqBuscar" type="text" autocomplete="off" placeholder="Busca tu duda…" aria-label="Buscar en las preguntas frecuentes">
+          <span class="faq__buscador__icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5 16.5 16.5"/></svg>
+          </span>
+        </div>
+
+        <div class="faq__lista">
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false" aria-controls="mfa1">¿Necesito experiencia?<span class="faq__sign" aria-hidden="true"></span></button>
+            <div class="faq__panel" id="mfa1" role="region"><div class="faq__inner"><p>No. Todo lo de esta página está pensado para <b>empezar de cero</b>, hoy mismo.</p></div></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false" aria-controls="mfa2">¿Tengo que creer en algo o hacerme budista?<span class="faq__sign" aria-hidden="true"></span></button>
+            <div class="faq__panel" id="mfa2" role="region"><div class="faq__inner"><p>No. La práctica está <b>abierta a cualquiera</b>, tengas la creencia que tengas —o ninguna—. Meditar es una habilidad, no una religión.</p></div></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false" aria-controls="mfa3">¿Cuánto tiempo al día?<span class="faq__sign" aria-hidden="true"></span></button>
+            <div class="faq__panel" id="mfa3" role="region"><div class="faq__inner"><p>Con <b>cinco o diez minutos</b> al día es suficiente para empezar. La constancia importa mucho más que la duración.</p></div></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false" aria-controls="mfa4">¿Y si mi mente no para?<span class="faq__sign" aria-hidden="true"></span></button>
+            <div class="faq__panel" id="mfa4" role="region"><div class="faq__inner"><p>Es lo normal, y <b>no es un fallo</b>. Meditar no es dejar la mente en blanco: es darte cuenta de que se ha ido y volver. Esa vuelta, una y otra vez, es la práctica.</p></div></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false" aria-controls="mfa5">¿Tengo que sentarme en el suelo?<span class="faq__sign" aria-hidden="true"></span></button>
+            <div class="faq__panel" id="mfa5" role="region"><div class="faq__inner"><p>No. En una <b>silla</b>, con la espalda cómoda y erguida, está perfecto.</p></div></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false" aria-controls="mfa6">¿Es gratis?<span class="faq__sign" aria-hidden="true"></span></button>
+            <div class="faq__panel" id="mfa6" role="region"><div class="faq__inner"><p>La primera práctica y la <b>meditación en grupo son gratuitas</b>. Los cursos de formación tienen distintas modalidades.</p></div></div>
+          </div>
+        </div>
+
+        <p class="faq__vacio" id="faqVacio" hidden>Ninguna pregunta coincide con eso. Escríbenos y te orientamos.</p>
+      </div>
+    </section>
+
+    <!-- ════════ CIERRE · invitación ════════ · zona de luz · copy provisional (Ale/Khenpo) -->
+    <section class="section zona-luz cierre-invita">
+      <div class="contenedor-lectura">
+        <h2 data-reveal>Cuando quieras dar el siguiente paso, te esperamos en el <em>Monte Sella</em>.</h2>
+        <p class="med-p" data-reveal>O en tu próxima respiración. Lo que llegue antes.</p>
+        <div class="cierre-invita__ctas" data-reveal>
+          <a href="/actividades/actividades.html" class="btn-primario">Meditar en el centro</a>
+          <a href="/formacion/formacion-publica.html" class="t-link"><span class="txt">Ver el nivel I</span><span class="arw" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Datos estructurados FAQ (SEO) · mantener en sync con el texto visible -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type":"Question","name":"¿Necesito experiencia para aprender a meditar?","acceptedAnswer":{"@type":"Answer","text":"No. Todo está pensado para empezar de cero, hoy mismo."}},
+        {"@type":"Question","name":"¿Tengo que creer en algo o hacerme budista?","acceptedAnswer":{"@type":"Answer","text":"No. La práctica está abierta a cualquiera, con la creencia que tengas o ninguna. Meditar es una habilidad, no una religión."}},
+        {"@type":"Question","name":"¿Cuánto tiempo al día hay que meditar?","acceptedAnswer":{"@type":"Answer","text":"Con cinco o diez minutos al día es suficiente para empezar. La constancia importa más que la duración."}},
+        {"@type":"Question","name":"¿Y si mi mente no para?","acceptedAnswer":{"@type":"Answer","text":"Es lo normal y no es un fallo. Meditar no es dejar la mente en blanco: es darte cuenta de que se ha ido y volver. Esa vuelta es la práctica."}},
+        {"@type":"Question","name":"¿Tengo que sentarme en el suelo?","acceptedAnswer":{"@type":"Answer","text":"No. En una silla, con la espalda cómoda y erguida, está perfecto."}},
+        {"@type":"Question","name":"¿Es gratis?","acceptedAnswer":{"@type":"Answer","text":"La primera práctica y la meditación en grupo son gratuitas. Los cursos de formación tienen distintas modalidades."}}
+      ]
+    }
+    </script>
 
   </main>
 
-  <!-- sync.py rellena este contenedor con partials/footer.html -->
-  <footer class="foot"></footer>
+  <!-- ════════ PREFOOTER · "Practiquemos juntos" (canvas de lotos) ════════ -->
+  <section class="foot__hero" aria-labelledby="prefooter-titulo">
+    <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
+    <div>
+      <h2 class="foot__h" id="prefooter-titulo">Practiquemos <em>juntos</em>.</h2>
+      <p class="foot__hint">Pasa el cursor o toca entre las figuras.</p>
+    </div>
+  </section>
+
+  <!-- ════════ FOOTER · copia del partial partials/footer.html ════════ -->
+  <footer class="foot" id="contacto">
+    <div class="foot__info">
+      <div class="wrap">
+        <div class="foot-grid">
+
+          <div>
+            <span class="logo-wave" role="img" aria-label="Paramita"></span>
+            <p class="tagline">Meditación y enseñanzas del Buddha, como puente entre los Himalayas y el mundo hispanohablante.</p>
+            <div class="social">
+              <a href="https://www.facebook.com/paramitaorg/?locale=es_ES" target="_blank" rel="noopener" aria-label="Facebook"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M13.7 8.3c-1.5-.3-2.6.3-2.6 2V17"/><path d="M9.7 11.7h3.6"/></svg>Facebook</a>
+              <a href="https://www.youtube.com/@Paramitaorg" target="_blank" rel="noopener" aria-label="YouTube"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4.2"/><path d="M10.4 9.4 15 12l-4.6 2.6z"/></svg>YouTube</a>
+              <a href="https://www.instagram.com/paramitaorg/?hl=es" target="_blank" rel="noopener" aria-label="Instagram"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="16.8" cy="7.2" r=".7" fill="currentColor" stroke="none"/></svg>Instagram</a>
+              <a href="https://open.spotify.com/show/0lFfiHcQQCd2geCDefB1bf" target="_blank" rel="noopener" aria-label="Spotify"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.4 9.7c3-.9 6.6-.6 9.1.9"/><path d="M8 12.6c2.4-.7 5.2-.4 7.2.8"/><path d="M8.6 15.4c1.9-.5 4-.3 5.6.6"/></svg>Spotify</a>
+            </div>
+          </div>
+
+          <div>
+            <h4>Navegar</h4>
+            <a class="fl" href="/meditacion/meditacion.html">Meditación</a>
+            <a class="fl" href="/formacion/formacion-publica.html">Cursos</a>
+            <a class="fl" href="/actividades/actividades.html">Actividades</a>
+            <a class="fl" href="/blog/blog.html">Blog</a>
+            <a class="fl" href="/sobre/la-fundacion/la-fundacion.html">Sobre</a>
+          </div>
+
+          <div>
+            <h4>Contacto</h4>
+            <address>
+              <b>Dirección</b><br>Av. de Comtat, 1 Bis, buzón 207<br>Pedreguer (Muntanya de la Sella)<br>03750 Alicante, España<br><br>
+              <b>Teléfono</b> (+34) 965 760 777<br>
+              <a class="fl" href="mailto:secretaria@paramita.org">secretaria@paramita.org</a>
+              <a class="fl" href="mailto:soporte@paramita.org">soporte@paramita.org</a><br>
+              <b>Horario</b> L–V · 10–13 h y 15–17 h
+            </address>
+          </div>
+
+        </div>
+
+        <div class="foot-base">
+          <span>© 2026 Fundación Paramita. Todos los seres, libres del sufrimiento.</span>
+          <span>Centro Budista Sakya · Alicante</span>
+        </div>
+
+      </div>
+    </div>
+  </footer>
 
   <script src="../js/paginas/paramita-meditacion.js" defer></script>
+  <script src="../js/componentes/paramita-tema.js" defer></script>
 </body>
 </html>

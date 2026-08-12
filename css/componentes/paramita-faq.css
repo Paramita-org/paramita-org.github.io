@@ -1,0 +1,107 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   paramita-faq.css — Bloque FAQ reutilizable (acordeón + buscador)
+   ───────────────────────────────────────────────────────────────────────
+   Extraído del patrón de la página de curso (EMI · «Calma y Lucidez») para
+   poder reutilizarlo en cualquier página (/meditacion/, cursos, /sobre/…).
+
+   MARCADO ESPERADO
+   ────────────────
+   <div class="faq">                         ← contenedor que fija las vars
+     <div class="faq__buscador">
+       <input id="faqBuscar" type="text" …>
+       <span class="faq__buscador__icono">…svg…</span>
+     </div>
+     <div class="faq__lista">
+       <div class="faq__item">
+         <button class="faq__q" aria-expanded="false" aria-controls="fa1">
+           Pregunta<span class="faq__sign"></span>
+         </button>
+         <div class="faq__panel" id="fa1" role="region">
+           <div class="faq__inner"><p>Respuesta</p></div>
+         </div>
+       </div>
+       …
+     </div>
+     <p class="faq__vacio" id="faqVacio" hidden>Sin coincidencias…</p>
+   </div>
+
+   Comportamiento: js/componentes/paramita-faq.js (toggle + buscador en vivo).
+   Solo tokens del sistema; derivaciones con color-mix(in oklch, …).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@layer componentes {
+
+  /* Geometría del hilo/punto */
+  .faq { --faq-sangria: 42px; --faq-hilo-x: 18px; --faq-nodo: 9px; }
+
+  .faq__lista { position: relative; border-top: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent)); }
+
+  /* Hilo conductor · muy tenue, desvanecido en los extremos */
+  .faq__lista::before {
+    content: ""; position: absolute; left: var(--faq-hilo-x); top: 0; bottom: 0; width: 1px;
+    background: linear-gradient(180deg, transparent, color-mix(in oklch, var(--antracita) 11%, transparent) 8%,
+      color-mix(in oklch, var(--antracita) 11%, transparent) 92%, transparent); pointer-events: none;
+  }
+
+  .faq__item { border-bottom: 1px solid var(--hair, color-mix(in oklch, var(--antracita) 10%, transparent)); }
+
+  .faq__q {
+    position: relative; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    background: none; border: 0; cursor: pointer; text-align: left;
+    padding: var(--espacio-elemento) 0 var(--espacio-elemento) var(--faq-sangria);
+    font-family: var(--display); font-size: 1.15rem; color: var(--antracita);
+    transition: color .3s var(--ease, ease);
+  }
+  .faq__q:hover { color: var(--azul-oscuro); }
+
+  /* Punto sobre el hilo · se enciende en dorado al abrir */
+  .faq__q::before {
+    content: ""; position: absolute; left: calc(var(--faq-hilo-x) - var(--faq-nodo) / 2);
+    top: 50%; transform: translateY(-50%); width: var(--faq-nodo); height: var(--faq-nodo); border-radius: 50%;
+    background: var(--lino); border: 1.5px solid color-mix(in oklch, var(--antracita) 22%, transparent);
+    transition: background-color .3s var(--ease, ease), border-color .3s var(--ease, ease), box-shadow .3s var(--ease, ease);
+  }
+  .faq__q:hover::before { border-color: color-mix(in oklch, var(--dorado) 55%, transparent); }
+  .faq__q[aria-expanded="true"]::before {
+    background: var(--dorado); border-color: var(--dorado);
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--dorado) 20%, transparent);
+  }
+
+  .faq__sign { position: relative; flex: none; width: 16px; height: 16px; }
+  .faq__sign::before, .faq__sign::after { content: ""; position: absolute; background: var(--dorado); transition: transform .3s var(--ease, ease); }
+  .faq__sign::before { left: 0; top: 7px; width: 16px; height: 2px; }
+  .faq__sign::after  { left: 7px; top: 0; width: 2px; height: 16px; }
+  .faq__q[aria-expanded="true"] .faq__sign::after { transform: scaleY(0); }
+
+  .faq__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s var(--ease, ease); }
+  .faq__q[aria-expanded="true"] + .faq__panel { grid-template-rows: 1fr; }
+  .faq__inner { overflow: hidden; }
+  .faq__inner p { color: var(--texto-suave); padding: 0 0 var(--espacio-elemento) var(--faq-sangria); max-width: 68ch; }
+  .faq__inner b { color: var(--antracita); }
+
+  /* Buscador · línea inferior fina que se dora al enfocar */
+  .faq__buscador { position: relative; max-width: 540px; margin-bottom: var(--espacio-contemplativo); }
+  .faq__buscador input {
+    width: 100%; font-family: var(--body); font-size: 1.02rem; color: var(--antracita);
+    background: transparent; border: 0;
+    border-bottom: 1px solid var(--hair-fuerte, color-mix(in oklch, var(--antracita) 22%, transparent));
+    padding: .7em 2em .7em .1em; transition: border-color .3s var(--ease, ease);
+  }
+  .faq__buscador input::placeholder { color: var(--texto-tenue); }
+  .faq__buscador input:focus-visible { outline: none; border-bottom-color: var(--dorado); }
+  .faq__buscador__icono {
+    position: absolute; right: .1em; top: 50%; transform: translateY(-50%);
+    width: 17px; height: 17px; color: var(--texto-tenue); pointer-events: none;
+  }
+  .faq__buscador__icono svg { width: 100%; height: 100%; display: block; stroke: currentColor; fill: none; stroke-width: 1.4; }
+
+  .faq__item[hidden] { display: none; }
+  .faq__vacio {
+    padding: var(--espacio-contenido, 2rem) 0 0 var(--faq-sangria); color: var(--texto-suave);
+    font-family: var(--display); font-style: italic; font-size: 1.05rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq__sign::before, .faq__sign::after, .faq__panel, .faq__q::before, .faq__buscador input { transition: none; }
+  }
+}

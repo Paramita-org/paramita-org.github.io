@@ -1,0 +1,53 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   paramita-tarjetas.css — Cards con pictograma (patrón .destinos/.destino)
+   ───────────────────────────────────────────────────────────────────────
+   Extraído de la página de contribuir («¿A qué destinamos los fondos?»)
+   para reutilizarlo en cualquier página. Añade un efecto de hover que la
+   versión original no tenía (elevación suave + brillo del pictograma).
+
+   MARCADO
+   ───────
+   <div class="destinos">                 (o .destinos--2 para 2 columnas)
+     <div class="destino">
+       <span class="pico" data-pico="nombre"> …svg canon… </span>
+       <h4>Título</h4>
+       <p>Descripción</p>
+     </div>
+     …
+   </div>
+
+   Pictograma canon: viewBox 0 0 24 24 · stroke 1.5 · currentColor ·
+   acento con class="acc". Solo tokens; color-mix(in oklch, …).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@layer componentes {
+
+  .destinos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.6rem 2.4rem; margin-top: 1.2rem; }
+  .destinos--2 { grid-template-columns: repeat(2, 1fr); }
+
+  .destino h4 { font-family: var(--display); font-size: 1.14rem; font-weight: 500; margin: 0 0 .4rem; letter-spacing: -.01em; }
+  .destino p  { font-size: .92rem; color: var(--texto-suave); margin: 0; line-height: 1.55; }
+
+  /* Pictograma · canon (tinta antracita 58 %, acento dorado) */
+  .destino .pico { display: inline-flex; margin-bottom: 1.1rem; color: color-mix(in oklch, var(--antracita) 58%, transparent); }
+  .destino .pico svg { width: 44px; height: 44px; stroke-width: 1.6; display: block; }
+  .destino .pico .acc { stroke: var(--dorado); }
+
+  /* Efecto · elevación suave + brillo del pictograma al pasar el cursor */
+  .destino { transition: transform var(--t-defecto, .4s ease); }
+  .destino .pico svg { transition: transform var(--t-defecto, .4s ease), filter var(--t-revelacion, .7s ease); }
+  .destino:hover { transform: translateY(-4px); }
+  .destino:hover .pico svg {
+    transform: translateY(-2px) scale(1.06);
+    filter: drop-shadow(0 4px 12px color-mix(in oklch, var(--dorado) 42%, transparent));
+  }
+
+  @media (max-width: 820px) { .destinos, .destinos--2 { grid-template-columns: 1fr 1fr; gap: 2.2rem 2rem; } }
+  @media (max-width: 520px) { .destinos, .destinos--2 { grid-template-columns: 1fr; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .destino, .destino .pico svg { transition: none; }
+    .destino:hover { transform: none; }
+    .destino:hover .pico svg { transform: none; filter: none; }
+  }
+}

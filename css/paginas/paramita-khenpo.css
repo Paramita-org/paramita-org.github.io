@@ -1,0 +1,135 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   css/paginas/paramita-khenpo.css — estilos propios de /sobre/khenpo/
+   ───────────────────────────────────────────────────────────────────────────
+   Solo lo ESPECÍFICO de esta página. El hero es el del sistema (.hero de
+   paramita-hero.css); aquí solo se le pone la foto de fondo (.hero--foto).
+   Tokens, base, .eyebrow/.lede, .btn-*/.t-link y [data-reveal] vienen del
+   sistema. Todo scopeado bajo .pagina-khenpo. Fotos en ../../assets/img/.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══ 1 · HERO · foto de fondo (usa el componente .hero del sistema) ═══ */
+.pagina-khenpo .hero--foto .hero__bg-img{
+  position:absolute; inset:0;
+  background-image:url(../../assets/img/khenpo-luz-dorada-exterior.jpg);
+  background-size:cover; background-position:center 26%;
+  opacity:.92;
+}
+
+/* ═══ 2 · SEMBLANZA ═══ */
+.pagina-khenpo .semblanza{padding-block:var(--espacio-orilla)}
+.pagina-khenpo .semblanza .grid{display:grid;gap:clamp(2rem,5vw,4rem);align-items:center;grid-template-columns:1fr}
+@media(min-width:900px){.pagina-khenpo .semblanza .grid{grid-template-columns:1.05fr .95fr}}
+.pagina-khenpo .semblanza__texto{max-width:var(--medida-cuerpo)}
+.pagina-khenpo .semblanza__texto p{color:var(--tinta-oscura)}
+.pagina-khenpo .semblanza h2{margin-bottom:var(--espacio-grupo)}
+.pagina-khenpo .naming{border-left:2px solid var(--dorado);padding-left:1rem;color:var(--texto-suave)}
+.pagina-khenpo .naming b{color:var(--antracita);font-weight:var(--wght-firmeza)}
+/* velo que se levanta · transición por clase .is-in (la pone el JS al entrar en vista) */
+.pagina-khenpo .media-grow{position:relative;aspect-ratio:4/5;border-radius:16px;overflow:hidden;margin:0;background:linear-gradient(160deg,color-mix(in oklch,var(--arcilla) 92%,transparent),color-mix(in oklch,var(--calido-zen) 78%,transparent))}
+.pagina-khenpo .media-grow-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 35%;filter:blur(12px) saturate(.82);transform:scale(1.09);transition:filter var(--dur-cinematografico) var(--ease-umbral),transform var(--dur-cinematografico) var(--ease-umbral)}
+.pagina-khenpo .media-grow::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,color-mix(in oklch,var(--arena) 92%,transparent),color-mix(in oklch,var(--calido-zen) 72%,transparent));opacity:.92;transition:opacity var(--dur-cinematografico) var(--ease-umbral)}
+.pagina-khenpo .media-grow.is-in .media-grow-img{filter:blur(0) saturate(1);transform:scale(1)}
+.pagina-khenpo .media-grow.is-in::after{opacity:0}
+
+/* ═══ 3 · CITA ═══ */
+.pagina-khenpo .cita{position:relative;background:oklch(20% 0.03 255);color:var(--lino);padding-block:clamp(6rem,18vh,12rem);overflow:hidden}
+.pagina-khenpo .cita__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:.30;z-index:0}
+.pagina-khenpo .cita__scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 90% at 50% 50%,transparent,oklch(20% 0.03 255/.55) 62%,oklch(18% 0.03 255/.9))}
+.pagina-khenpo .cita .wrap{position:relative;z-index:2;display:grid;justify-items:center;text-align:center;gap:var(--espacio-grupo)}
+.pagina-khenpo .cita__eyebrow{color:color-mix(in oklch,var(--dorado) 80%,var(--lino));font-family:var(--body);font-weight:600;font-size:var(--texto-label);letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;opacity:0;transform:translateY(14px);transition:opacity 1s var(--ease-llegada),transform 1s var(--ease-llegada)}
+.pagina-khenpo .cita__frase{font-family:var(--display);font-style:italic;font-weight:var(--wght-contemplativo);font-size:clamp(2rem,5.5vw,4.2rem);line-height:1.12;max-width:20ch;opacity:0;transform:translateY(40px) scale(.92);transition:opacity 1.3s var(--ease-llegada),transform 1.3s var(--ease-llegada)}
+.pagina-khenpo .cita__frase em{color:var(--dorado);font-style:italic}
+.pagina-khenpo .cita__autor{font-family:var(--body);font-size:var(--texto-mini);letter-spacing:.14em;text-transform:uppercase;color:color-mix(in oklch,var(--lino) 65%,transparent);opacity:0;transform:translateY(12px);transition:opacity 1s var(--ease-llegada) .35s,transform 1s var(--ease-llegada) .35s}
+.pagina-khenpo .cita.is-in .cita__eyebrow,.pagina-khenpo .cita.is-in .cita__frase,.pagina-khenpo .cita.is-in .cita__autor{opacity:1;transform:none}
+
+/* ═══ 4 · LINAJE · timeline alternado, trazo central ESTÁTICO (CSS puro) ═══ */
+.pagina-khenpo .linaje{padding-block:var(--espacio-orilla)}
+.pagina-khenpo .linaje__head{text-align:center;max-width:36ch;margin-inline:auto;margin-bottom:clamp(2.5rem,6vh,4.5rem)}
+.pagina-khenpo .lede-linaje{font-family:var(--body);font-style:normal;font-weight:var(--wght-presencia);font-size:var(--texto-lede);color:var(--texto-suave);margin-top:var(--espacio-elemento)}
+.pagina-khenpo .linaje__spine{position:relative;max-width:680px;margin-inline:auto}
+/* aura de luz cálida difusa tras el trazo */
+.pagina-khenpo .linaje__spine::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:300px;transform:translateX(-50%);background:radial-gradient(ellipse 52% 92% at 50% 50%,color-mix(in oklch,var(--dorado) 18%,transparent),color-mix(in oklch,var(--dorado) 6%,transparent) 44%,transparent 72%);filter:blur(46px);pointer-events:none;z-index:0}
+/* trazo: dorado, estático, va del primer al último punto (cada nodo mide 108px, punto centrado → 54px de margen arriba/abajo) */
+.pagina-khenpo .rail{position:absolute;left:50%;top:54px;bottom:54px;width:2px;transform:translateX(-50%);background:linear-gradient(180deg,color-mix(in oklch,var(--dorado) 55%,var(--lino)),var(--dorado));border-radius:2px;z-index:1;box-shadow:0 0 12px 1px color-mix(in oklch,var(--dorado) 40%,transparent)}
+.pagina-khenpo .nodo{position:relative;z-index:2;display:grid;grid-template-columns:1fr 44px 1fr;align-items:center;column-gap:1rem;height:108px}
+.pagina-khenpo .nodo__dot{grid-column:2;justify-self:center;width:15px;height:15px;border-radius:50%;background:var(--dorado);border:2px solid var(--dorado);box-shadow:0 0 0 5px color-mix(in oklch,var(--dorado) 14%,transparent),0 0 14px 1px color-mix(in oklch,var(--dorado) 42%,transparent);transition:transform var(--t-defecto),box-shadow var(--t-defecto)}
+.pagina-khenpo .nodo:last-child .nodo__dot{width:19px;height:19px;box-shadow:0 0 0 6px color-mix(in oklch,var(--dorado) 18%,transparent),0 0 20px 2px color-mix(in oklch,var(--dorado) 48%,transparent)}
+.pagina-khenpo .nodo--izq .nodo__content{grid-column:1;text-align:right}
+.pagina-khenpo .nodo--der .nodo__content{grid-column:3;text-align:left}
+.pagina-khenpo .nodo__label{font-family:var(--display);font-weight:var(--wght-presencia);font-size:1.18rem;color:var(--antracita);line-height:1.2;transition:color var(--t-defecto)}
+.pagina-khenpo .nodo:last-child .nodo__label{color:var(--azul-oscuro)}
+.pagina-khenpo .nodo__sub{display:block;font-family:var(--body);font-size:var(--texto-mini);color:var(--texto-suave);margin-top:.15rem}
+.pagina-khenpo .nodo:hover .nodo__dot{transform:scale(1.25);box-shadow:0 0 0 6px color-mix(in oklch,var(--dorado) 20%,transparent),0 0 20px 2px color-mix(in oklch,var(--dorado) 50%,transparent)}
+.pagina-khenpo .nodo:hover .nodo__label{color:var(--dorado)}
+.pagina-khenpo .linaje__nota{text-align:center;margin-top:2.5rem;max-width:44ch;margin-inline:auto}
+@media(max-width:600px){
+  .pagina-khenpo .linaje__spine{max-width:520px}
+  .pagina-khenpo .rail{left:16px}
+  .pagina-khenpo .linaje__spine::before{left:16px;width:200px}
+  .pagina-khenpo .nodo{grid-template-columns:32px 1fr;column-gap:.9rem}
+  .pagina-khenpo .nodo__dot{grid-column:1}
+  .pagina-khenpo .nodo--izq .nodo__content,.pagina-khenpo .nodo--der .nodo__content{grid-column:2;text-align:left}
+}
+
+/* ═══ 5 · LABOR (cifras) ═══ */
+.pagina-khenpo .labor{padding-block:var(--espacio-orilla);background:color-mix(in oklch,var(--arena) 55%,var(--lino))}
+.pagina-khenpo .labor__intro{max-width:54ch;margin-bottom:clamp(2.5rem,6vh,4rem)}
+.pagina-khenpo .labor__intro h2{margin-bottom:var(--espacio-grupo)}
+.pagina-khenpo .labor__intro p{color:var(--tinta-oscura);margin:0}
+.pagina-khenpo .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--hair);border:1px solid var(--hair);border-radius:16px;overflow:hidden}
+@media(min-width:768px){.pagina-khenpo .stats{grid-template-columns:repeat(4,1fr)}}
+.pagina-khenpo .stat{background:var(--card,var(--lino));padding:clamp(1.4rem,3vw,2rem) clamp(1.1rem,2.5vw,1.6rem)}
+.pagina-khenpo .stat .num{font-family:var(--display);font-weight:600;font-size:clamp(2.1rem,5vw,3rem);line-height:1;color:var(--azul-oscuro)}
+.pagina-khenpo .stat .stat__l{display:block;margin-top:.6rem;font-size:var(--texto-mini);color:var(--texto-suave);line-height:1.4}
+.pagina-khenpo .labor__link{margin-top:clamp(1.6rem,4vh,2.4rem)}
+
+/* ═══ 6 · LA MIRADA (galería · scroll horizontal fijado) ═══ */
+.pagina-khenpo .mirada{padding-block:var(--espacio-orilla);overflow:hidden}
+.pagina-khenpo .mirada__head{max-width:48ch;margin-bottom:clamp(1.6rem,4vh,2.6rem)}
+.pagina-khenpo .mirada__hint{display:inline-flex;align-items:center;gap:.45em;margin-top:.6rem;font-size:var(--texto-mini);color:var(--texto-tenue);letter-spacing:.12em;text-transform:uppercase}
+.pagina-khenpo .galeria{display:flex;gap:var(--espacio-grupo);overflow-x:auto;scroll-snap-type:x mandatory;padding-inline:max(var(--contenedor-padding),calc((100vw - var(--contenedor-max))/2));padding-block:.4rem 1.8rem;-webkit-overflow-scrolling:touch}
+.pagina-khenpo .galeria::after{content:"";flex:0 0 14vw}
+.pagina-khenpo .gtile{flex:0 0 clamp(220px,58vw,320px);aspect-ratio:3/4;border-radius:14px;overflow:hidden;scroll-snap-align:start;position:relative;background:linear-gradient(160deg,color-mix(in oklch,var(--arcilla) 90%,transparent),color-mix(in oklch,var(--calido-zen) 78%,transparent))}
+.pagina-khenpo .gtile .ph{height:100%}
+.pagina-khenpo .mirada.pinned .galeria{overflow:visible;scroll-snap-type:none;padding-inline:var(--contenedor-padding);padding-block:.5rem clamp(1.6rem,4.5vh,3rem);align-items:flex-start}
+.pagina-khenpo .mirada.pinned .mirada__hint{display:none}
+.pagina-khenpo .mirada.pinned .gtile{height:min(58vh,460px);aspect-ratio:3/4;flex-basis:auto}
+
+/* pictograma placeholder dentro de .ph */
+.pagina-khenpo .ph{display:grid;place-items:center;text-align:center;color:var(--texto-tenue);gap:.4rem;padding:1rem}
+.pagina-khenpo .ph span:not(.pico){font-family:var(--body);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase}
+.pagina-khenpo .ph .pico{width:34px;height:34px;opacity:.5}
+
+/* ═══ 7 · ENSEÑANZAS (tarjetas + halo de luz) ═══ */
+.pagina-khenpo .ensen{position:relative;padding-block:var(--espacio-orilla);overflow:hidden;background:radial-gradient(130% 95% at 50% -5%,color-mix(in oklch,var(--calido-zen) 45%,var(--lino)),var(--lino) 56%)}
+.pagina-khenpo .ensen::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 66% 56% at 50% 40%,oklch(78% 0.155 68/0.17) 0%,oklch(78% 0.155 68/0.07) 44%,transparent 78%)}
+.pagina-khenpo .ensen>.wrap{position:relative;z-index:1}
+.pagina-khenpo .ensen__head{max-width:40ch;margin-bottom:clamp(2rem,5vh,3rem)}
+.pagina-khenpo .ensen__grid{display:grid;gap:var(--espacio-grupo);grid-template-columns:1fr}
+@media(min-width:768px){.pagina-khenpo .ensen__grid{grid-template-columns:1fr 1fr}}
+.pagina-khenpo .tarjeta{background:var(--card,var(--lino));border:1px solid color-mix(in oklch,var(--dorado) 24%,var(--hair));border-radius:16px;padding:clamp(1.6rem,3vw,2.2rem);box-shadow:0 10px 30px -24px color-mix(in oklch,var(--dorado) 60%,transparent);transition:transform var(--t-defecto),box-shadow var(--t-revelacion),border-color var(--t-defecto)}
+.pagina-khenpo .tarjeta:hover{transform:translateY(-4px);box-shadow:0 22px 46px -26px color-mix(in oklch,var(--dorado) 70%,var(--azul-oscuro)),0 0 22px -6px color-mix(in oklch,var(--dorado) 40%,transparent);border-color:color-mix(in oklch,var(--dorado) 50%,transparent)}
+.pagina-khenpo .tarjeta h3{margin-bottom:.5rem}
+.pagina-khenpo .tarjeta p{color:var(--texto-suave);font-size:.96rem;margin-bottom:1rem}
+
+/* ═══ 8 · CIERRE (suscripción) ═══ */
+.pagina-khenpo .cierre{padding-block:clamp(5rem,14vh,9rem);text-align:center;background:radial-gradient(120% 80% at 50% 0%,var(--calido-zen),transparent 60%)}
+.pagina-khenpo .cierre__inner{max-width:40rem;margin-inline:auto;display:grid;gap:var(--espacio-grupo);justify-items:center}
+.pagina-khenpo .cierre__frase{font-family:var(--display);font-style:italic;font-weight:var(--wght-contemplativo);font-size:clamp(1.5rem,3.4vw,2.4rem);line-height:1.28;color:var(--antracita);max-width:24ch}
+.pagina-khenpo .cierre__frase em{color:var(--dorado);font-style:italic}
+.pagina-khenpo .cierre__sub{color:var(--texto-suave);max-width:38ch}
+.pagina-khenpo .suscribir{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;width:100%;max-width:30rem}
+.pagina-khenpo .suscribir input[type=email]{flex:1 1 220px;font-family:var(--body);font-size:1rem;padding:.7rem 1rem;border-radius:12px;border:1px solid var(--hair-fuerte,var(--hair));background:var(--card,var(--lino));color:var(--antracita)}
+.pagina-khenpo .suscribir input[type=email]:focus-visible{outline:2px solid var(--dorado);outline-offset:1px;border-color:var(--dorado)}
+.pagina-khenpo .consent{display:flex;align-items:flex-start;gap:.55em;font-size:var(--texto-mini);color:var(--texto-suave);max-width:42ch;text-align:left;margin-inline:auto;line-height:1.45}
+.pagina-khenpo .consent input{margin-top:.15em;flex:none}
+.pagina-khenpo .consent a{color:var(--azul-oscuro)}
+.pagina-khenpo .acuse{font-family:var(--display);font-style:italic;color:var(--azul-oscuro);min-height:1.3em}
+
+/* ═══ prefers-reduced-motion · estados finales visibles ═══ */
+@media (prefers-reduced-motion:reduce){
+  .pagina-khenpo .media-grow-img{filter:none;transform:none;transition:none}
+  .pagina-khenpo .media-grow::after{opacity:0;transition:none}
+  .pagina-khenpo .cita__eyebrow,.pagina-khenpo .cita__frase,.pagina-khenpo .cita__autor{opacity:1;transform:none;transition:none}
+}
