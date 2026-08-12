@@ -1,133 +1,127 @@
 <!-- ═══════════════════════════════════════════════════════════════════════════
      PARAMITA · FUNDACIÓN SAKYA
-     partials/navbar-practicante.html — Navbar logueado (usuarios autenticados)
+     partials/navbar-practicante.html — Navbar logueado (usuarios con sesión)
      ───────────────────────────────────────────────────────────────────────────
 
-     Variante hermana de navbar-publico.html para usuarios con sesión iniciada.
-     Se sirve en la zona logueada del sitio (paramita.org logueado y/o
-     cursos.paramita.org — decisión arquitectónica pendiente con Alberto).
+     FUENTE ÚNICA · reescrito sobre el componente .cuenta
+     ────────────────────────────────────────────────────
+     Este partial usa .cuenta (círculo con inicial + desplegable), que YA tiene
+     CSS en paramita-formacion-logueado.css y es lo que se ve en producción.
+     Sustituye al antiguo borrador con .avatar-menu (Fase 8, sin CSS), que se
+     DESCARTA: había dos componentes de cuenta divergentes y ahora hay uno solo.
+     Con esto, las páginas logueadas se sincronizan con `sync.py … --practicante`
+     igual que las públicas con el público — sin bloques sueltos por página.
 
-     PRINCIPIOS DE DISEÑO
-     ────────────────────
-     El practicante ya cruzó el umbral: no necesita las puertas de entrada
-     (Meditación, Sobre) ni los CTAs de conversión (Únete, Contribuir).
-     El navbar se reorienta hacia SU práctica:
+     PARIDAD CON EL PÚBLICO · solo cambia lo imprescindible
+     ──────────────────────────────────────────────────────
+       · MEDITACIÓN / ACTIVIDADES / BLOG / SOBRE → idénticos al público.
+       · "Cursos" → "MI FORMACIÓN" (catálogo logueado con estado) → /formacion-logueado/.
+       · Únete SE RETIRA (el practicante ya se unió). Contribuir se queda.
+       · Los CTAs Únete/Contribuir del público → aquí solo Contribuir + la cuenta.
 
-       · MI SENDERO   Dashboard personal — primera entrada, sustituye a
-                      Meditación como "puerta ancha" del usuario.
-       · CURSOS       Catálogo con estado (inscritos, disponibles, próximos).
-       · ACTIVIDADES  Igual que en público (enlace plano).
-       · BLOG         Igual que en público (enlace plano).
+     ESTRUCTURA · sol + círculo VISIBLES en móvil
+     ────────────────────────────────────────────
+       · Contribuir va en .ctas DENTRO del <nav> → en móvil cae en el
+         hamburguesa (sigue alcanzable; dāna no debe quedar inaccesible).
+       · .bar-derecha (sol + círculo) va FUERA del <nav>: al no colapsarse con
+         el menú móvil, quedan siempre visibles en la barra. Mismo patrón que
+         el .btn-acceso del navbar público. Su margin-left:auto (CSS compartido)
+         lo ancla a la derecha en escritorio y en móvil.
 
-     Lo que DESAPARECE del navbar público:
-       · Meditación   Absorbida por "Mi sendero".
-       · Sobre        Al pie o en el menú de cuenta (el practicante ya conoce
-                      la institución; no es prioridad en su navegación diaria).
+     ARIA-CURRENT · lo aplica el sync, NO va fijo aquí
+     ─────────────────────────────────────────────────
+       Este partial NO lleva aria-current (si no, "Mi formación" saldría
+       marcada en todas las páginas). En la página del catálogo logueado se
+       aplica con:  sync.py formacion-logueado/formacion-logueado.html \
+                      --practicante --aria-current="Mi formación" --tema --skip-navbar
+       (o el flag de navbar que uses; ver notas del sync).
 
-     Lo que se AÑADE:
-       · Avatar circular con dropdown — sustituye a los CTAs primario/secundario.
-         Contiene: Mi perfil, Ajustes, Cerrar sesión.
+     DEPENDE DE (ya cargados):
+       · paramita-bar.css     → barra sticky, glass, logo
+       · paramita-menu.css    → menú, links, submenús, caret
+       · paramita-cta.css     → .btn-secundario
+       · paramita-formacion-logueado.css → .cuenta, .avatar, .bar-derecha
+       · paramita-tema.css    → toggle del sol (penumbra)
 
-     Depende de estos CSS del sistema (ya cargados):
-       · paramita-bar.css     → contenedor sticky, glass, logo, burger
-       · paramita-menu.css    → menú horizontal, links, submenús, caret
-
-     BORRADOR PROVISIONAL · Fase 8 (pendiente)
-     ─────────────────────────────────────────
-     El componente .avatar-menu de este archivo requiere:
-       1. CSS específico en un futuro paramita-avatar.css (aún no existe).
-       2. JS de toggle del dropdown (paramita-avatar.js).
-       3. Datos reales de sesión desde el LMS (Alberto).
-
-     Mientras el CSS del avatar no exista, este bloque renderiza sin estilos
-     completos — es referencia estructural, no producción.
-
-     TEMPLATING · variables a rellenar en cada render
-     ────────────────────────────────────────────────
-     {{USUARIO_NOMBRE}}     Nombre visible del practicante (ej. "Jana")
-     {{USUARIO_INICIAL}}    Inicial mayúscula (ej. "J") — fallback si no hay foto
-     {{USUARIO_AVATAR_URL}} URL de la foto de perfil (opcional)
-     {{USUARIO_MI_CURSO}}   Slug del curso activo (ej. "emi-1") — para "Continuar"
+     TEMPLATING · a rellenar server-side desde la sesión
+       Jana   Nombre del practicante (ej. "Jana")
+       J  Inicial mayúscula (ej. "J")
+     Los destinos del desplegable (/cuenta, /mi-progreso, LMS, /logout) son
+     provisionales · PENDIENTE ALBERTO (arquitectura de sesión / LMS).
      ═══════════════════════════════════════════════════════════════════════════ -->
 
 <header class="bar bar--practicante">
   <div class="bar-inner wrap">
 
-    <!-- LOGO · lleva a la home logueada (no a la pública) -->
-    <a class="logo" href="/mi-sendero" aria-label="Paramita · mi sendero">
+    <!-- LOGO · lleva a la home logueada -->
+    <a class="logo" href="/home-logueado/home-logueado.html" aria-label="Paramita · mi espacio">
       <span class="logo-wave" role="img" aria-label="Paramita"></span>
-      <svg class="logo-fallback" viewBox="0 0 612.3 181.4" role="img" aria-label="Paramita" xmlns="http://www.w3.org/2000/svg">
-        <g fill="#0d539f"><path d="M225.4,64c15.5,0,24.8,7,24.8,18.8s-8.5,19.7-22.9,20c-1.3,0-2.4,0-3.1,0l-.2-1.3c6.7-2.8,9.4-7.7,9.4-18.6s-3.9-15.8-11.9-15.8h-1.4v44.4c0,5.1,1.3,8.5,3.9,10.3v1.3h-23v-1.3c2.5-1.7,3.9-5.1,3.9-10.3v-35.7c0-5.2-1.3-8.7-3.9-10.3v-1.3h24.5Z"/><path d="M295.1,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM274.6,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M506.7,116.4c-3.4,4.5-9,7.4-14.6,7.4-8.1,0-11.6-4.7-11.6-14.4v-27.9h-5.5v-4.2c6.7-2.5,13.5-6.9,17-14h3v13.9l9.8-1-.8,5.2h-9v26.2c0,6,1.8,9,5.6,9s3.2-.4,5.3-1.3l.8,1.1Z"/><path d="M552.4,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM531.8,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M367.7,118.2c-3.1,0-4.6-1.5-4.6-4.4v-18c0-4.8-.3-7.9-2-11-2.3-4.6-7.4-7.2-17.7-7.2s-2.4,0-4.1.4c.7.9,1.2,1.6,1.7,2.6.5-.1.8-.2,2-.2,2.5,0,4.2,1.1,5,3.2.4,1.3.7,4.7.7,10.2v4.4c-1.3-.2-2.8-.3-4.5-.3-5.3,0-10,1.2-13.7,3.7-3.8,2.4-5.7,6-5.7,10.6,0,6.7,4.7,11.6,12,11.6s9.8-1.9,13-5.7c1.7,3.8,4.6,5.7,8.9,5.7s7.4-1.2,10.5-3.9v-1.6h-1.5ZM344.5,117.2c-3.5,0-5.4-2.9-5.4-6.7,0-5.9,3.2-9.5,9.5-9.5v10.8c0,1.3,0,2.5.3,3.5-1.1,1.3-2.6,1.9-4.3,1.9Z"/><path d="M444.2,111.4v-18.2c0-10.5-3-15.5-11.6-15.5s-12.5,3.4-16.4,8.8c-1.2-5.9-4.9-8.8-11-8.8s-11.5,2.9-15.8,8.8v-9.2c-4.9,1.8-10.9,3.5-18.2,5h-.1v1.4l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h22.6v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-22.9c2.2-1.1,4.5-1.7,6.7-1.7,4.2,0,6.3,2.4,6.3,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.2v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-18.8c0-1.5,0-2.9-.3-4.2,1.7-1,3.8-1.5,6.3-1.5,4.6,0,6.9,2.4,6.9,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.6v-1.3c-2.9-2-4.3-5.5-4.3-10.3Z"/><path d="M330.8,77.6c-5.3,0-12.3,4.5-15.5,9.7v-10.1c-5,1.8-10.9,3.6-18.3,5v1.3l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h24.8v-1.3c-4-1.8-6-5.3-6-10.3v-21.5c2.4-2.4,6.6-3.6,8.6-3.8.3,3.9,3.2,7.2,7.1,7.2s7.7-3.3,7.7-8-3.1-7.7-7.9-7.7Z"/><path d="M468.9,70.6c3.4-3.2,3.4-8.7,0-11.9-3.2-3.4-8.7-3.4-11.9,0-3.2,3.2-3.2,8.7,0,11.9,3.2,3.2,8.7,3.2,11.9,0Z"/><path d="M452.4,83.8v1.3l1,.5c1.3.8,2.9,3.4,2.9,6.7v19.1c0,5.1-1.4,8.5-4.3,10.3v1.3h23v-1.3c-2.9-2-4.3-5.5-4.3-10.3v-32.7c-4.9,1.8-10.9,3.6-18.3,5Z"/></g>
-        <g fill="#1cb1da"><circle cx="112.1" cy="58.6" r="10.1"/><path d="M94,67.6s2,5.3,8,10c6,4.7,8.6,10,9,20.3s.5,24.3.5,24.3c0,0-3.8-10.5-4.8-13.6s-4.2-15.9-9.7-21-7.9-5.6-7.9-5.6c0,0,1.1-8.3,4.9-14.4Z"/><path d="M130.3,67.6s-2,5.3-8,10c-6,4.7-8.6,10-9,20.3-.4,10.3-.5,24.3-.5,24.3,0,0,3.8-10.5,4.8-13.6,1-3.1,4.2-15.9,9.7-21,4.7-4.4,7.9-5.6,7.9-5.6,0,0-1.1-8.3-4.9-14.4Z"/></g>
-        <g fill="#0689c2"><path d="M74.3,74.8s2.6,4.3,5.7,5.6,11.6,4.7,15.5,8.6c3.9,3.9,11,25.5,11,25.5,0,0-3.6-5.7-13-9.7,0,0-5.3-2.1-9.7-2.6s-5.9-1.9-7.3-4.9-4.1-13.9-2.2-22.4Z"/><path d="M149.9,74.8s-2.6,4.3-5.7,5.6-11.6,4.7-15.5,8.6-11,25.5-11,25.5c0,0,3.6-5.7,13-9.7,0,0,5.3-2.1,9.7-2.6,4.4-.5,5.9-1.9,7.3-4.9s4.1-13.9,2.2-22.4Z"/></g>
-        <g fill="#0d539f"><path d="M109.8,124s-8.4-29.3-49.1-17.5c0,0,5.7.7,9.9,6,4.2,5.3,7.4,11.2,18,10.2,10.5-1,17.4-1.3,21.2,1.3Z"/><path d="M114.4,124s8.4-29.3,49.1-17.5c0,0-5.7.7-9.9,6s-7.4,11.2-18,10.2c-10.5-1-17.4-1.3-21.2,1.3Z"/></g>
-      </svg>
     </a>
 
-    <!-- BURGER · toggle del menú en móvil -->
+    <!-- Input hidden del menú móvil · DEBE ir antes del .menu (.nt:checked ~ .menu) -->
     <input class="nt" id="nt" type="checkbox" hidden>
-    <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
 
-    <!-- MENÚ PRINCIPAL PRACTICANTE -->
+    <!-- MENÚ PRINCIPAL -->
     <nav class="menu" aria-label="Principal">
       <ul class="links">
-
-        <!-- 1 · MI SENDERO · dashboard personal, primera entrada del practicante -->
-        <li>
-          <a class="navlink" href="/mi-sendero">Mi sendero</a>
+        <li><a class="navlink" href="/meditacion/meditacion.html">Meditación</a></li>
+        <li><a class="navlink" href="/formacion-logueado/formacion-logueado.html">Mi formación</a></li>
+        <li><a class="navlink" href="/actividades/actividades.html">Actividades</a></li>
+        <li><a class="navlink" href="/blog/blog.html">Blog</a></li>
+        <li class="has-sub end">
+          <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></button>
+          <ul class="sub" role="menu" aria-label="Sobre Paramita">
+            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quienes transmiten la enseñanza</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/sangha-monastica/sangha-monastica.html"><strong>Comunidad Monástica</strong><span>Monásticos y monásticas</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
+          </ul>
         </li>
-
-        <!-- 2 · CURSOS · catálogo con estado del practicante -->
-        <li>
-          <a class="navlink" href="/formacion-logueado/formacion-logueado.html">Cursos</a>
-        </li>
-
-        <!-- 3 · ACTIVIDADES · enlace plano (sin desplegable) -->
-        <li>
-          <a class="navlink" href="/actividades/actividades.html">Actividades</a>
-        </li>
-
-        <!-- 4 · BLOG · enlace plano (sin desplegable) -->
-        <li>
-          <a class="navlink" href="/blog/blog.html">Blog</a>
-        </li>
-
       </ul>
 
-      <!-- Divisor visual entre menú y avatar -->
       <span class="div" aria-hidden="true"></span>
 
-      <!-- ═════════════════════════════════════════════════════════════════
-           AVATAR DEL PRACTICANTE con dropdown
-           ─────────────────────────────────────────────────────────────────
-           BORRADOR · el CSS de .avatar-menu no existe todavía (Fase 8).
-           Los datos se rellenan server-side desde la sesión del LMS.
-           ═════════════════════════════════════════════════════════════════ -->
-      <div class="avatar-menu" data-avatar-menu>
-        <button class="avatar-menu__trigger"
-                type="button"
-                aria-haspopup="true"
-                aria-expanded="false"
-                aria-label="Menú de cuenta de {{USUARIO_NOMBRE}}">
-          <!-- Foto si existe, si no muestra la inicial como fallback -->
-          <img class="avatar-menu__foto"
-               src="{{USUARIO_AVATAR_URL}}"
-               alt=""
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <span class="avatar-menu__inicial" aria-hidden="true">{{USUARIO_INICIAL}}</span>
-        </button>
+      <!-- Contribuir · DENTRO del <nav> · en móvil cae en el hamburguesa. -->
+      <div class="ctas">
+        <a class="btn-secundario" href="/contribuir/contribuir.html">Contribuir</a>
+      </div>
+    </nav>
 
-        <ul class="avatar-menu__panel" role="menu" aria-label="Menú de cuenta">
-          <li class="avatar-menu__saludo" role="presentation">
-            <span>Hola, <strong>{{USUARIO_NOMBRE}}</strong></span>
-          </li>
-          <li role="none"><a role="menuitem" href="/perfil"><strong>Mi perfil</strong><span>Datos y práctica</span></a></li>
-          <li role="none"><a role="menuitem" href="/ajustes"><strong>Ajustes</strong><span>Cuenta y preferencias</span></a></li>
-          <li class="avatar-menu__separador" role="separator" aria-hidden="true"></li>
-          <li role="none"><a role="menuitem" href="/logout" class="avatar-menu__salir"><strong>Cerrar sesión</strong></a></li>
-        </ul>
+    <!-- FUERA del <nav> · sol + círculo · siempre visibles en la barra móvil.
+         .bar-derecha (CSS compartido) lo ancla a la derecha. El sol y el círculo
+         NO son hijos de .cuenta, así que el ratón sobre el sol no abre el panel. -->
+    <div class="bar-derecha">
+
+      <button class="tema-toggle" id="temaToggle" type="button" aria-label="Cambiar entre luz y penumbra" aria-pressed="false" title="Penumbra">
+        <svg class="ico-luz" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+        <svg class="ico-penumbra" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+        </svg>
+      </button>
+
+      <!-- CUENTA · círculo con inicial + desplegable · CSS en paramita-formacion-logueado.css -->
+      <div class="cuenta">
+        <button class="cuenta__btn" aria-haspopup="true" aria-expanded="false" aria-label="Mi cuenta">
+          <span class="avatar" aria-hidden="true">J</span><!-- PROVISIONAL "J"/"Jana" hasta sesión real (Alberto). Server-side: sustituir por inicial/nombre del practicante. -->
+          <span class="cuenta__caret" aria-hidden="true"></span>
+        </button>
+        <div class="cuenta__panel" role="menu" aria-label="Cuenta">
+          <a role="menuitem" href="/cuenta"><strong>Mi cuenta</strong><small>Jana · practicante</small></a>
+          <a role="menuitem" href="/mi-progreso">Mi progreso</a>
+          <a role="menuitem" href="https://cursos.paramita.org/home">Ir al aula (LMS)</a>
+          <hr>
+          <a role="menuitem" class="salir" href="/logout">Cerrar sesión</a>
+        </div>
       </div>
 
-    </nav>
+    </div>
+
+    <!-- Burger · toggle del menú en móvil (CSS puro con :checked). Al final. -->
+    <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
+
   </div>
 </header>

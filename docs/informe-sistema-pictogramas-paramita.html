@@ -233,6 +233,15 @@
   </div></div>
   <h3 class="reveal">Humanista, no geométrico — y por qué importa</h3>
   <p class="reveal">Hay dos acabados de línea en 2026: el geométrico (trazo uniforme, matemático, "de sistema operativo") y el humanista (terminales redondeadas, ligera calidez, curvas antes que ángulos). La elección no es de gusto: es de <em>rima</em>. El rostro de Paramita es Fraunces, una tipografía de contraste caligráfico con ejes <code>opsz</code> y <code>WONK</code> preservados a propósito. Un icono geométrico sonaría a otra marca pegada encima; el humanista es el que pertenece a la misma familia que la letra. La coherencia tipografía↔pictograma es lo que hace que el conjunto se sienta de una sola mano.</p>
+
+  <h3 class="reveal">Una escala, no un tamaño — <em>inline · lg · feature</em></h3>
+  <p class="reveal">El valor <code>1.7rem</code> de arriba es el tamaño <strong>inline</strong>: el del pictograma que acompaña a una palabra en un metatag (‹Presencial›, ‹8 semanas›). Pero el mismo icono, cuando <em>encabeza</em> un bloque —una tarjeta, una columna de «a qué destinamos»—, no puede ir a ese tamaño: se queda pequeño y las formas dejan de leerse. El informe de iconografía ya lo anticipa —el pictograma, como recurso, va «en gran tamaño»—; lo que faltaba aquí era fijar la escala. Son tres escalones, no uno:</p>
+  <div class="stats reveal">
+    <div class="stat"><div class="n">1.7<small>rem</small></div><div class="l">Inline · metatag junto a texto. Trazo 1.5.</div><div class="src">.pico</div></div>
+    <div class="stat"><div class="n">2.1<small>rem</small></div><div class="l">Lg · icono junto a un título en tarjeta. Trazo 1.5.</div><div class="src">.pico--lg</div></div>
+    <div class="stat"><div class="n">2.75<small>rem</small></div><div class="l">Feature · icono que encabeza un bloque. Trazo ~1.6.</div><div class="src">.pico--feature</div></div>
+  </div>
+  <p class="reveal">El <strong>trazo escala con el tamaño</strong>: al agrandar, el <code>1.5</code> se afinaría ópticamente, así que a tamaño feature sube a <code>~1.6</code>. Es la misma lógica que el informe de iconografía fija para el trazo (utilitario 1.0 → sistema 1.4 → destacado 2.0), y rima con el eje <code>opsz</code> de Fraunces. La regla de decisión, en una línea: <strong>¿acompaña a una palabra?</strong> inline; <strong>¿va junto a un título?</strong> lg; <strong>¿lidera él solo un bloque?</strong> feature.</p>
 </section>
 
 <hr class="divider">
@@ -370,6 +379,7 @@
       <tr><td class="no">Icon-font / &lt;img&gt; / mask</td><td class="si">SVG inline vía partial</td><td>Solo el inline hereda la tinta y ve el token --dorado</td></tr>
       <tr><td class="no">Copiar SVG en cada página</td><td class="si">Una copia · sync.py / shortcode 11ty</td><td>Cambiar un icono lo cambia en todo el sitio</td></tr>
       <tr><td class="no">stroke="var(--dorado)" inline</td><td class="si">Acento por CSS · class="acc"</td><td>var() en atributo de presentación es frágil entre navegadores</td></tr>
+      <tr><td class="no">Un solo tamaño (1.7rem)</td><td class="si">Escala inline · lg · feature</td><td>1.7rem es tamaño inline; el pictograma que lidera un bloque necesita gran tamaño. Primer consumidor de la talla feature: la landing <code>contribuir</code></td></tr>
     </tbody>
   </table></div>
 </section>

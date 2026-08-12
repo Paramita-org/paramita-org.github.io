@@ -7,7 +7,13 @@
 <meta name="description" content="Retiros, eventos, giras y celebraciones del calendario tibetano. Todo el año de práctica en Paramita, Monte Sella, Pedreguer.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- TEMA · anti-FOUC (sync) · aplica la penumbra guardada ANTES de pintar -->
+  <script>
+    try { if (localStorage.getItem('paramita-tema') === 'oscuro') document.documentElement.setAttribute('data-tema','oscuro'); } catch(e){}
+  </script>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- TEMA · penumbra/luz · el ÚLTIMO para ganar la cascada (sync) -->
+  <link rel="stylesheet" href="/css/componentes/paramita-tema.css">
 <script>document.documentElement.classList.add('js')</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
@@ -678,8 +684,41 @@
 <body>
 
 <!-- ═══ PARTIAL: partials/navbar-publico.html ═══ -->
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     PARAMITA · FUNDACIÓN SAKYA
+     partials/navbar-publico.html — Navbar público (usuarios sin sesión)
+     ───────────────────────────────────────────────────────────────────────────
+
+     CAMBIO FASE 7 · añadido .btn-acceso
+     ────────────────────────────────────
+     Añadido el círculo .btn-acceso al final del .bar-inner (fuera del .menu)
+     para dar entrada al login. Cuando el usuario se autentica, este mismo
+     círculo se sustituye por el .avatar-menu del navbar-practicante (misma
+     posición, mismo tamaño, misma familia lumínica) — continuidad visual
+     entre ambos navbars.
+
+     REORDENACIÓN DEL DOM
+     ────────────────────
+     El .burger se mueve al final del .bar-inner (antes estaba en 3ª posición).
+     El .btn-acceso queda como penúltimo hijo, justo antes del burger, para:
+       · En desktop: aparecer al final de la fila, después de los CTAs.
+       · En móvil: quedar visible en la barra sin abrir el hamburguesa.
+
+     La reordenación no rompe el sibling selector `.nt:checked ~ .menu`
+     porque el input.nt sigue estando ANTES del .menu en el DOM. El label
+     .burger[for="nt"] funciona por atributo, no por proximidad.
+
+     Depende de estos CSS del sistema (ya cargados):
+       · paramita-bar.css     → contenedor sticky, glass, logo
+       · paramita-menu.css    → menú horizontal, links, submenús, caret
+       · paramita-cta.css     → .btn-secundario, .btn-primario, .btn-acceso
+       · paramita-responsive.css → burger + comportamiento móvil
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
 <header class="bar">
   <div class="bar-inner wrap">
+
+    <!-- Logo · SVG imagotipo + wave fallback -->
     <a class="logo" href="/" aria-label="Paramita · inicio">
       <span class="logo-wave" role="img" aria-label="Paramita"></span>
       <svg class="logo-fallback" viewBox="0 0 612.3 181.4" role="img" aria-label="Paramita" xmlns="http://www.w3.org/2000/svg">
@@ -690,30 +729,101 @@
       </svg>
     </a>
 
+    <!-- Input hidden que controla el toggle del menú móvil.
+         DEBE ir antes del .menu para que `.nt:checked ~ .menu` funcione. -->
     <input class="nt" id="nt" type="checkbox" hidden>
 
+    <!-- Menú principal -->
     <nav class="menu" aria-label="Principal">
       <ul class="links">
-        <li><a class="navlink" href="/meditacion/meditacion.html">Meditación</a></li>
-        <li><a class="navlink" href="/formacion/formacion-publica.html">Cursos</a></li>
-        <li><a class="navlink" href="/actividades/actividades.html" aria-current="page">Actividades</a></li>
-        <li><a class="navlink" href="/blog/blog.html">Blog</a></li>
+
+        <!-- 1 · Meditación -->
+        <li>
+          <a class="navlink" href="/meditacion/meditacion.html">Meditación</a>
+        </li>
+
+        <!-- 2 · Cursos · puerta pública al catálogo formativo (/formacion/, no el LMS) -->
+        <li>
+          <a class="navlink" href="/formacion/formacion-publica.html">Cursos</a>
+        </li>
+
+        <!-- 3 · Actividades · enlace plano (sin desplegable) -->
+        <li>
+          <a class="navlink" href="/actividades/actividades.html" aria-current="page">Actividades</a>
+        </li>
+
+        <!-- 4 · Blog · enlace plano (sin desplegable) -->
+        <li>
+          <a class="navlink" href="/blog/blog.html">Blog</a>
+        </li>
+
+        <!-- 5 · Sobre · institucional, anclado a la derecha con .end -->
         <li class="has-sub end">
-          <a class="navlink" href="/sobre" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></a>
+          <!-- Padre NO navegable · solo abre el submenú (no lleva a página).
+               <button> en vez de <a href>: en móvil el tap abre el desplegable
+               en lugar de navegar; .navlink ya normaliza el estilo del button
+               (background:none, border:none, cursor:pointer). aria-haspopup se
+               mantiene; el aria-expanded queda en false (hover/focus-within CSS
+               puro en escritorio — un toggle JS del aria-expanded para móvil/
+               teclado sería refinamiento de fase posterior, no se necesita aún). -->
+          <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></button>
           <ul class="sub" role="menu" aria-label="Sobre Paramita">
-            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Quiénes somos</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quién guía la práctica</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/monasticos-monasticas/monasticos-monasticas.html"><strong>Monásticos y Monásticas</strong><span>La comunidad ordenada</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quienes transmiten la enseñanza</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/sangha-monastica/sangha-monastica.html"><strong>Comunidad Monástica</strong><span>Monásticos y monásticas</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span></a></li>
             <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
           </ul>
         </li>
+
       </ul>
+
       <span class="div" aria-hidden="true"></span>
+
+      <!-- Par de secundarios · el navbar no lleva acción prioritaria en NINGUNA
+           página: la acción principal vive siempre en el hero/contexto. Así el
+           navbar es idéntico en home y resto (sync sin excepciones) y Contribuir
+           no compite con el primario del hero. Revisa la regla previa de doc
+           06/13 (secundario+primario fuera de la home): queda unificada a par
+           de secundarios en todo el sitio. -->
       <div class="ctas">
         <a class="btn-secundario" href="/unete/unete.html">Únete</a>
         <a class="btn-secundario" href="/contribuir/contribuir.html">Contribuir</a>
       </div>
+
     </nav>
+
+    <!-- ═════════════════════════════════════════════════════════════════
+         ACCESO A CUENTA · .btn-acceso · Fase 7
+         ─────────────────────────────────────────────────────────────────
+         Círculo con silueta de usuario que lleva al login. Cuando el
+         practicante inicia sesión, este mismo círculo se sustituye por
+         el .avatar-menu del navbar-practicante (Fase 8, pendiente) —
+         continuidad visual: la silueta anónima se convierte en el
+         avatar del usuario.
+
+         Ubicado FUERA del .menu para que en móvil quede siempre visible
+         en la barra sin necesidad de abrir el hamburguesa (patrón
+         consolidado en Notion, Linear, Gmail móvil).
+
+         El tooltip "Entrar" viene del CSS (::after). El aria-label es
+         explícito para lectores de pantalla.
+         ═════════════════════════════════════════════════════════════════ -->
+
+    <!-- TEMA · toggle penumbra/luz · hermano del .btn-acceso.
+         Vive en el partial (no solo en la home) para que la penumbra sea una
+         preferencia de lectura GLOBAL, disponible desde cualquier página.
+         Requiere en cada página: el script anti-FOUC en el <head>, el <link>
+         a paramita-tema.css y el listener paramita-tema.js (ver notas de sync). -->
+    <button class="tema-toggle" id="temaToggle" type="button" aria-label="Cambiar entre luz y penumbra" aria-pressed="false" title="Penumbra">
+      <svg class="ico-luz" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+      </svg>
+      <svg class="ico-penumbra" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+      </svg>
+    </button>
 
     <a class="btn-acceso" href="/home-logueado/home-logueado.html" aria-label="Entrar a mi cuenta">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -722,7 +832,10 @@
       </svg>
     </a>
 
+    <!-- Burger · toggle del menú en móvil (CSS puro con :checked).
+         Al final del .bar-inner, funciona por atributo `for="nt"`. -->
     <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
+
   </div>
 </header>
 <!-- ═══ /PARTIAL navbar-publico.html ═══ -->
@@ -1172,6 +1285,10 @@
 
 
 <!-- ═══ PARTIAL: partials/prefooter.html ═══ -->
+<!-- ═══ /PARTIAL prefooter.html ═══ -->
+
+<!-- ═══ PARTIAL: partials/footer.html ═══ -->
+<!-- prefooter · sincronizado con partials/prefooter.html -->
 <section class="foot__hero" aria-labelledby="prefooter-titulo">
   <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
   <div>
@@ -1179,34 +1296,36 @@
     <p class="foot__hint">Pasa el cursor o toca entre las figuras.</p>
   </div>
 </section>
-<!-- ═══ /PARTIAL prefooter.html ═══ -->
 
-<!-- ═══ PARTIAL: partials/footer.html ═══ -->
+<!-- footer · sincronizado con partials/footer.html -->
 <footer class="foot" id="contacto">
   <div class="foot__info">
     <div class="wrap">
       <div class="foot-grid">
 
+        <!-- Columna 1 · marca + tagline + social -->
         <div>
           <span class="logo-wave" role="img" aria-label="Paramita"></span>
           <p class="tagline">Meditación y enseñanzas del Buddha, como puente entre los Himalayas y el mundo hispanohablante.</p>
           <div class="social">
-            <a href="#facebook" aria-label="Facebook"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M13.7 8.3c-1.5-.3-2.6.3-2.6 2V17"/><path d="M9.7 11.7h3.6"/></svg>Facebook</a>
-            <a href="#youtube" aria-label="YouTube"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4.2"/><path d="M10.4 9.4 15 12l-4.6 2.6z"/></svg>YouTube</a>
-            <a href="#instagram" aria-label="Instagram"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="16.8" cy="7.2" r=".7" fill="currentColor" stroke="none"/></svg>Instagram</a>
-            <a href="#spotify" aria-label="Spotify"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.4 9.7c3-.9 6.6-.6 9.1.9"/><path d="M8 12.6c2.4-.7 5.2-.4 7.2.8"/><path d="M8.6 15.4c1.9-.5 4-.3 5.6.6"/></svg>Spotify</a>
+            <a href="https://www.facebook.com/paramitaorg/?locale=es_ES" target="_blank" rel="noopener" aria-label="Facebook"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M13.7 8.3c-1.5-.3-2.6.3-2.6 2V17"/><path d="M9.7 11.7h3.6"/></svg>Facebook</a>
+            <a href="https://www.youtube.com/@Paramitaorg" target="_blank" rel="noopener" aria-label="YouTube"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4.2"/><path d="M10.4 9.4 15 12l-4.6 2.6z"/></svg>YouTube</a>
+            <a href="https://www.instagram.com/paramitaorg/?hl=es" target="_blank" rel="noopener" aria-label="Instagram"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="16.8" cy="7.2" r=".7" fill="currentColor" stroke="none"/></svg>Instagram</a>
+            <a href="https://open.spotify.com/show/0lFfiHcQQCd2geCDefB1bf" target="_blank" rel="noopener" aria-label="Spotify"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.4 9.7c3-.9 6.6-.6 9.1.9"/><path d="M8 12.6c2.4-.7 5.2-.4 7.2.8"/><path d="M8.6 15.4c1.9-.5 4-.3 5.6.6"/></svg>Spotify</a>
           </div>
         </div>
 
+        <!-- Columna 2 · Navegar (refleja la IA del navbar público) -->
         <div>
           <h4>Navegar</h4>
           <a class="fl" href="/meditacion/meditacion.html">Meditación</a>
           <a class="fl" href="/formacion/formacion-publica.html">Cursos</a>
           <a class="fl" href="/actividades/actividades.html">Actividades</a>
           <a class="fl" href="/blog/blog.html">Blog</a>
-          <a class="fl" href="/sobre">Sobre</a>
+          <a class="fl" href="/sobre/la-fundacion/la-fundacion.html">Sobre</a>
         </div>
 
+        <!-- Columna 3 · Contacto -->
         <div>
           <h4>Contacto</h4>
           <address>
@@ -1220,6 +1339,7 @@
 
       </div>
 
+      <!-- Base del pie · copyright y firma -->
       <div class="foot-base">
         <span>© 2026 Fundación Paramita. Todos los seres, libres del sufrimiento.</span>
         <span>Centro Budista Sakya · Alicante</span>
@@ -1236,6 +1356,8 @@
 <script src="/js/primitivos/paramita-gsap-refresh.js" defer></script>
 <script src="/js/componentes/paramita-bar.js" defer></script>
 <script src="/js/componentes/paramita-footer-lotos.js" defer></script>
+<!-- TEMA · listener del toggle · compartido (sync) -->
+<script src="/js/componentes/paramita-tema.js" defer></script>
 
 <script>
 (function () {

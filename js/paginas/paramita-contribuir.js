@@ -75,3 +75,32 @@
 
   pinta();
 })();
+
+/* ── Fachadas de vídeo · carga diferida (no hay iframe hasta el clic) ──────
+   Privacidad: youtube-nocookie. Sólo actúa sobre fachadas con data-yt no vacío,
+   así el vídeo institucional (aún sin ID) se queda como fachada sin romperse. */
+(function () {
+  "use strict";
+  var facades = document.querySelectorAll(".video-facade[data-yt]");
+  facades.forEach(function (f) {
+    var id = (f.getAttribute("data-yt") || "").trim();
+    if (!id) return;
+    function cargar() {
+      var ifr = document.createElement("iframe");
+      ifr.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0";
+      ifr.title = f.getAttribute("aria-label") || "Vídeo";
+      ifr.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share");
+      ifr.setAttribute("allowfullscreen", "");
+      ifr.loading = "lazy";
+      ifr.style.cssText = "position:absolute;inset:0;width:100%;height:100%;border:0";
+      f.innerHTML = "";
+      f.appendChild(ifr);
+      f.removeAttribute("role");
+      f.removeAttribute("tabindex");
+    }
+    f.addEventListener("click", cargar);
+    f.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); cargar(); }
+    });
+  });
+})();

@@ -63,6 +63,30 @@
 /* En el flujo del .menu, empujamos la cuenta a la derecha */
 .menu .cuenta { margin-left: auto; }
 
+/* ─────────────────────────────────────────────────────────────────────────
+   GRUPO DERECHO · Contribuir + toggle penumbra + .cuenta
+   Fase 7 · lo usan home-logueado.html y formacion-logueado.html (ambas cargan
+   este archivo). Antes vivía suelto en paramita-home-logueado.css; movido aquí
+   como componente compartido del navbar logueado (evita duplicar).
+
+   POR QUÉ EL WRAPPER
+     · .cuenta abre su desplegable en :hover / :focus-within de TODO el bloque.
+       Si Contribuir y el toggle fueran hijos de .cuenta, abrirían ese panel al
+       pasar el ratón. Por eso van como HERMANOS dentro de .bar-derecha.
+     · .cuenta trae su propio margin-left:auto; aquí lo anulamos y movemos el
+       margin-left:auto al wrapper, para anclar TODO el grupo junto a la derecha.
+   ───────────────────────────────────────────────────────────────────────── */
+.bar-derecha {
+  margin-left: auto;                 /* ancla el grupo entero a la derecha */
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-elemento, 14px);
+}
+.bar-derecha .cuenta,
+.menu .bar-derecha .cuenta {
+  margin-left: 0;                    /* anula el auto propio de .cuenta dentro del grupo */
+}
+
 .cuenta__btn {
   display: inline-flex;
   align-items: center;

@@ -402,32 +402,3 @@
   .novedad__fecha { grid-column: 2; }
 }
 
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   NAVBAR LOGUEADO · GRUPO DERECHO  (Fase 7 · alineado con navbar-practicante)
-   ─────────────────────────────────────────────────────────────────────────────
-   Contribuir + toggle penumbra + .cuenta, anclados juntos a la derecha del bar.
-
-   POR QUÉ EL WRAPPER
-     · .cuenta abre su desplegable en :hover / :focus-within de TODO el bloque.
-       Si Contribuir y el toggle fueran hijos de .cuenta, abrirían ese panel al
-       pasar el ratón. Por eso van como HERMANOS dentro de .bar-derecha.
-     · .cuenta trae margin-left:auto propio (paramita-formacion-logueado.css).
-       Aquí lo anulamos y movemos el margin-left:auto al wrapper, para anclar
-       TODO el grupo a la derecha y que quede junto.
-
-   Sin @layer, como el resto de reglas de esta página (ver cabecera, ~L50).
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.bar-derecha {
-  margin-left: auto;                 /* ancla el grupo entero a la derecha */
-  display: flex;
-  align-items: center;
-  gap: var(--espacio-elemento, 14px);
-}
-
-/* Anula el margin-left:auto propio de .cuenta cuando vive dentro del grupo */
-.bar-derecha .cuenta,
-.menu .bar-derecha .cuenta {
-  margin-left: 0;
-}
