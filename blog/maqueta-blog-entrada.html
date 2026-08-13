@@ -263,7 +263,7 @@
       <a href="#suscribe" class="t-link"><span>Si estas historias te resuenan, escribimos cada semana</span><span class="arw" aria-hidden="true">→</span></a>
     </div>
 
-    <svg class="trazo" viewBox="0 0 150 30" aria-hidden="true"><path class="glow-a" d="M6 15 Q40 8 75 15 T146 15"/><path class="glow-b" d="M6 13 Q40 6 75 13 T146 13"/><path class="core" d="M6 11 Q40 4 75 11 T146 11"/></svg>
+    <svg class="trazo" viewBox="0 0 150 30" aria-hidden="true"><path class="glow-a" d="M8 18 Q42 9 75 18 T142 18"/><path class="glow-b" d="M8 18 Q42 9 75 18 T142 18"/><path class="core" d="M8 18 Q42 9 75 18 T142 18"/></svg>
 
     <h2 id="s3"><span class="n">03</span>El encuentro con Padmasambhava y la primera gran prueba</h2>
     <p>Una noche, Mandarava tuvo un sueño extraordinario. De unos rayos de cinco colores surgía una flor dorada y, sobre ella, la emanación de un buddha le decía: «Mañana, ve a la cima de la colina. Allí te daré las instrucciones que conducen a la liberación en una sola vida». Al día siguiente apareció ante ella Gurú Padmasambhava, irradiando una luz de todos los colores del arcoíris.</p>
@@ -276,7 +276,7 @@
 
     <p>Tras escuchar estas palabras, todos los velos que oscurecían la mente de Mandarava se purificaron y algo en ella se abrió de forma irreversible.</p>
 
-    <svg class="trazo" viewBox="0 0 150 30" aria-hidden="true"><path class="glow-a" d="M6 15 Q40 8 75 15 T146 15"/><path class="glow-b" d="M6 13 Q40 6 75 13 T146 13"/><path class="core" d="M6 11 Q40 4 75 11 T146 11"/></svg>
+    <svg class="trazo" viewBox="0 0 150 30" aria-hidden="true"><path class="glow-a" d="M8 18 Q42 9 75 18 T142 18"/><path class="glow-b" d="M8 18 Q42 9 75 18 T142 18"/><path class="core" d="M8 18 Q42 9 75 18 T142 18"/></svg>
 
     <h2 id="s5"><span class="n">05</span>Un legado que trasciende el tiempo</h2>
     <p>La vida de Mandarava tiene trece siglos de antigüedad. Con todo, algo en ella se siente cercano, inmediato, casi familiar. Quizás porque las preguntas que ella se hizo —¿qué es lo que realmente importa?, ¿a qué estoy dispuesta a renunciar por seguir ese camino verdadero?— son preguntas que siguen resonando en el interior de cualquier persona que mira hacia dentro.</p>
@@ -444,17 +444,38 @@ if('IntersectionObserver' in window){
   },{rootMargin:'-20% 0px -70% 0px'});
   secciones.forEach(function(s){ioToc.observe(s);});
 
-  // trazos-divisores · mide la longitud real del path y dibuja las 4 capas
+  // trazos · dibujado ATADO AL SCROLL y BIDIRECCIONAL (se rehace al subir/bajar),
+  // mismo gesto que paramita-trazo-divisor.js del sistema. Mide el core y aplica
+  // el mismo strokeDashoffset a las tres capas (halo + corona + nucleo).
   var trazos=[...document.querySelectorAll('.trazo')];
   trazos.forEach(function(t){
     var core=t.querySelector('.core');
-    if(core&&core.getTotalLength){var L=Math.ceil(core.getTotalLength());t.style.setProperty('--len',L);}
+    var L=(core&&core.getTotalLength)?core.getTotalLength():160;
+    t.dataset.len=L;
+    t.querySelectorAll('path').forEach(function(p){
+      p.style.strokeDasharray=L;
+      p.style.strokeDashoffset=reduce?0:L;   // arranca sin dibujar
+    });
   });
   if(!reduce){
-    var ioTr=new IntersectionObserver(function(es){es.forEach(function(e){
-      if(e.isIntersecting){e.target.classList.add('dibujado');ioTr.unobserve(e.target);}});},{threshold:.6});
+    var activosTr=new Set(), tickTr=false;
+    function pintarTr(){
+      tickTr=false; var vh=innerHeight;
+      activosTr.forEach(function(t){
+        var r=t.getBoundingClientRect();
+        var prog=Math.max(0,Math.min(1,(vh-r.top)/(vh*0.85)));  // 0->1 al ascender
+        var off=parseFloat(t.dataset.len)*(1-prog);
+        t.querySelectorAll('path').forEach(function(p){p.style.strokeDashoffset=off;});
+      });
+    }
+    function onScrollTr(){ if(!tickTr){tickTr=true;requestAnimationFrame(pintarTr);} }
+    var ioTr=new IntersectionObserver(function(es){
+      es.forEach(function(e){ e.isIntersecting?activosTr.add(e.target):activosTr.delete(e.target); });
+      if(activosTr.size){addEventListener('scroll',onScrollTr,{passive:true});pintarTr();}
+      else{removeEventListener('scroll',onScrollTr);}
+    },{threshold:0,rootMargin:'12% 0px 12% 0px'});
     trazos.forEach(function(t){ioTr.observe(t);});
-  }else{trazos.forEach(function(t){t.classList.add('dibujado');});}
+  }
 
   // cascada de tarjetas (emula paramita-blog-cascada.js · stagger 110ms)
   var cards=[...document.querySelectorAll('.efx-card')];

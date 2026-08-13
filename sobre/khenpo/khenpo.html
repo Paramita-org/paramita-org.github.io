@@ -59,10 +59,52 @@
 <link rel="stylesheet" href="../../css/componentes/paramita-tema.css">
 </head>
 <body>
+<!-- sync: navbar=publico current="Khenpo Rinchen Gyaltsen" -->
 
 <!-- navbar · partials/navbar-publico.html (incrustado; equivale a correr sync) -->
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     PARAMITA · FUNDACIÓN SAKYA
+     partials/navbar-publico.html — Navbar público (usuarios sin sesión)
+     ───────────────────────────────────────────────────────────────────────────
+
+     CAMBIO FASE 7 · añadido .btn-acceso
+     ────────────────────────────────────
+     Añadido el círculo .btn-acceso al final del .bar-inner (fuera del .menu)
+     para dar entrada al login. Cuando el usuario se autentica, este mismo
+     círculo se sustituye por el .avatar-menu del navbar-practicante (misma
+     posición, mismo tamaño, misma familia lumínica) — continuidad visual
+     entre ambos navbars.
+
+     CAMBIO FASE 7+ · «Únete» pasa de CTA a apartado del menú
+     ────────────────────────────────────────────────────────
+     «Únete» ya no es un .btn-secundario del .ctas: ahora es el sexto apartado
+     del menú, con submenú (Grupos + Voluntariado), como «Sobre». El .ctas queda
+     con un único secundario (Contribuir); el acceso a cuenta lo sigue dando el
+     .btn-acceso. Fundamento: doc 06 (actualizado) y estudio «Únete». Páginas
+     destino: /unete/grupos/ y /unete/voluntariado/.
+
+     REORDENACIÓN DEL DOM
+     ────────────────────
+     El .burger se mueve al final del .bar-inner (antes estaba en 3ª posición).
+     El .btn-acceso queda como penúltimo hijo, justo antes del burger, para:
+       · En desktop: aparecer al final de la fila, después de los CTAs.
+       · En móvil: quedar visible en la barra sin abrir el hamburguesa.
+
+     La reordenación no rompe el sibling selector `.nt:checked ~ .menu`
+     porque el input.nt sigue estando ANTES del .menu en el DOM. El label
+     .burger[for="nt"] funciona por atributo, no por proximidad.
+
+     Depende de estos CSS del sistema (ya cargados):
+       · paramita-bar.css     → contenedor sticky, glass, logo
+       · paramita-menu.css    → menú horizontal, links, submenús, caret
+       · paramita-cta.css     → .btn-secundario, .btn-primario, .btn-acceso
+       · paramita-responsive.css → burger + comportamiento móvil
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
 <header class="bar">
   <div class="bar-inner wrap">
+
+    <!-- Logo · SVG imagotipo + wave fallback -->
     <a class="logo" href="/" aria-label="Paramita · inicio">
       <span class="logo-wave" role="img" aria-label="Paramita"></span>
       <svg class="logo-fallback" viewBox="0 0 612.3 181.4" role="img" aria-label="Paramita" xmlns="http://www.w3.org/2000/svg">
@@ -72,14 +114,44 @@
         <g fill="#0d539f"><path d="M109.8,124s-8.4-29.3-49.1-17.5c0,0,5.7.7,9.9,6,4.2,5.3,7.4,11.2,18,10.2,10.5-1,17.4-1.3,21.2,1.3Z"/><path d="M114.4,124s8.4-29.3,49.1-17.5c0,0-5.7.7-9.9,6s-7.4,11.2-18,10.2c-10.5-1-17.4-1.3-21.2,1.3Z"/></g>
       </svg>
     </a>
+
+    <!-- Input hidden que controla el toggle del menú móvil.
+         DEBE ir antes del .menu para que `.nt:checked ~ .menu` funcione. -->
     <input class="nt" id="nt" type="checkbox" hidden>
+
+    <!-- Menú principal -->
     <nav class="menu" aria-label="Principal">
       <ul class="links">
-        <li><a class="navlink" href="/meditacion/meditacion.html">Meditación</a></li>
-        <li><a class="navlink" href="/formacion/formacion-publica.html">Cursos</a></li>
-        <li><a class="navlink" href="/actividades/actividades.html">Actividades</a></li>
-        <li><a class="navlink" href="/blog/blog.html">Blog</a></li>
+
+        <!-- 1 · Meditación -->
+        <li>
+          <a class="navlink" href="/meditacion/meditacion.html">Meditación</a>
+        </li>
+
+        <!-- 2 · Cursos · puerta pública al catálogo formativo (/formacion/, no el LMS) -->
+        <li>
+          <a class="navlink" href="/formacion/formacion-publica.html">Cursos</a>
+        </li>
+
+        <!-- 3 · Actividades · enlace plano (sin desplegable) -->
+        <li>
+          <a class="navlink" href="/actividades/actividades.html">Actividades</a>
+        </li>
+
+        <!-- 4 · Blog · enlace plano (sin desplegable) -->
+        <li>
+          <a class="navlink" href="/blog/blog.html">Blog</a>
+        </li>
+
+        <!-- 5 · Sobre · institucional, anclado a la derecha con .end -->
         <li class="has-sub end">
+          <!-- Padre NO navegable · solo abre el submenú (no lleva a página).
+               <button> en vez de <a href>: en móvil el tap abre el desplegable
+               en lugar de navegar; .navlink ya normaliza el estilo del button
+               (background:none, border:none, cursor:pointer). aria-haspopup se
+               mantiene; el aria-expanded queda en false (hover/focus-within CSS
+               puro en escritorio — un toggle JS del aria-expanded para móvil/
+               teclado sería refinamiento de fase posterior, no se necesita aún). -->
           <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></button>
           <ul class="sub" role="menu" aria-label="Sobre Paramita">
             <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quienes transmiten la enseñanza</span></a></li>
@@ -89,21 +161,81 @@
             <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
           </ul>
         </li>
+
+        <!-- 6 · Únete · comunidad laica · Fase 7+
+             Sexto apartado, con submenú (Grupos + Voluntariado). Padre NO
+             navegable (mismo patrón que «Sobre»): <button> que solo abre el
+             desplegable; en móvil el tap abre el submenú en vez de navegar.
+             .end ancla el desplegable al borde derecho (es el último apartado,
+             como antes lo era «Sobre»). Destinos: los dos spokes de /unete/. -->
+        <li class="has-sub end">
+          <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Únete <i class="caret" aria-hidden="true"></i></button>
+          <ul class="sub" role="menu" aria-label="Únete a Paramita">
+            <li role="none"><a role="menuitem" href="/unete/grupos/grupos.html"><strong>Grupos</strong><span>Círculos de estudio cerca de ti</span></a></li>
+            <li role="none"><a role="menuitem" href="/unete/voluntariado/voluntariado.html"><strong>Voluntariado</strong><span>Ofrece tu tiempo en el centro</span></a></li>
+          </ul>
+        </li>
+
       </ul>
+
       <span class="div" aria-hidden="true"></span>
+
+      <!-- CTA · un solo secundario · Fase 7+
+           «Únete» salió de aquí y pasó a apartado del menú con submenú
+           (ver el <li class="has-sub end"> de arriba y el doc 06). El navbar
+           sigue SIN acción prioritaria en ninguna página (la acción vive en el
+           hero/contexto): queda Contribuir como único secundario, y el acceso a
+           cuenta lo da el .btn-acceso de la derecha. Así el navbar es idéntico
+           en home y resto (sync sin excepciones). -->
       <div class="ctas">
-        <a class="btn-secundario" href="/unete/unete.html">Únete</a>
         <a class="btn-secundario" href="/contribuir/contribuir.html">Contribuir</a>
       </div>
+
     </nav>
+
+    <!-- ═════════════════════════════════════════════════════════════════
+         ACCESO A CUENTA · .btn-acceso · Fase 7
+         ─────────────────────────────────────────────────────────────────
+         Círculo con silueta de usuario que lleva al login. Cuando el
+         practicante inicia sesión, este mismo círculo se sustituye por
+         el .avatar-menu del navbar-practicante (Fase 8, pendiente) —
+         continuidad visual: la silueta anónima se convierte en el
+         avatar del usuario.
+
+         Ubicado FUERA del .menu para que en móvil quede siempre visible
+         en la barra sin necesidad de abrir el hamburguesa (patrón
+         consolidado en Notion, Linear, Gmail móvil).
+
+         El tooltip "Entrar" viene del CSS (::after). El aria-label es
+         explícito para lectores de pantalla.
+         ═════════════════════════════════════════════════════════════════ -->
+
+    <!-- TEMA · toggle penumbra/luz · hermano del .btn-acceso.
+         Vive en el partial (no solo en la home) para que la penumbra sea una
+         preferencia de lectura GLOBAL, disponible desde cualquier página.
+         Requiere en cada página: el script anti-FOUC en el <head>, el <link>
+         a paramita-tema.css y el listener paramita-tema.js (ver notas de sync). -->
     <button class="tema-toggle" id="temaToggle" type="button" aria-label="Cambiar entre luz y penumbra" aria-pressed="false" title="Penumbra">
-      <svg class="ico-luz" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-      <svg class="ico-penumbra" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="ico-luz" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+      </svg>
+      <svg class="ico-penumbra" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+      </svg>
     </button>
+
     <a class="btn-acceso" href="/home-logueado/home-logueado.html" aria-label="Entrar a mi cuenta">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+      </svg>
     </a>
+
+    <!-- Burger · toggle del menú en móvil (CSS puro con :checked).
+         Al final del .bar-inner, funciona por atributo `for="nt"`. -->
     <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
+
   </div>
 </header>
 
@@ -196,7 +328,7 @@
       <p class="eyebrow" data-reveal>La mirada</p>
       <h2 data-reveal="2">Antes que maestro, <em>fotógrafo</em></h2>
       <p class="lede-linaje" data-reveal>Durante años ha retratado la vida de los monasterios, los rituales y los caminos de peregrinación. Su archivo es su forma de habitar lo sagrado.</p>
-      <span class="mirada__hint" data-reveal>arrastra <span aria-hidden="true">→</span></span>
+      <span class="mirada__hint" data-reveal aria-hidden="true"><span>→</span></span>
     </div>
     <div class="galeria" id="galeria" aria-label="Archivo fotográfico de Khenpo Rinchen">
       <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"></span><span>archivo · monasterios</span></div></div>

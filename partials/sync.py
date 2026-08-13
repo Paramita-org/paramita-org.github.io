@@ -15,48 +15,66 @@ Uso:
     python3 sync.py <landing.html> --practicante          # navbar logueado
     python3 sync.py <landing.html> --skip-navbar          # no tocar el navbar
 
+    ── NUEVO · TODO EL SITIO DE UNA VEZ ────────────────────────────────────
+    python3 sync.py --all            # recorre el repo y sincroniza CADA página
+    python3 sync.py --all --only-pictos   # solo refresca pictogramas en todo
+
     Ejemplos típicos:
       # Página pública normal (navbar público + footer + tema):
       python3 sync.py formacion/formacion-publica.html --tema --aria-current="Cursos"
 
       # Página de /sobre/ · el aria-current marca un ítem del submenú "Sobre"
-      # (2 niveles · el prefijo ../../ del tema se detecta solo):
       python3 sync.py sobre/maestros/maestros.html --tema --aria-current="Maestros"
 
-      # Ficha de curso (2 niveles de profundidad · el prefijo ../ lo detecta solo):
+      # Ficha de curso (2 niveles · el prefijo ../ lo detecta solo):
       python3 sync.py formacion/emi-1-calma-y-lucidez/emi-1-calma-y-lucidez.html --tema
 
-      # Página logueada · su navbar es bespoke (.cuenta), NO se sincroniza aún:
-      python3 sync.py home-logueado/home-logueado.html --tema --skip-navbar
+── AUTODECLARACIÓN POR PÁGINA (marcador `sync:`) ─────────────────────────
+Para que `--all` sepa qué hacer con cada página SIN que tengas que teclear
+flags por archivo, cada página lleva UNA línea de comentario (donde quieras,
+normalmente tras <body> o en el <head>):
 
-── FLAGS ───────────────────────────────────────────────────────────────
-  --aria-current="Texto"   Marca ese navlink como página actual.
-  --with-prefooter         Inserta también el prefooter (foot__hero).
-  --only-pictos            Solo refresca pictogramas (modo rápido).
-  --practicante            Usa navbar-practicante.html en vez del público.
-                           ⚠️ Ver AVISO abajo — no usar aún en las páginas
-                           logueadas actuales.
-  --skip-navbar            No toca el navbar (para páginas cuyo navbar es
-                           bespoke, p. ej. las logueadas sobre .cuenta).
-  --tema                   Inyecta/actualiza las 3 piezas del tema:
-                             1. script anti-FOUC en el <head>
-                             2. <link> a paramita-tema.css (el último del head)
-                             3. <script> a paramita-tema.js (antes de </body>)
-                           Idempotente: si ya están, refresca su ruta según la
-                           profundidad de la página; no las duplica.
+    <!-- sync: navbar=publico current="Cursos" -->
+    <!-- sync: navbar=practicante current="Mi formación" -->
+    <!-- sync: navbar=skip -->                 (navbar bespoke: no se toca)
+    <!-- sync: navbar=publico current="La Fundación" prefooter -->
+    <!-- sync: no-tema -->                     (no inyectar el tema en esta página)
+    <!-- sync: ignore -->                      (no sincronizar esta página nunca)
 
-── AVISO · --practicante y el navbar logueado ───────────────────────────
-El partial navbar-practicante.html usa el componente .avatar-menu, que TODAVÍA
-no tiene CSS (Fase 8). Las páginas logueadas actuales (home-logueado,
-formacion-logueado) usan el componente .cuenta, que SÍ está estilado. Si
-sincronizas --practicante sobre ellas, cambiarías un navbar funcional por uno
-sin estilos. Hasta unificar .cuenta y .avatar-menu (Fase 8), sincroniza las
-logueadas con --skip-navbar (footer + tema) y deja su navbar como está.
+Campos (todos opcionales):
+  navbar=publico|practicante|skip   (por defecto: publico)
+  current="Texto del enlace"        (marca aria-current="page")
+  prefooter                         (inserta también el prefooter)
+  no-tema                           (omite el tema en esta página)
+  ignore                            (excluye la página del sync)
+
+Precedencia: un flag de línea de comandos SIEMPRE gana sobre el marcador;
+el marcador gana sobre el valor por defecto. Así, en modo de un archivo
+puedes seguir usando flags, y en `--all` mandan los marcadores.
+
+── QUÉ SINCRONIZA `--all` ────────────────────────────────────────────────
+Recorre el repositorio desde el directorio actual y procesa toda página que:
+  · contenga un navbar del sistema (<header class="…bar…">), y
+  · no esté en una carpeta excluida (partials, css, js, assets, .git, …), y
+  · no empiece por informe-/maqueta-/plantilla-, ni lleve `sync: ignore`.
+Los informes y maquetas quedan fuera por diseño (no son páginas del sitio).
+Cada página se sincroniza según SU marcador; sin marcador → navbar público,
+sin aria-current, con tema. Un fallo en una página no aborta el lote.
+
+── AVISO · --practicante y el navbar logueado (ACTUALIZADO) ──────────────
+`navbar-practicante.html` está reescrito sobre el componente **.cuenta**
+(círculo con inicial + desplegable), que SÍ tiene CSS
+(`paramita-formacion-logueado.css`). El antiguo borrador con `.avatar-menu`
+(sin CSS) queda DESCARTADO. Por tanto `--practicante` ya es válido para las
+páginas logueadas: márcalas con `<!-- sync: navbar=practicante current="…" -->`.
+Si alguna página logueada tuviera todavía un navbar a medida que no quieras
+tocar, márcala `navbar=skip`.
 
 ── PROFUNDIDAD (rutas del tema) ─────────────────────────────────────────
-El prefijo relativo (../, ../../, …) NO se adivina por la ruta del archivo:
-se DETECTA leyendo un <link>/<script> que la página ya tiene hacia css/ o js/.
-Así el tema se inyecta con la ruta correcta a cualquier profundidad.
+El navbar y el footer usan rutas ABSOLUTAS (/meditacion/…), así que son
+independientes de la profundidad de la página. Solo el TEMA necesita prefijo
+relativo (../, ../../): se DETECTA leyendo un <link>/<script> hacia css/ o js/
+que la página ya tiene. Por eso `--all` funciona a cualquier profundidad.
 
 ── PICTOGRAMAS ────────────────────────────────────────────────────────
 En las páginas marcas cada pictograma con un span vacío (o con el SVG viejo):
@@ -75,6 +93,14 @@ from pathlib import Path
 PARTIALS_DIR = Path(__file__).resolve().parent
 # Los pictogramas, en una subcarpeta
 PICTOS_DIR = PARTIALS_DIR / "pictogramas"
+
+# --all · carpetas que nunca contienen páginas del sitio
+EXCLUDE_DIRS = {".git", ".github", "node_modules", "partials", "css", "js",
+                "assets", "img", "imagenes", "fonts", "fuentes", "vendor"}
+# --all · prefijos de archivos que son documentos, no páginas
+EXCLUDE_PREFIXES = ("informe-", "maqueta-", "plantilla-")
+# detector de navbar del sistema
+_BAR_RE = re.compile(r'<header\s+[^>]*class="[^"]*\bbar\b', re.IGNORECASE)
 
 
 def read_partial(name):
@@ -113,19 +139,50 @@ def replace_block(html, open_regex, close_tag, replacement, label):
     return html[:start] + replacement + html[end:]
 
 
+# ── MARCADOR DE PÁGINA · <!-- sync: … --> ────────────────────────────────
+
+def parse_marker(html):
+    """Lee el comentario `<!-- sync: … -->` y devuelve un dict de config.
+    Todos los campos son opcionales; None significa «no declarado»."""
+    cfg = {"navbar": None, "current": None, "prefooter": False,
+           "no_tema": False, "ignore": False}
+    m = re.search(r"<!--\s*sync:\s*(.*?)-->", html, re.IGNORECASE | re.DOTALL)
+    if not m:
+        return cfg
+    body = m.group(1)
+    if re.search(r"\bignore\b", body, re.IGNORECASE):
+        cfg["ignore"] = True
+    nm = re.search(r"\bnavbar\s*=\s*(publico|p[úu]blico|practicante|skip)\b", body, re.IGNORECASE)
+    if nm:
+        v = nm.group(1).lower()
+        cfg["navbar"] = "publico" if v.startswith("p") and "sk" not in v and "ract" not in v else v
+        # normaliza acentos/variantes
+        if v.startswith("prac"):
+            cfg["navbar"] = "practicante"
+        elif v == "skip":
+            cfg["navbar"] = "skip"
+        else:
+            cfg["navbar"] = "publico"
+    cm = re.search(r'\bcurrent\s*=\s*"([^"]*)"', body, re.IGNORECASE)
+    if cm:
+        cfg["current"] = cm.group(1)
+    if re.search(r"\bprefooter\b", body, re.IGNORECASE):
+        cfg["prefooter"] = True
+    if re.search(r"\bno-tema\b", body, re.IGNORECASE):
+        cfg["no_tema"] = True
+    return cfg
+
+
 def apply_aria_current(html, link_text):
     """Marca como página actual el enlace cuyo texto es link_text.
 
     Reconoce DOS formas:
       · Navlink de primer nivel:  <a class="navlink" href="...">Cursos</a>
-      · Ítem de submenú "Sobre":  <a role="menuitem" href="..."><strong>Maestros</strong>…
+      · Ítem de submenú:          <a role="menuitem" href="..."><strong>Maestros</strong>…
 
-    El texto puede ir envuelto en <strong> (los submenús lo hacen). Inserta
-    aria-current="page" en el <a> correspondiente; idempotente (no lo duplica
-    si el <a> ya lo tiene)."""
+    Idempotente: no lo duplica si el <a> ya lo tiene."""
     if not link_text:
         return html
-    # ¿ya está marcado ese enlace? → no-op idempotente (no lo duplica ni falla).
     already = re.compile(
         r'<a\b[^>]*\baria-current="page"[^>]*>\s*(?:<strong>\s*)?'
         + re.escape(link_text)
@@ -134,9 +191,6 @@ def apply_aria_current(html, link_text):
     )
     if already.search(html):
         return html
-    # Grupo 1 · el <a ...> completo (cualquier anchor, sin aria-current previo).
-    # Grupo 2 · espacios y un <strong> opcional antes del texto.
-    # El texto debe ser palabra completa (lookahead a espacio o '<').
     pattern = re.compile(
         r'(<a\b(?![^>]*\baria-current=)[^>]*\bhref="[^"]*"[^>]*>)'
         r'(\s*(?:<strong>\s*)?)'
@@ -155,14 +209,9 @@ def apply_aria_current(html, link_text):
 
 
 # ── TEMA · penumbra/luz ─────────────────────────────────────────────────
-# Tres piezas que toda página necesita para que el toggle sea global.
-# La inyección es IDEMPOTENTE: si una pieza ya existe, se reemplaza (para
-# refrescar la ruta si la página cambió de profundidad); si no, se inserta.
 
 def detect_prefix(html):
-    """Devuelve el prefijo relativo hacia la raíz ('', '../', '../../', …)
-    leyendo un href/src existente hacia css/ o js/. Es lo que la página YA usa,
-    así que el tema queda con la misma profundidad que el resto de sus assets."""
+    """Prefijo relativo hacia la raíz ('', '../', …) leyendo un href/src a css/ o js/."""
     m = re.search(r'(?:href|src)="((?:\.\./)*)(?:css|js)/', html, re.IGNORECASE)
     return m.group(1) if m else ""
 
@@ -172,11 +221,7 @@ def sync_tema(html):
     prefix = detect_prefix(html)
     hechos = []
 
-    # 1 · Anti-FOUC · script inline en el <head> (sin ruta → igual en todas).
-    #     Se detecta por la llamada a localStorage.getItem('paramita-tema').
-    fouc_presente = re.search(
-        r"getItem\(\s*['\"]paramita-tema['\"]\s*\)", html
-    )
+    fouc_presente = re.search(r"getItem\(\s*['\"]paramita-tema['\"]\s*\)", html)
     if not fouc_presente:
         fouc = (
             "  <!-- TEMA · anti-FOUC (sync) · aplica la penumbra guardada ANTES de pintar -->\n"
@@ -194,14 +239,10 @@ def sync_tema(html):
     else:
         hechos.append("anti-FOUC ya presente")
 
-    # 2 · <link> a paramita-tema.css · debe ir EL ÚLTIMO del head (gana cascada).
     css_line = (
         f'  <!-- TEMA · penumbra/luz · el ÚLTIMO para ganar la cascada (sync) -->\n'
         f'  <link rel="stylesheet" href="{prefix}css/componentes/paramita-tema.css">'
     )
-    # OJO · comprobar el <link> REAL, no una mención en comentarios: el
-    # navbar-publico.html trae un comentario que nombra "paramita-tema.css",
-    # y un `in html` a secas daba falso positivo (no insertaba el <link>).
     if re.search(r'<link\b[^>]*paramita-tema\.css[^>]*>', html, re.IGNORECASE):
         html = re.sub(
             r'(?:[ \t]*<!-- TEMA[^\n]*\n)?[ \t]*<link\b[^>]*paramita-tema\.css[^>]*>',
@@ -211,7 +252,6 @@ def sync_tema(html):
         )
         hechos.append(f"tema.css actualizado ({prefix or './'})")
     else:
-        # Insertar tras el ÚLTIMO <link rel="stylesheet"> del documento.
         enlaces = list(re.finditer(r'<link\s+rel="stylesheet"[^>]*>', html, re.IGNORECASE))
         if not enlaces:
             raise ValueError("no hay <link rel=stylesheet> donde anclar el tema.css")
@@ -219,7 +259,6 @@ def sync_tema(html):
         html = html[: last.end()] + "\n" + css_line + html[last.end():]
         hechos.append(f"tema.css insertado ({prefix or './'})")
 
-    # 3 · <script> a paramita-tema.js · antes de </body>.
     js_line = (
         f'<!-- TEMA · listener del toggle · compartido (sync) -->\n'
         f'<script src="{prefix}js/componentes/paramita-tema.js" defer></script>'
@@ -252,20 +291,17 @@ _pico_cache = {}
 
 
 def read_pictogram(name):
-    """Lee partials/pictogramas/<name>.svg una sola vez (cacheado)."""
     if name not in _pico_cache:
         ruta = PICTOS_DIR.joinpath(f"{name}.svg")
         if not ruta.exists():
             disponibles = ", ".join(sorted(p.stem for p in PICTOS_DIR.glob("*.svg"))) or "ninguno"
             raise ValueError(
-                f'No existe el pictograma "{name}" en {PICTOS_DIR}. '
-                f"Disponibles: {disponibles}"
+                f'No existe el pictograma "{name}" en {PICTOS_DIR}. Disponibles: {disponibles}'
             )
         _pico_cache[name] = ruta.read_text(encoding="utf-8").strip()
     return _pico_cache[name]
 
 
-# <span ... data-pico="nombre" ...> ...lo que sea... </span>
 _PICO_TAG = re.compile(
     r'(<span\b[^>]*\bdata-pico="([a-z0-9-]+)"[^>]*>)(.*?)(</span>)',
     re.IGNORECASE | re.DOTALL,
@@ -273,14 +309,12 @@ _PICO_TAG = re.compile(
 
 
 def sync_pictograms(html):
-    """Rellena el interior de cada <span data-pico="X"> con el SVG canónico.
-    Devuelve (html_nuevo, nº_de_pictogramas_sincronizados)."""
     count = 0
 
     def repl(m):
         nonlocal count
         open_tag, name, _inner, close_tag = m.groups()
-        svg = read_pictogram(name)  # lanza ValueError con nombre útil si no existe
+        svg = read_pictogram(name)
         count += 1
         return open_tag + svg + close_tag
 
@@ -289,28 +323,40 @@ def sync_pictograms(html):
 
 # ── PROCESO POR ARCHIVO ─────────────────────────────────────────────────
 
-def process_file(target, aria_current, with_prefooter, only_pictos,
-                 practicante, skip_navbar, tema):
+def process_file(target, *, cli_aria=None, cli_prefooter=None, only_pictos=False,
+                 cli_navbar=None, tema=None, footer_optional=False, quiet=False):
+    """Sincroniza una página. Los valores `cli_*` (de la línea de comandos)
+    ganan sobre el marcador de la página; el marcador gana sobre el defecto."""
     html = target.read_text(encoding="utf-8")
 
-    # Modo rápido: solo pictogramas (para refrescar iconos en muchas páginas)
     if only_pictos:
         html, n = sync_pictograms(html)
         target.write_text(html, encoding="utf-8")
         print(f"[ok] {target} · pictogramas: {n}")
         return
 
-    # 1 · Navbar (salvo --skip-navbar)
+    marker = parse_marker(html)
+
+    # Resolución de config · CLI > marcador > defecto
+    navbar = cli_navbar or marker["navbar"] or "publico"   # publico|practicante|skip
+    aria_current = cli_aria if cli_aria is not None else marker["current"]
+    with_prefooter = cli_prefooter if cli_prefooter is not None else marker["prefooter"]
+    do_tema = tema if tema is not None else (not marker["no_tema"])
+
+    skip_navbar = (navbar == "skip")
+    practicante = (navbar == "practicante")
+
+    # 1 · Navbar
     if not skip_navbar:
         navbar_partial = "navbar-practicante.html" if practicante else "navbar-publico.html"
-        navbar = read_partial(navbar_partial)
+        nav = read_partial(navbar_partial)
         if aria_current:
-            navbar = apply_aria_current(navbar, aria_current)
+            nav = apply_aria_current(nav, aria_current)
         html = replace_block(
             html,
             r'<header\s+class="[^"]*\bbar\b[^"]*"[^>]*>',
             "</header>",
-            navbar.rstrip(),
+            nav.rstrip(),
             "navbar",
         )
 
@@ -331,46 +377,121 @@ def process_file(target, aria_current, with_prefooter, only_pictos,
     else:
         replacement = footer
 
-    html = replace_block(
-        html,
-        r'<footer\s+class="[^"]*\bfoot\b[^"]*"[^>]*>',
-        "</footer>",
-        replacement,
-        "footer",
+    fstart, fend = find_block(
+        html, r'<footer\s+class="[^"]*\bfoot\b[^"]*"[^>]*>', "</footer>"
     )
+    footer_nota = None
+    if fstart is None:
+        if footer_optional:
+            footer_nota = "footer no encontrado — omitido"
+        else:
+            raise ValueError("No se encontró el bloque footer")
+    else:
+        html = html[:fstart] + replacement + html[fend:]
 
     # 3 · Tema (opcional)
     tema_resumen = []
-    if tema:
+    if do_tema:
         html, tema_resumen = sync_tema(html)
 
     # 4 · Pictogramas
     html, n_pictos = sync_pictograms(html)
 
     target.write_text(html, encoding="utf-8")
+
+    if quiet:
+        marca = f" · {aria_current}" if aria_current else ""
+        print(f"[ok] {target} · navbar:{'skip' if skip_navbar else navbar}{marca} · pictos:{n_pictos}"
+              + (f" · {footer_nota}" if footer_nota else ""))
+        return
+
     print(f"[ok] Sincronizado: {target}")
-    print(f"     navbar: {'omitido (--skip-navbar)' if skip_navbar else ('practicante' if practicante else 'público')}")
+    print(f"     navbar: {'omitido (skip)' if skip_navbar else navbar}")
     if aria_current and not skip_navbar:
         print(f"     aria-current='page' aplicado a: {aria_current}")
     print(f"     prefooter: {'sí' if with_prefooter else 'no'}")
-    if tema:
+    if footer_nota:
+        print(f"     {footer_nota}")
+    if do_tema:
         for h in tema_resumen:
             print(f"     tema · {h}")
     print(f"     pictogramas: {n_pictos}")
 
+
+# ── DESCUBRIMIENTO DE PÁGINAS (--all) ────────────────────────────────────
+
+def discover_pages(root):
+    """Devuelve las páginas del sitio bajo `root`, excluyendo partials,
+    carpetas de assets, informes y maquetas, y las marcadas `sync: ignore`."""
+    pages = []
+    for p in sorted(root.rglob("*.html")):
+        rel = p.relative_to(root)
+        if set(rel.parts) & EXCLUDE_DIRS:
+            continue
+        if p.resolve() == PARTIALS_DIR or PARTIALS_DIR in p.resolve().parents:
+            continue
+        if p.name.startswith(EXCLUDE_PREFIXES):
+            continue
+        try:
+            html = p.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        if re.search(r"<!--\s*sync:\s*[^>]*\bignore\b", html, re.IGNORECASE):
+            continue
+        if not _BAR_RE.search(html):
+            continue  # no es una página del sitio (informe suelto, etc.)
+        pages.append(p)
+    return pages
+
+
+def run_all(only_pictos, tema_cli):
+    root = Path.cwd()
+    pages = discover_pages(root)
+    if not pages:
+        print(f"[!] --all: no encontré páginas con navbar bajo {root}")
+        sys.exit(1)
+    print(f"── sync --all · {len(pages)} páginas bajo {root} ──")
+    hubo_error = False
+    for target in pages:
+        try:
+            process_file(
+                target,
+                cli_aria=None, cli_prefooter=None, only_pictos=only_pictos,
+                cli_navbar=None, tema=tema_cli, footer_optional=True, quiet=True,
+            )
+        except ValueError as e:
+            hubo_error = True
+            print(f"[!] {target}: {e}")
+    print("── fin ──")
+    if hubo_error:
+        sys.exit(1)
+
+
+# ── MAIN ─────────────────────────────────────────────────────────────────
 
 def main():
     if len(sys.argv) < 2:
         print(__doc__)
         sys.exit(1)
 
+    args = sys.argv[1:]
+    all_mode = "--all" in args
+    only_pictos = "--only-pictos" in args
+
+    if all_mode:
+        # En --all, el tema se aplica salvo que la página diga `no-tema`.
+        # `--tema` fuerza tema en todas; sin flag, se respeta el marcador.
+        tema_cli = True if "--tema" in args else None
+        run_all(only_pictos=only_pictos, tema_cli=tema_cli)
+        return
+
+    # ── Modo de un archivo (o glob) · compatible con el uso anterior ──
     aria_current = None
-    with_prefooter = False
-    only_pictos = False
+    with_prefooter = None
     practicante = False
     skip_navbar = False
-    tema = False
-    for arg in sys.argv[2:]:
+    tema = None
+    for arg in args[1:]:
         if arg.startswith("--aria-current="):
             aria_current = arg.split("=", 1)[1]
         elif arg == "--with-prefooter":
@@ -388,22 +509,26 @@ def main():
             sys.exit(1)
 
     if practicante and skip_navbar:
-        print("[!] --practicante y --skip-navbar son incompatibles (uno pone navbar, el otro lo omite).")
+        print("[!] --practicante y --skip-navbar son incompatibles.")
         sys.exit(1)
 
-    # El target admite comodines (glob) para procesar varias páginas de golpe
-    matches = [Path(p) for p in glob.glob(sys.argv[1])]
+    cli_navbar = "practicante" if practicante else ("skip" if skip_navbar else None)
+
+    matches = [Path(p) for p in glob.glob(args[0])]
     if not matches:
-        print(f"[!] No se encontró ningún archivo para: {sys.argv[1]}")
+        print(f"[!] No se encontró ningún archivo para: {args[0]}")
         sys.exit(1)
 
     hubo_error = False
     for target in matches:
         try:
-            process_file(target, aria_current, with_prefooter, only_pictos,
-                         practicante, skip_navbar, tema)
+            process_file(
+                target,
+                cli_aria=aria_current, cli_prefooter=with_prefooter,
+                only_pictos=only_pictos, cli_navbar=cli_navbar, tema=tema,
+                footer_optional=False,
+            )
         except ValueError as e:
-            # Un fallo en una página no aborta el lote: avisa y sigue.
             hubo_error = True
             print(f"[!] {target}: {e}")
 

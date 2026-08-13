@@ -53,6 +53,22 @@
   }
 
 
+  /* Meta "Guiado por…" · el .hero .meta base es flex y partía cada nodo de
+     texto en un item independiente ("Guiado por" | "Lama Rinchen Gyaltsen" |
+     "· 24 años…") → se leía fragmentada. Aquí vuelve a fluir como una frase
+     normal, con el punto dorado como marca inicial en línea. */
+  .hero--meditacion .meta {
+    display: block;
+    line-height: 1.55;
+    max-width: 42ch;
+  }
+  .hero--meditacion .meta .pulse {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.5em;
+  }
+
+
   /* ═══════════ PRIMERA PRÁCTICA ═══════════ */
 
   .practica {
@@ -385,6 +401,19 @@
     .orbe { width: 100px; height: 100px; }
     /* el subject de la foto centrado en pantallas estrechas */
     .hero--meditacion .hero__bg-img { object-position: center; }
+
+    /* Velo · en móvil el texto ocupa todo el ancho, así que el velo
+       horizontal 95° (pensado para columna izquierda en desktop) dejaba
+       el texto sobre la cara/la foto sin fondo legible. Se sustituye por
+       un velo cálido vertical y uniforme: denso arriba (eyebrow→h1→lede→
+       cta→meta) y aligerando hacia la foto. Sigue luminoso, no oscurece. */
+    .hero--meditacion::after {
+      background: linear-gradient(180deg,
+        color-mix(in oklch, var(--lino) 82%, transparent) 0%,
+        color-mix(in oklch, var(--lino) 66%, transparent) 46%,
+        color-mix(in oklch, var(--lino) 40%, transparent) 70%,
+        color-mix(in oklch, var(--lino) 68%, transparent) 100%);
+    }
   }
 
 

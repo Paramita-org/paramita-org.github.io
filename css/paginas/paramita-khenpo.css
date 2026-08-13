@@ -11,6 +11,10 @@
 /* ═══ 1 · HERO · foto de fondo (usa el componente .hero del sistema) ═══ */
 .pagina-khenpo .hero--foto .hero__bg-img{
   position:absolute; inset:0;
+  /* Fallback cálido bajo la foto · si el asset no carga (nombre/ruta), el
+     hero no queda vacío. Verifica que exista assets/img/khenpo-luz-dorada-
+     exterior.jpg con ESE nombre exacto; si no, dime qué imagen uso y repunto. */
+  background-color:color-mix(in oklch,var(--calido-zen) 62%,var(--arena));
   background-image:url(../../assets/img/khenpo-luz-dorada-exterior.jpg);
   background-size:cover; background-position:center 26%;
   opacity:.92;
@@ -72,6 +76,27 @@
   .pagina-khenpo .nodo{grid-template-columns:32px 1fr;column-gap:.9rem}
   .pagina-khenpo .nodo__dot{grid-column:1}
   .pagina-khenpo .nodo--izq .nodo__content,.pagina-khenpo .nodo--der .nodo__content{grid-column:2;text-align:left}
+}
+
+/* Red de seguridad · scroll horizontal táctil en móvil
+   ─────────────────────────────────────────────────────────────────────
+   En móvil NO se debe fijar (pin) la galería: el scroll-horizontal-al-
+   scroll-vertical es un patrón de desktop. Aquí forzamos scroll táctil
+   nativo aunque el JS haya puesto .pinned, para que el swipe funcione.
+   El fix limpio de verdad es que paramita-khenpo.js desactive el pin bajo
+   768px (ScrollTrigger.matchMedia); pásame ese archivo y lo cierro ahí. */
+@media(max-width:768px){
+  .pagina-khenpo .mirada,
+  .pagina-khenpo .mirada.pinned{overflow:hidden}
+  .pagina-khenpo .mirada .galeria,
+  .pagina-khenpo .mirada.pinned .galeria{
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    transform:none;
+    padding-inline:var(--contenedor-padding);
+    -webkit-overflow-scrolling:touch;
+  }
+  .pagina-khenpo .mirada.pinned .gtile{height:auto;aspect-ratio:3/4;flex-basis:clamp(220px,58vw,320px)}
 }
 
 /* ═══ 5 · LABOR (cifras) ═══ */

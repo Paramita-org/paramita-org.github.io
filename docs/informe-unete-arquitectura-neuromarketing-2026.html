@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Del monolito al umbral — Arquitectura, neuromarketing y pictogramas de «Únete» · Paramita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC; --paper-2:#FBFAF7; --ink:#191A1C; --slate:#63656B;
+    --ink-deep:#132239; --ink-deep-2:#0E1A2C; --gold:#A8823F; --gold-lite:#C9A96E;
+    --rule:#DAD6CC; --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.42;color:var(--ink-deep);margin:2rem 0 0;font-style:italic}
+
+  section{padding:clamp(2.6rem,6vh,4.2rem) 0}
+  .sec-head{margin-bottom:1.8rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 .3rem}
+  h2 em{font-style:italic;font-weight:400;color:var(--gold)}
+  h3{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.25rem,2vw,1.55rem);line-height:1.2;margin:2.4rem 0 .6rem;letter-spacing:-.005em}
+  h3 em{font-style:italic;color:var(--ink-deep)}
+  p{margin:0 0 1.15rem}
+  strong{font-weight:600;color:var(--ink)}
+  em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:color-mix(in srgb,var(--gold) 12%,transparent);padding:.05em .35em;border-radius:4px;color:var(--ink-deep)}
+  .drop:first-letter{font-family:"Fraunces",serif;float:left;font-size:3.3rem;line-height:.82;font-weight:500;padding:.1em .12em 0 0;color:var(--ink-deep)}
+  .pull{font-family:"Fraunces",serif;font-weight:400;font-style:italic;font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.4;color:var(--ink-deep);border-left:2px solid var(--gold);padding-left:1.2rem;margin:2rem 0}
+  .fuente{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.01em;margin-top:-.4rem}
+
+  .dato{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:14px;padding:1.6rem 1.7rem;margin:1.4rem 0}
+  .dato__k{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+  .dato h3{margin:0 0 .5rem;font-size:clamp(1.15rem,1.8vw,1.4rem)}
+  .dato p{margin:0 0 .6rem}
+  .dato p:last-child{margin:0}
+  .cifra{font-family:"Fraunces",serif;font-weight:600;color:var(--ink-deep);font-size:1.08em}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--rule);border-radius:14px;overflow:hidden;margin:1.6rem 0}
+  .stat{background:var(--paper-2);padding:1.4rem 1.1rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.7rem,3vw,2.3rem);line-height:1;color:var(--ink-deep)}
+  .stat .n small{font-size:.55em;font-weight:500}
+  .stat .l{font-size:.82rem;line-height:1.35;color:var(--slate);margin-top:.5rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);margin-top:.5rem;letter-spacing:.04em}
+  @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+  .tbl-wrap{margin:1.6rem 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.9rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+  th,td{text-align:left;padding:.65rem .75rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:500;border-bottom:1.5px solid var(--rule)}
+  tbody td:first-child{font-weight:600;color:var(--ink);width:30%}
+  .yes{color:var(--ink-deep);font-weight:600}
+  .no{color:var(--gold);font-weight:600}
+
+  .dark{background:var(--ink-deep-2);color:#E7E9EE}
+  .dark h2{color:#fff}.dark h2 em{color:var(--gold-lite)}.dark h3{color:#fff}
+  .dark .sec-num{color:var(--gold-lite)}.dark strong{color:#fff}.dark p{color:#C3CAD6}
+  .dark code{background:rgba(255,255,255,.12);color:#EEDFC4}
+  .dark .pull{color:var(--gold-lite);border-left-color:var(--gold-lite)}
+  .dark .dato{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.09)}
+  .dark .dato p{color:#C3CAD6}.dark .cifra{color:var(--gold-lite)}
+  .dark .way{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.09)}
+  .dark .way p{color:#C3CAD6}.dark .way h4{color:#fff}
+
+  .anat{counter-reset:step;margin:1.6rem 0;padding:0;list-style:none}
+  .anat li{position:relative;padding:1.2rem 0 1.2rem 3.4rem;border-bottom:1px solid var(--rule-soft)}
+  .anat li:last-child{border-bottom:0}
+  .anat li::before{counter-increment:step;content:counter(step,decimal-leading-zero);position:absolute;left:0;top:1.25rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--gold);letter-spacing:.02em}
+  .anat h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.12rem;margin:0 0 .3rem}
+  .anat p{margin:0;font-size:.94rem;color:var(--slate);line-height:1.55}
+  .anat .why{display:block;font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--gold);margin-top:.5rem;letter-spacing:.03em}
+
+  /* — vías (cards) — */
+  .ways{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:1.6rem 0}
+  @media(max-width:640px){.ways{grid-template-columns:1fr}}
+  .way{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:16px;padding:1.5rem 1.5rem 1.6rem}
+  .way.hl{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset;background:color-mix(in srgb,var(--gold) 6%,var(--paper-2))}
+  .way .pico{display:block;width:2.75rem;height:2.75rem;color:color-mix(in srgb,var(--ink) 58%,transparent);margin-bottom:.8rem}
+  .way .pico .acc{stroke:var(--gold)}
+  .way .fric{font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.4rem}
+  .way h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.18rem;margin:0 0 .3rem;letter-spacing:-.005em}
+  .way p{margin:0;font-size:.92rem;color:var(--slate);line-height:1.5}
+  .way .badge{display:inline-block;margin-top:.9rem;font-family:"JetBrains Mono",monospace;font-size:.58rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-deep);border:1px solid var(--rule);border-radius:2em;padding:.24em .8em}
+  .way.hl .badge{border-color:var(--gold);color:var(--gold)}
+
+  /* — muestrario de pictogramas — */
+  .picorow{display:flex;gap:.4rem 1.4rem;flex-wrap:wrap;align-items:flex-start;margin:1.5rem 0;padding:1.3rem 1.2rem;background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:14px}
+  .picorow figure{margin:0;text-align:center;width:5rem}
+  .picorow svg{width:2.6rem;height:2.6rem;color:color-mix(in srgb,var(--ink) 58%,transparent)}
+  .picorow svg .acc{stroke:var(--gold)}
+  .picorow figcaption{font-family:"JetBrains Mono",monospace;font-size:.6rem;color:var(--slate);margin-top:.5rem;letter-spacing:.02em;line-height:1.3}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.75rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.sheen::after{animation:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ══════════════ PORTADA ══════════════ -->
+<header class="cover flow">
+  <p class="eyebrow">Estudio · «Únete» · Parte 2 · Arquitectura</p>
+  <h1>Del monolito<br>al <em>umbral</em></h1>
+  <p class="deck">Cómo englobar al practicante, al miembro de la Sangha y al voluntario sin ahogar la página en texto. Un estudio de arquitectura de información, neuromarketing y pictogramas, con datos contrastados y decisiones concretas por bloque.</p>
+  <div class="sheen"></div>
+  <div class="meta">
+    <span><b>Continúa</b> · Estudio «El umbral de la comunidad»</span>
+    <span><b>Revisa</b> · <code>/grupos-paramita-2026/</code> · <code>/voluntarios/</code></span>
+    <span><b>Fecha</b> · 13 ago 2026</span>
+    <span><b>Formularios</b> · documento aparte</span>
+    <span><b>Revisado</b> · tras decidir el navbar (doc 06)</span>
+  </div>
+  <p class="lede">El problema no es que haya demasiado que decir. Es que hoy se dice todo a la vez, en la misma página. La solución no es recortar el contenido: es <em>ordenarlo por profundidad</em> —que cada persona encuentre su puerta antes de tener que leerlo todo.</p>
+</header>
+
+<div class="flow">
+  <div class="dato reveal" style="margin-top:2rem">
+    <span class="dato__k">Actualización · tras la decisión de navbar</span>
+    <p>Este informe se escribió proponiendo una <em>página-hub</em> <code>/unete/</code>. Después se decidió (doc 06) que <strong>«Únete» sea una pestaña del navbar con submenú <em>Grupos</em> + <em>Voluntariado</em></strong>, saliendo del clúster de CTAs (que pasa a Contribuir + Iniciar sesión). En consecuencia, el «hub» ya no es una página nueva: <strong>el enrutado lo hacen el propio desplegable del navbar y el bloque Participación de la home</strong>. Las secciones 02, 06 y 08 quedan actualizadas; el análisis (diagnóstico, identidades, neuromarketing, pictogramas) se mantiene intacto.</p>
+  </div>
+</div>
+
+<div class="flow"><hr class="divider"></div>
+
+<!-- ══════════════ 1 · DIAGNÓSTICO ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — El diagnóstico</span>
+    <h2>Por qué las páginas de hoy <em>abruman</em></h2>
+  </div>
+  <p class="drop reveal">Repasadas las dos páginas actuales, el patrón es claro y tiene nombre: <strong>una sola página intenta hacer el trabajo de diez</strong>. La de Grupos, en un único scroll, es a la vez un explicador, un manifiesto de cinco motivos, otro de cinco pilares, una tabla comparativa, un <em>directorio mundial de 164 círculos país por país</em>, un selector de zona, un formulario para crear grupo, una autoevaluación, la biografía de Khenpo, siete testimonios en vídeo, ocho preguntas frecuentes y un alta de newsletter. Cada pieza, por separado, es buena. Juntas, se anulan.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">15<small>min</small></div><div class="l">tiempo de lectura declarado de la página de Grupos (su propio meta)</div><div class="src">paramita.org</div></div>
+    <div class="stat"><div class="n">164</div><div class="l">círculos listados en tablas, dentro del flujo principal</div><div class="src">Grupos 2026</div></div>
+    <div class="stat"><div class="n">13</div><div class="l">bloques temáticos distintos apilados en un scroll</div><div class="src">auditoría</div></div>
+    <div class="stat"><div class="n">11</div><div class="l">requisitos en lista seguida en Voluntariado — muro de texto</div><div class="src">Voluntarios</div></div>
+  </div>
+
+  <p class="reveal">Son <strong>dos fallos distintos</strong>, y conviene no confundirlos porque se arreglan de forma diferente:</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Dos tipos de sobrecarga</caption>
+      <thead><tr><th>Sobrecarga</th><th>Qué es</th><th>Dónde duele hoy</th></tr></thead>
+      <tbody>
+        <tr><td>De información</td><td>Demasiado que leer en un mismo plano, sin jerarquía</td><td>Grupos (13 bloques) · Voluntariado (11 requisitos seguidos)</td></tr>
+        <tr><td>De decisión</td><td>Demasiadas opciones comparables a la vez → parálisis</td><td>directorio de 164 + selector de 16 zonas + varios CTAs</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="pull reveal">Nadie lee una página. La escanea. Y una página que lo dice todo a la vez no se escanea: se abandona.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 2 · EL GIRO ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — La decisión estructural</span>
+    <h2>«Únete» es un <em>hub</em>, no un monolito</h2>
+  </div>
+  <p class="reveal">La decisión que ordena todo lo demás. En lugar de una página gigante que lo contiene todo, el contenido se <strong>reparte por profundidad</strong>: lo pesado —directorio de 164 círculos, requisitos del voluntariado, preceptos, FAQ largas— <em>baja un nivel</em>, a páginas dedicadas (<em>spokes</em>: Grupos y Voluntariado). Y el <strong>enrutado</strong> —llevar a cada persona a su spoke— no necesita una página nueva: lo hacen dos superficies que ya existen, el <strong>desplegable del navbar «Únete ▾»</strong> y el <strong>bloque Participación de la home</strong>. Es el patrón <strong>hub-and-spoke</strong>, con el «hub» repartido en vez de en una página aparte.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">El modelo, ajustado a la decisión de navbar</span>
+    <h3>El enrutado orienta; el spoke explica</h3>
+    <p>El desplegable del navbar da la vía rápida (<em>Grupos</em> / <em>Voluntariado</em> directos) y el bloque Participación de la home orienta a quien explora. El detalle —requisitos, directorio, preceptos, FAQ— vive en cada spoke. Nadie tiene que leer los requisitos del voluntariado residencial para enterarse de que hay un grupo de estudio en su ciudad.</p>
+  </div>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Qué enruta · qué baja a cada spoke</caption>
+      <thead><tr><th>Contenido de hoy</th><th>Dónde va</th></tr></thead>
+      <tbody>
+        <tr><td>Invitación + enrutado a cada vía</td><td class="yes">Navbar «Únete ▾» + bloque Participación (home)</td></tr>
+        <tr><td>Qué son los grupos · pilares · directorio 164 · crear grupo · testimonios · FAQ</td><td>Spoke <code>/unete/grupos/</code></td></tr>
+        <tr><td>Programa residencial · requisitos · preceptos · estancia</td><td>Spoke <code>/unete/voluntariado/</code></td></tr>
+        <tr><td>Sesiones abiertas · meditar con nosotros</td><td>Enlaza a <code>/meditacion/</code></td></tr>
+        <tr><td>Sostener con dinero (dāna)</td><td>Enlaza a <code>/contribuir/</code> (su casa)</td></tr>
+        <tr><td>Formularios (contacto por zona, alta voluntariado, newsletter)</td><td class="no">Documento de forms aparte</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal">Fíjate en la última fila: <strong>sacar los formularios de la landing es, en sí mismo, reducir la sobrecarga</strong>. El navbar y la home invitan y enrutan; el formulario es el destino, no el decorado. Tu intuición de tratar los forms en un documento propio va en la dirección correcta. La pestaña del navbar quedó fijada en el <strong>doc 06</strong> (sexta entrada «Únete», con «Únete» fuera de los CTAs → Contribuir + Iniciar sesión).</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 3 · IDENTIDADES ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — A quién engloba</span>
+    <h2>Practicante, Sangha, voluntario: <em>tres</em> identidades</h2>
+  </div>
+  <p class="reveal">El hub tiene que dejar claro, en pocas palabras, <strong>qué llegas a ser</strong> por cada puerta —eso es lo que pedías con «englobar qué es un practicante, qué es un voluntario, qué es formar parte de la Sangha». No son sinónimos ni el mismo nivel de compromiso; son públicos distintos:</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Tres identidades, tres compromisos, tres públicos</caption>
+      <thead><tr><th>Identidad</th><th>Qué es</th><th>Compromiso</th><th>Alcance</th></tr></thead>
+      <tbody>
+        <tr><td>Practicante</td><td>Quien medita y estudia (sesiones abiertas, cursos). La base de todo.</td><td>Bajo, propio</td><td>Online + centro</td></tr>
+        <tr><td>Miembro de la Sangha</td><td>Practicante que camina <em>en grupo</em>: un círculo de estudio local u online.</td><td>Medio, sostenido</td><td>164 círculos · 15+ países</td></tr>
+        <tr><td>Voluntario</td><td>Quien ofrece tiempo en residencia en el centro (seva).</td><td>Alto, exigente</td><td>Presencial · Pedreguer</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Un hallazgo que cambia el marco de la Parte 1</span>
+    <h3>Paramita no es un centro local: es una red</h3>
+    <p>La página de Grupos revela algo que el primer estudio (centrado en Pedreguer) no tenía delante: <strong>la Sangha es internacional</strong> —más de 164 círculos entre Latinoamérica y Europa, activos en más de 15 países—. Eso reordena la jerarquía: para la mayoría, «pertenecer» no es venir al centro de Alicante, es <em>encontrar su círculo cerca de casa</em>. El voluntariado residencial, en cambio, sí es intensamente local y para muy pocos. Mezclarlos en un mismo bloque, como hoy, iguala lo que es masivo con lo que es minoritario.</p>
+  </div>
+  <p class="pull reveal">Un mismo verbo, «unirse», esconde tres pasos muy distintos. La página tiene que dejar ver el tamaño de cada uno antes de pedirlo.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 4 · NEUROMARKETING ══════════════ -->
+<section class="flow dark">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — Neuromarketing</span>
+    <h2>Menos puertas, en <em>orden</em></h2>
+  </div>
+  <p class="drop reveal" style="color:#C3CAD6">La tentación natural es enseñar todas las opciones a la vez, para que «cada uno elija». La evidencia dice lo contrario, y con cifras. En el célebre estudio de las mermeladas, una mesa con <strong>24 variedades</strong> atraía a más gente pero solo compraba el <strong>3%</strong>; una mesa con <strong>6</strong> convertía al <strong>30%</strong> —diez veces más—. Más opciones atraen; menos opciones <em>deciden</em>.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">30<small>%</small></div><div class="l">decide con 6 opciones (vs. 3% con 24)</div><div class="src">Iyengar &amp; Lepper 2000</div></div>
+    <div class="stat"><div class="n">88<small>%</small></div><div class="l">acierta qué hace un pictograma <em>con</em> etiqueta (60% sin ella)</div><div class="src">UserTesting</div></div>
+    <div class="stat"><div class="n">7±2</div><div class="l">límite de la memoria de trabajo — por encima, sobrecarga</div><div class="src">Miller</div></div>
+    <div class="stat"><div class="n">Hick</div><div class="l">el tiempo de decisión crece con el nº de opciones</div><div class="src">Hick-Hyman</div></div>
+  </div>
+
+  <p class="reveal" style="color:#C3CAD6">Un matiz honesto: el efecto de la sobrecarga de opciones <strong>no es universal</strong> —es más fuerte justo cuando quien elige <em>no es experto</em>, las opciones parecen comparables y la decisión se siente importante—. Es, palabra por palabra, el visitante de «Únete»: alguien nuevo, ante varias formas de pertenecer que se parecen, tomando una decisión que le importa. Aquí la sobrecarga <em>sí</em> aplica.</p>
+
+  <h3 class="reveal">Cuatro palancas, todas del mismo lado que la identidad</h3>
+  <div class="dato reveal">
+    <span class="dato__k">Cómo se traduce a la página</span>
+    <p><strong>1 · Pocas puertas.</strong> En el hub, <em>tres o cuatro</em> vías —no dieciséis zonas ni 164 filas—. La regla de diseño: no importa tanto cuántas etiquetas hay, sino cuántas opciones cuelgan de cada una. Pocas opciones por categoría.</p>
+    <p><strong>2 · En escalera, de menor a mayor compromiso.</strong> Suscribirse → practicar → grupo → voluntariado. Nadie se topa primero con la petición más grande (el error del botón «HAZTE MIEMBRO» de entrada).</p>
+    <p><strong>3 · Revelación progresiva.</strong> El hub muestra una línea por vía; el detalle (requisitos, directorio, preceptos) se despliega o vive en el spoke. Se enseña lo justo para decidir, no todo de golpe.</p>
+    <p><strong>4 · Autonomía + pertenencia (autodeterminación).</strong> La persona elige su ritmo (autonomía), ve un paso claro (competencia) y todo está enmarcado en «caminar acompañado» (pertenencia). Son los tres motores de la motivación intrínseca —y encajan con el rechazo del proyecto a la presión.</p>
+  </div>
+  <p class="pull reveal">Dar a elegir no es volcar el catálogo. Es poner tres puertas buenas, bien iluminadas, en orden de cercanía.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 5 · REDUCIR TEXTO ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — Reducir el texto</span>
+    <h2>Escanear, no <em>leer</em></h2>
+  </div>
+  <p class="reveal">La gente no lee las páginas de arriba abajo: las <strong>escanea</strong> en patrones F y Z, y de media consume una fracción de las palabras. Escribir para escaneo no es escribir menos por capricho; es poner la conclusión primero y dejar el matiz para quien lo busque. Cuatro reglas, aplicadas al material actual:</p>
+
+  <ol class="anat reveal">
+    <li>
+      <h4>La idea primero (BLUF)</h4>
+      <p>Cada bloque abre con su conclusión en una frase, no con un rodeo. «Practicar en grupo sostiene la constancia» &gt; tres párrafos que lo rodean.</p>
+    </li>
+    <li>
+      <h4>Un pictograma + cuatro palabras en vez de un párrafo</h4>
+      <p>Los cinco «motivos» y los cinco «pilares» de hoy son diez párrafos. En rejilla de pictograma + etiqueta + una línea ocupan un tercio y se escanean de un vistazo (ver §7).</p>
+    </li>
+    <li>
+      <h4>Revelación progresiva</h4>
+      <p>Los 11 requisitos del voluntariado y los 5 preceptos no van en muro: van en acordeón («¿Qué se espera de un voluntario?»), cerrados por defecto. Quien los necesita, los abre.</p>
+    </li>
+    <li>
+      <h4>No duplicar</h4>
+      <p>La biografía de Khenpo ya vive en <code>/sobre/khenpo/</code>. En «Únete» va un retrato + una línea + enlace, no la bio entera. Un solo sitio para cada cosa.</p>
+    </li>
+  </ol>
+
+  <div class="dato reveal">
+    <span class="dato__k">Auditoría de la página de Grupos · qué hacer con cada bloque</span>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Bloque actual</th><th>Acción</th></tr></thead>
+        <tbody>
+          <tr><td>Hero «Encuentra tu comunidad»</td><td class="yes">Conservar (hero del spoke Grupos)</td></tr>
+          <tr><td>5 motivos + 5 pilares</td><td>Fusionar en 1 rejilla de pictogramas (3–4 ítems)</td></tr>
+          <tr><td>Tabla Tutorías vs. Grupos</td><td>Conservar — aclara una duda real; simplificar</td></tr>
+          <tr><td>Directorio 164 país por país</td><td class="no">Sacar del flujo → buscador/mapa «encuentra el tuyo»</td></tr>
+          <tr><td>Selector de 16 zonas</td><td class="no">Va al documento de forms</td></tr>
+          <tr><td>7 testimonios en vídeo</td><td>Reducir a 2–3 · el resto, no</td></tr>
+          <tr><td>Bio de Khenpo</td><td>Retrato + línea + enlace a <code>/sobre/khenpo/</code></td></tr>
+          <tr><td>8 FAQ</td><td>Dejar 4–5 · acordeón</td></tr>
+          <tr><td>«¿Es el momento para ti?»</td><td class="yes">Conservar — autocalificación honesta, muy buena</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p class="reveal">El bloque «¿Es el momento adecuado para ti?» merece un aplauso: separar «este es tu espacio si…» de «quizás no es el momento si…» <strong>ahuyenta al público equivocado y tranquiliza al correcto</strong>. Es autocalificación honesta, justo lo contrario de un embudo agresivo. Se conserva tal cual.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 6 · ANATOMÍA DEL HUB ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — UX/UI del enrutado</span>
+    <h2>Las vías, <em>sin página de más</em></h2>
+  </div>
+  <p class="reveal">No hay una «página-umbral» nueva: el enrutado se reparte entre <strong>dos superficies que ya existen</strong> —el desplegable del navbar y el bloque <em>Participación</em> de la home— y el detalle vive en los spokes. Dónde cae cada pieza:</p>
+  <ol class="anat reveal">
+    <li><h4>Navbar «Únete ▾»</h4><p>La vía rápida para quien ya sabe qué quiere: <em>Grupos</em> y <em>Voluntariado</em> directos. Decidido en el doc 06.</p></li>
+    <li><h4>Bloque Participación (home)</h4><p>La orientación para quien explora: las vías en escalera de compromiso (ver diseño abajo), con su pregunta cálida «¿Cómo quieres caminar con nosotros?».</p></li>
+    <li><h4>Prueba por presencia</h4><p>2–3 testimonios reales + la cifra de red (164 círculos · 15 países). Vive en cada spoke, no amontonada.</p></li>
+    <li><h4>¿Es el momento para ti?</h4><p>La autocalificación honesta: en el spoke de Grupos, filtra antes de que la persona contacte.</p></li>
+    <li><h4>Puente a Contribuir</h4><p>Un <code>t-link</code> discreto desde el bloque Participación: quien prefiera sostener con dāna, tiene su puerta. Sin funnel.</p></li>
+    <li><h4>Suscripción de un campo</h4><p>El cierre de la home ya la tiene; la vía «Recibe inspiración» de abajo enlaza a ese gesto.</p></li>
+  </ol>
+
+  <div class="dato reveal">
+    <span class="dato__k">Por qué esto ahorra una página</span>
+    <p>Con solo dos spokes tan distintos (un grupo cerca de ti / voluntariado residencial), un <code>/unete/</code> dedicado casi duplicaría el bloque Participación. Se difiere: se construye solo si más adelante se ve que la gente necesita que le expliquen las tres identidades antes de elegir. Si llega, la etiqueta padre del navbar apuntará a él.</p>
+  </div>
+
+  <h3 class="reveal">El bloque de las vías — el diseño</h3>
+  <p class="reveal">Así se presentan las puertas en el bloque Participación de la home (y en un futuro hub, si llega). Cuatro tarjetas, en escalera. La de unirse a un grupo se destaca con luz (efecto Von Restorff): es el paso natural para la mayoría y el que sostiene la red. Destacar no es rankear: es orientar la mirada.</p>
+
+  <div class="ways reveal">
+    <div class="way">
+      <svg class="pico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 6.5h18v11H3z"/><path class="acc" d="M3.5 7l8.5 6 8.5-6"/>
+      </svg>
+      <span class="fric">Fricción mínima</span>
+      <h4>Recibe inspiración</h4>
+      <p>El boletín: ideas de práctica y noticias. Un solo campo.</p>
+      <span class="badge">→ Suscribirse</span>
+    </div>
+    <div class="way">
+      <svg class="pico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 20c-4-2.5-7-5.5-7-9a4 4 0 017-2.6A4 4 0 0119 11c0 3.5-3 6.5-7 9z"/><path class="acc" d="M12 8.4V20"/>
+      </svg>
+      <span class="fric">Compromiso bajo</span>
+      <h4>Medita y estudia</h4>
+      <p>Sesiones abiertas y cursos. Empieza tu práctica.</p>
+      <span class="badge">→ Meditación</span>
+    </div>
+    <div class="way hl">
+      <svg class="pico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="7" cy="9" r="2.2"/><circle cx="17" cy="9" r="2.2"/><circle class="acc" cx="12" cy="8" r="2.4"/><path d="M3.5 18c.6-2.6 2.4-4 4.5-4M20.5 18c-.6-2.6-2.4-4-4.5-4"/><path class="acc" d="M7.5 18.5c.7-3 2.3-4.5 4.5-4.5s3.8 1.5 4.5 4.5"/>
+      </svg>
+      <span class="fric">Compromiso sostenido · el paso natural</span>
+      <h4>Únete a un grupo de la Sangha</h4>
+      <p>Un círculo de estudio cerca de ti, online o presencial. 164 círculos en 15 países.</p>
+      <span class="badge">→ Encuentra el tuyo</span>
+    </div>
+    <div class="way">
+      <svg class="pico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path class="acc" d="M12 4.5c1.6 1.2 1.6 3.3 0 4.5-1.6-1.2-1.6-3.3 0-4.5z"/><path d="M4 20c1.5-3 4.5-4.5 8-4.5s6.5 1.5 8 4.5"/><path d="M8.5 13.5c1-1 2.2-1.5 3.5-1.5s2.5.5 3.5 1.5"/>
+      </svg>
+      <span class="fric">Compromiso alto · presencial</span>
+      <h4>Ofrece tu tiempo</h4>
+      <p>Voluntariado en residencia en el centro. Seva y práctica.</p>
+      <span class="badge">→ El programa</span>
+    </div>
+  </div>
+  <p class="fuente reveal">Pictogramas de muestra, dibujados con el canon del sistema (viewBox 24, trazo 1.5, tinta al 58% + una sola llama <code>.acc</code> dorada). Definitivos, a producir como partials.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Móvil</span>
+    <p>Las tarjetas se apilan a una columna, en el mismo orden de escalera (la más ligera arriba). Objetivos táctiles ≥24px (WCAG 2.2). El pictograma <em>feature</em> mantiene su fuerza en pantalla pequeña; el texto por tarjeta no pasa de dos líneas.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 7 · PICTOGRAMAS ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">07 — Los pictogramas</span>
+    <h2>Cómo esta página usa <em>la llama</em></h2>
+  </div>
+  <p class="reveal">El estudio de pictogramas ya fijó el canon; aquí solo se aplica. Tres reglas gobiernan su uso en «Únete», y las tres reducen texto:</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>La escala del sistema · dónde va cada talla en Únete</caption>
+      <thead><tr><th>Talla</th><th>Tamaño</th><th>En «Únete»</th></tr></thead>
+      <tbody>
+        <tr><td>inline · <code>.pico</code></td><td>1.7rem</td><td>Metatags: «Online», «Presencial», «Semanal» en las fichas de grupo</td></tr>
+        <tr><td>lg · <code>.pico--lg</code></td><td>2.1rem</td><td>Junto a un título dentro de una tarjeta o FAQ</td></tr>
+        <tr><td>feature · <code>.pico--feature</code></td><td>2.75rem</td><td>Liderando cada una de las vías (el bloque de §6)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Las tres reglas, aplicadas</span>
+    <p><strong>Nunca desnudo.</strong> Con etiqueta se acierta el 88% de las veces qué significa un pictograma; sin ella, 60%; y con un signo propio de la marca, solo 34%. Cada pictograma de Únete lleva su palabra al lado —el glifo ancla y agranda el objetivo (Fitts), la palabra hace el significado.</p>
+    <p><strong>Consistencia sobre variedad.</strong> Un puñado de pictogramas del mismo canon actúan de anclas y aceleran el escaneo; un conjunto disparejo lo frena. Cuatro vías = cuatro glifos hermanos, no una galería.</p>
+    <p><strong>No todo merece uno.</strong> El pictograma lidera una <em>vía</em> o etiqueta un <em>dato</em>. No decora párrafos. Cuando no aporta información, texto y punto.</p>
+  </div>
+
+  <h3 class="reveal">El repertorio propuesto</h3>
+  <p class="reveal">Cinco glifos cubren toda la página. Comparten cuerpo en tinta y una única llama dorada (<code>.acc</code>) —el mismo gesto de la vela de ofrenda—. Dos motivos identitarios encajan de forma natural: la <em>semilla/brote</em> para «crear un grupo» (la página actual ya dice «la amistad es la semilla»), y el <em>círculo de figuras</em> para la Sangha.</p>
+
+  <div class="picorow reveal">
+    <figure>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6.5h18v11H3z"/><path class="acc" d="M3.5 7l8.5 6 8.5-6"/></svg>
+      <figcaption>suscribir<br>(sobre)</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20c-4-2.5-7-5.5-7-9a4 4 0 017-2.6A4 4 0 0119 11c0 3.5-3 6.5-7 9z"/><path class="acc" d="M12 8.4V20"/></svg>
+      <figcaption>practicar<br>(loto)</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="9" r="2.2"/><circle cx="17" cy="9" r="2.2"/><circle class="acc" cx="12" cy="8" r="2.4"/><path d="M3.5 18c.6-2.6 2.4-4 4.5-4M20.5 18c-.6-2.6-2.4-4-4.5-4"/><path class="acc" d="M7.5 18.5c.7-3 2.3-4.5 4.5-4.5s3.8 1.5 4.5 4.5"/></svg>
+      <figcaption>sangha<br>(círculo)</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="acc" d="M12 4.5c1.6 1.2 1.6 3.3 0 4.5-1.6-1.2-1.6-3.3 0-4.5z"/><path d="M4 20c1.5-3 4.5-4.5 8-4.5s6.5 1.5 8 4.5"/><path d="M8.5 13.5c1-1 2.2-1.5 3.5-1.5s2.5.5 3.5 1.5"/></svg>
+      <figcaption>voluntariado<br>(manos)</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-7"/><path d="M12 14c-3 0-5-2-5-5 3 0 5 2 5 5z"/><path class="acc" d="M12 12c0-3 2-5 5-5 0 3-2 5-5 5z"/></svg>
+      <figcaption>crear grupo<br>(brote)</figcaption>
+    </figure>
+  </div>
+  <p class="pull reveal">Cinco glifos, una sola mano. La misma llama que arde en la vela de ofrenda orienta aquí el camino de entrada.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 8 · RECOMENDACIÓN ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">08 — Qué haría</span>
+    <h2>El plan y las <em>decisiones abiertas</em></h2>
+  </div>
+  <p class="reveal">En corto, y en orden:</p>
+  <ol class="anat reveal">
+    <li><h4>Navbar «Únete ▾» · <em>decidido (doc 06)</em></h4><p>Sexta entrada con submenú <em>Grupos</em> + <em>Voluntariado</em>. «Únete» sale de los CTAs; el clúster derecho pasa a Contribuir + Iniciar sesión.</p></li>
+    <li><h4>Spoke <code>/unete/grupos/</code></h4><p>Todo el contenido de Grupos, aligerado: qué son, tabla tutoría vs. grupo, buscador «encuentra el tuyo» (no tablas), 2–3 testimonios, FAQ en acordeón, crear grupo.</p></li>
+    <li><h4>Spoke <code>/unete/voluntariado/</code></h4><p>Programa residencial con marco cálido primero; requisitos y preceptos en acordeón (revelación progresiva); estancia; enlace al form.</p></li>
+    <li><h4>Bloque Participación (home) + documento de formularios</h4><p>La home orienta hacia los spokes; sin página-hub dedicada de momento. Los formularios (contacto por zona, alta de voluntariado, newsletter) se estudian aparte, como apuntabas.</p></li>
+  </ol>
+
+  <div class="dato reveal">
+    <span class="dato__k">Decisiones abiertas (las del navbar, ya no)</span>
+    <p><strong>Hub sí / no.</strong> Recomendación: <em>no</em> de momento —dos spokes bastan y la home orienta—. Si se hace, la etiqueta padre del navbar apuntará a él; si no, apunta a Grupos por defecto.</p>
+    <p><strong>El directorio de 164 círculos.</strong> ¿Buscador/mapa filtrable (mejor UX, necesita a Alberto) o índice desplegable por país (más simple, sin backend)? Decide el alcance técnico.</p>
+    <p><strong>«Medita con nosotros» y «Visita el centro».</strong> ¿Aparecen como vías en el bloque Participación o solo se enlazan desde Meditación/Actividades? Afecta a cuántas puertas se muestran.</p>
+    <p><strong>Copy e identidad.</strong> Todo provisional hasta Ale/Khenpo. Los pictogramas propuestos, a validar antes de producir los SVG como partials.</p>
+  </div>
+
+  <p class="pull reveal">No hay que escribir menos. Hay que dejar de escribirlo todo en la misma puerta.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Siguiente paso propuesto</span>
+    <p>Con el navbar ya cerrado (doc 06), lo natural es redactar el <strong>copy y estructura de los dos spokes</strong> —<code>/unete/grupos/</code> y <code>/unete/voluntariado/</code>— en formato editorial para Ale/Khenpo, y arrancar en paralelo el <strong>documento de formularios</strong>. El doc numerado <strong>17 · Únete</strong> consolidará las decisiones cuando cierren. La maqueta, después.</p>
+  </div>
+</section>
+
+<div class="flow"><hr class="divider"></div>
+
+<!-- ══════════════ FUENTES ══════════════ -->
+<section class="refs flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">Fuentes</span>
+    <h2>De dónde salen los <em>datos</em></h2>
+  </div>
+  <ol class="reveal">
+    <li><b>Iyengar &amp; Lepper (2000), «When choice is demotivating»</b> · estudio de las mermeladas: 6 opciones → 30% de compra vs. 24 → 3%. Base de la sobrecarga de opciones.</li>
+    <li><b>Chernev, Böckenholt &amp; Goodman; Scheibehenne et al. (meta-análisis)</b> · el efecto es real pero condicional: más fuerte con no expertos, opciones comparables y decisiones que importan. Matiz honesto.</li>
+    <li><b>Hick-Hyman; Miller (7±2)</b> · el tiempo de decisión crece con las opciones; límite de la memoria de trabajo. Fundamento de «pocas puertas».</li>
+    <li><b>Deci &amp; Ryan · Teoría de la autodeterminación</b> · autonomía + competencia + relación (pertenencia) como motores de la motivación intrínseca.</li>
+    <li><b>UserTesting; W3C WCAG 2.2 (2.5.8); ley de Fitts; patrones de lectura F/Z</b> · comprensión de iconos 88/60/34% con/sin etiqueta; objetivo táctil mínimo 24px; escaneo, no lectura. (Vía informe de pictogramas del proyecto.)</li>
+    <li><b>Circle · «Community Landing Page That Converts» (2025)</b> · psicología comunidad vs. producto; revelación progresiva; CTA que invita; prueba entre pares. (Parte 1.)</li>
+    <li><b>Nielsen Norman Group · revelación progresiva y escaneo</b> · mostrar lo justo para decidir; ocultar el detalle bajo demanda.</li>
+    <li><b>Paramita · páginas y docs. internos</b> · <code>/grupos-paramita-2026/</code> y <code>/voluntarios/</code> (auditoría); informe de pictogramas (canon, escala inline·lg·feature, la llama); docs. 01 (identidad, no-SaaS), 06 (navbar · sexta entrada Únete), 13 (bloque Participación), informes de Contribuir y del blog (escalera de conversión); Parte 1 de este estudio.</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Paramita · Fundació Sakya — Estudio interno · «Únete» Parte 2: arquitectura, neuromarketing y pictogramas · ago 2026. Continúa «El umbral de la comunidad». Formularios: documento aparte. Copy y pictogramas, por validar con Ale/Khenpo/Alberto. Revisado tras la decisión de navbar (doc 06).</div>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    bar.style.width = (scrolled * 100) + '%';
+  };
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+</body>
+</html>

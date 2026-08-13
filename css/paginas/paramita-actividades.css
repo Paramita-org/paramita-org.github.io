@@ -1,0 +1,490 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   css/paginas/paramita-actividades.css — estilos propios de /actividades/
+   ─────────────────────────────────────────────────────────────────────────────
+   Productivización · Fase 6+ · extraído del <style> inline de actividades.html.
+   Ahora la página enlaza el sistema real (reset, tokens, base, bar, menu, cta,
+   sections, extras, footer, pictogramas, responsive, tema) y aquí queda SOLO lo
+   propio: el hero de la página (.act-hero*), la pastilla Düchen (.duchen-badge*),
+   el calendario (.cal-*), las tarjetas (.act-card*), la vista/filtros
+   (.vista-*, .filtro-*, .mes-*) y el bloque de visita (.visita-*).
+
+   Se descartaron del inline: las capas duplicadas del sistema (tokens/base/bar/
+   menu/cta/footer y el navbar-móvil de responsive), Google Fonts (ahora fuentes
+   self-hosted), y el .btn-acceso de preview (lo da paramita-cta.css). Todos los
+   tokens usados aquí existen en el sistema (verificado).
+
+   NOTA · .act-hero replica la lógica de .hero del sistema con nombres propios;
+   candidato a refactor futuro para reutilizar .hero + modificador.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer paginas {
+
+  /* Compat · el JS inline de la página tiene un fallback de reveal (gateado a
+     que NO cargue paramita-reveal.js) que marca .is-visible en vez de .is-in.
+     El caso normal usa reveal.js + paramita-extras.css (.is-in); esta regla
+     mantiene vivo el fallback si el script externo fallara. */
+  .js [data-reveal].is-visible { opacity: 1; transform: none; }
+
+
+  /* HERO — modelo exacto de paramita-hero.css del sistema (Fase 5.6) */
+  .act-hero {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    min-height: calc(100svh - var(--bar-h));
+    display: grid;
+    grid-template-rows: auto;
+    align-content: start;
+    /* Idéntico al .hero real */
+    padding-block: var(--espacio-contenido) var(--espacio-orilla);
+    background: radial-gradient(120% 85% at 80% -12%, var(--calido-zen), transparent 62%);
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .act-hero > * { position: relative; z-index: 2; }
+
+  /* Fondo: imagen + fallback animado */
+  .act-hero__bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .act-hero__bg-img {
+    width: 100%; height: 100%; object-fit: cover;
+    object-position: 72% 50%;   /* empuja la arquitectura a la derecha; deja aire tras el texto */
+    opacity: 0.45;              /* la foto pasa a atmósfera, no compite con el texto */
+    mix-blend-mode: multiply;
+  }
+  .act-hero__bg-fallback {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0.85;
+    background:
+      radial-gradient(70% 60% at 78% 50%, color-mix(in oklch, var(--dorado) 24%, transparent), transparent 70%),
+      radial-gradient(60% 70% at 95% 80%, color-mix(in oklch, var(--azul-sutil) 18%, transparent), transparent 65%),
+      conic-gradient(from 200deg at 80% 40%,
+        color-mix(in oklch, var(--azul-oscuro) 12%, transparent),
+        color-mix(in oklch, var(--dorado) 14%, transparent),
+        color-mix(in oklch, var(--arcilla) 80%, transparent));
+    filter: blur(40px) saturate(1.1);
+    animation: fallbackFlow 18s var(--ease-identidad-flujo) infinite alternate;
+  }
+  @keyframes fallbackFlow { 0%{transform:scale(1.05) translate(0,0)} 100%{transform:scale(1.12) translate(-2%,1%)} }
+
+  /* Velo cálido — idéntico al .hero::after del sistema, reforzado para foto fija */
+  .act-hero::after {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      /* Velo lateral izquierdo — hace legible el texto sobre foto */
+      linear-gradient(90deg,
+        color-mix(in oklch, var(--arena) 78%, transparent) 0%,
+        color-mix(in oklch, var(--arena) 55%, transparent) 35%,
+        color-mix(in oklch, var(--arena) 24%, transparent) 60%,
+        transparent 78%),
+      /* Velo superior */
+      linear-gradient(180deg,
+        color-mix(in oklch, var(--arena) 88%, transparent) 0%,
+        color-mix(in oklch, var(--arena) 62%, transparent) 22%,
+        transparent 55%),
+      /* Velo inferior */
+      linear-gradient(180deg,
+        transparent 65%,
+        color-mix(in oklch, var(--arena) 55%, transparent) 100%);
+  }
+
+  /* hero__inner — grid con gap mínimo; el espaciado lo dan los margin de cada elemento */
+  .act-hero__inner {
+    width: min(var(--contenedor-max), 100% - var(--contenedor-padding) * 2);
+    margin-inline: auto;
+    display: grid;
+    gap: 0; /* Sin gap — cada elemento gestiona su propio espacio inferior */
+    padding-top: clamp(2rem, 6vh, 4rem); /* Empujar el contenido hacia abajo */
+  }
+
+  .act-hero .eyebrow {
+    /* Sin color propio: hereda el gris canónico del sistema (--texto-tenue) */
+    margin-bottom: clamp(1rem, 2.5vh, 1.8rem); /* Espacio eyebrow → h1 */
+  }
+
+  .act-hero__h1 {
+    font-family: var(--display);
+    font-size: clamp(2.6rem, 7.5vw, 4.6rem);
+    font-weight: var(--wght-contemplativo);
+    line-height: 0.96;
+    letter-spacing: -0.025em;
+    color: var(--antracita);
+    margin: 0 0 clamp(1.2rem, 3vh, 2rem) 0; /* Espacio h1 → lede */
+    padding: 0;
+    max-width: var(--medida-titulo, 18ch);
+    text-wrap: balance;
+  }
+  .act-hero__h1 em { font-style: italic; color: var(--azul-oscuro); }
+
+  .act-hero__sub {
+    font-family: var(--body);
+    font-style: normal;
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    line-height: 1.65;
+    max-width: 46ch;
+    color: var(--texto-suave);
+    margin-bottom: clamp(1.5rem, 3.5vh, 2.5rem); /* Espacio lede → badge */
+  }
+
+  .act-hero .actions {
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: var(--espacio-grupo);
+    margin-top: clamp(0.8rem, 2vh, 1.5rem); /* Espacio badge → CTAs */
+  }
+  /* Badge pastilla próximo Düchen — cristal difuso sobre el fondo cálido.
+     Idioma del sistema: fondo translúcido (como .bar/.curso-nodo), saturate+blur
+     (como .bar/.sub), sombra de elevación (como .hero__sound/.sub) y bisel de luz
+     interno (mismo recurso que el inset del .btn-primario). Deja pasar el hero. */
+  .duchen-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    align-self: start;       /* no estira el ancho completo del grid */
+    width: fit-content;      /* solo tan ancho como su contenido */
+    background: linear-gradient(180deg,
+      color-mix(in oklch, var(--lino) 78%, transparent),
+      color-mix(in oklch, var(--lino) 58%, transparent));
+    border: 1px solid var(--hair);   /* hairline suave, no el borde duro */
+    border-radius: 99px;
+    padding: 0.45rem 1.1rem 0.45rem 0.6rem;
+    -webkit-backdrop-filter: saturate(150%) blur(12px);
+    backdrop-filter: saturate(150%) blur(12px);
+    box-shadow:
+      0 8px 22px -14px rgba(40,33,26,.35),        /* elevación suave */
+      inset 0 1px 0 rgba(255,255,255,.5);         /* bisel de luz superior */
+    font-size: 0.82rem;
+  }
+  .duchen-badge__dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--dorado);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--dorado) 25%, transparent);
+    flex-shrink: 0;
+    animation: beat 2.6s ease infinite;
+  }
+  @keyframes beat { 0%{box-shadow:0 0 0 0 color-mix(in oklch,var(--dorado) 55%,transparent)} 70%{box-shadow:0 0 0 8px transparent} 100%{box-shadow:0 0 0 0 transparent} }
+  .duchen-badge__txt { color: var(--texto-suave); }
+  .duchen-badge__txt strong { color: var(--antracita); font-weight: 600; }
+  .duchen-badge__txt em { font-style: italic; color: var(--azul-oscuro); font-family: var(--display); }
+  /* Mantiene "mérito ×10M" en una sola pieza · nunca cuelga el número solo */
+  .duchen-badge__txt .nowrap { white-space: nowrap; }
+
+  /* CALENDARIO SAGRADO */
+  .cal-section { background: var(--lino); padding-block: var(--espacio-orilla); }
+  .cal-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.4rem; flex-wrap: wrap; gap: 1rem; }
+  .cal-h2 { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.05; letter-spacing: -0.02em; color: var(--azul-oscuro); }
+  .cal-h2 em { font-style: italic; color: var(--azul-oscuro); }
+  .cal-header__sub { font-size: 0.78rem; color: var(--texto-tenue); font-style: italic; text-align: right; max-width: 22ch; line-height: 1.5; align-self: flex-end; }
+  .cal-tabla { border: 1px solid var(--hair); border-radius: 14px; overflow: hidden; contain: paint; }
+  .cal-tabla__head { display: grid; grid-template-columns: 88px 1fr 170px; background: var(--azul-oscuro); }
+  .cal-th { padding: 12px 18px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(248,244,235,.4); }
+  .cal-fila { display: grid; grid-template-columns: 88px 1fr 170px; border-bottom: 1px solid var(--hair); cursor: pointer; transition: background var(--t-hover); position: relative; }
+  .cal-fila:last-child { border-bottom: none; }
+  .cal-fila:hover { background: var(--arena); }
+  .cal-fila:hover .cal-cta-btn:not(.is-primary) .txt { background-size: 100% 100%; -webkit-text-fill-color: transparent; }
+  .cal-fila.is-major { background: color-mix(in oklch, var(--dorado) 5%, var(--lino)); }
+  .cal-fila.is-major:hover { background: color-mix(in oklch, var(--dorado) 9%, var(--lino)); }
+  .cal-fila.is-proximo { background: color-mix(in oklch, var(--azul-sutil) 6%, var(--lino)); outline: 1px solid color-mix(in oklch, var(--azul-sutil) 30%, transparent); outline-offset: -1px; }
+  .cal-fecha { padding: 1.2rem 1rem; border-right: 1px solid var(--hair); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .cal-dia { font-family: var(--display); font-style: italic; font-size: 1.7rem; line-height: 1; color: var(--antracita); }
+  .cal-fila.is-major .cal-dia { color: var(--azul-oscuro); }
+  .cal-fila.is-proximo .cal-dia { color: var(--azul-sutil); }
+  .cal-mes { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--texto-tenue); margin-top: 3px; }
+  .cal-contenido { padding: 1.1rem 1.2rem; display: flex; flex-direction: column; justify-content: center; }
+  .cal-badge { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; margin-bottom: 6px; width: fit-content; }
+  .badge--duchen  { background: color-mix(in oklch, var(--dorado) 18%, transparent); color: color-mix(in oklch, var(--dorado) 70%, var(--antracita)); }
+  .badge--mayor   { background: color-mix(in oklch, var(--azul-oscuro) 12%, transparent); color: var(--azul-oscuro); }
+  .badge--mes     { background: color-mix(in oklch, var(--azul-sutil) 12%, transparent); color: var(--azul-sutil); }
+  .badge--losar   { background: color-mix(in oklch, var(--arcilla) 80%, transparent); color: color-mix(in oklch, var(--antracita) 70%, var(--azul-oscuro)); }
+  .cal-titulo { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: 1.06rem; color: var(--antracita); line-height: 1.2; margin-bottom: 3px; }
+  .cal-fila.is-major .cal-titulo { font-size: 1.18rem; }
+  .cal-tibetano { font-size: 0.9rem; color: var(--dorado); letter-spacing: 0.04em; margin-bottom: 4px; opacity: 0.85; }
+  .cal-sub { font-size: 0.8rem; color: var(--texto-suave); line-height: 1.5; }
+  .cal-merito { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+  .merito-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--dorado); box-shadow: 0 0 6px var(--dorado); flex-shrink: 0; }
+  .merito-txt { font-size: 0.72rem; color: var(--dorado); letter-spacing: 0.06em; }
+  .cal-accion {
+    border-left: 1px solid var(--hair);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.2rem 1.4rem;
+  }
+  /* ── Botón terciario — t-link real del sistema (paramita-cta.css) ── */
+  .cal-cta-btn {
+    position: relative;
+    display: inline-flex; align-items: center; gap: 0.5em;
+    font-family: var(--body); font-size: 0.85rem; font-weight: 500;
+    letter-spacing: 0.005em; color: var(--azul-oscuro);
+    background: none; border: none; cursor: pointer;
+    padding: 0.2em 0 0.5em; text-decoration: none; white-space: nowrap;
+    transition: gap var(--t-defecto), letter-spacing var(--t-defecto);
+  }
+  /* Línea inferior fluyendo — idéntica al t-link::after del sistema */
+  .cal-cta-btn::after {
+    content: "";
+    position: absolute; left: 0; right: 1.4em; bottom: 0;
+    height: 1.5px; border-radius: 2px;
+    background: linear-gradient(100deg,
+      var(--azul-oscuro), var(--azul-sutil), var(--dorado),
+      var(--azul-sutil), var(--azul-oscuro));
+    background-size: 200% 100%;
+    animation: flow 14s var(--ease-identidad-flujo) infinite;
+  }
+  .cal-cta-btn .txt {
+    display: inline-block; line-height: 1.15;
+    color: var(--azul-oscuro); -webkit-text-fill-color: currentColor;
+    background-image: linear-gradient(100deg, var(--azul-oscuro), var(--azul-sutil) 45%, var(--dorado));
+    background-size: 0% 100%; background-repeat: no-repeat; background-position: left;
+    -webkit-background-clip: text; background-clip: text;
+    transition: background-size var(--t-revelacion), -webkit-text-fill-color var(--t-defecto);
+  }
+  .cal-cta-btn .arw { color: currentColor; transition: transform var(--t-defecto); font-style: normal; }
+  .cal-cta-btn:hover { gap: 0.85em; letter-spacing: 0.015em; }
+  .cal-cta-btn:hover .txt { background-size: 100% 100%; -webkit-text-fill-color: transparent; color: transparent; }
+  .cal-cta-btn:hover .arw { transform: translateX(4px); color: var(--azul-oscuro); }
+  .cal-cta-btn:hover::after { animation-duration: 5s; }
+
+  /* ── Variante primaria — btn-primario real del sistema ── */
+  .cal-cta-btn.is-primary {
+    position: relative; isolation: isolate;
+    font-size: 0.82rem; font-weight: 600; letter-spacing: 0.005em;
+    color: #fff;
+    /* Reset del padding del t-link base (que incluye espacio para la línea inferior) */
+    padding: 0.55rem 1.1rem;
+    border-radius: 14px; background: none;
+    white-space: nowrap;
+    box-shadow: 0 8px 24px -12px var(--azul-oscuro);
+    transition: transform var(--t-defecto), box-shadow var(--t-revelacion),
+                letter-spacing var(--t-defecto), gap var(--t-defecto);
+  }
+  @supports (corner-shape: superellipse(2)) {
+    .cal-cta-btn.is-primary { border-radius: 14px; corner-shape: superellipse(2); }
+  }
+  /* Degradado respirando */
+  .cal-cta-btn.is-primary::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(100deg, var(--azul-oscuro), var(--azul-sutil), var(--dorado), var(--azul-sutil), var(--azul-oscuro));
+    background-size: 200% 100%;
+    animation: flow 6s var(--ease-identidad-flujo) infinite;
+  }
+  /* Reset de la línea inferior del t-link — el primario no la necesita */
+  .cal-cta-btn.is-primary::after {
+    display: none;
+  }
+  /* Shine en hover — solo en contextos con overflow:hidden; en el calendario omitido */
+  .cal-cta-btn.is-primary .txt { color: #fff; -webkit-text-fill-color: #fff; background-image: none; }
+  .cal-cta-btn.is-primary .arw { color: rgba(255,255,255,.75); }
+  .cal-cta-btn.is-primary:hover {
+    transform: translateY(-2px); letter-spacing: 0.02em; gap: 0.65em; color: #fff;
+    box-shadow: 0 14px 28px -10px var(--azul-oscuro),
+                0 0 14px oklch(78% 0.155 68 / 0.3),
+                0 0 32px 6px oklch(78% 0.155 68 / 0.15);
+  }
+  .cal-cta-btn.is-primary:hover .txt { -webkit-text-fill-color: #fff; color: #fff; }
+  .proximo-tag { position: absolute; top: 1.1rem; right: 185px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; background: var(--azul-sutil); color: #fff; padding: 3px 9px; border-radius: 99px; }
+  .cal-nota { margin-top: 1rem; font-size: 0.78rem; color: var(--texto-tenue); line-height: 1.6; }
+
+  /* VISTA SECTION */
+  .vista-section { background: var(--arena); padding-block: var(--espacio-orilla); }
+  .vista-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.2rem; flex-wrap: wrap; gap: 1.2rem; }
+  .vista-h2 { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.05; letter-spacing: -0.02em; color: var(--azul-oscuro); }
+  .vista-h2 em { font-style: italic; }
+  .vista-toggle { display: flex; background: var(--lino); border: 1px solid var(--hair); border-radius: 10px; padding: 4px; gap: 4px; }
+  .vista-btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 16px; border-radius: 7px; border: none; background: transparent; font-family: var(--body); font-size: 0.82rem; font-weight: 500; color: var(--texto-suave); cursor: pointer; transition: background var(--t-hover), color var(--t-hover); }
+  .vista-btn svg { flex-shrink: 0; stroke: currentColor; fill: none; stroke-width: 1.5; }
+  .vista-btn.is-active { background: var(--azul-oscuro); color: #fff; }
+
+  /* FILTROS */
+  .filtros-bar { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .filtro-chip { display: inline-flex; align-items: center; gap: 6px; padding: 0.42rem 1.1rem; border-radius: 99px; border: 1px solid var(--hair-fuerte); background: transparent; font-family: var(--body); font-size: 0.82rem; font-weight: 500; color: var(--antracita); cursor: pointer; transition: background var(--t-hover), color var(--t-hover), border-color var(--t-hover), box-shadow var(--t-defecto); }
+  .filtro-chip[data-tipo]:not([data-tipo="todos"])::before { content: ''; display: block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+  .filtro-chip.is-active { background: var(--azul-oscuro); color: #fff; border-color: var(--azul-oscuro); box-shadow: 0 0 14px oklch(38% 0.11 245 / 0.3); }
+  .filtro-chip[data-tipo="retiro"].is-active { background: color-mix(in oklch, var(--azul-oscuro) 85%, var(--dorado)); border-color: transparent; }
+  .filtro-chip[data-tipo="evento"].is-active { background: var(--azul-sutil); border-color: transparent; }
+  .filtro-chip[data-tipo="gira"].is-active { background: color-mix(in oklch, var(--azul-oscuro) 60%, var(--azul-sutil)); border-color: transparent; }
+  .filtro-chip[data-tipo="celebracion"].is-active { background: var(--dorado); color: var(--antracita); border-color: transparent; }
+  .filtros-limpiar { background: none; border: none; font-family: var(--body); font-size: 0.82rem; color: var(--texto-suave); cursor: pointer; padding: 6px 12px; border-radius: 99px; opacity: 0; pointer-events: none; transition: opacity var(--t-defecto), color var(--t-defecto); }
+  .filtros-limpiar::before { content: '↺ '; }
+  .filtros-limpiar.is-visible { opacity: 1; pointer-events: auto; }
+  .filtros-limpiar:hover { color: var(--dorado); }
+  .filtros-contador { margin-left: auto; font-size: 0.8rem; color: var(--texto-tenue); }
+  .filtros-contador strong { color: var(--antracita); }
+
+  /* GRID CARDS */
+  .act-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.4rem; }
+  .act-card { position: relative; border-radius: 14px; overflow: hidden; background: var(--card); border: 1px solid var(--hair); cursor: pointer; transition: transform var(--t-defecto), box-shadow var(--t-defecto); }
+  .act-card:hover { transform: translateY(-3px); box-shadow: 0 16px 48px -12px rgba(29,31,38,.18); }
+  .act-card.is-oculto { display: none; }
+  @keyframes iluminacion { 0%{box-shadow:0 0 0 0 rgba(236,172,85,.0)} 40%{box-shadow:0 0 28px 4px rgba(236,172,85,.28)} 100%{box-shadow:0 0 0 0 rgba(236,172,85,.0)} }
+  .act-card.is-iluminando { animation: iluminacion 640ms ease; }
+  .act-card__img { aspect-ratio: 16/9; background: linear-gradient(135deg, var(--arcilla) 0%, var(--calido-zen) 100%); position: relative; overflow: hidden; }
+  .act-card__img-inner { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.5s var(--ease-identidad-flujo); }
+  .act-card:hover .act-card__img-inner { transform: scale(1.04); }
+  .act-card__img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, color-mix(in oklch, var(--antracita) 55%, transparent) 0%, transparent 50%); pointer-events: none; }
+  .act-card__tipo { position: absolute; top: 12px; left: 12px; z-index: 3; display: inline-flex; align-items: center; gap: 5px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 10px; border-radius: 99px; background: color-mix(in oklch, var(--lino) 88%, transparent); border: 0.5px solid rgba(29,31,38,.12); backdrop-filter: blur(10px); color: var(--azul-oscuro); }
+  .act-card__tipo::before { content: ''; display: block; width: 5px; height: 5px; border-radius: 50%; background: currentColor; box-shadow: 0 0 6px currentColor; }
+  .act-card[data-tipo="retiro"]      .act-card__tipo { color: color-mix(in oklch, var(--dorado) 78%, var(--antracita)); }
+  .act-card[data-tipo="evento"]      .act-card__tipo { color: var(--azul-sutil); }
+  .act-card[data-tipo="gira"]        .act-card__tipo { color: color-mix(in oklch, var(--azul-oscuro) 50%, var(--azul-sutil)); }
+  .act-card[data-tipo="celebracion"] .act-card__tipo { color: color-mix(in oklch, var(--dorado) 85%, var(--azul-oscuro)); }
+  .act-card__body { padding: 1.2rem; }
+  .act-card__fecha { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--texto-tenue); margin-bottom: 6px; }
+  .act-card__titulo { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: 1.15rem; line-height: 1.2; color: var(--antracita); margin-bottom: 6px; }
+  .act-card__titulo em { font-style: italic; color: var(--azul-oscuro); }
+  .act-card__desc { font-size: 0.83rem; color: var(--texto-suave); line-height: 1.6; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .act-card__footer { display: flex; justify-content: space-between; align-items: center; padding-top: 0.8rem; border-top: 1px solid var(--hair); gap: 0.5rem; flex-wrap: wrap; }
+  .act-card__meta { font-size: 0.75rem; color: var(--texto-tenue); display: flex; align-items: center; gap: 6px; }
+  .act-card__meta svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.5; flex-shrink: 0; }
+  .act-card__plazas { font-size: 0.72rem; font-weight: 600; color: color-mix(in oklch, var(--dorado) 72%, var(--antracita)); display: flex; align-items: center; gap: 4px; }
+  .plazas-ind { width: 5px; height: 5px; border-radius: 50%; background: var(--dorado); box-shadow: 0 0 5px var(--dorado); }
+
+  /* VISTA CALENDARIO */
+  .vista-cal-wrapper { display: none; }
+  .mes-cal { margin-bottom: 2rem; }
+  .mes-cal__nombre { font-family: var(--display); font-style: italic; font-size: 1.1rem; color: var(--azul-oscuro); margin-bottom: 0.8rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--hair); }
+  .mes-cal__eventos { display: flex; flex-direction: column; gap: 6px; }
+  .mes-evento { display: grid; grid-template-columns: 48px 1fr auto; align-items: center; gap: 0.8rem; padding: 10px 14px; border-radius: 10px; background: var(--card); border: 1px solid var(--hair); cursor: pointer; transition: background var(--t-hover); }
+  .mes-evento:hover { background: var(--lino); }
+  .mes-evento.is-oculto { display: none; }
+  .mes-evento__dia { font-family: var(--display); font-style: italic; font-size: 1.4rem; color: var(--azul-oscuro); text-align: center; line-height: 1; }
+  .mes-evento__titulo { font-size: 0.9rem; font-weight: 500; color: var(--antracita); }
+  .mes-evento__tipo { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; background: color-mix(in oklch, var(--azul-sutil) 12%, transparent); color: var(--azul-sutil); white-space: nowrap; }
+
+  /* ══════════ VISITA AL CENTRO ══════════
+     Banda oscura — degradado idéntico al bloque .retiro de paramita-curso.css */
+  .visita-section {
+    position: relative; isolation: isolate;
+    padding-block: var(--espacio-orilla); overflow: hidden;
+    background: linear-gradient(120deg, var(--azul-oscuro), color-mix(in oklch, var(--azul-oscuro) 60%, var(--antracita)));
+  }
+  /* Halo dorado ambiental — exacto al .retiro::after */
+  .visita-section::after { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .28; background: radial-gradient(120% 80% at 80% 20%, var(--dorado), transparent 60%); pointer-events: none; }
+  .visita-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+
+  /* Eyebrow dorado sobre banda oscura (patrón .retiro .eyebrow) — cubre texto y panel */
+  .visita-section .eyebrow { color: color-mix(in oklch, var(--dorado) 90%, var(--lino)); }
+
+  .visita-texto { padding-top: 0.4rem; }
+  .visita-h2-el { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.05; letter-spacing: -0.02em; color: var(--lino); margin-bottom: 1.2rem; }
+  .visita-h2-el em { font-style: italic; color: var(--lino); }
+  .visita-desc { font-size: 1rem; color: color-mix(in oklch, var(--lino) 82%, transparent); line-height: 1.7; margin-bottom: 1.8rem; max-width: 44ch; }
+  .visita-datos { display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 1.8rem; }
+  .visita-dato { display: flex; align-items: flex-start; gap: 12px; font-size: 0.88rem; color: color-mix(in oklch, var(--lino) 62%, transparent); line-height: 1.5; }
+  .visita-dato strong { color: color-mix(in oklch, var(--lino) 92%, transparent); display: block; margin-bottom: 1px; }
+
+  /* Enlace terciario claro sobre banda oscura (patrón .retiro .t-link) */
+  .visita-section .t-link,
+  .visita-section .t-link .txt { color: var(--lino); }
+  .visita-section .t-link::after { background: var(--dorado); }
+  .visita-section .t-link:hover { color: var(--dorado); }
+  .visita-section .t-link:hover .txt { color: var(--dorado); }
+
+  /* ── PICTOGRAMAS · sistema data-pico (partials/pictogramas/) ──
+     viewBox 0 0 24 24 · stroke 1.5 · fill none · currentColor · acento .acc dorado.
+     En producción sync.py inyecta el SVG canónico dentro de cada <span data-pico>. */
+  .pico { display: inline-flex; flex: none; width: 22px; height: 22px; color: color-mix(in oklch, var(--lino) 72%, transparent); margin-top: 1px; }
+  .pico svg { width: 100%; height: 100%; display: block; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .pico .acc { stroke: var(--dorado); }
+
+  /* ══════════ PANEL "PRÓXIMAS VISITAS GUIADAS" · columna derecha, cristal ══════════ */
+  .visitas {
+    position: relative; border-radius: 20px; overflow: hidden;
+    background: color-mix(in oklch, var(--lino) 7%, transparent);
+    border: 1px solid rgba(255,255,255,.12);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    box-shadow: 0 30px 70px -46px rgba(10,14,22,.7);
+  }
+  /* Franja superior · foto aérea (fallback a degradado cálido si no se sirve) */
+  .visitas__foto {
+    position: relative; aspect-ratio: 24/9;
+    background:
+      url('/assets/img/tempo-vista-aerea-luz-dorada.jpeg') center/cover no-repeat,
+      linear-gradient(135deg, var(--arcilla), var(--calido-zen));
+  }
+  .visitas__foto::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(15,20,30,.55) 100%); }
+  .visitas__foto-label { position: absolute; bottom: 0.8rem; left: 0.9rem; z-index: 1; display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; color: rgba(248,244,235,.82); background: rgba(29,31,38,.38); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); padding: 4px 11px; border-radius: 99px; }
+  .visitas__foto-label::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--dorado); box-shadow: 0 0 6px var(--dorado); flex-shrink: 0; }
+
+  .visitas__cuerpo { padding: clamp(1.3rem, 2.6vw, 1.9rem); }
+  .visitas__titulo { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: clamp(1.35rem, 2.6vw, 1.85rem); line-height: 1.1; letter-spacing: -0.015em; color: var(--lino); margin-bottom: 0.35rem; }
+  .visitas__titulo em { font-style: italic; color: var(--dorado); }
+  .visitas__sub { display: inline-flex; align-items: center; gap: 8px; font-size: 0.86rem; color: color-mix(in oklch, var(--lino) 74%, transparent); }
+  .visitas__sub .pico { width: 17px; height: 17px; color: var(--dorado); margin: 0; }
+
+  .visitas__lista { display: flex; flex-direction: column; margin-top: 1.3rem; }
+
+  .visita-cita {
+    display: grid; grid-template-columns: 46px 1fr auto; align-items: center;
+    gap: 0.7rem 1rem; padding: 0.9rem 0;
+    border-top: 1px solid rgba(255,255,255,.10);
+    transition: opacity var(--t-defecto);
+  }
+  .visita-cita:first-child { border-top: 0; padding-top: 0.2rem; }
+  .visita-cita__fecha { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .visita-cita__dia { font-family: var(--display); font-style: italic; font-size: 1.55rem; line-height: 1; color: var(--lino); }
+  .visita-cita__mes { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: color-mix(in oklch, var(--lino) 55%, transparent); margin-top: 3px; }
+  .visita-cita__info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .visita-cita__cuando { font-size: 0.92rem; font-weight: 500; color: color-mix(in oklch, var(--lino) 90%, transparent); }
+  .visita-cita__plazas { display: inline-flex; align-items: center; gap: 6px; font-size: 0.74rem; letter-spacing: 0.02em; color: color-mix(in oklch, var(--dorado) 82%, var(--lino)); }
+  .visita-cita__plazas .ind { width: 5px; height: 5px; border-radius: 50%; background: var(--dorado); box-shadow: 0 0 6px var(--dorado); flex: none; }
+  .visita-cita.is-pocas .visita-cita__plazas { color: var(--dorado); font-weight: 600; }
+  .visita-cita.is-completa { opacity: 0.55; }
+  .visita-cita.is-completa .visita-cita__plazas { color: color-mix(in oklch, var(--lino) 55%, transparent); }
+  .visita-cita.is-completa .visita-cita__plazas .ind { background: color-mix(in oklch, var(--lino) 40%, transparent); box-shadow: none; }
+
+  .visita-cita__accion { justify-self: end; }
+  /* Reservar · terciario claro (lino → dorado) sobre banda oscura */
+  .cita-btn { display: inline-flex; align-items: center; gap: 0.4em; font-family: var(--body); font-size: 0.85rem; font-weight: 500; color: var(--lino); background: none; border: none; cursor: pointer; padding: 0.15em 0 0.35em; position: relative; white-space: nowrap; transition: gap var(--t-defecto), color var(--t-defecto); }
+  .cita-btn .arw { font-style: normal; transition: transform var(--t-defecto); }
+  .cita-btn::after { content: ""; position: absolute; left: 0; right: 1.2em; bottom: 0; height: 1.5px; border-radius: 2px; background: var(--dorado); opacity: 0.55; transition: opacity var(--t-defecto), right var(--t-defecto); }
+  .cita-btn:hover { color: var(--dorado); gap: 0.7em; }
+  .cita-btn:hover .arw { transform: translateX(3px); }
+  .cita-btn:hover::after { opacity: 1; right: 0; }
+  .cita-btn:focus-visible { outline: 2px solid var(--dorado); outline-offset: 4px; border-radius: 3px; }
+  .cita-btn.is-espera { color: color-mix(in oklch, var(--lino) 60%, transparent); cursor: default; }
+  .cita-btn.is-espera::after { display: none; }
+  .cita-btn.is-hecho { color: var(--dorado); cursor: default; }
+  .cita-btn.is-hecho::after { display: none; }
+
+  .visitas__acuse {
+    margin-top: 1.1rem; padding: 0.7rem 0.9rem; border-radius: 12px;
+    background: color-mix(in oklch, var(--dorado) 14%, transparent);
+    border: 1px solid color-mix(in oklch, var(--dorado) 34%, transparent);
+    color: color-mix(in oklch, var(--lino) 92%, transparent); font-size: 0.84rem;
+    display: none; align-items: flex-start; gap: 8px;
+  }
+  .visitas__acuse.is-visible { display: flex; }
+  .visitas__acuse .pico { width: 17px; height: 17px; color: var(--dorado); margin-top: 1px; }
+
+  .visitas__nota { margin-top: 1rem; font-size: 0.76rem; line-height: 1.6; color: color-mix(in oklch, var(--lino) 56%, transparent); }
+  .visitas__nota b { color: color-mix(in oklch, var(--lino) 82%, transparent); font-weight: 600; }
+
+  /* Responsive del panel (el corte de columnas a 1fr vive en @layer responsive) */
+  @media (max-width: 480px) {
+    .visita-cita { grid-template-columns: 40px 1fr; }
+    .visita-cita__accion { grid-column: 2; justify-self: start; margin-top: 2px; }
+  }
+
+  /* ── Responsive · solo lo propio de actividades ─────────────────────────
+     (el navbar-móvil y el .foot-grid los da el sistema: paramita-responsive.css
+     y paramita-footer.css) ── */
+  @media (max-width: 980px) {
+    /* Pastilla Düchen · en móvil casi siempre cae a 2 líneas: caja (radio menor,
+       no píldora estirada), punto alineado a la primera línea. El .nowrap del
+       markup evita que "×10M" quede huérfano abajo. */
+    .duchen-badge { width: fit-content; max-width: 100%; font-size: 0.75rem; border-radius: 16px; align-items: flex-start; line-height: 1.4; }
+    .duchen-badge__dot { margin-top: 0.4em; }
+    .cal-tabla__head, .cal-fila { grid-template-columns: 72px 1fr; }
+    .cal-accion, .cal-th:last-child { display: none; }
+    .proximo-tag { right: 12px; }
+    .visita-inner { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .act-grid { grid-template-columns: 1fr; }
+    .act-hero { min-height: 88svh; }
+    .cal-fecha { padding: 0.9rem 0.7rem; }
+    .cal-dia { font-size: 1.4rem; }
+    .mes-evento { grid-template-columns: 40px 1fr; }
+    .mes-evento__tipo { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .duchen-badge__dot { animation: none; }
+  }
+
+}
