@@ -1,0 +1,319 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-maestros.css — Estilos específicos de /sobre/maestros/
+   ───────────────────────────────────────────────────────────────────────
+   Depende de: paramita-color.css, paramita-fuentes.css, paramita-tipografia.css,
+               paramita-layout.css, paramita-movimiento.css, paramita-base.css,
+               paramita-hero.css, paramita-cta.css, paramita-sections.css
+   Contiene SOLO lo específico de esta página. Todo lo del sistema (tokens,
+   tipografía, botones, barra, hero base, footer) se hereda de sus hojas.
+
+   Concepto rector: «la cadena de transmisión» — el linaje Sakya que llega
+   hasta Paramita. Jerarquía: los sostenedores del linaje por encima del
+   khenpo residente (misma medida de retrato para todos: --foto-w/--foto-h).
+   Solo tokens del sistema; toda variación cromática vía color-mix(in oklch,…).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@layer paginas {
+
+  /* Medida única de retrato · igual para linaje, visitantes y bisagra */
+  .pagina-maestros { --foto-w: 120px; --foto-h: 150px; }
+
+  /* Ritmo vertical entre secciones (el hero conserva el suyo del sistema) */
+  .pagina-maestros .marco,
+  .pagina-maestros .cita-maestros,
+  .pagina-maestros .linaje-maestros,
+  .pagina-maestros .visitantes,
+  .pagina-maestros .bisagra,
+  .pagina-maestros .puente,
+  .pagina-maestros .cierre-maestros { padding-block: var(--espacio-orilla); position: relative; }
+
+  /* ═══════════ HERO · imagen de fondo (capa dentro del contrato del hero) ═══════════
+     El hero del sistema (paramita-hero.css) aporta min-height, el velo
+     .hero::after y .hero__inner. Añadimos la foto como capa de fondo. Si la
+     imagen falta, queda visible el fondo cálido base del propio .hero. */
+  .hero--foto .hero__bg-img {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: url('../../assets/img/maestros/hero-maestros.jpg');
+    background-size: cover; background-position: center;
+  }
+  /* Scrim de legibilidad para la columna de texto (izquierda) */
+  .hero--foto .hero__bg-img::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg,
+      color-mix(in oklch, var(--lino) 80%, transparent) 0%,
+      color-mix(in oklch, var(--lino) 42%, transparent) 40%,
+      transparent 70%);
+  }
+  @media (max-width: 760px) {
+    .hero--foto .hero__bg-img::after {
+      background: linear-gradient(180deg,
+        color-mix(in oklch, var(--lino) 72%, transparent) 0%,
+        color-mix(in oklch, var(--lino) 40%, transparent) 45%,
+        transparent 100%);
+    }
+  }
+
+  /* ═══════════ Cabecera de sección reutilizable ═══════════ */
+  .pagina-maestros .sec-head { max-width: var(--medida-cuerpo); margin-bottom: var(--espacio-contenido); }
+  .pagina-maestros .sec-head .eyebrow { margin-bottom: var(--espacio-elemento); }
+  .pagina-maestros .sec-head h2 { max-width: 22ch; }
+  .pagina-maestros .sec-head p {
+    color: var(--texto-suave); font-size: var(--texto-lede);
+    line-height: var(--leading-lede); margin: var(--espacio-elemento) 0 0; max-width: var(--medida-lede);
+  }
+
+  /* Foto genérica con fallback (sobre .retrato y .media-grow) */
+  .pagina-maestros .foto {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: 3;
+  }
+
+  /* ═══════════ MARCO · El Linaje Sakya (texto + ilustración) ═══════════ */
+  .pagina-maestros .marco { background: linear-gradient(180deg, var(--lino), var(--arena)); }
+  .pagina-maestros .marco .grid {
+    display: grid; grid-template-columns: 1.1fr .9fr;
+    gap: clamp(2rem, 6vw, 4.5rem); align-items: center;
+  }
+  .pagina-maestros .marco p { color: var(--texto-suave); max-width: var(--medida-cuerpo); }
+  .pagina-maestros .marco p em { color: var(--antracita); font-style: normal; font-weight: var(--wght-firmeza); }
+
+  .pagina-maestros .media-grow {
+    margin: 0; aspect-ratio: 4/5; border-radius: 20px; overflow: hidden; position: relative;
+    background:
+      radial-gradient(120% 120% at 70% 12%, color-mix(in oklch, var(--dorado) 30%, transparent), transparent 60%),
+      linear-gradient(155deg, var(--arcilla), var(--calido-zen));
+    box-shadow: 0 22px 48px -20px color-mix(in oklch, var(--azul-oscuro) 40%, transparent);
+    display: grid; place-items: end center;
+  }
+  .pagina-maestros .media-grow .ph {
+    position: relative; z-index: 2; margin-bottom: var(--espacio-elemento);
+    font-size: var(--texto-micro); letter-spacing: .14em; text-transform: uppercase;
+    color: color-mix(in oklch, var(--antracita) 60%, transparent);
+    background: color-mix(in oklch, var(--lino) 78%, transparent);
+    padding: .3rem .7rem; border-radius: 99px;
+  }
+  .pagina-maestros .media-grow .ini {
+    position: absolute; inset: 0; display: grid; place-items: center; z-index: 0;
+    font-family: var(--display); font-weight: var(--wght-contemplativo);
+    font-size: 3.2rem; color: color-mix(in oklch, var(--azul-oscuro) 42%, transparent);
+  }
+  @media (max-width: 760px) {
+    .pagina-maestros .marco .grid { grid-template-columns: 1fr; }
+    .pagina-maestros .marco .media-grow { max-width: 320px; }
+  }
+
+  /* ═══════════ STATS · cifras de arraigo con count-up ═══════════ */
+  .pagina-maestros .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--hair); border: 1px solid var(--hair);
+    border-radius: 14px; overflow: hidden; margin-top: var(--espacio-contenido);
+  }
+  .pagina-maestros .stat { background: color-mix(in oklch, var(--card) 92%, transparent); padding: 1.4rem 1.2rem; }
+  .pagina-maestros .stat .num {
+    font-family: var(--display); font-weight: var(--wght-presencia);
+    font-size: clamp(1.9rem, 3.4vw, 2.7rem); line-height: 1; color: var(--azul-oscuro); display: block;
+  }
+  .pagina-maestros .stat .stat__l { font-size: var(--texto-mini); color: var(--texto-suave); margin-top: .5rem; display: block; line-height: 1.35; }
+  @media (max-width: 720px) { .pagina-maestros .stats { grid-template-columns: 1fr 1fr; } }
+
+  /* ═══════════ CITA A SANGRE · fondo con luz difusa ═══════════ */
+  .pagina-maestros .cita-maestros {
+    isolation: isolate; overflow: hidden; padding-block: clamp(4rem, 12vh, 9rem);
+    background:
+      radial-gradient(90% 120% at 20% 20%, color-mix(in oklch, var(--dorado) 22%, transparent), transparent 60%),
+      linear-gradient(160deg, var(--arcilla), var(--calido-zen));
+  }
+  .pagina-maestros .cita-maestros::before {
+    content: ""; position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(60% 80% at 75% 60%, color-mix(in oklch, var(--azul-sutil) 22%, transparent), transparent 70%);
+    filter: blur(20px);
+  }
+  .pagina-maestros .cita-maestros .cita__scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(180deg, color-mix(in oklch, var(--lino) 30%, transparent), transparent 40%, color-mix(in oklch, var(--lino) 30%, transparent));
+  }
+  .pagina-maestros .cita-maestros .wrap { position: relative; z-index: 2; text-align: center; display: grid; gap: var(--espacio-elemento); justify-items: center; }
+  .pagina-maestros .cita__eyebrow {
+    font-family: var(--body); font-weight: var(--wght-asertivo); font-size: var(--texto-label);
+    letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--texto-tenue);
+  }
+  .pagina-maestros .cita__frase {
+    font-family: var(--display); font-weight: var(--wght-contemplativo); font-style: italic;
+    font-size: clamp(1.6rem, 4vw, 2.9rem); line-height: 1.22; letter-spacing: -.01em;
+    color: var(--azul-oscuro); max-width: var(--medida-cita); margin: 0;
+  }
+  .pagina-maestros .cita__frase em { color: var(--dorado); font-style: italic; }
+  .pagina-maestros .cita__autor { font-size: var(--texto-mini); color: var(--texto-suave); letter-spacing: .02em; }
+
+  /* ═══════════ LINAJE · SPINE con rail animado + cards-enlace ═══════════ */
+  .pagina-maestros .linaje-maestros { background: var(--lino); }
+  .linaje__spine { position: relative; margin-top: var(--espacio-umbral); padding-block: var(--espacio-elemento); }
+  .linaje__spine .rail {
+    position: absolute; left: 50%; top: 0; bottom: 0; width: 2px;
+    transform: translateX(-50%); background: var(--hair); border-radius: 2px; overflow: hidden;
+  }
+  .linaje__spine .rail__fill {
+    position: absolute; left: 0; top: 0; width: 100%; height: 0;
+    background: var(--degradado-marca-v); transition: height .2s linear;
+  }
+
+  /* nodo · flex para centrar la card; el punto va en absoluto al centro del nodo */
+  .nodo { position: relative; display: flex; align-items: center; min-height: 210px; }
+  .nodo--der { justify-content: flex-end; }
+  .nodo--izq { justify-content: flex-start; }
+
+  .nodo__dot {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 16px; height: 16px; border-radius: 99px;
+    background: var(--lino); border: 2px solid color-mix(in oklch, var(--antracita) 22%, transparent); z-index: 2;
+    transition: border-color var(--t-defecto), box-shadow var(--t-defecto), transform var(--t-defecto);
+  }
+  .nodo.on .nodo__dot {
+    border-color: var(--dorado);
+    box-shadow: 0 0 0 6px color-mix(in oklch, var(--dorado) 20%, transparent);
+    transform: translate(-50%, -50%) scale(1.12);
+  }
+
+  /* card = enlace a la bio del maestro */
+  a.nodo__card {
+    display: flex; gap: 1.1rem; align-items: center; width: min(47%, 560px);
+    background: var(--card); border: 1px solid var(--hair); border-radius: 18px; padding: 1rem 1.2rem;
+    text-decoration: none; color: inherit; position: relative; overflow: hidden; isolation: isolate;
+    box-shadow: 0 14px 34px -22px color-mix(in oklch, var(--azul-oscuro) 50%, transparent);
+    transition: transform var(--t-defecto), box-shadow var(--t-revelacion), border-color var(--t-defecto);
+  }
+  .nodo--izq a.nodo__card { flex-direction: row-reverse; text-align: right; }
+  a.nodo__card > * { position: relative; z-index: 1; }
+
+  /* luz celestial · halo dorado que respira y deriva; se intensifica al hover */
+  a.nodo__card::before {
+    content: ""; position: absolute; inset: -30%; z-index: 0; pointer-events: none;
+    background: radial-gradient(40% 40% at 30% 10%, color-mix(in oklch, var(--dorado) 22%, transparent), transparent 60%);
+    opacity: .45; animation: maestros-celeste 9s var(--ease-identidad-flujo) infinite alternate;
+    transition: opacity var(--t-revelacion);
+  }
+  @keyframes maestros-celeste {
+    0%   { transform: translate3d(0, 0, 0) scale(1); }
+    100% { transform: translate3d(6%, 4%, 0) scale(1.12); }
+  }
+  a.nodo__card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in oklch, var(--dorado) 45%, var(--hair));
+    box-shadow:
+      0 26px 52px -22px color-mix(in oklch, var(--azul-oscuro) 55%, transparent),
+      0 0 44px -6px color-mix(in oklch, var(--dorado) 32%, transparent);
+  }
+  a.nodo__card:hover::before { opacity: .95; }
+  a.nodo__card:focus-visible { outline: 2px solid var(--dorado); outline-offset: 3px; }
+
+  .nodo .retrato {
+    flex: none; width: var(--foto-w); height: var(--foto-h); border-radius: 12px;
+    overflow: hidden; position: relative;
+    background:
+      radial-gradient(120% 120% at 70% 15%, color-mix(in oklch, var(--dorado) 30%, transparent), transparent 60%),
+      linear-gradient(155deg, var(--arcilla), var(--calido-zen));
+  }
+  .retrato .ini {
+    position: absolute; inset: 0; display: grid; place-items: center; z-index: 0;
+    font-family: var(--display); font-weight: var(--wght-contemplativo);
+    font-size: 1.35rem; color: color-mix(in oklch, var(--azul-oscuro) 45%, transparent);
+  }
+  .retrato .foto { object-position: center top; }
+  .nodo__label { font-family: var(--display); font-weight: var(--wght-presencia); font-size: 1.28rem; line-height: 1.1; display: block; }
+  .nodo__rol {
+    font-family: var(--body); font-weight: var(--wght-firmeza); font-size: .72rem;
+    letter-spacing: var(--tracking-overline); text-transform: uppercase; color: var(--texto-tenue);
+    display: block; margin-bottom: .3rem;
+  }
+  .nodo__sub { font-size: .9rem; color: var(--texto-suave); display: block; margin-top: .25rem; line-height: 1.4; max-width: 34ch; }
+
+  /* Énfasis del destacado SIN alterar la medida de foto (jerarquía por fondo y label) */
+  .nodo.destacado a.nodo__card { background: linear-gradient(160deg, var(--card), color-mix(in oklch, var(--calido-zen) 40%, var(--card))); }
+  .nodo.destacado .nodo__label { font-size: 1.5rem; }
+
+  @media (max-width: 760px) {
+    .linaje__spine .rail { left: 14px; }
+    .nodo { display: block; min-height: 0; padding-block: .7rem; padding-left: 44px; }
+    .nodo__dot { left: 14px; }
+    .nodo--der a.nodo__card, .nodo--izq a.nodo__card { width: 100%; flex-direction: row; text-align: left; }
+    .nodo .retrato { width: 88px; height: 110px; }
+  }
+
+  /* ═══════════ VISITANTES · cards-enlace a blog ═══════════ */
+  .pagina-maestros .visitantes { background: linear-gradient(180deg, var(--arena), var(--lino)); }
+  .pagina-maestros .vgrid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 4vw, 2.8rem); }
+  a.vcard {
+    display: grid; grid-template-columns: var(--foto-w) 1fr; gap: 1.1rem; align-items: start;
+    background: var(--card); border: 1px solid var(--hair); border-radius: 18px; padding: 1.3rem;
+    text-decoration: none; color: inherit; position: relative; overflow: hidden;
+    transition: transform var(--t-defecto), box-shadow var(--t-revelacion), border-color var(--t-defecto);
+  }
+  a.vcard:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in oklch, var(--dorado) 40%, var(--hair));
+    box-shadow:
+      0 24px 48px -22px color-mix(in oklch, var(--azul-oscuro) 50%, transparent),
+      0 0 36px -8px color-mix(in oklch, var(--dorado) 26%, transparent);
+  }
+  a.vcard:focus-visible { outline: 2px solid var(--dorado); outline-offset: 3px; }
+  .vcard .retrato {
+    width: var(--foto-w); height: var(--foto-h); border-radius: 14px; overflow: hidden; position: relative;
+    background:
+      radial-gradient(120% 120% at 70% 15%, color-mix(in oklch, var(--dorado) 30%, transparent), transparent 60%),
+      linear-gradient(155deg, var(--arcilla), var(--calido-zen));
+  }
+  .vcard h3 { font-weight: var(--wght-presencia); margin: 0 0 .4rem; line-height: 1.1; }
+  .vcard p { margin: 0; color: var(--texto-suave); font-size: .95rem; line-height: 1.55; }
+  @media (max-width: 640px) { .pagina-maestros .vgrid { grid-template-columns: 1fr; } }
+
+  /* ═══════════ BISAGRA · Khenpo residente (foto a la MISMA medida) ═══════════ */
+  .pagina-maestros .bisagra { background: linear-gradient(175deg, var(--lino), var(--calido-zen)); }
+  .pagina-maestros .bisagra .grid { display: flex; align-items: center; gap: clamp(1.5rem, 4vw, 3rem); }
+  .pagina-maestros .bisagra .media-grow {
+    flex: none; width: var(--foto-w); height: var(--foto-h); aspect-ratio: auto; border-radius: 16px;
+  }
+  .pagina-maestros .bisagra .media-grow .ini { font-size: 2rem; }
+  .pagina-maestros .bisagra h2 { margin: .4rem 0 1rem; }
+  .pagina-maestros .bisagra p { color: var(--antracita); max-width: 50ch; margin: 0 0 1.6rem; }
+  @media (max-width: 760px) { .pagina-maestros .bisagra .grid { flex-direction: column; align-items: flex-start; } }
+
+  /* ═══════════ PUENTE · transición ligera (plano, a propósito) ═══════════ */
+  .pagina-maestros .puente { background: var(--lino); text-align: center; }
+  .pagina-maestros .puente .frase {
+    font-family: var(--display); font-weight: var(--wght-contemplativo); font-style: italic;
+    font-size: clamp(1.3rem, 2.8vw, 2rem); line-height: 1.4; color: var(--azul-oscuro);
+    max-width: 26ch; margin: 0 auto var(--espacio-grupo);
+  }
+  .pagina-maestros .puente .t-link { margin-inline: auto; }
+
+  /* ═══════════ CIERRE · destino final (con luz, para diferenciar del puente) ═══════════ */
+  .pagina-maestros .cierre-maestros {
+    isolation: isolate; overflow: hidden; text-align: center;
+    background:
+      radial-gradient(80% 120% at 50% 8%, color-mix(in oklch, var(--dorado) 20%, transparent), transparent 60%),
+      linear-gradient(180deg, var(--lino), var(--arena));
+  }
+  .pagina-maestros .cierre-maestros::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(45% 55% at 50% 30%, color-mix(in oklch, var(--azul-sutil) 16%, transparent), transparent 70%);
+    filter: blur(26px);
+  }
+  .pagina-maestros .cierre-maestros .wrap { position: relative; z-index: 1; }
+  .pagina-maestros .cierre-maestros h2 {
+    font-family: var(--display); font-weight: var(--wght-contemplativo);
+    font-size: clamp(1.8rem, 3.6vw, 2.7rem); line-height: 1.1; margin: 0 auto var(--espacio-elemento); max-width: 20ch;
+  }
+  .pagina-maestros .cierre-maestros p { color: var(--texto-suave); max-width: var(--medida-lede); margin: 0 auto var(--espacio-contenido); }
+
+  /* ═══════════ REDUCED-MOTION ═══════════ */
+  @media (prefers-reduced-motion: reduce) {
+    a.nodo__card::before { animation: none; }
+    .linaje__spine .rail__fill { transition: none; }
+  }
+
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FIN de paramita-maestros.css
+   ═══════════════════════════════════════════════════════════════════════ */

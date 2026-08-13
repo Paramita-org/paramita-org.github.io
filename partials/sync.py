@@ -19,6 +19,10 @@ Uso:
       # Página pública normal (navbar público + footer + tema):
       python3 sync.py formacion/formacion-publica.html --tema --aria-current="Cursos"
 
+      # Página de /sobre/ · el aria-current marca un ítem del submenú "Sobre"
+      # (2 niveles · el prefijo ../../ del tema se detecta solo):
+      python3 sync.py sobre/maestros/maestros.html --tema --aria-current="Maestros"
+
       # Ficha de curso (2 niveles de profundidad · el prefijo ../ lo detecta solo):
       python3 sync.py formacion/emi-1-calma-y-lucidez/emi-1-calma-y-lucidez.html --tema
 
@@ -110,17 +114,44 @@ def replace_block(html, open_regex, close_tag, replacement, label):
 
 
 def apply_aria_current(html, link_text):
+    """Marca como página actual el enlace cuyo texto es link_text.
+
+    Reconoce DOS formas:
+      · Navlink de primer nivel:  <a class="navlink" href="...">Cursos</a>
+      · Ítem de submenú "Sobre":  <a role="menuitem" href="..."><strong>Maestros</strong>…
+
+    El texto puede ir envuelto en <strong> (los submenús lo hacen). Inserta
+    aria-current="page" en el <a> correspondiente; idempotente (no lo duplica
+    si el <a> ya lo tiene)."""
     if not link_text:
         return html
-    pattern = re.compile(
-        r'(<a\s+class="navlink"\s+href="[^"]*")(\s*>\s*'
+    # ¿ya está marcado ese enlace? → no-op idempotente (no lo duplica ni falla).
+    already = re.compile(
+        r'<a\b[^>]*\baria-current="page"[^>]*>\s*(?:<strong>\s*)?'
         + re.escape(link_text)
-        + r"(?:\s|<))",
+        + r'(?=\s|<)',
         re.IGNORECASE,
     )
-    if not pattern.search(html):
-        raise ValueError(f'No se encontró <a class="navlink"> con texto "{link_text}"')
-    return pattern.sub(r'\1 aria-current="page"\2', html, count=1)
+    if already.search(html):
+        return html
+    # Grupo 1 · el <a ...> completo (cualquier anchor, sin aria-current previo).
+    # Grupo 2 · espacios y un <strong> opcional antes del texto.
+    # El texto debe ser palabra completa (lookahead a espacio o '<').
+    pattern = re.compile(
+        r'(<a\b(?![^>]*\baria-current=)[^>]*\bhref="[^"]*"[^>]*>)'
+        r'(\s*(?:<strong>\s*)?)'
+        + re.escape(link_text)
+        + r'(?=\s|<)',
+        re.IGNORECASE,
+    )
+    m = pattern.search(html)
+    if not m:
+        raise ValueError(
+            f'No se encontró <a> (navlink o submenú) con texto "{link_text}"'
+        )
+    open_tag = m.group(1)
+    new_open = open_tag[:-1] + ' aria-current="page">'
+    return html[: m.start(1)] + new_open + html[m.end(1):]
 
 
 # ── TEMA · penumbra/luz ─────────────────────────────────────────────────
