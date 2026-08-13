@@ -1,0 +1,74 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# PARAMITA · Sincronización automática del navbar/footer/tema/pictogramas
+# .github/workflows/sync.yml
+# ───────────────────────────────────────────────────────────────────────────
+# QUÉ HACE
+#   Cuando subes un cambio a `main` que toca un PARTIAL (o el propio sync.py),
+#   este ayudante ejecuta `python3 partials/sync.py --all` en los servidores de
+#   GitHub y, si eso cambió alguna página, hace un commit con el resultado.
+#   Como tu GitHub Pages publica "Deploy from a branch: main", ese commit hace
+#   que la web se republique sola. Tú solo editas el partial y subes.
+#
+# POR QUÉ SOLO CUANDO TOCAS UN PARTIAL (paths:)
+#   Para no ejecutarse en cada cambio de contenido. Si editas una landing a mano
+#   no hace falta re-sincronizar; solo cuando cambia la "fuente" (los partials).
+#
+# CANDADO ANTI-BUCLE
+#   El commit que hace este ayudante lleva "[skip ci]" en el mensaje, y además
+#   el paso solo comitea "si hubo cambios". Así el commit del propio ayudante
+#   NO vuelve a dispararlo. Sin esto, se llamaría a sí mismo en bucle.
+# ═══════════════════════════════════════════════════════════════════════════
+
+name: Sincronizar navbar y partials
+
+on:
+  push:
+    branches: [main]
+    paths:
+      # Solo se dispara si el cambio toca alguno de estos:
+      - "partials/**"
+      - ".github/workflows/sync.yml"
+
+# Permite al ayudante escribir en el repo (guardar las páginas sincronizadas).
+# Requiere además el interruptor de Settings → Actions → General →
+# "Read and write permissions" (ya lo activaste).
+permissions:
+  contents: write
+
+# Si subes dos cambios seguidos, cancela la ejecución anterior y deja solo la última.
+concurrency:
+  group: sync-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      # 1 · Descargar el repositorio en el servidor de GitHub
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      # 2 · Preparar Python
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 3 · Pasar el sync a TODO el sitio
+      #     (sync.py no necesita librerías externas: solo la librería estándar)
+      - name: Ejecutar sync.py --all
+        run: python3 partials/sync.py --all
+
+      # 4 · Si el sync cambió algo, guardarlo con un commit [skip ci]
+      - name: Guardar los cambios (si los hay)
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name  "paramita-sync-bot"
+            git config user.email "actions@github.com"
+            git add -A
+            git commit -m "sync: navbar/partials propagados a todas las páginas [skip ci]"
+            git push
+            echo "✓ Páginas sincronizadas y publicadas."
+          else
+            echo "✓ Nada que cambiar: todas las páginas ya estaban al día."
+          fi
