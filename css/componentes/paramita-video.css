@@ -1,0 +1,123 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   css/componentes/paramita-video.css — Facade de vídeo reutilizable (YouTube)
+   ─────────────────────────────────────────────────────────────────────────────
+   Componente único para vídeos-testimonio e institucionales en cualquier landing
+   (contribuir, emi/curso, futuras). Sustituye a las copias divergentes que vivían
+   en paramita-curso.css y paramita-contribuir.css.
+
+   MARCADO
+   ───────
+   <div class="video-facade" data-yt="ID_YOUTUBE" role="button" tabindex="0"
+        aria-label="Reproducir …">
+     <div class="video-facade__play" aria-hidden="true"><span></span></div>
+   </div>
+   · data-yt=""      → placeholder (gradiente de marca, sin miniatura, no interactivo)
+   · data-thumb="…"  → miniatura personalizada (opcional; por defecto la de YouTube)
+
+   JS · js/componentes/paramita-video.js (pinta la miniatura + inyecta el embed
+        con controles nativos al interactuar). Sin colores fuera de tokens.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.video-facade {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  isolation: isolate;
+  /* Gradiente de marca como FALLBACK (si no hay ID o la miniatura no carga). */
+  background: linear-gradient(160deg, var(--arcilla), var(--azul-oscuro));
+}
+@supports (corner-shape: superellipse(2)) {
+  .video-facade { border-radius: 22px; corner-shape: superellipse(2.3); }
+}
+
+/* Miniatura real de YouTube · la inserta paramita-video.js como <img> (fiable). */
+.video-facade__thumb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  display: block;
+}
+
+/* Capa difusora de marca · PRESENTE en reposo (unifica la miniatura con la
+   paleta), SE RETIRA al hover (miniatura limpia), y fuera al reproducir. */
+.video-facade::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(150deg,
+      color-mix(in oklch, var(--azul-oscuro) 30%, transparent) 0%,
+      color-mix(in oklch, var(--azul-sutil) 12%, transparent) 45%,
+      color-mix(in oklch, var(--dorado) 14%, transparent) 100%),
+    linear-gradient(0deg,
+      color-mix(in oklch, var(--antracita) 28%, transparent) 0%,
+      transparent 46%);
+  transition: opacity 0.45s ease;
+}
+.video-facade:hover::after { opacity: 0; }
+.video-facade.is-playing::after { opacity: 0; }
+
+/* Botón de play · PROPORCIONAL al facade (nunca gigante) */
+.video-facade__play {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+}
+.video-facade__play span {
+  width: clamp(40px, 15%, 50px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: color-mix(in oklch, var(--card) 90%, transparent);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 24px -12px color-mix(in oklch, var(--antracita) 60%, transparent);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.video-facade:hover .video-facade__play span,
+.video-facade:focus-visible .video-facade__play span {
+  transform: scale(1.08);
+  background: color-mix(in oklch, var(--dorado) 92%, transparent);
+}
+.video-facade__play span::after {
+  content: "";
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 11px solid var(--azul-oscuro);
+}
+
+.video-facade:focus-visible { outline: 2.5px solid var(--dorado); outline-offset: 3px; }
+
+/* Estado reproduciendo · el iframe (con controles nativos) cubre el facade */
+.video-facade.is-playing::after { opacity: 0; }
+.video-facade.is-playing { cursor: default; }
+.video-facade.is-playing .video-facade__play { display: none; }
+.video-facade iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  z-index: 3;
+}
+
+/* Sin ID aún · placeholder no interactivo (institucional pendiente de vídeo) */
+.video-facade[data-yt=""] { cursor: default; }
+.video-facade[data-yt=""] .video-facade__play span { opacity: 0.55; }
+
+@media (prefers-reduced-motion: reduce) {
+  .video-facade__play span { transition: none; }
+  .video-facade::after { transition: none; }
+}

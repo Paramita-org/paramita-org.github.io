@@ -1,0 +1,134 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   css/componentes/paramita-testimonios.css — Bloque de testimonios unificado
+   ─────────────────────────────────────────────────────────────────────────────
+   Un solo sistema de tarjeta (.voz) con dos variantes para reutilizar en
+   cualquier landing:
+     · .voz--video → facade de YouTube (componente paramita-video) + frase
+     · .voz--texto → solo frase (sin media), la cita manda
+
+   Depende de: tokens del sistema, y de paramita-video.css/js para las variantes
+   de vídeo. La entrada ("revelado por enfoque") y la cascada las gestiona
+   paramita-testimonios.js (añade .in). Autosuficiente: no necesita reveal.js
+   ni extras.css.
+
+   MARCADO
+   ───────
+   <section class="section wrap testimonios" id="testimonios" aria-labelledby="…">
+     <div class="testimonios__head">
+       <span class="eyebrow">Voces del sendero</span>
+       <h2 id="…">…<em>…</em>…</h2>
+       <p class="testimonios__sub">…</p>
+     </div>
+     <div class="voces">
+       <figure class="voz voz--video">
+         <div class="video-facade" data-yt="ID" role="button" tabindex="0" aria-label="…">
+           <div class="video-facade__play" aria-hidden="true"><span></span></div>
+         </div>
+         <blockquote class="voz__q">…</blockquote>
+         <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">MR</span>
+           <span><span class="voz__n">…</span><span class="voz__meta">…</span></span></figcaption>
+       </figure>
+       <figure class="voz voz--texto"> … (sin .video-facade) … </figure>
+     </div>
+     <p class="testimonios__foot"><a class="t-link" href="…"><span class="txt">Ver todas las voces</span><span class="arw" aria-hidden="true">→</span></a></p>
+   </section>
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Cabecera del bloque ── */
+.testimonios__head { max-width: var(--medida-cuerpo, 66ch); margin-bottom: clamp(2rem, 5vh, 3.2rem); }
+.testimonios__head h2 { margin: 0; }
+.testimonios__head h2 em { font-style: italic; color: var(--dorado); }
+.testimonios__sub {
+  margin: 1rem 0 0;
+  color: var(--texto-suave);
+  max-width: 52ch;
+  font-size: var(--texto-lede, 1.02rem);
+}
+
+/* ── Rejilla serena · 3-up desktop, 2-up tablet, 1-up móvil (contención) ── */
+.voces {
+  display: grid;
+  gap: clamp(1.1rem, 2.4vw, 1.8rem);
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 900px) { .voces { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .voces { grid-template-columns: 1fr; } }
+
+/* ── Tarjeta unificada ── */
+.voz {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  margin: 0;
+  background: var(--card);
+  border: 1px solid var(--hair);
+  border-radius: 20px;
+  padding: 1.4rem 1.5rem 1.5rem;
+  box-shadow: 0 18px 44px -34px color-mix(in oklch, var(--antracita) 45%, transparent);
+  transition: transform var(--t-revelacion), box-shadow var(--t-revelacion), border-color var(--t-revelacion);
+}
+@supports (corner-shape: superellipse(2)) { .voz { border-radius: 26px; corner-shape: superellipse(2.5); } }
+.voz:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in oklch, var(--dorado) 40%, transparent);
+  box-shadow: 0 30px 60px -34px color-mix(in oklch, var(--antracita) 40%, transparent);
+}
+
+/* La frase · Fraunces itálica (voz humana; aquí sí se permite el italic) */
+.voz__q {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: var(--wght-presencia);
+  line-height: 1.42;
+  color: var(--antracita);
+  margin: 0;
+}
+.voz--texto .voz__q { font-size: clamp(1.12rem, 1.6vw, 1.32rem); }
+.voz--video .voz__q { font-size: 1.02rem; color: var(--texto-suave); margin-top: 0; }
+/* Marca de apertura sutil en texto (no comilla gigante decorativa) */
+.voz--texto .voz__q::before {
+  content: "";
+  display: block;
+  width: 26px; height: 2px;
+  border-radius: 2px;
+  background: var(--dorado);
+  margin-bottom: 0.9rem;
+  opacity: 0.85;
+}
+
+/* Autoría */
+.voz__who { display: flex; align-items: center; gap: 0.75rem; margin-top: auto; }
+.voz__av {
+  width: 42px; height: 42px; border-radius: 50%; flex: none;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--arcilla), var(--dorado));
+  font-family: var(--body); font-weight: var(--wght-firmeza); font-size: 0.82rem; color: var(--antracita);
+}
+.voz__n { display: block; font-size: 0.92rem; font-weight: var(--wght-firmeza); line-height: 1.25; color: var(--antracita); }
+.voz__meta { display: block; font-family: var(--mono, monospace); font-size: 0.68rem; color: var(--texto-tenue); line-height: 1.5; margin-top: 0.15rem; }
+
+/* Al hover de la tarjeta, el filtro de marca del facade se retira (además del
+   hover directo sobre el facade que ya trae paramita-video.css). */
+.voz:hover .video-facade::after { opacity: 0; }
+
+/* ── Pie · teaser → landing con todas (patrón del sistema) ── */
+.testimonios__foot { margin-top: clamp(1.8rem, 4vh, 2.6rem); margin-bottom: 0; }
+
+/* ── Entrada · "revelado por enfoque" ──
+   La voz entra desenfocada, un punto más pequeña y baja, y se asienta
+   enfocándose (blur→0, scale→1). Calmo pero con presencia. paramita-testimonios.js
+   añade .in de forma escalonada; la cabecera también con .in. */
+.testimonios__head { opacity: 0; transform: translateY(14px); }
+.testimonios__head.in { opacity: 1; transform: none; transition: opacity 0.7s ease, transform 0.7s ease; }
+.voz { opacity: 0; transform: translateY(26px) scale(0.965); filter: blur(9px); }
+.voz.in {
+  opacity: 1; transform: none; filter: blur(0);
+  transition: opacity 0.8s ease, transform 0.95s cubic-bezier(0.16, 1, 0.3, 1), filter 0.85s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonios__head, .voz { opacity: 1; transform: none; filter: none; transition: none; }
+  .voz:hover { transform: none; }
+}
