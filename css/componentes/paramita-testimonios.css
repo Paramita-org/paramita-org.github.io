@@ -36,10 +36,10 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ── Cabecera del bloque ── */
-.testimonios__head { max-width: var(--medida-cuerpo, 66ch); margin-bottom: clamp(2rem, 5vh, 3.2rem); }
-.testimonios__head h2 { margin: 0; }
-.testimonios__head h2 em { font-style: italic; color: var(--dorado); }
-.testimonios__sub {
+.bloque-voces__head { max-width: var(--medida-cuerpo, 66ch); margin-bottom: clamp(2rem, 5vh, 3.2rem); }
+.bloque-voces__head h2 { margin: 0; }
+.bloque-voces__head h2 em { font-style: italic; color: var(--dorado); }
+.bloque-voces__sub {
   margin: 1rem 0 0;
   color: var(--texto-suave);
   max-width: 52ch;
@@ -114,14 +114,14 @@
 .voz:hover .video-facade::after { opacity: 0; }
 
 /* ── Pie · teaser → landing con todas (patrón del sistema) ── */
-.testimonios__foot { margin-top: clamp(1.8rem, 4vh, 2.6rem); margin-bottom: 0; }
+.bloque-voces__foot { margin-top: clamp(1.8rem, 4vh, 2.6rem); margin-bottom: 0; }
 
 /* ── Entrada · "revelado por enfoque" ──
    La voz entra desenfocada, un punto más pequeña y baja, y se asienta
    enfocándose (blur→0, scale→1). Calmo pero con presencia. paramita-testimonios.js
    añade .in de forma escalonada; la cabecera también con .in. */
-.testimonios__head { opacity: 0; transform: translateY(14px); }
-.testimonios__head.in { opacity: 1; transform: none; transition: opacity 0.7s ease, transform 0.7s ease; }
+.bloque-voces__head { opacity: 0; transform: translateY(14px); }
+.bloque-voces__head.in { opacity: 1; transform: none; transition: opacity 0.7s ease, transform 0.7s ease; }
 .voz { opacity: 0; transform: translateY(26px) scale(0.965); filter: blur(9px); }
 .voz.in {
   opacity: 1; transform: none; filter: blur(0);
@@ -129,6 +129,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .testimonios__head, .voz { opacity: 1; transform: none; filter: none; transition: none; }
+  .bloque-voces__head, .voz { opacity: 1; transform: none; filter: none; transition: none; }
   .voz:hover { transform: none; }
 }

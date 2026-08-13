@@ -2,7 +2,7 @@
    PARAMITA · FUNDACIÓN SAKYA
    js/componentes/paramita-testimonios.js — Entrada del bloque de testimonios
    ─────────────────────────────────────────────────────────────────────────────
-   Añade .in a la cabecera (.testimonios__head) y, de forma ESCALONADA, a cada
+   Añade .in a la cabecera (.bloque-voces__head) y, de forma ESCALONADA, a cada
    tarjeta (.voz) de cada rejilla (.voces) → dispara el "revelado por enfoque"
    definido en paramita-testimonios.css. Una sola vez (unobserve al entrar).
 
@@ -15,13 +15,13 @@
 (function initTestimonios() {
   'use strict';
 
-  var bloques = document.querySelectorAll('.testimonios');
+  var bloques = document.querySelectorAll('.bloque-voces');
   if (!bloques.length) return;
 
   var calm = matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window);
 
   if (calm) {
-    document.querySelectorAll('.testimonios__head, .testimonios .voz').forEach(function (el) {
+    document.querySelectorAll('.bloque-voces__head, .bloque-voces .voz').forEach(function (el) {
       el.classList.add('in');
     });
     return;
@@ -33,10 +33,10 @@
       if (e.isIntersecting) { e.target.classList.add('in'); ioHead.unobserve(e.target); }
     });
   }, { threshold: 0.25 });
-  document.querySelectorAll('.testimonios__head').forEach(function (el) { ioHead.observe(el); });
+  document.querySelectorAll('.bloque-voces__head').forEach(function (el) { ioHead.observe(el); });
 
   // Tarjetas · cascada escalonada por rejilla (110 ms · gesto del blog)
-  document.querySelectorAll('.testimonios .voces').forEach(function (grid) {
+  document.querySelectorAll('.bloque-voces .voces').forEach(function (grid) {
     var cards = [].slice.call(grid.querySelectorAll('.voz'));
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {

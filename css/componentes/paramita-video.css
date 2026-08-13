@@ -21,6 +21,8 @@
 
 .video-facade {
   position: relative;
+  width: 100%;
+  max-width: none;
   aspect-ratio: 16 / 9;
   border-radius: 18px;
   overflow: hidden;
@@ -75,6 +77,7 @@
 }
 .video-facade__play span {
   width: clamp(40px, 15%, 50px);
+  height: auto;          /* deja que aspect-ratio mande (anula height fijos heredados) */
   aspect-ratio: 1;
   border-radius: 50%;
   background: color-mix(in oklch, var(--card) 90%, transparent);
