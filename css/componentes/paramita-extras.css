@@ -450,6 +450,7 @@
   .zen-frase {
     position: relative;
     z-index: 2;
+    isolation: isolate;
     min-height: auto;
     overflow: hidden;
     display: flex;
@@ -457,9 +458,35 @@
     align-items: center;
     justify-content: center;
     gap: var(--espacio-atomo);
-    padding: clamp(2rem, 5vh, 4rem) 6vw 0;
+    /* Fase 7+ · la frase zen deja de ser plano y pasa a la MISMA atmósfera
+       en capas que las «zona-luz» de la landing de meditación (que gustó):
+       luz cálida desde arriba-derecha + dorado muy tenue abajo-izquierda +
+       banda de arena que se DIFUMINA en los cantos (no un rectángulo a
+       canto). Da cuerpo y cámara contemplativa sin competir con el
+       degradado del título. El zoom sigue recortado por overflow:hidden.
+
+       COHERENCIA · esta receta está replicada de `.zona-luz`
+       (paramita-meditacion.css). Si se quiere DRY, el paso siguiente sería
+       promover `.zona-luz` a componente compartido y usarlo en ambas
+       páginas; de momento se duplica para no tocar meditación (producción). */
+    padding: clamp(2.4rem, 6vh, 4.5rem) 6vw;
     text-align: center;
-    /* Sin padding inferior · pega con el bloque siguiente */
+  }
+
+  .zen-frase::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(78% 66% at 82% 6%,
+        color-mix(in oklch, var(--calido-zen) 62%, transparent), transparent 58%),
+      radial-gradient(66% 58% at 6% 100%,
+        color-mix(in oklch, var(--dorado) 12%, transparent), transparent 62%),
+      linear-gradient(180deg, transparent,
+        color-mix(in oklch, var(--arena) 42%, transparent) 16%,
+        color-mix(in oklch, var(--arena) 42%, transparent) 84%, transparent);
   }
 
   .zen-frase__inner {

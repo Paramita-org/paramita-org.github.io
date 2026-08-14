@@ -169,7 +169,16 @@
   @media(max-width:700px){.otras{grid-template-columns:1fr}}
 
   /* ── CIERRE · suscripción al boletín ─────────────────────────────────── */
-  .cierre{background:var(--arena);text-align:center}
+  /* Cierre · base lino + halo radial dorado ambiental, al modo de la sección
+     "Da el primer paso" del index (.cta-final). Rompe la fusión con "Otras
+     formas" (arena) y da al cierre un envío cálido. "Atmósfera, no efecto":
+     el dorado nace en el centro y se apaga hacia los bordes. */
+  .cierre{position:relative;isolation:isolate;overflow:hidden;background:var(--lino);text-align:center}
+  .cierre::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+    background:radial-gradient(ellipse 70% 60% at 50% 55%,
+      color-mix(in oklch,var(--dorado) 14%,transparent) 0%,
+      color-mix(in oklch,var(--dorado) 6%,transparent) 42%,
+      transparent 75%)}
   .susc-form{display:flex;gap:.6rem;max-width:460px;margin:1.6rem auto 0;flex-wrap:wrap}
   .susc-form input[type=email]{flex:1;min-width:200px;padding:.8rem 1.1rem;border-radius:12px;border:1.5px solid var(--hair);background:var(--card);font-family:var(--body);font-size:1rem;color:var(--antracita)}
   .susc-form input::placeholder{color:var(--texto-tenue)}

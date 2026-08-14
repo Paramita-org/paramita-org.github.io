@@ -378,43 +378,64 @@ nodos.forEach(nodo => {
 /* ─── Puertas del hero: rangos de niveles ──────────────────────────── */
 /* Ahora pasan por el MISMO estado que mapa y frase-intención. Un rango de un
    solo nivel se guarda como string (idéntico a mapa/slot); varios niveles,
-   como array. Así la selección es visible en la frase, persiste y anima. */
+   como array. Así la selección es visible en la frase, persiste y anima.
+
+   Fase 7+ · el cuerpo se extrae a aplicarRangoNivel() para que sea FUENTE
+   ÚNICA de dos entradas: (a) el click en las puertas del propio hero y
+   (b) la llegada con hash desde la home (la Antesala enlaza a
+   /formacion/formacion-publica.html#nivel-1|#nivel-2|#nivel-4). */
+const rangoNivelMap = {
+  '#nivel-1': ['1'],
+  '#nivel-2': ['2', '3'],
+  '#nivel-4': ['4', '5'],
+};
+
+function aplicarRangoNivel(target, { scroll = true } = {}) {
+  const rango = rangoNivelMap[target];
+  const catalogo = document.getElementById('catalogo');
+
+  // Target sin rango mapeado → solo desplazamos al catálogo (comportamiento previo).
+  if (!rango) {
+    if (scroll && catalogo) catalogo.scrollIntoView({ behavior: 'smooth' });
+    return false;
+  }
+
+  const valorNivel = rango.length === 1 ? rango[0] : rango.slice();
+
+  filtros.formato    = null;
+  filtros.modalidad  = null;
+  filtros.aportacion = null;
+  filtros.nivel      = valorNivel;
+
+  sincronizarMapa(valorNivel);
+
+  slots.forEach(s => {
+    if (s.dataset.faceta === 'nivel') actualizarSlot(s, valorNivel);
+    else                              actualizarSlot(s, null);
+  });
+
+  aplicarFiltros();
+  if (scroll && catalogo) catalogo.scrollIntoView({ behavior: 'smooth' });
+  return true;
+}
+
 puertas.forEach(puerta => {
   puerta.addEventListener('click', (e) => {
     e.preventDefault();
-    const target = puerta.getAttribute('href');
-    const map = {
-      '#nivel-1': ['1'],
-      '#nivel-2': ['2', '3'],
-      '#nivel-4': ['4', '5'],
-    };
-    const rango = map[target];
-    const catalogo = document.getElementById('catalogo');
-
-    // Puerta sin rango mapeado → solo desplazamos al catálogo.
-    if (!rango) {
-      if (catalogo) catalogo.scrollIntoView({ behavior: 'smooth' });
-      return;
-    }
-
-    const valorNivel = rango.length === 1 ? rango[0] : rango.slice();
-
-    filtros.formato    = null;
-    filtros.modalidad  = null;
-    filtros.aportacion = null;
-    filtros.nivel      = valorNivel;
-
-    sincronizarMapa(valorNivel);
-
-    slots.forEach(s => {
-      if (s.dataset.faceta === 'nivel') actualizarSlot(s, valorNivel);
-      else                              actualizarSlot(s, null);
-    });
-
-    aplicarFiltros();
-    if (catalogo) catalogo.scrollIntoView({ behavior: 'smooth' });
+    aplicarRangoNivel(puerta.getAttribute('href'));
   });
 });
+
+/* Llegada desde la home con hash (#nivel-1/2/4): pre-filtra el catálogo y
+   salta directo a él (salto instantáneo, no scroll suave, para no marear al
+   aterrizar). Si el hash no es un nivel, no hace nada. */
+if (rangoNivelMap[location.hash]) {
+  aplicarRangoNivel(location.hash, { scroll: false });
+  const catalogoHash = document.getElementById('catalogo');
+  if (catalogoHash) {
+    requestAnimationFrame(() => catalogoHash.scrollIntoView({ behavior: 'auto' }));
+  }
+}
 
 })();
 

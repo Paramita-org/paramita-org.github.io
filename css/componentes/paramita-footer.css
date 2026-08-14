@@ -190,8 +190,11 @@
     font-size: 0.98rem;
   }
 
-  /* Encabezados de columna · dorado para contraste sobre oscuro */
-  .foot h4 {
+  /* Encabezados de columna · dorado para contraste sobre oscuro.
+     Marcados como <h2> (secciones de primer nivel del pie, no h4):
+     evita el salto de jerarquía h2→h4 que rompía el outline para
+     lectores de pantalla. El estilo visual se mantiene idéntico. */
+  .foot h2 {
     font-family: var(--body);
     font-weight: var(--wght-asertivo);
     font-size: 0.74rem;
