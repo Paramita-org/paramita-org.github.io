@@ -461,7 +461,7 @@
     </div>
 
     <div class="idx-foot idx-foot--center" data-reveal>
-      <a class="t-link" href="/formacion/">
+      <a class="t-link" href="/formacion/formacion-publica.html">
         <span class="txt">Descubrir el sendero completo</span><span class="arw" aria-hidden="true">→</span>
       </a>
     </div>
@@ -475,15 +475,15 @@
         <span class="eyebrow" data-reveal="1">Participa</span>
         <h2 id="par-t" data-reveal="2" style="font-size:clamp(2rem,4.5vw,3.3rem);max-width:16ch;margin-top:1rem">Hay muchas formas de <em>caminar juntos</em>.</h2>
         <p style="margin-top:1.4rem;max-width:42ch;color:var(--texto-suave)">Cada gesto sostiene la comunidad. Encuentra la manera que resuene contigo y súmate al proyecto.</p>
-        <div class="idx-foot" style="margin-top:2rem">
-          <a class="t-link" href="#contribuye"><span class="txt">Descubre cómo colaborar</span><span class="arw" aria-hidden="true">→</span></a>
-        </div>
       </div>
       <div class="vias">
-        <!-- TODO · enlazar cada vía a su página real cuando exista -->
-        <a class="via" href="#grupos"><span class="n">01</span><div><h3>Practica en comunidad</h3><p>Únete a un grupo de meditación, presencial u online, y sostén tu práctica acompañado.</p></div></a>
-        <a class="via" href="#voluntariado"><span class="n">02</span><div><h3>Ofrece tu tiempo</h3><p>El voluntariado mantiene vivo el centro: desde la acogida hasta la traducción de enseñanzas.</p></div></a>
-        <a class="via" href="#contribuye"><span class="n">03</span><div><h3>Apoya el proyecto</h3><p>Tu aportación libre hace posible que las enseñanzas sigan siendo accesibles para todos.</p></div></a>
+        <!-- Enrutado (informe «Únete»): cada vía lleva a su spoke.
+             01 → grupos · 02 → voluntariado · 03 → contribuir (dāna, «su casa»).
+             La vía entera es el enlace; la .via__arw es solo afordancia visual
+             en reposo (no un <a> anidado — sería HTML inválido). -->
+        <a class="via" href="/unete/grupos/grupos.html"><span class="n">01</span><div><h3>Practica en comunidad</h3><p>Únete a un grupo de meditación, presencial u online, y sostén tu práctica acompañado.</p></div><span class="via__arw" aria-hidden="true">→</span></a>
+        <a class="via" href="/unete/voluntariado/voluntariado.html"><span class="n">02</span><div><h3>Ofrece tu tiempo</h3><p>El voluntariado mantiene vivo el centro: desde la acogida hasta la traducción de enseñanzas.</p></div><span class="via__arw" aria-hidden="true">→</span></a>
+        <a class="via" href="/contribuir/contribuir.html"><span class="n">03</span><div><h3>Apoya el proyecto</h3><p>Tu aportación libre hace posible que las enseñanzas sigan siendo accesibles para todos.</p></div><span class="via__arw" aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
@@ -492,7 +492,7 @@
   <div class="wrap">
     <section class="band" aria-labelledby="cf-t">
       <p class="eyebrow" data-reveal="1">Crowdfunding · Centro de Retiros Paramita</p>
-      <h2 id="cf-t" data-reveal="2">Construyamos juntos un <em>refugio de Dharma</em>.</h2>
+      <h2 id="cf-t" data-reveal="2">Construyamos juntos un refugio de <em>Dharma</em>.</h2>
       <p>Un lugar donde la práctica encuentra silencio y la comunidad encuentra hogar. Tu aportación levanta, piedra a piedra, un espacio de retiro abierto a todos.</p>
       <a class="btn-secundario" href="#sueno">Unirme a este sueño compartido <span aria-hidden="true">→</span></a>
     </section>
@@ -557,7 +557,7 @@
 
     <!-- Teaser → landing de comunidad (por hacer) -->
     <p class="tradicion__mas" data-reveal="1">
-      <a class="t-link" href="/comunidad"><span class="txt">Conoce a toda la sangha monástica</span><span class="arw" aria-hidden="true">→</span></a>
+      <a class="t-link" href="/sobre/sangha-monastica/sangha-monastica.html"><span class="txt">Conoce a toda la sangha monástica</span><span class="arw" aria-hidden="true">→</span></a>
     </p>
   </section>
 
@@ -692,6 +692,8 @@
           <a class="fl" href="/actividades/actividades.html">Actividades</a>
           <a class="fl" href="/blog/blog.html">Blog</a>
           <a class="fl" href="/sobre/la-fundacion/la-fundacion.html">Sobre</a>
+          <a class="fl" href="/unete/grupos/grupos.html">Grupos</a>
+          <a class="fl" href="/unete/voluntariado/voluntariado.html">Voluntariado</a>
         </div>
 
         <!-- Columna 3 · Contacto -->

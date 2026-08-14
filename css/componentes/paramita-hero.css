@@ -437,10 +437,28 @@
         color-mix(in oklch, var(--arena) 85%, transparent) 100%);
     }
 
-    /* Rotator con más peso en móvil */
+    /* Rotator · peso reconciliado con desktop · Fase 7+
+       ──────────────────────────────────────────────────
+       Antes saltaba a --wght-firmeza (500) para sostener el italic fino
+       sobre el vídeo a tamaño pequeño, pero 500 se leía como una NEGRITA
+       distinta de la cursiva de desktop (300). Se baja a --wght-presencia
+       (400): un punto más de cuerpo que 300 para aguantar sobre el vídeo,
+       pero percibido como la misma cursiva, no como bold. */
     .rotator__word {
       white-space: normal;
-      font-weight: var(--wght-firmeza);
+      font-weight: var(--wght-presencia);
+    }
+
+    /* Lede · contraste reforzado en móvil · Fase 7+
+       ──────────────────────────────────────────────
+       Doctrina intacta: sigue en Hanken (--body), recto y en --wght-presencia
+       (no se tocan familia, peso ni estilo). El único cambio es el color:
+       --texto-suave (oklch 58%) se perdía sobre las zonas cargadas del vídeo
+       vertical (rueda del Dharma, banderas), justo donde el velo móvil es más
+       flojo. El color-mix lo lleva a ~33% de claridad — legible, pero aún un
+       paso por debajo del H1 para conservar la jerarquía. */
+    .hero .lede {
+      color: color-mix(in oklch, var(--antracita) 70%, var(--texto-suave));
     }
 
   }

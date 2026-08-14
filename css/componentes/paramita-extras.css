@@ -1082,6 +1082,31 @@
     max-width: 42ch;
   }
 
+  /* Flecha de afordancia en reposo · Fase 7+
+     ─────────────────────────────────────────────────────────────────
+     La vía entera es un <a>, pero en reposo no LO PARECE — y en móvil no
+     hay hover que lo revele. Esta flecha (un <span>, no un enlace anidado)
+     está siempre visible para señalar la clicabilidad, y se desliza + se
+     dora en hover y durante el destacado cíclico (.is-auto). Único
+     margin-left:auto de la fila → empuja la flecha al borde sin dividir
+     espacio con otro hermano (evita el gotcha de dos auto en flex). */
+  .participa .via__arw {
+    margin-left: auto;
+    align-self: center;
+    flex: none;
+    color: var(--texto-tenue);
+    font-size: 1.1rem;
+    line-height: 1;
+    transition: transform var(--t-defecto), color var(--t-defecto);
+  }
+
+  .participa .via:hover .via__arw,
+  .participa .via:focus-visible .via__arw,
+  .participa .via.is-auto .via__arw {
+    color: var(--dorado);
+    transform: translateX(4px);
+  }
+
   @media (max-width: 860px) {
     .participa-grid {
       grid-template-columns: 1fr;
