@@ -136,18 +136,32 @@
           </ul>
         </li>
 
+        <!-- 6 · Únete · comunidad laica · Fase 7+
+             Sexto apartado, con submenú (Grupos + Voluntariado). Padre NO
+             navegable (mismo patrón que «Sobre»): <button> que solo abre el
+             desplegable; en móvil el tap abre el submenú en vez de navegar.
+             .end ancla el desplegable al borde derecho (es el último apartado,
+             como antes lo era «Sobre»). Destinos: los dos spokes de /unete/. -->
+        <li class="has-sub end">
+          <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Únete <i class="caret" aria-hidden="true"></i></button>
+          <ul class="sub" role="menu" aria-label="Únete a Paramita">
+            <li role="none"><a role="menuitem" href="/unete/grupos/grupos.html"><strong>Grupos</strong><span>Círculos de estudio cerca de ti</span></a></li>
+            <li role="none"><a role="menuitem" href="/unete/voluntariado/voluntariado.html"><strong>Voluntariado</strong><span>Ofrece tu tiempo en el centro</span></a></li>
+          </ul>
+        </li>
+
       </ul>
 
       <span class="div" aria-hidden="true"></span>
 
-      <!-- Par de secundarios · el navbar no lleva acción prioritaria en NINGUNA
-           página: la acción principal vive siempre en el hero/contexto. Así el
-           navbar es idéntico en home y resto (sync sin excepciones) y Contribuir
-           no compite con el primario del hero. Revisa la regla previa de doc
-           06/13 (secundario+primario fuera de la home): queda unificada a par
-           de secundarios en todo el sitio. -->
+      <!-- CTA · un solo secundario · Fase 7+
+           «Únete» salió de aquí y pasó a apartado del menú con submenú
+           (ver el <li class="has-sub end"> de arriba y el doc 06). El navbar
+           sigue SIN acción prioritaria en ninguna página (la acción vive en el
+           hero/contexto): queda Contribuir como único secundario, y el acceso a
+           cuenta lo da el .btn-acceso de la derecha. Así el navbar es idéntico
+           en home y resto (sync sin excepciones). -->
       <div class="ctas">
-        <a class="btn-secundario" href="/unete/unete.html">Únete</a>
         <a class="btn-secundario" href="/contribuir/contribuir.html">Contribuir</a>
       </div>
 
@@ -361,6 +375,7 @@
   </div>
 </section>
 
+<!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
 <footer class="foot" id="contacto">

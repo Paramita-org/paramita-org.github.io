@@ -37,9 +37,6 @@
 
   <!-- ESPECÍFICO de esta página -->
   <link rel="stylesheet" href="../css/paginas/paramita-contribuir.css">
-  <!-- Componentes reutilizables · vídeo + bloque de testimonios (ganan sobre el .video-facade antiguo de contribuir.css) -->
-  <link rel="stylesheet" href="../css/componentes/paramita-video.css">
-  <link rel="stylesheet" href="../css/componentes/paramita-testimonios.css">
 
   <!-- Responsive común (siempre al final) -->
   <link rel="stylesheet" href="../css/base/paramita-responsive.css">
@@ -172,18 +169,32 @@
           </ul>
         </li>
 
+        <!-- 6 · Únete · comunidad laica · Fase 7+
+             Sexto apartado, con submenú (Grupos + Voluntariado). Padre NO
+             navegable (mismo patrón que «Sobre»): <button> que solo abre el
+             desplegable; en móvil el tap abre el submenú en vez de navegar.
+             .end ancla el desplegable al borde derecho (es el último apartado,
+             como antes lo era «Sobre»). Destinos: los dos spokes de /unete/. -->
+        <li class="has-sub end">
+          <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Únete <i class="caret" aria-hidden="true"></i></button>
+          <ul class="sub" role="menu" aria-label="Únete a Paramita">
+            <li role="none"><a role="menuitem" href="/unete/grupos/grupos.html"><strong>Grupos</strong><span>Círculos de estudio cerca de ti</span></a></li>
+            <li role="none"><a role="menuitem" href="/unete/voluntariado/voluntariado.html"><strong>Voluntariado</strong><span>Ofrece tu tiempo en el centro</span></a></li>
+          </ul>
+        </li>
+
       </ul>
 
       <span class="div" aria-hidden="true"></span>
 
-      <!-- Par de secundarios · el navbar no lleva acción prioritaria en NINGUNA
-           página: la acción principal vive siempre en el hero/contexto. Así el
-           navbar es idéntico en home y resto (sync sin excepciones) y Contribuir
-           no compite con el primario del hero. Revisa la regla previa de doc
-           06/13 (secundario+primario fuera de la home): queda unificada a par
-           de secundarios en todo el sitio. -->
+      <!-- CTA · un solo secundario · Fase 7+
+           «Únete» salió de aquí y pasó a apartado del menú con submenú
+           (ver el <li class="has-sub end"> de arriba y el doc 06). El navbar
+           sigue SIN acción prioritaria en ninguna página (la acción vive en el
+           hero/contexto): queda Contribuir como único secundario, y el acceso a
+           cuenta lo da el .btn-acceso de la derecha. Así el navbar es idéntico
+           en home y resto (sync sin excepciones). -->
       <div class="ctas">
-        <a class="btn-secundario" href="/unete/unete.html">Únete</a>
         <a class="btn-secundario" href="/contribuir/contribuir.html">Contribuir</a>
       </div>
 
@@ -413,25 +424,22 @@
     <div class="video-zona" data-reveal>
       <div class="video-facade" data-yt="" role="button" tabindex="0" aria-label="Reproducir el vídeo institucional"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
     </div>
-    <!-- Bloque de testimonios unificado · componentes paramita-testimonios + paramita-video -->
-    <div class="bloque-voces">
-      <div class="voces">
-        <figure class="voz voz--video">
-          <div class="video-facade" data-yt="7aVRR9OEuSg" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Amparo"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
-          <blockquote class="voz__q">Mientras pueda voy a seguir colaborando, porque me hace feliz. A mí Paramita me ha aportado todo… y si digo todo es ¡todo!</blockquote>
-          <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">A</span><span><span class="voz__n">Amparo</span><span class="voz__meta">El Albir · vídeo-testimonio</span></span></figcaption>
-        </figure>
-        <figure class="voz voz--video">
-          <div class="video-facade" data-yt="gPa3mNedxHY" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Gabriel"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
-          <blockquote class="voz__q">Si no hubiera habido socios, ¡hoy no estaría aquí! Cada céntimo invertido hace que muchas otras personas se puedan beneficiar.</blockquote>
-          <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">G</span><span><span class="voz__n">Gabriel</span><span class="voz__meta">Palma de Mallorca · vídeo-testimonio</span></span></figcaption>
-        </figure>
-        <figure class="voz voz--video">
-          <div class="video-facade" data-yt="_X0NCR0u_OU" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de César"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
-          <blockquote class="voz__q">Fue algo muy natural, solo un pasito más. Hacerme amigo fue lo lógico y coherente con cómo esto me estaba aportando a la vida.</blockquote>
-          <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">C</span><span><span class="voz__n">César</span><span class="voz__meta">Sant Adrià del Besòs · vídeo-testimonio</span></span></figcaption>
-        </figure>
-      </div>
+    <div class="testimonios" data-reveal>
+      <figure class="testi">
+        <div class="video-facade" data-yt="7aVRR9OEuSg" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Amparo"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+        <blockquote>Mientras pueda voy a seguir colaborando, porque me hace feliz. A mí Paramita me ha aportado todo… y si digo todo es ¡todo!</blockquote>
+        <figcaption><span class="testi__avatar" aria-hidden="true">A</span>Amparo · El Albir</figcaption>
+      </figure>
+      <figure class="testi">
+        <div class="video-facade" data-yt="gPa3mNedxHY" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Gabriel"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+        <blockquote>Si no hubiera habido socios, ¡hoy no estaría aquí! Cada céntimo invertido hace que muchas otras personas se puedan beneficiar.</blockquote>
+        <figcaption><span class="testi__avatar" aria-hidden="true">G</span>Gabriel · Palma de Mallorca</figcaption>
+      </figure>
+      <figure class="testi">
+        <div class="video-facade" data-yt="_X0NCR0u_OU" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de César"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+        <blockquote>Fue algo muy natural, solo un pasito más. Hacerme amigo fue lo lógico y coherente con cómo esto me estaba aportando a la vida.</blockquote>
+        <figcaption><span class="testi__avatar" aria-hidden="true">C</span>César · Sant Adrià del Besòs</figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -480,6 +488,8 @@
 
 </main>
 
+<!-- prefooter · sincronizado con partials/prefooter.html -->
+<!-- footer · sincronizado con partials/footer.html -->
 <!-- prefooter · sincronizado con partials/prefooter.html -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- prefooter · sincronizado con partials/prefooter.html -->
@@ -548,13 +558,7 @@
 <script src="../js/componentes/paramita-footer-lotos.js" defer></script>
 <script src="../js/componentes/paramita-reveal.js" defer></script>
 
-<!-- Componentes · vídeo (marca el flag) + bloque de testimonios · ANTES del JS de página -->
-<script src="../js/componentes/paramita-video.js" defer></script>
-<script src="../js/componentes/paramita-testimonios.js" defer></script>
-<!-- Específico de esta página · selección de importe y flujo de donación
-     NOTA · si paramita-contribuir.js aún engancha los .video-facade, gatéalo con
-     `if (window._paramitaVideo) return;` al inicio de su handler de vídeo (igual
-     que paramita-curso.js) para que no doble listeners con el componente. -->
+<!-- Específico de esta página · selección de importe y flujo de donación -->
 <script src="../js/paginas/paramita-contribuir.js" defer></script>
 <!-- TEMA · listener del toggle · compartido (sync) -->
 <script src="../js/componentes/paramita-tema.js" defer></script>
