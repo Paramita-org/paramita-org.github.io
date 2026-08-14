@@ -217,9 +217,15 @@
        tocar (JS conmuta aria-expanded → paramita-menu.js). El caret ya
        rota con [aria-expanded="true"] (paramita-menu.css).
 
-       Mismo idiom que el propio .menu de arriba: display none/grid +
-       transition allow-discrete + @starting-style, para que abra y
-       cierre con el fundido suave del sistema. */
+       MECANISMO · max-height + opacity (NO display/@starting-style).
+       Se evita a propósito el idiom `display:none→grid` con
+       `transition … allow-discrete` + `@starting-style`: en WebKit (Safari
+       y TODOS los navegadores de iOS, incluido «Chrome» en iPhone) ese
+       combo puede quedarse encallado en el opacity:0 inicial y no revelar
+       el panel aunque el aria-expanded sea true (el caret gira pero el
+       submenú no aparece). max-height + opacity anima igual y funciona en
+       cualquier motor. Con box-sizing:border-box, el colapso a 0 exige
+       anular también padding vertical y borde para no dejar un sliver. */
     .sub,
     .has-sub.end .sub {
       position: static;
@@ -231,35 +237,31 @@
       -webkit-backdrop-filter: none;
       backdrop-filter: none;
 
-      /* Colapsado por defecto · fuera del flujo (altura 0) */
-      display: none;
+      /* Colapsado por defecto · altura 0, sin sliver de padding/borde */
+      overflow: hidden;
+      max-height: 0;
       opacity: 0;
-      translate: 0 -6px;
       margin: 0;
+      padding-block: 0;
+      border-width: 0;
       pointer-events: none;
-      transition: opacity var(--t-defecto),
-                  translate var(--t-defecto),
-                  display var(--t-defecto) allow-discrete;
+      translate: 0;                 /* anula el translate del escritorio */
+      transition: max-height var(--t-defecto),
+                  opacity var(--t-defecto),
+                  padding var(--t-defecto);
     }
 
     /* Abierto · SOLO cuando el padre marca aria-expanded="true".
-       El selector hermano (~ .sub) gana en la capa responsive, así que
-       ni :hover ni :focus-within de la capa menu lo despliegan en táctil:
-       manda el aria-expanded que conmuta el tap. */
+       El selector hermano (~ .sub) vive en la capa responsive y gana sobre
+       el :hover/:focus-within de la capa menu, así que en táctil manda el
+       aria-expanded que conmuta el tap (no el foco del botón). */
     .has-sub .navlink[aria-expanded="true"] ~ .sub {
-      display: grid;
+      max-height: 30rem;            /* holgado para 5 ítems; recorte no visible */
       opacity: 1;
-      translate: 0 0;
       margin: 0.2rem 0 0.4rem;
+      padding-block: 0.45rem;       /* restaura el relleno base del .sub */
+      border-width: 1px;            /* restaura el borde base del .sub */
       pointer-events: auto;
-    }
-
-    /* @starting-style · el submenú entra desde arriba con opacidad 0 */
-    @starting-style {
-      .has-sub .navlink[aria-expanded="true"] ~ .sub {
-        opacity: 0;
-        translate: 0 -6px;
-      }
     }
 
     /* CTAs · apiladas al final del menú móvil */
