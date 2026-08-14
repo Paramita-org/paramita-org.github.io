@@ -137,7 +137,7 @@
      guiados por pictograma. Deliberadamente distinto de las tarjetas de acción. */
   .destinos{display:grid;grid-template-columns:repeat(3,1fr);gap:2.6rem 2.4rem;margin-top:1.2rem}
   .destino{}
-  .destino h4{font-size:1.14rem;font-weight:500;margin-bottom:.4rem;letter-spacing:-.01em}
+  .destino .h4{font-size:1.14rem;font-weight:500;margin-bottom:.4rem;letter-spacing:-.01em}
   .destino p{font-size:.92rem;color:var(--texto-suave);margin:0;line-height:1.55}
   @media(max-width:820px){.destinos{grid-template-columns:1fr 1fr;gap:2.2rem 2rem}}
   @media(max-width:520px){.destinos{grid-template-columns:1fr}}
@@ -164,21 +164,12 @@
      parezcan pulsables. Distintas de los bloques de transparencia de arriba. */
   .otras{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem;max-width:900px;margin:0 auto}
   .otra-card{display:flex;gap:1rem;align-items:flex-start;padding:1.6rem 1.5rem;background:var(--card);border:1px solid var(--hair);border-radius:16px}
-  .otra-card h4{font-size:1.08rem;font-weight:500;margin-bottom:.3rem}
+  .otra-card .h4{font-size:1.08rem;font-weight:500;margin-bottom:.3rem}
   .otra-card p{font-size:.9rem;color:var(--texto-suave);margin:0 0 .6rem}
   @media(max-width:700px){.otras{grid-template-columns:1fr}}
 
   /* ── CIERRE · suscripción al boletín ─────────────────────────────────── */
-  /* Cierre · base lino + halo radial dorado ambiental, al modo de la sección
-     "Da el primer paso" del index (.cta-final). Rompe la fusión con "Otras
-     formas" (arena) y da al cierre un envío cálido. "Atmósfera, no efecto":
-     el dorado nace en el centro y se apaga hacia los bordes. */
-  .cierre{position:relative;isolation:isolate;overflow:hidden;background:var(--lino);text-align:center}
-  .cierre::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
-    background:radial-gradient(ellipse 70% 60% at 50% 55%,
-      color-mix(in oklch,var(--dorado) 14%,transparent) 0%,
-      color-mix(in oklch,var(--dorado) 6%,transparent) 42%,
-      transparent 75%)}
+  .cierre{background:var(--arena);text-align:center}
   .susc-form{display:flex;gap:.6rem;max-width:460px;margin:1.6rem auto 0;flex-wrap:wrap}
   .susc-form input[type=email]{flex:1;min-width:200px;padding:.8rem 1.1rem;border-radius:12px;border:1.5px solid var(--hair);background:var(--card);font-family:var(--body);font-size:1rem;color:var(--antracita)}
   .susc-form input::placeholder{color:var(--texto-tenue)}
