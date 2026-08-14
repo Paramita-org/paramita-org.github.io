@@ -214,18 +214,20 @@
        desplegaban por defecto, el menú crecía tanto que Contribuir y el
        clúster derecho quedaban fuera de alcance, y el caret no plegaba
        nada. Ahora arrancan COLAPSADOS y el <button> padre los abre al
-       tocar (JS conmuta aria-expanded → paramita-menu.js). El caret ya
-       rota con [aria-expanded="true"] (paramita-menu.css).
+       tocar (paramita-menu.js). El caret rota con [aria-expanded="true"]
+       (paramita-menu.css); la apertura del panel la gobierna .is-open.
 
-       MECANISMO · max-height + opacity (NO display/@starting-style).
-       Se evita a propósito el idiom `display:none→grid` con
-       `transition … allow-discrete` + `@starting-style`: en WebKit (Safari
-       y TODOS los navegadores de iOS, incluido «Chrome» en iPhone) ese
-       combo puede quedarse encallado en el opacity:0 inicial y no revelar
-       el panel aunque el aria-expanded sea true (el caret gira pero el
-       submenú no aparece). max-height + opacity anima igual y funciona en
-       cualquier motor. Con box-sizing:border-box, el colapso a 0 exige
-       anular también padding vertical y borde para no dejar un sliver. */
+       MECANISMO · clase .is-open DIRECTA en el .sub + max-height/opacity.
+       Verificado en iPhone real (WebKit). Se evitan a propósito DOS cosas
+       que WebKit no resolvía:
+         · el idiom display:none→grid con `allow-discrete` + `@starting-style`
+           (se quedaba encallado en el opacity:0 inicial), y
+         · revelar con el selector HERMANO `[aria-expanded="true"] ~ .sub`
+           (WebKit no re-evaluaba ese combinador al mutar el atributo por JS:
+           el caret giraba pero el panel no aparecía).
+       Poner la clase en el propio .sub y abrir con `.sub.is-open` usa solo
+       max-height + opacity, universales. Con box-sizing:border-box, el
+       colapso a 0 exige anular también padding vertical y borde (sliver). */
     .sub,
     .has-sub.end .sub {
       position: static;
@@ -251,11 +253,11 @@
                   padding var(--t-defecto);
     }
 
-    /* Abierto · SOLO cuando el padre marca aria-expanded="true".
-       El selector hermano (~ .sub) vive en la capa responsive y gana sobre
-       el :hover/:focus-within de la capa menu, así que en táctil manda el
-       aria-expanded que conmuta el tap (no el foco del botón). */
-    .has-sub .navlink[aria-expanded="true"] ~ .sub {
+    /* Abierto · SOLO cuando el JS marca .is-open en el propio .sub.
+       Clase directa en el elemento (no combinador hermano ni atributo del
+       botón): es el mecanismo que abre bien en WebkKit/iOS. */
+    .sub.is-open,
+    .has-sub.end .sub.is-open {
       max-height: 30rem;            /* holgado para 5 ítems; recorte no visible */
       opacity: 1;
       margin: 0.2rem 0 0.4rem;

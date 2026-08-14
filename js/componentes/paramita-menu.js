@@ -49,7 +49,15 @@
   );
   if (!padres.length) return;
 
-  const abrir  = (btn, on) => btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+  // Conmuta el estado de UN submenú: aria-expanded en el botón (para el
+  // caret + accesibilidad) Y la clase .is-open en el propio .sub (lo que
+  // realmente lo abre en CSS — mecanismo validado en WebKit/iOS: clase
+  // directa en el elemento, no combinador hermano ni selector de atributo).
+  const abrir = (btn, on) => {
+    btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+    const sub = btn.nextElementSibling;          // el <ul class="sub"> hermano
+    if (sub) sub.classList.toggle('is-open', on);
+  };
   const cerrarTodos = (excepto) => padres.forEach(b => { if (b !== excepto) abrir(b, false); });
 
   padres.forEach(btn => {
