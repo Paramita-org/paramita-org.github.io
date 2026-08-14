@@ -280,21 +280,27 @@
      Este es el principio identitario correcto: la tipografía no
      lleva contornos ni fondos locales. Los elementos respiran limpios
      y la composición del entorno es la que garantiza la lectura. */
-  /* Fase 7+ · halo azul-oscuro (revierte la nota Fase 6c de arriba).
+  /* «refugio de Dharma» (em) · Fase 7+ · énfasis por PESO, no por color
      ─────────────────────────────────────────────────────────────────
-     La apuesta de la Fase 6c —em limpio, la superficie garantiza la
-     lectura— no cuajó en móvil: con la foto muy velada la banda queda
-     casi blanca, y el dorado (oklch 78% de claridad) sobre casi-blanco
-     con un halo TAMBIÉN claro desaparecía. El halo pasa de blanco cálido
-     a aura azul-oscuro: figura/fondo real (oscuro detrás de dorado claro)
-     y dentro de la pareja identitaria azul-oscuro↔dorado (70/30). No es
-     fondo local ni contorno: es un glow suave que solo separa. */
+     El dorado (oklch 78% de claridad) no aguanta sobre la banda pálida y
+     muy velada: ni con halo cálido (Fase 6c) ni con halo azul (Fase 7)
+     conseguía figura/fondo. Sobre superficie clara de contraste incierto,
+     un acento por HUE es frágil; uno por PESO+ESTILO es robusto porque no
+     depende del fondo. El em pasa al mismo azul-oscuro del título, pero en
+     cursiva y peso asertivo (600) frente al 300 del h2 → «lean-in» claro y
+     legible. Halo cálido (como el resto del h2) para separarlo de la foto.
+
+     COHERENCIA · esto es una EXCEPCIÓN documentada a la regla del sistema
+     «em de título = dorado» (doc tipografía). Se justifica igual que la
+     cursiva azul del rotator del hero: acento convocado en contexto de
+     baja legibilidad del dorado. Conviene anotarlo en el doc de tipografía. */
   .band h2 em {
-    color: var(--dorado);
+    color: var(--azul-oscuro);
     font-style: italic;
+    font-weight: var(--wght-asertivo);
     text-shadow:
-      0 1px 10px color-mix(in oklch, var(--azul-oscuro) 55%, transparent),
-      0 2px 22px color-mix(in oklch, var(--azul-oscuro) 35%, transparent);
+      0 1px 12px rgba(248, 244, 235, 0.9),      /* halo cálido interno */
+      0 2px 26px rgba(248, 244, 235, 0.55);     /* halo cálido difuso */
   }
 
   .band p {

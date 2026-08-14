@@ -39,7 +39,12 @@
 <!-- paramita-cursos-flip.js RETIRADO · sustituido por la Antesala del Sendero
      que reutiliza paramita-trazo-divisor.js (ya cargado arriba). -->
 <script src="js/componentes/paramita-cta-zoom.js" defer></script>
-<script src="js/componentes/paramita-participacion.js" defer></script>
+<!-- paramita-participacion.js RETIRADO · Fase 7+
+     El destacado cíclico .is-auto (auto-avance cada 2.2s) contradecía la
+     doctrina de motion (atención que avanza sola = familia de antipatrón
+     del carrusel automático). La afordancia ahora es estática —flecha en
+     reposo en cada vía— más el estado hover dorado. La regla .is-auto
+     queda latente en el CSS como alias del hover por si se reactivara. -->
 <script src="js/componentes/paramita-suscripcion.js" defer></script>
 <script src="js/componentes/paramita-footer-lotos.js" defer></script>
 
@@ -326,7 +331,7 @@
 
       <div class="actions">
         <a class="btn-primario" href="https://cursos.paramita.org/home">Aprende a meditar</a>
-        <a class="btn-secundario" href="/formacion/">Explorar los cursos</a>
+        <a class="btn-secundario" href="/formacion/formacion-publica.html">Explorar los cursos</a>
       </div>
     </div>
 
@@ -403,19 +408,19 @@
 
       <div class="antesala__puertas">
 
-        <a class="antesala__puerta" href="/formacion/" aria-label="Empiezo hoy · Nivel I · Fundamentos">
+        <a class="antesala__puerta" href="/formacion/formacion-publica.html" aria-label="Empiezo hoy · Nivel I · Fundamentos">
           <span class="antesala__puerta__num" aria-hidden="true">I</span>
           <h3 class="antesala__puerta__titulo">Empiezo hoy</h3>
           <p class="antesala__puerta__desc">Aprende a meditar desde cero y descubre las primeras enseñanzas budistas.</p>
         </a>
 
-        <a class="antesala__puerta" href="/formacion/" aria-label="Ya practico · Niveles II y III · Profundización y textos">
+        <a class="antesala__puerta" href="/formacion/formacion-publica.html" aria-label="Ya practico · Niveles II y III · Profundización y textos">
           <span class="antesala__puerta__num" aria-hidden="true">II · III</span>
           <h3 class="antesala__puerta__titulo">Ya practico</h3>
           <p class="antesala__puerta__desc">Profundiza tu meditación y adéntrate en los textos clásicos del budismo tibetano.</p>
         </a>
 
-        <a class="antesala__puerta" href="/formacion/" aria-label="Vengo a profundizar · Niveles IV y V · Vajrayana y práctica avanzada">
+        <a class="antesala__puerta" href="/formacion/formacion-publica.html" aria-label="Vengo a profundizar · Niveles IV y V · Vajrayana y práctica avanzada">
           <span class="antesala__puerta__num" aria-hidden="true">IV · V</span>
           <h3 class="antesala__puerta__titulo">Vengo a profundizar</h3>
           <p class="antesala__puerta__desc">Vajrayana y práctica avanzada para quienes ya recorren el camino desde hace tiempo.</p>
@@ -481,9 +486,9 @@
              01 → grupos · 02 → voluntariado · 03 → contribuir (dāna, «su casa»).
              La vía entera es el enlace; la .via__arw es solo afordancia visual
              en reposo (no un <a> anidado — sería HTML inválido). -->
-        <a class="via" href="/unete/grupos/grupos.html"><span class="n">01</span><div><h3>Practica en comunidad</h3><p>Únete a un grupo de meditación, presencial u online, y sostén tu práctica acompañado.</p></div><span class="via__arw" aria-hidden="true">→</span></a>
-        <a class="via" href="/unete/voluntariado/voluntariado.html"><span class="n">02</span><div><h3>Ofrece tu tiempo</h3><p>El voluntariado mantiene vivo el centro: desde la acogida hasta la traducción de enseñanzas.</p></div><span class="via__arw" aria-hidden="true">→</span></a>
-        <a class="via" href="/contribuir/contribuir.html"><span class="n">03</span><div><h3>Apoya el proyecto</h3><p>Tu aportación libre hace posible que las enseñanzas sigan siendo accesibles para todos.</p></div><span class="via__arw" aria-hidden="true">→</span></a>
+        <a class="via" href="/unete/grupos/grupos.html"><span class="n">01</span><div class="via__body"><div class="via__row"><h3>Practica en comunidad</h3><span class="via__arw" aria-hidden="true">→</span></div><p>Únete a un grupo de meditación, presencial u online, y sostén tu práctica acompañado.</p></div></a>
+        <a class="via" href="/unete/voluntariado/voluntariado.html"><span class="n">02</span><div class="via__body"><div class="via__row"><h3>Ofrece tu tiempo</h3><span class="via__arw" aria-hidden="true">→</span></div><p>El voluntariado mantiene vivo el centro: desde la acogida hasta la traducción de enseñanzas.</p></div></a>
+        <a class="via" href="/contribuir/contribuir.html"><span class="n">03</span><div class="via__body"><div class="via__row"><h3>Apoya el proyecto</h3><span class="via__arw" aria-hidden="true">→</span></div><p>Tu aportación libre hace posible que las enseñanzas sigan siendo accesibles para todos.</p></div></a>
       </div>
     </div>
   </section>
@@ -492,7 +497,7 @@
   <div class="wrap">
     <section class="band" aria-labelledby="cf-t">
       <p class="eyebrow" data-reveal="1">Crowdfunding · Centro de Retiros Paramita</p>
-      <h2 id="cf-t" data-reveal="2">Construyamos juntos un refugio de <em>Dharma</em>.</h2>
+      <h2 id="cf-t" data-reveal="2">Construyamos juntos un <em>refugio de Dharma</em>.</h2>
       <p>Un lugar donde la práctica encuentra silencio y la comunidad encuentra hogar. Tu aportación levanta, piedra a piedra, un espacio de retiro abierto a todos.</p>
       <a class="btn-secundario" href="#sueno">Unirme a este sueño compartido <span aria-hidden="true">→</span></a>
     </section>

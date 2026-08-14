@@ -14,10 +14,11 @@
 @layer paginas {
 
   /* Ritmo de la respiración guiada · funcional (debe casar con el JS de la
-     etiqueta: inhala 4s + sostén 2s + exhala 5s = 11s). Vive a nivel de
-     página porque no hay token semántico del sistema para una cadencia
-     respiratoria; si se reutiliza en otras páginas, promover a token. */
-  .hero--meditacion { --respiro-guia: 11s; }
+     etiqueta: inhala 4s + sostén 2s + exhala 5s = 11s). Se define en .practica
+     porque es donde vive el orbe (.orbe y .orbe-wrap::before lo heredan). Antes
+     estaba en .hero--meditacion, que NO es ancestro del orbe → la variable no
+     llegaba, el animation-duration quedaba inválido y el pulso no corría nunca. */
+  .practica { --respiro-guia: 11s; }
 
 
   /* ═══════════ HERO · imagen de fondo + velo de legibilidad ═══════════ */
@@ -94,7 +95,8 @@
     text-transform: uppercase;
     color: var(--dorado);
     text-align: center;
-    margin: 0 0 var(--espacio-elemento);
+    max-width: none;          /* neutraliza el h2 { max-width: 20ch } global que lo dejaba a la izquierda */
+    margin: 0 auto var(--espacio-elemento);
   }
 
   .practica__lede {
@@ -117,46 +119,75 @@
   }
 
   .orbe-wrap {
+    position: relative;
+    isolation: isolate;
     display: grid;
     place-items: center;
     width: 220px;
     height: 220px;
+  }
+  /* Aura ambiental · luz difusa a los lados que NUNCA se apaga (pulso suave
+     continuo). Respira con el orbe pero no baja de una opacidad mínima, así
+     que incluso en el "sostén" la composición sigue viva. Solo tokens. */
+  .orbe-wrap::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 46%,
+      color-mix(in oklch, var(--dorado) 24%, transparent) 0%,
+      color-mix(in oklch, var(--dorado) 10%, transparent) 38%,
+      transparent 72%);
+    filter: blur(14px);
+    animation: med-aura-orbe var(--respiro-guia) var(--ease-ambiental) infinite;
+    will-change: transform, opacity;
   }
 
   .orbe {
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    background: radial-gradient(circle at 50% 42%,
-      color-mix(in oklch, var(--dorado) 72%, var(--calido-zen)),
-      color-mix(in oklch, var(--dorado) 22%, var(--calido-zen)));
+    background: radial-gradient(circle at 50% 40%,
+      color-mix(in oklch, var(--dorado) 78%, var(--calido-zen)),
+      color-mix(in oklch, var(--dorado) 28%, var(--calido-zen)));
+    /* Glow difuso base · visible también con reduced-motion (cuando no anima) */
+    box-shadow:
+      0 0 48px 10px color-mix(in oklch, var(--dorado) 26%, transparent),
+      0 0 110px 30px color-mix(in oklch, var(--dorado) 12%, transparent);
     animation: med-respira var(--respiro-guia) var(--ease-ambiental) infinite;
-    will-change: transform;
+    will-change: transform, box-shadow;
   }
 
-  /* Cadencia 11s: inhala 0→36% (~4s) · sostén 36→54% (~2s) · exhala 54→100% (~5s) */
+  /* Cadencia 11s: inhala 0→36% (~4s) · sostén 36→54% (~2s, se queda quieta) ·
+     exhala 54→100% (~5s). Glow DIFUSO (blur, no anillos duros) derivado de
+     --dorado con color-mix — antes usaba oklch() hardcodeado fuera de tokens. */
   @keyframes med-respira {
     0% {
-      transform: scale(0.72);
+      transform: scale(0.74);
       box-shadow:
-        0 0 0 8px  oklch(78% 0.155 68 / 0.10),
-        0 0 0 18px oklch(78% 0.155 68 / 0.05),
-        0 0 0 30px oklch(78% 0.155 68 / 0.02);
+        0 0 40px 6px  color-mix(in oklch, var(--dorado) 22%, transparent),
+        0 0 90px 22px color-mix(in oklch, var(--dorado) 9%, transparent);
     }
     36%, 54% {
-      transform: scale(1.12);
+      transform: scale(1.1);
       box-shadow:
-        0 0 0 20px oklch(78% 0.155 68 / 0.16),
-        0 0 0 44px oklch(78% 0.155 68 / 0.08),
-        0 0 0 72px oklch(78% 0.155 68 / 0.035);
+        0 0 62px 14px  color-mix(in oklch, var(--dorado) 34%, transparent),
+        0 0 150px 44px color-mix(in oklch, var(--dorado) 16%, transparent);
     }
     100% {
-      transform: scale(0.72);
+      transform: scale(0.74);
       box-shadow:
-        0 0 0 8px  oklch(78% 0.155 68 / 0.10),
-        0 0 0 18px oklch(78% 0.155 68 / 0.05),
-        0 0 0 30px oklch(78% 0.155 68 / 0.02);
+        0 0 40px 6px  color-mix(in oklch, var(--dorado) 22%, transparent),
+        0 0 90px 22px color-mix(in oklch, var(--dorado) 9%, transparent);
     }
+  }
+
+  /* Aura ambiental · pulso muy suave que no se apaga (mín. opacidad 0.55) */
+  @keyframes med-aura-orbe {
+    0%, 100% { opacity: 0.55; transform: scale(0.92); }
+    45%      { opacity: 1;    transform: scale(1.08); }
   }
 
   .respira-label {
@@ -263,7 +294,24 @@
     margin: 0 0 var(--espacio-elemento);
   }
   .med-p--intro { margin-bottom: var(--espacio-contenido); }
-  .med-p--nota { color: var(--texto-suave); font-size: var(--texto-cuerpo); margin-top: var(--espacio-contenido); margin-bottom: 0; }
+  /* Coda de cierre de la sección · separada de la rejilla de cards con aire +
+     un hairline corto centrado, y en registro más quieto (--texto-tenue,
+     centrada) para que se lea como "un apunte final", no como una card más. */
+  .med-p--nota {
+    position: relative;
+    color: var(--texto-tenue);
+    font-size: var(--texto-cuerpo);
+    text-align: center;
+    max-width: 52ch;
+    margin: var(--espacio-contemplativo) auto 0;
+    padding-top: var(--espacio-grupo);
+  }
+  .med-p--nota::before {
+    content: "";
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 3rem; height: 1px;
+    background: var(--hair-fuerte);
+  }
 
   .section > .contenedor > .eyebrow,
   .section > .contenedor-lectura > .eyebrow { margin-bottom: var(--espacio-atomo); }
@@ -293,6 +341,136 @@
   }
   .escalera h3 { margin: 0 0 var(--espacio-atomo); }
   .escalera p { color: var(--texto-suave); margin: 0 0 var(--espacio-elemento); }
+
+  /* ═══════════ MEDITA CON NOSOTROS · horarios ═══════════ */
+
+  /* Difusor de zona · aura cálida suave y SIN borde (familia de las auras
+     identitarias, no la banda dura de .zona-luz). Marca el cambio de zona
+     tras la escalera sin costura y levanta el panel --card sobre un fondo
+     más cálido → profundidad, que era lo que faltaba (bloque plano). Estático:
+     la doctrina de motion reserva lo infinito a lo identitario, y esto no lo es. */
+  #horarios { position: relative; isolation: isolate; }
+  #horarios::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(125% 78% at 50% 4%,
+        color-mix(in oklch, var(--calido-zen) 56%, transparent), transparent 62%),
+      radial-gradient(70% 60% at 88% 96%,
+        color-mix(in oklch, var(--dorado) 9%, transparent), transparent 60%);
+  }
+
+  /* Panel · superficie propia (--card) sobre el difusor. No usa banda zona-luz
+     para no chocar con "Quién guía" (zona-luz) justo debajo. */
+  .horarios {
+    margin-top: var(--espacio-contenido);
+    border: 1px solid var(--hair);
+    border-radius: 20px;
+    background: var(--card);
+    box-shadow: 0 30px 70px -46px color-mix(in oklch, var(--antracita) 60%, transparent);
+    overflow: hidden;
+  }
+  @supports (corner-shape: superellipse(2)) {
+    .horarios { border-radius: 24px; corner-shape: superellipse(2.2); }
+  }
+
+  .horarios__lista { list-style: none; margin: 0; padding: 0; }
+
+  .sesion {
+    display: grid;
+    grid-template-columns: minmax(8.5rem, 11rem) 1fr;
+    gap: clamp(1.25rem, 4vw, 2.75rem);
+    padding: var(--espacio-grupo) clamp(1.25rem, 4vw, 2.25rem);
+  }
+  .sesion + .sesion { border-top: 1px solid var(--hair); }
+  /* Divisor vertical sutil entre "cuándo" y el cuerpo · estructura la tarjeta */
+  .sesion__cuerpo {
+    border-left: 1px solid var(--hair);
+    padding-left: clamp(1.25rem, 4vw, 2.75rem);
+  }
+
+  .sesion__dias {
+    font-family: var(--body); font-weight: var(--wght-firmeza);
+    font-size: var(--texto-mini); letter-spacing: var(--tracking-label);
+    text-transform: uppercase; color: var(--texto-tenue);
+    margin: 0 0 var(--espacio-atomo);
+  }
+  /* Hora canónica de España · dorado como las anclas de .guia (dt) */
+  .sesion__hora {
+    display: flex; flex-direction: column; gap: 0.25rem;
+    font-family: var(--display); font-weight: var(--wght-presencia);
+    font-size: clamp(1.9rem, 4.5vw, 2.5rem); line-height: 1;
+    color: var(--dorado); margin: 0;
+    font-variation-settings: "opsz" 40;
+  }
+  .sesion__hora time { font-style: normal; }
+  .sesion__zona {
+    font-family: var(--body); font-weight: var(--wght-presencia);
+    font-size: var(--texto-mini); letter-spacing: 0;
+    text-transform: none; color: var(--texto-suave);
+  }
+
+  .sesion__titulo { margin: 0 0 var(--espacio-atomo); }
+  .sesion__desc {
+    color: var(--texto-suave); font-size: var(--texto-cuerpo);
+    line-height: 1.55; margin: 0;
+  }
+
+  /* Equivalencias horarias · separadas del "qué es" por un hairline.
+     El separador solo aparece si hay contenido visible (sin JS no cuelga). */
+  .sesion__equiv { margin: 0; }
+  .sesion__equiv:has(> :not([hidden])) {
+    margin-top: var(--espacio-elemento);
+    padding-top: var(--espacio-elemento);
+    border-top: 1px solid var(--hair);
+  }
+
+  /* "En tu zona" · la equivalencia PERSONAL, lo más prominente del bloque.
+     Acento dorado a la izquierda para marcarla como "tuya". La rellena el JS. */
+  .sesion__local {
+    display: flex; align-items: baseline; gap: 0.5em;
+    margin: 0 0 var(--espacio-elemento);
+    padding-left: 0.7rem;
+    border-left: 2px solid color-mix(in oklch, var(--dorado) 65%, transparent);
+    font-size: var(--texto-cuerpo);
+  }
+  .sesion__local[hidden] { display: none; }
+  .sesion__local .lbl { color: var(--texto-tenue); }
+  .sesion__local .val { font-weight: 600; color: var(--antracita); font-variant-numeric: tabular-nums; }
+
+  /* En el mundo · rejilla sobria rótulo/valor (data-husos). Wrapper oculto
+     hasta que el JS lo rellena. */
+  .sesion__intl[hidden] { display: none; }
+  .sesion__intl-label {
+    font-family: var(--body); font-weight: var(--wght-firmeza);
+    font-size: var(--texto-mini); letter-spacing: var(--tracking-label);
+    text-transform: uppercase; color: var(--texto-tenue);
+    margin: 0 0 var(--espacio-elemento);
+  }
+  .sesion__husos {
+    list-style: none; margin: 0; padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+    gap: var(--espacio-elemento) clamp(1rem, 3vw, 2rem);
+  }
+  .huso { display: flex; flex-direction: column; gap: 0.15rem; }
+  .huso__lbl { font-family: var(--body); font-size: var(--texto-mini); color: var(--texto-tenue); line-height: 1.2; }
+  .huso__val { font-family: var(--body); font-weight: 600; font-size: var(--texto-cuerpo); color: var(--antracita); font-variant-numeric: tabular-nums; line-height: 1.1; }
+
+  .sesion__nota { margin: 0; font-size: var(--texto-mini); line-height: 1.5; color: var(--texto-tenue); }
+
+  .horarios__vias {
+    display: flex; flex-wrap: wrap; gap: var(--espacio-grupo);
+    padding: var(--espacio-grupo) clamp(1.25rem, 4vw, 2.25rem);
+    border-top: 1px solid var(--hair);
+    background: color-mix(in oklch, var(--arena) 32%, transparent);
+  }
+
+  /* Móvil · columnas apiladas, sin divisor vertical, hora en una línea */
+  @media (max-width: 640px) {
+    .sesion { grid-template-columns: 1fr; gap: var(--espacio-elemento); }
+    .sesion__cuerpo { border-left: 0; padding-left: 0; }
+    .sesion__hora { flex-direction: row; align-items: baseline; gap: 0.5rem; }
+  }
 
   /* Quién guía · retrato + anclas (eco del bloque "tradición viva" de la home) */
   .guia__grid {
@@ -404,15 +582,24 @@
 
     /* Velo · en móvil el texto ocupa todo el ancho, así que el velo
        horizontal 95° (pensado para columna izquierda en desktop) dejaba
-       el texto sobre la cara/la foto sin fondo legible. Se sustituye por
-       un velo cálido vertical y uniforme: denso arriba (eyebrow→h1→lede→
-       cta→meta) y aligerando hacia la foto. Sigue luminoso, no oscurece. */
+       el texto sobre la cara/la foto sin fondo legible. Velo cálido vertical
+       DENSO en toda la banda del texto (eyebrow→h1→lede→cta→meta, ~0–72%) y
+       aligerando solo hacia la foto (manos/suelo). Antes bajaba al 40% justo
+       al 70% —donde caen "respirando" y la meta—, por eso no se leían.
+       Sigue luminoso (lino), no oscurece. */
     .hero--meditacion::after {
       background: linear-gradient(180deg,
-        color-mix(in oklch, var(--lino) 82%, transparent) 0%,
-        color-mix(in oklch, var(--lino) 66%, transparent) 46%,
-        color-mix(in oklch, var(--lino) 40%, transparent) 70%,
-        color-mix(in oklch, var(--lino) 68%, transparent) 100%);
+        color-mix(in oklch, var(--lino) 90%, transparent) 0%,
+        color-mix(in oklch, var(--lino) 82%, transparent) 42%,
+        color-mix(in oklch, var(--lino) 70%, transparent) 72%,
+        color-mix(in oklch, var(--lino) 38%, transparent) 100%);
+    }
+
+    /* Meta "Guiado por… 24 años" · sobre la foto en móvil el --texto-suave
+       quedaba casi invisible. Se acerca a antracita (manteniendo jerarquía),
+       el nombre en <b> ya era antracita. */
+    .hero--meditacion .meta {
+      color: color-mix(in oklch, var(--antracita) 78%, var(--texto-suave));
     }
   }
 
@@ -420,6 +607,7 @@
   /* ═══════════ Movimiento reducido ═══════════ */
   @media (prefers-reduced-motion: reduce) {
     .orbe { animation: none; transform: scale(1); }
+    .orbe-wrap::before { animation: none; opacity: 0.7; transform: scale(1); }
     .js .practica.is-open { animation: none; }
     .hero--meditacion .hero__aura { animation: none; }
     .hero--meditacion .hero__sweep::before { animation: none; opacity: 0; }

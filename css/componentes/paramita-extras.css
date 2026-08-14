@@ -1028,31 +1028,51 @@
     display: flex;
     align-items: baseline;
     gap: var(--espacio-elemento);
-    padding: var(--espacio-elemento) var(--espacio-atomo);
+    /* Fase 7+ · derecha a 16px (antes 8): la flecha necesita aire respecto
+       al borde redondeado de la tarjeta destacada. Izquierda se mantiene en
+       8px en reposo y sube a 16px al destacar/hover (indent). */
+    padding: var(--espacio-elemento) var(--espacio-elemento) var(--espacio-elemento) var(--espacio-atomo);
     border-top: 1px solid var(--hair);
     transition: padding var(--t-defecto),
                 color var(--t-defecto),
                 background var(--t-defecto),
-                border-radius var(--t-defecto);
+                border-radius var(--t-defecto),
+                box-shadow var(--t-defecto),
+                border-color var(--t-defecto);
   }
 
   .participa .via:last-child {
     border-bottom: 1px solid var(--hair);
   }
 
-  .participa .via:hover {
-    padding-left: var(--espacio-elemento);
-    color: var(--azul-oscuro);
-  }
-
-  /* Destacado automático cíclico · el JS aplica .is-auto por turnos */
+  /* Estado activo de la vía · hover / focus · Fase 7+
+     ─────────────────────────────────────────────────────────────────
+     Iluminación dorada DIFUSA, no relleno plano. La luz nace a la
+     izquierda (junto al número) y se difumina hacia la derecha —un
+     degradado radial de --dorado a muy baja opacidad— más un halo suave
+     inferior (box-shadow de gran desenfoque, spread negativo) que hace
+     que la tarjeta «se encienda» y levante sin sombra dura. Todo derivado
+     de --dorado por color-mix (sin hex sueltos). El borde superior se
+     desvanece para que la tarjeta redondeada no quede cortada por el hilo.
+     .is-auto queda como ALIAS latente: si algún día se reactivara el ciclo,
+     compartiría exactamente este estado (sin divergencia visual). */
+  .participa .via:hover,
+  .participa .via:focus-visible,
   .participa .via.is-auto {
     padding-left: var(--espacio-elemento);
     color: var(--azul-oscuro);
-    border-radius: 14px;
-    background: color-mix(in oklch, var(--azul-sutil) 9%, transparent);
+    border-radius: 16px;
+    border-top-color: transparent;
+    background:
+      radial-gradient(135% 135% at 0% 50%,
+        color-mix(in oklch, var(--dorado) 15%, transparent) 0%,
+        color-mix(in oklch, var(--dorado) 5%, transparent) 40%,
+        transparent 70%);
+    box-shadow: 0 10px 30px -18px color-mix(in oklch, var(--dorado) 55%, transparent);
   }
 
+  .participa .via:hover .n,
+  .participa .via:focus-visible .n,
   .participa .via.is-auto .n {
     color: var(--dorado);
   }
@@ -1067,32 +1087,49 @@
     min-width: 2.4ch;
   }
 
+  /* Cuerpo de la vía · Fase 7+ · envuelve fila-título y descripción.
+     flex:1 para ocupar el resto tras el número; min-width:0 permite que
+     el h3 se ajuste sin desbordar. */
+  .participa .via__body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Fila del título · h3 + flecha en la MISMA línea (no en el eje del
+     conjunto). Determinista: la flecha queda sobre la línea del título en
+     cualquier fuente, sin depender de métricas de glifo ni de align-self. */
+  .participa .via__row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
   .participa .via h3 {
     font-family: var(--display);
     font-weight: 400;
     font-size: clamp(1.3rem, 2.6vw, 1.8rem);
     line-height: 1.14;
     letter-spacing: -0.015em;
+    margin: 0;
   }
 
   .participa .via p {
     margin-top: var(--espacio-atomo);
     font-size: 0.96rem;
+    line-height: 1.5;
     color: var(--texto-suave);
     max-width: 42ch;
   }
 
-  /* Flecha de afordancia en reposo · Fase 7+
+  /* Flecha de afordancia · Fase 7+
      ─────────────────────────────────────────────────────────────────
      La vía entera es un <a>, pero en reposo no LO PARECE — y en móvil no
      hay hover que lo revele. Esta flecha (un <span>, no un enlace anidado)
-     está siempre visible para señalar la clicabilidad, y se desliza + se
-     dora en hover y durante el destacado cíclico (.is-auto). Único
-     margin-left:auto de la fila → empuja la flecha al borde sin dividir
-     espacio con otro hermano (evita el gotcha de dos auto en flex). */
+     está siempre visible y vive DENTRO de .via__row, así que se apoya en
+     la línea del título; margin-left:auto la lleva al borde derecho.
+     Se desliza + se dora en hover y durante el destacado cíclico. */
   .participa .via__arw {
     margin-left: auto;
-    align-self: center;
     flex: none;
     color: var(--texto-tenue);
     font-size: 1.1rem;

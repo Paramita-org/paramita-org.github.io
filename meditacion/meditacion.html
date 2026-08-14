@@ -252,7 +252,7 @@
         <h1>Aprende a meditar. Empieza <em>respirando</em>.</h1>
         <p class="lede" data-reveal>No hace falta experiencia ni creer en nada. Solo unos minutos, una voz que te acompaña y un lugar real detrás.</p>
         <div class="actions" data-reveal>
-          <button class="btn-primario" id="cta-practica" type="button">Empiezo a respirar</button>
+          <button class="btn-primario" id="cta-practica" type="button" data-abre-practica>Empiezo a respirar</button>
         </div>
         <p class="meta" data-reveal>
           <span class="pulse" aria-hidden="true"></span>
@@ -285,8 +285,7 @@
       <div class="cierre">
         <p>Cuando termines, no hay nada que puntuar. Ya has meditado.</p>
         <div class="next">
-          <a href="/actividades/actividades.html" class="btn-secundario">Meditar en el centro</a>
-          <a href="/formacion/formacion-publica.html" class="t-link"><span class="txt">Empezar el nivel I</span><span class="arw" aria-hidden="true">→</span></a>
+          <a href="#horarios" class="btn-secundario">Meditar en el centro</a>
         </div>
       </div>
     </section>
@@ -343,20 +342,81 @@
             <p class="escalera__cuando">Hoy</p>
             <h3>Respira una vez con nosotros</h3>
             <p>La práctica guiada de arriba no pide nada a cambio. Es el primer paso, y ya lo tienes aquí.</p>
+            <a href="#practica" class="t-link" data-abre-practica><span class="txt">Respirar ahora</span><span class="arw" aria-hidden="true">→</span></a>
           </li>
           <li data-reveal>
             <p class="escalera__cuando">Esta semana</p>
             <h3>Medita en grupo</h3>
-            <p>De lunes a viernes, a las 19:30, guiamos una meditación en el centro del Monte Sella y en directo por YouTube. Sin experiencia previa.</p>
-            <a href="/actividades/actividades.html" class="btn-secundario">Meditar en el centro</a>
+            <p>Cada semana guiamos meditación en grupo, en el centro del Monte Sella y en directo. Gratis y sin experiencia previa.</p>
+            <a href="#horarios" class="t-link"><span class="txt">Ver horarios y cómo unirte</span><span class="arw" aria-hidden="true">→</span></a>
           </li>
           <li data-reveal>
             <p class="escalera__cuando">Cuando quieras profundizar</p>
             <h3>Empieza el camino de formación</h3>
             <p>El nivel I te da las bases para sostener una práctica por ti mismo, paso a paso.</p>
-            <a href="/formacion/formacion-publica.html" class="t-link"><span class="txt">Ver el nivel I</span><span class="arw" aria-hidden="true">→</span></a>
+            <a href="/formacion/formacion-publica.html?nivel=1" class="t-link"><span class="txt">Ver el nivel I</span><span class="arw" aria-hidden="true">→</span></a>
           </li>
         </ol>
+      </div>
+    </section>
+
+    <!-- ════════ MEDITA CON NOSOTROS · horarios semanales ════════ · copy y horarios PROVISIONALES (Ale/Khenpo)
+         La hora canónica de cada sesión vive en data-hora + data-tz (Europe/Madrid).
+         paramita-meditacion.js calcula en vivo la equivalencia en la zona del visitante
+         y en varias zonas de LatAm (Intl → DST siempre correcto). Sin JS, queda la hora
+         de España que ya está en el HTML. id="horarios" es el destino de los CTA
+         "Meditar en el centro" y del paso 02 de la escalera. -->
+    <section class="section" id="horarios">
+      <div class="contenedor-lectura">
+        <p class="eyebrow" data-reveal>En grupo · cada semana</p>
+        <h2 data-reveal>Medita con <em>nosotros</em></h2>
+        <p class="med-p" data-reveal>Cada semana guiamos meditación en grupo, en el centro y en directo. Gratis y sin experiencia previa: solo ven —o conéctate— y siéntate con nosotros.</p>
+
+        <div class="horarios" data-reveal>
+          <ul class="horarios__lista" role="list">
+
+            <!-- Sesión · L–V 19:30 · con equivalencia internacional (data-intl="1") -->
+            <li class="sesion" data-hora="19:30" data-tz="Europe/Madrid" data-intl="1">
+              <div class="sesion__cuando">
+                <p class="sesion__dias">Lunes a viernes</p>
+                <p class="sesion__hora"><time>19:30</time><span class="sesion__zona">h · España</span></p>
+              </div>
+              <div class="sesion__cuerpo">
+                <h3 class="sesion__titulo">Meditación guiada</h3>
+                <p class="sesion__desc">Una práctica sencilla, guiada paso a paso. El mejor punto de entrada.</p>
+                <div class="sesion__equiv">
+                  <p class="sesion__local" data-local hidden></p>
+                  <div class="sesion__intl" hidden>
+                    <p class="sesion__intl-label">En el mundo</p>
+                    <ul class="sesion__husos" data-husos role="list" aria-label="Equivalencia horaria internacional"></ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- Sesión · Domingos 10:00 · Práctica de Tara · sin fila intl (cae de madrugada en América) -->
+            <li class="sesion" data-hora="10:00" data-tz="Europe/Madrid" data-intl="0">
+              <div class="sesion__cuando">
+                <p class="sesion__dias">Domingos</p>
+                <p class="sesion__hora"><time>10:00</time><span class="sesion__zona">h · España</span></p>
+              </div>
+              <div class="sesion__cuerpo">
+                <h3 class="sesion__titulo">Práctica de Tara</h3>
+                <p class="sesion__desc">Una práctica devocional de la tradición, abierta a todos.</p>
+                <div class="sesion__equiv">
+                  <p class="sesion__local" data-local hidden></p>
+                  <p class="sesion__nota">Se emite en hora de España; en América cae de madrugada, pero queda la grabación disponible después.</p>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+
+          <div class="horarios__vias">
+            <a href="/actividades/actividades.html#visita-h2-el" class="btn-secundario">En el centro</a>
+            <a href="https://www.youtube.com/@Paramitaorg" target="_blank" rel="noopener" class="btn-secundario">En directo</a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -380,7 +440,7 @@
               <div><dt>2008</dt><dd>El año en que se fundó la Fundación Sakya en España.</dd></div>
               <div><dt>+31 M</dt><dd>Reproducciones de las enseñanzas de Paramita en YouTube.</dd></div>
             </dl>
-            <p class="guia__mas"><a href="/sobre/khenpo/khenpo.html" class="t-link"><span class="txt">Conoce a Khenpo y la comunidad</span><span class="arw" aria-hidden="true">→</span></a></p>
+            <p class="guia__mas"><a href="/sobre/sangha-monastica/sangha-monastica.html" class="t-link"><span class="txt">Conoce a la comunidad monástica</span><span class="arw" aria-hidden="true">→</span></a></p>
           </div>
         </div>
       </div>
@@ -436,8 +496,7 @@
         <h2 data-reveal>Cuando quieras dar el siguiente paso, te esperamos en el <em>Monte Sella</em>.</h2>
         <p class="med-p" data-reveal>O en tu próxima respiración. Lo que llegue antes.</p>
         <div class="cierre-invita__ctas" data-reveal>
-          <a href="/actividades/actividades.html" class="btn-primario">Meditar en el centro</a>
-          <a href="/formacion/formacion-publica.html" class="t-link"><span class="txt">Ver el nivel I</span><span class="arw" aria-hidden="true">→</span></a>
+          <a href="#horarios" class="t-link t-link--primario"><span class="txt">Meditar en el centro</span><span class="arw" aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>

@@ -24,7 +24,9 @@
   const spin    = donar ? donar.querySelector(".spin") : null;
   const acuse   = document.getElementById("acuse");
 
-  let actual = { val: "50", txt: "ayudan a mantener las clases en directo un mes" };
+  // Sin preselección · nada anclado en carga (coherente con informe 16: sin
+  // anclaje). pinta() dejará la línea de impacto neutra y el botón como "Donar".
+  let actual = { val: "", txt: "" };
 
   function pinta() {
     const v = actual.val;
@@ -60,7 +62,13 @@
 
   if (donar) {
     donar.addEventListener("click", function () {
-      if (!actual.val) { if (libre) libre.focus(); return; }
+      if (!actual.val) {
+        // Sin importe elegido: guiamos suavemente. Si "Otra" está activa (campo
+        // visible), al campo; si no hay nada elegido, al primer importe.
+        if (libre && libre.style.display !== "none") libre.focus();
+        else if (imps[0]) imps[0].focus();
+        return;
+      }
       donar.classList.add("is-procesando");
       if (spin) spin.style.display = "inline-block";
       if (donarTxt) donarTxt.textContent = "Procesando…";
@@ -76,31 +84,43 @@
   pinta();
 })();
 
-/* ── Fachadas de vídeo · carga diferida (no hay iframe hasta el clic) ──────
-   Privacidad: youtube-nocookie. Sólo actúa sobre fachadas con data-yt no vacío,
-   así el vídeo institucional (aún sin ID) se queda como fachada sin romperse. */
+/* El facade de vídeo (miniatura real de YouTube + reproducción con controles
+   nativos) lo gestiona el componente canónico paramita-video.js, que unifica el
+   antiguo handler de esta página. Se carga desde contribuir.html. */
+
+/* ── Card destacada · halo de luz que recorre el contorno ──────────────────
+   ADITIVO Y REVERSIBLE (anotado para el informe final · "halo destacada").
+   Genera el offset-path del glow a partir del tamaño REAL de la card (el grid
+   es fluido) y lo reescribe al redimensionar. El freno global --identidad-estado
+   y prefers-reduced-motion los gobierna el CSS (ocultan la luz). Si el navegador
+   no soporta offset-path, la luz se oculta y queda el resplandor ambiental. */
 (function () {
   "use strict";
-  var facades = document.querySelectorAll(".video-facade[data-yt]");
-  facades.forEach(function (f) {
-    var id = (f.getAttribute("data-yt") || "").trim();
-    if (!id) return;
-    function cargar() {
-      var ifr = document.createElement("iframe");
-      ifr.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0";
-      ifr.title = f.getAttribute("aria-label") || "Vídeo";
-      ifr.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share");
-      ifr.setAttribute("allowfullscreen", "");
-      ifr.loading = "lazy";
-      ifr.style.cssText = "position:absolute;inset:0;width:100%;height:100%;border:0";
-      f.innerHTML = "";
-      f.appendChild(ifr);
-      f.removeAttribute("role");
-      f.removeAttribute("tabindex");
+  var halos = document.querySelectorAll(".cuota-halo");
+  if (!halos.length) return;
+  var soporta = window.CSS && CSS.supports && CSS.supports("offset-path", 'path("M0 0")');
+  halos.forEach(function (halo) {
+    var card = halo.querySelector(".cuota--destacada");
+    var luz  = halo.querySelector(".cuota-halo__luz");
+    if (!card || !luz) return;
+    if (!soporta) { luz.style.display = "none"; return; }
+    var r = 18; // = border-radius de .cuota
+    function trazar() {
+      var w = Math.round(card.offsetWidth), h = Math.round(card.offsetHeight);
+      if (!w || !h) return;
+      var p = "path('M" + r + " 1 H" + (w - r) +
+        " A" + (r - 1) + " " + (r - 1) + " 0 0 1 " + (w - 1) + " " + r +
+        " V" + (h - r) +
+        " A" + (r - 1) + " " + (r - 1) + " 0 0 1 " + (w - r) + " " + (h - 1) +
+        " H" + r +
+        " A" + (r - 1) + " " + (r - 1) + " 0 0 1 1 " + (h - r) +
+        " V" + r +
+        " A" + (r - 1) + " " + (r - 1) + " 0 0 1 " + r + " 1 Z')";
+      luz.style.offsetPath = p;
+      luz.style.webkitOffsetPath = p;
     }
-    f.addEventListener("click", cargar);
-    f.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); cargar(); }
-    });
+    trazar();
+    if ("ResizeObserver" in window) { new ResizeObserver(trazar).observe(card); }
+    else { window.addEventListener("resize", trazar); }
   });
 })();

@@ -44,6 +44,12 @@
     color-mix(in oklch,var(--lino) 80%,transparent) 0%,
     color-mix(in oklch,var(--lino) 48%,transparent) 32%,
     transparent 60%)}
+  /* Móvil · centrar la foto (el sistema hace lo mismo con el vídeo del hero:
+     object-position:center center en ≤768px). Sin esto heredaría "center right"
+     y recortaría la escena a la derecha. */
+  @media(max-width:768px){
+    .hero--foto .hero__bg-img{background-position:center center}
+  }
 
   /* ── CUOTAS · apoyo recurrente ───────────────────────────────────────── */
   .cuotas{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.4rem}
@@ -71,6 +77,31 @@
   .cuota .btn-secundario{margin-top:auto;width:100%}
   .cuotas-nota{text-align:center;color:var(--texto-tenue);font-size:.86rem;margin-top:1.4rem}
   @media(max-width:820px){.cuotas{grid-template-columns:1fr}}
+
+  /* ── Card destacada · HALO de luz que recorre el contorno ─────────────────
+     ADITIVO Y REVERSIBLE (anotado para el informe final · "halo destacada").
+     La card .cuota--destacada NO se modifica: el efecto vive en el envoltorio
+     .cuota-halo. Para retirarlo, desenvuelve la card y borra este bloque + su
+     JS de trazado; la card vuelve exactamente a su estado anterior. */
+  .cuota-halo{position:relative;display:flex;flex-direction:column}
+  .cuota-halo > .cuota{flex:1;width:100%}
+  /* Resplandor ambiental de reposo · dorado del sistema, muy tenue, todo el canto */
+  .cuota-halo__amb{position:absolute;inset:-3px;border-radius:22px;z-index:0;pointer-events:none;
+    box-shadow:0 0 28px 1px color-mix(in oklch,var(--dorado) 24%,transparent)}
+  /* Luz que recorre el contorno · el offset-path lo fija el JS al tamaño REAL
+     de la card (grid fluido). Núcleo cálido luminoso que funde al dorado. */
+  .cuota-halo__luz{position:absolute;left:0;top:0;
+    width:var(--halo-tam,64px);height:var(--halo-tam,64px);border-radius:50%;
+    z-index:0;pointer-events:none;filter:blur(11px);opacity:.9;
+    background:radial-gradient(circle,
+      color-mix(in oklch,#fff 76%,var(--dorado)) 0%,
+      color-mix(in oklch,var(--dorado) 90%,transparent) 38%,
+      transparent 70%);
+    offset-distance:0%;
+    animation:halo-recorre var(--halo-vel,7s) linear infinite}
+  @keyframes halo-recorre{to{offset-distance:100%}}
+  /* Freno global identitario · se congela con el resto del sitio (--identidad-estado) */
+  :root[style*="--identidad-estado: reposo"] .cuota-halo__luz{display:none}
 
   /* ── DONACIÓN ÚNICA ──────────────────────────────────────────────────── */
   .unica{max-width:640px;margin-inline:auto;background:var(--card);border:1px solid var(--hair);border-radius:20px;padding:clamp(1.8rem,4vw,2.6rem)}
@@ -117,23 +148,16 @@
   .fiscal p{font-size:.9rem;color:var(--texto-suave);margin:0 0 .6rem}
   .fiscal a{color:var(--azul-oscuro);text-decoration:underline;text-underline-offset:2px}
 
-  /* ── TRADICIÓN VIVA · cita + vídeo + testimonios ─────────────────────── */
+  /* ── TRADICIÓN VIVA · cita + vídeo institucional ─────────────────────────
+     Los testimonios (.bloque-voces/.voz) y las fachadas de vídeo (.video-facade)
+     son AHORA componentes canónicos del sistema: paramita-testimonios.css y
+     paramita-video.css (+ sus JS). Aquí solo quedan la cita del maestro y el
+     contenedor del vídeo institucional; el resto llega de esos componentes, sin
+     duplicar reglas (antes vivían aquí copiadas y divergentes). */
   .cita-maestro{max-width:760px;margin:0 auto 3rem;text-align:center}
   .cita-maestro blockquote{font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.3;color:var(--antracita);margin:0 0 .8rem}
   .cita-maestro figcaption{color:var(--texto-suave);font-size:.95rem}
   .video-zona{max-width:860px;margin:0 auto 3rem}
-  .testimonios{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem}
-  .testi{margin:0}
-  .video-facade{position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;cursor:pointer;background:linear-gradient(160deg,var(--arcilla),var(--azul-oscuro));box-shadow:0 24px 60px -44px color-mix(in oklch,var(--antracita) 60%,transparent)}
-  .video-facade::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,color-mix(in oklch,var(--antracita) 45%,transparent),transparent 55%)}
-  .video-facade__play{position:absolute;inset:0;z-index:2;display:grid;place-items:center}
-  .video-facade__play span{width:64px;height:64px;border-radius:50%;background:color-mix(in oklch,var(--card) 90%,transparent);display:grid;place-items:center;transition:transform var(--t-defecto),background var(--t-defecto)}
-  .video-facade:hover .video-facade__play span{transform:scale(1.08);background:color-mix(in oklch,var(--dorado) 92%,transparent)}
-  .video-facade__play span::after{content:"";width:0;height:0;margin-left:5px;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:18px solid var(--azul-oscuro)}
-  .testi blockquote{margin:1rem 0 .6rem;font-family:var(--display);font-style:italic;font-size:1.08rem;color:var(--antracita);line-height:1.4}
-  .testi figcaption{display:flex;align-items:center;gap:.6rem;font-size:.88rem;color:var(--texto-suave)}
-  .testi__avatar{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;font-family:var(--body);font-weight:var(--wght-asertivo);font-size:.78rem;color:var(--card);background:linear-gradient(135deg,var(--azul-oscuro),var(--azul-sutil))}
-  @media(max-width:820px){.testimonios{grid-template-columns:1fr}}
 
   /* ── OTRAS FORMAS ────────────────────────────────────────────────────── */
   /* Otras formas · ACCIONES (cada una con su enlace) → tarjetas, correcto que
@@ -158,6 +182,7 @@
   @media(prefers-reduced-motion:reduce){
     .js .ap [data-reveal]{opacity:1;transform:none;transition:none}
     .spin{animation:none}
+    .cuota-halo__luz{display:none}
   }
 
 }
@@ -178,8 +203,14 @@
 .ap .destino .pico{width:auto;height:auto;margin-bottom:1.1rem}
 .ap .destino .pico svg{width:44px;height:44px;stroke-width:1.6}
 
-/* Otras formas · pictograma junto al título en tarjeta de acción */
-.ap .otra-card .pico{width:auto;height:auto;margin-top:.1rem;flex:none}
+/* Otras formas · pictograma junto al título en tarjeta de acción.
+   El SVG mide 34px; el título (h4) baja a 1.08rem. Acotamos la caja del pico a
+   la altura de la 1ª línea del h4 y centramos el SVG dentro (inline-flex): así
+   su centro óptico coincide con el del título en lugar de caer ~8px por debajo.
+   CLAVE · min-height:0 · como .pico es ítem flex de .otra-card, su min-height:auto
+   se resolvía al tamaño del SVG (34px) e ignoraba el height reducido; con 0, la
+   altura de línea manda y el SVG (34px) desborda centrado sobre el título. */
+.ap .otra-card .pico{width:auto;height:calc(1.08rem * var(--leading-h4));min-height:0;align-items:center;margin-top:0;flex:none}
 .ap .otra-card .pico svg{width:34px;height:34px}
 
 /* Fiscal · igual escala que la tarjeta de acción */

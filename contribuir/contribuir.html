@@ -35,6 +35,10 @@
   <link rel="stylesheet" href="../css/componentes/paramita-pictogramas.css">
   <link rel="stylesheet" href="../css/componentes/paramita-footer.css">
 
+  <!-- Testimonios · componentes canónicos (sin @layer · ganan sobre la página) -->
+  <link rel="stylesheet" href="../css/componentes/paramita-video.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-testimonios.css">
+
   <!-- ESPECÍFICO de esta página -->
   <link rel="stylesheet" href="../css/paginas/paramita-contribuir.css">
 
@@ -292,18 +296,26 @@
         </ul>
         <a class="btn-secundario" href="#">Hazte amigo/a</a>
       </div>
-      <div class="cuota cuota--destacada">
-        <span class="cuota__flag">La más elegida</span>
-        <div class="cuota__top">
-          <span class="cuota__rango">Amigo/a de Paramita</span>
+      <!-- Card destacada envuelta en .cuota-halo · ADITIVO Y REVERSIBLE:
+           para retirar el efecto, elimina .cuota-halo y sus dos <span> y deja
+           <div class="cuota cuota--destacada"> como hijo directo de .cuotas.
+           (Anotado para el informe final · nota "halo destacada".) -->
+      <div class="cuota-halo">
+        <span class="cuota-halo__amb" aria-hidden="true"></span>
+        <span class="cuota-halo__luz" aria-hidden="true"></span>
+        <div class="cuota cuota--destacada">
+          <span class="cuota__flag">La más elegida</span>
+          <div class="cuota__top">
+            <span class="cuota__rango">Amigo/a de Paramita</span>
+          </div>
+          <div class="cuota__precio">30 €<small> / mes</small></div>
+          <p class="cuota__decir">Un acompañamiento firme, mes a mes.</p>
+          <ul class="cuota__benef">
+            <li>Sostiene además las becas para quien lo necesita</li>
+            <li>Deducción fiscal en España</li>
+          </ul>
+          <a class="btn-secundario" href="#">Hazte amigo/a</a>
         </div>
-        <div class="cuota__precio">30 €<small> / mes</small></div>
-        <p class="cuota__decir">Un acompañamiento firme, mes a mes.</p>
-        <ul class="cuota__benef">
-          <li>Sostiene además las becas para quien lo necesita</li>
-          <li>Deducción fiscal en España</li>
-        </ul>
-        <a class="btn-secundario" href="#">Hazte amigo/a</a>
       </div>
       <div class="cuota">
         <div class="cuota__top">
@@ -334,14 +346,14 @@
       <div id="form-unica">
         <div class="importes" role="group" aria-label="Elige un importe">
           <button class="importe" data-imp="20" data-txt="pueden cubrir la traducción de un texto breve del canon" aria-pressed="false">20 €</button>
-          <button class="importe" data-imp="50" data-txt="ayudan a mantener las clases en directo un mes" aria-pressed="true">50 €</button>
+          <button class="importe" data-imp="50" data-txt="ayudan a mantener las clases en directo un mes" aria-pressed="false">50 €</button>
           <button class="importe" data-imp="100" data-txt="acercan una beca a alguien que atraviesa dificultades" aria-pressed="false">100 €</button>
           <button class="importe otra" data-imp="otra" data-txt="" aria-pressed="false">Otra cantidad</button>
         </div>
         <input class="importe-libre" id="libre" type="number" min="1" inputmode="numeric" placeholder="Escribe tu importe en €" aria-label="Otra cantidad en euros">
-        <p class="impacto-linea" id="impacto"><b>50 €</b> ayudan a mantener las clases en directo un mes.</p>
+        <p class="impacto-linea" id="impacto">Cada cantidad tiene un destino concreto. Gracias por tu generosidad.</p>
         <div class="donar-fila">
-          <button class="btn-primario" id="donar"><span class="spin" aria-hidden="true"></span><span class="donar-txt">Donar 50 €</span></button>
+          <button class="btn-primario" id="donar"><span class="spin" aria-hidden="true"></span><span class="donar-txt">Donar</span></button>
           <div class="wallets" aria-hidden="true">
             <span class="pico pico--sm" data-pico="tarjeta" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path class="acc" d="M3 10.5h18"/></svg></span>
             <span>Apple&nbsp;Pay · Google&nbsp;Pay · tarjeta</span>
@@ -382,7 +394,7 @@
         <p>Para que quien lo visite disponga de las mejores condiciones para su estudio, reflexión y meditación.</p>
       </div>
       <div class="destino">
-        <span class="pico" data-pico="becas" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 15c2.5-1.5 5.5-1.5 8 0h4.6a1.7 1.7 0 0 1 0 3.4H9.5c-1.8 0-3.6-.5-5-1.5z"/><path class="acc" d="M12 5.2c1.5-1.7 4 .7 0 3.2C8 5.9 10.5 3.5 12 5.2z"/></svg></span>
+        <span class="pico" data-pico="becas" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 13C6.3 16.8 17.7 16.8 19.4 13"/><path d="M4.6 13C3.7 12.4 3.7 11.1 4.8 10.8"/><path class="acc" d="M12 13.9C11.5 12.6 9.7 12.3 9.7 10.8 9.7 10 10.3 9.5 11 9.5 11.4 9.5 11.7 9.7 12 10 12.3 9.7 12.6 9.5 13 9.5 13.7 9.5 14.3 10 14.3 10.8 14.3 12.3 12.5 12.6 12 13.9Z"/></svg></span>
         <h4>Becas a quien lo necesita</h4>
         <p>El Buddha no hizo distinciones económicas. Ofrecemos descuentos en cursos, retiros y actividades a quien atraviesa dificultades.</p>
       </div>
@@ -392,7 +404,7 @@
         <p>El aprendizaje en línea es esencial hoy: facilitar su uso todo lo posible es una de nuestras prioridades.</p>
       </div>
       <div class="destino">
-        <span class="pico" data-pico="acompanado" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="2.6"/><path d="M6.5 19c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5"/><path class="acc" d="M5 8.5c2-2.5 12-2.5 14 0"/></svg></span>
+        <span class="pico" data-pico="encuentros" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="2.2"/><path d="M8 18C8 15 9.8 13.6 12 13.6 14.2 13.6 16 15 16 18"/><path class="acc" d="M6.4 7C4.9 8.9 4.9 11.1 6.4 13M17.6 7C19.1 8.9 19.1 11.1 17.6 13"/></svg></span>
         <h4>Encuentros semanales en directo</h4>
         <p>Practicar arropado por Lama Rinchen, la sangha del Centro y estudiantes de todo el mundo, cada semana.</p>
       </div>
@@ -424,22 +436,27 @@
     <div class="video-zona" data-reveal>
       <div class="video-facade" data-yt="" role="button" tabindex="0" aria-label="Reproducir el vídeo institucional"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
     </div>
-    <div class="testimonios" data-reveal>
-      <figure class="testi">
-        <div class="video-facade" data-yt="7aVRR9OEuSg" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Amparo"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
-        <blockquote>Mientras pueda voy a seguir colaborando, porque me hace feliz. A mí Paramita me ha aportado todo… y si digo todo es ¡todo!</blockquote>
-        <figcaption><span class="testi__avatar" aria-hidden="true">A</span>Amparo · El Albir</figcaption>
-      </figure>
-      <figure class="testi">
-        <div class="video-facade" data-yt="gPa3mNedxHY" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Gabriel"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
-        <blockquote>Si no hubiera habido socios, ¡hoy no estaría aquí! Cada céntimo invertido hace que muchas otras personas se puedan beneficiar.</blockquote>
-        <figcaption><span class="testi__avatar" aria-hidden="true">G</span>Gabriel · Palma de Mallorca</figcaption>
-      </figure>
-      <figure class="testi">
-        <div class="video-facade" data-yt="_X0NCR0u_OU" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de César"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
-        <blockquote>Fue algo muy natural, solo un pasito más. Hacerme amigo fue lo lógico y coherente con cómo esto me estaba aportando a la vida.</blockquote>
-        <figcaption><span class="testi__avatar" aria-hidden="true">C</span>César · Sant Adrià del Besòs</figcaption>
-      </figure>
+    <!-- Testimonios · componente canónico .bloque-voces / .voz--video
+         (miniatura real y reproducción vía paramita-video.js; entrada escalonada
+         vía paramita-testimonios.js con .in — por eso NO lleva data-reveal). -->
+    <div class="bloque-voces">
+      <div class="voces">
+        <figure class="voz voz--video">
+          <div class="video-facade" data-yt="7aVRR9OEuSg" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Amparo"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+          <blockquote class="voz__q">Mientras pueda voy a seguir colaborando, porque me hace feliz. A mí Paramita me ha aportado todo… y si digo todo es ¡todo!</blockquote>
+          <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">A</span><span><span class="voz__n">Amparo</span><span class="voz__meta">El Albir</span></span></figcaption>
+        </figure>
+        <figure class="voz voz--video">
+          <div class="video-facade" data-yt="gPa3mNedxHY" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Gabriel"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+          <blockquote class="voz__q">Si no hubiera habido socios, ¡hoy no estaría aquí! Cada céntimo invertido hace que muchas otras personas se puedan beneficiar.</blockquote>
+          <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">G</span><span><span class="voz__n">Gabriel</span><span class="voz__meta">Palma de Mallorca</span></span></figcaption>
+        </figure>
+        <figure class="voz voz--video">
+          <div class="video-facade" data-yt="_X0NCR0u_OU" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de César"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+          <blockquote class="voz__q">Fue algo muy natural, solo un pasito más. Hacerme amigo fue lo lógico y coherente con cómo esto me estaba aportando a la vida.</blockquote>
+          <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">C</span><span><span class="voz__n">César</span><span class="voz__meta">Sant Adrià del Besòs</span></span></figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
@@ -557,6 +574,10 @@
 <script src="../js/componentes/paramita-bar.js" defer></script>
 <script src="../js/componentes/paramita-footer-lotos.js" defer></script>
 <script src="../js/componentes/paramita-reveal.js" defer></script>
+
+<!-- Testimonios · facade de vídeo (miniatura real + reproducción) y entrada del bloque -->
+<script src="../js/componentes/paramita-video.js" defer></script>
+<script src="../js/componentes/paramita-testimonios.js" defer></script>
 
 <!-- Específico de esta página · selección de importe y flujo de donación -->
 <script src="../js/paginas/paramita-contribuir.js" defer></script>
