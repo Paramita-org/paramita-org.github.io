@@ -208,21 +208,58 @@
       display: none;
     }
 
-    /* Submenús · en móvil ocupan el flujo, no flotan */
+    /* Submenús · en móvil son un ACORDEÓN dentro del flujo, no flotan.
+       ───────────────────────────────────────────────────────────────
+       Antes quedaban SIEMPRE abiertos (opacity:1 fijo): Sobre y Únete se
+       desplegaban por defecto, el menú crecía tanto que Contribuir y el
+       clúster derecho quedaban fuera de alcance, y el caret no plegaba
+       nada. Ahora arrancan COLAPSADOS y el <button> padre los abre al
+       tocar (JS conmuta aria-expanded → paramita-menu.js). El caret ya
+       rota con [aria-expanded="true"] (paramita-menu.css).
+
+       Mismo idiom que el propio .menu de arriba: display none/grid +
+       transition allow-discrete + @starting-style, para que abra y
+       cierre con el fundido suave del sistema. */
     .sub,
     .has-sub.end .sub {
       position: static;
-      translate: 0;
-      opacity: 1;
-      pointer-events: auto;
       min-width: 0;
       box-shadow: none;
       left: auto;
       right: auto;
       background: var(--arcilla);
-      margin: 0.2rem 0 0.4rem;
       -webkit-backdrop-filter: none;
       backdrop-filter: none;
+
+      /* Colapsado por defecto · fuera del flujo (altura 0) */
+      display: none;
+      opacity: 0;
+      translate: 0 -6px;
+      margin: 0;
+      pointer-events: none;
+      transition: opacity var(--t-defecto),
+                  translate var(--t-defecto),
+                  display var(--t-defecto) allow-discrete;
+    }
+
+    /* Abierto · SOLO cuando el padre marca aria-expanded="true".
+       El selector hermano (~ .sub) gana en la capa responsive, así que
+       ni :hover ni :focus-within de la capa menu lo despliegan en táctil:
+       manda el aria-expanded que conmuta el tap. */
+    .has-sub .navlink[aria-expanded="true"] ~ .sub {
+      display: grid;
+      opacity: 1;
+      translate: 0 0;
+      margin: 0.2rem 0 0.4rem;
+      pointer-events: auto;
+    }
+
+    /* @starting-style · el submenú entra desde arriba con opacidad 0 */
+    @starting-style {
+      .has-sub .navlink[aria-expanded="true"] ~ .sub {
+        opacity: 0;
+        translate: 0 -6px;
+      }
     }
 
     /* CTAs · apiladas al final del menú móvil */

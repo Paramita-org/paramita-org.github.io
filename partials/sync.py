@@ -285,6 +285,45 @@ def sync_tema(html):
     return html, hechos
 
 
+def sync_menu_js(html):
+    """Inserta/actualiza el <script> del acordeón de submenús en móvil.
+
+    Se inyecta en TODA página con navbar del sistema, con independencia del
+    tema: el CSS de móvil (paramita-responsive.css) deja los submenús
+    colapsados por defecto y paramita-menu.js es lo que los abre al tocar.
+    Sin este script, en móvil «Sobre»/«Únete» quedarían inabribles — por eso
+    NO cuelga de --tema (a diferencia de tema.js), sino de la presencia de
+    navbar. Idempotente: en re-pasadas actualiza la línea en su sitio.
+    Devuelve (html, resumen:list)."""
+    prefix = detect_prefix(html)
+    hechos = []
+
+    js_line = (
+        f'<!-- MENÚ · acordeón de submenús en móvil · compartido (sync) -->\n'
+        f'<script src="{prefix}js/componentes/paramita-menu.js" defer></script>'
+    )
+    if re.search(r'<script\b[^>]*paramita-menu\.js[^>]*>', html, re.IGNORECASE):
+        html = re.sub(
+            r'(?:[ \t]*<!-- MENÚ[^\n]*\n)?[ \t]*<script\b[^>]*paramita-menu\.js[^>]*>\s*</script>',
+            js_line,
+            html,
+            count=1,
+        )
+        hechos.append(f"menu.js actualizado ({prefix or './'})")
+    else:
+        scripts = list(
+            re.finditer(r'<script\b[^>]*\bsrc="[^"]*"[^>]*>\s*</script>', html, re.IGNORECASE)
+        )
+        if scripts:
+            last = scripts[-1]
+            html = html[: last.end()] + "\n" + js_line + html[last.end():]
+        else:
+            html = re.sub(r"(</body>)", js_line + r"\n\1", html, count=1)
+        hechos.append(f"menu.js insertado ({prefix or './'})")
+
+    return html, hechos
+
+
 # ── PICTOGRAMAS ────────────────────────────────────────────────────────
 
 _pico_cache = {}
@@ -394,6 +433,13 @@ def process_file(target, *, cli_aria=None, cli_prefooter=None, only_pictos=False
     if do_tema:
         html, tema_resumen = sync_tema(html)
 
+    # 3b · Menú · toggle de submenús en móvil (SIEMPRE que haya navbar del
+    #      sistema; NO depende del tema, para que ninguna página quede con el
+    #      CSS colapsado pero sin el JS que lo abre).
+    menu_resumen = []
+    if not skip_navbar:
+        html, menu_resumen = sync_menu_js(html)
+
     # 4 · Pictogramas
     html, n_pictos = sync_pictograms(html)
 
@@ -402,6 +448,7 @@ def process_file(target, *, cli_aria=None, cli_prefooter=None, only_pictos=False
     if quiet:
         marca = f" · {aria_current}" if aria_current else ""
         print(f"[ok] {target} · navbar:{'skip' if skip_navbar else navbar}{marca} · pictos:{n_pictos}"
+              + (" · menu.js" if menu_resumen else "")
               + (f" · {footer_nota}" if footer_nota else ""))
         return
 
@@ -415,6 +462,8 @@ def process_file(target, *, cli_aria=None, cli_prefooter=None, only_pictos=False
     if do_tema:
         for h in tema_resumen:
             print(f"     tema · {h}")
+    for h in menu_resumen:
+        print(f"     menú · {h}")
     print(f"     pictogramas: {n_pictos}")
 
 
