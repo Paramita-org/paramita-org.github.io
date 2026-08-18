@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El umbral que se abre — Desplegables de navbar · Paramita · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;
+    --paper-2:#FBFAF7;
+    --ink:#191A1C;
+    --slate:#63656B;
+    --ink-deep:#132239;
+    --ink-deep-2:#0E1A2C;
+    --gold:#A8823F;
+    --gold-lite:#C9A96E;
+    --azul:#2E4C6D;
+    --azul-sutil:#5E7C9C;
+    --rule:#DAD6CC;
+    --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);
+    line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+  .flow > .bleed{grid-column:1/-1;width:100%}
+
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--azul-sutil),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.42;color:var(--ink-deep);margin:2rem 0 0;font-style:italic}
+
+  section{padding:clamp(2.6rem,6vh,4.2rem) 0}
+  .sec-head{margin-bottom:1.8rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 .3rem}
+  h2 em{font-style:italic;font-weight:400;color:var(--gold)}
+  h3{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.25rem,2vw,1.55rem);line-height:1.2;margin:2.4rem 0 .6rem;letter-spacing:-.005em}
+  h3 em{font-style:italic;color:var(--ink-deep)}
+  p{margin:0 0 1.15rem}
+  strong{font-weight:600;color:var(--ink)}
+  em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:color-mix(in oklab,var(--ink-deep) 8%,transparent);padding:.08em .38em;border-radius:5px;color:var(--ink-deep)}
+  .drop:first-letter{font-family:"Fraunces",serif;float:left;font-size:3.3rem;line-height:.82;font-weight:500;padding:.1em .12em 0 0;color:var(--ink-deep)}
+  .pull{font-family:"Fraunces",serif;font-weight:400;font-style:italic;font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.4;color:var(--ink-deep);border-left:2px solid var(--gold);padding-left:1.2rem;margin:2rem 0}
+  .tag{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid var(--rule);border-radius:2em;padding:.2em .8em;margin-right:.7em;vertical-align:middle}
+  .fuente{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.01em;margin-top:-.4rem}
+
+  .dato{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:14px;padding:1.6rem 1.7rem;margin:1.4rem 0}
+  .dato__k{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+  .dato h3{margin:0 0 .5rem;font-size:clamp(1.15rem,1.8vw,1.4rem)}
+  .dato p{margin:0 0 .6rem}
+  .cifra{font-family:"Fraunces",serif;font-weight:600;color:var(--ink-deep);font-size:1.08em}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--rule);border-radius:14px;overflow:hidden;margin:1.6rem 0}
+  .stat{background:var(--paper-2);padding:1.4rem 1.1rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.7rem,3vw,2.3rem);line-height:1;color:var(--ink-deep)}
+  .stat .n small{font-size:.55em;font-weight:500}
+  .stat .l{font-size:.82rem;line-height:1.35;color:var(--slate);margin-top:.5rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);margin-top:.5rem;letter-spacing:.04em}
+
+  .tbl-wrap{margin:1.6rem 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.92rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+  th,td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:500;border-bottom:1.5px solid var(--rule)}
+  tbody td:first-child{font-weight:600;color:var(--ink);width:26%}
+  .yes{color:var(--ink-deep);font-weight:600}
+  .no{color:var(--gold);font-weight:600}
+  .mid{color:var(--slate);font-weight:600}
+
+  .dark{background:var(--ink-deep-2);color:#E7E9EE}
+  .dark h2{color:#fff}
+  .dark h2 em{color:var(--gold-lite)}
+  .dark h3{color:#fff}
+  .dark .sec-num{color:var(--gold-lite)}
+  .dark strong{color:#fff}
+  .dark p{color:#C3CAD6}
+  .dark code{background:rgba(255,255,255,.1);color:#E7E9EE}
+  .dark .pull{color:var(--gold-lite);border-left-color:var(--gold-lite)}
+  /* Tabla dentro de la sección oscura · contraste legible sobre fondo navy */
+  .dark caption{color:var(--gold-lite)}
+  .dark thead th{color:#AEB4BE;border-bottom-color:rgba(255,255,255,.28)}
+  .dark th,.dark td{border-bottom-color:rgba(255,255,255,.14)}
+  .dark tbody td:first-child{color:#EDEFF3}
+  .dark td{color:#C3CAD6}
+  .dark .yes{color:#8FBE9E}
+  .dark .no{color:var(--gold-lite)}
+  .dark .mid{color:#B9BFC9}
+
+  .anat{counter-reset:step;margin:1.6rem 0;padding:0;list-style:none}
+  .anat li{position:relative;padding:1.2rem 0 1.2rem 3.4rem;border-bottom:1px solid var(--rule-soft)}
+  .anat li:last-child{border-bottom:0}
+  .anat li::before{counter-increment:step;content:counter(step,decimal-leading-zero);position:absolute;left:0;top:1.25rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--gold);letter-spacing:.02em}
+  .anat h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.12rem;margin:0 0 .3rem}
+  .anat p{margin:0;font-size:.94rem;color:var(--slate);line-height:1.55}
+  .anat .why{display:block;font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--gold);margin-top:.5rem;letter-spacing:.03em}
+
+  .spec{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:16px;padding:1.8rem;margin:1.6rem 0}
+  .spec__cap{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:0 0 1.3rem}
+  .spec-note{font-size:.86rem;color:var(--slate);margin:1.2rem 0 0;line-height:1.55}
+  .draw{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s cubic-bezier(.22,1,.36,1)}
+  .spec.in .draw{stroke-dashoffset:0}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.75rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:640px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .cover h1{font-size:clamp(2.3rem,10vw,3rem)}
+    tbody td:first-child{width:auto}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .sheen::after{animation:none;transform:translateX(80%)}
+    .reveal{opacity:1;transform:none;transition:none}
+    .draw{stroke-dashoffset:0;transition:none}
+    *{scroll-behavior:auto}
+  }
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe · Desplegables de navbar · UX/UI · 2026</p>
+  <h1>El umbral<br>que <em>se abre</em></h1>
+  <p class="deck">Qué está haciendo el diseño web de 2026 con los desplegables del menú —y qué de eso merece entrar en Paramita— partiendo del componente que ya existe en <code>paramita-menu.css</code>, no de una hoja en blanco. Un diagnóstico honesto, datos contrastados y una lista de decisiones que se pueden tirar de una en una.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Encargo</b> · Tendencias disruptivas + revisión del desplegable actual</span>
+    <span><b>Fecha</b> · Agosto 2026</span>
+    <span><b>Lectura</b> · ~18 min</span>
+  </div>
+  <p class="lede">La tesis en una frase: el desplegable de Paramita no está mal construido —está poco resuelto en tres gestos concretos (el empuje del texto al hover, el relleno opaco sobre el vidrio y la franja decorativa)— y lo que la evidencia de 2026 pide no es más adorno, sino <em>menos fricción</em>: abrir con intención, no cerrarse en diagonal, y anclar cada ítem con un signo que la casa ya posee.</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 00 ENCUADRE ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">00 — Encuadre</span>
+    <h2>Antes de tocar nada, <em>qué hay</em></h2>
+  </div>
+  <p class="reveal drop">El desplegable actual (los apartados «Sobre» y «Únete») es un panel <em>glass</em>: fondo <code>color-mix(card 88%, transparent)</code>, <code>backdrop-filter: blur(18px) saturate(140%)</code>, borde <code>--hair</code>, radio 16 px y sombra difusa <code>0 28px 64px -34px</code>. Cada ítem lleva título (<code>strong</code>) y descripción (<code>span</code> en <code>--texto-suave</code>). Abre por <em>hover</em> con un delay de intención de <strong>140 ms</strong> y por <code>:focus-within</code> (teclado) al instante; el caret gira de 45° a −135°; en móvil se transforma en acordeón con clase <code>.is-open</code> por JS. Respeta <code>prefers-reduced-motion</code>.</p>
+  <p class="reveal">Eso es, en términos de 2026, un componente <strong>por encima de la media</strong>. El vidrio esmerilado, el delay de intención, el foco por teclado y el contrato de quietud ya están. Así que este informe no viene a rehacerlo: viene a señalar los <strong>tres puntos donde la elegancia se rompe</strong> y los <strong>dos donde la robustez tiene un agujero</strong>, y a contrastarlos contra lo que dicen los estudios. Lo demás —megamenús de cuatro columnas, micro-confeti, neón— se descarta con argumento, no por gusto.</p>
+  <p class="pull reveal">La pregunta no es «¿qué tendencia fichamos?». Es «¿dónde este panel hace trabajar de más al usuario, y qué de 2026 lo arregla sin traicionar el hilo?».</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 01 DIAGNÓSTICO ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — Diagnóstico</span>
+    <h2>Dónde se rompe <em>la elegancia</em></h2>
+  </div>
+  <p class="reveal">Tres gestos del componente actual leen «2015», no «2026». Ninguno es un error —los tres funcionan— pero los tres restan al aire de refinamiento que el resto del sistema sí tiene.</p>
+
+  <h3 class="reveal">1 · El texto salta a la derecha en <em>hover</em></h3>
+  <p class="reveal">La regla <code>.sub a:hover { padding-left: 1rem }</code> empuja cada ítem 4–5 px al pasar el ratón. Es reflujo de contenido: el ojo percibe un pequeño «salto». El patrón dominante en 2026 mantiene el texto <strong>quieto</strong> y revela en su lugar un <em>anclaje</em> —una barra dorada de entrada, una flecha que desliza, o un tinte de fondo— porque el movimiento debe ser del <em>affordance</em>, no del contenido que estás intentando leer.</p>
+
+  <h3 class="reveal">2 · El relleno opaco <em>ensucia</em> el vidrio</h3>
+  <p class="reveal">El hover pinta <code>background: var(--arcilla)</code>, un color <strong>sólido</strong>, sobre un panel que es translúcido. El resultado es un parche mate que rompe la profundidad del <em>frosted glass</em>. La evolución del glassmorphism en 2026 —lo que la prensa de diseño llama «Glass 2.0»— usa capas <strong>translúcidas</strong> para comunicar jerarquía, no rellenos planos. El arreglo es de una línea: <code>color-mix(in oklch, var(--arcilla) 55%, transparent)</code>, y el vidrio sigue vivo debajo del ítem activo.</p>
+
+  <h3 class="reveal">3 · La franja de degradado es <em>decoración aplicada</em></h3>
+  <p class="reveal">El <code>.sub::before</code> dibuja una banda de 2 px azul→dorado en el borde superior del panel. Es la pieza más «época anterior» del componente: en 2026 la jerarquía del vidrio se comunica con <strong>luz, blur y sombra difusa</strong> —no con cintas de color pegadas al borde. No es obligatorio retirarla (puede leerse como firma de marca), pero si buscas el punto de elegancia, es la primera candidata a irse, o a convertirse en un <em>hairline</em> mucho más tenue.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Lo que NO está roto</span>
+    <h3>Cuatro aciertos que hay que conservar</h3>
+    <p>El <strong>panel glass con blur</strong> es exactamente lo que 2026 recomienda para navegación. El <strong>delay de intención</strong> existe (pocos lo implementan). El <strong>foco por teclado</strong> (<code>:focus-within</code>) abre el panel con Tab. Y las áreas táctiles del submenú (<code>padding .65rem .8rem</code>) superan con holgura el <span class="cifra">mínimo de 24×24 px</span> que exige WCAG 2.2. Tocar esto sería empeorarlo.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 EVIDENCIA ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — Evidencia 2026</span>
+    <h2>Qué dicen <em>los estudios</em></h2>
+  </div>
+  <p class="reveal">Cinco hallazgos con respaldo real —no cifras de agencia— que aplican directamente a este panel.</p>
+
+  <div class="stats reveal">
+    <div class="stat">
+      <div class="n">0,5<small>s</small></div>
+      <div class="l">Reposo del cursor antes de abrir un megamenú por hover, para no parpadear</div>
+      <div class="src">NN/g</div>
+    </div>
+    <div class="stat">
+      <div class="n">24<small>px</small></div>
+      <div class="l">Objetivo táctil mínimo (AA) — nuevo criterio 2.5.8 de WCAG 2.2</div>
+      <div class="src">W3C · WCAG 2.2</div>
+    </div>
+    <div class="stat">
+      <div class="n">1.4.13</div>
+      <div class="l">Contenido en hover/focus: debe ser descartable, «hoverable» y persistente</div>
+      <div class="src">W3C · WCAG</div>
+    </div>
+    <div class="stat">
+      <div class="n">&lt;100<small>ms</small></div>
+      <div class="l">Umbral en que una respuesta se percibe como «instantánea»</div>
+      <div class="src">NN/g · web.dev</div>
+    </div>
+  </div>
+
+  <h3 class="reveal">A · El tiempo de apertura y el «problema de la diagonal»</h3>
+  <p class="reveal">La guía clásica de Nielsen Norman Group para menús que abren por hover es contraintuitiva: <strong>no abras demasiado rápido</strong>. Recomiendan que el cursor descanse ~0,5 s antes de mostrar el panel (para que la pantalla no parpadee cuando el ratón solo está de paso), mostrarlo entonces en &lt;0,1 s, y —clave— <strong>mantenerlo visible durante ~0,5 s después</strong> de que el cursor salga de la zona. Ese margen de gracia al cerrar resuelve el «problema de la diagonal»: cuando el usuario mueve el ratón en diagonal desde el enlace padre hasta un ítem del panel, la trayectoria se sale un instante del área activa, y sin margen el panel se le cierra en la cara.</p>
+  <p class="reveal">El componente actual hace lo primero a medias (140 ms de apertura, más ágil que los 0,5 s de NN/g —defendible en un panel pequeño) pero <strong>no hace lo segundo</strong>: al salir del hover cierra al instante (<code>transition-delay: 0</code>). Con el panel centrado (<code>translate: -50%</code>) y un hueco de 2 px respecto al padre, esa diagonal es un camino real de fallo. Es, con diferencia, el problema con más impacto de uso del panel —y ni se ve en escritorio hasta que le pasa a alguien.</p>
+
+  <div class="spec reveal" data-spec>
+    <p class="spec__cap">El problema de la diagonal · por qué hace falta un margen al cerrar</p>
+    <svg viewBox="0 0 520 220" width="100%" style="max-width:520px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama del problema de la diagonal en menús desplegables">
+      <!-- enlace padre -->
+      <rect x="40" y="26" width="150" height="34" rx="8" fill="none" stroke="#132239" stroke-width="1.4"/>
+      <text x="115" y="48" font-family="'JetBrains Mono',monospace" font-size="12" fill="#132239" text-anchor="middle">Sobre ▾</text>
+      <!-- panel -->
+      <rect x="40" y="86" width="230" height="108" rx="12" fill="#132239" opacity="0.05"/>
+      <rect x="40" y="86" width="230" height="108" rx="12" fill="none" stroke="#132239" stroke-width="1.2"/>
+      <text x="58" y="116" font-family="'JetBrains Mono',monospace" font-size="11" fill="#63656B">Maestros</text>
+      <text x="58" y="140" font-family="'JetBrains Mono',monospace" font-size="11" fill="#63656B">Khenpo</text>
+      <text x="58" y="164" font-family="'JetBrains Mono',monospace" font-size="11" fill="#A8823F">La Fundación ←</text>
+      <!-- trayectoria diagonal -->
+      <path class="draw" d="M115 60 L250 160" fill="none" stroke="#A8823F" stroke-width="2" stroke-dasharray="5 4" stroke-linecap="round"/>
+      <circle cx="115" cy="60" r="4" fill="#132239"/>
+      <circle cx="250" cy="160" r="4" fill="#A8823F"/>
+      <!-- zona muerta -->
+      <path d="M190 60 L270 86 L270 60 Z" fill="#A8823F" opacity="0.14"/>
+      <text x="300" y="70" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#63656B">La diagonal cruza</text>
+      <text x="300" y="86" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#63656B">fuera de la zona</text>
+      <text x="300" y="102" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#63656B">activa (triángulo).</text>
+      <text x="300" y="128" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#132239">Sin margen al cerrar,</text>
+      <text x="300" y="144" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#132239">el panel desaparece</text>
+      <text x="300" y="160" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#132239">antes de llegar.</text>
+    </svg>
+    <p class="spec-note">Solución barata: un <em>grace delay</em> de ~200–300 ms al cerrar (o mantener el panel abierto mientras el cursor esté sobre padre <strong>o</strong> panel, con un puente invisible que cubra el hueco de 2 px). Los mejores lo hacen con detección de «triángulo de intención» (JS), pero el margen temporal ya cubre el 90 % de los casos sin una línea de script.</p>
+  </div>
+
+  <h3 class="reveal">B · Hover no basta: la doctrina de 2026 es «click también»</h3>
+  <p class="reveal">Hay consenso firme en la literatura de accesibilidad de 2026: los desplegables <strong>no deben depender solo del hover</strong>. La recomendación repetida es —en escritorio— <strong>abrir por click (o Enter/Espacio)</strong>, y opcionalmente también por hover con delay, pero <em>siempre</em> soportar el click; en móvil, por tap. El motivo: el hover excluye a teclado, a dispositivos táctiles y a usuarios con movilidad reducida, y un panel que aparece solo al pasar el ratón es impredecible para lectores de pantalla.</p>
+  <p class="reveal">Aquí hay un matiz importante para Paramita: el padre ya es un <code>&lt;button&gt;</code> con <code>aria-haspopup</code>, y el móvil ya abre por tap (JS). Lo que falta es que en <strong>escritorio</strong> ese botón también abra por click y actualice <code>aria-expanded</code> (hoy queda fijo en <code>false</code>), y que <kbd>Esc</kbd> cierre devolviendo el foco. Es completar un patrón ya empezado, no reinventarlo.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">WCAG 2.2 · SC 1.4.13</span>
+    <h3>Contenido en hover o foco</h3>
+    <p>El criterio exige tres cosas de cualquier panel que aparezca al pasar por encima: que se pueda <strong>descartar</strong> (Esc) sin mover el ratón, que sea <strong>hoverable</strong> (puedas mover el cursor hasta él sin que desaparezca) y que <strong>persista</strong> hasta que lo cierres. El «margen al cerrar» del punto A no es solo elegancia: es lo que hace cumplir la parte «hoverable» de este criterio.</p>
+  </div>
+
+  <h3 class="reveal">C · Iconografía: el megamenú escaneable ancla con signos</h3>
+  <p class="reveal">El patrón que las bibliotecas de referencia (Mobbin, Stripe, Shopify) muestran una y otra vez en 2026 es el menú <strong>multicolumna con iconos</strong>: cada destino lleva un signo que sirve de ancla visual y acelera el escaneo. Paramita ya tiene el sistema —<code>partials/pictogramas/</code>, primitivo <code>.pico</code>, acento único vía <code>.acc</code>— y <strong>no lo usa en el desplegable</strong>. Añadir un pictograma de línea humanista a la izquierda de cada ítem («Maestros», «Khenpo», «Comunidad», «La Fundación», «Grupos», «Voluntariado») convierte una lista de texto plano en una rejilla escaneable, y de paso ata el panel a la identidad. Es probablemente el cambio con más rendimiento estético por línea de código.</p>
+
+  <h3 class="reveal">D · Glass 2.0, sombras difusas y micro-gestos con criterio</h3>
+  <p class="reveal">Las tres corrientes gráficas de 2026 que tocan a un desplegable son: <strong>glassmorphism evolucionado</strong> (translucidez por capas que comunica profundidad, desplegada de forma <em>estratégica</em> —navegación, modales, tarjetas— no por todas partes); <strong>sombras suaves y de color</strong> en lugar del negro duro; y <strong>micro-interacciones</strong> como retroalimentación táctil. Las tres encajan con Paramita <em>si</em> se someten al contrato de quietud: el micro-gesto puede acompañar (una flecha que entra, un tinte que aparece), pero <strong>nunca latir en bucle</strong> ni empujar a la acción. La sombra actual ya es difusa y en tinta cálida —correcta; el ajuste es de vidrio y de gesto, no de sombra.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 CONTRASTE ===================== -->
+<section class="flow dark">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — Contraste</span>
+    <h2>Estado actual <em>frente a</em> la evidencia</h2>
+  </div>
+  <p class="reveal">La foto sin adornos. Verde de tinta = ya cumple; dorado = hueco a resolver.</p>
+  <div class="tbl-wrap wide reveal">
+    <table>
+      <caption>Desplegable Paramita · agosto 2026</caption>
+      <thead>
+        <tr><th>Dimensión</th><th>Recomendación 2026</th><th>Paramita hoy</th><th>Estado</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Panel glass</td><td>Translucidez por capas, estratégica</td><td>blur(18px) + saturate(140%)</td><td class="yes">Cumple</td></tr>
+        <tr><td>Foco / teclado</td><td>Abrir con Tab, foco visible</td><td><code>:focus-within</code> + focus ring</td><td class="yes">Cumple</td></tr>
+        <tr><td>Objetivo táctil</td><td>≥ 24×24 px (WCAG 2.2)</td><td>ítems con padding holgado</td><td class="yes">Cumple</td></tr>
+        <tr><td>Reduced-motion</td><td>Estado final sin recorrido</td><td>bloque dedicado</td><td class="yes">Cumple</td></tr>
+        <tr><td>Delay de apertura</td><td>Reposo antes de mostrar</td><td>140 ms (ágil, defendible)</td><td class="mid">Matizable</td></tr>
+        <tr><td>Margen al cerrar</td><td>~0,5 s de gracia (diagonal)</td><td>cierre instantáneo</td><td class="no">Hueco</td></tr>
+        <tr><td>Abrir por click</td><td>Click/Enter en escritorio</td><td>solo hover (móvil sí tap)</td><td class="no">Hueco</td></tr>
+        <tr><td>aria-expanded</td><td>Reflejar estado real</td><td>fijo en <code>false</code> (escritorio)</td><td class="no">Hueco</td></tr>
+        <tr><td>Cierre con Esc</td><td>Descartable + foco vuelve</td><td>no implementado (escritorio)</td><td class="no">Hueco</td></tr>
+        <tr><td>Iconografía</td><td>Ancla visual por ítem</td><td>texto plano (sistema sin usar)</td><td class="no">Oportunidad</td></tr>
+        <tr><td>Hover del ítem</td><td>Texto quieto, affordance se mueve</td><td>empuje <code>padding-left</code></td><td class="no">A pulir</td></tr>
+        <tr><td>Relleno de hover</td><td>Tinte translúcido sobre vidrio</td><td><code>arcilla</code> opaco</td><td class="no">A pulir</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="pull reveal">Nueve de doce dimensiones ya están bien o son matices. Los huecos reales son de robustez (diagonal, click, aria, Esc); los «a pulir» son de elegancia. Ninguno pide una tendencia nueva: piden terminar y afinar lo que hay.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 04 RECOMENDACIONES ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — Recomendaciones</span>
+    <h2>Decisiones para <em>tirar</em>, una a una</h2>
+  </div>
+  <p class="reveal">Ordenadas por rendimiento sobre esfuerzo. Cada una es autónoma: puedes aprobar la que quieras y validar en navegador antes de la siguiente. Todas respetan tokens OKLCH, el acento <code>.acc</code> y el contrato de quietud —cero hex a ojo, cero bucles de presión.</p>
+  <ol class="anat reveal">
+    <li>
+      <h4>Margen de gracia al cerrar</h4>
+      <p>Añadir <code>transition-delay</code> de ~200–300 ms al <em>salir</em> del hover (y/o mantener abierto mientras el cursor esté sobre padre o panel). Cubre el problema de la diagonal y hace cumplir el «hoverable» de WCAG 1.4.13.</p>
+      <span class="why">Impacto alto · coste ~2 líneas CSS · sin JS</span>
+    </li>
+    <li>
+      <h4>Hover del ítem sin reflujo</h4>
+      <p>Retirar <code>padding-left: 1rem</code> del hover. En su lugar, revelar una <strong>barra de entrada dorada</strong> (<code>.acc</code>/borde-izquierdo con <code>--dorado</code>) o deslizar una flecha desde la izquierda. El texto no se mueve; el signo sí.</p>
+      <span class="why">Impacto estético alto · coste bajo · el gesto que pediste</span>
+    </li>
+    <li>
+      <h4>Relleno de hover translúcido</h4>
+      <p>Cambiar <code>background: var(--arcilla)</code> por <code>color-mix(in oklch, var(--arcilla) 55%, transparent)</code>. El vidrio esmerilado sobrevive bajo el ítem activo —Glass 2.0 en una línea.</p>
+      <span class="why">Impacto estético medio · coste 1 línea</span>
+    </li>
+    <li>
+      <h4>Pictograma por ítem</h4>
+      <p>Rejilla <code>[pico] título+descripción</code> en cada <code>.sub a</code>, reutilizando <code>partials/pictogramas/</code> y el primitivo <code>.pico</code> con acento <code>.acc</code>. Convierte texto plano en menú escaneable y ata el panel a la identidad.</p>
+      <span class="why">Impacto estético alto · coste medio · requiere 6–7 SVG del sistema</span>
+    </li>
+    <li>
+      <h4>Abrir por click en escritorio + aria-expanded real</h4>
+      <p>El <code>&lt;button&gt;</code> padre ya existe: que el click abra/cierre y actualice <code>aria-expanded</code>. Mantener el hover como refuerzo. Completa el patrón que el móvil ya usa.</p>
+      <span class="why">Impacto de accesibilidad alto · coste JS pequeño</span>
+    </li>
+    <li>
+      <h4>Cerrar con Esc y devolver el foco</h4>
+      <p><kbd>Esc</kbd> cierra el panel abierto y devuelve el foco al botón padre; cerrar también al tabular fuera del último ítem. Cierra el criterio 1.4.13 y el patrón WAI-ARIA de menú.</p>
+      <span class="why">Impacto de accesibilidad alto · coste JS pequeño</span>
+    </li>
+    <li>
+      <h4>La franja superior, a decidir</h4>
+      <p>Opción A: retirar <code>.sub::before</code> (más limpio, más 2026). Opción B: bajarla a <em>hairline</em> muy tenue como firma discreta. No es urgente; es la palanca fina de elegancia una vez hecho lo anterior.</p>
+      <span class="why">Impacto estético bajo · coste mínimo · cuestión de gusto informado</span>
+    </li>
+  </ol>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 05 EFECTOS NATIVOS ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — Efectos nativos</span>
+    <h2>Lo disruptivo de 2026 es que <em>la plataforma</em> absorbe el JS</h2>
+  </div>
+  <p class="reveal drop">El hallazgo más importante de esta segunda vuelta de investigación no es un efecto visual: es que en 2026 el navegador hace de forma nativa lo que hasta ayer exigía librerías de posicionamiento y listeners de scroll. Para un desplegable de navbar, esto no es curiosidad técnica —es la vía más directa a resolver tus huecos de accesibilidad con <strong>menos</strong> código, no con más.</p>
+
+  <h3 class="reveal">A · Popover API + CSS Anchor Positioning <span class="tag">Baseline 2026</span></h3>
+  <p class="reveal">Es la pieza que cambia el juego. La <strong>Popover API</strong> (atributos <code>popover</code> + <code>popovertarget</code>) da, sin una línea de JavaScript: apertura/cierre por click, <strong>cierre con Esc</strong>, <strong>light-dismiss</strong> (clic fuera cierra), render en la <em>top layer</em> del navegador (se acabaron las guerras de <code>z-index</code>) y gestión de foco. La <strong>CSS Anchor Positioning</strong> ancla el panel al botón que lo dispara con <code>anchor()</code>, y <code>@position-try</code> lo voltea solo cuando toca el borde del viewport.</p>
+
+  <div class="stats reveal">
+    <div class="stat">
+      <div class="n">~91<small>%</small></div>
+      <div class="l">Del tráfico global cubierto por Anchor Positioning (Baseline 2026)</div>
+      <div class="src">Nexgismo · Botmonster</div>
+    </div>
+    <div class="stat">
+      <div class="n">125+</div>
+      <div class="l">Chrome/Edge con soporte pleno; Firefox 132+; Safari 18.2+</div>
+      <div class="src">Baseline data</div>
+    </div>
+    <div class="stat">
+      <div class="n">0</div>
+      <div class="l">Líneas de JS para Esc, light-dismiss y top-layer con Popover</div>
+      <div class="src">Popover API</div>
+    </div>
+    <div class="stat">
+      <div class="n">90<small>%</small></div>
+      <div class="l">De los casos de dropdown que cubre sin librería de posicionamiento</div>
+      <div class="src">Botmonster</div>
+    </div>
+  </div>
+
+  <p class="reveal">Lo que esto significa para Paramita en concreto: las recomendaciones <strong>05 y 06</strong> del apartado anterior (abrir por click con <code>aria-expanded</code> real, cerrar con Esc) dejan de ser JS a mano y pasan a ser <em>comportamiento del navegador</em>. El padre ya es un <code>&lt;button&gt;</code>; convertirlo en <code>popovertarget</code> y el <code>.sub</code> en <code>[popover]</code> es el camino canónico.</p>
+  <div class="dato reveal">
+    <span class="dato__k">La letra pequeña · honestidad técnica</span>
+    <h3>No es un one-liner, es una re-arquitectura</h3>
+    <p>Migrar a Popover reescribe la mecánica del componente, así que es una <strong>fase</strong>, no un parche —encaja bien planificarla junto a la migración a Eleventy o como paso propio. Salvedades reales: Safari 18.2–18.3 posiciona pero aún no voltea con <code>@position-try</code> (escribe la posición base fuera de esa regla); <code>popover="hint"</code> para tooltips en hover es solo Chrome a mediados de 2026 (usa <code>:hover</code>). Todo se blinda con <code>@supports</code>: el hover CSS actual queda como <em>fallback</em>, no como implementación principal.</p>
+  </div>
+
+  <h3 class="reveal">B · View Transitions <em>cross-document</em> — el cruce, literal</h3>
+  <p class="reveal">Como el sitio es multipágina estático en GitHub Pages, las transiciones de vista entre documentos son casi gratis: un bloque <code>@view-transition { navigation: auto }</code>, cero JS, y la navegación de página a página deja de ser un corte para volverse un <em>cruce</em> continuo —exactamente el hilo que ya nombró el informe de iconografía. El navbar puede persistir visualmente mientras el contenido debajo se transforma. Salvedades del sistema: solo <code>transform</code>/<code>opacity</code> dentro de <code>::view-transition</code>; no pongas <code>view-transition-name</code> a docenas de elementos (cada uno es una textura de GPU y agota VRAM en móvil); y puerta de <code>prefers-reduced-motion</code>.</p>
+
+  <h3 class="reveal">C · Animaciones dirigidas por scroll — comportamiento del navbar</h3>
+  <p class="reveal">Con <code>animation-timeline: scroll()</code> y <code>view()</code> se construyen los comportamientos clásicos de barra —ocultar al bajar y revelar al subir, encoger sutilmente, barra de progreso— sobre el hilo del compositor, sin listeners de scroll. Soporte global ~84 %, con <code>@supports</code> de red.</p>
+  <p class="reveal">Aquí toca un matiz honesto para Paramita: el argumento estrella de esta tendencia («quita framer-motion, ahorra bundle») <strong>no te aplica</strong> —no usas framer-motion y GSAP/ScrollTrigger ya está cargado en el stack. Tu ganancia no sería de peso, sino de <em>robustez y simplicidad</em> para gestos simples de la barra. Y una advertencia de accesibilidad más estricta de lo normal: una animación acoplada al scroll <strong>no se puede pausar</strong> dejando de interactuar (responde al gesto directamente), así que el <code>prefers-reduced-motion</code> aquí no es opcional. Conclusión: interesante, no urgente.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 06 MICRO-PATRONES ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — Micro-patrones</span>
+    <h2>Movimiento <em>funcional</em>, en silencio</h2>
+  </div>
+  <p class="reveal">Dentro del contrato de quietud caben micro-gestos que pulen sin latir. La regla de oro que repite la literatura de 2026: entre <strong>3 y 5 micro-animaciones con propósito</strong> hacen que una interfaz se sienta <em>premium</em>; veinte compitiendo la vuelven caótica. Cada gesto confirma una acción, indica un cambio de estado o guía la atención —ninguno decora. Todos son de un solo disparo (no bucles), y todos se apagan con <code>reduced-motion</code>.</p>
+  <ol class="anat reveal">
+    <li>
+      <h4>Revelado escalonado de los ítems</h4>
+      <p>Al abrir el panel, los ítems entran con un <em>stagger</em> de 40–60 ms (incrementos de <code>transition-delay</code>). Da sensación de «desplegarse» en lugar de aparecer de golpe. Un solo disparo; nunca se repite en bucle.</p>
+      <span class="why">CSS puro · una variable por ítem · quietud respetada</span>
+    </li>
+    <li>
+      <h4>Ancla direccional al hover</h4>
+      <p>El signo que sustituye al empuje de texto (recomendación 02) puede <em>entrar</em> desde la izquierda —barra dorada o flecha— siguiendo la dirección natural de lectura. Feedback direccional claro sin mover el contenido.</p>
+      <span class="why">CSS puro · reutiliza <code>.acc</code>/--dorado</span>
+    </li>
+    <li>
+      <h4>Entrada de nítido desde un velo</h4>
+      <p>Los ítems pueden resolver de un <em>hair</em> de <code>filter: blur(3px)</code> a nítido al abrir —idioma coherente con el propio vidrio del panel. Sutil, elegante, y desaparece con reduced-motion.</p>
+      <span class="why">CSS puro · rima con el frosted glass</span>
+    </li>
+    <li>
+      <h4><code>@starting-style</code> para la entrada declarativa</h4>
+      <p>La animación de entrada del panel se declara nativa con <code>@starting-style</code> (ya lo usas en el menú móvil), sin JS y emparejada con Popover. El estado inicial vive en CSS, no en una clase que hay que añadir.</p>
+      <span class="why">Nativo · combina con la Popover API del punto 05</span>
+    </li>
+  </ol>
+  <p class="reveal">Ninguno de estos cuatro pide una librería ni rompe el hilo. Son la capa de refinamiento que se pone <strong>después</strong> de cerrar los huecos de robustez —primero que el panel no falle en la diagonal y responda al teclado; luego que entre bonito.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 07 PUSHBACK ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">07 — Lo que NO haría</span>
+    <h2>El <em>pushback</em> honesto</h2>
+  </div>
+  <p class="reveal">La tentación al leer un informe de tendencias es aplicarlas todas. Cuatro que suenan a 2026 y que en Paramita restarían:</p>
+  <p class="reveal"><strong>Megamenú de cuatro columnas.</strong> Se recomienda para sitios de 30+ páginas con catálogos profundos. «Sobre» tiene 5 ítems y «Únete» tiene 2. Forzar columnas y cabeceras aquí sería sobre-arquitectura: el panel actual de una columna es exactamente lo correcto para este volumen.</p>
+  <p class="reveal"><strong>Micro-confeti / micro-delights.</strong> Los «micro-deleites» (corazones que laten, confeti al completar) están de moda, pero chocan de frente con el contrato de quietud y con el marco <em>dāna</em>: nada late en bucle para reclamar atención. El micro-gesto permitido acompaña un cambio de estado; no celebra ni presiona.</p>
+  <p class="reveal"><strong>Blur más agresivo.</strong> <code>backdrop-filter</code> es caro de pintar; la prensa técnica de 2026 insiste en limitar el área y probar en Android antiguo. El blur(18px) actual está bien calibrado —subirlo por «efecto» penalizaría el pintado en móvil sin ganancia perceptible.</p>
+  <p class="reveal"><strong>Kinetic type, aurora, claymorphism.</strong> Son tendencias reales de 2026, pero de <em>portfolio</em>, <em>fintech joven</em> o <em>retail</em>. Para un centro de meditación de tradición Sakya, con luz mediterránea y trazo humanista, serían un préstamo tonal equivocado. La regla que repiten todos los <em>roundups</em> serios de este año: no uses doce tendencias, elige dos o tres que encajen con tu audiencia y ejecútalas con oficio.</p>
+  <p class="reveal"><strong>Command palette (⌘K), menús radiales, texto-terminal, rebote elástico.</strong> La segunda vuelta de investigación los saca a todos, y todos son reales. El <em>command palette</em> es original y funcional —pero para <em>power users</em> de productos con mucha navegación, no para una audiencia contemplativa que llega a leer y a inscribirse; queda «en el radar», no «para ahora». Los menús radiales/circulares y el texto que se teclea en hover son artificio que llamaría la atención justo donde la casa quiere calma. El rebote elástico contradice el <em>easing</em> sereno del sistema. Ninguno entra.</p>
+  <p class="reveal">Y una confirmación con fuente de este mismo año, por si hiciera falta munición ante el manager: la guía de patrones de navegación 2026 es tajante en que, para sitios de tamaño medio, <strong>un desplegable de dos niveles bien etiquetado con 4–6 apartados de primer nivel supera al megamenú en todas las métricas de usabilidad</strong>, y que la complejidad no es una función. Paramita tiene 6 apartados y submenús de 2 y 5 ítems: está exactamente en el punto donde el patrón simple gana. La regla también insiste en submenús <em>activados por click, no solo hover</em> —lo mismo que ya dijimos en el punto 02.</p>
+  <p class="pull reveal">Lo disruptivo en Paramita no es fichar el efecto de moda: es terminar el patrón de accesibilidad que el propio código dejó a medias —hoy, gratis, con la Popover API— y afinar tres gestos de vidrio, hasta que el panel se sienta inevitable en vez de decorado.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== REFS ===================== -->
+<section class="flow refs">
+  <div class="sec-head reveal">
+    <span class="sec-num">Fuentes</span>
+    <h2>Datos y <em>referencias</em></h2>
+  </div>
+  <ol class="reveal">
+    <li><b>Nielsen Norman Group (NN/g)</b> — «Mega Menus Work Well for Site Navigation». Reposo del cursor ~0,5 s antes de mostrar; mantener ~0,5 s tras la salida; el «problema de la diagonal» y la detección de intención en las mejores implementaciones.</li>
+    <li><b>W3C · WCAG 2.2</b> — SC 2.5.8 Target Size (Minimum): objetivo táctil ≥ 24×24 px (AA). SC 1.4.13 Content on Hover or Focus: descartable, hoverable, persistente. SC 2.4.1 / 3.2.3: mecanismos de navegación y consistencia.</li>
+    <li><b>The A11Y Collective / Level Access / TestParty / Accesstive</b> (2025–2026) — No depender solo del hover; escritorio abre por click/Enter con hover opcional; móvil por tap; <code>aria-expanded</code> dinámico; Esc cierra y devuelve el foco; gestión de foco en megamenús.</li>
+    <li><b>Line25 · Studio Meyer · RageDesigner · Gezar</b> (Web Design Trends 2026) — Glassmorphism 2.0: translucidez por capas que comunica jerarquía, desplegada de forma estratégica (navegación, modales, tarjetas); coste de <code>backdrop-filter</code> y prueba en Android antiguo; sombras suaves/de color; micro-interacciones con intención.</li>
+    <li><b>WriterDock · Haddington Creative · Webflow agency roundup</b> (2026) — Bento y esquinas exageradas para <em>feature storytelling</em> (no aplica a un panel de 2–5 ítems); regla común: elegir 2–3 tendencias que encajen con audiencia y marca, no doce.</li>
+    <li><b>IxDF · Khod · Webstacks · Digital Silk · Mobbin</b> (Mega Menu Examples 2026) — Menú multicolumna con iconos como ancla de escaneo; agrupación clara, jerarquía y espacio en blanco; iconografía como patrón de referencia (Stripe, Shopify).</li>
+    <li><b>Nexgismo · Botmonster · Bytee · Kypros Vassiliou</b> (Popover API + CSS Anchor Positioning 2026) — Baseline 2026, ~91 % del tráfico; Chrome/Edge 125+, Firefox 132+, Safari 18.2+ (<code>@position-try</code> desde 18.4). Popover da Esc, light-dismiss, top-layer y foco sin JS; cubre ~90 % de casos de dropdown sin librería de posicionamiento. Salvedad <code>popover="hint"</code> solo Chrome; usar <code>@supports</code>.</li>
+    <li><b>Cory Rylan</b> — Menús desplegables (y anidados) con Popover API + Anchor Positioning: anclaje implícito, cierre nativo con Esc/clic-fuera, relación padre-hijo entre popovers.</li>
+    <li><b>Frontend Horizon · css-animation.com · CSSAWWWARDS · Locally Lost · Medium (M. Zalavadiya)</b> (View Transitions + scroll-driven 2026) — Nativas, sobre el compositor, 0 KB JS; VT cross-document con <code>@view-transition</code>; scroll-driven ~84 % soporte con <code>@supports</code>. Cautelas: solo transform/opacity en <code>::view-transition</code>, no nombrar docenas de elementos (VRAM), reduced-motion obligatorio en scroll-coupled. GSAP sigue ganando en <em>scrub</em>/timelines complejas.</li>
+    <li><b>SkillValix · CSS Author · Vev</b> (Micro-interacciones 2026) — 3–5 micro-animaciones con propósito = <em>premium</em>; 20 = caos. Stagger por <code>transition-delay</code>; subrayado/ancla direccional; 90 % de micro-gestos sin JS; <code>prefers-reduced-motion</code> siempre.</li>
+    <li><b>DepecheCode · Layout Scene · UX Patterns for Developers</b> (Navigation 2026) — Para sitios de tamaño medio, un desplegable de dos niveles con 4–6 apartados supera al megamenú en toda métrica de usabilidad; submenús por click, no solo hover; command palette solo para <em>power users</em>. «La complejidad no es una función.»</li>
+    <li><b>Sistema Paramita</b> — <code>paramita-menu.css</code> (panel glass, delay 140 ms, caret, focus-within), <code>paramita-responsive.css</code> (acordeón móvil <code>.is-open</code>, <code>@starting-style</code>), <code>paramita-color.css</code> (OKLCH, degradado 70/30), <code>paramita-pictogramas.css</code> + <code>README-pictograms.md</code> (primitivo <code>.pico</code>, acento <code>.acc</code>), <code>navbar-publico.html</code> (botón padre con <code>aria-haspopup</code>), docs 04 (motion / contrato de quietud) y 06 (navbar).</li>
+    <li><b>Nota de método</b> — Las cifras de «caída de conversión» y «aumento de scroll» que circulan en blogs de agencia (p. ej. −95 %, +23 %, +40 %) se han omitido a propósito del cuerpo por no tener metodología pública verificable. Los datos citados arriba (NN/g, WCAG) sí tienen respaldo institucional.</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>
+    <p>Paramita · Fundación Sakya — Informe de desplegables de navbar · Agosto 2026<br>
+    Investigación y redacción: Claude (Anthropic) · Diagnóstico sobre el código real del proyecto. Copy y prioridades a validar en el hilo con Ale y Khenpo.</p>
+  </div>
+</footer>
+
+<script>
+  // Barra de progreso
+  var prog = document.getElementById('progress');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var p = max > 0 ? (h.scrollTop || document.body.scrollTop) / max : 0;
+    prog.style.width = (p * 100) + '%';
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // Reveal + dibujado de trazo por IntersectionObserver
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if ('IntersectionObserver' in window && !reduce){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:0.14, rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.reveal, [data-spec]').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal, [data-spec]').forEach(function(el){ el.classList.add('in'); });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentar la sangha · una pared de rostros abierta a voluntad — Informe UX/UI + datos 2026 · Paramita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;
+    --paper-2:#FBFAF7;
+    --ink:#191A1C;
+    --slate:#63656B;
+    --ink-deep:#132239;
+    --ink-deep-2:#0E1A2C;
+    --gold:#A8823F;
+    --gold-lite:#C9A96E;
+    --rule:#DAD6CC;
+    --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);
+    line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+  .flow > .bleed{grid-column:1/-1;width:100%}
+
+  /* cover */
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:33em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.42;color:var(--ink-deep);margin:2rem 0 0;font-style:italic}
+
+  section{padding:clamp(2.6rem,6vh,4.2rem) 0}
+  .sec-head{margin-bottom:1.8rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 .3rem}
+  h2 em{font-style:italic;font-weight:400;color:var(--gold)}
+  h3{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.25rem,2vw,1.55rem);line-height:1.2;margin:2.4rem 0 .6rem;letter-spacing:-.005em}
+  h3 em{font-style:italic;color:var(--ink-deep)}
+  p{margin:0 0 1.15rem}
+  strong{font-weight:600;color:var(--ink)}
+  em{font-style:italic}
+  .drop:first-letter{font-family:"Fraunces",serif;float:left;font-size:3.3rem;line-height:.82;font-weight:500;padding:.1em .12em 0 0;color:var(--ink-deep)}
+  .pull{font-family:"Fraunces",serif;font-weight:400;font-style:italic;font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.4;color:var(--ink-deep);border-left:2px solid var(--gold);padding-left:1.2rem;margin:2rem 0}
+  .tag{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid var(--rule);border-radius:2em;padding:.2em .8em;margin-right:.7em;vertical-align:middle}
+  .fuente{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.01em;margin-top:-.4rem}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:var(--rule-soft);padding:.08em .4em;border-radius:4px}
+
+  /* dato card */
+  .dato{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:14px;padding:1.6rem 1.7rem;margin:1.4rem 0}
+  .dato__k{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+  .dato h3{margin:0 0 .5rem;font-size:clamp(1.15rem,1.8vw,1.4rem)}
+  .dato p{margin:0 0 .6rem}
+  .dato p:last-child{margin:0}
+  .cifra{font-family:"Fraunces",serif;font-weight:600;color:var(--ink-deep);font-size:1.08em}
+
+  /* stats strip */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--rule);border-radius:14px;overflow:hidden;margin:1.6rem 0}
+  .stat{background:var(--paper-2);padding:1.4rem 1.1rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1;color:var(--ink-deep)}
+  .stat .n small{font-size:.5em;font-weight:500}
+  .stat .l{font-size:.82rem;line-height:1.35;color:var(--slate);margin-top:.5rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.6rem;color:var(--gold);letter-spacing:.04em;margin-top:.45rem;display:block}
+
+  /* tables */
+  .tbl-wrap{margin:1.6rem 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.9rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+  th,td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:500;border-bottom:1.5px solid var(--rule)}
+  tbody td:first-child{font-weight:600;color:var(--ink)}
+  .yes{color:var(--ink-deep);font-weight:600}
+  .no{color:var(--gold);font-weight:600}
+  .verdict{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;font-weight:500;white-space:nowrap}
+  .v-si{color:#3B6B47}
+  .v-no{color:#A8823F}
+  .v-cuidado{color:var(--slate)}
+
+  /* dark section */
+  .dark{background:var(--ink-deep-2);color:#E7E9EE}
+  .dark h2{color:#fff}
+  .dark h2 em{color:var(--gold-lite)}
+  .dark h3{color:#fff}
+  .dark .sec-num{color:var(--gold-lite)}
+  .dark strong{color:#fff}
+  .dark p{color:#C3CAD6}
+  .dark .pull{color:var(--gold-lite);border-left-color:var(--gold-lite)}
+  .dark code{background:rgba(255,255,255,.1);color:#E7E9EE}
+  .dark .dato{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.09)}
+  .dark .dato p{color:#C3CAD6}
+
+  /* anatomy list */
+  .anat{counter-reset:step;margin:1.6rem 0;padding:0;list-style:none}
+  .anat li{position:relative;padding:1.2rem 0 1.2rem 3.4rem;border-bottom:1px solid var(--rule-soft)}
+  .anat li:last-child{border-bottom:0}
+  .anat li::before{counter-increment:step;content:counter(step,decimal-leading-zero);position:absolute;left:0;top:1.25rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--gold);letter-spacing:.02em}
+  .anat h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.12rem;margin:0 0 .3rem}
+  .anat p{margin:0;font-size:.94rem;color:var(--slate);line-height:1.55}
+  .anat .why{display:block;font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--gold);margin-top:.5rem;letter-spacing:.03em}
+
+  /* referent cards */
+  .refgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.1rem;margin:1.6rem 0}
+  .refcard{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+  .refcard__plate{aspect-ratio:16/10;display:flex;align-items:flex-end;padding:1rem;background:
+    linear-gradient(135deg,var(--ink-deep) 0%,var(--ink-deep-2) 100%);position:relative;overflow:hidden}
+  .refcard__plate::after{content:"";position:absolute;top:-40%;right:-20%;width:70%;height:160%;background:radial-gradient(closest-side,rgba(201,169,110,.28),transparent);pointer-events:none}
+  .refcard__plate span{font-family:"Fraunces",serif;font-weight:500;font-size:1.28rem;line-height:1.05;color:#fff;letter-spacing:-.01em;position:relative;z-index:1}
+  .refcard__body{padding:.95rem 1.05rem 1.1rem}
+  .refcard__cat{font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.45rem}
+  .refcard__why{font-size:.85rem;line-height:1.5;color:var(--slate);margin:0 0 .7rem}
+  .refcard__tags{display:flex;flex-wrap:wrap;gap:.35rem}
+  .chip{font-family:"JetBrains Mono",monospace;font-size:.58rem;letter-spacing:.05em;color:var(--slate);border:1px solid var(--rule);border-radius:2em;padding:.15em .6em}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.75rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:640px){
+    .stats{grid-template-columns:1fr}
+    .cover h1{font-size:clamp(2.3rem,10vw,3rem)}
+    tbody td:first-child{width:auto}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .sheen::after{animation:none;transform:translateX(80%)}
+    .reveal{opacity:1;transform:none;transition:none}
+    *{scroll-behavior:auto}
+  }
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe · UX/UI + datos 2026 · Presentación de la sangha monástica</p>
+  <h1>Una pared de <em>rostros</em>,<br>abierta a voluntad</h1>
+  <p class="deck">Cómo presentar a los ~15 monásticos y monásticas de Paramita sin abrumar, sin carrusel y sin traicionar la calma de la casa. No es una cuestión de gusto: es lo que convergen los números de cómo mira, se cansa y se mueve el usuario en 2026.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Encargo</b> · Patrón de presentación de la grid · datos contrastados</span>
+    <span><b>Fecha</b> · 15 agosto 2026</span>
+    <span><b>Lectura</b> · ~20 min</span>
+  </div>
+  <p class="lede">La tesis, en una frase: el ojo <em>escanea</em> rostros, no lee biografías; la atención tolera el movimiento que <em>pilota</em> pero no el que padece; y el rendimiento del vídeo decide el patrón antes que la estética. Los tres vectores apuntan al mismo sitio —una pared de caras que se abre por decisión del usuario— y este informe lo demuestra con cifras, no con opiniones.</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 00 ENCUADRE ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">00 — El problema real</span>
+    <h2>Lo que el contenido <em>de verdad</em> es</h2>
+  </div>
+  <p class="drop reveal">El informe de personas (Maestros · Sangha · Khenpo) fijó para la comunidad un patrón de «rejilla de rostros, nombre + una línea», con el peso en la <em>acumulación</em> de presencia y no en cada ficha. Esa recomendación era correcta bajo un supuesto que el contenido real ha desmentido: que cada monástico aportaría un dato mínimo. No es así.</p>
+  <p class="reveal">La página viva de la fundación revela lo que existe hoy: en torno a <strong>quince monásticos y monásticas</strong> —además de Khenpo, que tiene página propia— y cada uno con foto retocada, una <strong>semblanza con datos concretos</strong> (profesión previa, país de residencia, año y lugar de ordenación), una <strong>frase personal</strong> y, en la mayoría, un <strong>vídeo</strong>. El material es además <em>desigual</em>: algunas fichas traen dos frases, otras ninguna; varios vídeos comparten el mismo id de reproductor (son marcadores provisionales).</p>
+  <div class="dato reveal">
+    <span class="dato__k">El conflicto en una línea</span>
+    <p>La doctrina pide <strong>acumulación</strong> (ver la sangha entera de un golpe, como cuerpo). El contenido pide <strong>profundidad</strong> (bio + frase + vídeo por persona). Volcar las quince fichas completas a la vez rompe la primera; reducirlas a un nombre desperdicia lo segundo. El patrón correcto es el que sirve a las dos cosas <em>a la vez</em>: presencia arriba, profundidad bajo demanda.</p>
+  </div>
+  <p class="reveal">Este informe no elige ese patrón por elegancia. Lo deriva de tres cuerpos de datos —atención, rendimiento y movimiento— que en 2026 empujan, cada uno por su lado, hacia la misma solución.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 01 ATENCIÓN ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — Cómo mira el usuario en 2026</span>
+    <h2>El ojo <em>escanea</em>, no lee</h2>
+  </div>
+  <p class="reveal">Los estudios de seguimiento ocular de 2025 reconfirman lo que ya sabíamos y lo endurecen: la gente <strong>no lee, ojea</strong>. Los patrones en F y en Z siguen vigentes —la mirada se concentra arriba y a la izquierda, en titulares y primeras palabras— y el usuario busca anclas visuales, no párrafos. En una página de quince personas, nadie va a leer quince biografías: va a <em>barrer rostros</em> y detenerse en uno o dos.</p>
+  <p class="reveal">Y aquí entra el segundo hecho, decisivo para esta página: <strong>los rostros humanos son el ancla de atención más potente</strong>, y una cara con mirada dirigida orienta la vista del visitante hacia donde el rostro mira. Esto no es decoración; es el mecanismo por el que una pared de caras «funciona» como prueba de comunidad viva. Concuerda con la doctrina que ya fijó la home —los rostros pesan más que un edificio o un texto— y le da base empírica.</p>
+  <div class="stats reveal">
+    <div class="stat"><div class="n">F / Z</div><div class="l">patrones de escaneo reconfirmados en estudios 2025; la gente ojea, no lee</div><span class="src">eye-tracking 2025</span></div>
+    <div class="stat"><div class="n">Rostros</div><div class="l">máximo imán de fijación; la mirada dirigida guía la vista del visitante</div><span class="src">estudios de gaze</span></div>
+    <div class="stat"><div class="n">1–2</div><div class="l">fichas que un visitante abrirá de las ~15; el resto se ojea, no se consume</div><span class="src">inferencia de escaneo</span></div>
+  </div>
+  <p class="pull reveal">Consecuencia directa: el estado <em>por defecto</em> de la página tiene que ser la pared de caras. Todo lo demás —semblanza, frase, vídeo— es contenido que la mayoría no pedirá y que, por tanto, no debe cargarse por adelantado.</p>
+  <p class="reveal"><strong>Prospectiva.</strong> La tendencia no se invierte: con la atención cada vez más fragmentada y el tráfico mayoritariamente móvil, el coste de «pedir que se lea» sube y el valor de «dejar ojear y profundizar a demanda» sube con él. Diseñar para el escaneo no es ceder a la prisa: es respetar cómo está hecho el sistema visual.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 DISCLOSURE ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — El principio</span>
+    <h2>Revelar a voluntad: <em>progressive disclosure</em></h2>
+  </div>
+  <p class="reveal">«Mostrar lo esencial y revelar el detalle solo cuando pasa a ser relevante» es un principio de UX con décadas de recorrido —lo formuló Jakob Nielsen en los años noventa—. Pero conviene una aclaración honesta, porque de ella depende la fuerza de este informe: <strong>esa fecha es el origen del concepto, no una prueba de que funcione hoy</strong>. El peso de esta recomendación no lo carga el principio; lo cargan los datos duros y actuales de los demás apartados —cómo escanea el ojo (§01), cuánto cuesta el vídeo (§03), cuánta gente pide calma (§04)—. El disclosure es el <em>marco</em> que ordena esos datos, no la evidencia en sí.</p>
+  <div class="dato reveal">
+    <span class="dato__k">Sobre la base de evidencia · niveles</span>
+    <p><span class="cifra">Nivel 1 —</span> medible y de 2026: rendimiento (LCP, peso), soporte de navegador, adopción de <code>prefers-reduced-motion</code>, eye-tracking. Verificable. <strong>Es donde se apoya todo lo que sigue.</strong></p>
+    <p><span class="cifra">Nivel 2 —</span> hallazgos de usabilidad de tests observados (NN/G, Baymard): criterio experto sobre usuarios reales, pero no ensayos con porcentajes. Guía de dominio, etiquetada como tal.</p>
+    <p><span class="cifra">Aviso —</span> no existe un estudio limpio y reciente que mida «galería-acordeón vs. rejilla» para páginas de personas. La investigación primaria más sólida sobre acordeones (Baymard, 130.000+ h) es de <em>checkout/formularios</em>: sus avisos —qué campos se envían, botón atrás, revisión continua— <strong>no transfieren</strong> a una galería sin formulario. Lo que sí transfiere es la <em>descubribilidad</em> (que se vea que abre) y no esconder lo que la gente necesita. Cualquier «% mejor» para este caso concreto sería humo.</p>
+  </div>
+  <p class="reveal">La pregunta honesta es la inversa: ¿y si el acordeón fuera un error aquí? NN/G publica cinco escenarios en los que <strong>hay que evitarlo</strong>. Los repaso contra esta página, uno a uno —y los libra los cinco—:</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Los 5 escenarios «evita el acordeón» de NN/G, contrastados</caption>
+      <thead><tr><th>Escenario a evitar</th><th>¿Aplica a la sangha?</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>El usuario necesita casi todo el contenido</td><td>No — se abren 1–2 de 15; nadie lee todas las bios</td><td class="verdict v-si">Libre</td></tr>
+        <tr><td>Hay poco contenido visible</td><td>No — hay muchísimo; el problema es el exceso</td><td class="verdict v-si">Libre</td></tr>
+        <tr><td>Contenido complejo, varios niveles</td><td>No — cada persona es una ficha plana (bio·frase·vídeo)</td><td class="verdict v-si">Libre</td></tr>
+        <tr><td>No se puede trocear bien</td><td>No — cada monástico es un trozo natural y autónomo</td><td class="verdict v-si">Libre</td></tr>
+        <tr><td>Se prioriza una lectura corrida</td><td>No — el modo es ojear, no leer seguido</td><td class="verdict v-si">Libre</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal">Es el caso de manual de <em>progressive disclosure</em>: contenido que abrumaría si se muestra entero. Pero hay una condición que decide si funciona o fracasa, y conviene subrayarla porque es donde se juega el diseño: <strong>el estado plegado tiene que comunicar suficiente «aroma de información» para que el usuario decida si abrir</strong>. La cabecera responde a la pregunta implícita «¿qué encontraré si toco esto?». Un rostro con nombre y una línea (país · año de ordenación) la responde; un rostro anónimo, no.</p>
+  <div class="dato reveal">
+    <span class="dato__k">Traducción a la página</span>
+    <p>Plegado = <strong>foto + nombre + una línea</strong> (p. ej. «Pedreguer · ordenada 2019»). Es la pared de caras que pide la doctrina de acumulación <em>y</em> el aroma de información que pide el disclosure. Abierto = <strong>semblanza + frase + vídeo</strong>. La contradicción del §00 se disuelve: no hay que elegir entre acumulación y profundidad; el patrón las apila.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 RENDIMIENTO ===================== -->
+<section class="flow dark">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — El motor invisible</span>
+    <h2>El rendimiento del vídeo <em>decide</em> el patrón</h2>
+  </div>
+  <p class="reveal">Aquí está el argumento que zanja el debate antes que cualquier consideración estética. Cada ficha trae vídeo. Un embed de reproductor estándar no es «un vídeo»: es <strong>entre 1,3 y 2,6 MB de scripts y más de 20 peticiones de red antes de que nadie pulse play</strong>. Un solo embed puede empujar el LCP de 1,9 s a 4,8 s. Con varios en una página, el LCP se degrada 800 ms o más; retirar los embeds de una página cargada de ellos puede acelerar la carga casi cinco veces.</p>
+  <p class="reveal">Multiplica por quince. Renderizar quince reproductores de golpe significaría del orden de <strong>20–40 MB y cientos de peticiones</strong> que la mayoría de visitantes —que abrirán una o dos fichas— jamás usará. Es insostenible, y colisiona de frente con vuestra doctrina de LCP.</p>
+  <div class="stats reveal">
+    <div class="stat"><div class="n">1,9→4,8<small>s</small></div><div class="l">salto de LCP que provoca un solo embed de reproductor</div><span class="src">Gumlet 2026</span></div>
+    <div class="stat"><div class="n">1,3–2,6<small>MB</small></div><div class="l">peso por embed antes de pulsar play, +20 peticiones</div><span class="src">análisis CWV 2026</span></div>
+    <div class="stat"><div class="n">~5×</div><div class="l">más rápida la carga al retirar embeds en páginas con varios</div><span class="src">pruebas independientes</span></div>
+  </div>
+  <p class="reveal">La solución es conocida y tiene nombre: el <strong>patrón «fachada» (facade)</strong>. En lugar de un reproductor, se muestra una imagen-póster con botón de play; el reproductor real solo se carga <em>al hacer clic</em>, cuando el usuario demuestra intención. web.dev lo recomienda explícitamente y existe implementación abierta para Vimeo (<code>lite-vimeo-embed</code>). El <code>loading="lazy"</code> nativo <em>no basta</em>: pospone, no elimina; para vídeo de reproductor la fachada es lo apropiado cuando la tasa de reproducción es baja —exactamente nuestro caso.</p>
+  <p class="pull reveal">Y aquí está la sinergia que lo cierra todo: un estado plegado <em>ya es</em> una fachada. Si la ficha no está abierta, el vídeo ni siquiera existe en el DOM. El patrón que pide la atención (§01) y el que pide el disclosure (§02) es, además, el único que pide el rendimiento (§03). Tres vectores, una respuesta.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 04 MOVIMIENTO ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — El movimiento en 2026</span>
+    <h2>Conductor, no <em>pasajero</em></h2>
+  </div>
+  <p class="reveal">Pediste efectos de transición y scroll originales, «no lo típico». Antes de proponerlos, hay que fijar qué permiten los datos, porque en 2026 el terreno del movimiento ha cambiado dos veces: por capacidad técnica y por accesibilidad.</p>
+
+  <h3>Lo técnico: el scroll ya no necesita JavaScript</h3>
+  <p class="reveal">Las <strong>animaciones nativas dirigidas por scroll</strong> de CSS (<code>animation-timeline: scroll()</code> y <code>view()</code>) alcanzan a mediados de 2026 en torno al <strong>82–85 % de soporte de navegador</strong> (Firefox estable es el asterisco: implementado pero tras flag, y prioridad declarada de Interop 2026). Corren en el <em>hilo compositor</em>, es decir, a 60 fps garantizados sin bloquear el hilo principal. En la práctica han reemplazado buena parte de lo que antes exigía librerías JS: hay migraciones documentadas que retiran una librería de animación, bajan el bundle ~38 KB y mejoran el LCP ~320 ms sin perder calidad percibida. El scroll-storytelling es ya la mayor categoría de animación web.</p>
+  <p class="reveal">La regla de oro para usarlas es exactamente vuestra doctrina de mejora progresiva: <strong>se escribe el estado final como valor por defecto y la animación se superpone solo donde hay soporte</strong>. Un navegador que no entiende <code>animation-timeline</code> ignora la línea y el contenido se ve correcto igual. Para lo que sí exige leer la <em>velocidad</em> del scroll o coreografías largas y ancladas, GSAP/ScrollTrigger sigue siendo la herramienta —y ya lo tenéis en la casa.</p>
+
+  <h3>Lo accesible: el dato que manda sobre todo lo demás</h3>
+  <p class="reveal">La adopción de <code>prefers-reduced-motion</code> pasó del 34 % de sitios en 2022 a <strong>más del 50 % de los sitios móviles en 2024</strong>: es la <em>media query</em> de preferencia más adoptada del mundo. Y la población afectada es enorme: los trastornos vestibulares tocan a más de <strong>70 millones de personas</strong>, y la prevalencia combinada de vestibular + migraña + TDAH supera el 20 % de adultos en algún momento de su vida. El movimiento mal calibrado no molesta: marea, provoca migraña, puede requerir reposo.</p>
+  <div class="dato reveal">
+    <span class="dato__k">El principio conductor / pasajero</span>
+    <p>La PM de animaciones de Chrome —que tiene un trastorno vestibular— lo formuló así: el movimiento que <strong>uno controla</strong> (al scrollear) molesta mucho menos que el que <strong>ocurre solo</strong>. Como conducir frente a ir de pasajero: uno se marea de pasajero. La WCAG lo recoge: el movimiento de scroll que el usuario pilota está permitido; el autónomo (parallax, carruseles, paneos) es el que dispara el trastorno.</p>
+  </div>
+  <p class="reveal">Este principio es, casualmente, <strong>la traducción exacta de vuestra doctrina de motion</strong> —animaciones <code>infinite</code> solo para la familia ambiental; nada de movimiento de presión; hover/scroll/focus finitos— y le da el respaldo empírico que le faltaba. También cierra, con doble aval, el descarte del carrusel automático: es «pasajero» (accesibilidad) <em>y</em> pierde al ~98 % en el primer ítem (UX). No hay debate.</p>
+  <p class="pull reveal">Regla operativa para esta página: todo movimiento debe ser <em>pilotado por el usuario</em> (scroll, tap-para-abrir), correr solo sobre <code>transform</code> y <code>opacity</code> (compositor), y <strong>desaparecer</strong> bajo <code>prefers-reduced-motion</code> dejando el contenido intacto.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 05 REFERENTES ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — Referentes y diseño disruptivo actual</span>
+    <h2>Lo disruptivo, para esta marca, es la <em>contención</em></h2>
+  </div>
+  <p class="reveal">La investigación de páginas de equipo con muchas personas converge en un puñado de reglas: un <strong>patrón híbrido</strong> (destacar el liderazgo con tarjetas prominentes y ordenar al resto en una rejilla escaneable), <strong>disciplina de recorte</strong> radical —misma luz, mismo encuadre, mismo tratamiento; robar fotos dispares «lee» como amateur y erosiona credibilidad—, y detalle bajo demanda vía modal, panel lateral o expansión en sitio. Un antipatrón documentado: obligar a avanzar con flechas por 20+ personas (un caso real forzaba hasta 10 clics para llegar al miembro buscado). Es, de nuevo, el carrusel.</p>
+  <p class="reveal">Sobre lo «disruptivo»: conviene un aviso honesto basado en datos, no en tendencia. El look que hoy satura el diseño generado —fondo crema, serif de alto contraste, acento terracota; o negro con verde ácido; o maqueta broadsheet de filetes— <em>es</em> el default, no una elección. Para una fundación budista contemplativa, el movimiento verdaderamente diferencial en 2026 no es <strong>más</strong> efecto: es mirar de frente los datos de accesibilidad y rendimiento y construir una pieza <strong>serena, nativa y pilotada</strong> que la competencia, atada a plantillas WordPress con carruseles, no puede ofrecer. La contención, bien ejecutada, es el rasgo memorable.</p>
+  <div class="dato reveal">
+    <span class="dato__k">Referentes ya curados en la casa</span>
+    <p>Vuestra propia biblioteca de efectos ya destila referentes de agencia premiada —lusion.co (fluido), noomoagency (scroll/deformación), landonorris.com (layout espejo), chungiyoo (tipografía líquida + clip-path reveal), sohub.digital (layering)—. No hace falta importar vocabulario nuevo: hace falta <em>elegir el correcto</em> de lo que ya tenéis. Eso es lo que hace el apartado siguiente.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 06 BIBLIOTECA ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — Vuestra biblioteca de efectos, puntuada</span>
+    <h2>Qué sirve aquí, qué <em>no</em>, y por qué</h2>
+  </div>
+  <p class="reveal">Doce efectos en la biblioteca. La página de la sangha es reverente, editorial y de mucho rostro: no todos encajan. Los puntúo contra los tres filtros de este informe —escaneo, rendimiento, movimiento pilotado/compositor— sin sentimentalismo:</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Efectos de la casa × idoneidad para la grid de la sangha</caption>
+      <thead><tr><th>Efecto</th><th>Lectura contra los datos</th><th>Veredicto</th></tr></thead>
+      <tbody>
+        <tr><td>09 · Grid FLIP (hover/foco expande)</td><td>Expansión en sitio, reflujo suave con GSAP Flip, <strong>accesible por teclado</strong>. Es literalmente el pariente del patrón. Base ideal para el drawer.</td><td class="verdict v-si">Núcleo</td></tr>
+        <tr><td>01 · Tarjetas + layering tipográfico</td><td>Transición sobria, hover en CSS puro, JS solo para foco. Sirve para el reposo de la tarjeta plegada.</td><td class="verdict v-si">Sí, sobrio</td></tr>
+        <tr><td>00 / 11 · Cursor líquido / agua</td><td>Ambiental, ya global, respeta reduced-motion y se apaga en táctil. Atmósfera de marca; no toca la grid.</td><td class="verdict v-si">Ambiente</td></tr>
+        <tr><td>08 · Reveal clip-path + tipografía fluida</td><td>Clip-path y <code>clamp()</code> para titulares de sección; reveal pilotado por entrada en viewport. Útil en cabeceras, no en cada ficha.</td><td class="verdict v-si">En cabeceras</td></tr>
+        <tr><td>02 · Zoom de texto por scroll (scrub)</td><td>Potente pero es scrub de scroll; en dosis mínima para un titular de apertura, vale. En 15 fichas, no.</td><td class="verdict v-cuidado">Con medida</td></tr>
+        <tr><td>03 · Deformación elástica por velocidad</td><td>Deforma según velocidad de scroll: es movimiento que el usuario no controla del todo. Roza el terreno vestibular en una página de rostros.</td><td class="verdict v-no">Aquí no</td></tr>
+        <tr><td>04 · Túnel esférico 3D · 10 · Rueda 3D</td><td>Paneo/rotación de viewport = disparadores vestibulares de manual; «pasajero». Espectaculares, pero contra los datos de §04.</td><td class="verdict v-no">Descartar</td></tr>
+        <tr><td>07 · Visita 3D Three.js</td><td>Pertenece a «el centro», no a la sangha. Coste alto; fuera de alcance de esta grid.</td><td class="verdict v-no">Otra página</td></tr>
+        <tr><td>06 · Ecosistema WebGL por-tarjeta</td><td>Shaders por ficha × 15 = coste inasumible junto al vídeo. Choca con §03.</td><td class="verdict v-no">Descartar</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal">El titular del scorecard: <strong>el efecto 09 ya es el 80 % del camino</strong>. Expansión en sitio, reflujo sin saltos, foco por teclado que también expande. Lo que falta no es inventar un efecto nuevo, sino <em>vestirlo</em> con la gramática de la marca y protegerlo con las tres reglas de §03–§04.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 07 PATRÓN + EFECTO ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">07 — El patrón, y un gesto propio</span>
+    <h2>Pared de rostros → <em>despliegue en calma</em></h2>
+  </div>
+  <p class="reveal">Primero, los tres candidatos reales de presentación, puntuados contra todo lo anterior. No contra el gusto: contra escaneo, disclosure, rendimiento y movimiento accesible.</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Patrones candidatos × los cuatro filtros de datos</caption>
+      <thead><tr><th>Patrón</th><th>Escaneo · disclosure · vídeo · motion</th><th>Veredicto</th></tr></thead>
+      <tbody>
+        <tr><td>Rejilla que lo muestra todo (bio+frase+vídeo siempre visibles)</td><td>Pierde la pared como gesto único; 15 vídeos = §03 catastrófico; scroll interminable. Falla en rendimiento y en acumulación.</td><td class="verdict v-no">No</td></tr>
+        <tr><td>Rejilla de caras → <strong>modal</strong> al clic</td><td>Escaneo impecable; vídeo uno-a-uno; ya tenéis <code>paramita-modal</code>. Pero <em>extrae</em> a la persona a un foco aislado; menos íntimo; te saca de la pared.</td><td class="verdict v-cuidado">Válido</td></tr>
+        <tr><td>Pared de caras → <strong>expansión en sitio (drawer)</strong></td><td>Escaneo + acumulación intactos; vídeo como fachada al abrir; movimiento pilotado por tap. La persona <em>no sale</em> de la comunidad: la sangha permanece alrededor.</td><td class="verdict v-si">Recomendado</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal">Los dos últimos son legítimos; la diferencia es de <em>significado</em>, y por eso me mojo. Esta página trata del <strong>cuerpo</strong> de la sangha —refugio, «no estás solo», tradición habitada—. La expansión en sitio conserva ese sentido: al abrir a un monástico, los demás siguen visibles a su alrededor; la persona queda <em>embebida</em> en la comunidad en lugar de <em>extraída</em> a un escenario. El modal hace lo contrario: aísla. Para el argumento de esta página concreta, el drawer sirve mejor a la doctrina. (Si primara la limpieza técnica pura, el modal es defendible; es tuya la última palabra.)</p>
+
+  <h3>La mecánica, protegida por los datos</h3>
+  <ul class="anat reveal">
+    <li>
+      <h4>Plegado · la pared</h4>
+      <p>Rejilla de retratos con recorte idéntico. Cada tesela: foto + nombre + una línea (país · año de ordenación). Aroma de información suficiente (§02) y acumulación de presencia (doctrina).</p>
+    </li>
+    <li>
+      <h4>Abierto · el drawer</h4>
+      <p>En móvil (una columna) es un acordeón limpio. En desktop multicolumna, para evitar el <em>reflow</em> feo de las rejillas-acordeón, el panel se abre a <strong>ancho completo bajo la fila</strong> pulsada —la pared no salta, solo se abre un cajón en calma. Base: efecto 09 + FLIP.</p>
+      <span class="why">evita el reflujo desordenado · patrón «quick-view drawer»</span>
+    </li>
+    <li>
+      <h4>Vídeo · fachada siempre</h4>
+      <p>Dentro del drawer, un póster con botón de play; el reproductor de Vimeo se inyecta al clic (<code>lite-vimeo</code> o handler propio). El vídeo es <strong>opcional</strong>: ficha sin vídeo = sin hueco, porque el material es desigual (§00).</p>
+      <span class="why">consolida con la deuda pendiente de paramita-video.js</span>
+    </li>
+    <li>
+      <h4>Entrada · reveal nativo pilotado</h4>
+      <p>La pared aparece con <code>animation-timeline: view()</code> nativo: opacidad + micro-escala en compositor, atada a la posición de scroll (el usuario es el conductor). Estado final por defecto; la animación se superpone solo si hay soporte y si no hay reduced-motion.</p>
+      <span class="why">§04 · progressive enhancement + compositor</span>
+    </li>
+  </ul>
+
+  <h3>El gesto original que propongo (y por qué no es «lo típico»)</h3>
+  <p class="reveal">Pediste una transición propia, no de catálogo. La propongo <em>desde el concepto de la casa</em> —«el cruce como acto»— y disciplinada por los datos, no como fuegos artificiales:</p>
+  <div class="dato reveal">
+    <span class="dato__k">«Revelado» · la presencia que emerge</span>
+    <p>A medida que el usuario baja, cada rostro <strong>cruza de presencia latente a presencia plena</strong>: entra con una leve desaturación y sube a color y foco pleno según su posición en el viewport (<code>animation-timeline: view()</code>, solo <code>opacity</code>/<code>filter</code>/<code>transform</code>). No es parallax (eso es «pasajero»): es un revelado que el propio scroll gobierna. Metáfora literal del linaje —la enseñanza que <em>cruza</em> de una orilla a otra— sin un gramo de WebGL por tarjeta.</p>
+  </div>
+  <div class="dato reveal">
+    <span class="dato__k">Apertura del drawer · por disolución, no por deslizamiento</span>
+    <p>Al abrir, el póster del vídeo y la semblanza <strong>se resuelven por disolución</strong> (cross-fade + micro-escala), no por <em>slide</em>. Hay una razón dura: la disolución es precisamente la transición que la guía de accesibilidad señala como <em>segura</em> para vestibular, frente al desplazamiento de objetos grandes. Lo bello y lo accesible coinciden. El agua/fluido de la marca vive en el cursor ambiental (efecto 00/11), no invadiendo la grid.</p>
+  </div>
+  <p class="pull reveal">Lo disruptivo aquí no es un efecto que nadie haya visto; es la <em>coherencia</em>: un gesto que significa lo que la página significa, corre a 60 fps, no carga un solo byte de vídeo de más y se apaga con elegancia para quien pide calma. En 2026, eso es más raro —y más memorable— que otro carrusel con parallax.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 07b REELS ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">07b — La tentación reels</span>
+    <h2>Qué tomar prestado, y qué <em>no</em></h2>
+  </div>
+  <p class="reveal">Hay que mirarla de frente, porque tiene un argumento a favor real: en 2026 <strong>el vídeo vertical a pantalla completa es el estándar de consumo móvil</strong> —la gente ya está entrenada en él— y el contenido de los monásticos <em>ya tiene forma de reel</em>: cara + vídeo corto + frase. Ignorar esa fluidez tiene un coste. Pero un reels <em>literal</em> —autoplay + auto-avance + feed infinito— está triplemente descalificado aquí, y no por gusto.</p>
+  <div class="dato reveal">
+    <span class="dato__k">Por qué el reels puro queda fuera</span>
+    <p><span class="cifra">Rendimiento —</span> autoplay de vídeo multiplicado por muchas fichas es exactamente lo que descartó §03.</p>
+    <p><span class="cifra">Accesibilidad —</span> el auto-avance es movimiento «pasajero» de §04: ocurre sin que el usuario lo pilote.</p>
+    <p><span class="cifra">Ética y regulación —</span> el scroll infinito y el autoplay están clasificados en la literatura revisada como <strong>dark patterns de captación de atención</strong>; su propio popularizador (Aza Raskin) se arrepiente de ellos; y el hallazgo preliminar de la <strong>Comisión Europea de 2026 contra TikTok</strong> los define como diseño adictivo, con un juicio en curso en Los Ángeles sobre lo mismo.</p>
+  </div>
+  <p class="reveal">Y para <em>esta</em> casa hay un cuarto motivo que sella la cuestión: una fundación budista existe para <strong>cultivar la atención plena</strong>. Presentar a su sangha con un mecanismo diseñado para <em>secuestrar</em> la atención no es un desajuste estético — es una contradicción con su razón de ser. No es opinión: es coherencia con lo que la organización es.</p>
+
+  <h3>El núcleo válido de la idea</h3>
+  <p class="reveal">Lo que la gente conoce de reels no es el autoplay: es la <strong>gramática</strong> —vertical, pantalla completa, cara al frente, deslizar para pasar—. Y los datos separan dos cosas que solemos confundir: <strong>el vídeo vertical gana el <em>scroll</em> (tiempo pasivo), pero el swipe gana la <em>lectura</em></strong>. Un deslizamiento es una acción deliberada que se lee como señal fuerte de intención — lo contrario del scroll sin pensar. Ahí está la puerta: se puede tomar la gramática sin tomar los mecanismos.</p>
+
+  <h3>La síntesis · robar la gramática, no los mecanismos</h3>
+  <p class="reveal">Grid primero (la pared de caras, para ojear y ver el <em>cuerpo</em> de la sangha) → al abrir una, un «modo retrato» vertical enfocado que toma prestado el lenguaje de reels <strong>sin las cuatro piezas dañinas</strong>:</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Reels · qué se toma prestado y qué se retira</caption>
+      <thead><tr><th>Mecanismo reels</th><th>Decisión</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>Autoplay del vídeo</td><td>Se pulsa para reproducir (fachada). Protege rendimiento y autonomía.</td><td class="verdict v-no">Retirado</td></tr>
+        <tr><td>Auto-avance al siguiente</td><td>Se desliza a mano al siguiente monástico. Pilotado, no «pasajero».</td><td class="verdict v-no">Retirado</td></tr>
+        <tr><td>Feed infinito</td><td>Conjunto acotado de ~15 con final visible («has conocido a la sangha»). La señal de parada que el infinito borra a propósito.</td><td class="verdict v-no">Retirado</td></tr>
+        <tr><td>Algoritmo / recompensa variable</td><td>Comunidad fija y ordenada, sin personalización ni gancho.</td><td class="verdict v-no">Retirado</td></tr>
+        <tr><td>Vertical · pantalla completa · cara al frente · swipe</td><td>La gramática familiar que la gente ya domina.</td><td class="verdict v-si">Se toma</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal">Es, literalmente, el modelo mental de Instagram —grid → tocas → deslizas entre ellos—: la familiaridad que se busca, menos el daño. Y afina la decisión pendiente <strong>drawer/modal</strong>: ese «modo retrato» con swipe entre monásticos se siente nativo en móvil; en desktop es el drawer a ancho completo o un panel. El vídeo sigue siendo fachada (§03) y opcional cuando la ficha no lo tenga.</p>
+
+  <h3>Referentes en tu registro</h3>
+  <p class="reveal">Piezas premiadas o punteras que valen para esta página —no por copiarlas, sino por lo que resuelven—. Las placas son nominales (sin capturas hotlinkeadas, por rendimiento y derechos); son para buscarlas y verlas en vivo.</p>
+  <div class="refgrid reveal">
+    <div class="refcard">
+      <div class="refcard__plate"><span>Nordiska<br>Museet</span></div>
+      <div class="refcard__body">
+        <span class="refcard__cat">El más cercano · cultural</span>
+        <p class="refcard__why">Storytelling dirigido por scroll, zoom hacia vídeo embebido y texto que responde sutil al scroll. Reverente, editorial, centrado en personas y patrimonio.</p>
+        <div class="refcard__tags"><span class="chip">Webby 2025</span><span class="chip">Muse</span><span class="chip">scroll-driven</span></div>
+      </div>
+    </div>
+    <div class="refcard">
+      <div class="refcard__plate"><span>Kümmerlein</span></div>
+      <div class="refcard__body">
+        <span class="refcard__cat">Página de personas · calidez</span>
+        <p class="refcard__why">Retratos de equipo cálidos y candidos que sustituyen a los headshots rígidos; fotografía a sangre y layout limpio. Tu caso casi exacto.</p>
+        <div class="refcard__tags"><span class="chip">Awwwards</span><span class="chip">people-first</span></div>
+      </div>
+    </div>
+    <div class="refcard">
+      <div class="refcard__plate"><span>By-Kin</span></div>
+      <div class="refcard__body">
+        <span class="refcard__cat">La contención gana premios</span>
+        <p class="refcard__why">Tipografía editorial, scroll suave ponderado y transiciones que nunca llaman la atención pero aguantan la inspección fotograma a fotograma. La prueba de la tesis de §05.</p>
+        <div class="refcard__tags"><span class="chip">SOTD</span><span class="chip">Developer Award</span><span class="chip">FWA</span></div>
+      </div>
+    </div>
+    <div class="refcard">
+      <div class="refcard__plate"><span>Iventions</span></div>
+      <div class="refcard__body">
+        <span class="refcard__cat">Revelado reverente</span>
+        <p class="refcard__why">Escena Three.js que trata cada proyecto como una instalación iluminada con foco; reveals pausados que se leen como una visita guiada.</p>
+        <div class="refcard__tags"><span class="chip">CSSDA</span><span class="chip">Developer Award</span></div>
+      </div>
+    </div>
+    <div class="refcard">
+      <div class="refcard__plate"><span>Levon Biss</span></div>
+      <div class="refcard__body">
+        <span class="refcard__cat">Rejilla → detalle</span>
+        <p class="refcard__why">Masonry de fotografía donde cada imagen abre a su proyecto. Craft de grid + apertura limpia, sin artificio.</p>
+        <div class="refcard__tags"><span class="chip">masonry</span><span class="chip">click-to-detail</span></div>
+      </div>
+    </div>
+    <div class="refcard">
+      <div class="refcard__plate"><span>SIXMORE<br>VODKA</span></div>
+      <div class="refcard__body">
+        <span class="refcard__cat">Craft de hover</span>
+        <p class="refcard__why">Galería con efecto hover de referencia en Awwwards: transición de imagen medida, sin ruido. Para el reposo de la tesela plegada.</p>
+        <div class="refcard__tags"><span class="chip">Awwwards</span><span class="chip">gallery hover</span></div>
+      </div>
+    </div>
+  </div>
+  <p class="fuente reveal">Lando Norris (efecto 05 de la casa) ya estaba fichado como referente de layout espejo. Los descartados de §06 —túnel/rueda 3D, WebGL por tarjeta— siguen fuera aquí por §03–§04.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 08 CONCLUSIONES ===================== -->
+<section class="flow dark">
+  <div class="sec-head reveal">
+    <span class="sec-num">08 — Conclusiones basadas en datos</span>
+    <h2>Lo que dicen los números, no el <em>gusto</em></h2>
+  </div>
+  <ul class="anat reveal">
+    <li>
+      <h4>La pared de caras es el estado por defecto</h4>
+      <p>Porque el ojo escanea rostros y abrirá 1–2 de 15 (§01). No es preferencia estética: es cómo funciona la atención.</p>
+    </li>
+    <li>
+      <h4>Profundidad bajo demanda, no volcada</h4>
+      <p>El acordeón/drawer libra los cinco escenarios «evita» de NN/G; el disclosure es el marco, y el peso lo cargan los datos duros de §01/§03/§04 (§02).</p>
+    </li>
+    <li>
+      <h4>Vídeo con fachada, obligatorio</h4>
+      <p>15 embeds = 20–40 MB y LCP arruinado (§03). El estado plegado es la fachada gratis. Esto <em>excluye</em> la rejilla que lo muestra todo.</p>
+    </li>
+    <li>
+      <h4>Movimiento pilotado, compositor, apagable</h4>
+      <p>Scroll-driven nativo (~85 % soporte) sobre transform/opacity; reduced-motion respetado (50 %+ de móviles lo declaran). Conductor, no pasajero (§04).</p>
+    </li>
+    <li>
+      <h4>El efecto 09 ya es el núcleo</h4>
+      <p>No hay que inventar: hay que vestir la expansión-en-sitio accesible que ya tenéis con «revelado» + disolución (§06–§07).</p>
+    </li>
+    <li>
+      <h4>Lo disruptivo es la contención coherente</h4>
+      <p>Para una marca contemplativa en 2026, la diferencia no es más efecto: es serenidad nativa y accesible que la competencia con plantillas no puede dar (§05).</p>
+    </li>
+    <li>
+      <h4>Del reels, la gramática; nunca los mecanismos</h4>
+      <p>Vertical + swipe familiar, sí; autoplay, auto-avance, feed infinito y algoritmo, no —son dark patterns bajo escrutinio regulatorio y contradicen la misión de atención plena (§07b).</p>
+    </li>
+  </ul>
+  <h3>Dos decisiones que necesito de ti</h3>
+  <div class="dato reveal">
+    <span class="dato__k">Abiertas · a tu criterio</span>
+    <p><span class="cifra">1.</span> <strong>Drawer (recomendado) o modal.</strong> Los datos empatan en usabilidad; los desempata el <em>significado</em> (embeber vs. aislar). Yo tiro por drawer.</p>
+    <p><span class="cifra">2.</span> <strong>Alcance.</strong> ¿Presencia pura (roster + vida monástica + centro + invitación suave) con la donación en <code>contribuir/</code>, o híbrido con ofrenda dāna al cierre? El informe previo pedía «sin embudo»; la página viva es de donativos. Yo tiraría por híbrido sobrio.</p>
+  </div>
+  <p class="reveal">Con esas dos fijadas, el siguiente hito sería el informe <em>de maqueta</em> de la página —estructura completa, copy marcador y el detalle técnico del drawer + fachada— para llevar a Ale/Khenpo, igual que se hizo con Khenpo. Este documento es el <em>porqué</em>; ese sería el <em>cómo</em>. Nada se toca hasta tu «tira».</p>
+</section>
+
+<!-- ===================== REFS ===================== -->
+<section class="flow refs">
+  <div class="sec-head reveal">
+    <span class="sec-num">Fundamento</span>
+    <h2>De dónde sale cada dato</h2>
+  </div>
+  <p class="reveal" style="font-size:.95rem;color:var(--slate)">Fuentes externas contrastadas (2024–2026) y documentos internos del proyecto. Las cifras del cuerpo remiten a estas referencias; los datos externos se sintetizan, no se citan literalmente.</p>
+  <ol class="reveal">
+    <li><b>Nielsen Norman Group</b> · «Accordions: 5 Scenarios to Avoid Them»; «Progressive Disclosure» (principio formulado por Nielsen en los años 90). Guía cualitativa de tests observados, no ensayos con porcentajes; usada como criterio experto, no como dato medido. <em>Se retiraron de este informe cifras de «30–50 % / 40 %» que procedían de una síntesis de blog no verificable.</em></li>
+    <li><b>Baymard Institute</b> · investigación primaria a gran escala (130.000+ h) sobre acordeones — pero de <em>checkout/formularios</em>: sus pitfalls (envío de campos, botón atrás, revisión continua) no transfieren a una galería de contenido; sí transfiere la descubribilidad/affordance del control.</li>
+    <li><b>Estudios de eye-tracking 2025</b> (síntesis Blue Ocean / Acclaim) · patrones F y Z reconfirmados; el usuario ojea; rostros y mirada dirigida como ancla de atención.</li>
+    <li><b>Gumlet, OpenReplay, Swarmify, web.dev (2026)</b> · coste de embeds de vídeo (1,3–2,6 MB, LCP 1,9→4,8 s, ~5× carga), patrón fachada y <code>lite-vimeo-embed</code>.</li>
+    <li><b>Annnimate «State of Web Animation 2026»; caniuse; Frontend Horizon; Josh W. Comeau</b> · scroll-driven animations nativas ~82–85 %, compositor, mejora progresiva, migraciones que retiran librerías JS (−38 KB, −320 ms LCP).</li>
+    <li><b>MDN; web.dev; CSS-Tricks; W3C WAI (WCAG 2.3.3); hilo CSSWG</b> · <code>prefers-reduced-motion</code> 34 %→50 %+ (2022–24), 70 M+ personas con trastornos vestibulares; principio «conductor / pasajero»; scroll pilotado permitido, movimiento autónomo no.</li>
+    <li><b>Smashing, HubSpot, Rapidfire (páginas de equipo)</b> · patrón híbrido liderazgo+rejilla, disciplina de recorte, modal vs. expansión, antipatrón del avance por flechas.</li>
+    <li><b>Vídeo vertical / reels (2026)</b> · index.dev, medianug, Brightcove, ImgShifter «Social Layout Trends 2026» (Buffer) · vertical 9:16 como estándar móvil; «el vídeo vertical gana el scroll, el swipe gana la lectura»; el swipe como señal de intención.</li>
+    <li><b>Dark patterns / diseño de atención</b> · Roffarello &amp; De Russis (5 attention-capture dark patterns, arXiv); Center for Humane Technology / Aza Raskin; hallazgo preliminar Comisión Europea 2026 vs. TikTok; juicio Meta/Google (Los Ángeles, 2026) — scroll infinito y autoplay como diseño adictivo.</li>
+    <li><b>Referentes premiados</b> · Numiko «Best Museum Websites 2026» (Nordiska Museet); SpinX / Hon Tran «Award-Winning Websites 2026» (Kümmerlein, By-Kin, Iventions); Awwwards (SIXMOREVODKA gallery hover); SiteBuilderReport (Levon Biss masonry).</li>
+    <li><b>Interno</b> · <code>informe-maestros-comunidad-khenpo.html</code> (doctrina de acumulación, tres páginas); biblioteca de efectos (<code>index-efectos.html</code>, efectos 00–11); doctrina de motion y LCP; página viva <code>paramita.org/donativos-sangha-monastica</code> (roster real).</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Paramita · Fundación Sakya — Informe interno · Presentación de la grid de la sangha monástica · Complementa «Maestros, comunidad monástica y la página de Khenpo».</div>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    bar.style.width = (scrolled * 100) + '%';
+  };
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+</body>
+</html>

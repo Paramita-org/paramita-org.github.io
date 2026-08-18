@@ -11,13 +11,44 @@
 /* ═══ 1 · HERO · foto de fondo (usa el componente .hero del sistema) ═══ */
 .pagina-khenpo .hero--foto .hero__bg-img{
   position:absolute; inset:0;
-  /* Fallback cálido bajo la foto · si el asset no carga (nombre/ruta), el
-     hero no queda vacío. Verifica que exista assets/img/khenpo-luz-dorada-
-     exterior.jpg con ESE nombre exacto; si no, dime qué imagen uso y repunto. */
+  width:100%; height:100%;
+  object-fit:cover; object-position:center 26%;
+  /* Fallback cálido si el <img> llegara a fallar. */
   background-color:color-mix(in oklch,var(--calido-zen) 62%,var(--arena));
-  background-image:url(../../assets/img/khenpo-luz-dorada-exterior.jpg);
-  background-size:cover; background-position:center 26%;
   opacity:.92;
+}
+
+/* Desktop · el tamaño se declara también dentro de un @media porque en este
+   navegador la regla base de arriba no llega al <img>; los @media sí. Sin
+   esto, en pantallas anchas la foto no cubre a sangre (queda franja lateral). */
+@media (min-width:769px){
+  .pagina-khenpo .hero--foto .hero__bg-img{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover; object-position:center 26%;
+  }
+}
+
+/* Móvil · mismo criterio que el hero de meditación/actividades:
+   el subject se recentra (el 26% de desktop deja la cara pegada al título en
+   columna estrecha) y el velo cálido se refuerza en la banda de texto. */
+@media (max-width:768px){
+  .pagina-khenpo .hero--foto .hero__bg-img{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover; object-position:center 45%;
+  }
+
+  /* Velo cálido vertical DENSO sobre eyebrow→h1→lede→cta, aligerando hacia
+     abajo para dejar ver el retrato. Sobrescribe el ::after móvil del hero
+     base solo en esta página (arena, coherente con el velo base de khenpo). */
+  .pagina-khenpo .hero::after{
+    background:linear-gradient(180deg,
+      color-mix(in oklch,var(--arena) 90%,transparent) 0%,
+      color-mix(in oklch,var(--arena) 80%,transparent) 42%,
+      color-mix(in oklch,var(--arena) 30%,transparent) 56%,
+      transparent 72%);
+  }
 }
 
 /* ═══ 2 · SEMBLANZA ═══ */

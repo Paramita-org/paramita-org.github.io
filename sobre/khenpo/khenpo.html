@@ -29,9 +29,12 @@
 <script src="../../js/componentes/paramita-bar.js" defer></script>
 <script src="../../js/componentes/paramita-footer-lotos.js" defer></script>
 <!-- tema · listener del toggle del sol -->
+<!-- TEMA · listener del toggle · compartido (sync) -->
 <script src="../../js/componentes/paramita-tema.js" defer></script>
 <!-- 3 · Página -->
 <script src="../../js/paginas/paramita-khenpo.js" defer></script>
+<!-- MENÚ · acordeón de submenús en móvil · compartido (sync) -->
+<script src="../../js/componentes/paramita-menu.js" defer></script>
 
 <!-- 1 · Reset -->
 <link rel="stylesheet" href="../../css/base/paramita-reset.css">
@@ -46,6 +49,7 @@
 <!-- 4 · Componentes (navbar, menú, ctas, secciones, revelados, footer) -->
 <link rel="stylesheet" href="../../css/componentes/paramita-bar.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-menu.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-pictogramas.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-cta.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-hero.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-sections.css">
@@ -55,8 +59,8 @@
 <link rel="stylesheet" href="../../css/paginas/paramita-khenpo.css">
 <!-- 6 · Responsive común (al final) -->
 <link rel="stylesheet" href="../../css/base/paramita-responsive.css">
-<!-- TEMA · penumbra/luz · el ÚLTIMO para ganar la cascada -->
-<link rel="stylesheet" href="../../css/componentes/paramita-tema.css">
+  <!-- TEMA · penumbra/luz · el ÚLTIMO para ganar la cascada (sync) -->
+  <link rel="stylesheet" href="../../css/componentes/paramita-tema.css">
 </head>
 <body>
 <!-- sync: navbar=publico current="Khenpo Rinchen Gyaltsen" -->
@@ -143,7 +147,11 @@
           <a class="navlink" href="/blog/blog.html">Blog</a>
         </li>
 
-        <!-- 5 · Sobre · institucional, anclado a la derecha con .end -->
+        <!-- 5 · Sobre · institucional, anclado a la derecha con .end
+             Cada ítem lleva un pictograma del sistema (Propuesta B): el
+             <span class="pico" data-pico="..."> lo rellena sync.py desde
+             partials/pictogramas/NOMBRE.svg. aria-hidden + etiqueta de texto
+             al lado (regla de oro). -->
         <li class="has-sub end">
           <!-- Padre NO navegable · solo abre el submenú (no lleva a página).
                <button> en vez de <a href>: en móvil el tap abre el desplegable
@@ -154,11 +162,35 @@
                teclado sería refinamiento de fase posterior, no se necesita aún). -->
           <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></button>
           <ul class="sub" role="menu" aria-label="Sobre Paramita">
-            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quienes transmiten la enseñanza</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html" aria-current="page"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/sangha-monastica/sangha-monastica.html"><strong>Comunidad Monástica</strong><span>Monásticos y monásticas</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quienes transmiten la enseñanza</span><span class="pico" data-pico="maestros" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M12 6.5 C10 5.2 6.5 5 4 5.6 L4 17.6 C6.5 17 10 17.2 12 18.5 C14 17.2 17.5 17 20 17.6 L20 5.6 C17.5 5 14 5.2 12 6.5 Z"/>
+  <path d="M12 6.5 L12 18.5"/>
+  <path class="acc" d="M6.6 9 L9.4 9 M6.6 11.4 L9.4 11.4"/>
+</svg></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html" aria-current="page"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span><span class="pico" data-pico="khenpo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M12 4.5 C10.6 7.5 10.6 10.5 12 12.8 C13.4 10.5 13.4 7.5 12 4.5 Z"/>
+  <path d="M12 12.8 C10 10.5 6.5 9.8 4.2 10.6 C5 13.6 8 15.6 12 15.6"/>
+  <path d="M12 12.8 C14 10.5 17.5 9.8 19.8 10.6 C19 13.6 16 15.6 12 15.6"/>
+  <path class="acc" d="M6 17.6 C8.5 19.4 15.5 19.4 18 17.6"/>
+</svg></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/sangha-monastica/sangha-monastica.html"><strong>Comunidad Monástica</strong><span>Monásticos y monásticas</span><span class="pico" data-pico="comunidad" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <circle cx="7.5" cy="10" r="2.3"/>
+  <circle cx="16.5" cy="10" r="2.3"/>
+  <circle class="acc" cx="12" cy="8.6" r="2.4"/>
+  <path d="M3.8 18.6 C3.8 14.9 5.6 13.7 7.5 13.7 C8.4 13.7 9.1 14 9.7 14.5"/>
+  <path d="M20.2 18.6 C20.2 14.9 18.4 13.7 16.5 13.7 C15.6 13.7 14.9 14 14.3 14.5"/>
+  <path d="M8.2 18.6 C8.2 14.1 9.8 13 12 13 C14.2 13 15.8 14.1 15.8 18.6"/>
+</svg></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span><span class="pico" data-pico="fundacion" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M5.5 20 L18.5 20"/>
+  <path d="M7 20 L7 15 C7 11 9 9.5 12 9.5 C15 9.5 17 11 17 15 L17 20"/>
+  <path d="M10 9.5 L10 7.5 L14 7.5 L14 9.5"/>
+  <path class="acc" d="M12 7.5 L12 3.6 M10.3 5.1 L13.7 5.1 M10.8 3.7 C11.4 3 12.6 3 13.2 3.7"/>
+</svg></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span><span class="pico" data-pico="faq" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M4.5 15.5 C4.5 8 9 6 12 6 C16 6 19.5 8.5 19.5 12.5 C19.5 16.5 16 18.5 12 18.5 L8.5 18.5 L5.6 21 L6 17.8 C5 17 4.5 16.3 4.5 15.5 Z"/>
+  <path class="acc" d="M10 11 C10 9.3 11 8.7 12 8.7 C13.2 8.7 14 9.4 14 10.6 C14 11.8 12.6 12.2 12 13 L12 13.9 M12 15.7 L12 15.75"/>
+</svg></span></a></li>
           </ul>
         </li>
 
@@ -171,8 +203,14 @@
         <li class="has-sub end">
           <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Únete <i class="caret" aria-hidden="true"></i></button>
           <ul class="sub" role="menu" aria-label="Únete a Paramita">
-            <li role="none"><a role="menuitem" href="/unete/grupos/grupos.html"><strong>Grupos</strong><span>Círculos de estudio cerca de ti</span></a></li>
-            <li role="none"><a role="menuitem" href="/unete/voluntariado/voluntariado.html"><strong>Voluntariado</strong><span>Ofrece tu tiempo en el centro</span></a></li>
+            <li role="none"><a role="menuitem" href="/unete/grupos/grupos.html"><strong>Grupos</strong><span>Círculos de estudio cerca de ti</span><span class="pico" data-pico="grupos" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <circle cx="12" cy="11.5" r="7"/>
+  <circle cx="12" cy="6.5" r="1.2"/>
+  <circle cx="16.9" cy="13.5" r="1.2"/>
+  <circle cx="7.1" cy="13.5" r="1.2"/>
+  <circle class="acc" cx="12" cy="11.5" r="1.7"/>
+</svg></span></a></li>
+            <li role="none"><a role="menuitem" href="/unete/voluntariado/voluntariado.html"><strong>Voluntariado</strong><span>Ofrece tu tiempo en el centro</span><span class="pico" data-pico="voluntariado" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20S5 15.5 5 10.6A3.7 3.7 0 0 1 12 8.7 3.7 3.7 0 0 1 19 10.6C19 15.5 12 20 12 20z"/><path class="acc" d="M12 6.4V4M9.4 4.9 8.4 3.1M14.6 4.9 15.6 3.1"/></svg></span></a></li>
           </ul>
         </li>
 
@@ -243,7 +281,12 @@
 
   <!-- ═══ 1 · PRESENCIA · hero del sistema con foto de fondo ═══ -->
   <section class="hero hero--foto" id="hero">
-    <div class="hero__bg" aria-hidden="true"><div class="hero__bg-img"></div></div>
+    <div class="hero__bg" aria-hidden="true">
+      <picture>
+        <source media="(max-width:768px)" srcset="../../assets/img/khenpo-hero-movil-luz-exterior.jpg">
+        <img class="hero__bg-img" src="../../assets/img/khenpo-luz-dorada-exterior.jpg" alt="">
+      </picture>
+    </div>
     <div class="wrap hero__inner">
       <p class="eyebrow">Director espiritual · Fundación Sakya Paramita</p>
       <h1><em>Khenpo</em> Rinchen Gyaltsen</h1>
@@ -267,7 +310,11 @@
       </div>
       <figure class="media-grow">
         <img class="media-grow-img" src="../../assets/img/khenpo-luz-dorada-low.jpg" alt="Retrato de Khenpo Rinchen Gyaltsen a la luz dorada" loading="lazy" onerror="this.remove()">
-        <div class="ph"><span class="pico" data-pico="imagen"></span><span>Foto · retrato</span></div>
+        <div class="ph"><span class="pico" data-pico="imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <rect x="3.5" y="5" width="17" height="14" rx="2"/>
+  <path d="M3.7 16.2 L8.5 11.6 L12.4 15 L15.4 12.4 L20.3 16.6"/>
+  <circle class="acc" cx="15.4" cy="9" r="1.6"/>
+</svg></span><span>Foto · retrato</span></div>
       </figure>
     </div>
   </section>
@@ -331,12 +378,36 @@
       <span class="mirada__hint" data-reveal aria-hidden="true"><span>→</span></span>
     </div>
     <div class="galeria" id="galeria" aria-label="Archivo fotográfico de Khenpo Rinchen">
-      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"></span><span>archivo · monasterios</span></div></div>
-      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"></span><span>archivo · peregrinación</span></div></div>
-      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"></span><span>archivo · rituales</span></div></div>
-      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"></span><span>archivo · Nepal</span></div></div>
-      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"></span><span>archivo · Tradición Sakya</span></div></div>
-      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"></span><span>archivo · Bodhgaya</span></div></div>
+      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <rect x="3.5" y="5" width="17" height="14" rx="2"/>
+  <path d="M3.7 16.2 L8.5 11.6 L12.4 15 L15.4 12.4 L20.3 16.6"/>
+  <circle class="acc" cx="15.4" cy="9" r="1.6"/>
+</svg></span><span>archivo · monasterios</span></div></div>
+      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <rect x="3.5" y="5" width="17" height="14" rx="2"/>
+  <path d="M3.7 16.2 L8.5 11.6 L12.4 15 L15.4 12.4 L20.3 16.6"/>
+  <circle class="acc" cx="15.4" cy="9" r="1.6"/>
+</svg></span><span>archivo · peregrinación</span></div></div>
+      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <rect x="3.5" y="5" width="17" height="14" rx="2"/>
+  <path d="M3.7 16.2 L8.5 11.6 L12.4 15 L15.4 12.4 L20.3 16.6"/>
+  <circle class="acc" cx="15.4" cy="9" r="1.6"/>
+</svg></span><span>archivo · rituales</span></div></div>
+      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <rect x="3.5" y="5" width="17" height="14" rx="2"/>
+  <path d="M3.7 16.2 L8.5 11.6 L12.4 15 L15.4 12.4 L20.3 16.6"/>
+  <circle class="acc" cx="15.4" cy="9" r="1.6"/>
+</svg></span><span>archivo · Nepal</span></div></div>
+      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <rect x="3.5" y="5" width="17" height="14" rx="2"/>
+  <path d="M3.7 16.2 L8.5 11.6 L12.4 15 L15.4 12.4 L20.3 16.6"/>
+  <circle class="acc" cx="15.4" cy="9" r="1.6"/>
+</svg></span><span>archivo · Tradición Sakya</span></div></div>
+      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <rect x="3.5" y="5" width="17" height="14" rx="2"/>
+  <path d="M3.7 16.2 L8.5 11.6 L12.4 15 L15.4 12.4 L20.3 16.6"/>
+  <circle class="acc" cx="15.4" cy="9" r="1.6"/>
+</svg></span><span>archivo · Bodhgaya</span></div></div>
     </div>
   </section>
 
@@ -382,30 +453,39 @@
 </main>
 
 <!-- footer · partials/footer.html (incrustado) -->
+<!-- footer · sincronizado con partials/footer.html -->
 <footer class="foot" id="contacto">
   <div class="foot__info">
     <div class="wrap">
       <div class="foot-grid">
+
+        <!-- Columna 1 · marca + tagline + social -->
         <div>
           <span class="logo-wave" role="img" aria-label="Paramita"></span>
           <p class="tagline">Meditación y enseñanzas del Buddha, como puente entre los Himalayas y el mundo hispanohablante.</p>
           <div class="social">
-            <a href="#facebook" aria-label="Facebook"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M13.7 8.3c-1.5-.3-2.6.3-2.6 2V17"/><path d="M9.7 11.7h3.6"/></svg>Facebook</a>
-            <a href="#youtube" aria-label="YouTube"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4.2"/><path d="M10.4 9.4 15 12l-4.6 2.6z"/></svg>YouTube</a>
-            <a href="#instagram" aria-label="Instagram"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="16.8" cy="7.2" r=".7" fill="currentColor" stroke="none"/></svg>Instagram</a>
-            <a href="#spotify" aria-label="Spotify"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.4 9.7c3-.9 6.6-.6 9.1.9"/><path d="M8 12.6c2.4-.7 5.2-.4 7.2.8"/><path d="M8.6 15.4c1.9-.5 4-.3 5.6.6"/></svg>Spotify</a>
+            <a href="https://www.facebook.com/paramitaorg/?locale=es_ES" target="_blank" rel="noopener" aria-label="Facebook"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M13.7 8.3c-1.5-.3-2.6.3-2.6 2V17"/><path d="M9.7 11.7h3.6"/></svg>Facebook</a>
+            <a href="https://www.youtube.com/@Paramitaorg" target="_blank" rel="noopener" aria-label="YouTube"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4.2"/><path d="M10.4 9.4 15 12l-4.6 2.6z"/></svg>YouTube</a>
+            <a href="https://www.instagram.com/paramitaorg/?hl=es" target="_blank" rel="noopener" aria-label="Instagram"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="16.8" cy="7.2" r=".7" fill="currentColor" stroke="none"/></svg>Instagram</a>
+            <a href="https://open.spotify.com/show/0lFfiHcQQCd2geCDefB1bf" target="_blank" rel="noopener" aria-label="Spotify"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.4 9.7c3-.9 6.6-.6 9.1.9"/><path d="M8 12.6c2.4-.7 5.2-.4 7.2.8"/><path d="M8.6 15.4c1.9-.5 4-.3 5.6.6"/></svg>Spotify</a>
           </div>
         </div>
+
+        <!-- Columna 2 · Navegar (refleja la IA del navbar público) -->
         <div>
-          <h4>Navegar</h4>
+          <h2>Navegar</h2>
           <a class="fl" href="/meditacion/meditacion.html">Meditación</a>
           <a class="fl" href="/formacion/formacion-publica.html">Cursos</a>
           <a class="fl" href="/actividades/actividades.html">Actividades</a>
           <a class="fl" href="/blog/blog.html">Blog</a>
-          <a class="fl" href="/sobre">Sobre</a>
+          <a class="fl" href="/sobre/la-fundacion/la-fundacion.html">Sobre</a>
+          <a class="fl" href="/unete/grupos/grupos.html">Grupos</a>
+          <a class="fl" href="/unete/voluntariado/voluntariado.html">Voluntariado</a>
         </div>
+
+        <!-- Columna 3 · Contacto -->
         <div>
-          <h4>Contacto</h4>
+          <h2>Contacto</h2>
           <address>
             <b>Dirección</b><br>Av. de Comtat, 1 Bis, buzón 207<br>Pedreguer (Muntanya de la Sella)<br>03750 Alicante, España<br><br>
             <b>Teléfono</b> (+34) 965 760 777<br>
@@ -414,11 +494,15 @@
             <b>Horario</b> L–V · 10–13 h y 15–17 h
           </address>
         </div>
+
       </div>
+
+      <!-- Base del pie · copyright y firma -->
       <div class="foot-base">
         <span>© 2026 Fundación Paramita. Todos los seres, libres del sufrimiento.</span>
         <span>Centro Budista Sakya · Alicante</span>
       </div>
+
     </div>
   </div>
 </footer>

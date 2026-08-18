@@ -1,0 +1,6 @@
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M3.5 9.5 L12 4 L20.5 9.5"/>
+  <path d="M5.5 9.5 L5.5 17.5 M9 9.5 L9 17.5 M15 9.5 L15 17.5 M18.5 9.5 L18.5 17.5"/>
+  <path d="M3 17.5 L21 17.5 M4.5 20 L19.5 20"/>
+  <path class="acc" d="M11 17.5 L11 12.6 Q11 11.6 12 11.6 Q13 11.6 13 12.6 L13 17.5"/>
+</svg>

@@ -40,7 +40,11 @@
           <a class="navlink" href="/blog/blog.html">Blog</a>
         </li>
 
-        <!-- 5 · Sobre · institucional, anclado a la derecha con .end -->
+        <!-- 5 · Sobre · institucional, anclado a la derecha con .end
+             Cada ítem lleva un pictograma del sistema (Propuesta B): el
+             <span class="pico" data-pico="..."> lo rellena sync.py desde
+             partials/pictogramas/NOMBRE.svg. aria-hidden + etiqueta de texto
+             al lado (regla de oro). -->
         <li class="has-sub end">
           <!-- Padre NO navegable · solo abre el submenú (no lleva a página).
                <button> en vez de <a href>: en móvil el tap abre el desplegable
@@ -51,11 +55,11 @@
                teclado sería refinamiento de fase posterior, no se necesita aún). -->
           <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></button>
           <ul class="sub" role="menu" aria-label="Sobre Paramita">
-            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quienes transmiten la enseñanza</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/sangha-monastica/sangha-monastica.html"><strong>Comunidad Monástica</strong><span>Monásticos y monásticas</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quienes transmiten la enseñanza</span><span class="pico" data-pico="maestros" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span><span class="pico" data-pico="khenpo" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/sangha-monastica/sangha-monastica.html"><strong>Comunidad Monástica</strong><span>Monásticos y monásticas</span><span class="pico" data-pico="comunidad" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span><span class="pico" data-pico="fundacion" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span><span class="pico" data-pico="faq" aria-hidden="true"></span></a></li>
           </ul>
         </li>
 
@@ -68,8 +72,8 @@
         <li class="has-sub end">
           <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Únete <i class="caret" aria-hidden="true"></i></button>
           <ul class="sub" role="menu" aria-label="Únete a Paramita">
-            <li role="none"><a role="menuitem" href="/unete/grupos/grupos.html"><strong>Grupos</strong><span>Círculos de estudio cerca de ti</span></a></li>
-            <li role="none"><a role="menuitem" href="/unete/voluntariado/voluntariado.html"><strong>Voluntariado</strong><span>Ofrece tu tiempo en el centro</span></a></li>
+            <li role="none"><a role="menuitem" href="/unete/grupos/grupos.html"><strong>Grupos</strong><span>Círculos de estudio cerca de ti</span><span class="pico" data-pico="grupos" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/unete/voluntariado/voluntariado.html"><strong>Voluntariado</strong><span>Ofrece tu tiempo en el centro</span><span class="pico" data-pico="voluntariado" aria-hidden="true"></span></a></li>
           </ul>
         </li>
 
