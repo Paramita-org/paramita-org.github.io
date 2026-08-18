@@ -3,75 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Diario — Paramita · maqueta grilla /blog/</title>
+<title>Quiénes somos · Paramita</title>
+<meta name="description" content="Fundación budista de tradición Sakya, con sede en el monte Sella (Pedreguer, Alicante). Un puente entre las enseñanzas del Himalaya y el mundo hispanohablante.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Hanken+Grotesk:wght@300..700&display=swap" rel="stylesheet">
   <!-- TEMA · anti-FOUC (sync) · aplica la penumbra guardada ANTES de pintar -->
   <script>
     try { if (localStorage.getItem('paramita-tema') === 'oscuro') document.documentElement.setAttribute('data-tema','oscuro'); } catch(e){}
   </script>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<!-- marca JS activo cuanto antes (gate de los revelados) -->
-<script>document.documentElement.classList.add('js')</script>
-
-<!-- TOKENS -->
-<link rel="stylesheet" href="../css/tokens/paramita-color.css">
-<link rel="stylesheet" href="../css/tokens/paramita-tipografia.css">
-<link rel="stylesheet" href="../css/tokens/paramita-layout.css">
-<link rel="stylesheet" href="../css/tokens/paramita-movimiento.css">
-<!-- BASE -->
-<link rel="stylesheet" href="../css/base/paramita-reset.css">
-<link rel="stylesheet" href="../css/base/paramita-base.css">
-<!-- COMPONENTES -->
-<link rel="stylesheet" href="../css/componentes/paramita-bar.css">
-<link rel="stylesheet" href="../css/componentes/paramita-menu.css">
-<link rel="stylesheet" href="../css/componentes/paramita-pictogramas.css">
-<link rel="stylesheet" href="../css/componentes/paramita-cta.css">
-<link rel="stylesheet" href="../css/componentes/paramita-sections.css">
-<link rel="stylesheet" href="../css/componentes/paramita-extras.css">
-<link rel="stylesheet" href="../css/componentes/paramita-footer.css">
-<link rel="stylesheet" href="../css/componentes/paramita-chat.css">
-<!-- PÁGINA · blog (grid del Diario + entrada) -->
-<link rel="stylesheet" href="../css/paginas/paramita-blog.css">
-<!-- Responsive común (al final) -->
-<link rel="stylesheet" href="../css/base/paramita-responsive.css">
+<link rel="stylesheet" href="paramita-quienes-somos.css">
   <!-- TEMA · penumbra/luz · el ÚLTIMO para ganar la cascada (sync) -->
-  <link rel="stylesheet" href="../css/componentes/paramita-tema.css">
+  <link rel="stylesheet" href="css/componentes/paramita-tema.css">
 </head>
 <body>
 
-<!-- ── Navbar ── -->
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PARAMITA · FUNDACIÓN SAKYA
-     partials/navbar-publico.html — Navbar público (usuarios sin sesión)
-     ───────────────────────────────────────────────────────────────────────────
+<div class="muestra-pill">Muestra · copy provisional</div>
 
-     CAMBIO FASE 7 · añadido .btn-acceso
-     ────────────────────────────────────
-     Añadido el círculo .btn-acceso al final del .bar-inner (fuera del .menu)
-     para dar entrada al login. Cuando el usuario se autentica, este mismo
-     círculo se sustituye por el .avatar-menu del navbar-practicante (misma
-     posición, mismo tamaño, misma familia lumínica) — continuidad visual
-     entre ambos navbars.
-
-     REORDENACIÓN DEL DOM
-     ────────────────────
-     El .burger se mueve al final del .bar-inner (antes estaba en 3ª posición).
-     El .btn-acceso queda como penúltimo hijo, justo antes del burger, para:
-       · En desktop: aparecer al final de la fila, después de los CTAs.
-       · En móvil: quedar visible en la barra sin abrir el hamburguesa.
-
-     La reordenación no rompe el sibling selector `.nt:checked ~ .menu`
-     porque el input.nt sigue estando ANTES del .menu en el DOM. El label
-     .burger[for="nt"] funciona por atributo, no por proximidad.
-
-     Depende de estos CSS del sistema (ya cargados):
-       · paramita-bar.css     → contenedor sticky, glass, logo
-       · paramita-menu.css    → menú horizontal, links, submenús, caret
-       · paramita-cta.css     → .btn-secundario, .btn-primario, .btn-acceso
-       · paramita-responsive.css → burger + comportamiento móvil
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
+<!-- ══════════ BARRA ══════════ -->
 <header class="bar">
   <div class="bar-inner wrap">
 
@@ -244,173 +193,185 @@
   </div>
 </header>
 
-<!-- ── Cabecera de la grilla ── -->
-<section class="hero-grid">
-  <div class="wrap">
-    <div class="s-head">
-      <div>
-        <span class="eyebrow">Diario</span>
-        <h1>Historias, enseñanzas y <em>vida de práctica</em></h1>
-      </div>
-      <p>Textos de la tradición Sakya para acompañar el camino. Sin prisa, a tu ritmo.</p>
+<!-- ══════════ 01 · HERO / UMBRAL ══════════ -->
+<section class="hero">
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="hero__inner">
+    <p class="eyebrow">Fundación Sakya · Pedreguer, Alicante</p>
+    <h1>Sabiduría del Himalaya,<br>en tu <em>idioma</em></h1>
+    <p class="intro">Fundación budista de tradición Sakya. Un centro real en el monte Sella y enseñanzas vivas para el mundo hispanohablante.</p>
+    <div class="actions">
+      <a href="#esencia" class="btn-primario">Conócenos</a>
+      <a href="#sede" class="t-link"><span class="txt">Visita el centro</span> <span class="arw">→</span></a>
     </div>
-    <!-- Búsqueda por palabras + filtro por temas (provisional · taxonomía pendiente de Ale) -->
-    <div class="filtro-zona">
-      <div class="busqueda">
-        <input id="buscar" type="text" autocomplete="off" placeholder="Busca por palabra… meditación, linaje, mérito" aria-label="Buscar artículos por palabra">
-        <span class="lupa" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21" stroke-linecap="round"></line></svg></span>
+  </div>
+  <div class="scroll-cue" aria-hidden="true">
+    <svg class="pico" viewBox="0 0 24 24"><path d="M6 10l6 6 6-6"/></svg>
+  </div>
+</section>
+
+<!-- ══════════ 02 · ESENCIA / QUÉ ES ══════════ -->
+<section class="section esencia" id="esencia">
+  <div class="wrap-lectura reveal">
+    <div class="tick" aria-hidden="true"></div>
+    <p class="frase">Creemos que todo ser humano puede <em>despertar</em>.</p>
+    <p class="sub">Y ofrecemos los medios para lograrlo: enseñanzas genuinas, transmitidas con fidelidad, en el lenguaje de hoy.</p>
+  </div>
+</section>
+
+<!-- ══════════ 03 · LINAJE VIVO ══════════ -->
+<section class="section linaje">
+  <div class="wrap">
+    <div class="head-centro reveal">
+      <p class="eyebrow">El linaje vivo</p>
+      <h2>Una transmisión <em>ininterrumpida</em></h2>
+    </div>
+    <div class="retratos">
+      <div class="persona reveal">
+        <div class="avatar" aria-hidden="true">
+          <svg class="pico" viewBox="0 0 24 24">
+            <circle cx="12" cy="9" r="3.2"/>
+            <path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/>
+            <path class="acc" d="M8.4 4.4a5 5 0 0 1 7.2 0"/>
+          </svg>
+        </div>
+        <div>
+          <h3>S.S. Gongma Trichen</h3>
+          <p class="rol">Sostenedor del Linaje Sakya</p>
+          <p class="nota">Máxima autoridad de la tradición</p>
+        </div>
       </div>
-      <div class="filtro" role="group" aria-label="Filtrar por tema">
-        <button class="chip activo" data-filtro="todos">Todos</button>
-        <button class="chip" data-filtro="meditacion">Meditación</button>
-        <button class="chip" data-filtro="filosofia">Filosofía</button>
-        <button class="chip" data-filtro="historia">Historia</button>
-        <button class="chip" data-filtro="maestros">Maestros</button>
-        <button class="chip" data-filtro="practica">Práctica</button>
-        <button class="chip" data-filtro="textos">Textos</button>
+      <div class="persona reveal d1">
+        <div class="avatar" aria-hidden="true">
+          <svg class="pico" viewBox="0 0 24 24">
+            <circle cx="12" cy="9" r="3.2"/>
+            <path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/>
+            <path class="acc" d="M8.4 4.4a5 5 0 0 1 7.2 0"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Khenpo Rinchen Gyaltsen</h3>
+          <p class="rol">Director · maestro residente</p>
+          <p class="nota">También conocido como Lama Rinchen</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── Destacado ── -->
-<div class="destacado-wrap"><div class="wrap">
-  <article class="destacado" data-tema="historia maestros">
-    <div class="d-img">
-      <span class="d-flag">Destacado</span>
-      <div class="pic" style="background-image:url('/assets/img/blog-1-color.jpg'),linear-gradient(150deg,#EBDEC4,#E4D9C4)"></div>
+<!-- ══════════ 04 · SEDE ══════════ -->
+<section class="sede" id="sede">
+  <div class="sede__img reveal" role="img" aria-label="Vista aérea del Centro Budista Sakya en el monte Sella"></div>
+  <div class="wrap"><p class="caption sede__cap">Vista aérea del centro, en el monte Sella</p></div>
+  <div class="sede__body">
+    <div class="wrap">
+      <div class="sede__grid">
+        <div class="reveal">
+          <p class="eyebrow">La sede</p>
+          <h2>En la cima del <em>monte Sella</em></h2>
+          <div class="datos">
+            <span class="dato"><b>·</b> Mediterráneo y Montgó</span>
+            <span class="dato"><b>3</b> salas de meditación</span>
+            <span class="dato"><b>60</b> plazas</span>
+          </div>
+        </div>
+        <div class="reveal d1" style="padding-top:.3rem">
+          <p class="intro" style="color:var(--texto-suave);max-width:40ch">Un espacio de retiro en plena naturaleza, en Pedreguer (Alicante), donde se imparten enseñanzas y se practica con maestros del linaje.</p>
+          <p style="margin-top:1.2rem"><a href="#" class="t-link"><span class="txt">Conoce el centro</span> <span class="arw">→</span></a></p>
+        </div>
+      </div>
     </div>
-    <div class="d-body">
-      <span class="kicker">Maestras del linaje</span>
-      <h2>Mandarava: la mujer que emergió <em>del fuego</em></h2>
-      <p>Tres veces intentaron apagarla. Tres veces emergió más luminosa. La historia de la princesa que renunció a todo por seguir su llamada.</p>
-      <span class="meta-min">Anahí Yanez Pagans · 13 min de lectura</span>
-      <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer el artículo <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<!-- ══════════ 05 · PERSONAS / PUENTES ══════════ -->
+<section class="section personas">
+  <div class="wrap">
+    <div class="head-centro reveal">
+      <p class="eyebrow">Quiénes lo sostienen</p>
+      <h2>Una comunidad <em>con rostro</em></h2>
     </div>
-  </article>
-</div></div>
+    <div class="puentes">
 
-<!-- ── Rejilla ── -->
-<div class="rejilla"><div class="wrap">
-  <div class="grid-cards" id="grid">
+      <a href="#" class="puente reveal">
+        <div class="puente__img" aria-hidden="true">
+          <svg class="pico" viewBox="0 0 24 24">
+            <circle cx="12" cy="8.5" r="3.4"/>
+            <path d="M5 20c0-3.9 3.1-6.5 7-6.5s7 2.6 7 6.5"/>
+            <path class="acc" d="M8.2 3.9a5.2 5.2 0 0 1 7.6 0"/>
+          </svg>
+        </div>
+        <div class="puente__body">
+          <h3>El maestro</h3>
+          <p>Khenpo Rinchen Gyaltsen, director y guía espiritual del centro.</p>
+          <span class="t-link"><span class="txt">Su historia</span> <span class="arw">→</span></span>
+        </div>
+      </a>
 
-    <article class="efx-card" data-tema="filosofia practica">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-2-color.jpg'),linear-gradient(150deg,#EBDEC4,#E4D9C4)"></div></div>
-      <span class="ghost" aria-hidden="true">道</span>
-      <div class="body">
-        <span class="kicker">Caminos</span>
-        <h3>Vajrayana: cómo recorrer el camino tántrico</h3>
-        <p>Una introducción serena al vehículo del diamante y sus métodos de transformación.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
+      <a href="#" class="puente reveal d1">
+        <div class="puente__img" aria-hidden="true">
+          <svg class="pico" viewBox="0 0 24 24">
+            <path class="acc" d="M12 4.5c1.9 2.2 1.9 6 0 8.5-1.9-2.5-1.9-6.3 0-8.5z"/>
+            <path d="M12 13c-2.6-1.2-5.7-.7-7.5 1.1 2.1 1.6 5 1.6 7.5 0z"/>
+            <path d="M12 13c2.6-1.2 5.7-.7 7.5 1.1-2.1 1.6-5 1.6-7.5 0z"/>
+            <path d="M4.5 18.5c2.2 1.5 4.8 2.1 7.5 2.1s5.3-.6 7.5-2.1"/>
+          </svg>
+        </div>
+        <div class="puente__body">
+          <h3>Los maestros</h3>
+          <p>El linaje Sakya, transmitido por maestros cualificados del Himalaya.</p>
+          <span class="t-link"><span class="txt">Conócelos</span> <span class="arw">→</span></span>
+        </div>
+      </a>
 
-    <article class="efx-card" data-tema="historia maestros">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-3-color.jpg'),linear-gradient(150deg,#E4D9C4,#EBDEC4)"></div></div>
-      <span class="ghost" aria-hidden="true">源</span>
-      <div class="body">
-        <span class="kicker">Fundadores</span>
-        <h3>Sachen Kunga Ñingpo, el primer maestro Sakya</h3>
-        <p>El origen del linaje Sakya y la transmisión que aún nos acompaña hoy.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
+      <a href="#" class="puente reveal d2">
+        <div class="puente__img" aria-hidden="true">
+          <svg class="pico" viewBox="0 0 24 24">
+            <circle cx="9" cy="9" r="2.8"/>
+            <circle class="acc" cx="16.5" cy="10.5" r="2.2"/>
+            <path d="M3.5 20c0-3 2.6-4.9 5.5-4.9"/>
+            <path d="M13 20c0-2.5 2.1-4 4.8-4"/>
+          </svg>
+        </div>
+        <div class="puente__body">
+          <h3>La sangha</h3>
+          <p>La comunidad monástica y laica que sostiene la práctica cada día.</p>
+          <span class="t-link"><span class="txt">Su labor</span> <span class="arw">→</span></span>
+        </div>
+      </a>
 
-    <article class="efx-card" data-tema="filosofia">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-4-color.jpg'),linear-gradient(150deg,#EBDEC4,#EFE8DB)"></div></div>
-      <span class="ghost" aria-hidden="true">壇</span>
-      <div class="body">
-        <span class="kicker">Filosofía</span>
-        <h3>Ofrenda de Mandala: el método supremo para acumular mérito</h3>
-        <p>La quinta práctica fundamental del Ngöndro de la tradición Sakya, explicada con calma.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
-
-    <article class="efx-card" data-tema="practica">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-1-color.jpg'),linear-gradient(150deg,#E4D9C4,#EBDEC4)"></div></div>
-      <span class="ghost" aria-hidden="true">行</span>
-      <div class="body">
-        <span class="kicker">Práctica</span>
-        <h3><em>Kora</em> budista: la circunvalación sagrada, paso a paso</h3>
-        <p>El sentido de caminar en círculo alrededor de lo sagrado, y cómo hacerlo.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
-
-    <article class="efx-card" data-tema="filosofia">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-2-color.jpg'),linear-gradient(150deg,#EBDEC4,#E4D9C4)"></div></div>
-      <span class="ghost" aria-hidden="true">供</span>
-      <div class="body">
-        <span class="kicker">Filosofía</span>
-        <h3>El arte de la ofrenda perfecta: intención, mérito y dedicación</h3>
-        <p>Qué convierte un gesto sencillo en una práctica que genera mérito.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
-
-    <article class="efx-card" data-tema="textos">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-3-color.jpg'),linear-gradient(150deg,#E4D9C4,#EBDEC4)"></div></div>
-      <span class="ghost" aria-hidden="true">輪</span>
-      <div class="body">
-        <span class="kicker">Textos</span>
-        <h3><em>La rueda de las armas afiladas</em>: el texto que cambia la mirada</h3>
-        <p>Una obra del lojong que da la vuelta a cómo entendemos la adversidad.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
-
-    <!-- Ocultas hasta "Cargar más" -->
-    <article class="efx-card oculto" data-lote="2" data-tema="meditacion">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-4-color.jpg'),linear-gradient(150deg,#EBDEC4,#EFE8DB)"></div></div>
-      <span class="ghost" aria-hidden="true">禪</span>
-      <div class="body">
-        <span class="kicker">Meditación</span>
-        <h3>Shamatha: cómo empezar a calmar la mente de verdad</h3>
-        <p>Los primeros pasos de la meditación de calma mental, sin idealizaciones.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
-
-    <article class="efx-card oculto" data-lote="2" data-tema="meditacion practica">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-1-color.jpg'),linear-gradient(150deg,#EBDEC4,#E4D9C4)"></div></div>
-      <span class="ghost" aria-hidden="true">觀</span>
-      <div class="body">
-        <span class="kicker">Vida de práctica</span>
-        <h3>La sangha como espejo: practicar en comunidad</h3>
-        <p>Por qué la comunidad no es un accesorio, sino parte del camino.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
-
-    <article class="efx-card oculto" data-lote="2" data-tema="historia">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-2-color.jpg'),linear-gradient(150deg,#E4D9C4,#EFE8DB)"></div></div>
-      <span class="ghost" aria-hidden="true">慧</span>
-      <div class="body">
-        <span class="kicker">Historia</span>
-        <h3>Sakya en el siglo XI: por qué aquel linaje importa hoy</h3>
-        <p>Un recorrido breve por los orígenes de una tradición viva.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
-
+    </div>
   </div>
+</section>
 
-  <p class="sin-resultados" id="sinResultados" hidden>No hay artículos que coincidan. Prueba otra palabra o tema.</p>
-
-  <!-- Cargar más -->
-  <div class="cargar" id="cargar">
-    <button class="btn-secundario" id="btnCargar" type="button">Cargar más artículos</button>
+<!-- ══════════ 06 · FUNDACIÓN / LEGITIMIDAD ══════════ -->
+<section class="section fundacion">
+  <div class="wrap-lectura reveal">
+    <svg class="pico pico--claro seal" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="8"/>
+      <circle class="acc" cx="12" cy="12" r="2.4"/>
+      <path d="M12 4v3.6M12 16.4V20M4 12h3.6M16.4 12H20M6.3 6.3l2.5 2.5M15.2 15.2l2.5 2.5M17.7 6.3l-2.5 2.5M8.8 15.2l-2.5 2.5"/>
+    </svg>
+    <p class="overline">La Fundación</p>
+    <h2>Sin ánimo de lucro, al servicio del <em>Dharma</em></h2>
+    <p class="registro">Fundación Sakya · Registro de Fundaciones nº <b>2487JUS SAKYA</b><br>Sostenida por donativos, formaciones y las actividades del centro.</p>
   </div>
-</div></div>
+</section>
 
-<!-- ── Footer ── -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
+<!-- ══════════ 08 · OFRENDA / CIERRE ══════════ -->
+<section class="section ofrenda">
+  <div class="wrap-lectura reveal">
+    <p class="eyebrow">Participa</p>
+    <h2>Camina con <em>nosotros</em></h2>
+    <p class="intro">Esta labor se sostiene con la generosidad de quienes la valoran. Sin cuotas ni presión: cada ofrenda es libre.</p>
+    <div class="actions">
+      <a href="#" class="btn-primario">Sostén esta labor</a>
+      <a href="#" class="t-link"><span class="txt">Otras formas de participar</span> <span class="arw">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
@@ -467,68 +428,10 @@
   </div>
 </footer>
 
-<script>
-document.documentElement.classList.add('js');
-var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-var bar=document.getElementById('bar');
-addEventListener('scroll',function(){bar.classList.toggle('scrolled',scrollY>8);},{passive:true});
-
-// Cascada de entrada (emula paramita-blog-cascada.js · stagger 110ms)
-function revelar(cards){
-  if(reduce||!('IntersectionObserver' in window)){cards.forEach(function(c){c.classList.add('efx-in');});return;}
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){
-    if(e.isIntersecting){var vis=[...document.querySelectorAll('.efx-card:not(.oculto)')];
-      var i=Math.max(0,vis.indexOf(e.target));
-      setTimeout(function(){e.target.classList.add('efx-in');},i*110);io.unobserve(e.target);}});},{threshold:.15});
-  cards.forEach(function(c){io.observe(c);});
-}
-revelar([...document.querySelectorAll('.efx-card:not(.oculto)')]);
-
-// Búsqueda + filtro + cargar más (lógica combinada)
-var chips=[...document.querySelectorAll('.chip')];
-var inputBuscar=document.getElementById('buscar');
-var cargarZona=document.getElementById('cargar');
-var sinRes=document.getElementById('sinResultados');
-var todasCards=[...document.querySelectorAll('#grid .efx-card')];
-
-function temaActivo(){var a=document.querySelector('.chip.activo');return a?a.dataset.filtro:'todos';}
-
-function aplicar(){
-  var f=temaActivo();
-  var q=(inputBuscar.value||'').trim().toLowerCase();
-  var filtrando=(f!=='todos' || q!=='');
-  var visibles=0;
-  todasCards.forEach(function(card){
-    var okTema = f==='todos' || (card.dataset.tema||'').split(' ').includes(f);
-    var okQ = q==='' || card.textContent.toLowerCase().includes(q);
-    var mostrar;
-    if(filtrando){ mostrar = okTema && okQ; }                 // busca en todos los lotes
-    else { mostrar = !(card.dataset.lote==='2' && !cargarZona.classList.contains('agotado')); }
-    card.classList.toggle('oculto', !mostrar);
-    if(mostrar) visibles++;
-  });
-  cargarZona.style.display = filtrando ? 'none' : '';          // paginar solo sin filtro
-  if(sinRes) sinRes.hidden = visibles!==0;
-  revelar([...document.querySelectorAll('#grid .efx-card:not(.oculto)')].filter(function(c){return !c.classList.contains('efx-in');}));
-}
-
-chips.forEach(function(chip){
-  chip.addEventListener('click',function(){
-    chips.forEach(function(c){c.classList.remove('activo');});
-    chip.classList.add('activo');aplicar();
-  });
-});
-inputBuscar.addEventListener('input',aplicar);
-
-// Cargar más
-document.getElementById('btnCargar').addEventListener('click',function(){
-  cargarZona.classList.add('agotado');
-  aplicar();
-});
-</script>
+<script src="paramita-quienes-somos.js"></script>
 <!-- TEMA · listener del toggle · compartido (sync) -->
-<script src="../js/componentes/paramita-tema.js" defer></script>
+<script src="js/componentes/paramita-tema.js" defer></script>
 <!-- MENÚ · acordeón de submenús en móvil · compartido (sync) -->
-<script src="../js/componentes/paramita-menu.js" defer></script>
+<script src="js/componentes/paramita-menu.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El plano de la casa — Arquitectura de información de la FAQ general · UX/UI 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;
+    --paper-2:#FBFAF7;
+    --ink:#191A1C;
+    --slate:#63656B;
+    --ink-deep:#132239;
+    --ink-deep-2:#0E1A2C;
+    --gold:#A8823F;
+    --gold-lite:#C9A96E;
+    --rule:#DAD6CC;
+    --rule-soft:#E5E2D9;
+    --verde:#3B7A4B;
+    --terracota:#9A5B4A;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);
+    line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+  .flow > .bleed{grid-column:1/-1;width:100%}
+
+  /* ---------- COVER ---------- */
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;
+    font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--gold);margin:0 0 1.4rem
+  }
+  .cover h1{
+    font-family:"Fraunces",serif;
+    font-optical-sizing:auto;
+    font-weight:500;
+    font-size:clamp(2.6rem,7vw,4.8rem);
+    line-height:1.0;
+    letter-spacing:-.015em;
+    margin:0 0 1.4rem;
+  }
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--gold)}
+  .deck{
+    font-size:clamp(1.15rem,1.4vw,1.4rem);
+    line-height:1.5;color:var(--slate);max-width:32em;margin:0 0 2.4rem;font-weight:400
+  }
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{
+    content:"";position:absolute;inset:0;width:38%;
+    background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);
+    animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite
+  }
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+
+  .lede{
+    font-family:"Fraunces",serif;font-weight:400;
+    font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.45;
+    letter-spacing:-.01em;margin:2.6rem 0 0;color:var(--ink)
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:clamp(3rem,7vh,5rem) 0}
+  .sec-head{margin:0 0 2rem}
+  .sec-num{
+    font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.2em;
+    color:var(--gold);display:block;margin-bottom:.7rem
+  }
+  h2{
+    font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;
+    font-size:clamp(1.85rem,3.6vw,2.85rem);line-height:1.08;letter-spacing:-.012em;margin:0
+  }
+  h3{
+    font-family:"Hanken Grotesk",sans-serif;font-weight:650;
+    font-size:1.18rem;letter-spacing:.005em;margin:2.6rem 0 .6rem;line-height:1.3
+  }
+  h3 .tag{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);letter-spacing:.14em;vertical-align:.35em;margin-right:.55em;text-transform:uppercase}
+  p{margin:0 0 1.15rem}
+  a{color:var(--ink-deep);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;text-decoration-thickness:1px}
+  a:hover{text-decoration-thickness:2px}
+  strong{font-weight:650}
+  em{font-style:italic}
+  .drop::first-letter{
+    font-family:"Fraunces",serif;font-weight:500;float:left;
+    font-size:3.5em;line-height:.72;padding:.06em .09em 0 0;color:var(--ink-deep)
+  }
+
+  .pull{
+    font-family:"Fraunces",serif;font-style:italic;font-weight:400;
+    font-size:clamp(1.35rem,2.4vw,1.9rem);line-height:1.32;letter-spacing:-.01em;
+    color:var(--ink-deep);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    padding:1.6rem 0;margin:2.4rem 0
+  }
+
+  .note{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:1.3rem 1.4rem;margin:1.8rem 0;font-size:.98rem;line-height:1.62}
+  .note .k{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+
+  /* ---------- MAPA · tablas ---------- */
+  .cat{margin:2.4rem 0}
+  .cat-head{display:flex;align-items:baseline;gap:.7rem;margin:0 0 .3rem}
+  .cat-n{font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--gold);font-weight:500}
+  .cat-t{font-family:"Fraunces",serif;font-weight:500;font-size:1.4rem;letter-spacing:-.01em;margin:0}
+  .cat-count{font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--slate);margin-left:auto;white-space:nowrap}
+  .cat-sub{font-size:.9rem;color:var(--slate);margin:.1rem 0 1rem}
+
+  .tbl-wrap{margin:.6rem 0 0;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.92rem}
+  th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--rule-soft);vertical-align:middle}
+  thead th{border-bottom:1.5px solid var(--ink);font-family:"Hanken Grotesk";font-weight:650;font-size:.78rem;letter-spacing:.01em}
+  tbody tr:hover td{background:var(--paper-2)}
+  td.q{font-weight:500;line-height:1.4}
+  td.st{white-space:nowrap;width:1%}
+
+  .star{font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-lite);border-radius:2px;padding:.12em .45em;margin-right:.5em;vertical-align:.08em;white-space:nowrap}
+
+  .pill{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.04em;display:inline-flex;align-items:center;gap:.4em;white-space:nowrap}
+  .pill::before{content:"";width:.6em;height:.6em;border-radius:50%;flex:none}
+  .pill.ensitio{color:var(--verde)}
+  .pill.ensitio::before{background:var(--verde)}
+  .pill.puntero{color:var(--gold)}
+  .pill.puntero::before{background:var(--gold);box-shadow:inset -.3em 0 0 var(--paper)}
+  .pill.fuga{color:var(--terracota)}
+  .pill.fuga::before{background:transparent;border:1.5px solid var(--terracota);width:.55em;height:.55em}
+
+  .legend{display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;background:var(--paper-2);border:1px solid var(--rule);padding:1rem 1.2rem;margin:1.4rem 0;font-size:.86rem}
+  .legend .row{display:flex;gap:.55em;align-items:flex-start}
+  .legend .row span{color:var(--slate);line-height:1.4}
+  .legend b{color:var(--ink);font-weight:600}
+
+  /* ---------- ESTRUCTURA · stack ---------- */
+  .stack{margin:2rem 0;display:flex;flex-direction:column;gap:.55rem}
+  .blk{border:1px solid var(--rule);background:var(--paper-2);border-radius:3px;padding:.95rem 1.15rem;position:relative}
+  .blk .bn{font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.25rem}
+  .blk .bt{font-family:"Hanken Grotesk";font-weight:650;font-size:1rem}
+  .blk .bd{font-size:.86rem;color:var(--slate);margin-top:.15rem;line-height:1.45}
+  .blk.util{border-left:3px solid var(--gold)}
+  .blk.pop{border-left:3px solid var(--gold);background:linear-gradient(180deg,#FBF6EC,var(--paper-2))}
+  .blk.acc{border-left:3px solid var(--rule)}
+  .blk.close{border-style:dashed}
+  .chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
+  .chip{font-family:"JetBrains Mono",monospace;font-size:.66rem;color:var(--ink-deep);border:1px solid var(--rule);border-radius:100px;padding:.25em .8em;background:var(--paper)}
+  .search-box{margin-top:.6rem;border:1px solid var(--rule);border-radius:100px;padding:.5em 1em;background:var(--paper);font-size:.86rem;color:var(--slate);display:flex;align-items:center;gap:.5em}
+  .search-box::before{content:"⌕";font-size:1.1em;color:var(--gold)}
+
+  .verdict{background:var(--ink-deep-2);color:var(--paper);padding:clamp(3rem,7vh,5rem) 0}
+  .verdict h2{color:var(--paper)}
+  .verdict .eyebrow{color:var(--gold-lite)}
+  .verdict p{color:#C3CAD6}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2rem}
+  .checks h4{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 1rem;padding-bottom:.6rem;border-bottom:1px solid rgba(255,255,255,.15)}
+  .checks .yes h4{color:#9ECBA8}
+  .checks .no h4{color:#D9C08C}
+  .checks ul{list-style:none;margin:0;padding:0;font-size:.94rem;line-height:1.5}
+  .checks li{padding-left:1.5em;position:relative;margin-bottom:.9rem;color:#D6DBE3}
+  .checks .yes li::before{content:"✓";position:absolute;left:0;color:#9ECBA8;font-weight:700}
+  .checks .no li::before{content:"→";position:absolute;left:0;color:#D9C08C;font-weight:700}
+
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:620px){
+    .checks{grid-template-columns:1fr}
+    .cover h1{font-size:clamp(2.3rem,10vw,3rem)}
+    .cat-count{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .sheen::after{animation:none;transform:translateX(80%)}
+    .reveal{opacity:1;transform:none;transition:none}
+    *{scroll-behavior:auto}
+  }
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe · FAQ general · Arquitectura de información + UX/UI · 2026</p>
+  <h1>El plano<br>de la <em>casa</em></h1>
+  <p class="deck">Reordenación de las 24 preguntas reales de la FAQ actual en un mapa navegable, con la capa «Lo más preguntado», las fugas de desviación marcadas y la estructura de la landing. Contenido de copy aparte: aquí se decide el <em>orden</em>, no las palabras.</p>
+  <div class="sheen"></div>
+  <div class="meta">
+    <span><b>Objetivo</b> · Desviación / autoservicio</span>
+    <span><b>Fuente</b> · FAQ viva de paramita.org</span>
+    <span><b>Alcance</b> · UX/UI + IA + gráfico</span>
+    <span><b>Fecha</b> · Agosto 2026</span>
+  </div>
+  <p class="lede">La FAQ ya no es el último umbral antes de inscribirse: es la recepción del centro. Alguien llega con una necesidad concreta —«¿puedo hacer la colada?»— y solo pide encontrarla rápido, sin escribir a secretaría.</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 01 ===================== -->
+<section class="flow" id="s1">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — Punto de partida</span>
+    <h2>Qué decide este documento</h2>
+  </div>
+
+  <p class="drop reveal">La FAQ actual tiene <strong>24 preguntas reales</strong> repartidas en seis grupos. No hay que inventar demanda: existe y está probada por el uso. Con ese volumen, la navegación por categoría se justifica y el buscador —que ya está construido en el componente— por fin gana su sitio. Lo que ordenamos aquí es la <strong>arquitectura</strong>: la categoría de casa de cada pregunta, qué se adelanta como popular, y dónde una respuesta hoy no resuelve sino que reenvía.</p>
+
+  <p class="reveal">El objetivo confirmado es <strong>desviación / autoservicio</strong>, y el propio contenido lo demuestra: casi todo es logística de huésped residencial —comida, habitaciones, qué traer, aparcamiento, la sala—. No es una FAQ doctrinal ni de conversión. Esa naturaleza decide el criterio de ordenación de la sección siguiente.</p>
+
+  <div class="note reveal">
+    <span class="k">Alcance honesto</span>
+    Las preguntas se usan tal como están hoy porque son las unidades de la arquitectura. Las <strong>respuestas son provisionales</strong>: su redacción y las decisiones de contenido marcadas más abajo son competencia de Ale y Khenpo. Aquí no se toca ni una palabra de copy.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 ===================== -->
+<section class="flow" id="s2">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — El criterio</span>
+    <h2>Por tema, no por momento</h2>
+  </div>
+
+  <p class="reveal">En el análisis de referentes defendí agrupar «por momento del practicante» (antes de empezar, el compromiso, lo práctico, después). <strong>Para esta FAQ me desdigo, y conviene dejarlo por escrito.</strong> Ese arco temporal sirve para una FAQ de <em>curso</em>, donde la persona recorre una decisión emocional hacia la inscripción. Pero en una FAQ de logística la persona no trae narrativa: trae una necesidad puntual y busca por <strong>tema</strong> —comida, habitación, sala—, no por fase.</p>
+
+  <p class="reveal">Por eso el esquema temático de la página actual es acertado y se mantiene, con dos ajustes: consolidar en un solo grupo todo lo de <em>llegar y visitar</em>, y tratar «Lo más preguntado» no como una categoría más, sino como una <strong>capa transversal</strong> que toma prestadas las preguntas de mayor tráfico sin ser su casa.</p>
+
+  <p class="pull reveal">«Por momento» queda reservado para la FAQ de curso. En la recepción del centro, quien pregunta por la colada no está en ningún arco: está haciendo la maleta.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 ===================== -->
+<section class="flow" id="s3">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — El mapa</span>
+    <h2>Las 24 preguntas, reordenadas</h2>
+  </div>
+
+  <p class="reveal">Seis categorías de casa. Cada pregunta vive en una sola; la capa «Lo más preguntado» (marcada <span class="star">★ Popular</span>) solo la muestra arriba. El estado de respuesta indica si la pregunta se resuelve en la página o reenvía a otro sitio.</p>
+
+  <div class="legend reveal">
+    <div class="row"><span class="pill ensitio"></span><span><b>En sitio</b> — la respuesta vive completa en la página. Desviación lograda.</span></div>
+    <div class="row"><span class="pill puntero"></span><span><b>Puntero legítimo</b> — info volátil (horarios) o legal; enlaza a su fuente única de verdad.</span></div>
+    <div class="row"><span class="pill fuga"></span><span><b>Fuga a corregir</b> — info estable que hoy reenvía; debería responderse en sitio.</span></div>
+  </div>
+
+  <!-- CAT 1 -->
+  <div class="cat reveal">
+    <div class="cat-head"><span class="cat-n">01</span><h3 class="cat-t" style="margin:0">Visitar y participar</h3><span class="cat-count">5 preguntas</span></div>
+    <p class="cat-sub">Absorbe lo que hoy vive suelto en «Popular»: llegar, acceso, visita, voluntariado.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Pregunta</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td class="q"><span class="star">★ Popular</span>¿Cuándo se puede visitar el centro?</td><td class="st"><span class="pill puntero">puntero · horario</span></td></tr>
+          <tr><td class="q"><span class="star">★ Popular</span>¿Dónde está el centro y cómo llegar?</td><td class="st"><span class="pill fuga">fuga · traer</span></td></tr>
+          <tr><td class="q"><span class="star">★ Popular</span>¿Qué actividades presenciales son abiertas y gratuitas?</td><td class="st"><span class="pill puntero">puntero · agenda</span></td></tr>
+          <tr><td class="q"><span class="star">★ Popular</span>¿Se necesita experiencia previa para asistir?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+          <tr><td class="q">¿Cómo puedo hacer voluntariado en el centro?</td><td class="st"><span class="pill fuga">fuga · leve</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CAT 2 -->
+  <div class="cat reveal">
+    <div class="cat-head"><span class="cat-n">02</span><h3 class="cat-t" style="margin:0">Alimentación</h3><span class="cat-count">3 preguntas</span></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Pregunta</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td class="q">¿Qué tipo de comida se sirve?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+          <tr><td class="q">Tengo una restricción dietética, ¿se puede tener en cuenta?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+          <tr><td class="q">¿El agua del grifo es potable?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CAT 3 -->
+  <div class="cat reveal">
+    <div class="cat-head"><span class="cat-n">03</span><h3 class="cat-t" style="margin:0">Habitaciones</h3><span class="cat-count">6 preguntas</span></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Pregunta</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td class="q">¿Las habitaciones tienen baño privado?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+          <tr><td class="q">¿Con qué están equipadas las habitaciones?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+          <tr><td class="q"><span class="star">★ Popular</span>¿Qué debo traer?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+          <tr><td class="q">¿Se puede hacer la colada?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+          <tr><td class="q">¿Hay acceso a Internet?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+          <tr><td class="q">¿Se puede fumar en la habitación?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CAT 4 -->
+  <div class="cat reveal">
+    <div class="cat-head"><span class="cat-n">04</span><h3 class="cat-t" style="margin:0">Cursos y retiros residenciales</h3><span class="cat-count">4 preguntas</span></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Pregunta</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td class="q">¿Puedo pasar la noche o el fin de semana en el centro?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+          <tr><td class="q">¿Puedo hacer un retiro individual en el centro?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+          <tr><td class="q">¿Puedo llegar tarde o irme temprano del curso o retiro?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+          <tr><td class="q">¿Dónde puedo aparcar mi coche? <em style="color:var(--slate);font-weight:400;font-size:.85em">(¿o en «Visitar»?)</em></td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CAT 5 -->
+  <div class="cat reveal">
+    <div class="cat-head"><span class="cat-n">05</span><h3 class="cat-t" style="margin:0">Sala de meditación</h3><span class="cat-count">3 preguntas</span></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Pregunta</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td class="q">¿Hay cojines de meditación y esterillas de yoga? ¿Y sillas?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+          <tr><td class="q">Tengo problemas de audición, ¿supondrá un problema durante las enseñanzas?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+          <tr><td class="q">¿Hay algún protocolo durante las enseñanzas?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CAT 6 -->
+  <div class="cat reveal">
+    <div class="cat-head"><span class="cat-n">06</span><h3 class="cat-t" style="margin:0">Administración y legal</h3><span class="cat-count">3 preguntas</span></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Pregunta</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td class="q"><span class="star">★ Popular</span>¿Cuál es la política de cancelación?</td><td class="st"><span class="pill puntero">puntero · legal</span></td></tr>
+          <tr><td class="q">¿En qué se invierte el dinero de los cursos y retiros?</td><td class="st"><span class="pill ensitio">en sitio</span></td></tr>
+          <tr><td class="q">¿Qué uso se hace de mis datos?</td><td class="st"><span class="pill puntero">puntero · legal</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="note reveal">
+    <span class="k">Un ajuste de límites</span>
+    Tres decisiones de frontera para validar con Ale: <strong>aparcar</strong> podría vivir en «Visitar y participar» junto al resto de «llegar al centro» en lugar de en «Cursos residenciales»; <strong>voluntariado</strong> es participación, no logística de huésped, y es la pregunta más huérfana del conjunto; y <strong>pasar la noche</strong> roza tanto Habitaciones como Cursos residenciales. Ninguna es grave: «Lo más preguntado» puede duplicar transversalmente, pero cada pregunta necesita una única casa.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 04 ===================== -->
+<section class="flow" id="s4">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — La capa transversal</span>
+    <h2>«Lo más preguntado»</h2>
+  </div>
+
+  <p class="reveal">El bloque que la página actual llama «Popular» es un patrón acertado: adelanta lo de mayor tráfico antes de obligar a navegar. Se conserva, con dos reglas: <strong>toma prestado, no posee</strong> (cada pregunta sigue teniendo su categoría de casa), y su selección es una <strong>hipótesis a validar</strong> con datos reales, no una intuición fija.</p>
+
+  <p class="reveal">Selección propuesta de arranque (seis, cruzando las categorías): <em>¿cuándo visitar?</em>, <em>¿dónde está y cómo llegar?</em>, <em>¿qué actividades son gratuitas?</em>, <em>¿hace falta experiencia previa?</em>, <em>¿qué debo traer?</em> y <em>¿cuál es la política de cancelación?</em>. Las cuatro primeras son de acceso —lo que pregunta quien aún no conoce el centro—; las dos últimas son de preparación y de la ansiedad previa a reservar.</p>
+
+  <div class="note reveal">
+    <span class="k">Cómo se valida después</span>
+    Cuando exista medición (ver sección 06), «Lo más preguntado» deja de ser una apuesta: se rellena con las preguntas que de verdad se abren y se buscan más. Es el único bloque de la landing que debería <strong>cambiar solo</strong> con el uso.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 05 ===================== -->
+<section class="flow" id="s5">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — Fugas de desviación</span>
+    <h2>Cuando la respuesta reenvía</h2>
+  </div>
+
+  <p class="reveal">Alrededor de un tercio de las respuestas hoy no resuelven: reenvían a otra página. Para un objetivo de desviación, «vete a otro sitio a buscarlo» es una desviación fallida. Pero no todas son iguales, y la distinción es una <strong>decisión de contenido para Ale y Khenpo</strong>, no de diseño.</p>
+
+  <h3 class="reveal"><span class="tag">se quedan</span>Punteros legítimos</h3>
+  <p class="reveal">Información <strong>volátil o legal</strong> que debe tener una única fuente de verdad; duplicarla envejece mal. Aquí el reenvío es correcto: <em>¿cuándo visitar?</em> y <em>¿qué actividades gratuitas?</em> (horario y agenda, que cambian → «Visita el Centro»); <em>¿política de cancelación?</em> y <em>¿uso de mis datos?</em> (legal → Condiciones de Pagos, Privacidad, Cookies).</p>
+
+  <h3 class="reveal"><span class="tag">se corrigen</span>Fugas evitables</h3>
+  <p class="reveal">Información <strong>estable</strong> que podría responderse en la página, dejando el enlace solo como «más detalle»: <em>¿dónde está y cómo llegar?</em> (la ubicación no cambia; hoy manda a Contacto a cazarla) y <em>¿cómo hacer voluntariado?</em> (una frase orientativa en sitio + enlace al formulario). Convertir estas dos es, probablemente, la mejora de contenido más rentable del rediseño.</p>
+
+  <div class="note reveal">
+    <span class="k">Regla general de contenido</span>
+    Responde en sitio lo estable; apunta solo lo volátil y lo legal. Es la misma disciplina que ya aplicáis en otras piezas: la fuente única de verdad se respeta, pero no se usa como excusa para no responder lo que no cambia.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 06 ===================== -->
+<section class="flow" id="s6">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — La estructura</span>
+    <h2>Cómo se apila la landing</h2>
+  </div>
+
+  <p class="reveal">Todo reutilizando componentes existentes: el acordeón-sendero y el buscador en vivo de <em>paramita-faq</em>, y el chat de árbol de decisión para el cierre. Ningún patrón nuevo. El orden de bloques, de arriba abajo:</p>
+
+  <div class="stack reveal" aria-label="Esquema de estructura de la landing">
+    <div class="blk"><span class="bn">01 · Hero</span><span class="bt">Orientación</span><div class="bd">Título «Preguntas frecuentes» + lede breve en Hanken (regla de hero: nunca Fraunces itálica en el lede). Qué vas a encontrar aquí, en tono llano.</div></div>
+    <div class="blk util"><span class="bn">02 · Utilidad</span><span class="bt">Buscar + índice de categorías</span>
+      <div class="search-box">Buscar en las preguntas…</div>
+      <div class="chips"><span class="chip">Visitar y participar</span><span class="chip">Alimentación</span><span class="chip">Habitaciones</span><span class="chip">Cursos y retiros</span><span class="chip">Sala de meditación</span><span class="chip">Administración</span></div>
+      <div class="bd" style="margin-top:.7rem">Chips = anclas que hacen scroll y resaltan la sección. <strong>No tabs</strong> (esconden lo inactivo). Posible sub-nav pegajosa al hacer scroll: movimiento user-invoked, coherente con la doctrina.</div>
+    </div>
+    <div class="blk pop"><span class="bn">03 · Transversal</span><span class="bt">Lo más preguntado</span><div class="bd">Las 6 de mayor tráfico. Pueden ir abiertas por defecto o como tarjetas —a diferencia del resto, aquí sí conviene que la respuesta se vea sin clic.</div></div>
+    <div class="blk acc"><span class="bn">04 · Categoría</span><span class="bt">Visitar y participar · acordeón-sendero</span><div class="bd">Preguntas colapsadas: se escanean los titulares y se abre solo el que preocupa.</div></div>
+    <div class="blk acc"><span class="bn">05–08 · Categorías</span><span class="bt">Alimentación · Habitaciones · Cursos · Sala · Administración</span><div class="bd">Mismo componente, un bloque por categoría, en el orden del mapa.</div></div>
+    <div class="blk close"><span class="bn">09 · Cierre</span><span class="bt">¿No encuentras tu pregunta?</span><div class="bd">Deriva a Contacto o abre el chat de árbol de decisión. El único punto donde la desviación acepta terminar en persona.</div></div>
+  </div>
+
+  <div class="note reveal">
+    <span class="k">Una decisión de interacción</span>
+    Buscar y navegar por categoría son <strong>dos modos</strong>. Recomendación: al escribir en el buscador, las categorías se colapsan y aparece una <strong>lista plana de coincidencias</strong> (el comportamiento de filtrado del componente actual); al borrar la búsqueda, vuelve la vista por categorías. Así el buscador no compite con los chips, los sustituye temporalmente.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 07 ===================== -->
+<section class="flow" id="s7">
+  <div class="sec-head reveal">
+    <span class="sec-num">07 — Ganchos de analítica</span>
+    <h2>Que la página se mejore sola</h2>
+  </div>
+
+  <p class="reveal">Como el objetivo es desviar, la única pregunta de éxito es: <strong>¿resolvió sin escribir a secretaría?</strong> Tres señales lo miden, y las tres se dejan previstas en el marcado ahora aunque el backend llegue después:</p>
+
+  <p class="reveal"><strong>Búsquedas sin resultados</strong> — cada término buscado que no encuentra nada es la gente diciéndote qué falta. Es tu backlog de contenido. <strong>Preguntas más abiertas</strong> — qué promover a «Lo más preguntado» y qué podar. <strong>Clic en respuestas-puntero</strong> — cuáles de los reenvíos conviene convertir en respuesta en sitio.</p>
+
+  <div class="note reveal">
+    <span class="k">Dependencia con Alberto</span>
+    El sitio es estático en GitHub Pages y la analítica necesita un endpoint suyo. La recomendación es <strong>no bloquear el lanzamiento</strong> a que exista: se dejan los ganchos (evento de búsqueda-vacía, un «¿te ha servido?» por respuesta) y se conectan cuando haya endpoint. La página funciona sin medición; solo mejora peor. Y sea lo que sea, medición ligera y respetuosa: nada de tracking pesado que traicione la calma de la fundación.
+  </div>
+</section>
+
+<!-- ===================== VERDICT ===================== -->
+<section class="flow verdict" id="verdict">
+  <p class="eyebrow reveal">Estado del terreno</p>
+  <h2 class="reveal">Qué queda cerrado y qué sigue abierto</h2>
+  <p class="reveal">La arquitectura de información está resuelta: seis categorías de casa, la capa «Lo más preguntado» como transversal, y la estructura de bloques sobre componentes existentes. Lo que sigue abierto no es diseño.</p>
+
+  <div class="checks reveal">
+    <div class="yes">
+      <h4>Cerrado (IA / UX / gráfico)</h4>
+      <ul>
+        <li>6 categorías temáticas + capa «Lo más preguntado»</li>
+        <li>Casa única de cada una de las 24 preguntas</li>
+        <li>Estructura de bloques y patrón de navegación</li>
+        <li>Buscar como modo, chips como anclas, sin tabs</li>
+        <li>Ganchos de analítica previstos en el marcado</li>
+      </ul>
+    </div>
+    <div class="no">
+      <h4>Abierto (no es diseño)</h4>
+      <ul>
+        <li>Ale/Khenpo: convertir las 2 fugas evitables en respuesta</li>
+        <li>Ale: validar la selección de «Lo más preguntado»</li>
+        <li>Ale: 3 decisiones de frontera (aparcar, voluntariado, pasar la noche)</li>
+        <li>Copy: tono sin disculpa + errata de la colada</li>
+        <li>Alberto: endpoint de analítica</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="flow">
+  <div>Arquitectura de información de la FAQ general · Fundació Sakya Paramita · Agosto 2026 · 24 preguntas reales reordenadas · Copy provisional, pendiente de Ale/Khenpo · Documento de trabajo autocontenido</div>
+</footer>
+
+<script>
+  var pb=document.getElementById('progress');
+  function onScroll(){
+    var h=document.documentElement;
+    var max=h.scrollHeight-h.clientHeight;
+    pb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';
+  }
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});
+  }
+</script>
+</body>
+</html>

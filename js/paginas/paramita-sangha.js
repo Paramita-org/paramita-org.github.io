@@ -77,7 +77,7 @@
 
   /* Arrastre */
   let down = false, sx = 0, sl = 0, moved = 0;
-  pista.addEventListener("pointerdown", e => { down = true; moved = 0; sx = e.clientX; sl = pista.scrollLeft; pista.classList.add("is-drag"); });
+  pista.addEventListener("pointerdown", e => { if (e.pointerType && e.pointerType !== "mouse") return; down = true; moved = 0; sx = e.clientX; sl = pista.scrollLeft; pista.classList.add("is-drag"); });
   window.addEventListener("pointermove", e => { if (!down) return; const dx = e.clientX - sx; if (Math.abs(dx) > 3) { moved = Math.abs(dx); pista.scrollLeft = sl - dx; } });
   window.addEventListener("pointerup", () => { if (!down) return; down = false; pista.classList.remove("is-drag"); suppress = moved > 6; setTimeout(() => { suppress = false; }, 80); });
 

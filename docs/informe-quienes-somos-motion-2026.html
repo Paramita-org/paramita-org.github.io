@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Un «quiénes somos» que se cruza, no que se hojea — Estudio de referentes, evidencia y motion 2026 · Paramita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;
+    --paper-2:#FBFAF7;
+    --ink:#191A1C;
+    --slate:#63656B;
+    --ink-deep:#132239;
+    --ink-deep-2:#0E1A2C;
+    --gold:#A8823F;
+    --gold-lite:#C9A96E;
+    --rule:#DAD6CC;
+    --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);
+    line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+  .flow > .bleed{grid-column:1/-1;width:100%}
+
+  /* cover */
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:33em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.42;color:var(--ink-deep);margin:2rem 0 0;font-style:italic}
+
+  section{padding:clamp(2.6rem,6vh,4.2rem) 0}
+  .sec-head{margin-bottom:1.8rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 .3rem}
+  h2 em{font-style:italic;font-weight:400;color:var(--gold)}
+  h3{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.25rem,2vw,1.55rem);line-height:1.2;margin:2.4rem 0 .6rem;letter-spacing:-.005em}
+  h3 em{font-style:italic;color:var(--ink-deep)}
+  p{margin:0 0 1.15rem}
+  strong{font-weight:600;color:var(--ink)}
+  em{font-style:italic}
+  .drop:first-letter{font-family:"Fraunces",serif;float:left;font-size:3.3rem;line-height:.82;font-weight:500;padding:.1em .12em 0 0;color:var(--ink-deep)}
+  .pull{font-family:"Fraunces",serif;font-weight:400;font-style:italic;font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.4;color:var(--ink-deep);border-left:2px solid var(--gold);padding-left:1.2rem;margin:2rem 0}
+  .tag{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid var(--rule);border-radius:2em;padding:.2em .8em;margin-right:.7em;vertical-align:middle}
+  .fuente{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.01em;margin-top:-.4rem}
+
+  /* nivel de evidencia */
+  .ev{font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.16em .6em;border-radius:2em;vertical-align:middle;margin-right:.5em}
+  .ev--fuerte{background:color-mix(in srgb,var(--ink-deep) 12%,transparent);color:var(--ink-deep)}
+  .ev--media{background:color-mix(in srgb,var(--gold) 16%,transparent);color:var(--gold)}
+  .ev--debil{background:color-mix(in srgb,var(--slate) 14%,transparent);color:var(--slate)}
+
+  /* dato card */
+  .dato{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:14px;padding:1.6rem 1.7rem;margin:1.4rem 0}
+  .dato__k{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+  .dato h3{margin:0 0 .5rem;font-size:clamp(1.15rem,1.8vw,1.4rem)}
+  .dato p{margin:0 0 .6rem}
+  .cifra{font-family:"Fraunces",serif;font-weight:600;color:var(--ink-deep);font-size:1.08em}
+
+  /* stats strip */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--rule);border-radius:14px;overflow:hidden;margin:1.6rem 0}
+  .stat{background:var(--paper-2);padding:1.4rem 1.1rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.7rem,3vw,2.3rem);line-height:1;color:var(--ink-deep)}
+  .stat .n small{font-size:.55em;font-weight:500}
+  .stat .l{font-size:.82rem;line-height:1.35;color:var(--slate);margin-top:.5rem}
+
+  /* tables */
+  .tbl-wrap{margin:1.6rem 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.92rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+  th,td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:500;border-bottom:1.5px solid var(--rule)}
+  tbody td:first-child{font-weight:600;color:var(--ink);width:26%}
+  .yes{color:var(--ink-deep);font-weight:600}
+  .no{color:var(--gold);font-weight:600}
+
+  /* dark section */
+  .dark{background:var(--ink-deep-2);color:#E7E9EE}
+  .dark h2{color:#fff}
+  .dark h2 em{color:var(--gold-lite)}
+  .dark h3{color:#fff}
+  .dark .sec-num{color:var(--gold-lite)}
+  .dark strong{color:#fff}
+  .dark p{color:#C3CAD6}
+  .dark .pull{color:var(--gold-lite);border-left-color:var(--gold-lite)}
+  .dark .ev--fuerte{background:color-mix(in srgb,#fff 16%,transparent);color:#fff}
+  .dark .ev--media{background:color-mix(in srgb,var(--gold-lite) 24%,transparent);color:var(--gold-lite)}
+  .dark .ev--debil{background:color-mix(in srgb,#C3CAD6 18%,transparent);color:#C3CAD6}
+
+  /* anatomy list */
+  .anat{counter-reset:step;margin:1.6rem 0;padding:0;list-style:none}
+  .anat li{position:relative;padding:1.2rem 0 1.2rem 3.4rem;border-bottom:1px solid var(--rule-soft)}
+  .anat li:last-child{border-bottom:0}
+  .anat li::before{counter-increment:step;content:counter(step,decimal-leading-zero);position:absolute;left:0;top:1.25rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--gold);letter-spacing:.02em}
+  .anat h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.12rem;margin:0 0 .3rem}
+  .anat p{margin:0;font-size:.94rem;color:var(--slate);line-height:1.55}
+  .anat .why{display:block;font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--gold);margin-top:.5rem;letter-spacing:.03em}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.75rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:640px){
+    .stats{grid-template-columns:1fr}
+    .cover h1{font-size:clamp(2.3rem,10vw,3rem)}
+    tbody td:first-child{width:auto}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .sheen::after{animation:none;transform:translateX(80%)}
+    .reveal{opacity:1;transform:none;transition:none}
+    *{scroll-behavior:auto}
+  }
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Estudio · Referentes + evidencia + motion 2026 · Página «Quiénes somos» (la fundación)</p>
+  <h1>Un «quiénes somos»<br>que se <em>cruza</em>,<br>no que se <em>hojea</em></h1>
+  <p class="deck">Cómo presentar qué es una fundación budista sin ánimo de lucro con lenguaje de vanguardia —scroll-driven, transiciones de vista, tipografía cinética— sin caer en la revista estática ni en el espectáculo hueco. Contraste de webs reales, lo que dice la investigación, y la traducción concreta al sistema de Paramita.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Página</b> · «Quiénes somos» (la fundación) — hoy <code>/quienes-somos/</code></span>
+    <span><b>Fecha</b> · Agosto 2026</span>
+    <span><b>Lectura</b> · ~16 min</span>
+  </div>
+  <p class="lede">La tesis en una frase: lo disruptivo aquí no es <em>más</em> movimiento, es un movimiento que convierte «el cruce como acto» en experiencia. Se rompe la revista estática no añadiendo ruido, sino haciendo que el contenido se revele al ritmo del que cruza.</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 00 ENCUADRE ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">00 — Encuadre</span>
+    <h2>La trampa de la palabra <em>«disruptivo»</em></h2>
+  </div>
+  <p class="drop reveal">Cuando pedimos un «quiénes somos» disruptivo, la tentación es leer disrupción como cantidad de movimiento: más parallax, más partículas, más scroll-jacking. Pero en el paisaje real de 2026 eso ya no disrumpe nada. Toda web de wellness, de meditación y de fundación espiritual se parece: hero a pantalla completa, vídeo de fondo con montañas, una palabra que se desvanece, y un degradado calmo. La saturación del recurso lo ha vuelto <strong>invisible por convención</strong>.</p>
+  <p class="reveal">Para Paramita, cuya identidad ya fijó que <strong>las decisiones se fundamentan en coherencia, no en lo que hace el resto de la web ahora mismo</strong> (doc 01, «identidad sobre tendencia»), la pregunta correcta no es «¿cómo nos movemos más?» sino «¿qué tipo de disrupción es coherente con una tradición viva que cultiva la atención en lugar de capturarla?».</p>
+  <p class="reveal">Este estudio responde con tres capas: <strong>(1)</strong> dónde caen los referentes reales entre serenidad y espectáculo; <strong>(2)</strong> qué dice la evidencia —no la opinión— sobre si el movimiento ayuda o estorba; y <strong>(3)</strong> qué técnicas de vanguardia de 2026 encajan de verdad en el contrato de quietud, y cuáles hay que rechazar.</p>
+  <p class="pull reveal">El «quiénes somos» no es una landing de conversión. Es una página de presencia: da confianza mostrando —linaje, maestro, sede, comunidad—, no argumentando. El motion está al servicio de eso, o sobra.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Alcance · una página, no una sección</span>
+    <p>Para no liarnos con nombres: este estudio trata <strong>solo la página de presentación de la fundación</strong> —el «quiénes somos», hoy <code>/quienes-somos/</code>—, no la sección «Sobre» completa. «Sobre» es el paraguas que agrupa cuatro páginas con trabajos distintos: <strong>esta</strong>, <code>/sobre/khenpo/</code>, <code>/sobre/maestros/</code> y <code>/sobre/sangha-monastica/</code>. El informe hermano («El orden es el mensaje») afina la estructura por bloques de esta misma página.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 01 MAPA DE REFERENTES ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — Contraste de webs</span>
+    <h2>Dos polos y un <em>hueco</em> en el centro</h2>
+  </div>
+  <p class="reveal">Los referentes de organizaciones espirituales y sin ánimo de lucro se ordenan en un eje que va de la <strong>serenidad</strong> (sobria, casi editorial, movimiento cero) al <strong>espectáculo</strong> (WebGL, scroll cinematográfico, narrativa inmersiva). Casi nadie ocupa el centro —y ahí está la oportunidad de Paramita.</p>
+
+  <h3 class="reveal">El polo sereno · <em>Plum Village</em></h3>
+  <p class="reveal">La web de la comunidad de Thich Nhat Hanh es el caso canónico de sobriedad con alma. En su rediseño tomaron la paleta de las caligrafías del maestro —tinta negra sobre papel blanco— más los tonos propios de la tradición: el amarillo de los girasoles y las túnicas, el marrón de la ropa monástica, el verde de la tierra. El resultado se describe como <strong>simple, limpio y en paz</strong>: un statement claro de quiénes son sobre el pliegue, la donación arriba a la derecha, y una cita del maestro que comunica los valores centrales. Movimiento: prácticamente nulo.</p>
+  <p class="fuente reveal">Fuente: plumvillage.org, nota de rediseño (2019); análisis de wildandmightystories.com. <span class="ev ev--fuerte">Referente directo</span></p>
+  <p class="reveal">Lección para Paramita: la serenidad de Plum Village <strong>funciona porque el contenido es real</strong> —caras, caligrafías, palabras del maestro—. Pero es también, deliberadamente, una revista digital: se hojea. Ese es exactamente el techo que Jana quiere superar sin perder la calma.</p>
+
+  <h3 class="reveal">El polo espectáculo · <em>Awwwards / ONG inmersivas</em></h3>
+  <p class="reveal">En el otro extremo, la colección de webs sin ánimo de lucro premiadas en Awwwards muestra el estado del arte del scroll narrativo: recorridos scrolleados sobre energía hidroeléctrica, collages que se ensamblan al bajar, campañas de Sea Shepherd o de memoria histórica construidas como documentales interactivos con vídeo, 3D y shaders. Técnicamente deslumbrantes, orientadas a una <strong>respuesta emocional intensa</strong> y a la acción (donar, firmar).</p>
+  <p class="fuente reveal">Fuente: Awwwards, colección NonProfit Websites y scroll-driven storytelling (2024–2025). <span class="ev ev--media">Referente de técnica</span></p>
+  <p class="reveal">Lección para Paramita: la técnica es adoptable, pero el <strong>registro emocional no</strong>. El espectáculo de ONG activista busca urgencia e indignación; Paramita busca serenidad y confianza. Se toma prestada la gramática del scroll narrativo, no su tono.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Mapa de referentes · dónde cae Paramita</caption>
+      <thead>
+        <tr><th>Eje</th><th>Polo sereno</th><th>Polo espectáculo</th><th>Paramita (objetivo)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Movimiento</td><td>Casi nulo</td><td>Constante, protagonista</td><td class="yes">Convocado, al servicio del contenido</td></tr>
+        <tr><td>Registro emocional</td><td>Paz, sobriedad</td><td>Urgencia, asombro</td><td class="yes">Presencia, confianza</td></tr>
+        <tr><td>Rol del scroll</td><td>Hojear</td><td>Ser conducido</td><td class="yes">Cruzar a ritmo propio</td></tr>
+        <tr><td>Riesgo</td><td>Revista estática</td><td>Espectáculo hueco</td><td class="yes">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 EVIDENCIA ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — Qué dice la evidencia</span>
+    <h2>El movimiento <em>ayuda</em>, pero no siempre y no a todos</h2>
+  </div>
+  <p class="drop reveal">Antes de recomendar scrollytelling conviene separar lo que está estudiado de lo que es folclore de agencia. La literatura académica sobre <em>scrollytelling</em> —contenido que se revela y transforma con el scroll— existe y es más matizada de lo que venden los portfolios.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Estudio · Periodismo de largo formato</span>
+    <h3>Más engagement percibido, con un asterisco</h3>
+    <p>Un estudio comparó la misma pieza en formato scrollytelling y en formato estático. El scrollytelling ganó en <span class="cifra">engagement percibido</span> y en capacidad de <strong>evocar respuesta emocional</strong>, útil sobre todo en una fase inicial de exploración de un tema. Pero los resultados <strong>no fueron unánimes</strong>: hay un componente individual fuerte en cómo cada persona percibe el formato. Señal reveladora: «aburrido» fue la palabra que la mitad de los participantes asoció a la versión estática.</p>
+    <p class="fuente">Fuente: <i>The Impact of Scrollytelling on the Reading Experience of Long-Form Journalism</i>, ECCE 2023 (Univ. Umeå). <span class="ev ev--media">Estudio controlado · muestra limitada</span></p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Estudio · CHI 2026</span>
+    <h3>Mejor experiencia y menos carga, igual comprensión</h3>
+    <p>Un trabajo reciente probó scrollytelling frente a texto plano para contenido denso. Resultado: <strong>mejor experiencia de usuario, menor carga cognitiva, mayor claridad percibida</strong> y disposición a adoptar el formato — <strong>igualando</strong> al texto en precisión de comprensión. El mecanismo clave es la <em>divulgación progresiva</em>: revelar el siguiente fragmento solo cuando el lector ha avanzado, evitando el muro de texto, y combinar imagen y palabra (efecto de doble codificación).</p>
+    <p class="fuente">Fuente: <i>Scrollytelling as an Alternative Format for Privacy Policies</i>, CHI 2026. <span class="ev ev--fuerte">Estudio controlado · reciente</span></p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Marco · Calm Technology</span>
+    <h3>La tarea de la persona es ser humana, no computar</h3>
+    <p>El contrapeso conceptual viene de la <em>tecnología calma</em> (raíces en Xerox PARC, 1995; formalizada por Amber Case, 2015). Sus principios: la tecnología debe requerir <strong>la mínima atención posible</strong>; puede comunicar sin «hablar»; crea conciencia ambiental en la periferia; y da a la persona lo que necesita <strong>y nada más</strong>. Es, casi palabra por palabra, el «cultivar la atención en lugar de capturarla» que ya gobierna Paramita.</p>
+    <p class="fuente">Fuente: Calm Tech Institute / A. Case, <i>Principles of Calm Technology</i>. <span class="ev ev--debil">Marco de diseño · no cuantitativo</span></p>
+  </div>
+
+  <p class="pull reveal">Síntesis honesta: el movimiento narrativo <strong>sube el engagement emocional y baja la carga cognitiva</strong> cuando sirve a la divulgación progresiva. No mejora la comprensión por sí mismo, y molesta a una parte del público si se vuelve protagonista. La conclusión no es «muévete más», es «muévete para revelar, y calla cuando el lector lee».</p>
+  <p class="reveal">Esto encaja exactamente con la Regla 1 del contrato de quietud de Paramita: <strong>el texto en lectura no se mueve</strong>. Un párrafo puede animarse al entrar en vista; una vez presente, permanece quieto. La evidencia respalda la regla que el sistema ya tenía.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 VANGUARDIA 2026 ===================== -->
+<section class="flow dark bleed">
+  <div class="flow" style="grid-column:1/-1">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — La vanguardia real de 2026</span>
+    <h2>Cuatro técnicas <em>nuevas</em>, no las de hace tres años</h2>
+  </div>
+  <p class="reveal">«A la última en UX/UI» en 2026 no significa GSAP con más plugins. Significa que varias capacidades que antes exigían librerías pesadas <strong>ahora son nativas del navegador</strong>, corren en el hilo compositor y pesan cero kilobytes de JavaScript. Para un sitio que valora rendimiento y sobriedad, esto es la noticia del año.</p>
+
+  <h3 class="reveal">1 · Scroll-driven animations nativas (CSS)</h3>
+  <p class="reveal">Con <code>animation-timeline: view()</code> y <code>scroll()</code> se ligan animaciones al progreso del scroll sin JavaScript. Reveal on scroll, barras de progreso, parallax sutil: todo en CSS, sobre el compositor. La regla de oro es <strong>progressive enhancement</strong>: se escribe el estado final como defecto y la animación se superpone solo donde hay soporte; un navegador que no la entienda ignora la línea y el contenido se ve correcto igual.</p>
+  <div class="stats reveal">
+    <div class="stat"><div class="n">~82–84<small>%</small></div><div class="l">soporte global a mediados de 2026 (caniuse)</div></div>
+    <div class="stat"><div class="n">0<small> KB</small></div><div class="l">JavaScript: corre en el hilo compositor</div></div>
+    <div class="stat"><div class="n">Firefox</div><div class="l">aún tras flag en estable (v152, jun 2026); prioridad Interop 2026</div></div>
+  </div>
+  <p class="fuente reveal">Fuentes: cssawwwards.com, buildmvpfast.com, locallylost.com (2026). <span class="ev ev--fuerte">Documentación de plataforma</span></p>
+  <p class="reveal">Restricción técnica que respeta el motion contract: animar solo <strong><code>transform</code> y <code>opacity</code></strong> (van al compositor); nunca <code>width</code>, <code>height</code> ni <code>margin</code> (disparan layout). Es la misma disciplina que ya sigue Paramita.</p>
+
+  <h3 class="reveal">2 · View Transitions API</h3>
+  <p class="reveal">Anima entre dos estados del DOM: de una tarjeta de lista a su página de detalle, de una sección a otra. El navegador toma una instantánea del estado viejo, aplica el nuevo y anima entre ambos —configurado en CSS—. Reemplaza buena parte de lo que hacían framer-motion o librerías de transición de página. <strong>Conexión directa con Paramita:</strong> es el candidato natural para el <em>drawer vs. modal</em> pendiente en <code>/sobre/sangha-monastica/</code> y para la expansión in-place del efecto 09 (FLIP): la «pared de rostros» que se abre a un retrato podría hacerse con una transición de vista, degradando limpio donde no haya soporte.</p>
+  <p class="fuente reveal">Fuente: Frontend Horizon, «View Transitions API and CSS Scroll-Driven Animations» (jul 2026). <span class="ev ev--media">Caso profesional documentado</span></p>
+
+  <div class="dato reveal" style="background:color-mix(in srgb,#fff 6%,transparent);border-color:color-mix(in srgb,#fff 12%,transparent)">
+    <span class="dato__k" style="color:var(--gold-lite)">Peso · lo que se ahorra</span>
+    <p style="color:#E7E9EE">framer-motion pesa <span class="cifra" style="color:#fff">~30–50&nbsp;KB</span> comprimido; GSAP <span class="cifra" style="color:#fff">~70&nbsp;KB</span>. En un caso real de cliente, retirar esas librerías a favor de las APIs nativas bajó el LCP en <span class="cifra" style="color:#fff">280&nbsp;ms</span> y el Time-to-Interactive en <span class="cifra" style="color:#fff">480&nbsp;ms</span>, con las animaciones viéndose igual.</p>
+    <p class="fuente" style="color:#9BA6B6">Frontend Horizon (2026). <span class="ev ev--debil">Caso único · no generalizable, pero direccional</span></p>
+  </div>
+
+  <h3 class="reveal">3 · Tipografía cinética con fuentes variables</h3>
+  <p class="reveal">Paramita <strong>ya practica esta vanguardia</strong> y probablemente no la nombra como tal: el eje <code>SOFT</code> de Fraunces animado por scroll (capa <code>@layer motion</code> en <code>paramita-tipografia.css</code>) es exactamente kinetic typography ligada al scroll. Es de las expresiones más difíciles de replicar por un competidor porque vive en el código, no en una plantilla. La recomendación es <strong>subir su protagonismo</strong> en el «quiénes somos»: dejar que un título doctrinal clave module su forma al cruzarlo, en lugar de reservarlo a un gesto discreto.</p>
+
+  <h3 class="reveal">4 · WebGL como agua, no como fuego</h3>
+  <p class="reveal">El fluido WebGL (<code>paramita-fluido.js</code>) es el activo más «disruptivo» que ya existe, y el más peligroso si se sobreexpone. La recomendación es tratarlo como <strong>presencia ambiental de baja frecuencia</strong>: un fondo que responde levemente al ratón/scroll en el hero de la página, nunca detrás de texto en lectura. Es el equivalente visual de la respiración identitaria: presente en la acumulación, imperceptible en el instante.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 04 TRADUCCIÓN A PARAMITA ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — Traducción a Paramita</span>
+    <h2>Anatomía de un «quiénes somos» <em>cruzado</em></h2>
+  </div>
+  <p class="drop reveal">Aquí está la propuesta concreta: la página de presentación de la fundación (hoy <code>/quienes-somos/</code>) como una travesía scrolleada que responde, en orden, a las preguntas que un visitante nuevo hace en silencio. Cada bloque lleva su <strong>gesto de motion asignado y su justificación</strong>, todo dentro del contrato de quietud. No es una revista con secciones apiladas; es un cruce con estaciones.</p>
+
+  <ol class="anat reveal">
+    <li>
+      <h4>Umbral — «¿Dónde estoy?»</h4>
+      <p>Hero con el fluido WebGL a baja intensidad y el título en Fraunces. La lede en Hanken (regla de lede unificada: nunca Fraunces, nunca itálica). Aparece por reveal, luego queda quieta.</p>
+      <span class="why">Motion: identitario ambiental + reveal · Convoca calma, no asombro</span>
+    </li>
+    <li>
+      <h4>Qué es Paramita — «¿Qué tradición es esta?»</h4>
+      <p>Un párrafo doctrinal breve donde una palabra clave («el cruce», «pāramitā») modula el eje SOFT/itálica de Fraunces al entrar en vista. Divulgación progresiva: no se muestra todo de golpe.</p>
+      <span class="why">Motion: tipografía cinética scroll-driven · Muestra, no argumenta</span>
+    </li>
+    <li>
+      <h4>El linaje vivo — «¿De dónde viene?»</h4>
+      <p>Línea de tiempo del linaje Sakya revelada con <code>animation-timeline: view()</code> nativo: cada hito entra al cruzarlo. Sustituye a un IntersectionObserver por CSS puro donde el soporte lo permita.</p>
+      <span class="why">Motion: scroll-driven nativo · Progressive enhancement obligatorio</span>
+    </li>
+    <li>
+      <h4>La sede en Pedreguer — «¿Es real, existe?»</h4>
+      <p>Imagen a sangría (bleed) con un parallax suave sobre <code>transform</code>. El lugar físico es prueba de existencia; la evidencia dice que la sede da confianza por presencia.</p>
+      <span class="why">Motion: parallax compositor-safe · Da cuerpo, no efectismo</span>
+    </li>
+    <li>
+      <h4>Las personas — «¿Quién sostiene esto?»</h4>
+      <p>Puente hacia <code>/sobre/khenpo/</code>, <code>/maestros/</code> y <code>/sangha-monastica/</code>. Aquí encaja la View Transition: un rostro de la pared se abre a su página con transición de vista (efecto 09 / FLIP), no con recarga seca.</p>
+      <span class="why">Motion: View Transition + FLIP · Continuidad, no corte</span>
+    </li>
+    <li>
+      <h4>La ofrenda — «¿Cómo participo?»</h4>
+      <p>Cierre sobrio con la lógica de <em>dāna</em>, no de suscripción. Un <code>.btn-primario</code> que respira (familia identitaria), sin urgencia manufacturada ni «solo quedan 3 plazas».</p>
+      <span class="why">Motion: respiración identitaria del CTA · Invita, no presiona</span>
+    </li>
+  </ol>
+
+  <p class="pull reveal">El truco no está en ningún efecto individual, sino en la <em>secuencia</em>: cada estación revela justo cuando el visitante formula la pregunta. Eso es divulgación progresiva puesta al servicio de la confianza. La revista estática muestra todo a la vez; el cruce lo entrega a tiempo.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 05 ANTIPATRONES ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — El filtro doctrinal</span>
+    <h2>Lo que <em>no</em> haríamos</h2>
+  </div>
+  <p class="reveal">La disrupción por coherencia se define tanto por lo que rechaza como por lo que adopta. Estos patrones son técnicamente «a la última» y, aun así, antipatrones para este público.</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Adoptar / rechazar</caption>
+      <thead>
+        <tr><th>Patrón de moda</th><th>Veredicto</th><th>Por qué</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Scroll-jacking (secuestro del scroll)</td><td class="no">Rechazar</td><td>Quita a la persona el control de su propio ritmo. Contradice «cruzar a ritmo propio» y la atención calma.</td></tr>
+        <tr><td>Preloader de partículas de 4 s</td><td class="no">Rechazar</td><td>Bucle atención-céntrico sin función. Viola la regla de <code>infinite</code> justificado.</td></tr>
+        <tr><td>Texto que se anima mientras se lee</td><td class="no">Rechazar</td><td>Regla 1 del contrato de quietud. La evidencia lo confirma: molesta la lectura.</td></tr>
+        <tr><td>Vídeo de montañas genérico en loop</td><td class="no">Rechazar</td><td>Convención de wellness saturada. No dice nada de <em>esta</em> tradición.</td></tr>
+        <tr><td>Scroll-driven nativo para reveals/línea de tiempo</td><td class="yes">Adoptar</td><td>Cero JS, compositor, degradación limpia. Sirve a la divulgación progresiva.</td></tr>
+        <tr><td>View Transitions para rostro→página</td><td class="yes">Adoptar</td><td>Continuidad narrativa entre presencia y persona. Refuerza el efecto 09.</td></tr>
+        <tr><td>Tipografía variable cinética (eje SOFT)</td><td class="yes">Adoptar</td><td>Firma propia difícil de copiar. Muestra la voz sin decorar.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal">Nota de identidad, no de técnica: cualquier decisión que toque cómo se <strong>representa</strong> la fundación —qué rostros, qué palabras del linaje, cómo se nombra a Khenpo— pasa por Khenpo antes de dibujarse. Y toda copia sigue provisional hasta el visto bueno de Ale (contenido) y Khenpo (doctrina). Este informe propone el <em>continente</em>; el <em>contenido</em> no es decisión de diseño.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 06 DECISIONES ABIERTAS ===================== -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — Decisiones para Jana</span>
+    <h2>Una cosa a la vez</h2>
+  </div>
+  <p class="reveal">Siguiendo el método (validación iterativa, una decisión y luego la siguiente), estas son las bifurcaciones a resolver antes de tocar código, ordenadas por dependencia:</p>
+  <ol class="anat reveal">
+    <li>
+      <h4>¿Scroll-driven nativo o GSAP/ScrollTrigger?</h4>
+      <p>Recomendación: <strong>híbrido con progressive enhancement</strong>. Reveals y línea de tiempo en CSS nativo (cero JS, degrada solo); reservar GSAP para lo que aún no cubre el estándar (FLIP del efecto 09, orquestaciones complejas). No es o lo uno o lo otro.</p>
+    </li>
+    <li>
+      <h4>¿El «quiénes somos» incluye ofrenda o es pura presencia?</h4>
+      <p>Misma pregunta abierta que en sangha-monástica. Recomendación: cierre de <em>ofrenda suave</em> (dāna), no embudo. Decisión de contenido → loop con Ale.</p>
+    </li>
+    <li>
+      <h4>¿Cuánto protagonismo damos al WebGL en el hero?</h4>
+      <p>Recomendación: baja frecuencia, reactivo al ratón, con <code>--identidad-estado: reposo</code> como interruptor si Khenpo lo ve excesivo. La reversibilidad ya existe; se usa.</p>
+    </li>
+    <li>
+      <h4>¿Prototipo interactivo antes de código?</h4>
+      <p>Coherente con tu preferencia habitual: puedo montar un prototipo vivo de la secuencia de estaciones (una sola, p. ej. la línea de tiempo del linaje) para validar el ritmo en browser antes de comprometer el CSS de página.</p>
+    </li>
+  </ol>
+  <p class="reveal">Ninguna de estas exige respuesta ahora. El estudio existe para que la primera decisión —scroll-driven vs. GSAP— se tome con fundamento y no por inercia.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== REFS ===================== -->
+<section class="flow refs">
+  <span class="sec-num reveal">Fuentes</span>
+  <ol class="reveal">
+    <li><b>Plum Village</b> · «How do I look?» (rediseño 2019), plumvillage.org · análisis en wildandmightystories.com — polo sereno.</li>
+    <li><b>Awwwards</b> · colección <i>NonProfit Websites</i> y piezas de <i>scroll-driven storytelling</i> (2024–2025) — polo espectáculo / técnica.</li>
+    <li><b>ECCE 2023</b> · <i>The Impact of Scrollytelling on the Reading Experience of Long-Form Journalism</i>, Univ. Umeå (umu.diva-portal.org) — engagement percibido, componente individual.</li>
+    <li><b>CHI 2026</b> · <i>Scrollytelling as an Alternative Format for Privacy Policies</i> (dl.acm.org) — mejor UX, menor carga cognitiva, comprensión equivalente.</li>
+    <li><b>Calm Tech Institute</b> / A. Case · <i>Principles of Calm Technology</i> (caseorganic.com, calmtech.institute); raíces Xerox PARC (Weiser &amp; Brown, 1995).</li>
+    <li><b>Frontend Horizon</b> · «View Transitions API and CSS Scroll-Driven Animations: The Browser Wins of 2026» (jul 2026) — pesos de librerías y ganancias de LCP/TTI (caso único).</li>
+    <li><b>CSSAWWWARDS</b> / <b>buildmvpfast</b> / <b>locallylost</b> (2026) · guías de soporte de scroll-driven animations (~82–84% global; Firefox tras flag).</li>
+    <li><b>Josh W. Comeau</b> · «Scroll-Driven Animations» (jun 2026) — <code>animation-timeline: view()</code>.</li>
+    <li><b>Sistema Paramita</b> · docs internos 01 (identidad), 04 (motion), 11 (método); <code>paramita-movimiento.css</code>, <code>paramita-tipografia.css</code>, <code>paramita-fluido.js</code>.</li>
+  </ol>
+  <p class="fuente reveal" style="margin-top:1.5rem">Niveles de evidencia: <span class="ev ev--fuerte">fuerte</span> estudio controlado reciente o doc de plataforma · <span class="ev ev--media">media</span> estudio con muestra limitada o caso profesional · <span class="ev ev--debil">débil</span> caso único o marco cualitativo. Los datos de rendimiento (LCP/TTI) provienen de un caso de cliente y son direccionales, no una media del sector.</p>
+</section>
+
+<footer class="flow">
+  <p>Estudio para «Quiénes somos» (la página de la fundación) · Paramita · Agosto 2026 · Claude (Anthropic)</p>
+  <p>El continente, no el contenido. Copia y representación pendientes de Ale (contenido) y Khenpo (doctrina).</p>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    bar.style.width = (scrolled * 100) + '%';
+  };
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+</body>
+</html>

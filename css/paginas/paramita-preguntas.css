@@ -1,0 +1,135 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-preguntas.css — Página · Preguntas frecuentes (/sobre/…)
+   ───────────────────────────────────────────────────────────────────────────
+   Objetivo: desviación / autoservicio. Reutiliza el componente FAQ
+   (paramita-faq.css: acordeón-sendero + buscador) y añade la capa de landing:
+   hero de orientación con hueco de foto, barra de utilidad (buscar + chips
+   ancla), «Lo más preguntado», categorías y cierre.
+
+   Solo tokens del sistema y color-mix(in oklch, …). Nada de hex sueltos.
+   Los chips replican el patrón de paramita-blog.css (.chip): profundidad +
+   luz dorada en activo — nunca fondo oscuro como estado seleccionado.
+   Scope en @layer paginas (gana a base/componentes en la cascada por capas).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer paginas {
+
+  /* Desplazamiento anclado · deja hueco para navbar sticky + barra de utilidad */
+  html { scroll-padding-top: 132px; }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+  /* Contenedores locales (independientes del .contenedor global) */
+  .preg-wrap { width: min(var(--contenedor-max), 100% - var(--contenedor-padding) * 2); margin-inline: auto; }
+  .preg-wrap--lectura { max-width: var(--contenedor-lectura); }
+
+  /* ═══ HERO de orientación · compacto, con hueco de foto ═══ */
+  .preg-hero {
+    position: relative; overflow: hidden; isolation: isolate;
+    background: radial-gradient(120% 85% at 82% -20%, var(--calido-zen), var(--lino) 62%);
+    padding-block: calc(var(--espacio-orilla) * 0.9) var(--espacio-umbral);
+  }
+  /* Capa de FOTO · el <header> fija --preg-foto:url('…'). Sin archivo → se ve
+     el degradado cálido base (background-image falla en silencio, sin 404). */
+  .preg-hero__bg {
+    position: absolute; inset: 0; z-index: -2;
+    background-image: var(--preg-foto, none); background-size: cover; background-position: center 38%;
+  }
+  /* VELO cálido · legibilidad del texto sobre la foto (patrón hero::after del sistema).
+     Fuerte a la izquierda (el texto), se abre a la derecha para dejar ver la foto. */
+  .preg-hero__velo {
+    position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(90deg,
+      color-mix(in oklch, var(--lino) 90%, transparent) 0%,
+      color-mix(in oklch, var(--lino) 74%, transparent) 44%,
+      color-mix(in oklch, var(--lino) 32%, transparent) 100%);
+  }
+  .preg-hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--hair); z-index: 1; }
+  .preg-hero .eyebrow { margin-bottom: var(--espacio-elemento); }
+  .preg-hero h1 { max-width: none; font-size: clamp(2.6rem, 7vw, 4.6rem); }
+  /* Lede en Hanken recto · regla de hero del sistema (Fase 5.6): nunca Fraunces/itálica */
+  .preg-lede {
+    font-family: var(--body); font-weight: var(--wght-presencia); font-style: normal;
+    font-size: var(--texto-lede); line-height: var(--leading-lede);
+    max-width: var(--medida-lede); color: var(--texto-suave); margin-top: var(--espacio-grupo);
+  }
+
+  /* ═══ BARRA DE UTILIDAD · buscar + chips ancla · pegajosa BAJO el navbar ═══ */
+  .preg-util {
+    position: sticky; top: 62px; z-index: 30;   /* 62px = altura de .bar.scrolled; el navbar (z-index:100) queda por encima */
+    background: color-mix(in oklch, var(--lino) 86%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--hair);
+  }
+  .preg-util__in { display: flex; align-items: center; gap: var(--espacio-contenido); flex-wrap: wrap; padding-block: var(--espacio-elemento); }
+  .preg-util .faq__buscador { flex: 1 1 260px; margin: 0; max-width: 420px; }
+
+  .preg-chips { display: flex; gap: .55rem; flex-wrap: wrap; }
+  /* Chips · réplica del patrón de paramita-blog.css: profundidad + luz dorada en activo */
+  .preg-chip {
+    font-family: var(--body); font-weight: var(--wght-firmeza); font-size: .88rem; color: var(--texto-suave);
+    text-decoration: none; white-space: nowrap; background: var(--card); border: 1px solid var(--hair);
+    border-radius: 99px; padding: .5rem 1.1rem; cursor: pointer;
+    box-shadow: 0 2px 10px -6px rgba(29, 31, 38, .22);
+    transition: transform .25s, box-shadow .25s, color .25s, border-color .25s, background .25s;
+  }
+  .preg-chip:hover {
+    transform: translateY(-1px); color: var(--antracita);
+    border-color: color-mix(in oklch, var(--dorado) 45%, transparent);
+    box-shadow: 0 10px 22px -10px rgba(29, 31, 38, .3);
+  }
+  .preg-chip.is-active {
+    color: var(--azul-oscuro); font-weight: var(--wght-asertivo);
+    background: color-mix(in oklch, var(--dorado) 8%, var(--card));
+    border-color: color-mix(in oklch, var(--dorado) 55%, transparent);
+    box-shadow: 0 8px 22px -8px color-mix(in oklch, var(--dorado) 45%, transparent);
+  }
+  .preg-chip:focus-visible { outline: 2.5px solid var(--dorado); outline-offset: 2px; }
+
+  /* ═══ LO MÁS PREGUNTADO · respuestas visibles sin clic ═══ */
+  .preg-pop { background: var(--arena); padding-block: var(--espacio-umbral); }
+  .preg-pop__head { display: flex; align-items: baseline; gap: .8rem; margin-bottom: var(--espacio-contenido); flex-wrap: wrap; }
+  .preg-pop__head h2 { max-width: none; font-size: var(--texto-h3); }
+  .preg-pop__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--espacio-grupo); }
+  .preg-pop__card {
+    background: var(--card); border: 1px solid var(--hair); border-radius: 12px;
+    padding: var(--espacio-contenido); display: flex; flex-direction: column; gap: .5rem;
+  }
+  @supports (corner-shape: superellipse(2)) { .preg-pop__card { border-radius: 16px; corner-shape: superellipse(2.2); } }
+  .preg-pop__card h3 { font-size: 1.22rem; letter-spacing: -.01em; }
+  .preg-pop__card p { color: var(--texto-suave); font-size: .96rem; line-height: 1.55; }
+
+  /* ═══ CATEGORÍAS ═══ */
+  .preg-cat { padding-block: var(--espacio-umbral); border-bottom: 1px solid var(--hair); }
+  .preg-cat:last-of-type { border-bottom: 0; }
+  .preg-cat__head { display: flex; align-items: baseline; gap: .9rem; margin-bottom: var(--espacio-contenido); }
+  .preg-cat__head h2 { max-width: none; font-size: var(--texto-h3); }
+  .preg-cat__n { font-family: var(--body); font-weight: var(--wght-firmeza); font-size: .78rem; letter-spacing: .16em; color: var(--dorado); }
+  .preg-cat[hidden] { display: none; }
+
+  /* ═══ CIERRE · fondo con profundidad, sin línea superior ═══ */
+  .preg-cierre {
+    position: relative; overflow: hidden; text-align: center;
+    padding-inline: var(--contenedor-padding);
+    padding-block: calc(var(--espacio-orilla) * 1.05);
+    background:
+      radial-gradient(78% 130% at 50% -25%, color-mix(in oklch, var(--dorado) 22%, transparent), transparent 62%),
+      radial-gradient(90% 120% at 12% 115%, color-mix(in oklch, var(--azul-sutil) 12%, transparent), transparent 55%),
+      linear-gradient(170deg, var(--calido-zen) 0%, var(--arena) 100%);
+  }
+  .preg-cierre__in { max-width: 52ch; margin-inline: auto; }
+  .preg-cierre h2 { max-width: none; margin-inline: auto; margin-bottom: var(--espacio-elemento); }
+  .preg-cierre p { color: var(--texto-suave); margin-bottom: var(--espacio-contenido); }
+  .preg-cierre .ctas { justify-content: center; }
+
+  /* Vacío de búsqueda · usa la clase del componente .faq__vacio para el estilo */
+
+  @media (max-width: 640px) {
+    .preg-chips { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; padding-bottom: .2rem; }
+    .preg-util__in { gap: var(--espacio-elemento); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .preg-chip { transition: none; }
+    .preg-chip:hover { transform: none; }
+  }
+}

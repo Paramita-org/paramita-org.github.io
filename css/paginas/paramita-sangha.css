@@ -57,7 +57,7 @@
   .sangha-tira__flecha[hidden]{opacity:0;pointer-events:none}
   .sangha-tira__flecha.is-off{opacity:.3;pointer-events:none}
 
-  .sangha-tira__pista{display:flex;gap:1.2rem;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding-inline:.2rem;padding:.4rem .2rem 1rem;scrollbar-width:none;cursor:grab}
+  .sangha-tira__pista{display:flex;gap:1.2rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scroll-padding-inline:.2rem;padding:.4rem .2rem 1rem;scrollbar-width:none;cursor:grab}
   .sangha-tira__pista::-webkit-scrollbar{display:none}
   .sangha-tira__pista.is-drag,.sangha-tira__pista.is-smooth{scroll-snap-type:none}
   .sangha-tira__pista.is-drag{cursor:grabbing}
@@ -72,7 +72,7 @@
   .sangha-cara__ts{background:var(--dorado);mix-blend-mode:screen;opacity:.6}
   .sangha-cara__velo{position:absolute;inset:0;z-index:3;background:linear-gradient(to top,color-mix(in oklch,var(--antracita) 36%,transparent),transparent 58%)}
   .sangha-dot:hover .sangha-cara{transform:translateY(-3px);box-shadow:0 14px 32px -18px var(--azul-oscuro)}
-  .sangha-dot[aria-current="true"] .sangha-cara{box-shadow:0 0 0 3px var(--dorado)}
+  .sangha-dot[aria-current="true"] .sangha-cara{box-shadow:0 0 0 1.5px color-mix(in oklch,var(--dorado) 62%,transparent),0 8px 26px -6px color-mix(in oklch,var(--dorado) 50%,transparent),0 0 42px 4px color-mix(in oklch,var(--dorado) 26%,transparent)}
   .sangha-dot[aria-current="true"] .sangha-cara__foto{filter:none}
   .sangha-dot[aria-current="true"] .sangha-cara__tm,
   .sangha-dot[aria-current="true"] .sangha-cara__ts,
@@ -170,22 +170,21 @@
 
   .diptico{display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(1rem,3vw,2.4rem);align-items:stretch;max-width:900px;margin:0 auto}
   .diptico__rol{display:block;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dorado);margin-bottom:1.2rem}
-  .diptico__lado--der{text-align:right}
+  .diptico__lado{text-align:center}
   .diptico__lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.1rem}
   .diptico__lista strong{display:block;font-family:var(--display);font-weight:400;font-size:1.15rem;color:var(--antracita);letter-spacing:-.01em}
   .diptico__lista span{display:block;font-size:.9rem;color:var(--texto-suave);margin-top:.15rem;line-height:1.5}
   .diptico__eje{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;padding:.4rem 0}
   .diptico__linea{flex:1;width:1px;min-height:28px;background:linear-gradient(180deg,transparent,color-mix(in oklch,var(--antracita) 18%,transparent),transparent)}
-  .diptico__loto{width:56px;height:56px;display:grid;place-items:center;border-radius:999px;background:color-mix(in oklch,var(--card) 85%,transparent);box-shadow:0 0 0 1px var(--hair);color:color-mix(in oklch,var(--antracita) 58%,transparent)}
+  .diptico__loto{width:56px;height:56px;display:grid;place-items:center;border-radius:999px;background:transparent;color:color-mix(in oklch,var(--antracita) 62%,transparent)}
   .diptico__loto svg{width:30px;height:30px;display:block;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
   .diptico__loto .acc{stroke:var(--dorado)}
   .diptico__flechas{font-size:.9rem;color:var(--dorado);line-height:1}
   @media (max-width:720px){
     .diptico{grid-template-columns:1fr;gap:1.4rem}
-    .diptico__lado--der{text-align:left}
     .diptico__eje{flex-direction:row;padding:.2rem 0}
-    .diptico__linea{width:auto;height:1px;min-height:0;min-width:28px;background:linear-gradient(90deg,transparent,color-mix(in oklch,var(--antracita) 18%,transparent),transparent)}
     .diptico__flechas{transform:rotate(90deg)}
+    .diptico__linea{width:auto;height:1px;min-height:0;min-width:28px;background:linear-gradient(90deg,transparent,color-mix(in oklch,var(--antracita) 18%,transparent),transparent)}
   }
 
   /* ══════════════════════════════════════════════════════════════════════
@@ -248,6 +247,7 @@
 
   /* ── Responsive tira / panel ─────────────────────────────────────────── */
   @media (max-width:760px){
+    .hero--sangha::after{background:linear-gradient(to bottom,color-mix(in oklch,var(--calido-zen) 28%,transparent) 0%,color-mix(in oklch,var(--calido-zen) 80%,transparent) 60%,color-mix(in oklch,var(--calido-zen) 94%,transparent) 100%)}
     .sangha-lugar__grid{grid-template-columns:1fr;gap:1.6rem}
     .sangha-lugar__foto{order:-1}
     .sangha-panel__in{grid-template-columns:1fr}

@@ -1,0 +1,162 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-la-fundacion.css — Página «La Fundación» (/sobre/la-fundacion/)
+   ───────────────────────────────────────────────────────────────────────────
+   Solo estilos propios de esta página, en @layer paginas. Reutiliza tokens,
+   base, hero, CTA, pictogramas, .s-head y .section del sistema. No redefine
+   nada de eso.
+
+   Criterios de esta revisión (feedback Jana):
+     · Tamaños según patrón del sistema: descripciones en --texto-cuerpo (no
+       lede); encabezados de sección con .s-head del sistema.
+     · Sin franjas de fondo opacas: lino continuo en las secciones de
+       contenido; color reservado a los cierres (Fundación oscuro, Ofrenda),
+       con difusores radiales dorados MUY sutiles y transiciones suaves.
+     · Sede: padding inferior restaurado (ya no se pega al bloque siguiente).
+     · Hero con imagen de fondo (hero-la-fundacion.jpg) + fallback en degradado.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer paginas {
+
+  /* ── Pictogramas de contenido (inline, sin data-pico) ── */
+  .lf-ico{ display:block; fill:none;
+    stroke:color-mix(in oklch, var(--antracita) 58%, transparent);
+    stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+  .lf-ico .acc{ stroke:var(--dorado); }
+
+  /* ═══════════ 01 · HERO ═══════════ */
+  /* Imagen de fondo sobre el fallback del sistema. Si el .jpg no existe,
+     se ve el degradado de abajo (sin icono roto). Sin animación (es foto). */
+  .lf-hero__img{
+    background:
+      url("../../assets/img/hero-la-fundacion.jpg") center/cover no-repeat,
+      radial-gradient(120% 90% at 78% 20%, var(--calido-zen), var(--arcilla));
+    filter:none; opacity:1; animation:none; }
+  /* El velo cálido del sistema (.hero::after) ya asegura legibilidad del
+     texto sobre la foto; reforzamos un punto la zona del texto en móvil. */
+
+  /* Indicio de scroll · estático; se retira al bajar (JS de página) */
+  .lf-cue{ position:absolute; z-index:3; left:50%; bottom:clamp(1.2rem,3vh,2rem);
+    transform:translateX(-50%); width:44px; height:44px; display:grid; place-items:center;
+    color:var(--texto-tenue); opacity:.75; text-decoration:none;
+    transition:opacity var(--t-defecto), transform var(--t-defecto); }
+  .lf-cue .lf-ico{ width:24px; height:24px; stroke:currentColor; }
+  .lf-cue:hover{ opacity:1; transform:translateX(-50%) translateY(2px); }
+  .lf-cue.is-gone{ opacity:0; pointer-events:none; transform:translateX(-50%) translateY(8px); }
+
+  /* ═══════════ 02 · ESENCIA (fondo lino continuo) ═══════════ */
+  .lf-esencia{ text-align:center; background:var(--lino); }
+  .lf-esencia .wrap-lectura{ max-width:min(46rem, 100% - var(--contenedor-padding)*2); }
+  .lf-tick{ width:34px; height:2px; margin:0 auto var(--s-4); border-radius:2px;
+    background:linear-gradient(90deg, var(--azul-oscuro), var(--azul-sutil) 68%, var(--dorado)); }
+  .lf-frase{ font-family:var(--display); font-weight:var(--wght-contemplativo);
+    font-size:clamp(1.9rem,4.8vw,3.2rem); line-height:1.16; letter-spacing:-.02em;
+    color:var(--antracita); max-width:20ch; margin:0 auto;
+    font-variation-settings:"opsz" 96, "SOFT" 0; }
+  .lf-frase em{ font-style:italic; color:var(--dorado); }
+  /* Descripción: patrón del sistema → --texto-cuerpo, texto-suave */
+  .lf-sub{ font-family:var(--body); font-weight:var(--wght-contemplativo);
+    font-size:var(--texto-cuerpo); line-height:var(--leading-cuerpo);
+    color:var(--texto-suave); max-width:52ch; margin:var(--s-3) auto 0; }
+
+  /* ═══════════ 03 · LINAJE (fondo lino continuo) ═══════════ */
+  .lf-linaje{ background:var(--lino); }
+  .lf-retratos{ display:grid; gap:var(--s-4) var(--s-5); grid-template-columns:1fr; }
+  .lf-persona{ display:flex; gap:var(--s-3); align-items:center; }
+  .lf-avatar{ flex:none; width:104px; height:104px; border-radius:50%; overflow:hidden; position:relative;
+    display:grid; place-items:center;
+    background:radial-gradient(120% 120% at 30% 20%, var(--calido-zen), var(--arcilla));
+    border:1.5px solid color-mix(in oklch, var(--dorado) 42%, transparent);
+    box-shadow:inset 0 0 0 4px var(--card); }
+  .lf-avatar .lf-ico{ width:56px; height:56px; }
+  .lf-persona h3{ margin:0 0 3px; }
+  .lf-rol{ font-family:var(--body); font-size:var(--texto-mini); color:var(--texto-suave);
+    font-weight:var(--wght-firmeza); margin:0; }
+  .lf-nota{ font-family:var(--body); font-size:var(--texto-micro); color:var(--texto-tenue); margin:4px 0 0; }
+
+  /* ═══════════ 04 · SEDE (fondo lino continuo) ═══════════ */
+  .lf-sede{ background:var(--lino); }
+  .lf-sede__img{ position:relative; width:100%; height:clamp(340px,54vh,560px); overflow:hidden;
+    background:
+      url("../../assets/img/tempo-vista-aerea-luz-dorada.jpeg") center/cover no-repeat,
+      linear-gradient(180deg, color-mix(in oklch, var(--azul-sutil) 24%, var(--calido-zen)) 0%, var(--calido-zen) 100%); }
+  /* Fundido suave arriba y abajo → la imagen no se corta de golpe */
+  .lf-sede__img::before{ content:""; position:absolute; inset:0 0 auto 0; height:22%; pointer-events:none;
+    background:linear-gradient(180deg, color-mix(in oklch, var(--lino) 78%, transparent), transparent); }
+  .lf-sede__img::after{ content:""; position:absolute; inset:auto 0 0 0; height:32%; pointer-events:none;
+    background:linear-gradient(180deg, transparent, var(--lino)); }
+  .lf-cap{ text-align:center; margin:var(--s-2) auto 0;
+    font-family:var(--display); font-style:italic; font-weight:var(--wght-contemplativo);
+    font-size:var(--texto-mini); color:var(--texto-suave); font-variation-settings:"opsz" 14; }
+  /* Padding inferior restaurado: ya no queda pegado al bloque siguiente */
+  .lf-sede__body{ padding-block:var(--espacio-contemplativo) var(--espacio-orilla); }
+  .lf-sede__grid{ display:grid; gap:var(--s-5); grid-template-columns:1fr; align-items:start; }
+  .lf-sede h2{ max-width:16ch; }
+  /* Descripción: patrón del sistema → --texto-cuerpo */
+  .lf-parrafo{ font-family:var(--body); font-weight:var(--wght-contemplativo);
+    font-size:var(--texto-cuerpo); line-height:var(--leading-cuerpo);
+    color:var(--texto-suave); max-width:40ch; margin:.2rem 0 0; }
+  .lf-mas{ margin-top:var(--s-3); }
+  .lf-datos{ display:flex; flex-wrap:wrap; gap:var(--s-2); margin-top:var(--s-3); }
+  .lf-dato{ font-family:var(--body); font-size:var(--texto-mini); font-weight:var(--wght-firmeza);
+    color:var(--antracita); background:var(--card); border:1px solid var(--hair); border-radius:99px;
+    padding:.5rem 1rem; display:inline-flex; align-items:center; gap:.5em; }
+  .lf-dato b{ color:var(--azul-oscuro); font-weight:var(--wght-asertivo); }
+
+  /* ═══════════ 05 · PERSONAS (fondo lino continuo) ═══════════ */
+  .lf-personas{ background:var(--lino); }
+  .lf-puentes{ display:grid; gap:var(--s-3); grid-template-columns:1fr; margin-top:0; }
+  .lf-puente{ background:var(--card); border:1px solid var(--hair); border-radius:18px; overflow:hidden;
+    display:flex; flex-direction:column; text-decoration:none; color:inherit;
+    transition:transform var(--t-defecto), box-shadow var(--t-revelacion), border-color var(--t-defecto); }
+  .lf-puente:hover{ transform:translateY(-3px);
+    border-color:color-mix(in oklch, var(--azul-oscuro) 22%, transparent);
+    box-shadow:0 20px 44px -28px var(--azul-oscuro); }
+  .lf-puente__img{ height:172px; position:relative; display:grid; place-items:center;
+    background:radial-gradient(130% 100% at 40% 15%, var(--calido-zen), var(--arcilla)); }
+  .lf-puente__img::after{ content:""; position:absolute; inset:0;
+    background:radial-gradient(60% 60% at 50% 42%, transparent, color-mix(in oklch, var(--arcilla) 40%, transparent)); }
+  .lf-puente__img .lf-ico{ width:64px; height:64px; position:relative; z-index:1; }
+  .lf-puente__body{ padding:var(--s-3); display:flex; flex-direction:column; gap:.5rem; flex:1; }
+  .lf-puente__body h3{ margin:0; }
+  .lf-puente__body p{ font-family:var(--body); font-size:var(--texto-mini); color:var(--texto-suave); margin:0; flex:1; }
+  .lf-puente__body .t-link{ font-size:.9rem; }
+
+  /* ═══════════ 06 · FUNDACIÓN · cierre oscuro con difusor dorado sutil ═══════════ */
+  .lf-fundacion{ position:relative; text-align:center; color:var(--lino);
+    background:
+      radial-gradient(90% 130% at 50% 0%, color-mix(in oklch, var(--dorado) 13%, transparent), transparent 58%),
+      var(--antracita); }
+  /* Transición suave desde el lino de la sección anterior (sin corte duro) */
+  .lf-fundacion::before{ content:""; position:absolute; inset:0 0 auto 0; height:120px; pointer-events:none;
+    background:linear-gradient(180deg, color-mix(in oklch, var(--lino) 60%, transparent), transparent); opacity:.14; }
+  .lf-fundacion .wrap-lectura{ position:relative; z-index:1; display:block; }
+  .lf-seal{ width:52px; height:52px; margin:0 auto var(--s-3);
+    stroke:color-mix(in oklch, var(--lino) 66%, transparent); }
+  .lf-fundacion .overline{ color:color-mix(in oklch, var(--dorado) 80%, var(--lino)); }
+  .lf-fundacion h2{ color:var(--lino); max-width:none; margin-inline:auto; margin-top:var(--s-2);
+    font-size:clamp(1.6rem,3.4vw,2.4rem); }
+  .lf-fundacion h2 em{ color:var(--dorado); }
+  .lf-registro{ font-family:var(--body); font-size:var(--texto-mini); line-height:1.7; letter-spacing:.02em;
+    color:color-mix(in oklch, var(--lino) 72%, transparent); margin-top:var(--s-3); }
+  .lf-registro b{ color:var(--lino); font-weight:var(--wght-firmeza); }
+
+  /* ═══════════ 07 · OFRENDA · cierre cálido con halo dorado muy sutil ═══════════ */
+  .lf-ofrenda{ text-align:center;
+    background:
+      radial-gradient(100% 120% at 50% 100%, color-mix(in oklch, var(--dorado) 9%, transparent), transparent 55%),
+      var(--lino); }
+  .lf-ofrenda h2{ max-width:none; margin-inline:auto; }
+  .lf-intro{ font-family:var(--body); font-weight:var(--wght-contemplativo);
+    font-size:var(--texto-cuerpo); line-height:var(--leading-cuerpo);
+    color:var(--texto-suave); max-width:50ch; margin:var(--s-3) auto 0; }
+  .lf-acciones{ display:flex; justify-content:center; align-items:center; flex-wrap:wrap;
+    gap:var(--s-3); margin-top:var(--s-5); }
+
+  /* ═══════════ RESPONSIVE ═══════════ */
+  @media (min-width:768px){
+    .lf-retratos{ grid-template-columns:1fr 1fr; }
+    .lf-sede__grid{ grid-template-columns:1.1fr .9fr; }
+    .lf-puentes{ grid-template-columns:repeat(3,1fr); }
+  }
+}

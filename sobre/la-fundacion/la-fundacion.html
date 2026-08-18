@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Fundación · Paramita</title>
+<meta name="description" content="Fundación budista de tradición Sakya, con sede en el monte Sella (Pedreguer, Alicante). Un puente entre las enseñanzas del Himalaya y el mundo hispanohablante.">
+
+<!-- Fuentes autoalojadas · profundidad ../../ -->
+<link rel="preload" href="../../assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<!-- Marca JS activo cuanto antes (gate de los revelados) -->
+<script>document.documentElement.classList.add('js')</script>
+
+<!-- TEMA · anti-FOUC · aplica la penumbra guardada ANTES de pintar (opt-in) -->
+<script>
+  try { if (localStorage.getItem('paramita-tema') === 'oscuro') document.documentElement.setAttribute('data-tema','oscuro'); } catch(e){}
+</script>
+
+<!-- 1 · Primitivos -->
+<script src="../../js/primitivos/paramita-reveal.js" defer></script>
+<!-- 2 · Comportamientos -->
+<script src="../../js/componentes/paramita-bar.js" defer></script>
+<script src="../../js/componentes/paramita-footer-lotos.js" defer></script>
+<script src="../../js/componentes/paramita-suscripcion.js" defer></script>
+<!-- TEMA · listener del toggle · compartido (sync) -->
+<script src="../../js/componentes/paramita-tema.js" defer></script>
+<!-- 3 · Página -->
+<script src="../../js/paginas/paramita-la-fundacion.js" defer></script>
+<!-- MENÚ · acordeón de submenús en móvil · compartido (sync) -->
+<script src="../../js/componentes/paramita-menu.js" defer></script>
+
+<!-- 1 · Reset -->
+<link rel="stylesheet" href="../../css/base/paramita-reset.css">
+<!-- 2 · Tokens -->
+<link rel="stylesheet" href="../../css/tokens/paramita-fuentes.css">
+<link rel="stylesheet" href="../../css/tokens/paramita-color.css">
+<link rel="stylesheet" href="../../css/tokens/paramita-tipografia.css">
+<link rel="stylesheet" href="../../css/tokens/paramita-layout.css">
+<link rel="stylesheet" href="../../css/tokens/paramita-movimiento.css">
+<!-- 3 · Base -->
+<link rel="stylesheet" href="../../css/base/paramita-base.css">
+<!-- 4 · Componentes -->
+<link rel="stylesheet" href="../../css/componentes/paramita-bar.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-menu.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-pictogramas.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-cta.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-hero.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-sections.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-suscripcion.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-extras.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-footer.css">
+<!-- 5 · Página -->
+<link rel="stylesheet" href="../../css/paginas/paramita-la-fundacion.css">
+<!-- 6 · Responsive común -->
+<link rel="stylesheet" href="../../css/base/paramita-responsive.css">
+<!-- TEMA · penumbra/luz · el ÚLTIMO para ganar la cascada (sync) -->
+<link rel="stylesheet" href="../../css/componentes/paramita-tema.css">
+</head>
+<body>
+<!-- sync: navbar=publico current="La Fundación" -->
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     El navbar y el footer los incrusta sync.py a partir de este marcador.
+     Ejecuta desde la raíz del repo:  python3 partials/sync.py --all
+     ═══════════════════════════════════════════════════════════════════════ -->
+
+<main>
+
+  <!-- ══════════ 01 · HERO / UMBRAL ══════════ -->
+  <section class="hero lf-hero">
+    <div class="hero__bg-fallback lf-hero__img" aria-hidden="true"></div>
+    <div class="hero__inner">
+      <p class="eyebrow" data-reveal>Fundación Sakya · Pedreguer, Alicante</p>
+      <h1 data-reveal>Sabiduría del Himalaya,<br>en tu <em>idioma</em></h1>
+      <p class="lede" data-reveal>Fundación budista de tradición Sakya. Un centro real en el monte Sella y enseñanzas vivas para el mundo hispanohablante.</p>
+      <div class="actions" data-reveal>
+        <a href="#esencia" class="btn-primario">Conócenos</a>
+        <a href="#sede" class="t-link"><span class="txt">Visita el centro</span> <span class="arw">→</span></a>
+      </div>
+    </div>
+    <a href="#esencia" class="lf-cue" aria-label="Bajar" data-reveal>
+      <svg class="lf-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10l6 6 6-6"/></svg>
+    </a>
+  </section>
+
+  <!-- ══════════ 02 · ESENCIA / QUÉ ES ══════════ -->
+  <section class="section lf-esencia" id="esencia">
+    <div class="wrap-lectura">
+      <div class="lf-tick" aria-hidden="true" data-reveal></div>
+      <p class="lf-frase" data-reveal>Creemos que todo ser humano puede <em>despertar</em>.</p>
+      <p class="lf-sub" data-reveal>Y ofrecemos los medios para lograrlo: enseñanzas genuinas, transmitidas con fidelidad, en el lenguaje de hoy.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 03 · LINAJE VIVO ══════════ -->
+  <section class="section lf-linaje">
+    <div class="wrap">
+      <div class="s-head" data-reveal>
+        <div>
+          <span class="eyebrow">El linaje vivo</span>
+          <h2>Una transmisión <em>ininterrumpida</em></h2>
+        </div>
+        <p>De maestro a discípulo, sin interrupción, desde el Buddha hasta hoy.</p>
+      </div>
+      <div class="lf-retratos">
+        <div class="lf-persona" data-reveal>
+          <span class="lf-avatar" aria-hidden="true">
+            <svg class="lf-ico" viewBox="0 0 24 24">
+              <circle cx="12" cy="9" r="3.2"/>
+              <path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/>
+              <path class="acc" d="M8.4 4.4a5 5 0 0 1 7.2 0"/>
+            </svg>
+          </span>
+          <div>
+            <h3>S.S. Gongma Trichen</h3>
+            <p class="lf-rol">Sostenedor del Linaje Sakya</p>
+            <p class="lf-nota">Máxima autoridad de la tradición</p>
+          </div>
+        </div>
+        <div class="lf-persona" data-reveal>
+          <span class="lf-avatar" aria-hidden="true">
+            <svg class="lf-ico" viewBox="0 0 24 24">
+              <circle cx="12" cy="9" r="3.2"/>
+              <path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/>
+              <path class="acc" d="M8.4 4.4a5 5 0 0 1 7.2 0"/>
+            </svg>
+          </span>
+          <div>
+            <h3>Khenpo Rinchen Gyaltsen</h3>
+            <p class="lf-rol">Director · maestro residente</p>
+            <p class="lf-nota">También conocido como Lama Rinchen</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 04 · SEDE ══════════ -->
+  <section class="lf-sede" id="sede">
+    <div class="lf-sede__img" role="img" aria-label="Vista aérea del Centro Budista Sakya en el monte Sella" data-reveal></div>
+    <div class="wrap"><p class="lf-cap" data-reveal>Vista aérea del centro, en el monte Sella</p></div>
+    <div class="section lf-sede__body">
+      <div class="wrap">
+        <div class="lf-sede__grid">
+          <div data-reveal>
+            <span class="eyebrow">La sede</span>
+            <h2>En la cima del <em>monte Sella</em></h2>
+            <div class="lf-datos">
+              <span class="lf-dato"><b>·</b> Mediterráneo y Montgó</span>
+              <span class="lf-dato"><b>3</b> salas de meditación</span>
+              <span class="lf-dato"><b>60</b> plazas</span>
+            </div>
+          </div>
+          <div data-reveal>
+            <p class="lf-parrafo">Un espacio de retiro en plena naturaleza, en Pedreguer (Alicante), donde se imparten enseñanzas y se practica con maestros del linaje.</p>
+            <p class="lf-mas"><a href="#" class="t-link"><span class="txt">Conoce el centro</span> <span class="arw">→</span></a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 05 · PERSONAS / PUENTES ══════════ -->
+  <section class="section lf-personas">
+    <div class="wrap">
+      <div class="s-head" data-reveal>
+        <div>
+          <span class="eyebrow">Quiénes lo sostienen</span>
+          <h2>Una comunidad <em>con rostro</em></h2>
+        </div>
+        <p>Personas concretas que sostienen la práctica y la enseñanza cada día.</p>
+      </div>
+      <div class="lf-puentes">
+
+        <a href="#" class="lf-puente" data-reveal>
+          <span class="lf-puente__img" aria-hidden="true">
+            <svg class="lf-ico" viewBox="0 0 24 24">
+              <circle cx="12" cy="8.5" r="3.4"/>
+              <path d="M5 20c0-3.9 3.1-6.5 7-6.5s7 2.6 7 6.5"/>
+              <path class="acc" d="M8.2 3.9a5.2 5.2 0 0 1 7.6 0"/>
+            </svg>
+          </span>
+          <span class="lf-puente__body">
+            <h3>El maestro</h3>
+            <p>Khenpo Rinchen Gyaltsen, director y guía espiritual del centro.</p>
+            <span class="t-link"><span class="txt">Su historia</span> <span class="arw">→</span></span>
+          </span>
+        </a>
+
+        <a href="#" class="lf-puente" data-reveal>
+          <span class="lf-puente__img" aria-hidden="true">
+            <svg class="lf-ico" viewBox="0 0 24 24">
+              <path class="acc" d="M12 4.5c1.9 2.2 1.9 6 0 8.5-1.9-2.5-1.9-6.3 0-8.5z"/>
+              <path d="M12 13c-2.6-1.2-5.7-.7-7.5 1.1 2.1 1.6 5 1.6 7.5 0z"/>
+              <path d="M12 13c2.6-1.2 5.7-.7 7.5 1.1-2.1 1.6-5 1.6-7.5 0z"/>
+              <path d="M4.5 18.5c2.2 1.5 4.8 2.1 7.5 2.1s5.3-.6 7.5-2.1"/>
+            </svg>
+          </span>
+          <span class="lf-puente__body">
+            <h3>Los maestros</h3>
+            <p>El linaje Sakya, transmitido por maestros cualificados del Himalaya.</p>
+            <span class="t-link"><span class="txt">Conócelos</span> <span class="arw">→</span></span>
+          </span>
+        </a>
+
+        <a href="#" class="lf-puente" data-reveal>
+          <span class="lf-puente__img" aria-hidden="true">
+            <svg class="lf-ico" viewBox="0 0 24 24">
+              <circle cx="9" cy="9" r="2.8"/>
+              <circle class="acc" cx="16.5" cy="10.5" r="2.2"/>
+              <path d="M3.5 20c0-3 2.6-4.9 5.5-4.9"/>
+              <path d="M13 20c0-2.5 2.1-4 4.8-4"/>
+            </svg>
+          </span>
+          <span class="lf-puente__body">
+            <h3>La sangha</h3>
+            <p>La comunidad monástica y laica que sostiene la práctica cada día.</p>
+            <span class="t-link"><span class="txt">Su labor</span> <span class="arw">→</span></span>
+          </span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 06 · FUNDACIÓN / LEGITIMIDAD ══════════ -->
+  <section class="section lf-fundacion">
+    <div class="wrap-lectura">
+      <svg class="lf-ico lf-seal" viewBox="0 0 24 24" aria-hidden="true" data-reveal>
+        <circle cx="12" cy="12" r="8"/>
+        <circle class="acc" cx="12" cy="12" r="2.4"/>
+        <path d="M12 4v3.6M12 16.4V20M4 12h3.6M16.4 12H20M6.3 6.3l2.5 2.5M15.2 15.2l2.5 2.5M17.7 6.3l-2.5 2.5M8.8 15.2l-2.5 2.5"/>
+      </svg>
+      <p class="overline" data-reveal>La Fundación</p>
+      <h2 data-reveal>Sin ánimo de lucro, al servicio del <em>Dharma</em></h2>
+      <p class="lf-registro" data-reveal>Fundación Sakya · Registro de Fundaciones nº <b>2487JUS SAKYA</b><br>Sostenida por donativos, formaciones y las actividades del centro.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 07 · OFRENDA / CIERRE ══════════ -->
+  <section class="section lf-ofrenda">
+    <div class="wrap-lectura">
+      <span class="eyebrow" data-reveal>Participa</span>
+      <h2 data-reveal>Camina con <em>nosotros</em></h2>
+      <p class="lf-intro" data-reveal>Esta labor se sostiene con la generosidad de quienes la valoran. Sin cuotas ni presión: cada ofrenda es libre.</p>
+      <div class="lf-acciones" data-reveal>
+        <a href="#" class="btn-primario">Sostén esta labor</a>
+        <a href="#" class="t-link"><span class="txt">Otras formas de participar</span> <span class="arw">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 08 · NEWSLETTER ══════════ -->
+  <section class="section wrap news" id="newsletter" aria-labelledby="news-t">
+    <div class="news__inner">
+      <span class="eyebrow" data-reveal>Newsletter</span>
+      <h2 id="news-t" data-reveal>Recibe inspiración y <em>sabiduría</em>.</h2>
+      <p>Ideas sencillas, propuestas de práctica y noticias de Paramita en tu bandeja de entrada.</p>
+      <form class="news__form" id="newsForm" novalidate>
+        <div class="news__campo">
+          <label for="news-name">Nombre</label>
+          <input id="news-name" name="name" type="text" autocomplete="given-name" placeholder="Tu nombre" required>
+        </div>
+        <div class="news__campo">
+          <label for="news-email">Email</label>
+          <input id="news-email" name="email" type="email" autocomplete="email" placeholder="Tu dirección de correo" required>
+        </div>
+        <label class="news__consent"><input type="checkbox" id="news-consent" required> Acepto las <a href="https://www.paramita.org/politica-de-privacidad/" target="_blank" rel="noopener">políticas de privacidad</a> y recibir la newsletter.</label>
+        <button class="btn-primario" type="submit">Enviar suscripción</button>
+        <p class="news__ok" role="status" aria-live="polite">¡Gracias! Te has suscrito correctamente.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- El footer lo incrusta sync.py aquí (partials/footer.html) -->
+
+</body>
+</html>

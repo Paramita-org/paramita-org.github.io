@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El orden es el mensaje — Estructura por bloques de «Quiénes somos» (la fundación) · neuromarketing, comportamiento y UX/UI · Paramita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC; --paper-2:#FBFAF7; --ink:#191A1C; --slate:#63656B;
+    --ink-deep:#132239; --ink-deep-2:#0E1A2C; --gold:#A8823F; --gold-lite:#C9A96E;
+    --rule:#DAD6CC; --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem)); --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+  .flow > .bleed{grid-column:1/-1;width:100%}
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.42;color:var(--ink-deep);margin:2rem 0 0;font-style:italic}
+  section{padding:clamp(2.6rem,6vh,4.2rem) 0}
+  .sec-head{margin-bottom:1.8rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 .3rem}
+  h2 em{font-style:italic;font-weight:400;color:var(--gold)}
+  h3{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.25rem,2vw,1.55rem);line-height:1.2;margin:2.4rem 0 .6rem;letter-spacing:-.005em}
+  h3 em{font-style:italic;color:var(--ink-deep)}
+  p{margin:0 0 1.15rem}
+  strong{font-weight:600;color:var(--ink)}
+  em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:color-mix(in srgb,var(--gold) 10%,transparent);padding:.05em .35em;border-radius:4px}
+  .drop:first-letter{font-family:"Fraunces",serif;float:left;font-size:3.3rem;line-height:.82;font-weight:500;padding:.1em .12em 0 0;color:var(--ink-deep)}
+  .pull{font-family:"Fraunces",serif;font-weight:400;font-style:italic;font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.4;color:var(--ink-deep);border-left:2px solid var(--gold);padding-left:1.2rem;margin:2rem 0}
+  .fuente{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.01em;margin-top:-.4rem}
+  .ev{font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.16em .6em;border-radius:2em;vertical-align:middle;margin-right:.5em;white-space:nowrap}
+  .ev--fuerte{background:color-mix(in srgb,var(--ink-deep) 12%,transparent);color:var(--ink-deep)}
+  .ev--media{background:color-mix(in srgb,var(--gold) 16%,transparent);color:var(--gold)}
+  .ev--debil{background:color-mix(in srgb,var(--slate) 14%,transparent);color:var(--slate)}
+  .dato{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:14px;padding:1.6rem 1.7rem;margin:1.4rem 0}
+  .dato__k{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+  .dato h3{margin:0 0 .5rem;font-size:clamp(1.15rem,1.8vw,1.4rem)}
+  .dato p{margin:0 0 .6rem}
+  .cifra{font-family:"Fraunces",serif;font-weight:600;color:var(--ink-deep);font-size:1.08em}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--rule);border-radius:14px;overflow:hidden;margin:1.6rem 0}
+  .stat{background:var(--paper-2);padding:1.4rem 1.1rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.7rem,3vw,2.3rem);line-height:1;color:var(--ink-deep)}
+  .stat .n small{font-size:.5em;font-weight:500}
+  .stat .l{font-size:.82rem;line-height:1.35;color:var(--slate);margin-top:.5rem}
+  .tbl-wrap{margin:1.6rem 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.9rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+  th,td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:500;border-bottom:1.5px solid var(--rule)}
+  tbody td:first-child{font-weight:600;color:var(--ink)}
+  .yes{color:var(--ink-deep);font-weight:600}
+  .no{color:var(--gold);font-weight:600}
+  .dark{background:var(--ink-deep-2);color:#E7E9EE}
+  .dark h2{color:#fff}.dark h2 em{color:var(--gold-lite)}.dark h3{color:#fff}
+  .dark .sec-num{color:var(--gold-lite)}.dark strong{color:#fff}.dark p{color:#C3CAD6}
+  .dark .pull{color:var(--gold-lite);border-left-color:var(--gold-lite)}
+  .dark code{background:color-mix(in srgb,#fff 12%,transparent);color:#EdEfF3}
+  .dark .stat{background:color-mix(in srgb,#fff 5%,transparent)}
+  .dark .stat .n{color:#fff}.dark .stat .l{color:#9BA6B6}
+  .dark .stats{background:color-mix(in srgb,#fff 10%,transparent)}
+  /* bloque de estructura */
+  .blk{border:1px solid var(--rule-soft);border-radius:14px;padding:1.5rem 1.6rem;margin:1.2rem 0;background:var(--paper-2)}
+  .blk__n{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.35rem}
+  .blk h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.2rem;margin:0 0 .2rem}
+  .blk .q{font-style:italic;color:var(--ink-deep);font-family:"Fraunces",serif;font-size:1.02rem;margin:0 0 .8rem}
+  .blk dl{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1rem;margin:.6rem 0 0;font-size:.9rem}
+  .blk dt{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);padding-top:.15em}
+  .blk dd{margin:0;color:var(--ink)}
+  .blk .copy{margin-top:.9rem;padding:.7rem .9rem;border-left:2px solid var(--gold-lite);background:color-mix(in srgb,var(--gold) 6%,transparent);border-radius:0 8px 8px 0;font-size:.9rem}
+  .blk .copy b{font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.3rem;font-weight:500}
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.75rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (max-width:640px){
+    .stats{grid-template-columns:1fr}
+    .cover h1{font-size:clamp(2.3rem,10vw,3rem)}
+    .blk dl{grid-template-columns:1fr}
+    .blk dt{padding-top:.5em}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .sheen::after{animation:none;transform:translateX(80%)}
+    .reveal{opacity:1;transform:none;transition:none}*{scroll-behavior:auto}
+  }
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- COVER -->
+<header class="flow cover">
+  <p class="eyebrow">Estudio · Afinado II · Estructura de «Quiénes somos» — la página de la fundación</p>
+  <h1>El orden<br>es el <em>mensaje</em></h1>
+  <p class="deck">La conclusión afinada del estudio anterior, aplicada a <strong>una sola página</strong>: la de presentación de la fundación —hoy <code>/quienes-somos/</code>—, no a toda la sección «Sobre» (que incluye además Khenpo, Maestros y Sangha, cada una con su propio informe). Cómo se ordena, bloque a bloque, cruzando neuromarketing, comportamiento de usuario y UX/UI con analíticas reales, y con el copy actual de <code>paramita.org</code> como punto de partida.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Página</b> · Presentación de la fundación (<code>/quienes-somos/</code>)</span>
+    <span><b>Copy base</b> · <code>/quienes-somos/</code> + <code>/centro/</code></span>
+    <span><b>Fecha</b> · Agosto 2026</span>
+    <span><b>Lectura</b> · ~15 min</span>
+  </div>
+  <p class="lede">Tesis: la estructura no es un contenedor neutro donde cae el contenido. El <em>orden</em> de los bloques —qué se ve en el primer segundo, qué se revela después, qué se calla— es la decisión de conversión más importante de la página. Y la evidencia dice dónde poner cada cosa.</p>
+</header>
+
+<hr class="divider">
+
+<!-- 00 ENCUADRE -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">00 — De qué va este afinado</span>
+    <h2>No es qué bloques, es en qué <em>orden</em></h2>
+  </div>
+  <p class="drop reveal">El primer estudio resolvió el <em>cómo</em> (motion al servicio de la presencia, no del espectáculo). Este resuelve el <em>dónde</em>: en qué secuencia van los bloques para que la página trabaje con la atención real de la persona, no contra ella. La diferencia importa porque el comportamiento de lectura no es uniforme —se concentra brutalmente arriba— y porque la confianza se decide antes de que nadie lea una palabra.</p>
+  <p class="reveal">Se extiende el marco que Paramita ya usa (las cuatro palancas del informe de «Únete»: pocas puertas, escalera de compromiso, revelación progresiva, autodeterminación) con tres leyes del comportamiento que gobiernan el orden, y se aterriza todo en una <strong>secuencia de bloques concreta con copy real de partida</strong>.</p>
+  <p class="pull reveal">Regla que atraviesa todo el documento: la evidencia de conversión viene del mundo comercial y de la captación de fondos. Se adopta el <em>mecanismo</em> (cómo funciona la atención y la confianza) y se rechaza el <em>registro</em> (urgencia, culpa, presión). Paramita convierte por presencia, no por presión.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Alcance · una página, no una sección</span>
+    <p>Para evitar líos de nombres: este informe trata <strong>solo la página de presentación de la fundación</strong> —el «quiénes somos»—, no la sección «Sobre» completa. En la arquitectura, «Sobre» es el paraguas que agrupa cuatro páginas con trabajos distintos: <strong>esta</strong> (qué es Paramita), <code>/sobre/khenpo/</code>, <code>/sobre/maestros/</code> y <code>/sobre/sangha-monastica/</code>, cada una con su propio informe. Aquí solo se resuelve la primera. La ruta final de esta página (mantener <code>/quienes-somos/</code> o migrarla bajo <code>/sobre/</code>) es una decisión abierta con implicación SEO —ver §06—.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 01 TRES LEYES -->
+<section class="flow dark bleed">
+  <div class="flow" style="grid-column:1/-1">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — Comportamiento real</span>
+    <h2>Tres leyes que mandan sobre <em>el orden</em></h2>
+  </div>
+
+  <h3 class="reveal">Ley 1 · La confianza se decide en 50 milisegundos</h3>
+  <p class="reveal">Antes de leer nada, la persona ya ha juzgado si el sitio le parece creíble. El estudio clásico de Lindgaard midió que la valoración de <strong>apelación visual se forma en unos 50&nbsp;ms</strong> (una veinteava parte de segundo) y que ese juicio apenas cambia con más tiempo. Peor aún para quien confía solo en el texto: en el Stanford Web Credibility Project, casi la <strong>mitad de los usuarios justificaron la credibilidad de un sitio por su apariencia</strong>, no por su contenido. Y el <em>efecto estética-usabilidad</em> (NN/g) muestra que lo que se percibe bello se percibe además más usable y más confiable.</p>
+  <div class="stats reveal">
+    <div class="stat"><div class="n">50<small> ms</small></div><div class="l">para formar el juicio de apelación visual (Lindgaard, 2006)</div></div>
+    <div class="stat"><div class="n">46,1<small>%</small></div><div class="l">justifican la credibilidad por el diseño, no el contenido (Stanford, 2002)</div></div>
+    <div class="stat"><div class="n">Halo</div><div class="l">la primera impresión tiñe usabilidad y credibilidad percibidas</div></div>
+  </div>
+  <p class="reveal"><strong>Consecuencia para el orden:</strong> el hero no es decoración, es el 90% de la decisión de quedarse. Tiene que transmitir serenidad y legitimidad <em>como imagen</em>, en el primer parpadeo. Aquí la ventaja de Paramita es real: un sistema tipográfico y de color firme (Fraunces + luminosidad mediterránea) gana ese medio segundo mejor que cualquier plantilla neutra.</p>
+  <p class="fuente reveal">Lindgaard et al. 2006 · Stanford Web Credibility 2002 · NN/g Aesthetic-Usability. <span class="ev ev--fuerte">Estudios establecidos</span></p>
+
+  <h3 class="reveal">Ley 2 · La atención se derrama, no se reparte</h3>
+  <p class="reveal">La gente scrollea, pero mira mucho más arriba que abajo. El estudio de eye-tracking de NN/g (120 personas) es tajante: el <strong>57% del tiempo de visualización se gasta sobre el pliegue</strong>, el <strong>74% en las dos primeras pantallas</strong>, y el <strong>65% de la atención se concentra en el 40% superior</strong> de la página —independientemente de lo larga que sea—. A esto se suma la <em>ilusión de completitud</em> (Kim Salazar, NN/g): si el primer pantallazo parece cerrado, la persona no intuye que hay más y no baja.</p>
+  <div class="stats reveal">
+    <div class="stat"><div class="n">57<small>%</small></div><div class="l">del tiempo, sobre el pliegue (NN/g, eye-tracking, 120 personas)</div></div>
+    <div class="stat"><div class="n">74<small>%</small></div><div class="l">en las dos primeras pantallas de contenido</div></div>
+    <div class="stat"><div class="n">65<small>%</small></div><div class="l">de la atención en el 40% superior, sea cual sea el largo</div></div>
+  </div>
+  <p class="reveal"><strong>Consecuencia para el orden:</strong> los bloques que <em>tienen</em> que verse (qué es, quién lo sostiene, dónde está) van arriba; lo que solo necesita quien profundiza (historia detallada, afiliados, registro legal) va abajo. Y el pliegue debe dejar ver que la página continúa —un borde de imagen, media tarjeta, un indicio de scroll— para romper la ilusión de completitud sin scroll-jacking.</p>
+  <p class="fuente reveal">NN/g «Scrolling and Attention» (2018) · UXmatters (2020). <span class="ev ev--fuerte">Estudio eye-tracking</span></p>
+
+  <h3 class="reveal">Ley 3 · La cara vence a la cifra</h3>
+  <p class="reveal">La mente prioriza «el uno» sobre «los muchos». La investigación sobre el <em>efecto del individuo identificable</em> (Kogut &amp; Ritov, 2005; Small, Loewenstein &amp; Slovic, 2007) muestra que una persona concreta —con nombre, rostro y voz— moviliza empatía y apoyo mucho más que una estadística o un colectivo abstracto. Un rostro tiene «un nombre y una voz: cosas que el cerebro puede sostener»; cien datos, no.</p>
+  <p class="reveal"><strong>Consecuencia para el orden —con un límite ético:</strong> Paramita no tiene «víctimas» ni busca maximizar donaciones. Pero el mecanismo aplica en su versión digna: <strong>un maestro con nombre, un rostro de la sangha, una foto real de la sede pesan más que «un colectivo internacional de grupos budistas»</strong>. La copia actual abre con esa abstracción; la evidencia dice anclarla en algo concreto y humano lo antes posible. Registro correcto: <em>asset-based</em> (fortaleza y presencia), nunca imágenes de alto estrés ni súplica.</p>
+  <p class="fuente reveal">Kogut &amp; Ritov 2005 · Small et al. 2007. <span class="ev ev--media">Estudios · contexto de donación humanitaria, mecanismo transferible</span></p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 02 PALANCAS -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — Palancas de neuromarketing</span>
+    <h2>Las cuatro que ya usas, más <em>tres</em></h2>
+  </div>
+  <p class="reveal">El informe de «Únete» ya fijó cuatro palancas coherentes con la identidad. Se conservan y se añaden tres que la página «sobre» necesita específicamente. Todas del mismo lado que la identidad: ninguna manipula, todas reducen fricción.</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Palancas aplicadas al «Sobre»</caption>
+      <thead><tr><th>Palanca</th><th>Origen</th><th>En la página «sobre»</th></tr></thead>
+      <tbody>
+        <tr><td>Pocas puertas</td><td>Ya en uso</td><td>Un CTA por bloque como mucho; no doce enlaces compitiendo.</td></tr>
+        <tr><td>Escalera de compromiso</td><td>Ya en uso</td><td>Leer → conocer maestros → visitar → ofrecer. Nunca la petición grande primero.</td></tr>
+        <tr><td>Revelación progresiva</td><td>Ya en uso</td><td>Historia y registro legal en acordeón/abajo; el resto se enseña a tiempo.</td></tr>
+        <tr><td>Autodeterminación</td><td>Ya en uso</td><td>La persona elige ritmo (autonomía), ve un paso claro (competencia), «camina acompañada» (pertenencia).</td></tr>
+        <tr><td class="yes">BLUF · idea primero</td><td>Nuevo</td><td>Cada bloque abre con su conclusión en una frase escaneable, no con rodeo.</td></tr>
+        <tr><td class="yes">Prueba de legitimidad</td><td>Nuevo</td><td>Linaje + maestro con nombre + sede real + registro nº. La confianza institucional se <em>muestra</em>.</td></tr>
+        <tr><td class="yes">Concreción humana</td><td>Nuevo</td><td>Rostros y lugares reales antes que abstracciones. Ley 3.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal">Nota sobre lo que <strong>no</strong> es una palanca legítima aquí: la personalización mecánica. Un dato de Gartner es aleccionador —la personalización «pasiva» (meter el nombre en una plantilla) generó experiencias negativas en el <strong>53%</strong> de los usuarios y los hizo <strong>3,2×</strong> más propensos a arrepentirse—. Coherente con el rechazo del proyecto a lo transaccional.</p>
+</section>
+
+<hr class="divider">
+
+<!-- 03 ESTRUCTURA -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — La estructura</span>
+    <h2>Ocho bloques, en <em>este</em> orden</h2>
+  </div>
+  <p class="reveal">La secuencia calibrada por la curva de atención (Ley 2): lo más decisivo arriba, lo profundo abajo. Cada bloque declara la pregunta silenciosa que responde, la palanca que activa, la evidencia que lo respalda, el motion asignado (del estudio anterior), y —clave— el <strong>copy real de partida</strong> extraído de las páginas actuales, ya reescrito en clave BLUF y provisional hasta Ale/Khenpo.</p>
+
+  <div class="blk reveal">
+    <span class="blk__n">Bloque 01 · Sobre el pliegue</span>
+    <h4>Umbral</h4>
+    <p class="q">«¿Dónde estoy y puedo confiar en esto?»</p>
+    <dl>
+      <dt>Pregunta</dt><dd>Identidad + legitimidad en un parpadeo.</dd>
+      <dt>Palanca</dt><dd>Prueba de legitimidad · Concreción humana.</dd>
+      <dt>Evidencia</dt><dd>Ley 1 (50 ms) · Ley 2 (57% del tiempo aquí).</dd>
+      <dt>Motion</dt><dd>Fluido WebGL a baja intensidad + reveal. Luego, quieto.</dd>
+    </dl>
+    <div class="copy"><b>Copy de partida (reescrito BLUF)</b>Título en Fraunces + una lede en Hanken que diga qué es y dónde, no un eslogan abstracto. Base real: «Fundación budista de tradición Sakya, con sede en el monte Sella (Alicante). Un puente entre las enseñanzas del Himalaya y el mundo hispanohablante.» — condensa la misión actual sin el rodeo de «colectivo internacional dedicado a crear un ambiente…».</div>
+  </div>
+
+  <div class="blk reveal">
+    <span class="blk__n">Bloque 02 · Sobre el pliegue o justo debajo</span>
+    <h4>Qué es Paramita</h4>
+    <p class="q">«¿Qué tradición es esta, en una frase?»</p>
+    <dl>
+      <dt>Pregunta</dt><dd>La esencia, antes que la estructura.</dd>
+      <dt>Palanca</dt><dd>BLUF · Revelación progresiva.</dd>
+      <dt>Evidencia</dt><dd>Escaneo F/Z: conclusión primero.</dd>
+      <dt>Motion</dt><dd>Tipografía cinética: una palabra clave modula el eje SOFT al cruzarla.</dd>
+    </dl>
+    <div class="copy"><b>Copy de partida</b>Misión actual, comprimida: «Creemos que todos los seres pueden alcanzar la perfecta felicidad. Ofrecemos recursos espirituales genuinos —transmitidos con fidelidad y en el lenguaje del siglo XXI— para que esa sabiduría florezca.» El resto de la misión (cuatro puntos) va en revelación progresiva, no en muro.</div>
+  </div>
+
+  <div class="blk reveal">
+    <span class="blk__n">Bloque 03 · Primeras dos pantallas</span>
+    <h4>El linaje vivo</h4>
+    <p class="q">«¿De dónde viene su autoridad?»</p>
+    <dl>
+      <dt>Pregunta</dt><dd>Legitimidad por continuidad, no por argumento.</dd>
+      <dt>Palanca</dt><dd>Prueba de legitimidad · Concreción humana (nombre).</dd>
+      <dt>Evidencia</dt><dd>Ley 3 (la persona con nombre &gt; la abstracción).</dd>
+      <dt>Motion</dt><dd>Línea de tiempo con <code>animation-timeline: view()</code> nativo.</dd>
+    </dl>
+    <div class="copy"><b>Copy de partida</b>Base real: «Nuestra guía es S.S. Gongma Trichen, sostenedor del Linaje Sakya del budismo tibetano.» Un rostro y un nombre concretos, con enlace a la página del maestro residente. Sobre cómo nombrarle (Lama / Khenpo Rinchen Gyaltsen): hay una capa doctrinal <em>y</em> una capa SEO — se trata aparte en §06.</div>
+  </div>
+
+  <div class="blk reveal">
+    <span class="blk__n">Bloque 04 · Segunda mitad</span>
+    <h4>La sede en Pedreguer</h4>
+    <p class="q">«¿Es real? ¿Existe de verdad?»</p>
+    <dl>
+      <dt>Pregunta</dt><dd>Prueba de existencia física.</dd>
+      <dt>Palanca</dt><dd>Concreción humana · Prueba de legitimidad.</dd>
+      <dt>Evidencia</dt><dd>Rostros/lugares reales dan confianza (doctrina Paramita + Ley 3).</dd>
+      <dt>Motion</dt><dd>Imagen a sangría con parallax suave sobre <code>transform</code>.</dd>
+    </dl>
+    <div class="copy"><b>Copy de partida</b>Base real: «El Centro Budista Sakya, en la cima del monte Sella (Alicante), con vistas al Mediterráneo y al parque natural del Montgó. Tres salas de meditación, alojamiento para 60 personas.» Datos concretos como prueba, no adjetivos. Enlace a <code>/sobre/centro/</code> para la historia larga.</div>
+  </div>
+
+  <div class="blk reveal">
+    <span class="blk__n">Bloque 05 · Mitad de página</span>
+    <h4>Las personas</h4>
+    <p class="q">«¿Quién sostiene esto?»</p>
+    <dl>
+      <dt>Pregunta</dt><dd>La comunidad, no el organigrama.</dd>
+      <dt>Palanca</dt><dd>Concreción humana · Escalera de compromiso.</dd>
+      <dt>Evidencia</dt><dd>Ley 3 · el rostro como ancla de confianza.</dd>
+      <dt>Motion</dt><dd>View Transition: un rostro se abre a su página (efecto 09 / FLIP).</dd>
+    </dl>
+    <div class="copy"><b>Copy de partida</b>Puente, no biografías: retrato + una línea + enlace a <code>/sobre/khenpo/</code>, <code>/maestros/</code> y <code>/sangha-monastica/</code>. Una sola fuente para cada persona (no duplicar la bio de Khenpo aquí).</div>
+  </div>
+
+  <div class="blk reveal">
+    <span class="blk__n">Bloque 06 · Abajo</span>
+    <h4>La Fundación · legitimidad institucional</h4>
+    <p class="q">«¿Es serio, está regulado, adónde va mi confianza?»</p>
+    <dl>
+      <dt>Pregunta</dt><dd>Garantía formal para quien la busca.</dd>
+      <dt>Palanca</dt><dd>Prueba de legitimidad · Revelación progresiva.</dd>
+      <dt>Evidencia</dt><dd>Ley 2: quien llega aquí ya está convencido y quiere el dato duro.</dd>
+      <dt>Motion</dt><dd>Reveal sobrio. Sin efectismo; es zona de confianza racional.</dd>
+    </dl>
+    <div class="copy"><b>Copy de partida</b>Base real: «Fundación Sakya — organización sin ánimo de lucro inscrita en el Registro de Fundaciones del Ministerio de Justicia (nº 2487JUS SAKYA). Se sostiene con donativos, formaciones en línea y las actividades del Centro.» El número de registro es una señal de confianza fuerte: va literal.</div>
+  </div>
+
+  <div class="blk reveal">
+    <span class="blk__n">Bloque 07 · Abajo</span>
+    <h4>Historia y red · para quien profundiza</h4>
+    <p class="q">«Cuéntame más (si quiero).»</p>
+    <dl>
+      <dt>Pregunta</dt><dd>Profundidad opcional, no obligatoria.</dd>
+      <dt>Palanca</dt><dd>Revelación progresiva.</dd>
+      <dt>Evidencia</dt><dd>Ley 2: solo el ~26% de cola llega; no cargarlo arriba.</dd>
+      <dt>Motion</dt><dd>Acordeón / reveals ligeros.</dd>
+    </dl>
+    <div class="copy"><b>Copy de partida</b>Base real, resumida: donación de un benefactor anónimo; inauguración en 2006; ampliación en 2016 (templo de Tara, biblioteca Sakya Pandita). Centros afiliados: Sakya Rinchen Ling (Bolivia, 2016). Todo en revelación progresiva; el detalle vive en <code>/sobre/centro/</code>.</div>
+  </div>
+
+  <div class="blk reveal">
+    <span class="blk__n">Bloque 08 · Cierre</span>
+    <h4>La ofrenda</h4>
+    <p class="q">«¿Cómo participo, sin que me presionen?»</p>
+    <dl>
+      <dt>Pregunta</dt><dd>Un paso claro, en el tono correcto.</dd>
+      <dt>Palanca</dt><dd>Escalera de compromiso · Autodeterminación.</dd>
+      <dt>Evidencia</dt><dd>Registro <em>asset-based</em>; nunca urgencia ni culpa (Gartner 53%).</dd>
+      <dt>Motion</dt><dd><code>.btn-primario</code> que respira (familia identitaria).</dd>
+    </dl>
+    <div class="copy"><b>Copy de partida</b>Lógica de <em>dāna</em>, no de suscripción: «Sostén esta labor» o «Camina con nosotros», con enlaces a amigos de la fundación / cursos / visita. Sin «solo quedan X plazas», sin niveles Bronce/Plata/Oro.</div>
+  </div>
+
+  <p class="pull reveal">El orden es la conclusión: legitimidad y rostro arriba (donde está el 74% de la atención), garantía racional e historia abajo (donde llega quien ya confía), y la invitación al final, sin presión. La revista estática pone todo al mismo nivel; el «sobre» que convierte entrega cada cosa cuando toca.</p>
+</section>
+
+<hr class="divider">
+
+<!-- 04 ARRIBA DEL PLIEGUE -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — El bloque que decide</span>
+    <h2>Qué carga el hero <em>en 50 ms</em></h2>
+  </div>
+  <p class="reveal">Si el 57% de la atención y el 90% de la decisión de confianza ocurren arriba, el hero tiene que hacer tres trabajos a la vez, y ninguno con texto largo:</p>
+  <ol class="reveal" style="padding-left:1.2em">
+    <li style="margin-bottom:.5rem"><strong>Decir qué es y dónde</strong> — «Fundación budista Sakya · monte Sella, Alicante». Concreto, no eslogan.</li>
+    <li style="margin-bottom:.5rem"><strong>Transmitir serenidad y legitimidad como imagen</strong> — tipografía firme, luminosidad mediterránea, un rostro o la sede real. Esto es lo que se juzga en 50 ms.</li>
+    <li style="margin-bottom:.5rem"><strong>Prometer que hay más</strong> — romper la ilusión de completitud: un borde de imagen que se corta, el inicio del siguiente bloque asomando, o el indicio de scroll (que el JS retira al primer scroll, como ya hace el hero del sistema).</li>
+  </ol>
+  <div class="dato reveal">
+    <span class="dato__k">Contraste con la página actual</span>
+    <p>La <code>/quienes-somos/</code> de hoy abre con «Paramita es una comunidad» y un párrafo abstracto. Funciona como definición, pero gasta el activo más caro —el primer parpadeo— en una abstracción. La propuesta: ese mismo medio segundo, invertido en <strong>una imagen real + una frase concreta</strong>, gana la confianza que luego el texto solo tendría que confirmar.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 05 ANTIPATRONES -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — El filtro</span>
+    <h2>Neuromarketing mal entendido</h2>
+  </div>
+  <p class="reveal">Cada ley tiene su versión tóxica. Estas son técnicamente «efectivas» a corto plazo y antipatrones para esta fundación:</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <thead><tr><th>Tentación</th><th>Veredicto</th><th>Por qué</th></tr></thead>
+      <tbody>
+        <tr><td>Imágenes de alto estrés / súplica</td><td class="no">Rechazar</td><td>Fatiga y despoja de dignidad. Registro <em>asset-based</em>: fortaleza, no carencia.</td></tr>
+        <tr><td>Urgencia manufacturada («solo hoy»)</td><td class="no">Rechazar</td><td>Contradice la escalera de compromiso y la atención calma.</td></tr>
+        <tr><td>Personalización mecánica del nombre</td><td class="no">Rechazar</td><td>53% de experiencias negativas, 3,2× arrepentimiento (Gartner).</td></tr>
+        <tr><td>Todo el contenido arriba «por si acaso»</td><td class="no">Rechazar</td><td>Satura el hero y mata el punch. La atención se derrama, no se reparte.</td></tr>
+        <tr><td>Rostro + nombre concreto del maestro/sangha</td><td class="yes">Adoptar</td><td>Ley 3, en su versión digna. Ya es doctrina Paramita.</td></tr>
+        <tr><td>Número de registro visible</td><td class="yes">Adoptar</td><td>Prueba de legitimidad barata y potente.</td></tr>
+        <tr><td>Revelación progresiva de lo denso</td><td class="yes">Adoptar</td><td>Baja carga cognitiva sin perder completitud (CHI 2026).</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 05b NOMBRE DEL MAESTRO -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">Aparte — Cómo nombrar al maestro</span>
+    <h2>«Lama» o «Khenpo»: no es <em>solo</em> doctrina</h2>
+  </div>
+  <p class="drop reveal">Vale la pena tratarlo por separado porque se repite en todo el sitio. Hay dos nombres en juego y ambos son correctos, pero resuelven cosas distintas: <strong>«Khenpo»</strong> es el título actual —se lo confirieron en enero de 2024 en Bodhgaya; significa literalmente <em>abad</em>, la distinción más alta de la Tradición Sakya—. <strong>«Lama»</strong> es el trato cercano y respetuoso a un maestro, y es el nombre por el que la gente le busca y le encuentra.</p>
+  <div class="dato reveal">
+    <span class="dato__k">La evidencia SEO está del lado de «Lama»</span>
+    <p>No es una impresión: su dominio personal es <code>lamarinchen.org</code>; la URL en la propia web es <code>/maestros/lama-rinchen-gyaltsen/</code>; la autoría de sus artículos figura como «Lama Rinchen Gyaltsen»; y la mayoría de terceros (proyectoatlas, mahakaruna, maestrosdepresencia, Paramita Argentina) le indexan como «Lama Rinchen Gyaltsen», a menudo con un «(también conocido como Khenpo…)». Cambiar el slug o borrar «Lama» de los metadatos <strong>tiraría por la borda posicionamiento ya ganado</strong>.</p>
+  </div>
+  <p class="reveal">Por eso la parte de <em>hallazgo</em> sí es responsabilidad de frontend, no solo de Khenpo. La regla clásica de SEO aplica: se sirve el nombre por el que buscan y se honra el título que corresponde, sin obligar a elegir uno. Reparto de decisiones:</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Nombre del maestro · qué decide cada quien</caption>
+      <thead><tr><th>Elemento</th><th>Recomendación de frontend</th><th>Quién decide</th></tr></thead>
+      <tbody>
+        <tr><td>Slug / URL</td><td>Conservar <code>lama-rinchen-gyaltsen</code>. Si se cambia, <code>301</code> obligatorio.</td><td class="yes">Frontend / SEO</td></tr>
+        <tr><td><code>&lt;title&gt;</code> y meta</td><td>Incluir ambas formas: «Lama Khenpo Rinchen Gyaltsen». Captura las búsquedas por «Lama».</td><td class="yes">Frontend / SEO</td></tr>
+        <tr><td>Schema.org <code>Person</code></td><td><code>name</code> con la forma de respeto + <code>alternateName</code> con la otra. Cubre ambas sin ambigüedad.</td><td class="yes">Frontend / SEO</td></tr>
+        <tr><td>Primer párrafo / <code>alt</code></td><td>Que «Lama Rinchen Gyaltsen» aparezca al menos una vez en texto real.</td><td class="yes">Frontend / SEO</td></tr>
+        <tr><td>Título visible (H1) y trato en copy</td><td>El diseño se adapta a lo que se decida.</td><td class="no">Khenpo / Ale</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="pull reveal">En una frase: «Khenpo» para honrar, «Lama» para que te encuentren. El sistema puede servir ambos —H1 con el título que Khenpo prefiera, metadatos y slug que retengan «Lama»— sin que nadie tenga que renunciar a nada.</p>
+</section>
+
+<hr class="divider">
+
+<!-- 06 DECISIONES -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — Para Jana</span>
+    <h2>Lo que decidir, una cosa a la vez</h2>
+  </div>
+  <ol class="reveal" style="padding-left:1.2em">
+    <li style="margin-bottom:.7rem"><strong>Validar la secuencia de 8 bloques</strong> antes de copy o CSS. ¿El orden convence? ¿Falta o sobra algún bloque? Es la decisión raíz.</li>
+    <li style="margin-bottom:.7rem"><strong>Hero: imagen real vs. abstracción.</strong> Recomiendo imagen (rostro o sede) + frase concreta. Necesita fotografía real —dependencia conocida— y visto bueno de Khenpo sobre qué se muestra.</li>
+    <li style="margin-bottom:.7rem"><strong>Ruta de la página</strong>: mantener <code>/quienes-somos/</code> (indexada, con tracción) o migrarla bajo <code>/sobre/</code>. Si se migra, hace falta un <code>301</code> para no perder el posicionamiento. Decisión de arquitectura → conviene consultar a Gerard.</li>
+    <li style="margin-bottom:.7rem"><strong>¿Prototipo de una estación?</strong> Puedo montar el hero + Bloque 03 (línea de tiempo del linaje) como prototipo vivo para validar ritmo y primer parpadeo en browser antes de comprometer el CSS de página.</li>
+  </ol>
+  <p class="reveal">Todo el copy de este documento es de partida y provisional: sale del material actual de la web, reescrito en clave BLUF, y queda pendiente de Ale (contenido) y Khenpo (doctrina). El estudio propone el esqueleto y la secuencia; la voz final no es decisión de diseño.</p>
+</section>
+
+<hr class="divider">
+
+<!-- REFS -->
+<section class="flow refs">
+  <span class="sec-num reveal">Fuentes · analíticas y estudios</span>
+  <ol class="reveal">
+    <li><b>Lindgaard, G. et al. (2006)</b> · «Attention web designers: You have 50 milliseconds to make a good first impression», <i>Behaviour &amp; Information Technology</i> 25(2).</li>
+    <li><b>Stanford Web Credibility Project (2002)</b> · «How Do People Evaluate a Web Site's Credibility?» — 46,1% justifican credibilidad por la apariencia.</li>
+    <li><b>Nielsen Norman Group</b> · «Scrolling and Attention» (2018, eye-tracking, 120 personas): 57% sobre el pliegue, 74% en dos pantallas; «Aesthetic-Usability Effect»; «The Illusion of Completeness» (K. Salazar).</li>
+    <li><b>UXmatters (2020)</b> · «Debunking the Myth of the Fold» — 65% de la atención en el 40% superior.</li>
+    <li><b>Kogut, T. &amp; Ritov, I. (2005)</b>; <b>Small, Loewenstein &amp; Slovic (2007)</b> · efecto del individuo identificable / <i>compassion fade</i>.</li>
+    <li><b>Gartner</b> (vía NonProfit PRO, 2026) · personalización pasiva: 53% de experiencias negativas, 3,2× arrepentimiento.</li>
+    <li><b>CHI 2026</b> · scrollytelling: menor carga cognitiva, mayor claridad, comprensión equivalente (ver estudio anterior).</li>
+    <li><b>Copy base</b> · <code>paramita.org/quienes-somos/</code> y <code>/quienes-somos/centro/</code> (consultadas ago. 2026).</li>
+    <li><b>Nombre del maestro</b> · <code>lamarinchen.org</code>, <code>paramita.org/.../maestros/lama-rinchen-gyaltsen/</code>, «De Lama a Khenpo…» (paramita.org, 2024), Paramita Argentina (2026) — dominancia SEO de «Lama», título «Khenpo» desde ene. 2024.</li>
+    <li><b>Sistema Paramita</b> · informe de «Únete» (cuatro palancas + F/Z + BLUF); docs 01 (identidad), 04 (motion), 11 (método).</li>
+  </ol>
+  <p class="fuente reveal" style="margin-top:1.5rem">Niveles: <span class="ev ev--fuerte">fuerte</span> estudio establecido o eye-tracking · <span class="ev ev--media">media</span> mecanismo de otro sector, transferible con cuidado · <span class="ev ev--debil">débil</span> caso único. Advertencia honesta: las cifras de conversión (50 ms, individuo identificable, Gartner) provienen de contextos comerciales o de captación de fondos. Se adopta el mecanismo cognitivo, no el registro persuasivo.</p>
+</section>
+
+<footer class="flow">
+  <p>Afinado II · Estructura de «Quiénes somos» (la página de la fundación) · Paramita · Agosto 2026 · Claude (Anthropic)</p>
+  <p>El orden es el mensaje. Copy de partida provisional — pendiente de Ale (contenido) y Khenpo (doctrina).</p>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    bar.style.width = (scrolled * 100) + '%';
+  };
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+</body>
+</html>
