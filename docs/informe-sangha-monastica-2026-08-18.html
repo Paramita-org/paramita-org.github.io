@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Una comunidad viva — Página de la Comunidad Monástica · Informe de traspaso 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;--paper-2:#FBFAF7;--ink:#191A1C;--slate:#63656B;
+    --ink-deep:#132239;--ink-deep-2:#0E1A2C;
+    --gold:#A8823F;--gold-ink:#836528;--gold-lite:#C9A96E;
+    --rule:#DAD6CC;--rule-soft:#E5E2D9;
+    --col:min(680px,calc(100% - 2.5rem));--wide:min(1080px,calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-ink);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.45;letter-spacing:-.01em;margin:2.6rem 0 0;color:var(--ink)}
+  section{padding:clamp(3rem,7vh,5rem) 0}
+  .sec-head{margin:0 0 2rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.2em;color:var(--gold-ink);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(1.85rem,3.6vw,2.85rem);line-height:1.08;letter-spacing:-.012em;margin:0}
+  h3{font-family:"Hanken Grotesk",sans-serif;font-weight:650;font-size:1.18rem;letter-spacing:.005em;margin:2.6rem 0 .6rem;line-height:1.3}
+  h3 .tag{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold-ink);letter-spacing:.14em;vertical-align:.35em;margin-right:.55em;text-transform:uppercase}
+  p{margin:0 0 1.15rem}
+  a{color:var(--ink-deep);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;text-decoration-thickness:1px}
+  strong{font-weight:650}em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.82em;background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:3px;padding:.05em .35em;color:var(--ink-deep)}
+  .drop::first-letter{font-family:"Fraunces",serif;font-weight:500;float:left;font-size:3.5em;line-height:.72;padding:.06em .09em 0 0;color:var(--ink-deep)}
+  .pull{font-family:"Fraunces",serif;font-style:italic;font-weight:400;font-size:clamp(1.35rem,2.4vw,1.9rem);line-height:1.32;letter-spacing:-.01em;color:var(--ink-deep);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:1.6rem 0;margin:2.4rem 0}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .stat{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.9rem,3vw,2.6rem);line-height:1;letter-spacing:-.02em;color:var(--ink-deep)}
+  .stat .n small{font-size:.5em;color:var(--gold-ink);font-weight:500}
+  .stat .l{font-size:.9rem;line-height:1.35;color:var(--ink);margin-top:.6rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.66rem;color:var(--slate);margin-top:.5rem;letter-spacing:.02em}
+  .note{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:1.3rem 1.4rem;margin:1.8rem 0;font-size:.98rem;line-height:1.62}
+  .note .k{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-ink);display:block;margin-bottom:.5rem}
+  .tbl-wrap{margin:2rem 0;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.92rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:.8rem}
+  th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  thead th{border-bottom:1.5px solid var(--ink);font-family:"Hanken Grotesk";font-weight:650;font-size:.82rem}
+  tbody td:first-child{font-weight:600}
+  tbody tr:hover td{background:var(--paper-2)}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .split > div{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .split h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.25rem;margin:0 0 .3rem}
+  .split .role{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink);margin-bottom:1rem}
+  .split ul{margin:0;padding-left:1.05em;font-size:.94rem;line-height:1.55}
+  .split li{margin-bottom:.5rem}
+  .anatomy{background:var(--paper-2);border:1px solid var(--rule);border-radius:4px;padding:1.6rem;margin:2rem 0}
+  .anatomy .row{display:flex;gap:1rem;align-items:baseline;padding:.55rem 0;border-bottom:1px dashed var(--rule-soft)}
+  .anatomy .row:last-child{border-bottom:0}
+  .anatomy .lbl{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-ink);flex:0 0 34%;padding-top:.2em}
+  .anatomy .val{flex:1}.anatomy .val b{font-weight:650}
+  .anatomy .val .m{display:block;font-size:.86rem;color:var(--slate);margin-top:.15rem}
+  .ladder{position:relative;margin:1.5rem 0 .5rem;padding-left:1.6rem}
+  .ladder::before{content:"";position:absolute;left:6px;top:8px;bottom:12px;width:2px;background:linear-gradient(180deg,var(--gold-lite),var(--gold) 45%,var(--ink-deep))}
+  .ladder .step{position:relative;margin-bottom:1.4rem}
+  .ladder .step::before{content:"";position:absolute;left:-1.6rem;top:.35em;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--gold)}
+  .ladder .step h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+  .ladder .step h4 em{font-style:italic;color:var(--gold-ink)}
+  .ladder .step p{font-size:.95rem;line-height:1.55;margin:0;color:var(--ink)}
+  .ladder .step .cta{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.06em;color:var(--slate);margin-top:.35rem}
+  .demo{background:var(--ink-deep);color:var(--paper);padding:clamp(2.6rem,5vh,4rem) 0}
+  .demo .eyebrow{color:var(--gold-lite)}.demo h2{color:var(--paper)}.demo p{color:#C3CAD6}
+  .demo .sec-num{color:var(--gold-lite)}
+  .verdict{background:var(--ink-deep-2);color:var(--paper);padding:clamp(3rem,7vh,5rem) 0}
+  .verdict h2{color:var(--paper)}.verdict .sec-num{color:var(--gold-lite)}.verdict p{color:#C3CAD6}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2rem}
+  .checks h4{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 1rem;padding-bottom:.6rem;border-bottom:1px solid rgba(255,255,255,.15)}
+  .checks .yes h4{color:#9ECBA8}.checks .no h4{color:#D98C8C}
+  .checks ul{list-style:none;margin:0;padding:0;font-size:.94rem;line-height:1.5}
+  .checks li{padding-left:1.5em;position:relative;margin-bottom:.9rem;color:#D6DBE3}
+  .checks .yes li::before{content:"✓";position:absolute;left:0;color:#9ECBA8;font-weight:700}
+  .checks .no li::before{content:"◻";position:absolute;left:0;color:#D98C8C;font-weight:700}
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.76rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .rev{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+  .rev.in{opacity:1;transform:none}
+  @media (max-width:620px){.split,.checks{grid-template-columns:1fr}}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}.sheen::after{animation:none}.rev{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe de traspaso · Sobre / Comunidad Monástica · Diseño + Frontend · 2026</p>
+  <h1>Una comunidad<br><em>viva</em></h1>
+  <p class="deck">Cómo se construyó la página de la <strong>sangha monástica</strong> — una página de <strong>presencia</strong>, no de captación: dar a conocer a quienes sostienen los votos, con la donación como puerta discreta y nunca como clímax.</p>
+  <div class="sheen"></div>
+  <div class="meta">
+    <span><b>Ruta</b> /sobre/sangha-monastica/</span>
+    <span><b>Entrega</b> HTML · CSS · JS · 2 SVG</span>
+    <span><b>Estado</b> Producción · copy provisional</span>
+    <span><b>Fecha</b> 18 ago 2026</span>
+  </div>
+  <p class="lede">La pregunta que responde la página no es «¿quieres donar?», sino «¿hay una sangha real, viva, detrás de esto?». Todo lo demás se ordena bajo esa respuesta.</p>
+</header>
+
+<!-- 01 · EL MARCO -->
+<section class="flow" id="s1">
+  <div class="sec-head">
+    <span class="sec-num">01 — El marco</span>
+    <h2>Presencia primero, donación como puerta</h2>
+  </div>
+  <p class="drop rev">El encargo redefinió el objetivo de la página a mitad de sesión, y ese giro gobierna todo el resto. La página existe para <strong>dar a conocer a la comunidad monástica</strong> (confianza por presencia), no para recaudar. Las tácticas de optimización de conversión —quitar navegación, un solo CTA de donar, urgencia— aplican a páginas de <em>campaña</em>, no a páginas de <em>presencia</em>: aquí la confianza se construye con rostros reales, misión y transparencia. La conversión honesta del recién llegado es la newsletter, no el donativo.</p>
+  <p class="rev">De ahí la decisión estructural: el hero <strong>no vende donar</strong> (su única acción es «Conocer a la sangha»), los rostros van <strong>antes</strong> de cualquier mención al dinero, y «Sostener» aparece a media página como una <em>puerta abierta</em> —presente, se puede dar aquí, pero sin protagonismo—.</p>
+  <div class="stats rev">
+    <div class="stat"><div class="n">16</div><div class="l">monásticos presentados (Khenpo + 15)</div><div class="src">«la comunidad al completo»</div></div>
+    <div class="stat"><div class="n">3</div><div class="l">archivos de producción separados</div><div class="src">html · css · js</div></div>
+    <div class="stat"><div class="n">7</div><div class="l">pictogramas al canon en la página</div><div class="src">5 reusados · 2 nuevos</div></div>
+    <div class="stat"><div class="n">0</div><div class="l">tokens o estilos base redeclarados</div><div class="src">todo vía sistema real</div></div>
+  </div>
+</section>
+
+<!-- 02 · ARQUITECTURA -->
+<section class="flow" id="s2">
+  <div class="sec-head">
+    <span class="sec-num">02 — Arquitectura</span>
+    <h2>El orden como argumento</h2>
+  </div>
+  <p class="rev">El orden de secciones no es estético: es la secuencia de entendimiento del visitante. Se alternan bandas suaves <code>.zona-luz</code> (la variante suave, sin cortes duros) salvo los dos bloques con fondo propio (El lugar, en azul; La alianza, con foto).</p>
+  <div class="ladder rev">
+    <div class="step"><h4>0 · <em>Hero</em></h4><p>Presencia. Acción única: «Conocer a la sangha» (no donar).</p></div>
+    <div class="step"><h4>1 · Qué es la vida monástica</h4><p>Contexto breve y digno de qué significa ordenarse.</p></div>
+    <div class="step"><h4>2 · Los rostros</h4><p>La tira de la comunidad —el corazón—, antes de cualquier dinero.</p></div>
+    <div class="step"><h4>3 · El lugar</h4><p>Monte Sella. Patrón <code>visita-section</code> de actividades (fondo azul), sin visitas guiadas.</p></div>
+    <div class="step"><h4>4 · La alianza</h4><p>Díptico de reciprocidad + cita. El pivote hacia el vínculo.</p></div>
+    <div class="step"><h4>5 · Sostener</h4><p>La puerta discreta de dāna. Ofrenda única, sin segundo CTA.</p></div>
+    <div class="step"><h4>6 · ¿A qué destinamos los fondos?</h4><p>Transparencia real: destinos propios de la sangha.</p></div>
+    <div class="step"><h4>7 · Beneficios fiscales</h4><p>Deducciones (personas físicas / jurídicas), en su bloque.</p></div>
+    <div class="step"><h4>8 · Preguntas frecuentes</h4><p>Componente <code>.faq</code> real, sin buscador (bastan 3).</p></div>
+    <div class="step"><h4>9 · Cierre</h4><p>Newsletter: la conversión honesta del recién llegado.</p></div>
+  </div>
+  <div class="note rev"><span class="k">Eliminado</span>«Otras vías» (legado + Amigos) se retiró: es captación <em>de la fundación</em>, vive en <code>contribuir</code>, y en una página de presencia desviaba del objetivo.</div>
+</section>
+
+<!-- 03 · DECISIONES DE DISEÑO -->
+<section class="flow" id="s3">
+  <div class="sec-head">
+    <span class="sec-num">03 — Decisiones de diseño</span>
+    <h2>Piezas con lógica, no bonitas sin más</h2>
+  </div>
+
+  <h3><span class="tag">Rostros</span>La tira de la comunidad</h3>
+  <p class="rev">Retrato compacto 4/5 con duotono unificado (gris + azul-oscuro multiply + dorado screen). Al tocar, se abre un panel en su sitio con la foto a color pleno y fachada de vídeo (nunca autoplay). Sobre la descubribilidad y el scroll se decidió, con criterio UX:</p>
+  <div class="anatomy rev">
+    <div class="row"><span class="lbl">No secuestrar</span><span class="val"><b>El scroll vertical nunca se bloquea.</b><span class="m">El «lock hasta verlos todos» es anti-patrón (NN/g) y ya había molestado antes. Se descartó.</span></span></div>
+    <div class="row"><span class="lbl">Señales, no cartel</span><span class="val"><b>Barra de progreso + flechas atenuadas + peek.</b><span class="m">Se quitó el texto «arrastra o desliza»: se muestra, no se instruye.</span></span></div>
+    <div class="row"><span class="lbl">Rueda</span><span class="val"><b>Rueda→horizontal con inercia (lerp), cede en los extremos.</b><span class="m">Movimiento fluido; no atrapa la página.</span></span></div>
+    <div class="row"><span class="lbl">El número</span><span class="val"><b>«La comunidad al completo · 16».</b><span class="m">Reencuadrado como presencia (están todas, no una selección), no como instrucción.</span></span></div>
+    <div class="row"><span class="lbl">Alineación</span><span class="val"><b>Altura fija del nombre.</b><span class="m">Corrige el zigzag de la línea de metadatos cuando el nombre ocupa 1 o 2 líneas.</span></span></div>
+  </div>
+
+  <h3><span class="tag">Alianza</span>Díptico de reciprocidad</h3>
+  <p class="rev">Se descartó el planteamiento «cita + 4 pictos sueltos» (decorativo) por uno que <em>encarna</em> la idea: dos lados enfrentados unidos por un eje central con el loto del imagotipo real y flechas ⇅.</p>
+  <div class="split rev">
+    <div><div class="role">La sangha ofrece</div><h4>Dharma</h4><ul><li>Guía ética</li><li>El Dharma vivo</li><li>Acompañamiento</li></ul></div>
+    <div><div class="role">La comunidad ofrece</div><h4>Sostén</h4><ul><li>Refugio y hogar</li><li>Sustento diario</li><li>Permanencia</li></ul></div>
+  </div>
+  <p class="rev">La cita de S.S. Gongma Trichen se revela como <strong>bloque</strong> (fade + subida) con un filete dorado que se dibuja —se descartó el revelado palabra a palabra por saltarín—. Foto de la comunidad en gris tras un velo cálido como fondo. El loto es el oficial (<code>flor-loto</code>), no uno dibujado a mano.</p>
+
+  <h3><span class="tag">Sostener</span>Una sola petición</h3>
+  <p class="rev">Ofrenda única de <em>dāna</em>: importes 20/50/100 € + libre, <strong>sin preselección</strong>, sin niveles, sin urgencia. Se quitó el CTA «Otras formas de contribuir»: pedir dos veces en el mismo respiro diluye la donación y empuja fuera.</p>
+
+  <h3><span class="tag">Transparencia</span>Dos bloques honestos</h3>
+  <p class="rev">El bloque mezclaba «a dónde va» (sin desarrollar) con lo fiscal. Se separó en <strong>«¿A qué destinamos los fondos?»</strong> (destinos propios de la sangha: manutención, salud, formación, ordenación —no los genéricos de la fundación) y <strong>«Beneficios fiscales»</strong>. Las preguntas salieron a su propio bloque.</p>
+</section>
+
+<!-- 04 · PICTOGRAMAS (demo oscuro) -->
+<section class="demo">
+  <div class="flow">
+    <span class="sec-num">04 — Sistema de pictogramas</span>
+    <h2>Auditar antes de dibujar</h2>
+    <p>Se auditó el set real contra el canon (viewBox 24 · stroke 1.5 · fill none · currentColor · un solo <code>.acc</code> dorado) antes de crear nada. Cinco existentes sirvieron tal cual; dos se dibujaron al canon; ninguno se metió como <code>data-pico</code> sin su SVG en disco (evita el «todo-o-nada» de <code>sync.py</code>).</p>
+  </div>
+  <div class="flow"><div class="wide">
+  <div class="tbl-wrap">
+    <table>
+      <caption>Pictogramas de la página · uso → archivo → estado</caption>
+      <thead><tr><th>Uso en la página</th><th>data-pico</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr><td>Dirección</td><td><code>ubicacion</code></td><td>Existe · canon · encaja</td></tr>
+        <tr><td>Horario</td><td><code>reloj</code></td><td>Existe · canon · encaja</td></tr>
+        <tr><td>Acceso a los templos</td><td><code>templo</code></td><td>Existe · canon · encaja</td></tr>
+        <tr><td>Manutención diaria</td><td><code>alojamiento</code></td><td>Existe · canon · encaja</td></tr>
+        <tr><td>Ordenación y retiros</td><td><code>retiro</code></td><td>Existe · canon · encaja</td></tr>
+        <tr><td>Salud y cuidado</td><td><code>salud</code></td><td>Nuevo · corazón + pulso</td></tr>
+        <tr><td>Formación y estudio</td><td><code>formacion</code></td><td>Nuevo · libro abierto</td></tr>
+        <tr><td>Cómo llegar</td><td>—</td><td>Fusionado en Dirección (dato eliminado)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  </div></div>
+</section>
+
+<!-- 05 · PRODUCCIÓN -->
+<section class="flow" id="s5">
+  <div class="sec-head">
+    <span class="sec-num">05 — Producción</span>
+    <h2>Sobre el sistema real</h2>
+  </div>
+  <p class="rev">La página se separó en tres archivos y se montó reutilizando los componentes reales, sin duplicar el sistema.</p>
+  <div class="anatomy rev">
+    <div class="row"><span class="lbl">HTML</span><span class="val"><b>/sobre/sangha-monastica/sangha-monastica.html</b><span class="m">Head real (fuentes autoalojadas, anti-FOUC de tema, orden de links). Navbar + prefooter + footer verbatim de los partials. Marcador <code>&lt;!-- sync: navbar=publico current="Comunidad Monástica" --&gt;</code>.</span></span></div>
+    <div class="row"><span class="lbl">CSS</span><span class="val"><b>/css/paginas/paramita-sangha.css</b><span class="m">En <code>@layer paginas</code>. Solo estilos específicos; verificado: 0 tokens y 0 elementos base redeclarados. Derivaciones con <code>color-mix(in oklch, …)</code>.</span></span></div>
+    <div class="row"><span class="lbl">JS</span><span class="val"><b>/js/paginas/paramita-sangha.js</b><span class="m">Solo tira + ofrenda. El revelado lo da <code>paramita-reveal.js</code> (<code>data-reveal</code>→<code>.is-in</code>); la FAQ, <code>paramita-faq.js</code>; la cita, vía <code>data-reveal</code>.</span></span></div>
+    <div class="row"><span class="lbl">SVG</span><span class="val"><b>salud.svg · formacion.svg</b><span class="m">A <code>partials/pictogramas/</code>. Al canon.</span></span></div>
+  </div>
+  <div class="note rev"><span class="k">Orden de despliegue</span>1 · Copiar <code>salud.svg</code> y <code>formacion.svg</code> a <code>partials/pictogramas/</code> <strong>primero</strong> (si falta un <code>data-pico</code>, sync salta la página entera). 2 · Colocar HTML/CSS/JS en sus rutas. 3 · <code>git pull</code> → <code>python3 partials/sync.py --all</code> desde la raíz. 4 · Servir con Live Server desde la raíz (nunca <code>file://</code>) y comprobar que la página no se saltó.</div>
+</section>
+
+<!-- 06 · APRENDIZAJES -->
+<section class="flow" id="s6">
+  <div class="sec-head">
+    <span class="sec-num">06 — Aprendizajes técnicos</span>
+    <h2>Lo que conviene recordar</h2>
+  </div>
+  <div class="anatomy rev">
+    <div class="row"><span class="lbl">sync · todo o nada</span><span class="val"><b>Un <code>data-pico</code> sin SVG salta la página completa.</b><span class="m">Por eso los pictos de cuerpo iban inline hasta crear sus SVG. Orden: SVG primero, data-pico después.</span></span></div>
+    <div class="row"><span class="lbl">Primitivos</span><span class="val"><b>No duplicar reveal ni FAQ.</b><span class="m"><code>paramita-reveal.js</code> lee <code>data-reveal</code> y alterna <code>.is-in</code> (bidireccional); su CSS de estado lo aporta la página.</span></span></div>
+    <div class="row"><span class="lbl">Scroll horizontal</span><span class="val"><b>Inercia con rAF (lerp) y cesión en extremos.</b><span class="m">Fluido sin secuestrar la página; snap desactivado durante la animación.</span></span></div>
+    <div class="row"><span class="lbl">Foto + fallback</span><span class="val"><b><code>&lt;img onerror&gt;</code> sobre plato duotono + silueta.</b><span class="m">Si una foto falta (o casing erróneo), cae con elegancia; nunca 404 visible.</span></span></div>
+    <div class="row"><span class="lbl">Reutilizar identidad</span><span class="val"><b>El loto del eje es el del imagotipo.</b><span class="m">Coherencia &gt; dibujar uno nuevo. El primero, hecho a mano, salía deformado.</span></span></div>
+  </div>
+  <div class="pull rev">Auditar antes de dibujar; reutilizar antes de inventar; mostrar antes de instruir.</div>
+</section>
+
+<!-- VERDICT -->
+<section class="verdict">
+  <div class="flow">
+    <span class="sec-num">Balance</span>
+    <h2>Resuelto y pendiente</h2>
+    <div class="checks">
+      <div class="yes">
+        <h4>Resuelto</h4>
+        <ul>
+          <li>Orden presencia-primero y donación discreta</li>
+          <li>Tira de rostros con 16 fotos reales + duotono</li>
+          <li>El lugar (fondo azul) enlazando a actividades</li>
+          <li>Alianza como díptico + cita con filete</li>
+          <li>Transparencia dividida en dos bloques</li>
+          <li>FAQ como bloque propio (sin buscador)</li>
+          <li>3 archivos de producción validados</li>
+          <li>Pictogramas auditados; 2 nuevos al canon</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h4>Pendiente / dependencias</h4>
+        <ul>
+          <li>Copy definitivo — <b>Ale / Khenpo</b></li>
+          <li>Pasarela de pago y endpoints — <b>Alberto</b></li>
+          <li>Verificar casing exacto de las 16 fotos</li>
+          <li>Vídeos reales de la sangha (fachada lista)</li>
+          <li>Confirmar términos del díptico (3+3)</li>
+          <li>Copiar los 2 SVG a partials/ y correr sync</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CIERRE -->
+<section class="flow" id="conclusion">
+  <div class="sec-head"><span class="sec-num">Cierre</span><h2>Una página que respira</h2></div>
+  <p class="rev">La página cumple su cometido: presenta a personas reales antes que pedir nada, ofrece una puerta digna a quien quiera sostenerlas, y lo hace enteramente sobre el sistema real del proyecto —sin inventar tokens, sin duplicar componentes, con los pictogramas al canon—. Lo que queda es contenido y backend, no diseño.</p>
+</section>
+
+<!-- REFS -->
+<section class="flow refs" id="refs">
+  <div class="sec-head"><span class="sec-num">Fuentes internas</span><h2>Referencias del proyecto</h2></div>
+  <ol>
+    <li>Sistema real: paramita-color / tipografia / cta / movimiento / sections / hero / faq / pictogramas (.css)</li>
+    <li>Partials: navbar-publico.html · footer.html · prefooter.html · sync.py</li>
+    <li>Patrón hero y zona-luz: meditacion.html + paramita-meditacion.css</li>
+    <li>Patrón «visita-section» (El lugar): actividades.html + paramita-actividades.css</li>
+    <li>Patrón «destinos» y fiscal: contribuir.html + paramita-contribuir.css</li>
+    <li>Canon de pictogramas: README-pictograms.md + informe-sistema-pictogramas-paramita.html</li>
+    <li>Objetivo de páginas de presencia: informe §00 / §05 (confianza por presencia)</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  Fundación Sakya Paramita · Informe de traspaso · Página Comunidad Monástica · 18 ago 2026 · Diseño + Frontend · Copy provisional pendiente de Ale/Khenpo
+</footer>
+
+<script>
+(function(){
+  var pb=document.getElementById('progress');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;pb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+    document.querySelectorAll('.rev').forEach(function(el){io.observe(el);});
+  }else{document.querySelectorAll('.rev').forEach(function(el){el.classList.add('in');});}
+})();
+</script>
+</body>
+</html>
