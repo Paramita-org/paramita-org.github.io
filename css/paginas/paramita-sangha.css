@@ -66,13 +66,17 @@
   .sangha-cara{display:block;position:relative;overflow:hidden;width:150px;aspect-ratio:4/5;border-radius:14px;box-shadow:0 0 0 1px var(--hair);transition:transform .3s var(--curva-llegada),box-shadow .3s var(--curva-llegada)}
   .sangha-cara__base{position:absolute;inset:0;display:grid;place-items:end center}
   .sangha-cara__base svg{width:96%;fill:rgba(255,255,255,.30)}
-  .sangha-cara__foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:1;filter:grayscale(1) contrast(1.02) brightness(1.08)}
+  .sangha-cara__foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:1;filter:grayscale(1) contrast(1.02) brightness(1.08);transition:filter .4s var(--curva-llegada)}
   .sangha-cara__tm,.sangha-cara__ts{position:absolute;inset:0;pointer-events:none}
   .sangha-cara__tm{background:var(--azul-oscuro);mix-blend-mode:multiply;opacity:.2}
   .sangha-cara__ts{background:var(--dorado);mix-blend-mode:screen;opacity:.6}
   .sangha-cara__velo{position:absolute;inset:0;z-index:3;background:linear-gradient(to top,color-mix(in oklch,var(--antracita) 36%,transparent),transparent 58%)}
   .sangha-dot:hover .sangha-cara{transform:translateY(-3px);box-shadow:0 14px 32px -18px var(--azul-oscuro)}
   .sangha-dot[aria-current="true"] .sangha-cara{box-shadow:0 0 0 3px var(--dorado)}
+  .sangha-dot[aria-current="true"] .sangha-cara__foto{filter:none}
+  .sangha-dot[aria-current="true"] .sangha-cara__tm,
+  .sangha-dot[aria-current="true"] .sangha-cara__ts,
+  .sangha-dot[aria-current="true"] .sangha-cara__velo{opacity:0;transition:opacity .4s var(--curva-llegada)}
   .sangha-dot__n{font-family:var(--display);font-weight:500;font-size:.95rem;line-height:1.15;margin:.55rem 0 .12rem;display:block;min-height:2.3em}
   .sangha-dot__l{font-family:"JetBrains Mono",monospace;font-size:.58rem;color:var(--texto-tenue);text-transform:uppercase;letter-spacing:.02em;display:block}
 
@@ -144,14 +148,16 @@
   /* ══════════════════════════════════════════════════════════════════════
      ALIANZA · díptico de reciprocidad + cita
      ══════════════════════════════════════════════════════════════════════ */
-  .sangha-alianza{position:relative;isolation:isolate;overflow:hidden}
-  .sangha-alianza__bg{position:absolute;inset:0;z-index:-2;background-image:url('../../assets/img/Sangha-Monastica-Retoque-Retro-2026.jpg');background-size:cover;background-position:center 30%;filter:grayscale(1) contrast(1.05)}
+  .sangha-alianza{position:relative;isolation:isolate;overflow:hidden;text-align:center}
+  .sangha-alianza .s-head{justify-content:center;flex-direction:column;align-items:center;text-align:center}
+  .sangha-alianza .s-head > div{text-align:center}
+  .sangha-alianza__bg{position:absolute;inset:0;z-index:-2;background-image:url('../../assets/img/monje-persona-low.jpg');background-size:cover;background-position:center 28%;filter:grayscale(1) contrast(1.05)}
   .sangha-alianza__velo{position:absolute;inset:0;z-index:-1;background:
     linear-gradient(180deg,color-mix(in oklch,var(--lino) 93%,transparent),color-mix(in oklch,var(--arena) 90%,transparent)),
     radial-gradient(70% 60% at 50% 30%,color-mix(in oklch,var(--dorado) 10%,transparent),transparent 70%)}
 
   .sangha-cita{margin:var(--espacio-grupo) auto var(--espacio-contemplativo);max-width:42ch;text-align:center;position:relative;padding-bottom:1.4rem}
-  .sangha-cita blockquote{margin:0;font-family:var(--display);font-style:italic;font-weight:300;font-size:clamp(1.25rem,2.3vw,1.7rem);line-height:1.42;color:var(--azul-oscuro);text-wrap:balance;opacity:0;transform:translateY(16px);transition:opacity .8s var(--curva-llegada),transform .8s var(--curva-llegada)}
+  .sangha-cita blockquote{margin:0;font-family:var(--display);font-style:italic;font-weight:300;font-size:clamp(1.25rem,2.3vw,1.7rem);line-height:1.42;color:var(--azul-oscuro);text-wrap:balance;opacity:0;transform:translateY(24px);transition:opacity .9s var(--curva-llegada),transform .9s var(--curva-llegada)}
   .sangha-cita.is-in blockquote{opacity:1;transform:none}
   .sangha-cita__filete{display:block;width:0;height:2px;background:linear-gradient(100deg,var(--azul-oscuro),var(--azul-sutil),var(--dorado));margin:1.4rem auto 0;border-radius:2px;transition:width 1s var(--curva-umbral) .3s}
   .sangha-cita.is-in .sangha-cita__filete{width:120px}
@@ -210,7 +216,7 @@
      ══════════════════════════════════════════════════════════════════════ */
   .destinos{display:grid;grid-template-columns:repeat(4,1fr);gap:2.4rem 2rem;margin-top:var(--espacio-contemplativo)}
   .destino .pico{display:inline-flex;color:var(--azul-oscuro);margin-bottom:1rem}
-  .destino .pico svg{width:40px;height:40px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+  .destino .pico svg{width:52px;height:52px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
   .destino .pico .acc{stroke:var(--dorado)}
   .destino h3{font-family:var(--display);font-weight:500;font-size:1.14rem;letter-spacing:-.01em;margin:0 0 .4rem}
   .destino p{font-size:.92rem;color:var(--texto-suave);margin:0;line-height:1.55}
@@ -228,9 +234,17 @@
   @media(max-width:640px){.sangha-fiscal{grid-template-columns:1fr}}
 
   /* ── Cierre · newsletter ─────────────────────────────────────────────── */
+  .sangha-cierre .s-head{justify-content:center;flex-direction:column;align-items:center;text-align:center}
+  .sangha-cierre .s-head > div{text-align:center}
+  .sangha-cierre .s-head p{max-width:42ch;margin-inline:auto}
+  .sangha-cierre .s-head,.sangha-cierre .sangha-nl,.sangha-cierre .sangha-consent{max-width:600px;margin-inline:auto}
+  .sangha-consent{display:flex;align-items:flex-start;gap:.5rem;max-width:440px;margin:1rem auto 0;font-size:.8rem;color:var(--texto-suave);line-height:1.4;text-align:left}
+  .sangha-consent input{margin-top:.15rem;flex:none;accent-color:var(--azul-oscuro)}
+  .sangha-consent a{color:var(--azul-oscuro)}
   .sangha-nl{display:flex;gap:.6rem;max-width:440px;margin:var(--espacio-grupo) auto 0;flex-wrap:wrap;justify-content:center}
   .sangha-nl input{flex:1 1 200px;border:1px solid var(--hair);background:var(--card);border-radius:999px;padding:.8rem 1.2rem;font-family:inherit}
-  .sangha-coda{color:var(--texto-suave);margin:var(--espacio-contemplativo) auto 0;max-width:40ch;text-align:center}
+  .sangha-coda{font-size:.85rem;line-height:1.6;color:var(--texto-tenue);margin:var(--espacio-contemplativo) auto 0;max-width:32ch;text-align:center;position:relative;padding-top:1.6rem}
+  .sangha-coda::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:40px;height:2px;border-radius:2px;background:linear-gradient(100deg,var(--azul-oscuro),var(--azul-sutil),var(--dorado))}
 
   /* ── Responsive tira / panel ─────────────────────────────────────────── */
   @media (max-width:760px){
