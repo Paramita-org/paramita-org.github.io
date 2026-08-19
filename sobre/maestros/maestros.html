@@ -23,6 +23,7 @@
 <!-- 2 · Comportamientos -->
 <script src="../../js/componentes/paramita-bar.js" defer></script>
 <script src="../../js/componentes/paramita-footer-lotos.js" defer></script>
+<script src="../../js/componentes/paramita-suscripcion.js" defer></script>
 <!-- TEMA · listener del toggle · compartido (sync) -->
 <script src="../../js/componentes/paramita-tema.js" defer></script>
 <!-- 3 · Página -->
@@ -49,6 +50,7 @@
 <link rel="stylesheet" href="../../css/componentes/paramita-sections.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-extras.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-footer.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-suscripcion.css">
 <!-- 5 · Página -->
 <link rel="stylesheet" href="../../css/paginas/paramita-maestros.css">
 <!-- 6 · Responsive común -->
@@ -57,7 +59,7 @@
   <link rel="stylesheet" href="../../css/componentes/paramita-tema.css">
 </head>
 <body>
-<!-- sync: navbar=publico current="Maestros" -->
+<!-- sync: navbar=publico current="Maestros" prefooter -->
 
 <!-- navbar · partials/navbar-publico.html (incrustado; equivale a correr sync con aria-current=maestros) -->
 <!-- ═══════════════════════════════════════════════════════════════════════════
@@ -449,11 +451,35 @@
 
 <!-- footer · partials/footer.html (incrustado) -->
 <!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
+<!-- prefooter · sincronizado con partials/prefooter.html -->
+<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
+     Se inyecta antes del footer en las páginas marcadas `prefooter`.
+     COPY PROVISIONAL · pendiente de Ale. El estilado sobre azul vive en
+     paramita-footer.css (.foot__hero .suscribe · variante por contexto).
+     El endpoint del formulario lo conecta Alberto; hasta entonces, mock. -->
+<section class="foot__hero" aria-labelledby="prefooter-titulo">
+  <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
+  <div>
+    <span class="eyebrow">Camina cerca</span>
+    <h2 class="foot__h" id="prefooter-titulo">Recibe inspiración y <em>sabiduría</em>.</h2>
+    <p class="foot__nl-sub">Ideas sencillas, propuestas de práctica y noticias de Paramita, de vez en cuando, en tu correo.</p>
+
+    <form class="suscribe" novalidate>
+      <div class="suscribe__fila">
+        <input class="suscribe__input" name="email" type="email"
+               autocomplete="email" aria-label="Correo electrónico"
+               placeholder="Tu dirección de correo" required>
+        <button class="btn-secundario btn-secundario--claro suscribe__btn" type="submit">Suscribirme</button>
+      </div>
+      <label class="suscribe__consent">
+        <input type="checkbox" required>
+        <span>Acepto las <a href="https://www.paramita.org/politica-de-privacidad/" target="_blank" rel="noopener">políticas de privacidad</a> y recibir la newsletter de Paramita.</span>
+      </label>
+      <p class="suscribe__ok" role="status" aria-live="polite">Gracias. Te has suscrito correctamente.</p>
+    </form>
+  </div>
+</section>
+
 <!-- footer · sincronizado con partials/footer.html -->
 <footer class="foot" id="contacto">
   <div class="foot__info">

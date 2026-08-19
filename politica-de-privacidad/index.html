@@ -3,63 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La Fundación · Paramita</title>
-<meta name="description" content="Fundación budista de tradición Sakya, con sede en el monte Sella (Pedreguer, Alicante). Un puente entre las enseñanzas del Himalaya y el mundo hispanohablante.">
+<title>Política de Privacidad · Paramita</title>
+<meta name="description" content="Cómo trata la Fundación Sakya (Paramita) tus datos personales conforme al RGPD y la LOPDGDD.">
 
-<!-- Fuentes autoalojadas · profundidad ../../ -->
-<link rel="preload" href="../../assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="../../assets/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
+<!-- sync: navbar=publico -->
 
-<!-- Marca JS activo cuanto antes (gate de los revelados) -->
 <script>document.documentElement.classList.add('js')</script>
-
-<!-- TEMA · anti-FOUC · aplica la penumbra guardada ANTES de pintar (opt-in) -->
+<!-- TEMA · anti-FOUC (sync) · aplica la penumbra guardada ANTES de pintar -->
 <script>
   try { if (localStorage.getItem('paramita-tema') === 'oscuro') document.documentElement.setAttribute('data-tema','oscuro'); } catch(e){}
 </script>
 
-<!-- 1 · Primitivos -->
-<script src="../../js/primitivos/paramita-reveal.js" defer></script>
-<!-- 2 · Comportamientos -->
-<script src="../../js/componentes/paramita-bar.js" defer></script>
-<script src="../../js/componentes/paramita-footer-lotos.js" defer></script>
-<script src="../../js/componentes/paramita-suscripcion.js" defer></script>
-<!-- TEMA · listener del toggle · compartido (sync) -->
-<script src="../../js/componentes/paramita-tema.js" defer></script>
-<!-- 3 · Página -->
-<script src="../../js/paginas/paramita-la-fundacion.js" defer></script>
+<!-- JS · navbar + tema -->
+<script src="../js/primitivos/paramita-reveal.js" defer></script>
+<script src="../js/componentes/paramita-bar.js" defer></script>
 <!-- MENÚ · acordeón de submenús en móvil · compartido (sync) -->
-<script src="../../js/componentes/paramita-menu.js" defer></script>
+<script src="../js/componentes/paramita-menu.js" defer></script>
+<!-- TEMA · listener del toggle · compartido (sync) -->
+<script src="../js/componentes/paramita-tema.js" defer></script>
 
-<!-- 1 · Reset -->
-<link rel="stylesheet" href="../../css/base/paramita-reset.css">
-<!-- 2 · Tokens -->
-<link rel="stylesheet" href="../../css/tokens/paramita-fuentes.css">
-<link rel="stylesheet" href="../../css/tokens/paramita-color.css">
-<link rel="stylesheet" href="../../css/tokens/paramita-tipografia.css">
-<link rel="stylesheet" href="../../css/tokens/paramita-layout.css">
-<link rel="stylesheet" href="../../css/tokens/paramita-movimiento.css">
-<!-- 3 · Base -->
-<link rel="stylesheet" href="../../css/base/paramita-base.css">
-<!-- 4 · Componentes -->
-<link rel="stylesheet" href="../../css/componentes/paramita-bar.css">
-<link rel="stylesheet" href="../../css/componentes/paramita-menu.css">
-<link rel="stylesheet" href="../../css/componentes/paramita-pictogramas.css">
-<link rel="stylesheet" href="../../css/componentes/paramita-cta.css">
-<link rel="stylesheet" href="../../css/componentes/paramita-hero.css">
-<link rel="stylesheet" href="../../css/componentes/paramita-sections.css">
-<link rel="stylesheet" href="../../css/componentes/paramita-suscripcion.css">
-<link rel="stylesheet" href="../../css/componentes/paramita-extras.css">
-<link rel="stylesheet" href="../../css/componentes/paramita-footer.css">
-<!-- 5 · Página -->
-<link rel="stylesheet" href="../../css/paginas/paramita-la-fundacion.css">
-<!-- 6 · Responsive común -->
-<link rel="stylesheet" href="../../css/base/paramita-responsive.css">
+<!-- CSS · reset + tokens + base + componentes de chrome + legal -->
+<link rel="stylesheet" href="../css/base/paramita-reset.css">
+<link rel="stylesheet" href="../css/tokens/paramita-fuentes.css">
+<link rel="stylesheet" href="../css/tokens/paramita-color.css">
+<link rel="stylesheet" href="../css/tokens/paramita-tipografia.css">
+<link rel="stylesheet" href="../css/tokens/paramita-layout.css">
+<link rel="stylesheet" href="../css/tokens/paramita-movimiento.css">
+<link rel="stylesheet" href="../css/base/paramita-base.css">
+<link rel="stylesheet" href="../css/componentes/paramita-bar.css">
+<link rel="stylesheet" href="../css/componentes/paramita-menu.css">
+<link rel="stylesheet" href="../css/componentes/paramita-pictogramas.css">
+<link rel="stylesheet" href="../css/componentes/paramita-cta.css">
+<link rel="stylesheet" href="../css/componentes/paramita-footer.css">
+<link rel="stylesheet" href="../css/paginas/paramita-legal.css">
+<link rel="stylesheet" href="../css/base/paramita-responsive.css">
   <!-- TEMA · penumbra/luz · el ÚLTIMO para ganar la cascada (sync) -->
-  <link rel="stylesheet" href="../../css/componentes/paramita-tema.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-tema.css">
 </head>
 <body>
-<!-- sync: navbar=publico current="La Fundación" prefooter -->
 
 <header class="bar">
   <div class="bar-inner wrap">
@@ -137,7 +118,7 @@
   <path d="M20.2 18.6 C20.2 14.9 18.4 13.7 16.5 13.7 C15.6 13.7 14.9 14 14.3 14.5"/>
   <path d="M8.2 18.6 C8.2 14.1 9.8 13 12 13 C14.2 13 15.8 14.1 15.8 18.6"/>
 </svg></span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html" aria-current="page"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span><span class="pico" data-pico="fundacion" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span><span class="pico" data-pico="fundacion" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
   <path d="M5.5 20 L18.5 20"/>
   <path d="M7 20 L7 15 C7 11 9 9.5 12 9.5 C15 9.5 17 11 17 15 L17 20"/>
   <path d="M10 9.5 L10 7.5 L14 7.5 L14 9.5"/>
@@ -233,236 +214,146 @@
   </div>
 </header>
 
-<main>
 
-  <!-- ══════════ 01 · HERO / UMBRAL ══════════ -->
-  <section class="hero lf-hero">
-    <div class="hero__bg-fallback lf-hero__img" aria-hidden="true"></div>
-    <div class="hero__inner">
-      <p class="eyebrow" data-reveal>Fundación Sakya · Pedreguer, Alicante</p>
-      <h1 data-reveal>Sabiduría del Himalaya,<br>en tu <em>idioma</em></h1>
-      <p class="lede" data-reveal>Fundación budista de tradición Sakya. Un centro real en el monte Sella y enseñanzas vivas para el mundo hispanohablante.</p>
-      <div class="actions" data-reveal>
-        <a href="#esencia" class="btn-primario">Conócenos</a>
-        <a href="#sede" class="t-link"><span class="txt">Visita el centro</span> <span class="arw">→</span></a>
-      </div>
-    </div>
-    <a href="#esencia" class="lf-cue" aria-label="Bajar" data-reveal>
-      <svg class="lf-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10l6 6 6-6"/></svg>
-    </a>
-  </section>
+<main class="wrap">
+  <article class="legal">
 
-  <!-- ══════════ 02 · ESENCIA / QUÉ ES ══════════ -->
-  <section class="section lf-esencia" id="esencia">
-    <div class="wrap-lectura">
-      <div class="lf-tick" aria-hidden="true" data-reveal></div>
-      <p class="lf-frase" data-reveal>Creemos que todo ser humano puede <em>despertar</em>.</p>
-      <p class="lf-sub" data-reveal>Y ofrecemos los medios para lograrlo: enseñanzas genuinas, transmitidas con fidelidad, en el lenguaje de hoy.</p>
-    </div>
-  </section>
+    <!-- NOTA PROVISIONAL · quitar al cerrar con Ale/legal -->
+    <p class="legal__aviso"><strong>Nota interna (provisional):</strong> texto portado de
+      <em>paramita.org/politica-de-privacidad</em>. Pendiente de revisión legal por Ale antes de publicar.
+      Confirmar: el correo de contacto de datos, la fecha de última revisión y si «BAJAS» usa otro buzón.</p>
 
-  <!-- ══════════ 03 · LINAJE VIVO ══════════ -->
-  <section class="section lf-linaje">
-    <div class="wrap">
-      <div class="s-head" data-reveal>
-        <div>
-          <span class="eyebrow">El linaje vivo</span>
-          <h2>Una transmisión <em>ininterrumpida</em></h2>
-        </div>
-        <p>De maestro a discípulo, sin interrupción, desde el Buddha hasta hoy.</p>
-      </div>
-      <div class="lf-retratos">
-        <div class="lf-persona" data-reveal>
-          <span class="lf-avatar" aria-hidden="true">
-            <svg class="lf-ico" viewBox="0 0 24 24">
-              <circle cx="12" cy="9" r="3.2"/>
-              <path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/>
-              <path class="acc" d="M8.4 4.4a5 5 0 0 1 7.2 0"/>
-            </svg>
-          </span>
-          <div>
-            <h3>S.S. Gongma Trichen</h3>
-            <p class="lf-rol">Sostenedor del Linaje Sakya</p>
-            <p class="lf-nota">Máxima autoridad de la tradición</p>
-          </div>
-        </div>
-        <div class="lf-persona" data-reveal>
-          <span class="lf-avatar" aria-hidden="true">
-            <svg class="lf-ico" viewBox="0 0 24 24">
-              <circle cx="12" cy="9" r="3.2"/>
-              <path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/>
-              <path class="acc" d="M8.4 4.4a5 5 0 0 1 7.2 0"/>
-            </svg>
-          </span>
-          <div>
-            <h3>Khenpo Rinchen Gyaltsen</h3>
-            <p class="lf-rol">Director · maestro residente</p>
-            <p class="lf-nota">También conocido como Lama Rinchen</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <h1>Política de Privacidad</h1>
 
-  <!-- ══════════ 04 · SEDE ══════════ -->
-  <section class="lf-sede" id="sede">
-    <div class="lf-sede__img" role="img" aria-label="Vista aérea del Centro Budista Sakya en el monte Sella" data-reveal></div>
-    <div class="wrap"><p class="lf-cap" data-reveal>Vista aérea del centro, en el monte Sella</p></div>
-    <div class="section lf-sede__body">
-      <div class="wrap">
-        <div class="lf-sede__grid">
-          <div data-reveal>
-            <span class="eyebrow">La sede</span>
-            <h2>En la cima del <em>monte Sella</em></h2>
-            <div class="lf-datos">
-              <span class="lf-dato"><b>·</b> Mediterráneo y Montgó</span>
-              <span class="lf-dato"><b>3</b> salas de meditación</span>
-              <span class="lf-dato"><b>60</b> plazas</span>
-            </div>
-          </div>
-          <div data-reveal>
-            <p class="lf-parrafo">Un espacio de retiro en plena naturaleza, en Pedreguer (Alicante), donde se imparten enseñanzas y se practica con maestros del linaje.</p>
-            <p class="lf-mas"><a href="#" class="t-link"><span class="txt">Conoce el centro</span> <span class="arw">→</span></a></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <p class="legal__intro">El objetivo de esta política es informar a los interesados acerca de los distintos
+      tratamientos realizados por esta asociación mediante la página web y que afecten a sus datos personales,
+      de conformidad con lo establecido en la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos
+      Personales y garantía de los derechos digitales, y el Reglamento (UE) 2016/679 del Parlamento Europeo y
+      del Consejo, de 27 de abril de 2016.</p>
 
-  <!-- ══════════ 05 · PERSONAS / PUENTES ══════════ -->
-  <section class="section lf-personas">
-    <div class="wrap">
-      <div class="s-head" data-reveal>
-        <div>
-          <span class="eyebrow">Quiénes lo sostienen</span>
-          <h2>Una comunidad <em>con rostro</em></h2>
-        </div>
-        <p>Personas concretas que sostienen la práctica y la enseñanza cada día.</p>
-      </div>
-      <div class="lf-puentes">
+    <h2>1 · Identificación y datos de contacto del responsable</h2>
+    <p>La asociación <strong>Fundación Sakya</strong>, domiciliada en Av. del Comtat, 1 Bis, buzón 207
+      («Urb. La Sella»), 03750 Pedreguer (Alicante), con N.I.F. G96702378, teléfono de contacto
+      (+34) 965 760 777 y correo electrónico
+      <a href="mailto:secretaria@paramita.org">secretaria@paramita.org</a>.</p>
 
-        <a href="#" class="lf-puente" data-reveal>
-          <span class="lf-puente__img" aria-hidden="true">
-            <svg class="lf-ico" viewBox="0 0 24 24">
-              <circle cx="12" cy="8.5" r="3.4"/>
-              <path d="M5 20c0-3.9 3.1-6.5 7-6.5s7 2.6 7 6.5"/>
-              <path class="acc" d="M8.2 3.9a5.2 5.2 0 0 1 7.6 0"/>
-            </svg>
-          </span>
-          <span class="lf-puente__body">
-            <h3>El maestro</h3>
-            <p>Khenpo Rinchen Gyaltsen, director y guía espiritual del centro.</p>
-            <span class="t-link"><span class="txt">Su historia</span> <span class="arw">→</span></span>
-          </span>
-        </a>
+    <h2>2 · Finalidades del tratamiento de sus datos personales</h2>
+    <p>Según el caso, trataremos sus datos de carácter personal facilitados a través de nuestros formularios
+      web con las siguientes finalidades:</p>
 
-        <a href="#" class="lf-puente" data-reveal>
-          <span class="lf-puente__img" aria-hidden="true">
-            <svg class="lf-ico" viewBox="0 0 24 24">
-              <path class="acc" d="M12 4.5c1.9 2.2 1.9 6 0 8.5-1.9-2.5-1.9-6.3 0-8.5z"/>
-              <path d="M12 13c-2.6-1.2-5.7-.7-7.5 1.1 2.1 1.6 5 1.6 7.5 0z"/>
-              <path d="M12 13c2.6-1.2 5.7-.7 7.5 1.1-2.1 1.6-5 1.6-7.5 0z"/>
-              <path d="M4.5 18.5c2.2 1.5 4.8 2.1 7.5 2.1s5.3-.6 7.5-2.1"/>
-            </svg>
-          </span>
-          <span class="lf-puente__body">
-            <h3>Los maestros</h3>
-            <p>El linaje Sakya, transmitido por maestros cualificados del Himalaya.</p>
-            <span class="t-link"><span class="txt">Conócelos</span> <span class="arw">→</span></span>
-          </span>
-        </a>
+    <h3>Usuarios / navegantes de la página web</h3>
+    <ul>
+      <li>Atender las solicitudes, quejas e incidencias trasladadas a través de nuestros canales de contacto.</li>
+      <li>Entender el comportamiento del navegante en la web para detectar posibles ataques informáticos.</li>
+      <li>Cumplir con las obligaciones legales que nos resulten directamente aplicables.</li>
+      <li>Proteger y ejercer nuestros derechos o responder ante reclamaciones de cualquier índole.</li>
+      <li>En su caso, realizar encuestas de calidad que nos permitan evaluar nuestro servicio.</li>
+      <li>En su caso, el envío de comunicaciones comerciales y/o noticias o boletines relacionados con nuestra actividad.</li>
+      <li>Gestionar, administrar y supervisar su actividad en el blog/foro incorporado.</li>
+    </ul>
 
-        <a href="#" class="lf-puente" data-reveal>
-          <span class="lf-puente__img" aria-hidden="true">
-            <svg class="lf-ico" viewBox="0 0 24 24">
-              <circle cx="9" cy="9" r="2.8"/>
-              <circle class="acc" cx="16.5" cy="10.5" r="2.2"/>
-              <path d="M3.5 20c0-3 2.6-4.9 5.5-4.9"/>
-              <path d="M13 20c0-2.5 2.1-4 4.8-4"/>
-            </svg>
-          </span>
-          <span class="lf-puente__body">
-            <h3>La sangha</h3>
-            <p>La comunidad monástica y laica que sostiene la práctica cada día.</p>
-            <span class="t-link"><span class="txt">Su labor</span> <span class="arw">→</span></span>
-          </span>
-        </a>
+    <h3>Voluntarios</h3>
+    <ul>
+      <li>Gestión de la relación con los voluntarios comprometidos con la entidad.</li>
+      <li>Atender solicitudes, quejas e incidencias por nuestros canales de contacto.</li>
+      <li>Detectar posibles ataques informáticos a la web.</li>
+      <li>Realizar, en su caso, encuestas de calidad.</li>
+      <li>Envío, en su caso, de comunicaciones comerciales, noticias o boletines.</li>
+      <li>Cumplir con las obligaciones legales aplicables.</li>
+      <li>Administrar sus datos y facilitarlos, en su caso, a proveedores externos para el funcionamiento de la organización.</li>
+      <li>Verificar su identidad para evitar errores en sus acciones como voluntario.</li>
+      <li>Proteger nuestros derechos o responder ante reclamaciones.</li>
+    </ul>
 
-      </div>
-    </div>
-  </section>
+    <h3>Donantes</h3>
+    <ul>
+      <li>Gestión de las donaciones realizadas a través de la web.</li>
+      <li>Responder consultas y atender solicitudes, quejas o incidencias.</li>
+      <li>Envío, en su caso, de comunicaciones comerciales, noticias o boletines.</li>
+      <li>Detectar posibles ataques informáticos a la web.</li>
+      <li>Administrar sus datos y facilitarlos, en su caso, a proveedores externos.</li>
+      <li>Cumplir con las obligaciones legales aplicables.</li>
+      <li>Verificar su identidad para evitar errores en sus acciones como donante.</li>
+      <li>Proteger nuestros derechos o responder ante reclamaciones.</li>
+      <li>Realizar, en su caso, encuestas de calidad.</li>
+    </ul>
 
-  <!-- ══════════ 06 · FUNDACIÓN / LEGITIMIDAD ══════════ -->
-  <section class="section lf-fundacion">
-    <div class="wrap-lectura">
-      <svg class="lf-ico lf-seal" viewBox="0 0 24 24" aria-hidden="true" data-reveal>
-        <circle cx="12" cy="12" r="8"/>
-        <circle class="acc" cx="12" cy="12" r="2.4"/>
-        <path d="M12 4v3.6M12 16.4V20M4 12h3.6M16.4 12H20M6.3 6.3l2.5 2.5M15.2 15.2l2.5 2.5M17.7 6.3l-2.5 2.5M8.8 15.2l-2.5 2.5"/>
-      </svg>
-      <p class="overline" data-reveal>La Fundación</p>
-      <h2 data-reveal>Sin ánimo de lucro, al servicio del <em>Dharma</em></h2>
-      <p class="lf-registro" data-reveal>Fundación Sakya · Registro de Fundaciones nº <b>2487JUS SAKYA</b><br>Sostenida por donativos, formaciones y las actividades del centro.</p>
-    </div>
-  </section>
+    <h3>Socios</h3>
+    <ul>
+      <li>Gestión de la relación con los socios comprometidos con la organización.</li>
+      <li>Responder consultas y atender solicitudes, quejas o incidencias.</li>
+      <li>Envío, en su caso, de comunicaciones comerciales, noticias o boletines.</li>
+      <li>Detectar posibles ataques informáticos a la web.</li>
+      <li>Administrar sus datos y facilitarlos, en su caso, a proveedores externos.</li>
+      <li>Cumplir con las obligaciones legales aplicables.</li>
+      <li>Verificar su identidad para evitar errores en sus acciones como socio.</li>
+      <li>Proteger nuestros derechos o responder ante reclamaciones.</li>
+      <li>Realizar, en su caso, encuestas de calidad.</li>
+    </ul>
 
-  <!-- ══════════ 07 · OFRENDA / CIERRE ══════════ -->
-  <section class="section lf-ofrenda">
-    <div class="wrap-lectura">
-      <span class="eyebrow" data-reveal>Participa</span>
-      <h2 data-reveal>Camina con <em>nosotros</em></h2>
-      <p class="lf-intro" data-reveal>Esta labor se sostiene con la generosidad de quienes la valoran. Sin cuotas ni presión: cada ofrenda es libre.</p>
-      <div class="lf-acciones" data-reveal>
-        <a href="#" class="btn-primario">Sostén esta labor</a>
-        <a href="#" class="t-link"><span class="txt">Otras formas de participar</span> <span class="arw">→</span></a>
-      </div>
-    </div>
-  </section>
+    <h2>3 · Base jurídica del tratamiento</h2>
+    <p>Según el tipo de interesado, el tratamiento se apoya en una o varias de estas bases: el
+      <strong>consentimiento</strong> prestado para las finalidades indicadas; la <strong>ejecución de un
+      contrato</strong> o la aplicación de medidas precontractuales; el <strong>cumplimiento de obligaciones
+      legales</strong> aplicables; y el <strong>interés legítimo</strong> de proteger nuestra imagen y
+      actividad frente a ataques a la web. <em>La negativa a facilitar los datos necesarios puede conllevar la
+      imposibilidad de tratarlos con las finalidades mencionadas. En los tratamientos basados en obligación
+      legal o interés legítimo, el interesado no podrá oponerse, sin perjuicio de los derechos reconocidos en
+      el apartado 8.</em></p>
 
-  <!-- La suscripción vive ahora en la banda del prefooter (partials/prefooter.html),
-       inyectada por sync antes del footer. Marcador de página: `prefooter`. -->
+    <h2>4 · Plazos o criterios de conservación de los datos</h2>
+    <p>Los datos se conservarán durante el tiempo necesario para cumplir las finalidades para las que fueron
+      recogidos. Cuando dejen de ser necesarios, se mantendrán bloqueados a disposición de Administraciones,
+      Jueces y Tribunales o el Ministerio Fiscal durante el plazo de prescripción de las acciones que pudieran
+      derivarse. Si nos facilita su currículum, sus datos se conservarán un máximo de un año, salvo
+      autorización para un periodo mayor.</p>
+    <p><em>Periodos de bloqueo de referencia:</em></p>
+    <ul>
+      <li><strong>Código Civil:</strong> entre 5 y 15 años según el caso (art. 1964.2).</li>
+      <li><strong>Código de Comercio:</strong> 6 años para la información mercantil (art. 30).</li>
+      <li><strong>Ley General Tributaria:</strong> 4 años para la información fiscal (arts. 66 a 70).</li>
+      <li><strong>Ley 10/2010 de prevención del blanqueo de capitales:</strong> 10 años (art. 25).</li>
+    </ul>
 
+    <h2>5 · Decisiones automatizadas y elaboración de perfiles</h2>
+    <p>La página web no toma decisiones automatizadas ni elabora perfiles.</p>
+
+    <h2>6 · Destinatarios</h2>
+    <p>Durante el tratamiento, la organización podrá ceder sus datos a: Jueces y Tribunales; Fuerzas y Cuerpos
+      de Seguridad del Estado; otras autoridades u organismos públicos competentes cuando exista obligación
+      legal; Bancos y Entidades Financieras en caso de contratación; y el SEPBLAC.</p>
+
+    <h2>7 · Transferencias internacionales de datos</h2>
+    <p>La organización no realiza transferencia internacional de datos alguna.</p>
+
+    <h2>8 · Derechos</h2>
+    <p>Los interesados podrán ejercer en cualquier momento y de forma gratuita los derechos de
+      <strong>acceso, rectificación y supresión</strong>, así como solicitar la <strong>limitación</strong> del
+      tratamiento, <strong>oponerse</strong> al mismo, solicitar la <strong>portabilidad</strong> (cuando sea
+      técnicamente posible) o <strong>retirar el consentimiento</strong> prestado, y a no ser objeto de
+      decisiones basadas únicamente en tratamientos automatizados.</p>
+    <p>Para ello puede emplear los formularios habilitados o dirigir un escrito a la dirección postal o al
+      correo <a href="mailto:secretaria@paramita.org">secretaria@paramita.org</a>, acompañando copia de su
+      D.N.I. o documento equivalente para acreditar su identidad. Si considera vulnerados sus derechos, puede
+      reclamar ante la <strong>Agencia Española de Protección de Datos</strong>
+      (<a href="https://www.aepd.es/" target="_blank" rel="noopener">aepd.es</a>).</p>
+    <p>En cumplimiento del artículo 21 de la Ley 34/2002 (LSSI-CE), si no desea recibir más información sobre
+      nuestros servicios puede darse de baja escribiendo a
+      <a href="mailto:soporte@paramita.org">soporte@paramita.org</a> con el asunto «BAJAS».</p>
+
+    <h2>9 · Veracidad de los datos</h2>
+    <p>El interesado garantiza que los datos aportados son verdaderos, exactos, completos y están actualizados,
+      y se compromete a comunicar cualquier cambio. Será responsable de los daños que pudiera ocasionar el
+      incumplimiento de esta obligación. Si facilita datos de terceros, declara contar con su consentimiento y
+      se compromete a trasladarles la información de esta cláusula, eximiendo a la organización de
+      responsabilidad por su incumplimiento.</p>
+
+    <p class="legal__meta">Última revisión: 26 de enero de 2021. <em>(Confirmar fecha con Ale antes de publicar.)</em></p>
+
+  </article>
 </main>
 
 <!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL · pendiente de Ale. El estilado sobre azul vive en
-     paramita-footer.css (.foot__hero .suscribe · variante por contexto).
-     El endpoint del formulario lo conecta Alberto; hasta entonces, mock. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL · pendiente de Ale. El estilado sobre azul vive en
-     paramita-footer.css (.foot__hero .suscribe · variante por contexto).
-     El endpoint del formulario lo conecta Alberto; hasta entonces, mock. -->
-<section class="foot__hero" aria-labelledby="prefooter-titulo">
-  <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
-  <div>
-    <span class="eyebrow">Camina cerca</span>
-    <h2 class="foot__h" id="prefooter-titulo">Recibe inspiración y <em>sabiduría</em>.</h2>
-    <p class="foot__nl-sub">Ideas sencillas, propuestas de práctica y noticias de Paramita, de vez en cuando, en tu correo.</p>
-
-    <form class="suscribe" novalidate>
-      <div class="suscribe__fila">
-        <input class="suscribe__input" name="email" type="email"
-               autocomplete="email" aria-label="Correo electrónico"
-               placeholder="Tu dirección de correo" required>
-        <button class="btn-secundario btn-secundario--claro suscribe__btn" type="submit">Suscribirme</button>
-      </div>
-      <label class="suscribe__consent">
-        <input type="checkbox" required>
-        <span>Acepto las <a href="https://www.paramita.org/politica-de-privacidad/" target="_blank" rel="noopener">políticas de privacidad</a> y recibir la newsletter de Paramita.</span>
-      </label>
-      <p class="suscribe__ok" role="status" aria-live="polite">Gracias. Te has suscrito correctamente.</p>
-    </form>
-  </div>
-</section>
-
 <!-- footer · sincronizado con partials/footer.html -->
 <footer class="foot" id="contacto">
   <div class="foot__info">

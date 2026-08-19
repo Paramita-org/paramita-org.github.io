@@ -27,6 +27,7 @@
 <!-- TEMA · listener del toggle · compartido (sync) -->
 <script src="../../js/componentes/paramita-tema.js" defer></script>
 <script src="../../js/componentes/paramita-footer-lotos.js" defer></script>
+<script src="../../js/componentes/paramita-suscripcion.js" defer></script>
 <script src="../../js/componentes/paramita-faq.js" defer></script>
 <script src="../../js/paginas/paramita-sangha.js" defer></script>
 
@@ -45,6 +46,7 @@
 <link rel="stylesheet" href="../../css/componentes/paramita-sections.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-extras.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-footer.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-suscripcion.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-faq.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-pictogramas.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-tarjetas.css">
@@ -55,7 +57,7 @@
 </head>
 <body>
 
-<!-- sync: navbar=publico current="Comunidad Monástica" -->
+<!-- sync: navbar=publico current="Comunidad Monástica" prefooter -->
 <!-- ════════ NAVBAR PÚBLICO · copia del partial partials/navbar-publico.html ════════ -->
 <header class="bar">
   <div class="bar-inner wrap">
@@ -460,24 +462,9 @@
   </div>
 </section>
 
-<!-- 9 · CIERRE · newsletter (la conversión honesta del recién llegado) -->
-<section class="section sangha-cierre">
-  <div class="wrap">
-    <div class="s-head" data-reveal>
-      <div><span class="eyebrow">Camina cerca</span><h2>¿Aún no es el momento? <em>No pasa nada</em></h2></div>
-      <p>Recibe inspiración, propuestas de práctica y noticias de Paramita. Sin compromiso.</p>
-    </div>
-    <form class="sangha-nl" data-reveal onsubmit="return false">
-      <input type="email" placeholder="tu@correo.com" aria-label="Tu correo" required>
-      <button class="btn-primario" type="submit">Suscribirme</button>
-    </form>
-    <label class="sangha-consent" data-reveal>
-      <input type="checkbox" required>
-      <span>He leído y acepto la <a href="/privacidad/privacidad.html">política de privacidad</a> y el tratamiento de mis datos para recibir comunicaciones de la Fundación Sakya Paramita.</span>
-    </label>
-    <p class="sangha-coda" data-reveal>La Fundación Sakya es un espacio de todos. Gracias por ser parte de este mandala de compasión.</p>
-  </div>
-</section>
+<!-- El cierre de suscripción vive ahora en la banda del prefooter
+     (partials/prefooter.html), inyectada por sync antes del footer.
+     Marcador de página: `prefooter`. -->
 
 </main>
 
@@ -485,6 +472,36 @@
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
+<!-- footer · sincronizado con partials/footer.html -->
+<!-- prefooter · sincronizado con partials/prefooter.html -->
+<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
+     Se inyecta antes del footer en las páginas marcadas `prefooter`.
+     COPY PROVISIONAL · pendiente de Ale. El estilado sobre azul vive en
+     paramita-footer.css (.foot__hero .suscribe · variante por contexto).
+     El endpoint del formulario lo conecta Alberto; hasta entonces, mock. -->
+<section class="foot__hero" aria-labelledby="prefooter-titulo">
+  <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
+  <div>
+    <span class="eyebrow">Camina cerca</span>
+    <h2 class="foot__h" id="prefooter-titulo">Recibe inspiración y <em>sabiduría</em>.</h2>
+    <p class="foot__nl-sub">Ideas sencillas, propuestas de práctica y noticias de Paramita, de vez en cuando, en tu correo.</p>
+
+    <form class="suscribe" novalidate>
+      <div class="suscribe__fila">
+        <input class="suscribe__input" name="email" type="email"
+               autocomplete="email" aria-label="Correo electrónico"
+               placeholder="Tu dirección de correo" required>
+        <button class="btn-secundario btn-secundario--claro suscribe__btn" type="submit">Suscribirme</button>
+      </div>
+      <label class="suscribe__consent">
+        <input type="checkbox" required>
+        <span>Acepto las <a href="https://www.paramita.org/politica-de-privacidad/" target="_blank" rel="noopener">políticas de privacidad</a> y recibir la newsletter de Paramita.</span>
+      </label>
+      <p class="suscribe__ok" role="status" aria-live="polite">Gracias. Te has suscrito correctamente.</p>
+    </form>
+  </div>
+</section>
+
 <!-- footer · sincronizado con partials/footer.html -->
 <footer class="foot" id="contacto">
   <div class="foot__info">

@@ -38,6 +38,7 @@
   <link rel="stylesheet" href="../../css/componentes/paramita-modal.css">
   <link rel="stylesheet" href="../../css/componentes/paramita-extras.css">
   <link rel="stylesheet" href="../../css/componentes/paramita-footer.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-suscripcion.css">
   <!-- PÁGINA -->
   <link rel="stylesheet" href="../../css/paginas/paramita-curso.css">
   <!-- Componentes reutilizables · vídeo + bloque de testimonios · unlayered, ganan sobre curso.css -->
@@ -50,6 +51,7 @@
   <link rel="stylesheet" href="../../css/componentes/paramita-tema.css">
 </head>
 <body data-estado="anonimo">
+<!-- sync: navbar=publico current="Cursos" prefooter -->
 
 <!-- FONDO GLOBAL · lienzo del fluido WebGL -->
 <canvas id="fluido" aria-hidden="true"></canvas>
@@ -145,7 +147,7 @@
 
         <!-- 2 · Cursos · puerta pública al catálogo formativo (/formacion/, no el LMS) -->
         <li>
-          <a class="navlink" href="/formacion/formacion-publica.html">Cursos</a>
+          <a class="navlink" href="/formacion/formacion-publica.html" aria-current="page">Cursos</a>
         </li>
 
         <!-- 3 · Actividades · enlace plano (sin desplegable) -->
@@ -690,27 +692,8 @@
     </div>
   </section>
 
-  <!-- ═══ NEWSLETTER ═══ -->
-  <section class="section wrap news" id="newsletter" aria-labelledby="news-t">
-    <div class="news__inner">
-      <span class="eyebrow" data-reveal="1">Newsletter</span>
-      <h2 id="news-t" data-reveal="2">Recibe inspiración y <em>sabiduría</em>.</h2>
-      <p>Ideas sencillas, propuestas de práctica y noticias de Paramita directamente en tu bandeja de entrada.</p>
-      <form class="news__form" id="newsForm" novalidate>
-        <div class="news__campo">
-          <label for="news-name">Nombre</label>
-          <input id="news-name" name="name" type="text" autocomplete="given-name" placeholder="Tu nombre" required>
-        </div>
-        <div class="news__campo">
-          <label for="news-email">Email</label>
-          <input id="news-email" name="email" type="email" autocomplete="email" placeholder="Tu dirección de correo" required>
-        </div>
-        <label class="news__consent"><input type="checkbox" id="news-consent" required> Acepto las <a href="https://www.paramita.org/politica-de-privacidad/" target="_blank" rel="noopener">políticas de privacidad</a> y recibir la newsletter.</label>
-        <button class="btn-primario" type="submit">Enviar suscripción</button>
-        <p class="news__ok" role="status" aria-live="polite">¡Gracias! Te has suscrito correctamente.</p>
-      </form>
-    </div>
-  </section>
+  <!-- La suscripción vive ahora en la banda del prefooter (partials/prefooter.html),
+       inyectada por sync antes del footer. Marcador de página: `prefooter`. -->
 
   <!-- ═══ CTA STICKY · aparece tras el hero, se oculta al llegar a inscripción ═══ -->
   <div class="cta-sticky" id="ctaSticky" aria-hidden="true">
@@ -733,11 +716,35 @@
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
+<!-- prefooter · sincronizado con partials/prefooter.html -->
+<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
+     Se inyecta antes del footer en las páginas marcadas `prefooter`.
+     COPY PROVISIONAL · pendiente de Ale. El estilado sobre azul vive en
+     paramita-footer.css (.foot__hero .suscribe · variante por contexto).
+     El endpoint del formulario lo conecta Alberto; hasta entonces, mock. -->
+<section class="foot__hero" aria-labelledby="prefooter-titulo">
+  <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
+  <div>
+    <span class="eyebrow">Camina cerca</span>
+    <h2 class="foot__h" id="prefooter-titulo">Recibe inspiración y <em>sabiduría</em>.</h2>
+    <p class="foot__nl-sub">Ideas sencillas, propuestas de práctica y noticias de Paramita, de vez en cuando, en tu correo.</p>
+
+    <form class="suscribe" novalidate>
+      <div class="suscribe__fila">
+        <input class="suscribe__input" name="email" type="email"
+               autocomplete="email" aria-label="Correo electrónico"
+               placeholder="Tu dirección de correo" required>
+        <button class="btn-secundario btn-secundario--claro suscribe__btn" type="submit">Suscribirme</button>
+      </div>
+      <label class="suscribe__consent">
+        <input type="checkbox" required>
+        <span>Acepto las <a href="https://www.paramita.org/politica-de-privacidad/" target="_blank" rel="noopener">políticas de privacidad</a> y recibir la newsletter de Paramita.</span>
+      </label>
+      <p class="suscribe__ok" role="status" aria-live="polite">Gracias. Te has suscrito correctamente.</p>
+    </form>
+  </div>
+</section>
+
 <!-- footer · sincronizado con partials/footer.html -->
 <footer class="foot" id="contacto">
   <div class="foot__info">
@@ -798,6 +805,7 @@
 <script src="../../js/componentes/paramita-hero.js" defer></script>
 <script src="../../js/componentes/paramita-fluido.js" defer></script>
 <script src="../../js/componentes/paramita-footer-lotos.js" defer></script>
+<script src="../../js/componentes/paramita-suscripcion.js" defer></script>
 <script src="../../js/componentes/paramita-chat.js" defer></script>
 <!-- Componentes · vídeo ANTES de curso.js (marca el flag y curso.js cede) + bloque de testimonios -->
 <script src="../../js/componentes/paramita-video.js" defer></script>

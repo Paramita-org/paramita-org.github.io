@@ -28,6 +28,7 @@
 <!-- 2 · Comportamientos -->
 <script src="../../js/componentes/paramita-bar.js" defer></script>
 <script src="../../js/componentes/paramita-footer-lotos.js" defer></script>
+<script src="../../js/componentes/paramita-suscripcion.js" defer></script>
 <!-- tema · listener del toggle del sol -->
 <!-- TEMA · listener del toggle · compartido (sync) -->
 <script src="../../js/componentes/paramita-tema.js" defer></script>
@@ -55,6 +56,7 @@
 <link rel="stylesheet" href="../../css/componentes/paramita-sections.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-extras.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-footer.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-suscripcion.css">
 <!-- 5 · Página · estilos propios de /sobre/khenpo/ -->
 <link rel="stylesheet" href="../../css/paginas/paramita-khenpo.css">
 <!-- 6 · Responsive común (al final) -->
@@ -63,7 +65,7 @@
   <link rel="stylesheet" href="../../css/componentes/paramita-tema.css">
 </head>
 <body>
-<!-- sync: navbar=publico current="Khenpo Rinchen Gyaltsen" -->
+<!-- sync: navbar=publico current="Khenpo Rinchen Gyaltsen" prefooter -->
 
 <!-- navbar · partials/navbar-publico.html (incrustado; equivale a correr sync) -->
 <!-- ═══════════════════════════════════════════════════════════════════════════
@@ -439,16 +441,11 @@
       <div class="cierre__inner">
         <p class="eyebrow" data-reveal>Practiquemos juntos</p>
         <p class="cierre__frase" data-reveal>«El trabajo en equipo permite el crecimiento de la <em>Sangha</em>.»</p>
-        <p class="cierre__sub" data-reveal>Déjanos tu correo y recibe sus enseñanzas y las novedades de Paramita.</p>
-        <form class="suscribir" id="formSuscribir" data-reveal>
-          <input type="email" required placeholder="tu@correo.com" aria-label="Tu correo electrónico">
-          <button class="btn-primario" type="submit">Suscribirme</button>
-        </form>
-        <label class="consent" data-reveal><input type="checkbox" required> <span>Acepto la <a href="#">política de privacidad</a> y recibir comunicaciones de Paramita.</span></label>
-        <p class="acuse" id="acuse" role="status" aria-live="polite"></p>
       </div>
     </div>
   </section>
+  <!-- La suscripción vive ahora en la banda del prefooter (partials/prefooter.html),
+       inyectada por sync antes del footer. Marcador de página: `prefooter`. -->
 
 </main>
 
@@ -459,6 +456,36 @@
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
+<!-- footer · sincronizado con partials/footer.html -->
+<!-- prefooter · sincronizado con partials/prefooter.html -->
+<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
+     Se inyecta antes del footer en las páginas marcadas `prefooter`.
+     COPY PROVISIONAL · pendiente de Ale. El estilado sobre azul vive en
+     paramita-footer.css (.foot__hero .suscribe · variante por contexto).
+     El endpoint del formulario lo conecta Alberto; hasta entonces, mock. -->
+<section class="foot__hero" aria-labelledby="prefooter-titulo">
+  <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
+  <div>
+    <span class="eyebrow">Camina cerca</span>
+    <h2 class="foot__h" id="prefooter-titulo">Recibe inspiración y <em>sabiduría</em>.</h2>
+    <p class="foot__nl-sub">Ideas sencillas, propuestas de práctica y noticias de Paramita, de vez en cuando, en tu correo.</p>
+
+    <form class="suscribe" novalidate>
+      <div class="suscribe__fila">
+        <input class="suscribe__input" name="email" type="email"
+               autocomplete="email" aria-label="Correo electrónico"
+               placeholder="Tu dirección de correo" required>
+        <button class="btn-secundario btn-secundario--claro suscribe__btn" type="submit">Suscribirme</button>
+      </div>
+      <label class="suscribe__consent">
+        <input type="checkbox" required>
+        <span>Acepto las <a href="https://www.paramita.org/politica-de-privacidad/" target="_blank" rel="noopener">políticas de privacidad</a> y recibir la newsletter de Paramita.</span>
+      </label>
+      <p class="suscribe__ok" role="status" aria-live="polite">Gracias. Te has suscrito correctamente.</p>
+    </form>
+  </div>
+</section>
+
 <!-- footer · sincronizado con partials/footer.html -->
 <footer class="foot" id="contacto">
   <div class="foot__info">
