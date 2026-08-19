@@ -400,14 +400,19 @@ def process_file(target, *, cli_aria=None, cli_prefooter=None, only_pictos=False
         )
 
     # 2 · Prefooter (opcional) + Footer
-    prefooter_start, prefooter_end = find_block(
-        html, r'<section\s+class="[^"]*\bfoot__hero\b[^"]*"[^>]*>', "</section>"
-    )
-    if prefooter_start is not None:
-        after = prefooter_end
-        while after < len(html) and html[after] in " \t\n\r":
-            after += 1
-        html = html[:prefooter_start] + html[after:]
+    # El .foot__hero solo se elimina/reemplaza cuando la página pide prefooter.
+    # Así una página puede tener su PROPIA banda .foot__hero sin el marcador
+    # `prefooter` (p.ej. la home, con su firma «Respira. Observa. Suelta.») y
+    # sync no la borra.
+    if with_prefooter:
+        prefooter_start, prefooter_end = find_block(
+            html, r'<section\s+class="[^"]*\bfoot__hero\b[^"]*"[^>]*>', "</section>"
+        )
+        if prefooter_start is not None:
+            after = prefooter_end
+            while after < len(html) and html[after] in " \t\n\r":
+                after += 1
+            html = html[:prefooter_start] + html[after:]
 
     footer = read_partial("footer.html").rstrip()
     if with_prefooter:

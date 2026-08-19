@@ -660,32 +660,37 @@
     </div>
   </section>
 
-  <!-- ╔═══ 10 · CTA FINAL ═══╗  Texto con zoom-stage + halo radial dorado de fondo -->
-  <section class="cta-final wrap" id="amigo" aria-labelledby="cta-t">
-    <span class="eyebrow" data-reveal="1">Da el primer paso</span>
-    <h2 class="zoom-word" id="cta-t"><span>Respira.</span><em>Observa.</em><span>Suelta.</span></h2>
-    <p class="cta-sub">Suscríbete a nuestra newsletter: ideas sencillas, propuestas de práctica y noticias de Paramita, de vez en cuando, en tu correo.</p>
+  <!-- ╔═══ 10 · CIERRE · banda azul con lotos + firma «Respira. Observa. Suelta.» ═══╗
+       Banda PROPIA de la home (sin marcador `prefooter`): conserva la firma en
+       vez de la copy neutra del partial. Reusa las clases de la banda (foot__h,
+       foot__nl-sub, .suscribe) para heredar todo su estilado sobre azul y los
+       lotos. sync no la elimina porque la página no pide prefooter (ver el
+       guard en sync.py). -->
+  <section class="foot__hero" id="amigo" aria-labelledby="cta-t">
+    <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
+    <div>
+      <span class="eyebrow">Da el primer paso</span>
+      <h2 class="foot__h" id="cta-t"><span>Respira.</span> <em>Observa.</em> <span>Suelta.</span></h2>
+      <p class="foot__nl-sub">Suscríbete a nuestra newsletter: ideas sencillas, propuestas de práctica y noticias de Paramita, de vez en cuando, en tu correo.</p>
 
-    <!-- Suscripción · la conversión honesta del que llega · un solo campo.
-         MOCK sin endpoint hasta que el backend conecte el servicio de email. -->
-    <form class="suscribe" id="suscribeForm" novalidate>
-      <div class="suscribe__fila">
-        <input class="suscribe__input" id="suscribe-email" name="email" type="email"
-               autocomplete="email" aria-label="Correo electrónico"
-               placeholder="Tu dirección de correo" required>
-        <button class="btn-primario suscribe__btn" type="submit">Suscribirme</button>
-      </div>
-      <label class="suscribe__consent">
-        <input type="checkbox" id="suscribe-consent" required>
-        <span>Acepto las <a href="https://www.paramita.org/politica-de-privacidad/" target="_blank" rel="noopener">políticas de privacidad</a> y recibir la newsletter de Paramita.</span>
-      </label>
-      <p class="suscribe__ok" role="status" aria-live="polite">Gracias. Te has suscrito correctamente.</p>
-    </form>
+      <form class="suscribe" id="suscribeForm" novalidate>
+        <div class="suscribe__fila">
+          <input class="suscribe__input" id="suscribe-email" name="email" type="email"
+                 autocomplete="email" aria-label="Correo electrónico"
+                 placeholder="Tu dirección de correo" required>
+          <button class="btn-primario suscribe__btn" type="submit">Suscribirme</button>
+        </div>
+        <label class="suscribe__consent">
+          <input type="checkbox" id="suscribe-consent" required>
+          <span>Acepto las <a href="/politica-de-privacidad/" target="_blank" rel="noopener">políticas de privacidad</a> y recibir la newsletter de Paramita.</span>
+        </label>
+        <p class="suscribe__ok" role="status" aria-live="polite">Gracias. Te has suscrito correctamente.</p>
+      </form>
 
-    <!-- Vía de apoyo · presente pero en segundo plano, sin competir con la suscripción -->
-    <p class="suscribe__apoyo">¿Prefieres sostener el proyecto?
-      <a class="t-link" href="/contribuir"><span class="txt">Contribuir</span><span class="arw" aria-hidden="true">→</span></a>
-    </p>
+      <p class="suscribe__apoyo">¿Prefieres sostener el proyecto?
+        <a class="t-link" href="/contribuir"><span class="txt">Contribuir</span><span class="arw" aria-hidden="true">→</span></a>
+      </p>
+    </div>
   </section>
 
 </main>
@@ -698,6 +703,7 @@
 
 <!-- PIE -->
 <!-- prefooter · sincronizado con partials/prefooter.html -->
+<!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->

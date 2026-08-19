@@ -137,4 +137,49 @@
     .suscribe__input,
     .suscribe__ok { transition: none; }
   }
+
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     VARIANTE SOBRE AZUL · el componente dentro del prefooter (.foot__hero)
+     ───────────────────────────────────────────────────────────────────────
+     Vive AQUÍ, en @layer suscripcion (no en footer.css), a propósito: así gana
+     a las reglas base por especificidad (0,2,0 > 0,1,0) SIN depender del orden
+     de carga de los <link>, que varía por página. Sobre el fondo azul-sutil los
+     grises del sistema y el azul-oscuro del acuse/consent no leen; se recalibran
+     a lino/dorado.
+     ═══════════════════════════════════════════════════════════════════════ */
+  .foot__hero .suscribe,
+  .foot__hero .suscribe *,
+  .foot__hero .suscribe__apoyo a { pointer-events: auto; }
+
+  .foot__hero .suscribe { margin-top: var(--espacio-contenido); }
+
+  /* Acuse · azul-oscuro no lee sobre azul → lino con sombra */
+  .foot__hero .suscribe__ok {
+    color: var(--lino);
+    text-shadow: 0 1px 10px rgba(33, 30, 26, 0.25);
+  }
+
+  /* Consentimiento · texto lino, enlace dorado (subrayado + peso = señal de clic) */
+  .foot__hero .suscribe__consent   { color: var(--lino); }
+  .foot__hero .suscribe__consent a { color: var(--dorado); }
+  .foot__hero .suscribe__apoyo     { color: color-mix(in oklch, var(--lino) 82%, transparent); }
+
+  /* Vía de apoyo (solo home) · el t-link «Contribuir» en lino para leer sobre
+     azul (su azul-oscuro base se perdería contra el fondo). */
+  .foot__hero .suscribe__apoyo .t-link .txt {
+    color: var(--lino);
+    -webkit-text-fill-color: var(--lino);
+  }
+  .foot__hero .suscribe__apoyo .t-link .arw { color: var(--lino); }
+
+  /* Input · borde reforzado + foco con halo claro (el azul del sistema se
+     perdería sobre el fondo azul) */
+  .foot__hero .suscribe__input {
+    border-color: color-mix(in oklch, var(--antracita) 14%, transparent);
+  }
+  .foot__hero .suscribe__input:focus {
+    border-color: color-mix(in oklch, var(--azul-oscuro) 65%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--lino) 32%, transparent);
+  }
 }

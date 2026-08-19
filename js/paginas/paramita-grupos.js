@@ -157,32 +157,38 @@
     cine.addEventListener('pointerleave', ()=>{ sTarget=1; tx=0; ty=0; kick(); });
   }
 
-  /* ── 3 · MAPA DE PRESENCIA (esporas repartidas · derivan + brillan) ──── */
-  const mc = $('#mapaPuntos');
-  if(mc){
-    const ctx = mc.getContext('2d'); let w,h,pts=[];
-    const clusters=[[0.12,0.30,14],[0.24,0.66,16],[0.40,0.24,14],[0.50,0.72,16],[0.62,0.40,14],[0.76,0.68,15],[0.86,0.30,13],[0.70,0.20,10]];
-    const nuevo=(x0,y0)=>({ x0,y0, base:0.13+Math.random()*0.3, ph:Math.random()*Math.PI*2, sp:0.0006+Math.random()*0.0011,
-      dph:Math.random()*Math.PI*2, dsp:0.00018+Math.random()*0.00035, damp:6+Math.random()*16, r:1.6+Math.random()*1.2 });
-    function build(){
-      w=mc.width=mc.offsetWidth; h=mc.height=mc.offsetHeight; pts=[];
-      clusters.forEach(([cx,cy,n])=>{ for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, rad=Math.random()*0.1;
-        pts.push(nuevo((cx+Math.cos(a)*rad)*w,(cy+Math.sin(a)*rad)*h)); } });
-      for(let i=0;i<46;i++){ pts.push(nuevo((0.04+Math.random()*0.92)*w,(0.12+Math.random()*0.76)*h)); }
-    }
-    function paint(t){
-      ctx.clearRect(0,0,w,h);
-      pts.forEach(p=>{
-        const tw = reduce ? p.base : p.base + Math.sin(t*p.sp+p.ph)*0.14;
-        const dx = reduce ? 0 : Math.cos(t*p.dsp+p.dph)*p.damp;
-        const dy = reduce ? 0 : Math.sin(t*p.dsp*1.24+p.dph)*p.damp;
-        ctx.beginPath(); ctx.arc(p.x0+dx, p.y0+dy, p.r, 0, Math.PI*2);
-        ctx.fillStyle='oklch(78% .155 68 / '+Math.max(0,tw).toFixed(3)+')'; ctx.fill();
-      });
-      if(!reduce) requestAnimationFrame(paint);
-    }
-    addEventListener('resize', build, {passive:true});
-    build(); reduce ? paint(0) : requestAnimationFrame(paint);
+  /* ── 3 · MAPA DE PRESENCIA · interactivo (hover ilumina país + loto; clic filtra) ─ */
+  const svgMapa = $('.mapa__svg');
+  if(svgMapa){
+    const paisPorId = id => svgMapa.querySelector('.pais[data-id="'+id+'"]');
+    // mapeo loto → filtro del buscador (chip exacto, o región, o texto)
+    const REGION = { 'Panamá':'Centro América', 'República Dominicana':'Centro América',
+                     'Reino Unido':'Europa', 'Francia':'Europa', 'Alemania':'Europa' };
+    $$('.loto', svgMapa).forEach(g=>{
+      const id = g.getAttribute('data-id');
+      const nombre = g.getAttribute('data-pais');
+      const p = id && paisPorId(id);
+      const on  = ()=>{ if(p) p.classList.add('pais--hi'); };
+      const off = ()=>{ if(p) p.classList.remove('pais--hi'); };
+      g.addEventListener('pointerenter', on);
+      g.addEventListener('pointerleave', off);
+      g.addEventListener('focus', on);
+      g.addEventListener('blur', off);
+      const activar = ()=>{
+        const buscador = document.getElementById('buscador');
+        if(buscador) buscador.scrollIntoView({behavior:'smooth', block:'start'});
+        const chipsEl = document.getElementById('chips');
+        if(!chipsEl) return;
+        const destino = REGION[nombre] || nombre;
+        let chip = chipsEl.querySelector('.chip[data-f="'+destino+'"]');
+        setTimeout(()=>{
+          if(chip){ chip.click(); }
+          else { const inp=document.getElementById('busca'); if(inp){ inp.value=nombre; inp.dispatchEvent(new Event('input',{bubbles:true})); } }
+        }, 420);
+      };
+      g.addEventListener('click', activar);
+      g.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); activar(); } });
+    });
   }
 
   /* ── 4 · Pictogramas: longitud de trazo para el «dibujado» ───────────── */

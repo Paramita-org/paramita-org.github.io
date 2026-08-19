@@ -148,57 +148,22 @@
 
 
   /* ─────────────────────────────────────────────────────────────────────
-     ZONA HERO · VARIANTE CON SUSCRIPCIÓN  (Fase 8)
+     ZONA HERO · BANDA CON SUSCRIPCIÓN — piezas de FOOT  (Fase 8)
      ─────────────────────────────────────────────────────────────────────
-     Cuando el componente `.suscribe` (paramita-suscripcion.css) vive dentro
-     del prefooter azul, hereda un fondo claro-medio (--azul-sutil) para el
-     que los grises del sistema (--texto-suave / --texto-tenue) y el
-     --azul-oscuro del acuse NO están calibrados: se pierden. Aquí se
-     recalibran sobre antracita/lino, con el mismo idioma que `.foot__h em`
-     (lino + sombra sutil) ya usa en esta superficie.
-
-     Se activa POR CONTEXTO (`.foot__hero .suscribe`), sin clase modificadora:
-     el partial del prefooter solo tiene que incluir el `.suscribe` y todo se
-     adapta. El prefooter «solo título» (sin formulario) queda intacto.
+     Aquí solo el estilado propio del hero (lotos, eyebrow, subtítulo, tamaño
+     del título, entrada animada). El estilado del componente `.suscribe` sobre
+     azul (consentimiento, acuse, input) vive en paramita-suscripcion.css, en
+     su mismo @layer, para ganar por especificidad sin depender del orden de
+     carga de los <link>.
      ───────────────────────────────────────────────────────────────────── */
 
-  /* El contenido del hero es pointer-events:none para poder jugar con los
-     lotos; el formulario, en cambio, necesita recibir interacción. */
-  .foot__hero .suscribe,
-  .foot__hero .suscribe *,
-  .foot__hero .suscribe__apoyo a { pointer-events: auto; }
-
-  /* Acuse · el --azul-oscuro no contrasta sobre azul → lino con sombra */
-  .foot__hero .suscribe__ok {
-    color: var(--lino);
-    text-shadow: 0 1px 10px rgba(33, 30, 26, 0.25);
-  }
-
-  /* Consentimiento y vía de apoyo · antracita legible sobre azul
-     (el enlace interno conserva su --azul-oscuro de paramita-suscripcion.css,
-     que sobre azul claro mantiene contraste suficiente). */
-  .foot__hero .suscribe__consent { color: color-mix(in oklch, var(--antracita) 78%, transparent); }
-  .foot__hero .suscribe__apoyo   { color: color-mix(in oklch, var(--antracita) 72%, transparent); }
-
-  /* Input · el blanco cálido (--card) ya resalta sobre el azul; se refuerza
-     el borde para que no desaparezca, y el foco pasa a un halo claro visible
-     (el halo azul del sistema se perdería contra el fondo azul). */
-  .foot__hero .suscribe__input {
-    border-color: color-mix(in oklch, var(--antracita) 14%, transparent);
-  }
-  .foot__hero .suscribe__input:focus {
-    border-color: color-mix(in oklch, var(--azul-oscuro) 65%, transparent);
-    box-shadow: 0 0 0 4px color-mix(in oklch, var(--lino) 32%, transparent);
-  }
-
-  /* Los lotos se atenúan SOLO cuando el hero aloja el formulario, para que no
-     compitan con el texto de lectura. El prefooter «solo título» no se toca. */
+  /* Lotos atenuados solo cuando el hero aloja el formulario */
   .foot__hero:has(.suscribe) .foot__canvas { opacity: 0.55; }
 
-  /* Eyebrow sobre azul · el gris del sistema (--texto-tenue) se apaga aquí */
+  /* Eyebrow sobre azul (el gris del sistema se apaga aquí) */
   .foot__hero .eyebrow { color: color-mix(in oklch, var(--antracita) 58%, transparent); }
 
-  /* Subtítulo de la banda · lede corto, legible sobre azul, centrado */
+  /* Subtítulo de la banda · lede corto, centrado */
   .foot__nl-sub {
     max-width: 44ch;
     margin: var(--espacio-grupo) auto 0;
@@ -206,16 +171,12 @@
     font-size: 1.05rem;
     line-height: 1.6;
   }
-  /* El componente .suscribe se separa del subtítulo dentro de la banda */
-  .foot__hero .suscribe { margin-top: var(--espacio-contenido); }
 
-  /* Título de la banda · alineado con los títulos de sección (h2), no con el
-     hero. El .foot__h base (máx. 5.5rem) competía con la portada (5.6rem). */
+  /* Título de la banda · alineado con los títulos de sección (h2), no el hero */
   .foot__hero:has(.suscribe) .foot__h { font-size: var(--texto-h2); }
 
   /* Entrada del título · zoom + fundido. La arma paramita-footer-lotos.js con
-     la clase .foot__hero--anim; SIN esa clase el título es visible, así que si
-     el JS falla o no carga, nada queda oculto (degradación segura). */
+     .foot__hero--anim; sin esa clase el título es visible (degradación segura). */
   .foot__hero--anim .foot__h {
     opacity: 0;
     transform: scale(0.86);

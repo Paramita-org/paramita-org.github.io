@@ -18,8 +18,10 @@
 @layer paginas {
 
   /* ══ HERO · foto de fondo ══ */
+  .hero--grupos .hero__bg{ background:linear-gradient(150deg, var(--calido-zen), color-mix(in oklch,var(--azul-sutil) 22%, var(--calido-zen))); }
   .hero--grupos .hero__bg-img{ width:100%; height:100%; object-fit:cover; }
-  /* La foto vive en img/hero-grupos.jpg (ajusta la ruta a tu estructura). */
+  /* La foto vive en img/hero-grupos.jpg (ajusta la ruta a tu estructura).
+     El degradado de arriba es red de seguridad si la foto falta o tarda. */
 
   /* ══ Contenedor de lectura local (por si la página no hereda .wrap) ══ */
   .g-wrap{ max-width:1120px; margin-inline:auto; padding-inline:clamp(1.1rem,4vw,2rem); }
@@ -60,7 +62,7 @@
   @supports (corner-shape:superellipse(2)){ .cinevideo{ border-radius:28px; corner-shape:superellipse(2.2); } }
   .cinevideo__media{
     position:absolute; inset:0; transform-origin:center; will-change:transform;
-    background:url("/img/bienvenida-paramita.jpg") center/cover no-repeat,
+    background:url("/assets/img/bienvenida-paramita.jpg") center/cover no-repeat,
                linear-gradient(135deg,var(--azul-oscuro),var(--azul-sutil));
   }
   .cinevideo__grain{ position:absolute; inset:0; pointer-events:none; background:
@@ -115,10 +117,29 @@
   .comparativa .g{ color:var(--azul-oscuro); font-weight:500; }
   .comparativa > div:nth-last-child(-n+3){ border-bottom:none; }
 
-  /* ══ Mapa de presencia ══ */
+  /* ══ Mapa de presencia · interactivo (SVG propio, proyección Natural Earth) ══ */
   .presencia{ position:relative; text-align:center; overflow:hidden; }
-  .presencia__canvas{ position:absolute; inset:0; width:100%; height:100%; z-index:0; opacity:.9; }
   .presencia .g-wrap{ position:relative; z-index:2; }
+  .mapa{ max-width:1040px; margin:1.8rem auto 0; }
+  .mapa__svg{ width:100%; height:auto; display:block; overflow:visible; }
+  /* Países */
+  .pais{ fill:color-mix(in oklch, var(--antracita) 9%, var(--card)); stroke:var(--lino); stroke-width:.5;
+    transition:fill var(--t-defecto,.3s) ease; }
+  .pais--on{ fill:color-mix(in oklch, var(--dorado) 30%, var(--card)); }
+  .pais--hi{ fill:color-mix(in oklch, var(--dorado) 56%, var(--card)); }   /* al iluminar (JS) */
+  /* Lotos */
+  .loto{ cursor:pointer; color:color-mix(in oklch, var(--dorado) 58%, var(--texto-suave)); outline:none; }
+  .loto__hit{ fill:transparent; }
+  .loto__s{ transform-box:fill-box; transform-origin:center;
+    transition:transform var(--t-defecto,.3s) var(--ease-suave,cubic-bezier(.22,1,.36,1)), filter var(--t-defecto,.3s) ease; }
+  .loto use{ fill:currentColor; }
+  .loto__lbl{ fill:var(--azul-oscuro); font-family:var(--display); font-weight:600; font-size:15px; text-anchor:middle;
+    opacity:0; transition:opacity .25s ease; pointer-events:none;
+    paint-order:stroke; stroke:var(--lino); stroke-width:3.5px; stroke-linejoin:round; }
+  .loto:hover, .loto:focus-visible, .loto.on{ color:var(--dorado); }
+  .loto:hover .loto__s, .loto:focus-visible .loto__s, .loto.on .loto__s{
+    transform:scale(1.42); filter:drop-shadow(0 1px 5px color-mix(in oklch, var(--dorado) 75%, transparent)); }
+  .loto:hover .loto__lbl, .loto:focus-visible .loto__lbl, .loto.on .loto__lbl{ opacity:1; }
   .presencia .cifra{ font-family:var(--display); font-weight:var(--wght-presencia,400);
     font-size:clamp(2.5rem,6.4vw,4.4rem); line-height:1.04; color:var(--azul-oscuro); letter-spacing:-.02em; }
   .presencia .cifra em{ font-style:italic; color:var(--dorado); }
@@ -221,6 +242,8 @@
     [data-reveal].entra-zoom, [data-reveal].entra-cita{ opacity:1; transform:none; filter:none; }
     .picto .pico svg path, .picto .pico svg circle{ stroke-dashoffset:0; }
     .cinevideo__media{ transform:none !important; }
+    .loto__s{ transition:none; }
+    .loto:hover .loto__s, .loto:focus-visible .loto__s, .loto.on .loto__s{ transform:none; }
   }
 
 } /* @layer paginas */

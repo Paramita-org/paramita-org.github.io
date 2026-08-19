@@ -183,7 +183,7 @@
     });
   };
   img.onerror = () => { sprites = null; }; // fallback a círculos
-  img.src = 'assets/img/flor-loto.svg';
+  img.src = '/assets/img/flor-loto.svg';
 
   // Posición del ratón relativa al canvas
   const pos = e => {

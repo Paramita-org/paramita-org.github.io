@@ -9,13 +9,28 @@ Archivos y dónde van (repo `janams-paramita.github.io`):
     partials/pictogramas/grupos-refugio.svg    → pictograma
     partials/pictogramas/grupos-constancia.svg → pictograma
     partials/pictogramas/grupos-comunidad.svg  → pictograma
-    img/hero-grupos.jpg                         → foto de fondo del hero (la pones tú)
-    img/bienvenida-paramita.jpg                 → captura de muestra del vídeo cinematográfico
+    assets/img/hero-grupos.jpg                  → foto de fondo del hero (la pones tú)
+    assets/img/bienvenida-paramita.jpg          → captura de muestra del vídeo cinematográfico
 
 ## Imágenes
 - Hero: `<img class="hero__bg-img" src="/img/hero-grupos.jpg">` (ruta absoluta desde raíz).
   Si tus fotos viven en `/assets/img/`, cambia esa ruta y la `url()` del `.cinevideo__media`
   en `paramita-grupos.css` (ahora `/img/bienvenida-paramita.jpg`).
+
+
+## Mapa de presencia (interactivo · SVG propio)
+- Es un SVG **inline** dentro de `grupos.html` (bloque "Una comunidad sin fronteras"),
+  no un asset — inline para poder iluminar países y lotos al hover.
+- Geometría real: proyección Natural Earth (generada con d3-geo + world-atlas 110m).
+- Colores del sistema: países sin presencia en gris neutro; con presencia en tinte dorado;
+  al hover el país se ilumina (`.pais--hi`), el loto pasa a `--dorado`, crece y aparece la etiqueta.
+- Interacción (paramita-grupos.js): hover/focus ilumina; **clic en un loto lleva al buscador
+  y filtra por ese país** (o su región: Panamá/Rep. Dominicana → Centro América; Reino Unido/
+  Francia/Alemania → Europa). Accesible por teclado (cada loto es focusable).
+- Para cambiar los países: editar el mapa `PRES` del generador (te lo paso si quieres) y
+  reinyectar el SVG, o editar a mano los `<g class="loto" data-id data-pais>` y las clases `.pais--on`.
+- Nota de color: la base de países usa un neutro frío para que el dorado resalte; si lo prefieres
+  más cálido es un solo `color-mix`. El loto es dorado (acento del sistema), no el cian del .ai.
 
 ## Orden de despliegue (imprescindible por los pictogramas)
 1. Copia primero los 4 SVG a `partials/pictogramas/` (si falta uno, `sync.py` aborta la página entera).
