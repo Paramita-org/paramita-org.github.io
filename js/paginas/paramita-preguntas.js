@@ -82,9 +82,14 @@
     });
   });
 
-  // Marca la categoría cuyo inicio queda justo bajo la barra de utilidad.
-  // Funciona con secciones cortas (a diferencia de un observador de banda central).
-  function spy() {
+  var util = document.querySelector(".preg-util");
+
+  function onScroll() {
+    // Cristal de la barra solo cuando queda pegada bajo el navbar (top ≈ 62px).
+    if (util) util.classList.toggle("is-stuck", util.getBoundingClientRect().top <= 63);
+
+    // Scroll-spy de chips · marca la categoría cuyo inicio queda bajo la barra.
+    // Funciona con secciones cortas (a diferencia de un observador de banda central).
     if (Date.now() < lockUntil) return;
     var linea = window.scrollY + 150;
     var actual = null;
@@ -96,8 +101,8 @@
     setActive(actual ? "#" + actual.id : "");
   }
 
-  window.addEventListener("scroll", spy, { passive: true });
-  window.addEventListener("resize", spy);
-  spy();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  onScroll();
 
 })();

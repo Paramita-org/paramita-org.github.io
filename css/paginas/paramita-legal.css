@@ -1,0 +1,79 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-legal.css — Páginas legales (prosa larga)
+   ───────────────────────────────────────────────────────────────────────────
+   Layout de lectura para páginas de texto denso: política de privacidad,
+   aviso legal, cookies, condiciones. Medida de lectura acotada, jerarquía
+   de títulos y espaciado por tokens del sistema. Reutilizable por todas las
+   páginas legales (no solo privacidad).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer paginas {
+
+  .legal {
+    max-width: 68ch;
+    margin-inline: auto;
+    /* Holgura superior para despejar la barra y respirar tras el navbar */
+    padding-block: clamp(6rem, 12vh, 9rem) var(--espacio-orilla);
+  }
+
+  .legal h1 { margin-bottom: var(--espacio-grupo); }
+
+  .legal__intro {
+    color: var(--texto-suave);
+    font-size: 1.08rem;
+    line-height: 1.65;
+    margin-bottom: var(--espacio-contenido);
+  }
+
+  .legal h2 {
+    margin-top: var(--espacio-umbral);
+    margin-bottom: var(--espacio-grupo);
+    font-size: var(--texto-h2);
+  }
+  .legal h3 {
+    margin-top: var(--espacio-contenido);
+    margin-bottom: var(--espacio-elemento);
+    font-size: var(--texto-h3);
+  }
+
+  .legal p,
+  .legal li { line-height: 1.65; }
+  .legal p + p { margin-top: var(--espacio-elemento); }
+
+  .legal ul {
+    margin: var(--espacio-elemento) 0 0;
+    padding-left: 1.4rem;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .legal a {
+    color: var(--azul-oscuro);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .legal em { font-style: italic; color: var(--texto-suave); }
+
+  .legal__meta {
+    margin-top: var(--espacio-umbral);
+    font-size: 0.9rem;
+    color: var(--texto-tenue);
+  }
+
+  /* Nota provisional · texto pendiente de revisión legal (Ale). Quitar al cerrar. */
+  .legal__aviso {
+    max-width: 68ch;
+    margin: 0 auto var(--espacio-contenido);
+    padding: 0.9rem 1.1rem;
+    border-left: 3px solid color-mix(in oklch, var(--dorado) 70%, transparent);
+    background: color-mix(in oklch, var(--dorado) 8%, transparent);
+    border-radius: 10px;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--texto-suave);
+  }
+  @supports (corner-shape: superellipse(2)) {
+    .legal__aviso { corner-shape: superellipse(2.2); }
+  }
+}

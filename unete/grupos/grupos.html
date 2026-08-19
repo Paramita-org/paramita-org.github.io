@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- COPY PROVISIONAL · pendiente de Ale/Khenpo -->
+<title>Grupos de estudio · Encuentra tu círculo cerca de ti · Paramita</title>
+<meta name="description" content="Círculos de estudio y meditación para caminar juntos en el Dharma, cerca de ti. Más de 164 círculos en 15+ países entre España y Latinoamérica. Encuentra el tuyo o siembra uno nuevo.">
+
+<link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<!-- Marca JS activo cuanto antes · gate de los revelados -->
+<script>document.documentElement.classList.add('js')</script>
+
+<!-- TEMA · anti-FOUC · aplica la penumbra guardada ANTES de pintar -->
+<script>
+  try { if (localStorage.getItem('paramita-tema') === 'oscuro') document.documentElement.setAttribute('data-tema','oscuro'); } catch(e){}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+<!-- Primitivos + comportamientos que usa esta página -->
+<script src="../../js/primitivos/paramita-reveal.js" defer></script>
+<script src="../../js/primitivos/paramita-gsap-refresh.js" defer></script>
+<script src="../../js/componentes/paramita-bar.js" defer></script>
+<script src="../../js/componentes/paramita-footer-lotos.js" defer></script>
+<script src="../../js/componentes/paramita-faq.js" defer></script>
+<script src="../../js/componentes/paramita-testimonios.js" defer></script>
+<script src="../../js/paginas/paramita-grupos.js" defer></script>
+
+<!-- CSS · reset primero, luego fuentes + tokens, base, componentes, página, responsive, tema (último) -->
+<link rel="stylesheet" href="../../css/base/paramita-reset.css">
+<link rel="stylesheet" href="../../css/tokens/paramita-fuentes.css">
+<link rel="stylesheet" href="../../css/tokens/paramita-color.css">
+<link rel="stylesheet" href="../../css/tokens/paramita-tipografia.css">
+<link rel="stylesheet" href="../../css/tokens/paramita-layout.css">
+<link rel="stylesheet" href="../../css/tokens/paramita-movimiento.css">
+<link rel="stylesheet" href="../../css/base/paramita-base.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-bar.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-menu.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-cta.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-hero.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-sections.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-extras.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-footer.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-chat.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-faq.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-testimonios.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-pictogramas.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-tarjetas.css">
+<link rel="stylesheet" href="../../css/paginas/paramita-grupos.css">
+<link rel="stylesheet" href="../../css/base/paramita-responsive.css">
+<!-- TEMA · penumbra/luz · el ÚLTIMO para ganar la cascada (sync) -->
+<link rel="stylesheet" href="../../css/componentes/paramita-tema.css">
+</head>
+<body>
+<!-- sync: navbar=publico current="Únete" prefooter -->
+
+<!-- ════════════════════════════════════════════════════════════════════
+     NAVBAR PÚBLICO · lo inyecta sync.py (copia de partials/navbar-publico.html).
+     Despliegue:
+       python3 partials/sync.py unete/grupos/grupos.html --tema --aria-current="Únete"
+     o, en lote:  python3 partials/sync.py --all
+     ════════════════════════════════════════════════════════════════════ -->
+<!-- @sync:navbar -->
+
+<main>
+
+  <!-- ══════════════ 1 · HERO ══════════════ -->
+  <section class="hero hero--grupos">
+    <div class="hero__bg" aria-hidden="true">
+      <img class="hero__bg-img" src="/img/hero-grupos.jpg" alt="">
+    </div>
+    <div class="hero__aura" aria-hidden="true"></div>
+    <div class="hero__sweep" aria-hidden="true"></div>
+
+    <div class="hero__inner">
+      <span class="eyebrow">Grupos de estudio · Sangha</span>
+      <h1>Encuentra tu <em>círculo</em>.</h1>
+      <p class="lede" data-reveal>Espacios de estudio, reflexión y práctica para caminar juntos en el Dharma, cerca de ti — bajo la guía del Ven. Khenpo Rinchen Gyaltsen.</p>
+      <div class="actions" data-reveal>
+        <a class="btn-primario" href="#buscador">Encuentra tu círculo</a>
+        <a class="btn-secundario" href="#invitacion">Ver la invitación de Khenpo</a>
+      </div>
+      <p class="meta" data-reveal>
+        <span class="pulse" aria-hidden="true"></span>
+        Más de <b>164 círculos</b> en 15+ países · España y Latinoamérica
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════ 1b · INVITACIÓN DE KHENPO (vídeo cinematográfico) ══════════════ -->
+  <section id="invitacion" class="g-sec difusor">
+    <div class="g-wrap g-col">
+      <p class="eyebrow" data-reveal>Una invitación personal</p>
+      <h2 data-reveal>Unas palabras de <em>Khenpo</em></h2>
+      <p class="lede" data-reveal style="margin:.6rem 0 1.8rem">Antes de decidir, escúchale. Una invitación del Ven. Khenpo Rinchen Gyaltsen a caminar acompañado.</p>
+      <div class="cinevideo" data-reveal id="cineKhenpo" role="button" tabindex="0" aria-label="Reproducir la invitación de Khenpo Rinchen">
+        <div class="cinevideo__media" id="cineKhenpoMedia"></div>
+        <div class="cinevideo__grain" aria-hidden="true"></div>
+        <div class="cinevideo__play" aria-hidden="true"></div>
+        <span class="cinevideo__cap">Invitación · 2 min</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ 2 · QUÉ SON ══════════════ -->
+  <section id="que-son" class="g-sec">
+    <div class="g-wrap g-col">
+      <p class="eyebrow" data-reveal>Qué son</p>
+      <h2 data-reveal>Semillas de <em>comunidad</em></h2>
+      <p data-reveal style="margin-top:1.2rem">Los Grupos Paramita son círculos de amistad espiritual: personas que comparten el interés por la meditación y la filosofía budista y deciden estudiarlas <strong>acompañadas</strong>. No son encuentros sueltos, sino vínculos estables que alternan reuniones online y presenciales.</p>
+      <p data-reveal style="color:var(--texto-suave)">Practicar en solitario tiene valor. Practicar acompañado, sostenido en el tiempo, tiene un poder distinto: es lo que convierte una buena intención en una práctica constante.</p>
+    </div>
+  </section>
+
+  <svg class="rio" viewBox="0 0 680 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0,20 C90,4 150,36 240,20 C330,4 390,36 480,20 C570,4 620,32 680,20"/></svg>
+
+  <!-- ══════════════ 3 · POR QUÉ EN GRUPO ══════════════ -->
+  <section class="g-sec">
+    <div class="g-wrap">
+      <div class="g-col">
+        <p class="eyebrow" data-reveal>Por qué en grupo</p>
+        <h2 data-reveal>Cuatro cosas que <em>solo</em> pasan juntos</h2>
+      </div>
+      <div class="pictos">
+        <div class="picto" data-reveal>
+          <span class="pico" data-pico="grupos-claridad" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path class="acc" d="M12 6.5v11"/></svg></span>
+          <h3>Claridad</h3><p>Comprender mejor las enseñanzas apoyándote en la experiencia compartida.</p>
+        </div>
+        <div class="picto" data-reveal>
+          <span class="pico" data-pico="grupos-refugio" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l8-5 8 5v11"/><path class="acc" d="M9.5 20v-6h5v6"/></svg></span>
+          <h3>Refugio seguro</h3><p>Un entorno amable e inclusivo donde ser tú mismo, más allá de etiquetas.</p>
+        </div>
+        <div class="picto" data-reveal>
+          <span class="pico" data-pico="grupos-constancia" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-4 0-7-3-7-7 0-3 2-5.5 4-7"/><path class="acc" d="M12 3c1.5 2.5 3 4 3 7 0 2-1.5 3.5-3 3.5S9 15 9 13"/></svg></span>
+          <h3>Constancia</h3><p>El puente natural de la teoría a la experiencia, con una regularidad sincera.</p>
+        </div>
+        <div class="picto" data-reveal>
+          <span class="pico" data-pico="grupos-comunidad" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path class="acc" d="M4 19c0-2.5 1.8-4 4-4s4 1.5 4 4M12 19c0-2.5 1.8-4 4-4s4 1.5 4 4"/></svg></span>
+          <h3>Comunidad ética</h3><p>La fuerza del grupo multiplica lo positivo y refina, sin esfuerzo, la conducta.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ 4 · TUTORÍA VS GRUPO ══════════════ -->
+  <section class="g-sec zona-luz">
+    <div class="g-wrap g-col">
+      <p class="eyebrow" data-reveal>Para no confundirlos</p>
+      <h2 data-reveal>Tutoría o <em>grupo</em></h2>
+      <div class="comparativa" data-reveal>
+        <div class="cab"></div><div class="cab">Tutoría</div><div class="cab destaca">Grupo de Sangha</div>
+        <div class="rotulo">Enfoque</div><div>Acompañamiento en un curso</div><div class="g">Reflexión y vida en comunidad</div>
+        <div class="rotulo">Duración</div><div>Temporal (dura el curso)</div><div class="g">Estable y de largo plazo</div>
+        <div class="rotulo">Formato</div><div>100% online</div><div class="g">Híbrido · cerca de ti</div>
+        <div class="rotulo">Objetivo</div><div>Resolver dudas del curso</div><div class="g">Estrechar lazos · práctica sostenida</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ 5 · MAPA DE PRESENCIA ══════════════ -->
+  <section class="g-sec presencia">
+    <canvas class="presencia__canvas" id="mapaPuntos" aria-hidden="true"></canvas>
+    <div class="g-wrap">
+      <p class="eyebrow" data-reveal>Una comunidad sin fronteras</p>
+      <div class="cifra entra-zoom" data-reveal>+164 <em>círculos</em></div>
+      <p class="presencia__label" data-reveal>en más de 15 países entre España y Latinoamérica — hay gente caminando cerca de ti.</p>
+    </div>
+  </section>
+
+  <!-- ══════════════ 6 · BUSCADOR ══════════════ -->
+  <section id="buscador" class="g-sec">
+    <div class="g-wrap g-col">
+      <p class="eyebrow" data-reveal>Encuentra el tuyo</p>
+      <h2 data-reveal>¿Dónde <em>estás</em>?</h2>
+      <p class="lede" data-reveal style="margin-top:.6rem">Busca tu ciudad o país. Si aún no hay grupo cerca, siempre puedes empezar por un círculo online.</p>
+
+      <div class="buscador__caja" data-reveal>
+        <div class="buscador__linea">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+          <input id="busca" type="text" placeholder="Tu ciudad o país…" aria-label="Buscar por ciudad o país">
+          <button class="buscador__cerca" id="cerca" type="button">◎ Cerca de mí</button>
+        </div>
+        <div class="chips" id="chips">
+          <button class="chip" data-f="todos" type="button">Todos</button>
+          <button class="chip" data-f="presencial" type="button">Presencial</button>
+          <button class="chip" data-f="online" type="button">Online</button>
+          <span class="chips__sep" aria-hidden="true"></span>
+          <button class="chip" data-f="Argentina" type="button">Argentina</button>
+          <button class="chip" data-f="Bolivia" type="button">Bolivia</button>
+          <button class="chip" data-f="Canadá" type="button">Canadá</button>
+          <button class="chip" data-f="Centro América" type="button">Centro América</button>
+          <button class="chip" data-f="Chile" type="button">Chile</button>
+          <button class="chip" data-f="Colombia" type="button">Colombia</button>
+          <button class="chip" data-f="Costa Rica" type="button">Costa Rica</button>
+          <button class="chip" data-f="Ecuador" type="button">Ecuador</button>
+          <button class="chip" data-f="España" type="button">España</button>
+          <button class="chip" data-f="EEUU" type="button">EEUU</button>
+          <button class="chip" data-f="Europa" type="button">Europa</button>
+          <button class="chip" data-f="México" type="button">México</button>
+          <button class="chip" data-f="Perú" type="button">Perú</button>
+          <button class="chip" data-f="Puerto Rico" type="button">Puerto Rico</button>
+          <button class="chip" data-f="Uruguay" type="button">Uruguay</button>
+          <button class="chip" data-f="Venezuela" type="button">Venezuela</button>
+        </div>
+        <div class="resultados" id="resultados"></div>
+        <p class="buscador__nota">Datos de muestra. En producción: índice filtrable estático (Nivel A) leyendo un JSON de los ~164 círculos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ 7 · ¿ES EL MOMENTO? ══════════════ -->
+  <section class="g-sec zona-luz">
+    <div class="g-wrap g-col">
+      <p class="eyebrow" data-reveal>Con honestidad</p>
+      <h2 data-reveal>¿Es el momento <em>para ti</em>?</h2>
+      <div class="momento">
+        <div class="momento__col si" data-reveal>
+          <div class="momento__cab">
+            <span class="momento__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <span><span class="momento__tag">Adelante</span><h3>Este es tu espacio</h3></span>
+          </div>
+          <ul class="momento__lista">
+            <li>Tienes un interés genuino en la meditación y el Dharma.</li>
+            <li>Quieres pasar de explorar en solitario a practicar acompañado.</li>
+            <li>Puedes sostener una regularidad, aunque sea modesta.</li>
+          </ul>
+        </div>
+        <div class="momento__col no" data-reveal>
+          <div class="momento__cab">
+            <span class="momento__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 1.5"/></svg></span>
+            <span><span class="momento__tag">Quizás más adelante</span><h3>No es el momento si…</h3></span>
+          </div>
+          <ul class="momento__lista">
+            <li>Buscas apoyo terapéutico o de salud mental.</li>
+            <li>Quieres un espacio social, sin compromiso de estudio.</li>
+            <li>No puedes participar en sesiones online por videollamada.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <svg class="rio" viewBox="0 0 680 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0,20 C90,4 150,36 240,20 C330,4 390,36 480,20 C570,4 620,32 680,20"/></svg>
+
+  <!-- ══════════════ 8 · TESTIMONIOS · componente .voces/.voz ══════════════ -->
+  <section class="g-sec">
+    <div class="g-wrap">
+      <div class="g-col">
+        <p class="eyebrow" data-reveal>Voces de la Sangha</p>
+        <h2 data-reveal>Lo que <em>cambia</em> al caminar juntos</h2>
+      </div>
+      <div class="voces">
+        <figure class="voz voz--video">
+          <div class="video-facade" data-yt="VIDEO_ID_1" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Daniela"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+          <blockquote class="voz__q">Practicar en grupo me ayudó a comprender el Dharma con más claridad y constancia.</blockquote>
+          <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">DA</span><span><span class="voz__n">Daniela</span><span class="voz__meta">Círculo · Buenos Aires</span></span></figcaption>
+        </figure>
+        <figure class="voz voz--video">
+          <div class="video-facade" data-yt="VIDEO_ID_2" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Alexis"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+          <blockquote class="voz__q">Encontré un espacio de estudio, reflexión y amistad que de verdad me inspira.</blockquote>
+          <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">AL</span><span><span class="voz__n">Alexis</span><span class="voz__meta">Grupo · Ciudad de México</span></span></figcaption>
+        </figure>
+        <figure class="voz voz--video">
+          <div class="video-facade" data-yt="VIDEO_ID_3" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Luisa"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+          <blockquote class="voz__q">Pasé de estudiar solo a sentirme acompañado en el camino.</blockquote>
+          <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">LU</span><span><span class="voz__n">Luisa</span><span class="voz__meta">Círculo · Madrid</span></span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ 9 · KHENPO (retrato + línea + enlace) ══════════════ -->
+  <section class="g-sec">
+    <div class="g-wrap g-col">
+      <figure class="khenpo" data-reveal style="display:flex;align-items:center;gap:1.6rem;flex-wrap:wrap;background:var(--arena);border-radius:20px;padding:1.8rem 2rem;margin:0">
+        <span aria-hidden="true" style="width:96px;height:96px;border-radius:50%;flex:0 0 auto;background:var(--degradado-marca)"></span>
+        <figcaption style="flex:1;min-width:240px">
+          <p class="eyebrow" style="margin-bottom:.4rem">Bajo su tutela</p>
+          <h3 style="font-family:var(--display);font-weight:var(--wght-presencia,400);margin:0 0 .3rem">Ven. Khenpo Rinchen Gyaltsen</h3>
+          <p style="color:var(--texto-suave);margin:0 0 .6rem">Maestro residente del Centro Budista Sakya en España. Más de 25 años transmitiendo el Dharma con cercanía, claridad y humor.</p>
+          <a class="t-link" href="/quienes-somos/maestros/lama-rinchen-gyaltsen/">Conócelo →</a>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ══════════════ 10 · CITA DEL RÍO ══════════════ -->
+  <section class="g-sec cita">
+    <div class="g-wrap">
+      <svg class="rio" viewBox="0 0 680 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0,20 C110,2 170,38 280,20 C390,2 450,38 560,20 C620,10 660,26 680,20"/></svg>
+      <blockquote class="entra-cita" data-reveal>Una gota sola se evapora antes de llegar al mar. Para llegar, ha de ir como río.<em>La Sangha es tu río.</em></blockquote>
+      <cite data-reveal>— Thich Nhat Hanh</cite>
+    </div>
+  </section>
+
+  <!-- ══════════════ 11 · SEMBRAR UN GRUPO ══════════════ -->
+  <section class="g-sec">
+    <div class="g-wrap">
+      <div class="sembrar" data-reveal>
+        <div class="sembrar__txt">
+          <p class="eyebrow">¿No hay ninguno cerca?</p>
+          <h2>Siembra un <em>grupo</em> nuevo</h2>
+          <p style="color:var(--texto-suave);margin:.6rem 0 0">Formar un Grupo Paramita es una forma de cultivar amistad espiritual y, a la vez, abrir el acceso al Dharma a otros. Te acompañamos en cada paso.</p>
+        </div>
+        <a class="btn-secundario" href="/sangha/nuevos/">Cómo empezar un grupo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ 12 · FAQ · componente .faq ══════════════ -->
+  <section class="g-sec zona-luz">
+    <div class="g-wrap g-col">
+      <p class="eyebrow" data-reveal>Preguntas frecuentes</p>
+      <h2 data-reveal>Lo que suele <em>surgir</em></h2>
+      <div class="faq" data-reveal>
+        <div class="faq__lista">
+          <div class="faq__item">
+            <button class="faq__q" aria-expanded="false" aria-controls="fa1">¿Cuál es la diferencia entre una tutoría y un grupo?<span class="faq__sign" aria-hidden="true"></span></button>
+            <div class="faq__panel" id="fa1" role="region"><div class="faq__inner"><p>La tutoría acompaña un curso y termina con él; el grupo es estable y avanza en comunidad. Si ya hiciste una tutoría, el grupo es el paso natural para seguir caminando.</p></div></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" aria-expanded="false" aria-controls="fa2">¿Tengo que ser budista para participar?<span class="faq__sign" aria-hidden="true"></span></button>
+            <div class="faq__panel" id="fa2" role="region"><div class="faq__inner"><p>No. Los grupos están abiertos a cualquiera con interés en la meditación y la filosofía budista, sea cual sea su creencia. Importa la disposición a estudiar y reflexionar con honestidad.</p></div></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" aria-expanded="false" aria-controls="fa3">¿Con qué frecuencia se reúnen?<span class="faq__sign" aria-hidden="true"></span></button>
+            <div class="faq__panel" id="fa3" role="region"><div class="faq__inner"><p>Lo habitual es una reunión semanal o quincenal, de 60–90 minutos, principalmente online, con encuentros presenciales ocasionales. Tu coordinador te lo explicará en una reunión inicial.</p></div></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" aria-expanded="false" aria-controls="fa4">¿Y si no puedo asistir siempre?<span class="faq__sign" aria-hidden="true"></span></button>
+            <div class="faq__panel" id="fa4" role="region"><div class="faq__inner"><p>La vida tiene sus ritmos. Pedimos un compromiso real con la práctica, no una asistencia perfecta. Si te cuesta la continuidad, tu coordinador te ayuda a encontrar la mejor forma de seguir.</p></div></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" aria-expanded="false" aria-controls="fa5">¿Puedo elegir el tema de estudio?<span class="faq__sign" aria-hidden="true"></span></button>
+            <div class="faq__panel" id="fa5" role="region"><div class="faq__inner"><p>Los grupos siguen un plan estructurado que Paramita facilita periódicamente, adecuado al momento de cada grupo, para mantener coherencia en el aprendizaje.</p></div></div>
+          </div>
+        </div>
+        <p class="faq__vacio" id="faqVacio" hidden>Sin coincidencias.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ 13 · NEWSLETTER (bloque unificado · pendiente) ══════════════ -->
+  <!-- Jana unifica el bloque newsletter aparte; se insertará el partial cuando esté cerrado. -->
+
+</main>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PREFOOTER + FOOTER · los inyecta sync.py (partials/prefooter.html + footer.html).
+     El marcador `prefooter` del comentario sync de arriba activa el prefooter.
+     ════════════════════════════════════════════════════════════════════ -->
+<!-- @sync:prefooter -->
+<!-- @sync:footer -->
+
+</body>
+</html>

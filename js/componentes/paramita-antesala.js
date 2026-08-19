@@ -83,6 +83,9 @@
   // Cualquiera de las capas base sirve para medir: todas comparten el `d`.
   const path    = camino && camino.querySelector('.cap-4');
   const ball    = camino && camino.querySelector('.spotlight');
+  // Trazo iluminado (core): su stroke-dashoffset animado marca la PUNTA que
+  // la bola sigue al hacer pin (ver followTip). Si falta, degradación elegante.
+  const capHover = camino && camino.querySelector('.cap-hover');
   const cards   = puertas ? [...puertas.querySelectorAll('.antesala__puerta')] : [];
 
   if (!svg || !path || !ball || cards.length !== 3) return;
@@ -135,7 +138,9 @@
     });
 
     // Re-fija la bola si estaba parada en una card, o reposiciona el viaje.
-    if (pinnedIndex > -1) placeBall(paradas[pinnedIndex]);
+    // Si está siguiendo la punta (tipRaf activo), ese bucle ya usa el nuevo
+    // `len` en el próximo frame → no lo pisamos aquí.
+    if (pinnedIndex > -1 && !tipRaf) placeBall(paradas[pinnedIndex]);
   }
 
   // ── Colocar la bola en una fracción del path (misma geometría que trazo) ─
@@ -159,6 +164,7 @@
   let startTs = 0;
   let inView = false;
   let pinnedIndex = -1;
+  let tipRaf = null;           // rAF del seguimiento de la punta (pin)
 
   function reposo() {
     return getComputedStyle(document.documentElement)
@@ -187,17 +193,40 @@
     if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
   }
 
+  // ═══ La bola cabalga la PUNTA del trazo que se dibuja ══════════════════
+  //   El CSS es la ÚNICA fuente de la animación: .cap-hover transiciona su
+  //   stroke-dashoffset (--dur-deliberado · --ease-llegada) al hover. Aquí
+  //   sólo leemos esa punta frame a frame y ponemos la bola encima, así
+  //   trazo y bola llegan JUNTOS al destino. En reduced-motion el CSS pone
+  //   transition:none → la punta salta y la bola con ella, sin caso especial.
+  //   dashoffset ∈ [0..100] (pathLength=100): fracción dibujada = (100-off)/100.
+  function tipFraction() {
+    if (!capHover) return pinnedIndex > -1 ? paradas[pinnedIndex] : 0;
+    const off = parseFloat(getComputedStyle(capHover).strokeDashoffset);
+    if (Number.isNaN(off)) return pinnedIndex > -1 ? paradas[pinnedIndex] : 0;
+    return Math.min(1, Math.max(0, (100 - off) / 100));
+  }
+  function followTip() {
+    placeBall(tipFraction());
+    tipRaf = requestAnimationFrame(followTip);
+  }
+  function stopFollow() {
+    if (tipRaf) { cancelAnimationFrame(tipRaf); tipRaf = null; }
+  }
+
   // ═══ Hover / focus → PIN en la parada (respuesta al gesto) ═════════════
   function pin(i) {
     pinnedIndex = i;
     stopAmbient();
     ball.classList.add('is-pinned');
-    placeBall(paradas[i]);
     ball.style.opacity = '1';
+    if (capHover) { stopFollow(); followTip(); } // la bola sigue la punta
+    else placeBall(paradas[i]);                  // fallback: salto directo
   }
   function unpin() {
     if (pinnedIndex === -1) return;
     pinnedIndex = -1;
+    stopFollow();
     ball.classList.remove('is-pinned');
     if (ambientAllowed()) startAmbient();
     else ball.style.opacity = '0';

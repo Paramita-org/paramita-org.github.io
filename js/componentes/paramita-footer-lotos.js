@@ -292,6 +292,24 @@
   }, { threshold: 0.05 });
   io.observe(zona);
 
+  /* ── Entrada del título de la banda · zoom + fundido ──
+     Self-contained: no depende de GSAP ni de reveal.js. Arma el estado oculto
+     con la clase .foot__hero--anim (definida en paramita-footer.css) SOLO si
+     hay JS y no hay reduced-motion; así, si esto no corre, el título se ve
+     igual. Al entrar en vista, .is-in dispara la transición una vez. */
+  (function initTituloEntrada() {
+    if (calm) return;
+    const titulo = zona.querySelector('.foot__h');
+    if (!titulo) return;
+    zona.classList.add('foot__hero--anim');   // arma el estado oculto
+    const ioT = new IntersectionObserver((ents) => {
+      ents.forEach((en) => {
+        if (en.isIntersecting) { zona.classList.add('is-in'); ioT.disconnect(); }
+      });
+    }, { threshold: 0.35 });
+    ioT.observe(titulo);
+  })();
+
   // Reduced-motion: un solo frame estático, sin animación
   if (calm) {
     const paintOnce = () => dibujarLotos();

@@ -44,7 +44,6 @@
       color-mix(in oklch, var(--lino) 74%, transparent) 44%,
       color-mix(in oklch, var(--lino) 32%, transparent) 100%);
   }
-  .preg-hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--hair); z-index: 1; }
   .preg-hero .eyebrow { margin-bottom: var(--espacio-elemento); }
   .preg-hero h1 { max-width: none; font-size: clamp(2.6rem, 7vw, 4.6rem); }
   /* Lede en Hanken recto · regla de hero del sistema (Fase 5.6): nunca Fraunces/itálica */
@@ -57,9 +56,16 @@
   /* ═══ BARRA DE UTILIDAD · buscar + chips ancla · pegajosa BAJO el navbar ═══ */
   .preg-util {
     position: sticky; top: 62px; z-index: 30;   /* 62px = altura de .bar.scrolled; el navbar (z-index:100) queda por encima */
+    background: transparent;
+    transition: background .3s ease, box-shadow .3s ease;
+  }
+  /* En reposo es transparente: el hero fluye hacia el contenido sin línea de
+     corte. Solo al quedar pegada bajo el navbar (.is-stuck, lo pone el JS) se
+     vuelve cristal con una sombra suave para separarse del contenido que pasa. */
+  .preg-util.is-stuck {
     background: color-mix(in oklch, var(--lino) 86%, transparent);
     -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--hair);
+    box-shadow: 0 10px 24px -18px rgba(29, 31, 38, .4);
   }
   .preg-util__in { display: flex; align-items: center; gap: var(--espacio-contenido); flex-wrap: wrap; padding-block: var(--espacio-elemento); }
   .preg-util .faq__buscador { flex: 1 1 260px; margin: 0; max-width: 420px; }

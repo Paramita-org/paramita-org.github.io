@@ -3,164 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paramita · Meditación y sabiduría de los Himalayas</title>
+<title>Política de Privacidad · Paramita</title>
+<meta name="description" content="Cómo trata la Fundación Sakya (Paramita) tus datos personales conforme al RGPD y la LOPDGDD.">
 
-<link rel="preload" href="assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
+<!-- sync: navbar=publico -->
 
-<!-- Marca JS activo cuanto antes · evita el parpadeo de los revelados al entrar en vista -->
 <script>document.documentElement.classList.add('js')</script>
-
-<!-- TEMA · anti-FOUC · aplica la penumbra guardada ANTES de pintar.
-     Opt-in puro: sin preferencia guardada, la home arranca en luz. -->
+<!-- TEMA · anti-FOUC (sync) · aplica la penumbra guardada ANTES de pintar -->
 <script>
   try { if (localStorage.getItem('paramita-tema') === 'oscuro') document.documentElement.setAttribute('data-tema','oscuro'); } catch(e){}
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js" defer></script>
+<!-- JS · navbar + tema -->
+<script src="../js/primitivos/paramita-reveal.js" defer></script>
+<script src="../js/componentes/paramita-bar.js" defer></script>
+<script src="../js/componentes/paramita-menu.js" defer></script>
+<script src="../js/componentes/paramita-tema.js" defer></script>
 
-<!-- 1 · Primitivos · utilidades transversales -->
-<script src="js/primitivos/paramita-reveal.js" defer></script>
-<script src="js/primitivos/paramita-gsap-refresh.js" defer></script>
-
-<!-- 2 · Comportamientos · patrones reutilizables -->
-<script src="js/componentes/paramita-bar.js" defer></script>
-<script src="js/componentes/paramita-blog-cascada.js" defer></script>
-<script src="js/componentes/paramita-modal.js" defer></script>
-<script src="js/componentes/paramita-hero.js" defer></script>
-<script src="js/componentes/paramita-fluido.js" defer></script>
-<script src="js/componentes/paramita-trazo-divisor.js" defer></script>
-<script src="js/componentes/paramita-antesala.js" defer></script>
-
-<!-- 3 · Páginas · efectos específicos de la homepage -->
-<script src="js/componentes/paramita-frase-zoom.js" defer></script>
-<!-- paramita-cursos-flip.js RETIRADO · sustituido por la Antesala del Sendero
-     que reutiliza paramita-trazo-divisor.js (ya cargado arriba). -->
-<script src="js/componentes/paramita-cta-zoom.js" defer></script>
-<!-- paramita-participacion.js RETIRADO · Fase 7+
-     El destacado cíclico .is-auto (auto-avance cada 2.2s) contradecía la
-     doctrina de motion (atención que avanza sola = familia de antipatrón
-     del carrusel automático). La afordancia ahora es estática —flecha en
-     reposo en cada vía— más el estado hover dorado. La regla .is-auto
-     queda latente en el CSS como alias del hover por si se reactivara. -->
-<script src="js/componentes/paramita-suscripcion.js" defer></script>
-<script src="js/componentes/paramita-footer-lotos.js" defer></script>
-
-<!-- 1 · Reset · normalización de navegadores -->
-<link rel="stylesheet" href="css/base/paramita-reset.css">
-
-<!-- 2 · Tokens · variables del sistema (color, tipografía, layout, movimiento) -->
-<link rel="stylesheet" href="css/tokens/paramita-fuentes.css">
-<link rel="stylesheet" href="css/tokens/paramita-color.css">
-<link rel="stylesheet" href="css/tokens/paramita-tipografia.css">
-<link rel="stylesheet" href="css/tokens/paramita-layout.css">
-<link rel="stylesheet" href="css/tokens/paramita-movimiento.css">
-
-<!-- 3 · Base · defaults del proyecto (body, títulos, enlaces, selección) -->
-<link rel="stylesheet" href="css/base/paramita-base.css">
-
-<!-- 4 · Componentes · cada pieza del sitio en su archivo
-       El orden entre componentes NO es crítico gracias al @layer declarado
-       en cada archivo, pero se mantiene por legibilidad. -->
-<link rel="stylesheet" href="css/componentes/paramita-fluido.css">
-<link rel="stylesheet" href="css/componentes/paramita-bar.css">
-<link rel="stylesheet" href="css/componentes/paramita-menu.css">
-<link rel="stylesheet" href="css/componentes/paramita-pictogramas.css">
-<link rel="stylesheet" href="css/componentes/paramita-cta.css">
-<link rel="stylesheet" href="css/componentes/paramita-hero.css">
-<link rel="stylesheet" href="css/componentes/paramita-sections.css">
-<link rel="stylesheet" href="css/componentes/paramita-antesala.css">
-<link rel="stylesheet" href="css/componentes/paramita-extras.css">
-<link rel="stylesheet" href="css/componentes/paramita-suscripcion.css">
-<link rel="stylesheet" href="css/componentes/paramita-tradicion.css">
-<link rel="stylesheet" href="css/componentes/paramita-modal.css">
-<link rel="stylesheet" href="css/componentes/paramita-footer.css">
-<link rel="stylesheet" href="css/base/paramita-responsive.css">
-
-<!-- 5 · Tema · penumbra/luz (EXPERIMENTO) · debe ir el ÚLTIMO para ganar -->
-  <!-- TEMA · penumbra/luz · el ÚLTIMO para ganar la cascada (sync) -->
-  <link rel="stylesheet" href="css/componentes/paramita-tema.css">
-
+<!-- CSS · reset + tokens + base + componentes de chrome + legal -->
+<link rel="stylesheet" href="../css/base/paramita-reset.css">
+<link rel="stylesheet" href="../css/tokens/paramita-fuentes.css">
+<link rel="stylesheet" href="../css/tokens/paramita-color.css">
+<link rel="stylesheet" href="../css/tokens/paramita-tipografia.css">
+<link rel="stylesheet" href="../css/tokens/paramita-layout.css">
+<link rel="stylesheet" href="../css/tokens/paramita-movimiento.css">
+<link rel="stylesheet" href="../css/base/paramita-base.css">
+<link rel="stylesheet" href="../css/componentes/paramita-bar.css">
+<link rel="stylesheet" href="../css/componentes/paramita-menu.css">
+<link rel="stylesheet" href="../css/componentes/paramita-pictogramas.css">
+<link rel="stylesheet" href="../css/componentes/paramita-cta.css">
+<link rel="stylesheet" href="../css/componentes/paramita-footer.css">
+<link rel="stylesheet" href="../css/paginas/paramita-legal.css">
+<link rel="stylesheet" href="../css/base/paramita-responsive.css">
+<link rel="stylesheet" href="../css/componentes/paramita-tema.css">
 </head>
 <body>
-<!-- sync: navbar=publico -->
-
-<!-- FONDO GLOBAL · lienzo del fluido WebGL (capa de fondo, no interactiva).
-     Pinta el lino vivo + refracción de luz azul→dorado. Si no hay WebGL, se oculta
-     y queda el color de fondo base del body (#FAF6F0). -->
-<canvas id="fluido" aria-hidden="true"></canvas>
-
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PARAMITA · FUNDACIÓN SAKYA
-     partials/navbar-publico.html — Navbar público (usuarios sin sesión)
-     ───────────────────────────────────────────────────────────────────────────
-
-     CAMBIO FASE 7 · añadido .btn-acceso
-     ────────────────────────────────────
-     Añadido el círculo .btn-acceso al final del .bar-inner (fuera del .menu)
-     para dar entrada al login. Cuando el usuario se autentica, este mismo
-     círculo se sustituye por el .avatar-menu del navbar-practicante (misma
-     posición, mismo tamaño, misma familia lumínica) — continuidad visual
-     entre ambos navbars.
-
-     REORDENACIÓN DEL DOM
-     ────────────────────
-     El .burger se mueve al final del .bar-inner (antes estaba en 3ª posición).
-     El .btn-acceso queda como penúltimo hijo, justo antes del burger, para:
-       · En desktop: aparecer al final de la fila, después de los CTAs.
-       · En móvil: quedar visible en la barra sin abrir el hamburguesa.
-
-     La reordenación no rompe el sibling selector `.nt:checked ~ .menu`
-     porque el input.nt sigue estando ANTES del .menu en el DOM. El label
-     .burger[for="nt"] funciona por atributo, no por proximidad.
-
-     Depende de estos CSS del sistema (ya cargados):
-       · paramita-bar.css     → contenedor sticky, glass, logo
-       · paramita-menu.css    → menú horizontal, links, submenús, caret
-       · paramita-cta.css     → .btn-secundario, .btn-primario, .btn-acceso
-       · paramita-responsive.css → burger + comportamiento móvil
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PARAMITA · FUNDACIÓN SAKYA
-     partials/navbar-publico.html — Navbar público (usuarios sin sesión)
-     ───────────────────────────────────────────────────────────────────────────
-
-     CAMBIO FASE 7 · añadido .btn-acceso
-     ────────────────────────────────────
-     Añadido el círculo .btn-acceso al final del .bar-inner (fuera del .menu)
-     para dar entrada al login. Cuando el usuario se autentica, este mismo
-     círculo se sustituye por el .avatar-menu del navbar-practicante (misma
-     posición, mismo tamaño, misma familia lumínica) — continuidad visual
-     entre ambos navbars.
-
-     CAMBIO FASE 7+ · «Únete» pasa de CTA a apartado del menú
-     ────────────────────────────────────────────────────────
-     «Únete» ya no es un .btn-secundario del .ctas: ahora es el sexto apartado
-     del menú, con submenú (Grupos + Voluntariado), como «Sobre». El .ctas queda
-     con un único secundario (Contribuir); el acceso a cuenta lo sigue dando el
-     .btn-acceso. Fundamento: doc 06 (actualizado) y estudio «Únete». Páginas
-     destino: /unete/grupos/ y /unete/voluntariado/.
-
-     REORDENACIÓN DEL DOM
-     ────────────────────
-     El .burger se mueve al final del .bar-inner (antes estaba en 3ª posición).
-     El .btn-acceso queda como penúltimo hijo, justo antes del burger, para:
-       · En desktop: aparecer al final de la fila, después de los CTAs.
-       · En móvil: quedar visible en la barra sin abrir el hamburguesa.
-
-     La reordenación no rompe el sibling selector `.nt:checked ~ .menu`
-     porque el input.nt sigue estando ANTES del .menu en el DOM. El label
-     .burger[for="nt"] funciona por atributo, no por proximidad.
-
-     Depende de estos CSS del sistema (ya cargados):
-       · paramita-bar.css     → contenedor sticky, glass, logo
-       · paramita-menu.css    → menú horizontal, links, submenús, caret
-       · paramita-cta.css     → .btn-secundario, .btn-primario, .btn-acceso
-       · paramita-responsive.css → burger + comportamiento móvil
-     ═══════════════════════════════════════════════════════════════════════════ -->
 
 <header class="bar">
   <div class="bar-inner wrap">
@@ -219,35 +96,11 @@
                teclado sería refinamiento de fase posterior, no se necesita aún). -->
           <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></button>
           <ul class="sub" role="menu" aria-label="Sobre Paramita">
-            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quienes transmiten la enseñanza</span><span class="pico" data-pico="maestros" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M12 6.5 C10 5.2 6.5 5 4 5.6 L4 17.6 C6.5 17 10 17.2 12 18.5 C14 17.2 17.5 17 20 17.6 L20 5.6 C17.5 5 14 5.2 12 6.5 Z"/>
-  <path d="M12 6.5 L12 18.5"/>
-  <path class="acc" d="M6.6 9 L9.4 9 M6.6 11.4 L9.4 11.4"/>
-</svg></span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span><span class="pico" data-pico="khenpo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M12 4.5 C10.6 7.5 10.6 10.5 12 12.8 C13.4 10.5 13.4 7.5 12 4.5 Z"/>
-  <path d="M12 12.8 C10 10.5 6.5 9.8 4.2 10.6 C5 13.6 8 15.6 12 15.6"/>
-  <path d="M12 12.8 C14 10.5 17.5 9.8 19.8 10.6 C19 13.6 16 15.6 12 15.6"/>
-  <path class="acc" d="M6 17.6 C8.5 19.4 15.5 19.4 18 17.6"/>
-</svg></span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/sangha-monastica/sangha-monastica.html"><strong>Comunidad Monástica</strong><span>Monásticos y monásticas</span><span class="pico" data-pico="comunidad" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <circle cx="7.5" cy="10" r="2.3"/>
-  <circle cx="16.5" cy="10" r="2.3"/>
-  <circle class="acc" cx="12" cy="8.6" r="2.4"/>
-  <path d="M3.8 18.6 C3.8 14.9 5.6 13.7 7.5 13.7 C8.4 13.7 9.1 14 9.7 14.5"/>
-  <path d="M20.2 18.6 C20.2 14.9 18.4 13.7 16.5 13.7 C15.6 13.7 14.9 14 14.3 14.5"/>
-  <path d="M8.2 18.6 C8.2 14.1 9.8 13 12 13 C14.2 13 15.8 14.1 15.8 18.6"/>
-</svg></span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span><span class="pico" data-pico="fundacion" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M5.5 20 L18.5 20"/>
-  <path d="M7 20 L7 15 C7 11 9 9.5 12 9.5 C15 9.5 17 11 17 15 L17 20"/>
-  <path d="M10 9.5 L10 7.5 L14 7.5 L14 9.5"/>
-  <path class="acc" d="M12 7.5 L12 3.6 M10.3 5.1 L13.7 5.1 M10.8 3.7 C11.4 3 12.6 3 13.2 3.7"/>
-</svg></span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span><span class="pico" data-pico="faq" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M4.5 15.5 C4.5 8 9 6 12 6 C16 6 19.5 8.5 19.5 12.5 C19.5 16.5 16 18.5 12 18.5 L8.5 18.5 L5.6 21 L6 17.8 C5 17 4.5 16.3 4.5 15.5 Z"/>
-  <path class="acc" d="M10 11 C10 9.3 11 8.7 12 8.7 C13.2 8.7 14 9.4 14 10.6 C14 11.8 12.6 12.2 12 13 L12 13.9 M12 15.7 L12 15.75"/>
-</svg></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quienes transmiten la enseñanza</span><span class="pico" data-pico="maestros" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span><span class="pico" data-pico="khenpo" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/sangha-monastica/sangha-monastica.html"><strong>Comunidad Monástica</strong><span>Monásticos y monásticas</span><span class="pico" data-pico="comunidad" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span><span class="pico" data-pico="fundacion" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span><span class="pico" data-pico="faq" aria-hidden="true"></span></a></li>
           </ul>
         </li>
 
@@ -260,14 +113,8 @@
         <li class="has-sub end">
           <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Únete <i class="caret" aria-hidden="true"></i></button>
           <ul class="sub" role="menu" aria-label="Únete a Paramita">
-            <li role="none"><a role="menuitem" href="/unete/grupos/grupos.html"><strong>Grupos</strong><span>Círculos de estudio cerca de ti</span><span class="pico" data-pico="grupos" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <circle cx="12" cy="11.5" r="7"/>
-  <circle cx="12" cy="6.5" r="1.2"/>
-  <circle cx="16.9" cy="13.5" r="1.2"/>
-  <circle cx="7.1" cy="13.5" r="1.2"/>
-  <circle class="acc" cx="12" cy="11.5" r="1.7"/>
-</svg></span></a></li>
-            <li role="none"><a role="menuitem" href="/unete/voluntariado/voluntariado.html"><strong>Voluntariado</strong><span>Ofrece tu tiempo en el centro</span><span class="pico" data-pico="voluntariado" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20S5 15.5 5 10.6A3.7 3.7 0 0 1 12 8.7 3.7 3.7 0 0 1 19 10.6C19 15.5 12 20 12 20z"/><path class="acc" d="M12 6.4V4M9.4 4.9 8.4 3.1M14.6 4.9 15.6 3.1"/></svg></span></a></li>
+            <li role="none"><a role="menuitem" href="/unete/grupos/grupos.html"><strong>Grupos</strong><span>Círculos de estudio cerca de ti</span><span class="pico" data-pico="grupos" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/unete/voluntariado/voluntariado.html"><strong>Voluntariado</strong><span>Ofrece tu tiempo en el centro</span><span class="pico" data-pico="voluntariado" aria-hidden="true"></span></a></li>
           </ul>
         </li>
 
@@ -334,378 +181,145 @@
   </div>
 </header>
 
-<main>
 
-  <!-- ╔═══ 2 · HERO ═══╗  Vídeo de fondo a pantalla completa + rotador de palabras -->
-  <section class="hero" id="hero">
+<main class="wrap">
+  <article class="legal">
 
-    <!-- Vídeo de fondo responsive a sangre (edge-to-edge), cargado por JS según viewport -->
-    <div class="hero__bg" aria-hidden="true">
-      <div class="hero__bg-fallback"></div>
-      <video class="hero__bg-video" id="hero-bg-video"
-             autoplay loop muted playsinline preload="metadata"></video>
-    </div>
+    <!-- NOTA PROVISIONAL · quitar al cerrar con Ale/legal -->
+    <p class="legal__aviso"><strong>Nota interna (provisional):</strong> texto portado de
+      <em>paramita.org/politica-de-privacidad</em>. Pendiente de revisión legal por Ale antes de publicar.
+      Confirmar: el correo de contacto de datos, la fecha de última revisión y si «BAJAS» usa otro buzón.</p>
 
-    <div class="wrap hero__inner">
-      <p class="eyebrow">Sistema completo de meditación</p>
+    <h1>Política de Privacidad</h1>
 
-      <h1>
-        Despierta tu
-        <span class="rotator" role="text" aria-label="sabiduría interior, mejor versión, naturaleza más profunda, potencial ilimitado, paz interior, claridad interior, mente y corazón">
-          <em class="rotator__word is-active">sabiduría interior.</em>
-          <em class="rotator__word">mejor versión.</em>
-          <em class="rotator__word">naturaleza más profunda.</em>
-          <em class="rotator__word">potencial ilimitado.</em>
-          <em class="rotator__word">paz interior.</em>
-          <em class="rotator__word">claridad interior.</em>
-          <em class="rotator__word">mente y tu corazón.</em>
-        </span>
-      </h1>
+    <p class="legal__intro">El objetivo de esta política es informar a los interesados acerca de los distintos
+      tratamientos realizados por esta asociación mediante la página web y que afecten a sus datos personales,
+      de conformidad con lo establecido en la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos
+      Personales y garantía de los derechos digitales, y el Reglamento (UE) 2016/679 del Parlamento Europeo y
+      del Consejo, de 27 de abril de 2016.</p>
 
-      <p class="lede">Aprende a vivir con equilibrio e integra cada aspecto de tu vida —la mente, el corazón, lo cotidiano— en un único camino de desarrollo personal y espiritual.</p>
+    <h2>1 · Identificación y datos de contacto del responsable</h2>
+    <p>La asociación <strong>Fundación Sakya</strong>, domiciliada en Av. del Comtat, 1 Bis, buzón 207
+      («Urb. La Sella»), 03750 Pedreguer (Alicante), con N.I.F. G96702378, teléfono de contacto
+      (+34) 965 760 777 y correo electrónico
+      <a href="mailto:secretaria@paramita.org">secretaria@paramita.org</a>.</p>
 
-      <div class="actions">
-        <a class="btn-primario" href="https://cursos.paramita.org/home">Aprende a meditar</a>
-        <a class="btn-secundario" href="/formacion/formacion-publica.html">Explorar los cursos</a>
-      </div>
-    </div>
+    <h2>2 · Finalidades del tratamiento de sus datos personales</h2>
+    <p>Según el caso, trataremos sus datos de carácter personal facilitados a través de nuestros formularios
+      web con las siguientes finalidades:</p>
 
-    <!-- Toggle de audio del vídeo de fondo (requiere gesto del usuario) -->
-    <button class="hero__sound" id="hero-sound-toggle" type="button"
-            aria-label="Activar sonido del fondo" aria-pressed="false" title="Activar sonido">
-      <svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M11 5 6 9H2v6h4l5 4z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/>
-      </svg>
-      <svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-      </svg>
-    </button>
-  </section>
+    <h3>Usuarios / navegantes de la página web</h3>
+    <ul>
+      <li>Atender las solicitudes, quejas e incidencias trasladadas a través de nuestros canales de contacto.</li>
+      <li>Entender el comportamiento del navegante en la web para detectar posibles ataques informáticos.</li>
+      <li>Cumplir con las obligaciones legales que nos resulten directamente aplicables.</li>
+      <li>Proteger y ejercer nuestros derechos o responder ante reclamaciones de cualquier índole.</li>
+      <li>En su caso, realizar encuestas de calidad que nos permitan evaluar nuestro servicio.</li>
+      <li>En su caso, el envío de comunicaciones comerciales y/o noticias o boletines relacionados con nuestra actividad.</li>
+      <li>Gestionar, administrar y supervisar su actividad en el blog/foro incorporado.</li>
+    </ul>
 
-  <!-- ╔═══ 3 · BIENVENIDOS A PARAMITA ═══╗  Anclaje de realidad + VÍDEO CINEMÁTICO (mission_video) -->
-  <section class="bienvenidos wrap" id="sobre-nosotros" aria-labelledby="biv-t">
-    <div class="mission__intro">
-      <span class="eyebrow" data-reveal="1">Bienvenidos a Paramita</span>
-      <h2 class="mission__titulo" id="biv-t" data-reveal="2">Un puente entre la sabiduría de los Himalayas y el mundo <em>hispanohablante</em>.</h2>
-      <p class="mission__texto">Un colectivo internacional de grupos budistas que crea espacios para compartir la meditación y las enseñanzas del Buddha. Formaciones y retiros en el Centro Budista Sakya, Alicante, y cursos en línea para todos los niveles.</p>
-      <div class="mission__signed"><span class="line" aria-hidden="true"></span>Centro Budista Sakya · Alicante, España</div>
-    </div>
+    <h3>Voluntarios</h3>
+    <ul>
+      <li>Gestión de la relación con los voluntarios comprometidos con la entidad.</li>
+      <li>Atender solicitudes, quejas e incidencias por nuestros canales de contacto.</li>
+      <li>Detectar posibles ataques informáticos a la web.</li>
+      <li>Realizar, en su caso, encuestas de calidad.</li>
+      <li>Envío, en su caso, de comunicaciones comerciales, noticias o boletines.</li>
+      <li>Cumplir con las obligaciones legales aplicables.</li>
+      <li>Administrar sus datos y facilitarlos, en su caso, a proveedores externos para el funcionamiento de la organización.</li>
+      <li>Verificar su identidad para evitar errores en sus acciones como voluntario.</li>
+      <li>Proteger nuestros derechos o responder ante reclamaciones.</li>
+    </ul>
 
-    <div class="mission__video-wrap">
-      <div class="mission__video" id="missionVideo" role="button" tabindex="0" aria-label="Reproducir vídeo institucional de Paramita">
-        <div class="mission__media" id="missionMedia" aria-hidden="true"></div>
-        <div class="mission__overlay">
-          <div class="mission__play" aria-hidden="true"></div>
-          <p class="mission__caption">Conoce Paramita<br>en dos minutos</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    <h3>Donantes</h3>
+    <ul>
+      <li>Gestión de las donaciones realizadas a través de la web.</li>
+      <li>Responder consultas y atender solicitudes, quejas o incidencias.</li>
+      <li>Envío, en su caso, de comunicaciones comerciales, noticias o boletines.</li>
+      <li>Detectar posibles ataques informáticos a la web.</li>
+      <li>Administrar sus datos y facilitarlos, en su caso, a proveedores externos.</li>
+      <li>Cumplir con las obligaciones legales aplicables.</li>
+      <li>Verificar su identidad para evitar errores en sus acciones como donante.</li>
+      <li>Proteger nuestros derechos o responder ante reclamaciones.</li>
+      <li>Realizar, en su caso, encuestas de calidad.</li>
+    </ul>
 
-  <!-- ╔═══ 4 · FRASE ═══╗  ZOOM-OUT DESDE GIGANTE (efecto-02 · sección 2) · scrub por scroll -->
-  <section class="zen-frase" id="frase" aria-label="El Camino hacia la Orilla de la Liberación">
-    <div class="zen-frase__inner">
-      <p class="zen-frase__eyebrow">Centro Budista Paramita</p>
-      <h2 class="zen-frase__titulo" id="fraseZoom"><span>El Camino hacia</span><span>la Orilla de la Liberación</span></h2>
-    </div>
-    <!-- Indicador de scroll · Fase 6+ · se retira la palabra "Desciende":
-         el imperativo competía con la línea poética y rompía el tono
-         contemplativo. Se conserva SOLO la línea fina que se desvanece
-         (::after) + el bob sutil, que el JS retira al primer scroll. -->
-    <div class="zen-intro_scroll-hint" aria-hidden="true"></div>
-  </section>
+    <h3>Socios</h3>
+    <ul>
+      <li>Gestión de la relación con los socios comprometidos con la organización.</li>
+      <li>Responder consultas y atender solicitudes, quejas o incidencias.</li>
+      <li>Envío, en su caso, de comunicaciones comerciales, noticias o boletines.</li>
+      <li>Detectar posibles ataques informáticos a la web.</li>
+      <li>Administrar sus datos y facilitarlos, en su caso, a proveedores externos.</li>
+      <li>Cumplir con las obligaciones legales aplicables.</li>
+      <li>Verificar su identidad para evitar errores en sus acciones como socio.</li>
+      <li>Proteger nuestros derechos o responder ante reclamaciones.</li>
+      <li>Realizar, en su caso, encuestas de calidad.</li>
+    </ul>
 
-  <!-- ╔═══ 5 · ANTESALA DEL SENDERO ═══╗  Fase 7
-       ─────────────────────────────────────────────────────────────────
-       Camino luminoso (aura-stack de 4 capas SVG) POR DEBAJO de tres
-       cards transparentes. Un spotlight dorado con blur viaja de
-       izquierda a derecha en 20s siguiendo el path del camino.
+    <h2>3 · Base jurídica del tratamiento</h2>
+    <p>Según el tipo de interesado, el tratamiento se apoya en una o varias de estas bases: el
+      <strong>consentimiento</strong> prestado para las finalidades indicadas; la <strong>ejecución de un
+      contrato</strong> o la aplicación de medidas precontractuales; el <strong>cumplimiento de obligaciones
+      legales</strong> aplicables; y el <strong>interés legítimo</strong> de proteger nuestra imagen y
+      actividad frente a ataques a la web. <em>La negativa a facilitar los datos necesarios puede conllevar la
+      imposibilidad de tratarlos con las finalidades mencionadas. En los tratamientos basados en obligación
+      legal o interés legítimo, el interesado no podrá oponerse, sin perjuicio de los derechos reconocidos en
+      el apartado 8.</em></p>
 
-       Al hover una card:
-         · Las otras dos cards se atenúan (hover honrado)
-         · El tramo desde el inicio hasta la card se ilumina
-           (Card 1 → 22% · Card 2 → 50% · Card 3 → 78%)
-         · El spotlight se detiene en la intersección y respira
+    <h2>4 · Plazos o criterios de conservación de los datos</h2>
+    <p>Los datos se conservarán durante el tiempo necesario para cumplir las finalidades para las que fueron
+      recogidos. Cuando dejen de ser necesarios, se mantendrán bloqueados a disposición de Administraciones,
+      Jueces y Tribunales o el Ministerio Fiscal durante el plazo de prescripción de las acciones que pudieran
+      derivarse. Si nos facilita su currículum, sus datos se conservarán un máximo de un año, salvo
+      autorización para un periodo mayor.</p>
+    <p><em>Periodos de bloqueo de referencia:</em></p>
+    <ul>
+      <li><strong>Código Civil:</strong> entre 5 y 15 años según el caso (art. 1964.2).</li>
+      <li><strong>Código de Comercio:</strong> 6 años para la información mercantil (art. 30).</li>
+      <li><strong>Ley General Tributaria:</strong> 4 años para la información fiscal (arts. 66 a 70).</li>
+      <li><strong>Ley 10/2010 de prevención del blanqueo de capitales:</strong> 10 años (art. 25).</li>
+    </ul>
 
-       Enlaces · todas las cards + CTA apuntan a /formacion/.
-       Ver decisiones en css/componentes/paramita-antesala.css.
-  -->
-  <section class="section wrap antesala" id="cursos" aria-labelledby="ant-t">
-    <div class="s-head">
-      <div>
-        <span class="eyebrow" data-reveal>Cursos</span>
-        <h2 id="ant-t" data-reveal>Un camino <em>gradual</em>, del primer paso a la práctica más profunda.</h2>
-      </div>
-      <p>Cinco niveles, decenas de cursos. Elige por dónde entrar al sendero — sin prisa, sin niveles saltados.</p>
-    </div>
+    <h2>5 · Decisiones automatizadas y elaboración de perfiles</h2>
+    <p>La página web no toma decisiones automatizadas ni elabora perfiles.</p>
 
-    <div class="antesala__mapa" data-reveal>
+    <h2>6 · Destinatarios</h2>
+    <p>Durante el tratamiento, la organización podrá ceder sus datos a: Jueces y Tribunales; Fuerzas y Cuerpos
+      de Seguridad del Estado; otras autoridades u organismos públicos competentes cuando exista obligación
+      legal; Bancos y Entidades Financieras en caso de contratación; y el SEPBLAC.</p>
 
-      <div class="antesala__puertas">
+    <h2>7 · Transferencias internacionales de datos</h2>
+    <p>La organización no realiza transferencia internacional de datos alguna.</p>
 
-        <a class="antesala__puerta" href="/formacion/formacion-publica.html#nivel-1" aria-label="Empiezo hoy · Nivel I · Fundamentos">
-          <span class="antesala__puerta__num" aria-hidden="true">I</span>
-          <h3 class="antesala__puerta__titulo">Empiezo hoy</h3>
-          <p class="antesala__puerta__desc">Aprende a meditar desde cero y descubre las primeras enseñanzas budistas.</p>
-        </a>
+    <h2>8 · Derechos</h2>
+    <p>Los interesados podrán ejercer en cualquier momento y de forma gratuita los derechos de
+      <strong>acceso, rectificación y supresión</strong>, así como solicitar la <strong>limitación</strong> del
+      tratamiento, <strong>oponerse</strong> al mismo, solicitar la <strong>portabilidad</strong> (cuando sea
+      técnicamente posible) o <strong>retirar el consentimiento</strong> prestado, y a no ser objeto de
+      decisiones basadas únicamente en tratamientos automatizados.</p>
+    <p>Para ello puede emplear los formularios habilitados o dirigir un escrito a la dirección postal o al
+      correo <a href="mailto:secretaria@paramita.org">secretaria@paramita.org</a>, acompañando copia de su
+      D.N.I. o documento equivalente para acreditar su identidad. Si considera vulnerados sus derechos, puede
+      reclamar ante la <strong>Agencia Española de Protección de Datos</strong>
+      (<a href="https://www.aepd.es/" target="_blank" rel="noopener">aepd.es</a>).</p>
+    <p>En cumplimiento del artículo 21 de la Ley 34/2002 (LSSI-CE), si no desea recibir más información sobre
+      nuestros servicios puede darse de baja escribiendo a
+      <a href="mailto:soporte@paramita.org">soporte@paramita.org</a> con el asunto «BAJAS».</p>
 
-        <a class="antesala__puerta" href="/formacion/formacion-publica.html#nivel-2" aria-label="Ya practico · Niveles II y III · Profundización y textos">
-          <span class="antesala__puerta__num" aria-hidden="true">II · III</span>
-          <h3 class="antesala__puerta__titulo">Ya practico</h3>
-          <p class="antesala__puerta__desc">Profundiza tu meditación y adéntrate en los textos clásicos del budismo tibetano.</p>
-        </a>
+    <h2>9 · Veracidad de los datos</h2>
+    <p>El interesado garantiza que los datos aportados son verdaderos, exactos, completos y están actualizados,
+      y se compromete a comunicar cualquier cambio. Será responsable de los daños que pudiera ocasionar el
+      incumplimiento de esta obligación. Si facilita datos de terceros, declara contar con su consentimiento y
+      se compromete a trasladarles la información de esta cláusula, eximiendo a la organización de
+      responsabilidad por su incumplimiento.</p>
 
-        <a class="antesala__puerta" href="/formacion/formacion-publica.html#nivel-4" aria-label="Vengo a profundizar · Niveles IV y V · Vajrayana y práctica avanzada">
-          <span class="antesala__puerta__num" aria-hidden="true">IV · V</span>
-          <h3 class="antesala__puerta__titulo">Vengo a profundizar</h3>
-          <p class="antesala__puerta__desc">Vajrayana y práctica avanzada para quienes ya recorren el camino desde hace tiempo.</p>
-        </a>
+    <p class="legal__meta">Última revisión: 26 de enero de 2021. <em>(Confirmar fecha con Ale antes de publicar.)</em></p>
 
-      </div>
-
-      <!-- ─── Camino luminoso con spotlight viajero ─────────────────────
-           Path base: M 0,70 C 240,55 480,85 720,70 S 1200,55 1440,70
-           Onda muy suave sobre viewBox 1440×140.
-           pathLength="100" normaliza para porcentajes en dashoffset.
-
-           NOTA · No se usa la clase .trazo-divisor porque el JS
-           paramita-trazo-divisor.js está diseñado para trazos ATADOS AL
-           SCROLL (dibujado progresivo según el scroll). Aquí queremos
-           el camino SIEMPRE dibujado del todo, así que evitamos que
-           ese JS enganche los paths.
-      -->
-      <div class="antesala__camino" aria-hidden="true">
-        <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
-          <path class="cap-1" pathLength="100"
-                d="M 0,70 C 240,55 480,85 720,70 S 1200,55 1440,70" />
-          <path class="cap-2" pathLength="100"
-                d="M 0,70 C 240,55 480,85 720,70 S 1200,55 1440,70" />
-          <path class="cap-3" pathLength="100"
-                d="M 0,70 C 240,55 480,85 720,70 S 1200,55 1440,70" />
-          <path class="cap-4" pathLength="100"
-                d="M 0,70 C 240,55 480,85 720,70 S 1200,55 1440,70" />
-
-          <!-- Tramo iluminado al hover · halo + core -->
-          <path class="cap-hover-halo" pathLength="100"
-                d="M 0,70 C 240,55 480,85 720,70 S 1200,55 1440,70" />
-          <path class="cap-hover" pathLength="100"
-                d="M 0,70 C 240,55 480,85 720,70 S 1200,55 1440,70" />
-
-          <!-- Spotlight viajero · cx/cy los escribe paramita-antesala.js
-               sobre el propio path (misma matriz que el trazo → siempre
-               pisa la línea). Ya no usa offset-path. -->
-          <circle class="spotlight" cx="0" cy="0" r="8" />
-        </svg>
-      </div>
-
-    </div>
-
-    <div class="idx-foot idx-foot--center" data-reveal>
-      <a class="t-link" href="/formacion/formacion-publica.html">
-        <span class="txt">Descubrir el sendero completo</span><span class="arw" aria-hidden="true">→</span>
-      </a>
-    </div>
-  </section>
-
-
-  <!-- ╔═══ 6 · PARTICIPACIÓN ═══╗  NUEVO BLOQUE estructural · vías para implicarse -->
-  <section class="section wrap participa" id="participa" aria-labelledby="par-t">
-    <div class="participa-grid">
-      <div>
-        <span class="eyebrow" data-reveal="1">Participa</span>
-        <h2 id="par-t" data-reveal="2" style="font-size:clamp(2rem,4.5vw,3.3rem);max-width:16ch;margin-top:1rem">Hay muchas formas de <em>caminar juntos</em>.</h2>
-        <p style="margin-top:1.4rem;max-width:42ch;color:var(--texto-suave)">Cada gesto sostiene la comunidad. Encuentra la manera que resuene contigo y súmate al proyecto.</p>
-      </div>
-      <div class="vias">
-        <!-- Enrutado (informe «Únete»): cada vía lleva a su spoke.
-             01 → grupos · 02 → voluntariado · 03 → contribuir (dāna, «su casa»).
-             La vía entera es el enlace; la .via__arw es solo afordancia visual
-             en reposo (no un <a> anidado — sería HTML inválido). -->
-        <a class="via" href="/unete/grupos/grupos.html"><span class="n">01</span><div class="via__body"><div class="via__row"><h3>Practica en comunidad</h3><span class="via__arw" aria-hidden="true">→</span></div><p>Únete a un grupo de meditación, presencial u online, y sostén tu práctica acompañado.</p></div></a>
-        <a class="via" href="/unete/voluntariado/voluntariado.html"><span class="n">02</span><div class="via__body"><div class="via__row"><h3>Ofrece tu tiempo</h3><span class="via__arw" aria-hidden="true">→</span></div><p>El voluntariado mantiene vivo el centro: desde la acogida hasta la traducción de enseñanzas.</p></div></a>
-        <a class="via" href="/contribuir/contribuir.html"><span class="n">03</span><div class="via__body"><div class="via__row"><h3>Apoya el proyecto</h3><span class="via__arw" aria-hidden="true">→</span></div><p>Tu aportación libre hace posible que las enseñanzas sigan siendo accesibles para todos.</p></div></a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ╔═══ 7 · CROWDFUNDING ═══╗  Centro de Retiros Paramita -->
-  <div class="wrap">
-    <section class="band" aria-labelledby="cf-t">
-      <p class="eyebrow" data-reveal="1">Crowdfunding · Centro de Retiros Paramita</p>
-      <h2 id="cf-t" data-reveal="2">Construyamos juntos un <em>refugio de Dharma</em>.</h2>
-      <p>Un lugar donde la práctica encuentra silencio y la comunidad encuentra hogar. Tu aportación levanta, piedra a piedra, un espacio de retiro abierto a todos.</p>
-      <a class="btn-secundario" href="#sueno">Unirme a este sueño compartido <span aria-hidden="true">→</span></a>
-    </section>
-  </div>
-
-  <!-- ╔═══ 8 · UNA TRADICIÓN VIVA ═══╗  Presencia (maestro · linaje · sede · alcance),
-       no testimonios. Sustituye al carrusel de citas anónimas · Fase 7. -->
-  <section class="section wrap tradicion" id="tradicion" aria-labelledby="trad-t">
-    <div class="s-head">
-      <div><span class="eyebrow" data-reveal="1">Una tradición viva</span>
-        <h2 id="trad-t" data-reveal="2">No descargas un método.<br>Entras en un linaje.</h2></div>
-      <p>Detrás de cada curso hay un maestro, un linaje de siglos y una casa con puertas abiertas en Alicante.</p>
-    </div>
-
-    <div class="tradicion__grid">
-      <!-- Presencia del maestro -->
-      <figure class="tradicion__maestro" data-reveal="1">
-        <img src="assets/img/khenpo-luz-dorada-low.jpg"
-             alt="Lama Khenpo Rinchen Gyaltsen, director espiritual de Paramita"
-             loading="lazy" decoding="async">
-        <figcaption>
-          <b>Lama Khenpo Rinchen Gyaltsen</b>
-          <span>Director espiritual de Paramita</span>
-        </figcaption>
-      </figure>
-
-      <!-- Arraigo · lede + cifras -->
-      <div class="tradicion__cuerpo" data-reveal="2">
-        <p class="tradicion__lede">Paramita transmite la tradición Sakya —una de las cuatro grandes escuelas del budismo tibetano, con casi mil años de linaje ininterrumpido— a quienes practican en español. No es una app de bienestar: es una comunidad con maestro, sede y raíces.</p>
-        <dl class="tradicion__anclas">
-          <div>
-            <dt>Siglo&nbsp;XI</dt>
-            <dd>Origen del linaje Sakya, transmitido sin interrupción de maestro a discípulo hasta hoy.</dd>
-          </div>
-          <div>
-            <dt>2008</dt>
-            <dd>Paramita echa raíces en Alicante como fundación dedicada a la tradición.</dd>
-          </div>
-          <div>
-            <dt>+1&nbsp;millón</dt>
-            <dd>Practicantes de la tradición en todo el mundo.</dd>
-          </div>
-        </dl>
-      </div>
-    </div>
-
-    <!-- Comunidad y lugar · la sangha y su casa, a tamaño medio (no banda) -->
-    <div class="tradicion__par" data-reveal="1">
-      <figure class="tradicion__foto">
-        <img src="assets/img/Sangha-Monastica-Retoque-Retro-2026.jpg"
-             alt="La sangha monástica de Paramita reunida"
-             loading="lazy" decoding="async">
-        <figcaption>La sangha monástica de Paramita.</figcaption>
-      </figure>
-      <figure class="tradicion__foto">
-        <img src="assets/img/tempo-vista-aerea-luz-dorada.jpeg"
-             alt="Vista aérea del centro de Paramita en Alicante bajo luz dorada"
-             loading="lazy" decoding="async">
-        <figcaption>El centro de Paramita en Alicante.</figcaption>
-      </figure>
-    </div>
-
-    <!-- Teaser → landing de comunidad (por hacer) -->
-    <p class="tradicion__mas" data-reveal="1">
-      <a class="t-link" href="/sobre/sangha-monastica/sangha-monastica.html"><span class="txt">Conoce a toda la sangha monástica</span><span class="arw" aria-hidden="true">→</span></a>
-    </p>
-  </section>
-
-  <!-- ╔═══ 9 · ARTÍCULOS DEL BLOG ═══╗  Tarjetas en capas (barra-imagen que crece + glifo de fondo) -->
-  <section class="section wrap blog" id="blog" aria-labelledby="art-t">
-    <div class="s-head">
-      <div><span class="eyebrow" data-reveal="1">Diario</span><h2 id="art-t" data-reveal="2">Artículos destacados</h2></div>
-      <p>Pasa el cursor por cada tarjeta: la imagen crece y el título asoma desde el fondo.</p>
-    </div>
-    <div class="grid-cards" id="blogCards">
-      <article class="efx-card">
-        <div class="bar-img"><div class="pic" style="background-image:url('assets/img/blog-1-color.jpg'),linear-gradient(135deg,#FFB400,#FA7A1E)"></div></div>
-        <span class="ghost" aria-hidden="true">慧</span>
-        <span class="num">01</span>
-        <div class="body">
-          <span class="kicker">Maestras del linaje</span>
-          <h3>Mandarava: la mujer que emergió del fuego</h3>
-          <p>La historia de una de las grandes maestras tántricas y su camino de realización.</p>
-          <a class="efx-card__more" href="/blog/maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-        </div>
-      </article>
-      <article class="efx-card">
-        <div class="bar-img"><div class="pic" style="background-image:url('assets/img/blog-2-color.jpg'),linear-gradient(135deg,#105ea9,#00c7e5)"></div></div>
-        <span class="ghost" aria-hidden="true">道</span>
-        <span class="num">02</span>
-        <div class="body">
-          <span class="kicker">Caminos</span>
-          <h3>Vajrayana: cómo recorrer el camino tántrico</h3>
-          <p>Una introducción serena al vehículo del diamante y sus métodos de transformación.</p>
-          <a class="efx-card__more" href="/blog/maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-        </div>
-      </article>
-      <article class="efx-card">
-        <div class="bar-img"><div class="pic" style="background-image:url('assets/img/blog-3-color.jpg'),linear-gradient(135deg,#0b3f72,#105ea9)"></div></div>
-        <span class="ghost" aria-hidden="true">源</span>
-        <span class="num">03</span>
-        <div class="body">
-          <span class="kicker">Fundadores</span>
-          <h3>Sachen Kunga Ñingpo, el primer maestro Sakya</h3>
-          <p>El origen del linaje Sakya y la transmisión que aún nos acompaña hoy.</p>
-          <a class="efx-card__more" href="/blog/maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-        </div>
-      </article>
-      <article class="efx-card">
-        <div class="bar-img"><div class="pic" style="background-image:url('assets/img/blog-4-color.jpg'),linear-gradient(135deg,#105ea9,#0b3f72)"></div></div>
-        <span class="ghost" aria-hidden="true">壇</span>
-        <span class="num">04</span>
-        <div class="body">
-          <span class="kicker">Filosofía</span>
-          <h3>Ofrenda de Mandala: el método supremo para acumular mérito</h3>
-          <p>Todo lo que necesitas saber antes de recibir la transmisión de la Ofrenda de Mandala, la quinta práctica fundamental no común del Ngondro de la Tradición Sakya.</p>
-          <a class="efx-card__more" href="/blog/maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-        </div>
-      </article>
-    </div>
-
-    <div class="idx-foot idx-foot--center">
-      <a class="t-link" href="https://paramita.org/blog/">
-        <span class="txt">Ver todos los artículos</span><span class="arw" aria-hidden="true">→</span></a>
-    </div>
-  </section>
-
-  <!-- ╔═══ 10 · CTA FINAL ═══╗  Texto con zoom-stage + halo radial dorado de fondo -->
-  <section class="cta-final wrap" id="amigo" aria-labelledby="cta-t">
-    <span class="eyebrow" data-reveal="1">Da el primer paso</span>
-    <h2 class="zoom-word" id="cta-t"><span>Respira.</span><em>Observa.</em><span>Suelta.</span></h2>
-    <p class="cta-sub">Suscríbete a nuestra newsletter: ideas sencillas, propuestas de práctica y noticias de Paramita, de vez en cuando, en tu correo.</p>
-
-    <!-- Suscripción · la conversión honesta del que llega · un solo campo.
-         MOCK sin endpoint hasta que el backend conecte el servicio de email. -->
-    <form class="suscribe" id="suscribeForm" novalidate>
-      <div class="suscribe__fila">
-        <input class="suscribe__input" id="suscribe-email" name="email" type="email"
-               autocomplete="email" aria-label="Correo electrónico"
-               placeholder="Tu dirección de correo" required>
-        <button class="btn-primario suscribe__btn" type="submit">Suscribirme</button>
-      </div>
-      <label class="suscribe__consent">
-        <input type="checkbox" id="suscribe-consent" required>
-        <span>Acepto las <a href="https://www.paramita.org/politica-de-privacidad/" target="_blank" rel="noopener">políticas de privacidad</a> y recibir la newsletter de Paramita.</span>
-      </label>
-      <p class="suscribe__ok" role="status" aria-live="polite">Gracias. Te has suscrito correctamente.</p>
-    </form>
-
-    <!-- Vía de apoyo · presente pero en segundo plano, sin competir con la suscripción -->
-    <p class="suscribe__apoyo">¿Prefieres sostener el proyecto?
-      <a class="t-link" href="/contribuir"><span class="txt">Contribuir</span><span class="arw" aria-hidden="true">→</span></a>
-    </p>
-  </section>
-
+  </article>
 </main>
 
-<!-- modal de vídeo -->
-<div class="vmodal" id="vmodal" role="dialog" aria-modal="true" aria-label="Vídeo institucional">
-  <button class="x" id="vclose" aria-label="Cerrar vídeo">✕</button>
-  <div class="frame" id="vframe"></div>
-</div>
-
-<!-- PIE -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
 <footer class="foot" id="contacto">
   <div class="foot__info">
@@ -759,13 +373,6 @@
     </div>
   </div>
 </footer>
-
-<!-- TEMA · listener del toggle penumbra/luz · ahora compartido (era inline).
-     Mismo archivo en todas las páginas; ruta relativa según profundidad. -->
-<!-- TEMA · listener del toggle · compartido (sync) -->
-<script src="js/componentes/paramita-tema.js" defer></script>
-<!-- MENÚ · acordeón de submenús en móvil · compartido (sync) -->
-<script src="js/componentes/paramita-menu.js" defer></script>
 
 </body>
 </html>

@@ -28,10 +28,6 @@
 <script src="../../js/componentes/paramita-footer-lotos.js" defer></script>
 <script src="../../js/componentes/paramita-faq.js" defer></script>
 <script src="../../js/paginas/paramita-preguntas.js" defer></script>
-<!-- TEMA · listener del toggle · compartido (sync) -->
-<script src="../../js/componentes/paramita-tema.js" defer></script>
-<!-- MENÚ · acordeón de submenús en móvil · compartido (sync) -->
-<script src="../../js/componentes/paramita-menu.js" defer></script>
 
 <!-- CSS · reset primero, luego fuentes + tokens, base, componentes, página, responsive, tema (último) -->
 <link rel="stylesheet" href="../../css/base/paramita-reset.css">
@@ -106,70 +102,24 @@
           <a class="navlink" href="/blog/blog.html">Blog</a>
         </li>
 
-        <!-- 5 · Sobre · institucional, anclado a la derecha con .end
-             Cada ítem lleva un pictograma del sistema (Propuesta B): el
-             <span class="pico" data-pico="..."> lo rellena sync.py desde
-             partials/pictogramas/NOMBRE.svg. aria-hidden + etiqueta de texto
-             al lado (regla de oro). -->
+        <!-- 5 · Sobre · institucional, anclado a la derecha con .end -->
         <li class="has-sub end">
-          <!-- Padre NO navegable · solo abre el submenú (no lleva a página).
-               <button> en vez de <a href>: en móvil el tap abre el desplegable
-               en lugar de navegar; .navlink ya normaliza el estilo del button
-               (background:none, border:none, cursor:pointer). aria-haspopup se
-               mantiene; el aria-expanded queda en false (hover/focus-within CSS
-               puro en escritorio — un toggle JS del aria-expanded para móvil/
-               teclado sería refinamiento de fase posterior, no se necesita aún). -->
           <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></button>
           <ul class="sub" role="menu" aria-label="Sobre Paramita">
-            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quienes transmiten la enseñanza</span><span class="pico" data-pico="maestros" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M12 6.5 C10 5.2 6.5 5 4 5.6 L4 17.6 C6.5 17 10 17.2 12 18.5 C14 17.2 17.5 17 20 17.6 L20 5.6 C17.5 5 14 5.2 12 6.5 Z"/>
-  <path d="M12 6.5 L12 18.5"/>
-  <path class="acc" d="M6.6 9 L9.4 9 M6.6 11.4 L9.4 11.4"/>
-</svg></span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span><span class="pico" data-pico="khenpo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M12 4.5 C10.6 7.5 10.6 10.5 12 12.8 C13.4 10.5 13.4 7.5 12 4.5 Z"/>
-  <path d="M12 12.8 C10 10.5 6.5 9.8 4.2 10.6 C5 13.6 8 15.6 12 15.6"/>
-  <path d="M12 12.8 C14 10.5 17.5 9.8 19.8 10.6 C19 13.6 16 15.6 12 15.6"/>
-  <path class="acc" d="M6 17.6 C8.5 19.4 15.5 19.4 18 17.6"/>
-</svg></span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/sangha-monastica/sangha-monastica.html"><strong>Comunidad Monástica</strong><span>Monásticos y monásticas</span><span class="pico" data-pico="comunidad" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <circle cx="7.5" cy="10" r="2.3"/>
-  <circle cx="16.5" cy="10" r="2.3"/>
-  <circle class="acc" cx="12" cy="8.6" r="2.4"/>
-  <path d="M3.8 18.6 C3.8 14.9 5.6 13.7 7.5 13.7 C8.4 13.7 9.1 14 9.7 14.5"/>
-  <path d="M20.2 18.6 C20.2 14.9 18.4 13.7 16.5 13.7 C15.6 13.7 14.9 14 14.3 14.5"/>
-  <path d="M8.2 18.6 C8.2 14.1 9.8 13 12 13 C14.2 13 15.8 14.1 15.8 18.6"/>
-</svg></span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span><span class="pico" data-pico="fundacion" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M5.5 20 L18.5 20"/>
-  <path d="M7 20 L7 15 C7 11 9 9.5 12 9.5 C15 9.5 17 11 17 15 L17 20"/>
-  <path d="M10 9.5 L10 7.5 L14 7.5 L14 9.5"/>
-  <path class="acc" d="M12 7.5 L12 3.6 M10.3 5.1 L13.7 5.1 M10.8 3.7 C11.4 3 12.6 3 13.2 3.7"/>
-</svg></span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html" aria-current="page"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span><span class="pico" data-pico="faq" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M4.5 15.5 C4.5 8 9 6 12 6 C16 6 19.5 8.5 19.5 12.5 C19.5 16.5 16 18.5 12 18.5 L8.5 18.5 L5.6 21 L6 17.8 C5 17 4.5 16.3 4.5 15.5 Z"/>
-  <path class="acc" d="M10 11 C10 9.3 11 8.7 12 8.7 C13.2 8.7 14 9.4 14 10.6 C14 11.8 12.6 12.2 12 13 L12 13.9 M12 15.7 L12 15.75"/>
-</svg></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quienes transmiten la enseñanza</span><span class="pico" data-pico="maestros" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span><span class="pico" data-pico="khenpo" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/sangha-monastica/sangha-monastica.html"><strong>Comunidad Monástica</strong><span>Monásticos y monásticas</span><span class="pico" data-pico="comunidad" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span><span class="pico" data-pico="fundacion" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html" aria-current="page"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span><span class="pico" data-pico="faq" aria-hidden="true"></span></a></li>
           </ul>
         </li>
 
-        <!-- 6 · Únete · comunidad laica · Fase 7+
-             Sexto apartado, con submenú (Grupos + Voluntariado). Padre NO
-             navegable (mismo patrón que «Sobre»): <button> que solo abre el
-             desplegable; en móvil el tap abre el submenú en vez de navegar.
-             .end ancla el desplegable al borde derecho (es el último apartado,
-             como antes lo era «Sobre»). Destinos: los dos spokes de /unete/. -->
+        <!-- 6 · Únete · comunidad laica · Fase 7+ -->
         <li class="has-sub end">
           <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Únete <i class="caret" aria-hidden="true"></i></button>
           <ul class="sub" role="menu" aria-label="Únete a Paramita">
-            <li role="none"><a role="menuitem" href="/unete/grupos/grupos.html"><strong>Grupos</strong><span>Círculos de estudio cerca de ti</span><span class="pico" data-pico="grupos" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <circle cx="12" cy="11.5" r="7"/>
-  <circle cx="12" cy="6.5" r="1.2"/>
-  <circle cx="16.9" cy="13.5" r="1.2"/>
-  <circle cx="7.1" cy="13.5" r="1.2"/>
-  <circle class="acc" cx="12" cy="11.5" r="1.7"/>
-</svg></span></a></li>
-            <li role="none"><a role="menuitem" href="/unete/voluntariado/voluntariado.html"><strong>Voluntariado</strong><span>Ofrece tu tiempo en el centro</span><span class="pico" data-pico="voluntariado" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20S5 15.5 5 10.6A3.7 3.7 0 0 1 12 8.7 3.7 3.7 0 0 1 19 10.6C19 15.5 12 20 12 20z"/><path class="acc" d="M12 6.4V4M9.4 4.9 8.4 3.1M14.6 4.9 15.6 3.1"/></svg></span></a></li>
+            <li role="none"><a role="menuitem" href="/unete/grupos/grupos.html"><strong>Grupos</strong><span>Círculos de estudio cerca de ti</span><span class="pico" data-pico="grupos" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/unete/voluntariado/voluntariado.html"><strong>Voluntariado</strong><span>Ofrece tu tiempo en el centro</span><span class="pico" data-pico="voluntariado" aria-hidden="true"></span></a></li>
           </ul>
         </li>
 
@@ -177,41 +127,12 @@
 
       <span class="div" aria-hidden="true"></span>
 
-      <!-- CTA · un solo secundario · Fase 7+
-           «Únete» salió de aquí y pasó a apartado del menú con submenú
-           (ver el <li class="has-sub end"> de arriba y el doc 06). El navbar
-           sigue SIN acción prioritaria en ninguna página (la acción vive en el
-           hero/contexto): queda Contribuir como único secundario, y el acceso a
-           cuenta lo da el .btn-acceso de la derecha. Así el navbar es idéntico
-           en home y resto (sync sin excepciones). -->
       <div class="ctas">
         <a class="btn-secundario" href="/contribuir/contribuir.html">Contribuir</a>
       </div>
 
     </nav>
 
-    <!-- ═════════════════════════════════════════════════════════════════
-         ACCESO A CUENTA · .btn-acceso · Fase 7
-         ─────────────────────────────────────────────────────────────────
-         Círculo con silueta de usuario que lleva al login. Cuando el
-         practicante inicia sesión, este mismo círculo se sustituye por
-         el .avatar-menu del navbar-practicante (Fase 8, pendiente) —
-         continuidad visual: la silueta anónima se convierte en el
-         avatar del usuario.
-
-         Ubicado FUERA del .menu para que en móvil quede siempre visible
-         en la barra sin necesidad de abrir el hamburguesa (patrón
-         consolidado en Notion, Linear, Gmail móvil).
-
-         El tooltip "Entrar" viene del CSS (::after). El aria-label es
-         explícito para lectores de pantalla.
-         ═════════════════════════════════════════════════════════════════ -->
-
-    <!-- TEMA · toggle penumbra/luz · hermano del .btn-acceso.
-         Vive en el partial (no solo en la home) para que la penumbra sea una
-         preferencia de lectura GLOBAL, disponible desde cualquier página.
-         Requiere en cada página: el script anti-FOUC en el <head>, el <link>
-         a paramita-tema.css y el listener paramita-tema.js (ver notas de sync). -->
     <button class="tema-toggle" id="temaToggle" type="button" aria-label="Cambiar entre luz y penumbra" aria-pressed="false" title="Penumbra">
       <svg class="ico-luz" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="12" cy="12" r="4"/>
@@ -229,8 +150,6 @@
       </svg>
     </a>
 
-    <!-- Burger · toggle del menú en móvil (CSS puro con :checked).
-         Al final del .bar-inner, funciona por atributo `for="nt"`. -->
     <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
 
   </div>
@@ -240,8 +159,10 @@
 
   <!-- ═══════════════ HERO ORIENTACIÓN ═══════════════ -->
   <!-- La foto se fija en --preg-foto. Cuando exista el archivo, se ve; si no,
-       queda el degradado cálido base (background CSS, sin 404). Nombre kebab-case. -->
-  <header class="preg-hero" style="--preg-foto:url('../../assets/img/faq/hero-preguntas-frecuentes.jpg')">
+       queda el degradado cálido base (background CSS, sin 404).
+       NOMBRE SIN ESPACIOS (kebab-case): guarda la foto como hero-faqs.jpg,
+       no "hero faqs.jpg" (un espacio en la URL rompe en GitHub Pages). -->
+  <header class="preg-hero" style="--preg-foto:url('../../assets/img/faq/hero-faqs.jpg')">
     <div class="preg-hero__bg" aria-hidden="true"></div>
     <div class="preg-hero__velo" aria-hidden="true"></div>
     <div class="preg-wrap">
@@ -469,7 +390,6 @@
 
 </main>
 
-<!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
 <footer class="foot" id="contacto">
   <div class="foot__info">
