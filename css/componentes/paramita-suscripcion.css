@@ -14,6 +14,11 @@
    · Botón `.btn-primario` (no el legacy `.btn-amigo` de emi-1, sin migrar aún).
    · Centrado, para vivir dentro de `.cta-final` (que es text-align:center).
 
+   Fase 8 · el t-link «Contribuir» sobre azul se resuelve con la variante de
+   sistema `.t-link--claro` (paramita-cta.css), simétrica a
+   `.btn-secundario--claro`. Se retira de aquí el override de contexto que
+   coloreaba el enlace a lino (ver bloque VARIANTE SOBRE AZUL, más abajo).
+
    PENDIENTE · BACKEND (Alberto)
    ─────────────────────────────
    El formulario NO tiene endpoint. Hasta que el backend conecte el servicio
@@ -160,18 +165,27 @@
     text-shadow: 0 1px 10px rgba(33, 30, 26, 0.25);
   }
 
-  /* Consentimiento · texto lino, enlace dorado (subrayado + peso = señal de clic) */
-  .foot__hero .suscribe__consent   { color: var(--lino); }
-  .foot__hero .suscribe__consent a { color: var(--dorado); }
+  /* Consentimiento · texto y enlace en antracita, coherente con eyebrow y
+     sub-párrafo de la banda. Sobre --azul-sutil solo el oscuro pasa AA (crema y
+     dorado no llegan a 3:1); antracita alcanza 5.51. El enlace, un punto más
+     oscuro que el texto + peso 600 (base) + subrayado = señal de clic. */
+  .foot__hero .suscribe__consent   { color: color-mix(in oklch, var(--antracita) 80%, transparent); }
+  .foot__hero .suscribe__consent a {
+    color: var(--antracita);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
   .foot__hero .suscribe__apoyo     { color: color-mix(in oklch, var(--lino) 82%, transparent); }
 
-  /* Vía de apoyo (solo home) · el t-link «Contribuir» en lino para leer sobre
-     azul (su azul-oscuro base se perdería contra el fondo). */
-  .foot__hero .suscribe__apoyo .t-link .txt {
-    color: var(--lino);
-    -webkit-text-fill-color: var(--lino);
-  }
-  .foot__hero .suscribe__apoyo .t-link .arw { color: var(--lino); }
+  /* Vía de apoyo (solo home) · el t-link «Contribuir».
+     ─────────────────────────────────────────────────────────────────────
+     Fase 8 · el tratamiento en lino sobre azul YA NO se parchea aquí. Se
+     resuelve con la variante de sistema .t-link--claro (paramita-cta.css),
+     simétrica a .btn-secundario--claro. El marcado de la banda usa
+     class="t-link t-link--claro". Se retira el override de contexto
+     (.foot__hero .suscribe__apoyo .t-link .txt/.arw → lino) para no duplicar
+     la regla ni atarla a este anidamiento concreto: cualquier bloque azul
+     puede ahora reutilizar la variante declarándola en el marcado. */
 
   /* Input · borde reforzado + foco con halo claro (el azul del sistema se
      perdería sobre el fondo azul) */

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El tiempo que se ofrece — Landing de voluntariado: estructura, neuromarketing y conversión · Paramita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC; --paper-2:#FBFAF7; --ink:#191A1C; --slate:#63656B;
+    --ink-deep:#132239; --ink-deep-2:#0E1A2C; --gold:#A8823F; --gold-lite:#C9A96E;
+    --rule:#DAD6CC; --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.42;color:var(--ink-deep);margin:2rem 0 0;font-style:italic}
+
+  section{padding:clamp(2.6rem,6vh,4.2rem) 0}
+  .sec-head{margin-bottom:1.8rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 .3rem}
+  h2 em{font-style:italic;font-weight:400;color:var(--gold)}
+  h3{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.25rem,2vw,1.55rem);line-height:1.2;margin:2.4rem 0 .6rem;letter-spacing:-.005em}
+  h3 em{font-style:italic;color:var(--ink-deep)}
+  p{margin:0 0 1.15rem}
+  strong{font-weight:600;color:var(--ink)}
+  em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:color-mix(in srgb,var(--gold) 12%,transparent);padding:.05em .35em;border-radius:4px;color:var(--ink-deep)}
+  .drop:first-letter{font-family:"Fraunces",serif;float:left;font-size:3.3rem;line-height:.82;font-weight:500;padding:.1em .12em 0 0;color:var(--ink-deep)}
+  .pull{font-family:"Fraunces",serif;font-weight:400;font-style:italic;font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.4;color:var(--ink-deep);border-left:2px solid var(--gold);padding-left:1.2rem;margin:2rem 0}
+  .fuente{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.01em;margin-top:-.4rem}
+
+  .dato{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:14px;padding:1.6rem 1.7rem;margin:1.4rem 0}
+  .dato__k{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+  .dato h3{margin:0 0 .5rem;font-size:clamp(1.15rem,1.8vw,1.4rem)}
+  .dato p{margin:0 0 .6rem}
+  .dato p:last-child{margin:0}
+  .cifra{font-family:"Fraunces",serif;font-weight:600;color:var(--ink-deep);font-size:1.08em}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--rule);border-radius:14px;overflow:hidden;margin:1.6rem 0}
+  .stat{background:var(--paper-2);padding:1.4rem 1.1rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.7rem,3vw,2.3rem);line-height:1;color:var(--ink-deep)}
+  .stat .n small{font-size:.55em;font-weight:500}
+  .stat .l{font-size:.82rem;line-height:1.35;color:var(--slate);margin-top:.5rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);margin-top:.5rem;letter-spacing:.04em}
+  @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+  .tbl-wrap{margin:1.6rem 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.9rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+  th,td{text-align:left;padding:.65rem .75rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:500;border-bottom:1.5px solid var(--rule)}
+  tbody td:first-child{font-weight:600;color:var(--ink);width:30%}
+  .yes{color:var(--ink-deep);font-weight:600}
+  .no{color:var(--gold);font-weight:600}
+
+  .dark{background:var(--ink-deep-2);color:#E7E9EE}
+  .dark h2{color:#fff}.dark h2 em{color:var(--gold-lite)}.dark h3{color:#fff}
+  .dark .sec-num{color:var(--gold-lite)}.dark strong{color:#fff}.dark p{color:#C3CAD6}
+  .dark .pull{color:#fff;border-color:var(--gold-lite)}
+  .dark .dato{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.10)}
+  .dark .dato h3{color:#fff}.dark .dato p{color:#C3CAD6}.dark .cifra{color:var(--gold-lite)}
+  .dark table th,.dark table td{border-color:rgba(255,255,255,.14)}
+  .dark thead th{color:#9BA6B4}.dark tbody td:first-child{color:#fff}
+  .dark .yes{color:#fff}.dark .no{color:var(--gold-lite)}
+  .dark code{background:rgba(201,169,110,.18);color:#EBD9B8}
+
+  .evi{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:.12em .5em;border-radius:20px;vertical-align:middle;margin-left:.4em;font-weight:500}
+  .evi--fuerte{background:color-mix(in srgb,var(--ink-deep) 14%,transparent);color:var(--ink-deep)}
+  .evi--media{background:color-mix(in srgb,var(--gold) 20%,transparent);color:#7a5f28}
+  .evi--debil{background:color-mix(in srgb,var(--slate) 16%,transparent);color:var(--slate)}
+  .leyenda{font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--slate);letter-spacing:.02em;line-height:1.7}
+  .leyenda .evi{margin-left:0;margin-right:.3em}
+
+  .arco{list-style:none;counter-reset:paso;padding:0;margin:1.6rem 0}
+  .arco li{position:relative;padding:0 0 1.3rem 3rem;counter-increment:paso}
+  .arco li::before{content:counter(paso,decimal-leading-zero);position:absolute;left:0;top:.1em;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--gold);border:1px solid var(--rule);border-radius:50%;width:2rem;height:2rem;display:grid;place-items:center}
+  .arco li b{color:var(--ink);font-weight:600}
+  .arco li::after{content:"";position:absolute;left:1rem;top:2.3em;bottom:.2rem;width:1px;background:var(--rule-soft)}
+  .arco li:last-child::after{display:none}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.75rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.sheen::after{animation:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ══════════════ PORTADA ══════════════ -->
+<header class="cover flow">
+  <p class="eyebrow">Estudio · Voluntariado · Spoke <code>/unete/voluntariado/</code></p>
+  <h1>El tiempo<br>que se <em>ofrece</em></h1>
+  <p class="deck">La landing de voluntariado, a fondo: qué mueve de verdad a quien ofrece su tiempo, cómo se ordenan los bloques, qué del «neuromarketing de conversión» sirve aquí y qué hay que descartar por ética y por evidencia. Con datos contrastados, etiquetados por fuerza, y decisiones concretas.</p>
+  <div class="sheen"></div>
+  <div class="meta">
+    <span><b>Continúa</b> · «Del monolito al umbral» (Únete · Parte 2)</span>
+    <span><b>Alcance</b> · <code>/unete/voluntariado/</code> · seva (dāna de tiempo)</span>
+    <span><b>Fecha</b> · 20 ago 2026</span>
+    <span><b>Formularios</b> · documento aparte</span>
+    <span><b>Base de copy</b> · página <code>/voluntarios/</code> actual</span>
+  </div>
+  <p class="lede">Una landing de voluntariado no es un <em>checkout</em>. Casi toda la evidencia de «conversión» viene de vender cosas; ofrecer tiempo a una tradición se rige por otra psicología —la de la generosidad—, y con datos propios.</p>
+</header>
+
+<div class="flow">
+  <div class="dato reveal" style="margin-top:2rem">
+    <span class="dato__k">Encuadre · por qué existe este informe</span>
+    <p>El estudio «Del monolito al umbral» decidió que <strong>«Únete» enruta</strong> (navbar + bloque Participación) y que el <strong>detalle baja a cada spoke</strong>. Aquel informe dejó explícitamente el desarrollo del voluntariado <em>«para su spoke»</em>. Este documento es ese spoke: la página <code>/unete/voluntariado/</code>, tratada como pieza propia. El voluntariado residencial en Paramita es <strong>seva</strong> —el equivalente en tiempo del <em>dāna</em> que rige <code>/contribuir/</code>—, así que hereda su mismo marco: <em>que quien ofrece quede contento antes, durante y después</em>, no exprimir una conversión.</p>
+  </div>
+  <p class="leyenda reveal" style="margin-top:1.4rem">
+    Etiquetas de evidencia usadas en todo el informe:
+    <span class="evi evi--fuerte">fuerte</span> replicada, académica, muestras grandes ·
+    <span class="evi evi--media">media</span> real pero condicional, o en registro comercial ·
+    <span class="evi evi--debil">débil</span> contestada, sin replicar o anecdótica.
+  </p>
+</div>
+
+<div class="flow"><hr class="divider"></div>
+
+<!-- ══════════════ PUNTO DE PARTIDA ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">Punto de partida</span>
+    <h2>La página <em>actual</em>, en una mirada</h2>
+  </div>
+  <p class="reveal">Antes de proponer, mirar lo que hay. La página <code>/voluntarios/</code> es <strong>corta</strong> (unos dos minutos de lectura), pero está ordenada al revés: abre con las tareas, encadena los <strong>11 «imprescindibles»</strong> en lista seca y sigue con preceptos y protocolo. Es un <strong>reglamento con tono de portero</strong>, no una invitación —no hay hero que acoja, ni un «por qué», ni un rostro—. Su problema, a diferencia de Grupos, no es de exceso sino de <em>orden y tono</em>: dice cosas verdaderas y honestas, pero en frío y en el orden que ahuyenta.</p>
+
+  <p class="reveal">La buena noticia: el material honesto <strong>ya está escrito</strong>. La reescritura no parte de cero, hereda tres activos:</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Materia prima ya presente en /voluntarios/</caption>
+      <thead><tr><th>Activo</th><th>Qué es hoy</th><th>En qué se convierte</th></tr></thead>
+      <tbody>
+        <tr><td>Encuadre en Valores</td><td>La frase de apertura: «comenzar o continuar una práctica budista y atender de manera altruista las necesidades del centro»</td><td class="yes">Semilla del hero y del bloque «qué es el seva»</td></tr>
+        <tr><td>Exigencia honesta</td><td>Condiciones listadas como «requisitos»: 6h de trabajo × 6 días, oración y meditación ×2 al día, dormitorios compartidos, autosuficiencia económica, 5 preceptos</td><td class="yes">Descripción atractiva de una vida con sentido (efecto martirio · autoselección)</td></tr>
+        <tr><td>La segunda puerta</td><td>Un paréntesis: «no descartamos estancias más cortas o colaboraciones online en proyectos puntuales»</td><td class="yes">Tarjeta propia: ayuda puntual / a distancia</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Un detalle que conviene preservar</span>
+    <p>El protocolo actual es <strong>solicitud → entrevista personal</strong>. Esa entrevista es el «sí humano» que la evidencia señala como decisivo (§02: «ser preguntado»). No hay que automatizarla: la landing capta y prepara; el compromiso lo confirma una conversación.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 1 · LA TESIS ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — La tesis</span>
+    <h2>El error que <em>no</em> hay que cometer</h2>
+  </div>
+  <p class="drop reveal">La tentación, al montar una landing de captación, es abrir el manual de <em>Conversion Rate Optimization</em>: cuenta atrás, «solo quedan 3 plazas», anclaje de importes, testimonios triunfalistas, formulario de tres campos para «reducir la fricción al mínimo». Ese manual está escrito para vender productos a extraños. Aplicarlo a una invitación a la práctica no solo choca con la identidad de Paramita —el doc 01 ya lo prohíbe: <em>«Paramita no es un SaaS»</em>, fuera urgencia fabricada—; es que, para actos altruistas, <strong>hay evidencia de que puede volverse en contra</strong>.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">El mecanismo · crowding-out <span class="evi evi--fuerte">fuerte</span></span>
+    <h3>Premiar un acto generoso puede <em>reducirlo</em></h3>
+    <p>La psicología lo llama <strong>desplazamiento de la motivación intrínseca</strong> (crowding-out). Titmuss lo documentó con la donación de sangre; Gneezy y Rustichini mostraron que poner una multa por recoger tarde a los niños <em>aumentó</em> los retrasos —la multa convirtió una norma moral en un precio—; Deci y Ryan lo explican desde la autodeterminación. Cuando una acción es «lo correcto», rodearla de recompensas la reencuadra como transacción y desactiva el motivo que la sostenía.</p>
+    <p class="cifra">Implicación directa: nada de «hazte voluntario y obtén ventajas». El voluntariado no se compra con contraprestaciones; se invita.</p>
+  </div>
+
+  <p class="reveal">Y hay un segundo hallazgo, más contraintuitivo todavía, que da la vuelta al dogma de «elimina toda fricción»:</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">El efecto martirio · Olivola &amp; Shafir <span class="evi evi--media">media</span></span>
+    <h3>Para una causa, el <em>esfuerzo</em> anticipado atrae, no espanta</h3>
+    <p>En cinco experimentos, la disposición a contribuir a una causa <strong>aumentaba cuando se esperaba que el proceso fuera exigente</strong>, no fácil y cómodo. El mecanismo propuesto: el esfuerzo anticipado hace que la persona atribuya <em>más significado</em> a su contribución. Por eso funcionan las maratones benéficas y los retos duros. <span class="fuente">Matiz honesto: hay una réplica registrada en curso (2024); tratar como dirección, no como ley.</span></p>
+    <p>Traducción para el voluntariado residencial —que <em>es</em> exigente: madrugar, seva, convivencia, preceptos—: <strong>no hay que disimular la exigencia para «bajar la barrera». Nombrarla con honestidad es parte del atractivo.</strong> Quien se ofrece a algo demandante y con sentido se compromete más, no menos.</p>
+  </div>
+
+  <p class="pull reveal">La página no tiene que hacer el voluntariado más fácil de lo que es. Tiene que hacerlo más <em>claro</em> y más <em>significativo</em> de lo que hoy se cuenta.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Aviso metodológico · lo que sí importa del CRO</span>
+    <p>Descartar el manual agresivo <strong>no</strong> es descartar el rigor. La claridad, la jerarquía visual, la accesibilidad, el rendimiento y un único siguiente paso evidente <em>sí</em> aplican —son higiene, no manipulación—. La línea se traza entre <strong>reducir la confusión</strong> (siempre bien) y <strong>fabricar el deseo</strong> (aquí, no).</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 2 · QUÉ MUEVE ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — La evidencia</span>
+    <h2>Qué mueve de verdad a un <em>voluntario</em></h2>
+  </div>
+  <p class="reveal">Si no manipulamos el deseo, tenemos que <strong>conocerlo</strong>. Y aquí, a diferencia del e-commerce, hay treinta años de investigación seria. El marco de referencia es el <strong>Volunteer Functions Inventory</strong> (Clary, Snyder et al., 1998): las personas se ofrecen para satisfacer una o varias de <strong>seis funciones</strong> psicológicas. No son excusas: son motores medibles, con fiabilidad alta y estable.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Las seis funciones del voluntariado (VFI) · y cómo suenan en Paramita</caption>
+      <thead><tr><th>Función</th><th>Qué busca la persona</th><th>Cómo la sirve la landing</th></tr></thead>
+      <tbody>
+        <tr><td>Valores</td><td>Expresar lo que cree; actuar por compasión</td><td class="yes">El eje. Seva como práctica, no como tarea</td></tr>
+        <tr><td>Comprensión</td><td>Aprender, crecer, entender la tradición desde dentro</td><td>Vivir el Dharma en el día a día del Centro</td></tr>
+        <tr><td>Social / pertenencia</td><td>Estar con gente afín, sentirse parte</td><td>La Sangha, la convivencia, no estar solo</td></tr>
+        <tr><td>Protección</td><td>Escapar de lo propio, aliviar culpa o soledad</td><td>Tratar con cuidado; no explotar la vulnerabilidad</td></tr>
+        <tr><td>Mejora</td><td>Sentirse útil, valorado, en crecimiento personal</td><td>El sentido del servicio, sin adulación</td></tr>
+        <tr><td>Carrera</td><td>Experiencia, contactos, CV</td><td class="no">Marginal aquí. No es el gancho</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">El dato que ordena el mensaje · revisión sistemática <span class="evi evi--fuerte">fuerte</span></span>
+    <h3>«Valores» gana en <em>todo</em> tipo de voluntariado</h3>
+    <p>Una revisión sistemática de <strong>48 estudios</strong> con el VFI (más de <strong>21.000 personas</strong>) encontró que el factor <strong>Valores puntúa más alto de forma consistente</strong>, y que <strong>Carrera y Mejora quedan al fondo</strong>. Para un centro budista esto es casi un regalo: la motivación dominante del voluntariado en general <em>ya coincide</em> con lo que Paramita ofrece de verdad. No hay que fingir beneficios de carrera; hay que hablar de valores con precisión.</p>
+  </div>
+
+  <p class="reveal">Segundo pilar de la evidencia, y probablemente el más accionable de todo el informe: <strong>la gente se ofrece porque alguien se lo pide</strong>. No porque encuentre una landing.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">~40<small>%</small></div><div class="l">se implica porque <em>alguien se lo pidió</em> directamente</div><div class="src">Enc. Ottawa-Carleton</div></div>
+    <div class="stat"><div class="n">~25<small>%</small></div><div class="l">llega por un familiar o amigo ya implicado</div><div class="src">Enc. Ottawa-Carleton</div></div>
+    <div class="stat"><div class="n">&lt;20<small>%</small></div><div class="l">busca la actividad <em>por su cuenta</em></div><div class="src">Enc. Ottawa-Carleton</div></div>
+    <div class="stat"><div class="n">1º</div><div class="l">«ser preguntado», el mayor predictor individual</div><div class="src">Musick &amp; Wilson</div></div>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">La consecuencia estructural · «el sesgo está en el pedir» <span class="evi evi--fuerte">fuerte</span></span>
+    <p>Musick y Wilson, en <em>Volunteers: A Social Profile</em>, lo formulan sin rodeos: la mayoría de los factores que se asocian a ofrecerse operan en el momento de <strong>ser preguntado</strong>, no en el de aceptar. Es decir: <strong>el cuello de botella real no es la landing, es la invitación previa.</strong></p>
+    <p class="cifra">Por tanto, el trabajo de la página es doble y modesto: (1) ser un sitio digno al que un voluntario o un maestro pueda <em>mandar a alguien</em> tras pedírselo en persona, y (2) convertir a quien llega frío en alguien a quien es fácil <em>invitar</em> —bajando el primer paso a algo pequeño, no pidiendo el sí grande de golpe.</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Descartado por evidencia · el «truco» del sustantivo <span class="evi evi--debil">débil</span></span>
+    <h3>«Sé voluntario» vs. «haz voluntariado»: cuidado</h3>
+    <p>Circula un supuesto atajo: usar el sustantivo-identidad («sé <em>votante</em>») en vez del verbo («<em>vota</em>») dispararía la acción. Bryan et al. (2011) reportaron +11 puntos en participación electoral. <strong>Pero un experimento de campo grande posterior (Gerber et al.) no lo replicó —efecto ~cero.</strong> Lección: la <em>idea</em> de apelar a la identidad es sólida (se apoya en «Valores», que sí es robusto); el <em>truco lingüístico concreto</em> no es un botón mágico. Escribir «forma parte de quienes sostienen el Centro» está bien por su verdad, no por su gramática.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 3 · EL TRABAJO DE LA PÁGINA ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — Objetivo y públicos</span>
+    <h2>Qué tiene que <em>hacer</em> esta página</h2>
+  </div>
+  <p class="reveal">Antes de bloques, el encargo. Una landing sin un objetivo primario claro se convierte en el monolito que el informe Únete diagnosticó. Aquí propongo <strong>un objetivo primario y uno secundario</strong>, no cinco.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Jerarquía de objetivos de <code>/unete/voluntariado/</code></caption>
+      <thead><tr><th>Nivel</th><th>Objetivo</th><th>Métrica honesta</th></tr></thead>
+      <tbody>
+        <tr><td class="yes">Primario</td><td>Que quien <em>ya siente el impulso</em> dé un primer paso concreto (mostrar interés / iniciar solicitud de estancia)</td><td>Solicitudes cualificadas iniciadas</td></tr>
+        <tr><td>Secundario</td><td>Que quien <em>explora</em> entienda qué es el seva aquí y se quede en contacto sin comprometerse</td><td>Altas de «mantenme al tanto»</td></tr>
+        <tr><td class="no">Explícitamente no</td><td>Maximizar el volumen bruto de altas · captar «leads» · llenar plazas con urgencia</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="reveal">Y los públicos. El informe Únete ya separó tres identidades (practicante · Sangha · voluntario). Dentro del voluntariado hay, a su vez, <strong>dos niveles de compromiso muy distintos</strong> que no deben competir en el mismo botón —el mismo patrón de «dos puertas del mismo acto» que ordenó <code>/contribuir/</code>:</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Dos puertas del voluntariado · dos niveles de esfuerzo</caption>
+      <thead><tr><th>Puerta</th><th>Quién</th><th>Compromiso</th><th>Fricción adecuada</th></tr></thead>
+      <tbody>
+        <tr><td>Seva residencial</td><td>Pocos. Dispuestos a estancia en Pedreguer</td><td>Alto, exigente, presencial</td><td class="yes">Alta y honesta: es un filtro deseable</td></tr>
+        <tr><td>Ayuda puntual / a distancia</td><td>Muchos. Manos para actividades, traducción, difusión, apoyo online</td><td>Bajo, flexible</td><td>Mínima: un paso pequeño</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="pull reveal">Un mismo verbo, «ayudar», esconde dos compromisos que se miden en semanas o en horas. Pedir el grande con la ligereza del pequeño ahuyenta; pedir el pequeño con el peso del grande, también.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 4 · ESTRUCTURA ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — Estructura</span>
+    <h2>La página, <em>bloque a bloque</em></h2>
+  </div>
+  <p class="reveal">Arco propuesto: <strong>acoger → mostrar qué es el seva → mostrar quién ya lo vive → concretar las dos puertas → responder dudas → invitar sin presión.</strong> Scroll vertical, revelación progresiva (nada de volcar los requisitos en el primer pantallazo). Cada bloque, con su porqué.</p>
+
+  <ol class="arco reveal">
+    <li><b>Navbar público</b> (partial real, <code>aria-current</code> en Únete). Sin novedad de sistema.</li>
+    <li><b>Hero.</b> Foto real del Centro (manos, trabajo, luz mediterránea), tratada como el vídeo del index (opacidad + velo cálido). Eyebrow en <code>--texto-tenue</code>, no dorado; h1 con un <em>em</em> dorado en itálica Fraunces; lede de palo (Hanken, <code>--wght-presencia</code>, ni itálica ni bold). <b>Un solo <code>.btn-primario</code></b> («Quiero ofrecer mi tiempo» → ancla a las dos puertas) + un <code>.btn-secundario</code> («Ver cómo es un día»). Nunca dos primarios.</li>
+    <li><b>Qué es el seva aquí.</b> El bloque de <em>Valores</em>: por qué ofrecer tiempo <em>es</em> práctica, no logística. Aquí se juega la función dominante del VFI. La frase actual ya sirve de semilla —«atender de manera altruista las necesidades del centro» como práctica, no como tarea—; solo hay que darle aire y sacarla de la lista de requisitos.</li>
+    <li><b>Un día en el Centro.</b> Concreción sensorial y honesta (el efecto martirio pide no edulcorar). El material ya existe en la página actual —seis horas de trabajo seis días a la semana, oración y meditación dos veces al día, comidas en comunidad, dormitorios compartidos—; aquí deja de ser una lista de condiciones y pasa a ser la descripción atractiva de una vida con sentido. Reduce la ansiedad de lo desconocido y filtra de forma sana.</li>
+    <li><b>Quién ya lo vive.</b> Testimonios reales de voluntarios (prueba entre pares: recordemos que ~25% llega por alguien ya implicado). Voz genuina, no marketing. Facades de vídeo del sistema (mismo patrón que <code>/contribuir/</code>).</li>
+    <li><b>Las dos puertas.</b> El corazón. Dos tarjetas claramente separadas: <em>Seva residencial</em> (estancia de prueba de una semana, hasta seis · paso serio → solicitud) y <em>Ayuda puntual / a distancia</em> (paso pequeño → «cuéntame más»). Esta segunda puerta <strong>ya existe</strong>, pero enterrada en un paréntesis de la página actual; aquí sale del paréntesis y gana su tarjeta. Ver §6 para la fricción de cada una.</li>
+    <li><b>Preguntas frecuentes.</b> Aquí <em>bajan</em>, desde el flujo principal, los <strong>11 «imprescindibles»</strong>, los <strong>cinco preceptos</strong> y el <strong>protocolo</strong> (solicitud → entrevista) que hoy la página actual pone por delante de todo. Reencuadrados de «requisitos de portero» a respuestas serenas, bajo demanda. Acordeón accesible del sistema (<code>paramita-faq</code>).</li>
+    <li><b>Cierre sin presión.</b> Para quien no está listo: «mantente en contacto» (secundario, no primario) o un puente a <code>/meditacion/</code> y <code>/contribuir/</code>. Nadie sale de la página sintiéndose empujado.</li>
+    <li><b>Prefooter + Footer</b> (partials reales).</li>
+  </ol>
+
+  <div class="dato reveal">
+    <span class="dato__k">Regla de oro del orden</span>
+    <p>Lo pesado (requisitos, preceptos, directorio) <strong>nunca va antes de la invitación</strong>. Primero el porqué y el rostro humano; el reglamento, en FAQ, bajo demanda. Es el principio de revelación progresiva que el informe Únete ya fijó para todo el hub, aplicado dentro del spoke.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 5 · NEUROMARKETING (DARK) ══════════════ -->
+<section class="flow dark">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — Neuromarketing honesto</span>
+    <h2>Qué principios <em>sí</em>, cuáles <em>no</em></h2>
+  </div>
+  <p class="drop reveal" style="color:#C3CAD6">El neuromarketing no es una caja de trucos prohibida: es un conjunto de principios sobre cómo decide la gente. El criterio de Paramita para usarlos: <strong>¿reduce la confusión o fabrica el deseo?</strong> Lo primero es cuidado; lo segundo, manipulación. Esta tabla traduce los principios clásicos a su versión legítima —y marca lo que se queda fuera.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Principios de persuasión · versión rechazada · versión Paramita</caption>
+      <thead><tr><th>Principio</th><th>Versión comercial (fuera)</th><th>Versión Paramita (dentro)</th></tr></thead>
+      <tbody>
+        <tr><td>Escasez / urgencia</td><td class="no">«Solo quedan 3 plazas», cuenta atrás</td><td class="yes">Nada. Prohibido por doc 01. Si hay plazas limitadas de verdad, se dice como hecho sereno, sin reloj</td></tr>
+        <tr><td>Prueba social</td><td class="no">«+10.000 voluntarios», cifras infladas</td><td class="yes">Voces reales de pocos voluntarios. Lo que convence entre pares es la autenticidad, no el volumen</td></tr>
+        <tr><td>Reciprocidad</td><td class="no">Regalo-gancho para «obligar»</td><td class="yes">No aplica: introduce contraprestación (crowding-out). Fuera</td></tr>
+        <tr><td>Compromiso y coherencia</td><td>Micro-sí manipulador</td><td class="yes">Sí, en su forma sana: un primer paso pequeño y real (el «cuéntame más») que respeta el ritmo de la persona</td></tr>
+        <tr><td>Correspondencia mensaje-motivo</td><td>Segmentar para vender</td><td class="yes">Sí: hablar a «Valores» (Clary et al. 1994: el mensaje persuade más cuando encaja con el motivo)</td></tr>
+        <tr><td>Anclaje</td><td class="no">Importe/plaza inflada como referencia</td><td class="yes">No hay precio. No hay ancla que poner</td></tr>
+        <tr><td>Esfuerzo</td><td class="no">Eliminar toda fricción siempre</td><td class="yes">Efecto martirio: nombrar la exigencia real del seva la hace más significativa, no menos atractiva</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">La única «palanca» que Paramita usa sin reparos <span class="evi evi--fuerte">fuerte</span></span>
+    <h3>Correspondencia mensaje–motivo</h3>
+    <p>En el estudio 4 del VFI, un mensaje persuadía <strong>más cuando encajaba con el motivo</strong> de la persona que cuando no. Como en el voluntariado domina «Valores», el mensaje de Paramita debe sonar a valores —compasión, tradición viva, servicio con sentido— y no a currículum ni a ventajas. Es persuasión, sí, pero por la vía de <em>decir la verdad al motivo correcto</em>, que es exactamente lo que la identidad ya quiere decir.</p>
+  </div>
+
+  <p class="pull reveal">La honestidad, aquí, no es un freno de la conversión. Es el método de conversión.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 6 · EL FORMULARIO ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — El formulario</span>
+    <h2>La decisión de <em>fricción</em></h2>
+  </div>
+  <p class="reveal">Aquí es donde la evidencia comercial y la evidencia prosocial chocan de frente —y donde la decisión tiene que ser consciente, no por defecto. El detalle de campos vive en el <strong>documento de formularios aparte</strong>; aquí va el <em>principio</em>.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Lo que dice el CRO · HubSpot <span class="evi evi--media">media · registro comercial</span></span>
+    <p>Analizando <strong>+40.000 landing pages</strong>, HubSpot vio que los formularios de <strong>~3 campos convertían ~25%</strong> y los de ~8 campos, alrededor de la mitad; con <strong>7 o menos ~34% frente a ~15% con 10+</strong>. Pero <strong>la relación no es lineal</strong> (Unbounce halló que remonta pasados ciertos campos) y <strong>el tipo de campo pesa más que el número</strong>: los campos de texto de una línea apenas restan; las áreas de texto largas y los desplegables sí hunden la tasa.</p>
+    <p class="cifra">Salvedad clave: son datos de captación B2B —vender a extraños—. No se pueden trasladar tal cual a una invitación a la práctica.</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Lo que dice la evidencia prosocial · self-selection + martirio</span>
+    <p>Para el <strong>seva residencial</strong>, un formulario cortísimo sería un error: la estancia es exigente y un paso demasiado fácil atrae solicitudes poco meditadas que luego no cuajan. Un formulario <strong>algo más largo y honesto</strong> —motivación, disponibilidad, experiencia previa de práctica— funciona como <strong>autoselección</strong>: filtra hacia quien de verdad encaja y, por el efecto martirio, <em>aumenta</em> el compromiso de quien lo completa. La fricción, aquí, es una función, no un defecto. La página actual ya usa un Google Form reflexivo seguido de <strong>entrevista personal</strong>; ese arco (solicitud meditada → conversación humana) es correcto y se conserva —solo cambia el envoltorio, del embed suelto a una tarjeta integrada en el sistema.</p>
+  </div>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Dos formularios, dos filosofías</caption>
+      <thead><tr><th>Puerta</th><th>Longitud</th><th>Razón</th></tr></thead>
+      <tbody>
+        <tr><td>Seva residencial</td><td class="yes">Media, reflexiva</td><td>Autoselección deseable · el compromiso es alto · el efecto martirio juega a favor</td></tr>
+        <tr><td>Ayuda puntual / «mantenme al tanto»</td><td>Mínima (1–3 campos)</td><td>El objetivo es solo abrir conversación · aquí sí manda el CRO clásico</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Detalles que sí valen para ambos</span>
+    <p>Del CRO sirven las cosas que reducen confusión, no las que fabrican deseo: <strong>evitar textareas y desplegables innecesarios</strong>; <strong>botón con etiqueta específica</strong> («Enviar mi solicitud», no «Enviar» —los botones genéricos rinden peor); <strong>campos opcionales marcados como tales</strong>; <strong>formulario más corto en móvil</strong>; y una <strong>confirmación humana</strong> (qué pasa después, cuándo responderemos) en vez de un frío «gracias».</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 7 · UI / GRAFISMO / MOTION ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">07 — UI · grafismo · motion</span>
+    <h2>Cómo se ve, según el <em>sistema</em></h2>
+  </div>
+  <p class="reveal">La buena noticia de las tendencias 2026 es que <strong>confirman</strong> la doctrina de Paramita en lugar de tensionarla —lo cual es, en sí mismo, la mejor prueba de que «identidad sobre tendencia» iba bien encaminado.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Tendencia 2026 · ¿choca o confirma la doctrina Paramita?</caption>
+      <thead><tr><th>Tendencia 2026</th><th>Veredicto</th><th>Ya en el sistema</th></tr></thead>
+      <tbody>
+        <tr><td>UI calmada, menos «teatro» visual, menor carga cognitiva</td><td class="yes">Confirma</td><td>Luminosidad mediterránea, peso contemplativo (doc 01)</td></tr>
+        <tr><td>Motion disciplinado: reduce incertidumbre, no espectáculo</td><td class="yes">Confirma</td><td>Contrato de motion (dos familias; solo transform/opacity)</td></tr>
+        <tr><td>Scroll-driven que respeta el navegador; muere el scroll-jacking</td><td class="yes">Confirma</td><td>GSAP/ScrollTrigger reveals, sin secuestrar el scroll</td></tr>
+        <tr><td><code>prefers-reduced-motion</code> como base, no extra</td><td class="yes">Confirma</td><td>Ya respetado (reveals, sheen) en informes y sitio</td></tr>
+        <tr><td>Accesibilidad como infraestructura (y obligación legal, EAA)</td><td class="yes">Confirma</td><td>Auditoría con <code>impeccable</code>; jerarquía de encabezados</td></tr>
+        <tr><td>IA como herramienta de flujo (borradores, alt-text), no adorno visible</td><td class="yes">Confirma</td><td>Coherente con «no gimmicks»</td></tr>
+        <tr><td>Diseño espacial / 3D, glassmorphism, brutalismo</td><td class="no">Descartar</td><td>Rompe el hilo «el cruce como acto»; no aporta</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="reveal">Decisiones gráficas concretas</h3>
+  <p class="reveal"><strong>CTAs.</strong> Nomenclatura Fase 6: <code>.btn-primario</code> (azul→dorado, respira a 17.5s) y <code>.btn-secundario</code> (outline). Fuera de la home hay acción prioritaria clara, así que el <em>pairing</em> del hero es <code>secundario + primario</code>. <strong>Un único primario por hero</strong>; el segundo primario, si acaso, solo en el bloque «dos puertas», donde cada puerta es una acción legítima y separada (la regla del pairing admite excepción justificada, doc 05).</p>
+  <p class="reveal"><strong>Tipografía.</strong> Lede y subtítulos siempre Hanken (<code>var(--body)</code>), normal, <code>--wght-presencia</code> —nunca Fraunces, nunca itálica, nunca bold. La itálica Fraunces se reserva al <code>&lt;em&gt;</code> dentro de títulos, en <code>--dorado</code>. Eyebrows en <code>--texto-tenue</code>, no dorado.</p>
+  <p class="reveal"><strong>Color y motion.</strong> Todo por tokens OKLCH y <code>color-mix(in oklch, …)</code>; nada hardcodeado. El texto en lectura no se mueve; solo <code>transform</code>/<code>opacity</code>; sin animaciones infinitas sin justificación identitaria. El hero puede llevar el velo cálido animado (familia ambiental), coherente con index y contribuir.</p>
+  <p class="reveal"><strong>Grafismo / pictogramas.</strong> Si el bloque «un día» o «las dos puertas» pide iconos, canon del sistema (<code>viewBox 0 0 24 24</code>, <code>stroke 1.5</code>, un solo <code>.acc</code> en dorado). Regla dura: <em>el SVG existe en <code>partials/pictogramas/</code> antes de poner el <code>data-pico</code></em> —si falta, <code>sync.py</code> aborta la página entera.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 8 · TECNOLOGÍA / RENDIMIENTO ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">08 — Tecnología y rendimiento</span>
+    <h2>Lo que se mide bajo el <em>capó</em></h2>
+  </div>
+  <p class="reveal">La conversión más barata es la que no se pierde por lentitud. Y aquí la evidencia, aunque con matices, es consistente.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">+32<small>%</small></div><div class="l">de probabilidad de rebote si la carga pasa de 1s a 3s</div><div class="src">Google</div></div>
+    <div class="stat"><div class="n">+106<small>%</small></div><div class="l">de probabilidad de rebote de 1s a 6s</div><div class="src">Google</div></div>
+    <div class="stat"><div class="n">2.5<small>s</small></div><div class="l">umbral «bueno» de LCP (mayor contentful paint)</div><div class="src">Core Web Vitals</div></div>
+    <div class="stat"><div class="n">0.1</div><div class="l">umbral «bueno» de CLS (estabilidad visual); INP &lt;200ms</div><div class="src">CWV · mar 2024</div></div>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Salvedad honesta · magnitudes direccionales <span class="evi evi--media">media</span></span>
+    <p>Las cifras de «+X% conversión por 0,1s» (Deloitte/Google, «Milliseconds Make Millions»: ~+8,4% en retail) provienen en gran parte de <strong>case studies de proveedores y comparaciones antes/después</strong>, no de ensayos controlados. La <em>dirección</em> es sólida y repetida; las <em>magnitudes</em>, tómalas como orientación, no como constantes.</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Qué vigilar en <em>esta</em> página, en concreto</span>
+    <p>El stack de Paramita ya juega a favor: estático en GitHub Pages, fuentes woff2 autoalojadas (sin CLS por FOIT tardío), CSS en capas. Los dos riesgos reales de Core Web Vitals aquí son:</p>
+    <p>· <strong>El hero</strong> (imagen grande = candidato a LCP): servir tamaño correcto, <code>&lt;picture&gt;</code> con recorte vertical en móvil (la tarea pendiente del hero de Khenpo aplica igual aquí), <code>fetchpriority="high"</code>.</p>
+    <p>· <strong>El canvas WebGL</strong> (dominio de Gerard): puede empujar LCP/INP y consumir GPU en móviles modestos. En una landing cuyo objetivo es una <em>solicitud</em>, evaluar si el fluido va atenuado o ausente por debajo de cierto viewport, y respetar <code>prefers-reduced-motion</code>.</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Accesibilidad · no es opcional <span class="evi evi--fuerte">fuerte</span></span>
+    <p>Desde el <strong>28 de junio de 2025</strong>, el <strong>European Accessibility Act</strong> convierte la accesibilidad en obligación para muchos servicios digitales en la UE —una fundación española entra de lleno en el marco de referencia. Y el margen es enorme: se estima que <strong>solo ~3,7% del millón de webs top cumple WCAG 2.1 AA por completo</strong>. Traducción para la landing: contraste suficiente (los OKLCH del sistema ayudan), foco visible en teclado, objetivos táctiles ≥24px, HTML semántico, alt real en las fotos, acordeón de FAQ operable con teclado. La auditoría con <code>impeccable</code> cubre la higiene estructural; el contraste y el foco se validan aparte.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 9 · MEDICIÓN ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">09 — Medición</span>
+    <h2>Qué medir sin volverse un <em>SaaS</em></h2>
+  </div>
+  <p class="reveal">Medir está bien; medir lo que no importa, no. Una fundación que empieza a optimizar «altas por sesión» acaba fabricando urgencia sin darse cuenta. Métricas coherentes con el marco de seva:</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Métricas honestas · vanity metrics a evitar</caption>
+      <thead><tr><th>Mide</th><th>No te obsesiones con</th></tr></thead>
+      <tbody>
+        <tr><td class="yes">Solicitudes de seva <em>que llegan a estancia</em> (calidad, no volumen)</td><td class="no">Altas brutas del formulario</td></tr>
+        <tr><td class="yes">Retención y satisfacción del voluntario (¿su experiencia encajó con su motivo? — el VFI predice satisfacción)</td><td class="no">Tasa de conversión aislada de la página</td></tr>
+        <tr><td class="yes">De dónde vino: ¿alguien se lo pidió? (cerrar el círculo del predictor «ser preguntado»)</td><td class="no">Tiempo en página como fin en sí</td></tr>
+        <tr><td class="yes">Accesibilidad y CWV en verde (higiene continua)</td><td class="no">Micro-tests A/B de colores de botón</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">El bucle virtuoso que sí conviene cultivar</span>
+    <p>Como ~25% de los voluntarios llega por alguien ya implicado y «cada voluntario satisfecho es un reclutador», la palanca de largo plazo no es la landing: es <strong>que la experiencia de seva sea buena</strong>. La página capta; la experiencia multiplica. Optimizar la página sin cuidar la experiencia es llenar un cubo agujereado.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 10 · SÍNTESIS ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">10 — Síntesis</span>
+    <h2>Las <em>decisiones</em>, en una página</h2>
+  </div>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Checklist de decisiones para <code>/unete/voluntariado/</code></caption>
+      <thead><tr><th>Decisión</th><th>Fundamento</th></tr></thead>
+      <tbody>
+        <tr><td>No importar el playbook agresivo de CRO</td><td>Crowding-out + doc 01 (no-SaaS)</td></tr>
+        <tr><td>Hablar a «Valores» por encima de todo</td><td>VFI: Valores gana en toda revisión sistemática</td></tr>
+        <tr><td>Tratar la página como destino de una invitación previa, no como captador autónomo</td><td>«Ser preguntado» es el mayor predictor (Musick &amp; Wilson)</td></tr>
+        <tr><td>Dos puertas separadas: seva residencial (paso serio) / ayuda puntual (paso pequeño)</td><td>Dos niveles de compromiso · patrón de <code>/contribuir/</code></td></tr>
+        <tr><td>No edulcorar la exigencia del seva; nombrarla</td><td>Efecto martirio · autoselección sana</td></tr>
+        <tr><td>Formulario reflexivo en residencial; mínimo en «mantenme al tanto»</td><td>Fricción como función vs. fricción como fuga</td></tr>
+        <tr><td>Requisitos y preceptos en FAQ, no en el flujo principal</td><td>Revelación progresiva (informe Únete)</td></tr>
+        <tr><td>Un primario por hero; sistema de tokens/tipografía/motion intacto</td><td>Docs 01, 03, 04, 05</td></tr>
+        <tr><td>Vigilar LCP (hero) e INP/GPU (canvas WebGL); accesibilidad EAA</td><td>Core Web Vitals · obligación legal</td></tr>
+        <tr><td>Medir calidad y retención, no volumen bruto</td><td>Coherencia con el marco de seva</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="pull reveal">El objetivo no es que se ofrezca más gente. Es que se ofrezca la gente adecuada, por el motivo adecuado, y que se quede contenta de haberlo hecho.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Fuera de alcance de este informe · siguiente decisión</span>
+    <p>Este documento es <strong>solo el estudio</strong>: no toca código ni construye la página. Lo que falta decidir contigo, de una en una: (1) el <em>copy</em> real de cada bloque, tomando como base la página actual; (2) el <em>documento de formularios</em> con los campos exactos de cada puerta; (3) si el spoke vive en <code>/unete/voluntariado/</code> como estático o se integra con el LMS y los dominios; (4) las fotos reales del Centro para el hero y «un día».</p>
+  </div>
+</section>
+
+<div class="flow"><hr class="divider"></div>
+
+<!-- ══════════════ FUENTES ══════════════ -->
+<section class="refs flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">Fuentes</span>
+    <h2>De dónde salen los <em>datos</em></h2>
+  </div>
+  <ol class="reveal">
+    <li><b>Clary, Snyder, Ridge, Copeland, Stukas, Haugen &amp; Miene (1998), «Understanding and Assessing the Motivations of Volunteers», JPSP</b> · el VFI y sus seis funciones; estudio 4: el mensaje persuade más cuando encaja con el motivo; estudios 5–6: encaje experiencia-motivo predice satisfacción e intención de continuar. <span class="evi evi--fuerte">fuerte</span></li>
+    <li><b>Chacón, Gutiérrez, Sauto, Vecina &amp; Pérez (rev. sistemática, UCM)</b> · 48 estudios, &gt;21.000 personas: «Valores» es el factor más alto en todo tipo de voluntariado; «Carrera» y «Mejora», los más bajos; fiabilidades .78–.84. <span class="evi evi--fuerte">fuerte</span></li>
+    <li><b>Musick &amp; Wilson, «Volunteers: A Social Profile»; Enc. Volunteer Centre Ottawa-Carleton</b> · «ser preguntado» como mayor predictor; ~40% se implica porque alguien se lo pide, ~25% por un allegado, &lt;20% por su cuenta; los sesgos operan al pedir, no al aceptar. <span class="evi evi--fuerte">fuerte</span></li>
+    <li><b>Titmuss; Gneezy &amp; Rustichini («A Fine is a Price»); Deci &amp; Ryan (autodeterminación); Ariely-Bracha-Meier; Newman &amp; Shen</b> · desplazamiento de la motivación intrínseca (crowding-out): premiar un acto altruista puede reducirlo. (Vía informe «El don y la pertenencia» del proyecto.) <span class="evi evi--fuerte">fuerte</span></li>
+    <li><b>Olivola &amp; Shafir (2013), «The Martyrdom Effect», J. of Behavioral Decision Making</b> · 5 experimentos: el esfuerzo/dolor anticipado por una causa aumenta la disposición a contribuir (mecanismo: más significado). Réplica registrada en curso (2024). <span class="evi evi--media">media</span></li>
+    <li><b>Bryan, Walton, Rogers &amp; Dweck (2011), PNAS</b> vs. <b>Gerber et al. (réplica de campo)</b> · el efecto sustantivo-vs-verbo (+11pp) no se replicó a escala (~cero). La apelación a la identidad sobrevive vía «Valores», no vía el truco lingüístico. <span class="evi evi--debil">débil</span></li>
+    <li><b>HubSpot (análisis de +40.000 landings); Unbounce; Eloqua; MarketingExperiments</b> · nº de campos y conversión (~3→~25%, ~8→~mitad; 7 o menos ~34% vs 10+ ~15%); relación no lineal; el tipo de campo (textareas, desplegables) pesa más que el número; botones genéricos rinden peor. Registro comercial (B2B). <span class="evi evi--media">media</span></li>
+    <li><b>Google (Core Web Vitals; benchmark de rebote); Deloitte + Google, «Milliseconds Make Millions»</b> · umbrales LCP&lt;2,5s / INP&lt;200ms / CLS&lt;0,1 (FID→INP, mar 2024); rebote +32% de 1s→3s, +106% de 1s→6s; ~+8,4% conversión retail por 0,1s. Magnitudes direccionales (case studies de proveedores, no RCTs). <span class="evi evi--media">media</span></li>
+    <li><b>European Accessibility Act (en vigor 28 jun 2025); WCAG 2.1 AA; estimaciones de cumplimiento web</b> · accesibilidad como obligación legal en la UE; ~3,7% del millón de webs top cumple AA por completo. <span class="evi evi--fuerte">fuerte</span></li>
+    <li><b>Consenso de tendencias UX/UI 2026</b> (varias fuentes del sector) · UI calmada, motion disciplinado, scroll-driven que respeta el navegador, fin del scroll-jacking, accesibilidad-first, IA en el flujo de trabajo no como adorno. Convergen con la doctrina de Paramita. <span class="evi evi--media">media</span></li>
+    <li><b>Paramita · docs. y páginas internas</b> · doc 01 (identidad, «el cruce como acto», no-SaaS), doc 03 (tipografía), doc 04 (motion), doc 05 (CTAs Fase 6), doc 16 e informes de <code>/contribuir/</code> (dāna, crowding-out, dos puertas), informe «Del monolito al umbral» (Únete Parte 2: hub-spoke, tres identidades, revelación progresiva), informe de pictogramas, README de sync; <b>página <code>/voluntarios/</code> actual</b> (auditoría de copy: 11 «imprescindibles», horarios, 5 preceptos, protocolo, la segunda puerta en paréntesis).</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Paramita · Fundació Sakya — Estudio interno · Landing de voluntariado (<code>/unete/voluntariado/</code>): estructura, neuromarketing, conversión, UI/motion y rendimiento · 20 ago 2026. Spoke que desarrolla lo diferido en «Del monolito al umbral». Solo estudio: no toca código. Copy anclado en la página <code>/voluntarios/</code> actual. Formularios y campos, documento aparte.</div>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    bar.style.width = (scrolled * 100) + '%';
+  };
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+</body>
+</html>

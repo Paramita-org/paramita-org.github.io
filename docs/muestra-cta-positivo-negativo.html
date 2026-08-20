@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paramita · Los 3 CTAs en positivo, azul y negativo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════════════════════════════════════════════════════════
+     TOKENS REALES · paramita-color.css + paramita-movimiento.css
+     ═══════════════════════════════════════════════════════════════ */
+  :root {
+    --lino:       oklch(97% 0.008 85);
+    --arena:      oklch(94% 0.014 82);
+    --arcilla:    oklch(90% 0.02 80);
+    --calido-zen: oklch(88% 0.03 78);
+    --card:       oklch(98% 0.006 85);
+    --antracita:   oklch(22% 0.02 250);
+    --texto-suave: oklch(58% 0.015 250);
+    --texto-tenue: oklch(72% 0.012 250);
+    --azul-oscuro: oklch(38% 0.11 245);
+    --azul-sutil:  oklch(68% 0.13 235);
+    --dorado:      oklch(78% 0.155 68);
+    --hair:        rgba(29, 31, 38, 0.10);
+    --hair-fuerte: rgba(29, 31, 38, 0.22);
+    --body:    'Hanken Grotesk', system-ui, sans-serif;
+    --display: 'Fraunces', Georgia, serif;
+    --dur-respiro: 25s;
+    --dur-identidad-agil: calc(var(--dur-respiro) * 0.7);
+    --dur-identidad-flujo: var(--dur-respiro);
+    --curva-llegada:   cubic-bezier(0.22, 1, 0.36, 1);
+    --curva-ambiental: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    --ease-identidad-flujo: var(--curva-ambiental);
+    --dur-micro: 80ms; --dur-rapido: 200ms; --dur-estandar: 400ms; --dur-deliberado: 700ms;
+    --t-hover:      var(--dur-rapido)     var(--curva-llegada);
+    --t-defecto:    var(--dur-estandar)   var(--curva-llegada);
+    --t-revelacion: var(--dur-deliberado) var(--curva-llegada);
+    --lino-fijo:    oklch(97% 0.008 85);
+  }
+
+  /* SET OSCURO · paramita-tema.css (data-tema="oscuro") */
+  [data-tema="oscuro"] {
+    --lino:       oklch(19% 0.012 65);
+    --arena:      oklch(23% 0.014 66);
+    --arcilla:    oklch(27% 0.016 68);
+    --calido-zen: oklch(26% 0.020 66);
+    --card:       oklch(25% 0.015 66);
+    --antracita:   oklch(92% 0.012 85);
+    --texto-suave: oklch(74% 0.012 82);
+    --texto-tenue: oklch(60% 0.012 80);
+    --azul-oscuro: oklch(74% 0.12 232);
+    --hair:        color-mix(in oklch, oklch(92% 0.012 85) 14%, transparent);
+    --hair-fuerte: color-mix(in oklch, oklch(92% 0.012 85) 26%, transparent);
+  }
+
+  @keyframes flow { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+  /* ═══════════════════════════════════════════════════════════════
+     CTA · copia literal de paramita-cta.css (con la variante t-link--claro)
+     ═══════════════════════════════════════════════════════════════ */
+  @layer cta {
+    .ctas { display: flex; align-items: center; gap: 0.7rem; }
+
+    /* ── PRIMARIO ── */
+    .btn-primario {
+      position: relative; isolation: isolate; overflow: hidden;
+      font-family: var(--body); font-size: 0.96rem; font-weight: 600;
+      color: #fff; letter-spacing: 0.005em; padding: 0.66rem 1.45rem;
+      border: none; cursor: pointer; border-radius: 14px; outline: none;
+      text-decoration: none; display: inline-block;
+      box-shadow: 0 14px 34px -20px var(--azul-oscuro), 0 4px 12px -8px var(--azul-oscuro);
+      transition: transform var(--t-defecto), box-shadow var(--t-revelacion), letter-spacing var(--t-defecto);
+    }
+    @supports (corner-shape: superellipse(2)) {
+      .btn-primario { border-radius: 20px; corner-shape: superellipse(2.4); }
+    }
+    .btn-primario::before {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(100deg, var(--azul-oscuro), var(--azul-sutil), var(--dorado), var(--azul-sutil), var(--azul-oscuro));
+      background-size: 200% 100%;
+      animation: flow var(--dur-identidad-agil) var(--ease-identidad-flujo) infinite;
+    }
+    .btn-primario::after {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(105deg, transparent 32%, rgba(255,255,255,0.55) 50%, transparent 68%);
+      translate: -130% 0; transition: translate var(--t-revelacion);
+    }
+    .btn-primario:hover {
+      transform: translateY(-2px); letter-spacing: 0.02em;
+      box-shadow: 0 18px 36px -14px var(--azul-oscuro), 0 0 14px 0 oklch(78% 0.155 68 / 0.33), 0 0 32px 6px oklch(78% 0.155 68 / 0.18), 0 0 60px 10px oklch(78% 0.155 68 / 0.08);
+    }
+    .btn-primario:hover::after { translate: 130% 0; }
+
+    /* ── SECUNDARIO ── */
+    .btn-secundario {
+      display: inline-flex; align-items: center; gap: 0.55em;
+      font-family: var(--body); font-size: 0.95rem; font-weight: 450;
+      letter-spacing: 0.01em; color: var(--azul-oscuro) !important;
+      background: transparent; border: none; cursor: pointer; outline: none;
+      padding: 0.66rem 1.4rem; border-radius: 12px; position: relative;
+      box-shadow: none; text-decoration: none; transform: translateZ(0);
+      transition: transform var(--t-defecto), box-shadow var(--t-revelacion);
+    }
+    .btn-secundario::before {
+      content: ""; position: absolute; inset: 0; border-radius: 12px; padding: 1px;
+      background: linear-gradient(100deg, var(--azul-oscuro), var(--azul-sutil), var(--dorado), var(--azul-sutil), var(--azul-oscuro));
+      background-size: 200% 100%; background-position: 0% 50%; opacity: 0.9;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+              mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      pointer-events: none; z-index: 0; transition: none; animation: none;
+    }
+    .btn-secundario:hover::before { animation: flow 3.4s var(--ease-identidad-flujo) infinite; }
+    .btn-secundario > * { position: relative; z-index: 1; }
+    .btn-secundario:hover {
+      transform: translateY(-2px) translateZ(0);
+      background: transparent !important; color: var(--azul-oscuro) !important;
+      box-shadow: 0 0 8px 1px oklch(68% 0.13 235 / 0.22), 0 0 22px 4px oklch(78% 0.155 68 / 0.14), 0 0 40px 8px oklch(38% 0.11 245 / 0.10);
+    }
+    /* variante clara */
+    .btn-secundario--claro { color: var(--lino-fijo) !important; text-shadow: 0 1px 14px rgba(33,30,26,0.28); }
+    .btn-secundario--claro:hover { color: var(--lino-fijo) !important; }
+    .btn-secundario--claro::before { opacity: 1; }
+
+    /* ── TERCIARIO · t-link ── */
+    .t-link {
+      position: relative; display: inline-flex; align-items: center; gap: 0.5em;
+      font-family: var(--body); font-weight: 500; font-size: 1.02rem;
+      letter-spacing: 0.005em; color: var(--azul-oscuro); cursor: pointer;
+      background: none; border: none; padding: 0.2em 0 0.5em; text-decoration: none;
+      transition: gap var(--t-defecto), letter-spacing var(--t-defecto);
+    }
+    .t-link .txt {
+      display: inline-block; line-height: 1.15; color: var(--azul-oscuro);
+      -webkit-text-fill-color: currentColor;
+      background-image: linear-gradient(100deg, var(--azul-oscuro), var(--azul-sutil) 45%, var(--dorado));
+      background-size: 0% 100%; background-repeat: no-repeat; background-position: left;
+      -webkit-background-clip: text; background-clip: text;
+      transition: background-size var(--t-revelacion), -webkit-text-fill-color var(--t-defecto);
+    }
+    .t-link .arw { color: currentColor; transition: transform var(--t-defecto); }
+    .t-link::after {
+      content: ""; position: absolute; left: 0; right: 1.2em; bottom: 0; height: 1.5px;
+      background: linear-gradient(100deg, var(--azul-oscuro), var(--azul-sutil), var(--dorado), var(--azul-sutil), var(--azul-oscuro));
+      background-size: 200% 100%;
+      animation: flow var(--dur-identidad-flujo) var(--ease-identidad-flujo) infinite;
+      transition: right var(--t-defecto);
+    }
+    .t-link:hover { gap: 0.85em; letter-spacing: 0.015em; outline: none; }
+    .t-link:hover .txt { background-size: 100% 100%; -webkit-text-fill-color: transparent; color: transparent; }
+    .t-link:hover .arw { transform: translateX(4px); color: var(--azul-oscuro); }
+    .t-link:hover::after { animation-duration: 5s; }
+    .t-link--primario { font-weight: 600; font-size: 1.06rem; }
+
+    /* ── NUEVO · TERCIARIO · variante clara · .t-link--claro ── */
+    .t-link--claro .txt {
+      color: var(--lino-fijo);
+      -webkit-text-fill-color: var(--lino-fijo);
+      text-shadow: 0 1px 14px rgba(33, 30, 26, 0.28);
+    }
+    .t-link--claro .arw { color: var(--lino-fijo); }
+    .t-link--claro:hover .txt {
+      background-size: 0% 100%;
+      color: var(--lino-fijo);
+      -webkit-text-fill-color: var(--lino-fijo);
+    }
+    .t-link--claro:hover .arw { color: var(--lino-fijo); }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     ANDAMIAJE DE LA MUESTRA (no forma parte del sistema)
+     ═══════════════════════════════════════════════════════════════ */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: var(--body); color: var(--antracita);
+    background: var(--lino);
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: clamp(2.5rem, 6vh, 5rem) clamp(1.4rem, 5vw, 3rem) 5rem; }
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dorado); margin: 0 0 1rem; }
+  h1 { font-family: var(--display); font-weight: 300; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.04; letter-spacing: -0.02em; margin: 0 0 0.6rem; }
+  h1 em { font-style: italic; color: var(--dorado); }
+  .lede { font-size: 1.05rem; line-height: 1.6; color: var(--texto-suave); max-width: 68ch; margin: 0 0 2.6rem; }
+
+  .panels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  @media (max-width: 980px) { .panels { grid-template-columns: 1fr; max-width: 560px; } }
+
+  .panel { border-radius: 22px; padding: 2rem 1.7rem 2.2rem; border: 1px solid var(--hair); }
+  .panel--pos { background: var(--lino); }
+  .panel--neg { background: oklch(19% 0.012 65); }
+  .panel--azul {
+    background:
+      radial-gradient(ellipse 70% 78% at 50% 38%, rgba(255,255,255,0.34) 0%, transparent 68%),
+      linear-gradient(180deg,
+        color-mix(in oklch, oklch(68% 0.13 235) 72%, #fff) 0%,
+        oklch(68% 0.13 235) 46%,
+        color-mix(in oklch, oklch(68% 0.13 235) 55%, oklch(38% 0.11 245)) 100%);
+    border-color: transparent;
+  }
+
+  .panel__tag { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--texto-tenue); margin: 0 0 0.3rem; }
+  .panel__title { font-family: var(--display); font-weight: 400; font-size: 1.35rem; margin: 0 0 0.3rem; color: var(--antracita); }
+  .panel__sub { font-size: 0.88rem; color: var(--texto-suave); margin: 0 0 1.8rem; }
+
+  /* Azul · textos en antracita/lino para leer sobre azul-sutil */
+  .panel--azul .panel__tag   { color: color-mix(in oklch, var(--antracita) 62%, transparent); }
+  .panel--azul .panel__title { color: var(--antracita); }
+  .panel--azul .panel__sub   { color: color-mix(in oklch, var(--antracita) 78%, transparent); }
+
+  .cell { padding: 1.25rem 0; border-top: 1px solid var(--hair); }
+  .panel--azul .cell { border-top: 1px solid rgba(255,255,255,0.28); }
+  .cell:first-of-type { border-top: none; }
+  .cell__row { display: flex; align-items: center; gap: 1rem; min-height: 54px; }
+  .cell__label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.04em; color: var(--texto-tenue); margin: 0 0 0.85rem; }
+  .cell__label b { color: var(--antracita); font-weight: 500; }
+  .panel--neg .cell__label b { color: oklch(92% 0.012 85); }
+  .panel--neg .cell__label { color: oklch(70% 0.012 80); }
+  .panel--azul .cell__label { color: color-mix(in oklch, var(--antracita) 58%, transparent); }
+  .panel--azul .cell__label b { color: var(--antracita); }
+  .cell__note { font-size: 0.8rem; line-height: 1.5; color: var(--texto-suave); margin: 0.85rem 0 0; }
+  .panel--neg .cell__note  { color: oklch(72% 0.012 80); }
+  .panel--azul .cell__note { color: color-mix(in oklch, var(--antracita) 74%, transparent); }
+
+  .flag { display: inline-block; margin-left: 0.4em; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.12em 0.5em; border-radius: 5px; vertical-align: middle; }
+  .flag--ok  { color: oklch(52% 0.12 145); background: oklch(52% 0.12 145 / 0.12); }
+  .flag--new { color: oklch(50% 0.16 25);  background: oklch(50% 0.16 25 / 0.10); }
+  .panel--neg .flag--ok  { color: oklch(78% 0.14 150); background: oklch(78% 0.14 150 / 0.16); }
+  .panel--azul .flag--ok  { color: oklch(30% 0.12 150); background: rgba(255,255,255,0.42); }
+  .panel--azul .flag--new { color: var(--antracita); background: rgba(255,255,255,0.42); }
+
+  .hint { margin-top: 2.6rem; font-size: 0.85rem; line-height: 1.6; color: var(--texto-suave); border-left: 2px solid var(--dorado); padding-left: 1rem; max-width: 90ch; }
+  .hint b { color: var(--antracita); font-weight: 600; }
+  .hint + .hint { margin-top: 1rem; }
+  code { font-family: 'JetBrains Mono', monospace; font-size: 0.86em; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Paramita · Sistema de CTAs · Fase 8</p>
+    <h1>Los tres CTAs en <em>positivo</em>, <em>azul</em> y <em>negativo</em></h1>
+    <p class="lede">Los tres tipos —<code>btn-primario</code>, <code>btn-secundario</code> y <code>t-link</code>— renderizados con el CSS real de <code>paramita-cta.css</code> (ya con la nueva variante <code>t-link--claro</code>). Cada superficie usa la forma correcta de cada CTA. Pasa el cursor por encima para ver el hover.</p>
+
+    <div class="panels">
+
+      <!-- ══════════ POSITIVO ══════════ -->
+      <section class="panel panel--pos">
+        <p class="panel__tag">Positivo · superficie clara</p>
+        <h2 class="panel__title">Sobre lino</h2>
+        <p class="panel__sub">El contexto por defecto del sistema.</p>
+
+        <div class="cell">
+          <p class="cell__label"><b>btn-primario</b> <span class="flag flag--ok">Base</span></p>
+          <div class="cell__row"><a class="btn-primario" href="#" onclick="return false">Inscribirme</a></div>
+          <p class="cell__note">Degradado lleno respirando. Texto blanco.</p>
+        </div>
+        <div class="cell">
+          <p class="cell__label"><b>btn-secundario</b> <span class="flag flag--ok">Base</span></p>
+          <div class="cell__row"><a class="btn-secundario" href="#" onclick="return false"><span>Saber más</span></a></div>
+          <p class="cell__note">Degradado en el trazo. Texto azul-oscuro, contraste &gt;8:1.</p>
+        </div>
+        <div class="cell">
+          <p class="cell__label"><b>t-link</b> <span class="flag flag--ok">Base</span></p>
+          <div class="cell__row"><a class="t-link" href="#" onclick="return false"><span class="txt">Leer el artículo</span><span class="arw">→</span></a></div>
+          <p class="cell__note">Texto azul + línea inferior con degradado. Hover: relleno del degradado.</p>
+        </div>
+      </section>
+
+      <!-- ══════════ AZUL · bloque de suscripción ══════════ -->
+      <section class="panel panel--azul">
+        <p class="panel__tag">Azul · bloque de suscripción</p>
+        <h2 class="panel__title">Sobre azul-sutil</h2>
+        <p class="panel__sub">foot__hero / «practiquemos juntos».</p>
+
+        <div class="cell">
+          <p class="cell__label"><b>btn-primario</b> <span class="flag flag--ok">Base</span></p>
+          <div class="cell__row"><a class="btn-primario" href="#" onclick="return false">Suscribirme</a></div>
+          <p class="cell__note">Sin cambios: su color no depende de la superficie.</p>
+        </div>
+        <div class="cell">
+          <p class="cell__label"><b>btn-secundario--claro</b> <span class="flag flag--ok">Variante</span></p>
+          <div class="cell__row"><a class="btn-secundario btn-secundario--claro" href="#" onclick="return false"><span>Saber más</span></a></div>
+          <p class="cell__note">Texto lino + text-shadow. La variante que ya existía para el secundario.</p>
+        </div>
+        <div class="cell">
+          <p class="cell__label"><b>t-link--claro</b> <span class="flag flag--new">Nueva · Fase 8</span></p>
+          <div class="cell__row"><a class="t-link t-link--claro" href="#" onclick="return false"><span class="txt">Contribuir</span><span class="arw">→</span></a></div>
+          <p class="cell__note">El terciario, ahora con su variante clara simétrica: texto lino + text-shadow, línea intacta, hover en lino puro. Esto es lo que se aplica en el bloque de suscripción.</p>
+        </div>
+      </section>
+
+      <!-- ══════════ NEGATIVO ══════════ -->
+      <section class="panel panel--neg" data-tema="oscuro">
+        <p class="panel__tag">Negativo · superficie oscura</p>
+        <h2 class="panel__title">Sobre penumbra</h2>
+        <p class="panel__sub">Tema oscuro (data-tema="oscuro").</p>
+
+        <div class="cell">
+          <p class="cell__label"><b>btn-primario</b> <span class="flag flag--ok">Base</span></p>
+          <div class="cell__row"><a class="btn-primario" href="#" onclick="return false">Inscribirme</a></div>
+          <p class="cell__note">El degradado se mantiene; el dorado gana protagonismo.</p>
+        </div>
+        <div class="cell">
+          <p class="cell__label"><b>btn-secundario</b> <span class="flag flag--ok">Base + tema</span></p>
+          <div class="cell__row"><a class="btn-secundario" href="#" onclick="return false"><span>Saber más</span></a></div>
+          <p class="cell__note">Lee bien porque el tema oscuro sube --azul-oscuro a luminoso.</p>
+        </div>
+        <div class="cell">
+          <p class="cell__label"><b>t-link</b> <span class="flag flag--ok">Base + tema</span></p>
+          <div class="cell__row"><a class="t-link" href="#" onclick="return false"><span class="txt">Leer el artículo</span><span class="arw">→</span></a></div>
+          <p class="cell__note">Igual: el token luminoso del tema hace legible texto y línea.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <p class="hint"><b>La corrección (Fase 8).</b> Antes, el terciario sobre azul se resolvía con un parche de contexto incrustado en <code>paramita-suscripcion.css</code> (<code>.foot__hero .suscribe__apoyo .t-link</code>), atado a esa ubicación. Ahora se resuelve con una variante de sistema, <code>.t-link--claro</code>, simétrica a <code>.btn-secundario--claro</code> y declarable en cualquier bloque azul u oscuro. El parche se retira y el marcado de la home pasa a <code>class="t-link t-link--claro"</code>.</p>
+    <p class="hint"><b>Regla resultante, coherente.</b> Sobre claro los tres van en su forma base. Sobre azul luminoso, primario base + <code>secundario--claro</code> + <code>t-link--claro</code>. Sobre penumbra (tema oscuro), los tres base — el tema recalibra los tokens. El <code>btn-primario</code> nunca necesita variante: su color no depende del fondo.</p>
+  </div>
+</body>
+</html>

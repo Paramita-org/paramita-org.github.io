@@ -10,7 +10,9 @@ Archivos y dónde van (repo `janams-paramita.github.io`):
     partials/pictogramas/grupos-constancia.svg → pictograma
     partials/pictogramas/grupos-comunidad.svg  → pictograma
     assets/img/hero-grupos.jpg                  → foto de fondo del hero (la pones tú)
-    assets/img/bienvenida-paramita.jpg          → captura de muestra del vídeo cinematográfico
+    assets/img/bienvenida-paramita.jpg
+    assets/img/mapa-grupos.svg                  → mapamundi interactivo (se carga con fetch)
+    assets/img/khenpo-luz-dorada-low.jpg        → retrato de Khenpo (círculo)          → captura de muestra del vídeo cinematográfico
 
 ## Imágenes
 - Hero: `<img class="hero__bg-img" src="/img/hero-grupos.jpg">` (ruta absoluta desde raíz).

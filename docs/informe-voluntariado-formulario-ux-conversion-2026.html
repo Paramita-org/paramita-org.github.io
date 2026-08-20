@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El paso que se da — Diseño del formulario de voluntariado: UX/UI, conversión y accesibilidad · Paramita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC; --paper-2:#FBFAF7; --ink:#191A1C; --slate:#63656B;
+    --ink-deep:#132239; --ink-deep-2:#0E1A2C; --gold:#A8823F; --gold-lite:#C9A96E;
+    --rule:#DAD6CC; --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.42;color:var(--ink-deep);margin:2rem 0 0;font-style:italic}
+
+  section{padding:clamp(2.6rem,6vh,4.2rem) 0}
+  .sec-head{margin-bottom:1.8rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 .3rem}
+  h2 em{font-style:italic;font-weight:400;color:var(--gold)}
+  h3{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.25rem,2vw,1.55rem);line-height:1.2;margin:2.4rem 0 .6rem;letter-spacing:-.005em}
+  h3 em{font-style:italic;color:var(--ink-deep)}
+  p{margin:0 0 1.15rem}
+  strong{font-weight:600;color:var(--ink)}
+  em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:color-mix(in srgb,var(--gold) 12%,transparent);padding:.05em .35em;border-radius:4px;color:var(--ink-deep)}
+  .drop:first-letter{font-family:"Fraunces",serif;float:left;font-size:3.3rem;line-height:.82;font-weight:500;padding:.1em .12em 0 0;color:var(--ink-deep)}
+  .pull{font-family:"Fraunces",serif;font-weight:400;font-style:italic;font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.4;color:var(--ink-deep);border-left:2px solid var(--gold);padding-left:1.2rem;margin:2rem 0}
+  .fuente{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.01em;margin-top:-.4rem}
+
+  .dato{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:14px;padding:1.6rem 1.7rem;margin:1.4rem 0}
+  .dato__k{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+  .dato h3{margin:0 0 .5rem;font-size:clamp(1.15rem,1.8vw,1.4rem)}
+  .dato p{margin:0 0 .6rem}
+  .dato p:last-child{margin:0}
+  .cifra{font-family:"Fraunces",serif;font-weight:600;color:var(--ink-deep);font-size:1.08em}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--rule);border-radius:14px;overflow:hidden;margin:1.6rem 0}
+  .stat{background:var(--paper-2);padding:1.4rem 1.1rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.7rem,3vw,2.3rem);line-height:1;color:var(--ink-deep)}
+  .stat .n small{font-size:.55em;font-weight:500}
+  .stat .l{font-size:.82rem;line-height:1.35;color:var(--slate);margin-top:.5rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);margin-top:.5rem;letter-spacing:.04em}
+  @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+  .tbl-wrap{margin:1.6rem 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.9rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+  th,td{text-align:left;padding:.65rem .75rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:500;border-bottom:1.5px solid var(--rule)}
+  tbody td:first-child{font-weight:600;color:var(--ink);width:30%}
+  .yes{color:var(--ink-deep);font-weight:600}
+  .no{color:var(--gold);font-weight:600}
+
+  .dark{background:var(--ink-deep-2);color:#E7E9EE}
+  .dark h2{color:#fff}.dark h2 em{color:var(--gold-lite)}.dark h3{color:#fff}
+  .dark .sec-num{color:var(--gold-lite)}.dark strong{color:#fff}.dark p{color:#C3CAD6}
+  .dark .pull{color:#fff;border-color:var(--gold-lite)}
+  .dark .dato{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.10)}
+  .dark .dato h3{color:#fff}.dark .dato p{color:#C3CAD6}.dark .cifra{color:var(--gold-lite)}
+  .dark table th,.dark table td{border-color:rgba(255,255,255,.14)}
+  .dark thead th{color:#9BA6B4}.dark tbody td:first-child{color:#fff}
+  .dark .yes{color:#fff}.dark .no{color:var(--gold-lite)}
+  .dark code{background:rgba(201,169,110,.18);color:#EBD9B8}
+
+  .evi{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:.12em .5em;border-radius:20px;vertical-align:middle;margin-left:.4em;font-weight:500}
+  .evi--fuerte{background:color-mix(in srgb,var(--ink-deep) 14%,transparent);color:var(--ink-deep)}
+  .evi--media{background:color-mix(in srgb,var(--gold) 20%,transparent);color:#7a5f28}
+  .evi--debil{background:color-mix(in srgb,var(--slate) 16%,transparent);color:var(--slate)}
+  .leyenda{font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--slate);letter-spacing:.02em;line-height:1.7}
+  .leyenda .evi{margin-left:0;margin-right:.3em}
+
+  .arco{list-style:none;counter-reset:paso;padding:0;margin:1.6rem 0}
+  .arco li{position:relative;padding:0 0 1.3rem 3rem;counter-increment:paso}
+  .arco li::before{content:counter(paso,decimal-leading-zero);position:absolute;left:0;top:.1em;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--gold);border:1px solid var(--rule);border-radius:50%;width:2rem;height:2rem;display:grid;place-items:center}
+  .arco li b{color:var(--ink);font-weight:600}
+  .arco li::after{content:"";position:absolute;left:1rem;top:2.3em;bottom:.2rem;width:1px;background:var(--rule-soft)}
+  .arco li:last-child::after{display:none}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.75rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.sheen::after{animation:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ══════════════ PORTADA ══════════════ -->
+<header class="cover flow">
+  <p class="eyebrow">Estudio · Diseño de formulario · Voluntariado</p>
+  <h1>El paso<br>que se <em>da</em></h1>
+  <p class="deck">El formulario, antes de dibujarlo: qué dice la evidencia sobre estructura, campos, etiquetas, validación, número de pasos, móvil, accesibilidad y el flujo de confirmación. Datos contrastados, etiquetados por fuerza, y una regla que lo gobierna todo —honrar a quien quiere venir, no perseguir a quien duda—.</p>
+  <div class="sheen"></div>
+  <div class="meta">
+    <span><b>Precede a</b> · el documento de campos exactos</span>
+    <span><b>Sirve a</b> · las dos puertas de <code>/unete/voluntariado/</code></span>
+    <span><b>Fecha</b> · 20 ago 2026</span>
+    <span><b>Base</b> · estudio de la landing + página <code>/voluntarios/</code></span>
+  </div>
+  <p class="lede">El formulario es donde la intención se vuelve compromiso. Mal diseñado, pierde por el camino a quien ya había decidido; bien diseñado, lo <em>acompaña</em> —sin manipularlo, sin cansarlo, sin dejarlo a oscuras al final.</p>
+</header>
+
+<div class="flow">
+  <div class="dato reveal" style="margin-top:2rem">
+    <span class="dato__k">Encuadre · dónde encaja este estudio</span>
+    <p>El estudio de la landing («El tiempo que se ofrece») dejó los <strong>campos exactos para un documento aparte</strong> y fijó dos decisiones que este informe hereda: (1) hay <strong>dos puertas</strong> —seva residencial (exigente, reflexiva) y ayuda puntual / «mantenme al tanto» (ligera)—; (2) para la residencial, <strong>una fricción algo mayor es un filtro deseable</strong> (autoselección + efecto martirio), no un defecto. Este documento es el <em>puente</em> entre aquella decisión y el diseño real: <strong>las buenas prácticas de UX/UI de formularios, con evidencia</strong>, aplicadas a esas dos puertas. No dibuja aún los campos; fija el <em>cómo</em>.</p>
+  </div>
+  <p class="leyenda reveal" style="margin-top:1.4rem">
+    Etiquetas de evidencia:
+    <span class="evi evi--fuerte">fuerte</span> replicada / estándar consensuado / norma ·
+    <span class="evi evi--media">media</span> real pero condicional, o registro comercial ·
+    <span class="evi evi--debil">débil</span> contestada, confundida o de proveedor.
+  </p>
+</div>
+
+<div class="flow"><hr class="divider"></div>
+
+<!-- ══════════════ 1 · EL MARCO ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — El marco</span>
+    <h2>Dos formularios, dos <em>filosofías</em></h2>
+  </div>
+  <p class="drop reveal">Casi toda la literatura de formularios está escrita para un solo objetivo: <em>que cuantos más lleguen al final, mejor</em>. Para la puerta ligera de Paramita, eso vale. Para la residencial, no: ahí el objetivo no es volumen, es <strong>encaje</strong>. Un formulario que filtra bien vale más que uno que llenan muchos que luego no vienen. Por eso la primera decisión es no diseñar «un formulario», sino <strong>dos</strong>, con criterios opuestos en lo que importa y compartidos en lo que es higiene.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Los dos formularios · qué se optimiza en cada uno</caption>
+      <thead><tr><th>Criterio</th><th>Seva residencial</th><th>Ayuda puntual / «al tanto»</th></tr></thead>
+      <tbody>
+        <tr><td>Objetivo</td><td class="yes">Encaje y compromiso real</td><td>Abrir conversación</td></tr>
+        <tr><td>Longitud</td><td>Media, reflexiva</td><td class="yes">Mínima (1–3 campos)</td></tr>
+        <tr><td>Fricción</td><td>Deseable (autoselección)</td><td class="yes">La menor posible</td></tr>
+        <tr><td>Tono</td><td>Meditado, honesto sobre lo que implica</td><td>Cálido, breve</td></tr>
+        <tr><td>Qué comparten</td><td colspan="2" class="yes">Columna única · etiquetas visibles · validación humana · accesibilidad · confirmación clara</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Un apoyo inesperado desde la norma · WCAG 2.2 <span class="evi evi--fuerte">fuerte</span></span>
+    <p>La accesibilidad define «proceso» como <strong>una serie de pasos con un objetivo común</strong>, y trata como procesos <em>distintos</em> dos formularios con fines distintos (el ejemplo canónico: alta de boletín vs. inscripción a un curso). Es decir: la norma <strong>ya respalda separar las dos puertas</strong>. No son el mismo formulario con más o menos campos; son dos procesos, y cada uno se diseña para lo suyo.</p>
+  </div>
+  <p class="pull reveal">La puerta ligera quiere que pasen muchos. La residencial quiere que pasen los que encajan. Mismo edificio, dos umbrales.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 2 · ESTRUCTURA ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — Estructura y layout</span>
+    <h2>Cómo se <em>ordena</em> en la página</h2>
+  </div>
+  <p class="reveal">Aquí la evidencia es de las más limpias de todo el campo. Cuatro decisiones de disposición, con dato:</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Columna única · estudio controlado <span class="evi evi--fuerte">fuerte</span></span>
+    <h3>Un campo por fila, siempre</h3>
+    <p>En un test con <strong>702 participantes</strong> (CXL Institute), el formulario de <strong>columna única se completó 15,4 s más rápido</strong> que el multicolumna, con significación al 95%. El motivo: la vista baja en una sola línea recta en vez de zigzaguear. Nunca poner dos campos lado a lado —salvo pares atómicos evidentes (día/mes/año), y aun así con cuidado.</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Etiquetas arriba · con matiz honesto <span class="evi evi--media">media</span></span>
+    <h3>Etiqueta encima del campo</h3>
+    <p>El estudio clásico (Penzo, 2006, eye-tracking) situó la etiqueta <strong>encima</strong> como la más rápida: se procesa etiqueta y campo en una sola fijación. <strong>Pero conviene la honestidad:</strong> era una muestra minúscula (8 personas) y un estudio posterior (Das et al., 2008) <em>no</em> halló ventaja clara —incluso vio la alineada a la derecha algo más rápida—. El principio robusto que sobrevive a la disputa no es «arriba» por magia, sino <strong>proximidad</strong>: la etiqueta pegada a su campo, sin ambigüedad de a cuál pertenece. «Arriba» es el default seguro (lo usa Material Design, funciona en móvil y multi-idioma), no una ley con cifras exactas.</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Radio antes que desplegable <span class="evi evi--media">media</span></span>
+    <p>Cuando las opciones son pocas y caben a la vista, <strong>botones de radio</strong> (todo visible de un vistazo) baten a los desplegables: CXL midió ~2,5 s más rápido por selección. El desplegable esconde las opciones, obliga a un clic extra y en móvil abre un selector nativo tedioso. Reservarlo para listas largas (país, por ejemplo).</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">La senda hacia el final</span>
+    <p>Ordenar los campos de <strong>fácil a comprometido</strong>: primero lo que cuesta poco (nombre, ciudad), después lo que pide pensar (motivación, disponibilidad). Empezar por lo fácil crea impulso; empezar pidiendo un ensayo sobre la propia práctica frena en seco. Y una sola acción primaria al final: <code>.btn-primario</code> con etiqueta específica (§9), sin botón «borrar» al lado (el reset resta y confunde).</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 3 · CAMPOS ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — Los campos</span>
+    <h2>Cuántos y <em>cuáles</em></h2>
+  </div>
+  <p class="reveal">La regla comercial dice «cuantos menos, mejor»: cada campo extra resta conversión (se cita un 3–5% por campo), y Baymard observa que los <em>checkout</em> muestran de media 11,3 campos cuando bastan ~8, con un 18% de abandonos por «demasiado largo». <strong>Cierto —para vender—.</strong> Para el seva residencial hay que corregir esa regla con el marco del proyecto:</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">La corrección de Paramita</span>
+    <p>El mínimo absoluto de campos <strong>no es el objetivo</strong> en la puerta residencial. Un formulario demasiado fácil de despachar atrae solicitudes impulsivas que no cuajan y desperdicia la entrevista posterior. El criterio correcto no es «pocos campos» sino <strong>«solo campos que se usan de verdad»</strong>: cada pregunta debe alimentar la decisión de admisión o la conversación. Si un dato no se va a leer ni usar, fuera —no por conversión, por respeto al tiempo de quien escribe.</p>
+    <p class="cifra">Menos campos inútiles, sí. Menos campos con sentido, no.</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Marcar lo opcional, no lo obligatorio · Baymard <span class="evi evi--media">media</span></span>
+    <p>Con 500 usuarios de formularios, marcar los campos <strong>«opcional»</strong> (en vez de poner asterisco en los obligatorios) rindió ~<strong>25% más de conversión</strong>. Y un dato repetido: pedir el <strong>teléfono como obligatorio</strong> hace que un ~37% abandone; hacerlo opcional casi duplica finalizaciones. Regla: si <em>casi todo</em> es obligatorio —como será en la residencial—, se marca solo lo <strong>opcional</strong>; el asterisco rojo se reserva para cuando los obligatorios son minoría.</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Tipos de campo · lo barato que casi nadie hace</span>
+    <p>Usar el <strong>tipo de <em>input</em> correcto</strong> (<code>type="email"</code>, <code>type="tel"</code>, <code>inputmode</code>) y los atributos <strong><code>autocomplete</code></strong> (nombre, email, país…). En móvil eso cambia el teclado al adecuado y deja que el navegador autocomplete —menos tecleo, menos errores— y de paso cumple WCAG 1.3.5. Es de las mejoras de mayor retorno y menor coste, y encaja con el stack estático del sitio.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 4 · ETIQUETAS Y AYUDA ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — Etiquetas, placeholders y ayuda</span>
+    <h2>Que nunca se quede <em>en blanco</em></h2>
+  </div>
+  <div class="dato reveal">
+    <span class="dato__k">El antipatrón nº1 · placeholder como etiqueta <span class="evi evi--fuerte">fuerte</span></span>
+    <h3>El texto dentro del campo <em>no</em> es una etiqueta</h3>
+    <p>Usar el <em>placeholder</em> gris como única etiqueta es el error más documentado (Nielsen Norman Group): <strong>desaparece en cuanto la persona escribe</strong>, así que pierde el contexto justo cuando revisa; carga la memoria; falla en accesibilidad (los lectores de pantalla lo tratan de forma inconsistente); y su gris suele incumplir contraste. Las <em>floating labels</em> (que suben al escribir) son menos malas, pero siguen por detrás de la etiqueta estática visible. <strong>Decisión: etiqueta siempre visible, encima del campo.</strong> El placeholder, solo para un ejemplo de formato («p. ej. 555 012 345»), nunca para nombrar.</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Texto de ayuda · dónde va</span>
+    <p>La ayuda o aclaración va <strong>debajo del campo</strong>, visible mientras se teclea (no compite con la etiqueta de arriba) y —clave— <strong>ocupa el mismo sitio donde luego aparecerá el error</strong>: así el ojo ya sabe dónde mirar cuando algo falla. Para preguntas delicadas (autosuficiencia económica, salud), una línea de ayuda honesta y cálida evita que la pregunta suene a interrogatorio.</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Microcopy · el tono importa</span>
+    <p>El formulario es copy, no solo campos. Cada etiqueta y ayuda debe sonar a Paramita: invitación, no formulario de RRHH. «¿Qué te acerca a ofrecer tu tiempo?» pesa distinto que «Motivación (obligatorio)». Simplificar el lenguaje de los campos se asocia a más finalizaciones —pero aquí el motivo es de fondo: <em>coherencia con la casa</em>.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 5 · VALIDACIÓN Y ERRORES (DARK) ══════════════ -->
+<section class="flow dark">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — Validación y errores</span>
+    <h2>Cuando algo <em>falla</em></h2>
+  </div>
+  <p class="drop reveal" style="color:#C3CAD6">El error es el momento más frágil de un formulario: es donde la gente se rinde. Aquí hay un estudio célebre y unos matices que casi nadie cuenta.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">+22<small>%</small></div><div class="l">tasa de éxito con validación inline (vs. solo al enviar)</div><div class="src">Wroblewski/Etre</div></div>
+    <div class="stat"><div class="n">−22<small>%</small></div><div class="l">errores cometidos</div><div class="src">Wroblewski/Etre</div></div>
+    <div class="stat"><div class="n">−42<small>%</small></div><div class="l">tiempo de cumplimentación</div><div class="src">Wroblewski/Etre</div></div>
+    <div class="stat"><div class="n">+31<small>%</small></div><div class="l">satisfacción declarada</div><div class="src">Wroblewski/Etre</div></div>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">El estudio, con su letra pequeña <span class="evi evi--media">media</span></span>
+    <p>Las cifras de Wroblewski (con Etre) son las más citadas a favor de la <strong>validación inline</strong>. Salvedad honesta: <strong>muestra pequeña</strong> y diseño intra-sujeto criticado (posible efecto de aprendizaje). Tómalo como dirección firme, no como constante. Y un matiz operativo que sí es consenso: <strong>validar al salir del campo (<em>on blur</em>), no mientras se teclea</strong> —avisar antes de tiempo frustra y <em>aumenta</em> errores—. Para formularios muy sensibles, GOV.UK incluso prefiere validar <em>al enviar</em>; su patrón es defendible por accesibilidad.</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Cómo se escribe un error <span class="evi evi--fuerte">fuerte</span></span>
+    <h3>Decir qué pasó y cómo arreglarlo, sin culpar</h3>
+    <p>Tres reglas de consenso: (1) <strong>eco de la etiqueta</strong> —si el campo es «Fecha de nacimiento», el error dice «Introduce tu fecha de nacimiento», no «Dato inválido»—; (2) <strong>lenguaje neutro e instructivo</strong> —«Introduce un teléfono, p. ej. 555 012 345», nunca «Has fallado»—; (3) <strong>ubicación</strong>: el mensaje, <em>debajo del campo</em> afectado, y en formularios largos, además un <strong>resumen de errores arriba</strong> con enlaces a cada campo. El color rojo <strong>nunca es la única señal</strong> (icono + texto), por daltonismo y por norma.</p>
+  </div>
+
+  <p class="pull reveal">Un buen error no regaña: acompaña. Es la diferencia entre una puerta que se cierra y una que se sostiene abierta.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 6 · PASOS ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — ¿Un paso o varios?</span>
+    <h2>La pregunta del <em>multi-paso</em></h2>
+  </div>
+  <p class="reveal">Es la moda de conversión del momento, y donde más humo hay. Los titulares prometen saltos enormes al partir el formulario en pasos —de +37% a +206% según quién lo venda—. Antes de creerlo, la letra pequeña:</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Por qué esas cifras engañan <span class="evi evi--debil">débil</span></span>
+    <p>Casi todos esos números son <strong>de proveedores</strong> (Formstack, Instapage, casos sueltos), sin control, y <strong>confunden dos cambios a la vez</strong>: al pasar a multi-paso se muestran <em>menos campos por pantalla</em> <strong>y</strong> se <em>reordenan</em> las preguntas, y luego se atribuye todo el efecto al «número de pasos». No es comparable. Lo que sí está bien fundado es el <em>mecanismo</em>, no la magnitud.</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Lo que sí es sólido</span>
+    <p>· <strong>La longitud <em>percibida</em> pesa más que la real</strong>: la gente reacciona a lo que ve, no a lo que cuenta. Un 27% abandona formularios que «parecen largos» (The Manifest), a igualdad de campos.</p>
+    <p>· <strong>Modelo de Fogg</strong> (motivación × capacidad × detonante): trocear sube la <em>capacidad percibida</em> (cada paso parece fácil) y usa «Siguiente» como pequeño detonante repetido. Pero no escala al infinito: demasiados pasos y el impulso se invierte.</p>
+    <p>· <strong>Indicador de progreso</strong> en flujos largos reduce el abandono (Baymard estima 20–30%). Mejor <strong>pasos discretos y nombrados</strong> («Paso 2 de 3 · Tu disponibilidad») que un porcentaje frío.</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">La decisión para Paramita</span>
+    <p><strong>Puerta ligera</strong> (1–3 campos): <strong>un solo paso</strong>. Partir algo tan corto es absurdo —para ≤3–4 campos, el paso único suele ganar.</p>
+    <p><strong>Puerta residencial</strong>: si el conjunto de campos con sentido es corto, un <strong>único formulario reflexivo</strong> en columna basta y respira mejor (coherente con el tono contemplativo). Si crece a 8+ campos, entonces <strong>2–3 pasos suaves y nombrados</strong> con progreso —no por exprimir conversión, sino para que no intimide de golpe—. La decisión se toma <em>después</em>, cuando el documento de campos exista; el número de pasos es consecuencia del número de campos con sentido, no al revés.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 7 · MÓVIL Y RENDIMIENTO ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">07 — Móvil y rendimiento</span>
+    <h2>En la mano, sin <em>peaje</em></h2>
+  </div>
+  <p class="reveal">Aunque hay quien completa formularios más cómodo en escritorio, una parte llegará por móvil desde redes o desde el enlace que le pase un amigo (recordemos: ~25% viene por alguien ya implicado). El formulario tiene que ser impecable en el pulgar.</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Checklist móvil · barato y de alto impacto</caption>
+      <thead><tr><th>Decisión</th><th>Por qué</th></tr></thead>
+      <tbody>
+        <tr><td>Teclado correcto por campo (<code>type</code>/<code>inputmode</code>)</td><td>Email, teléfono y números abren el teclado adecuado; menos fricción</td></tr>
+        <tr><td><code>autocomplete</code> en todos los campos personales</td><td>El navegador rellena solo · menos tecleo y errores (WCAG 1.3.5)</td></tr>
+        <tr><td>Tamaño de fuente ≥16px en inputs</td><td>Evita el zoom automático de iOS al enfocar</td></tr>
+        <tr><td>Objetivos táctiles ≥24×24px (mejor ≥44)</td><td class="yes">WCAG 2.2 · 2.5.8 Target Size · botones y radios cómodos</td></tr>
+        <tr><td>Etiqueta encima (no a la izquierda)</td><td>La columna única + etiqueta arriba es la que mejor cae en pantalla estrecha</td></tr>
+        <tr><td>Un solo primario, ancho y a la vista</td><td>Pulsable con el pulgar sin buscarlo</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="dato reveal">
+    <span class="dato__k">Rendimiento · coherente con el estudio de la landing</span>
+    <p>El formulario en sí pesa poco; el riesgo de Core Web Vitals lo trae su <em>entorno</em> (hero, canvas). Si el formulario vive embebido (hoy es un Google Form en un <code>iframe</code>), ese <em>embed</em> es JS de terceros que puede empujar INP y CLS y romper el estilo del sistema. <strong>Recomendación: formulario nativo del sistema</strong> (HTML propio, tokens OKLCH, tipografía de la casa), con el envío gestionado por Alberto en backend; se gana estética, control, accesibilidad y velocidad de una vez.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 8 · ACCESIBILIDAD ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">08 — Accesibilidad</span>
+    <h2>No es un extra: es la <em>base</em></h2>
+  </div>
+  <p class="reveal">Desde el 28 de junio de 2025 el <strong>European Accessibility Act</strong> lo hace obligación legal, y un formulario es de lo más sensible: si no es operable, no hay conversión posible para quien lo necesita. WCAG 2.2 (oct 2023) añadió criterios que tocan formularios de lleno:</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>WCAG 2.2 · criterios que aplican al formulario</caption>
+      <thead><tr><th>Criterio</th><th>Qué exige</th><th>En el formulario</th></tr></thead>
+      <tbody>
+        <tr><td>3.3.2 Etiquetas o instrucciones (A)</td><td>Todo campo, con etiqueta clara</td><td>Etiqueta visible siempre (no placeholder)</td></tr>
+        <tr><td>3.3.1 Identificación de errores (A)</td><td>El error se identifica en texto</td><td>Mensaje concreto por campo</td></tr>
+        <tr><td>3.3.3 Sugerencia ante error (AA)</td><td>Decir cómo corregir</td><td>«Introduce un email válido, p. ej. …»</td></tr>
+        <tr><td>3.3.7 Entrada redundante (A · <em>nuevo</em>)</td><td>No repedir datos ya dados en el proceso</td><td class="yes">En multi-paso, arrastrar valores; no re-teclear</td></tr>
+        <tr><td>3.3.8 Autenticación accesible (A · <em>nuevo</em>)</td><td>Sin puzzles cognitivos para identificarse</td><td>Si hay login: permitir pegar y gestor de contraseñas</td></tr>
+        <tr><td>2.5.8 Tamaño de objetivo (AA · <em>nuevo</em>)</td><td>Diana ≥24×24px</td><td>Radios, checks y botón cómodos</td></tr>
+        <tr><td>1.3.5 Propósito del campo (AA)</td><td>Declarar el propósito (autocompletar)</td><td><code>autocomplete</code> en datos personales</td></tr>
+        <tr><td>4.1.3 Mensajes de estado (AA)</td><td>Anunciar cambios sin mover el foco</td><td class="yes">Éxito y error, vía <em>live region</em></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">La prueba que lo resume todo · «pasada de teclado»</span>
+    <p>Desenchufa el ratón. Debes poder <strong>tabular por todo el formulario, operar cada control, disparar y descartar la validación y enviar —sin quedar atrapado—</strong>. Técnicamente: error atado a su campo con <code>aria-invalid</code> + <code>aria-describedby</code>; en multi-paso, anunciar el cambio de paso y llevar el foco al encabezado del nuevo paso, con el progreso en <em>texto</em> (no solo color). La auditoría con <code>impeccable</code> cubre la estructura; el foco, el contraste y los <em>live regions</em> se prueban con lector de pantalla real.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 9 · EL FLUJO / NOTIFICACIONES ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">09 — El flujo · qué pasa después</span>
+    <h2>El «enviar» no es el <em>final</em></h2>
+  </div>
+  <p class="reveal">La mayoría de los sitios cuidan el formulario y abandonan a la persona en el instante más importante: justo después de pulsar «enviar». Ese vacío genera dudas («¿ha llegado?», «¿y ahora?») y correos de seguimiento innecesarios. La confirmación no es un «gracias»: es información.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">La regla de las 3 C <span class="evi evi--media">media</span></span>
+    <h3>Confirmar · Clarificar · Continuar</h3>
+    <p><strong>Confirmar</strong> que llegó y qué llegó. <strong>Clarificar</strong> qué pasa ahora, con <em>plazo concreto</em> —«te escribiremos en 3–5 días laborables», nunca «pronto» (cada uno traduce «pronto» a su manera y luego reclama)—. <strong>Continuar</strong> con <em>una</em> acción, no cuatro (una sola CTA en la página de gracias rinde bastante más que varias compitiendo).</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">El arco real de la residencial · preservarlo</span>
+    <p>La página actual ya tiene el arco correcto: <strong>solicitud → entrevista personal</strong>. La confirmación debe <em>nombrar</em> ese siguiente paso humano: «Hemos recibido tu solicitud. La leeremos con calma y te escribiremos para <strong>concertar una conversación</strong>.» Eso convierte la espera en expectativa, no en silencio, y honra que al otro lado hay personas, no un embudo. Además: <strong>correo de confirmación</strong> («te hemos enviado copia a tu email»), por si quiere guardarla.</p>
+  </div>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Dos puertas, dos confirmaciones</caption>
+      <thead><tr><th>Puerta</th><th>Confirmación en pantalla</th><th>Siguiente paso</th></tr></thead>
+      <tbody>
+        <tr><td>Seva residencial</td><td>Recibido + plazo + «concertaremos una conversación»</td><td class="yes">Entrevista personal (humana)</td></tr>
+        <tr><td>Ayuda puntual / «al tanto»</td><td>Recibido + «te avisaremos cuando surja algo que encaje»</td><td>Contacto cuando haya ocasión</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">La confirmación también es accesible</span>
+    <p>Si la confirmación aparece en la misma página (sin recargar), hay que <strong>llevar el foco a su encabezado</strong> y anunciarla por <em>live region</em> (WCAG 4.1.3): si no, para un lector de pantalla el envío es un silencio que parece un fallo. Con encabezado real, foco movido y anuncio, «éxito» se <em>oye</em>, no solo se ve.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 10 · SÍNTESIS ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">10 — Síntesis</span>
+    <h2>Las <em>reglas</em>, en una página</h2>
+  </div>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Checklist de diseño del formulario</caption>
+      <thead><tr><th>Regla</th><th>Fundamento</th></tr></thead>
+      <tbody>
+        <tr><td>Dos formularios, no uno (residencial reflexivo / ligero mínimo)</td><td>Dos procesos (WCAG) · autoselección vs. volumen</td></tr>
+        <tr><td>Columna única, un campo por fila</td><td>CXL n=702: 15,4 s más rápido</td></tr>
+        <tr><td>Etiqueta visible encima; nunca placeholder-como-etiqueta</td><td>NN/g · proximidad (Penzo/Das)</td></tr>
+        <tr><td>Radios sobre desplegables cuando caben a la vista</td><td>CXL ~2,5 s/selección</td></tr>
+        <tr><td>Solo campos que se usan; marcar «opcional», no obligatorio</td><td>Baymard +25% · teléfono opcional</td></tr>
+        <tr><td>Tipos de input + autocomplete correctos</td><td>Móvil · WCAG 1.3.5</td></tr>
+        <tr><td>Validación inline al salir del campo; errores que dicen cómo corregir</td><td>Wroblewski (con matices) · consenso a11y</td></tr>
+        <tr><td>Un paso si son pocos campos; 2–3 nombrados con progreso si crecen</td><td>Fogg · longitud percibida · sin sobrevender el multi-paso</td></tr>
+        <tr><td>Objetivos ≥24px, pasada de teclado, live regions</td><td>WCAG 2.2 · EAA (obligación legal)</td></tr>
+        <tr><td>Confirmación con plazo concreto + siguiente paso humano + email</td><td>Regla 3C · arco solicitud→entrevista</td></tr>
+        <tr><td>Formulario nativo del sistema, no embed de terceros</td><td>Estética, control, a11y y rendimiento</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="pull reveal">Un formulario no se «optimiza». Se diseña para que quien ya quería cruzar no tropiece en el umbral —y para que quien no encaja lo descubra a tiempo, sin sentirse rechazado.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Fuera de alcance · el siguiente documento</span>
+    <p>Este estudio fija el <em>cómo</em>. Lo que viene después, cuando digas: el <strong>documento de campos</strong> —la lista exacta, campo a campo, de cada puerta (etiqueta, tipo, obligatorio/opcional, ayuda, mensaje de error), el número de pasos resultante y el copy de las dos confirmaciones—. Y una decisión técnica para Alberto: destino del envío (backend, correo, hoja) y si se sustituye el Google Form actual por el formulario nativo.</p>
+  </div>
+</section>
+
+<div class="flow"><hr class="divider"></div>
+
+<!-- ══════════════ FUENTES ══════════════ -->
+<section class="refs flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">Fuentes</span>
+    <h2>De dónde salen los <em>datos</em></h2>
+  </div>
+  <ol class="reveal">
+    <li><b>CXL Institute · «Single vs. multi-column forms» (2016)</b> · test con 702 participantes: columna única 15,4 s más rápida (95% CI); radios ~2,5 s más rápidos que desplegables. <span class="evi evi--fuerte">fuerte</span> (para su alcance)</li>
+    <li><b>Penzo (2006, UXmatters) vs. Das, McEwan &amp; Douglas (2008)</b> · alineación de etiquetas: «arriba más rápido» (muestra pequeña) frente a «sin diferencia clara»; el principio robusto es la <em>proximidad</em> etiqueta-campo. Material Design usa «arriba» por defecto. <span class="evi evi--media">media / contestado</span></li>
+    <li><b>Wroblewski &amp; Etre · «Inline Validation in Web Forms» (A List Apart, 2009)</b> · +22% éxito, −22% errores, −42% tiempo, +31% satisfacción, −47% fijaciones. Muestra pequeña y diseño intra-sujeto criticado; validar <em>on blur</em>. <span class="evi evi--media">media</span></li>
+    <li><b>GOV.UK / UK Parliament Design System; Nielsen Norman Group (guías 2024)</b> · mensajes de error con eco de la etiqueta, neutrales y con solución; validación al enviar en contextos sensibles; error debajo del campo + resumen arriba. <span class="evi evi--fuerte">fuerte</span></li>
+    <li><b>Nielsen Norman Group · placeholders y floating labels</b> · el placeholder como etiqueta es antipatrón (desaparece, carga memoria, falla a11y); floating labels, menos malas pero peores que la etiqueta estática. <span class="evi evi--fuerte">fuerte</span></li>
+    <li><b>Baymard Institute (2024)</b> · <em>checkout</em> medio 11,3 campos vs. ~8 necesarios; 18% abandona por «demasiado largo»; marcar «opcional» ~+25% (500 usuarios); barra de progreso reduce abandono ~20–30% en flujos largos. Registro comercial. <span class="evi evi--media">media</span></li>
+    <li><b>Formstack, Instapage, Venture Harbour, The Manifest, WPForms, Zuko (datos de proveedor)</b> · multi-paso «convierte más» (+37% a +206%): cifras sin control que <em>confunden</em> menos campos/pantalla con reordenación; teléfono obligatorio → ~37% abandona; 27% abandona por «parecer largo». Tratar como dirección, no magnitud. <span class="evi evi--debil">débil</span></li>
+    <li><b>BJ Fogg · Behavior Model</b> · comportamiento = motivación × capacidad × detonante; base del efecto (real) de trocear la longitud percibida. <span class="evi evi--media">media</span></li>
+    <li><b>W3C · WCAG 2.2 (oct 2023) · WAI</b> · 3.3.1/3.3.2/3.3.3 errores y etiquetas; 3.3.7 Entrada redundante (nuevo, A); 3.3.8 Autenticación accesible (nuevo, A); 2.5.8 Tamaño de objetivo (nuevo, AA); 1.3.5 Propósito del campo; 4.1.3 Mensajes de estado; concepto de «proceso». <span class="evi evi--fuerte">fuerte</span></li>
+    <li><b>European Accessibility Act (en vigor 28 jun 2025)</b> · accesibilidad como obligación legal para servicios digitales en la UE. <span class="evi evi--fuerte">fuerte</span></li>
+    <li><b>Consenso UX sobre confirmación / «thank-you»</b> (NN/g y práctica del sector) · regla 3C (confirmar, clarificar el siguiente paso con plazo concreto, una sola CTA); mover foco y anunciar el éxito; correo de confirmación. <span class="evi evi--media">media</span></li>
+    <li><b>Paramita · docs. e informes internos</b> · doc 01 (no-SaaS, «el cruce como acto»), doc 05 (CTAs), informe de la landing de voluntariado («El tiempo que se ofrece»: dos puertas, autoselección, efecto martirio), estudio de <code>/contribuir/</code> (dāna, crowding-out), página <code>/voluntarios/</code> actual (arco solicitud→entrevista, Google Form embebido).</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Paramita · Fundació Sakya — Estudio interno · Diseño del formulario de voluntariado: UX/UI, percepción, conversión, pasos, móvil, accesibilidad (WCAG 2.2) y flujo de notificaciones · 20 ago 2026. Precede al documento de campos exactos. Solo estudio: no toca código. Sirve a las dos puertas de <code>/unete/voluntariado/</code>.</div>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    bar.style.width = (scrolled * 100) + '%';
+  };
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+</body>
+</html>

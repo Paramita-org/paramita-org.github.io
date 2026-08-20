@@ -15,6 +15,15 @@
                                 cierre de /formacion/, cualquier bloque
                                 "practiquemos juntos").
 
+     · .t-link--claro           Terciario en lino con el mismo text-shadow,
+                                para los MISMOS fondos (banda de suscripción,
+                                cierres sobre azul, superficies oscuras).
+                                Unifica en el terciario el criterio que ya
+                                tenía el secundario · Fase 8 (ago 2026).
+                                Sustituye al parche de contexto que vivía en
+                                paramita-suscripcion.css (.foot__hero
+                                .suscribe__apoyo .t-link).
+
    Fase 5.2 · El umbral se activa en hover:
      Trazo con degradado ESTÁTICO en reposo, FLUYENDO a 3.4s en hover.
 
@@ -49,14 +58,19 @@
    VARIANTE PARA FONDOS AZUL LUMINOSOS
    ───────────────────────────────────
    Sobre el "practiquemos juntos" y bloques similares (fondo azul-sutil claro
-   con halo blanco), el btn-secundario base no lee bien porque su texto
-   azul-oscuro compite cromáticamente con el fondo. Se usa la variante:
+   con halo blanco), el btn-secundario y el t-link base no leen bien porque su
+   texto azul-oscuro compite cromáticamente con el fondo. Se usan las variantes
+   --claro (secundario y terciario), simétricas entre sí:
 
      · .btn-secundario.btn-secundario--claro
+     · .t-link.t-link--claro
                        Texto lino con text-shadow sutil (mismo tratamiento
-                       que el em de foot__h del sistema). El trazo del
-                       degradado se mantiene tal cual porque su paleta
+                       que el em de foot__h del sistema). El trazo / la línea
+                       del degradado se mantienen tal cual porque su paleta
                        cubre ambos extremos.
+
+   El .btn-primario NO necesita variante --claro: su color no depende de la
+   superficie (texto blanco sobre degradado propio).
 
    PRINCIPIO DE MOTION
    ───────────────────
@@ -463,6 +477,46 @@
     font-size: 1.06rem;
   }
 
+
+  /* ─── VARIANTE CLARA · .t-link--claro ──────────────────────────────
+     Fase 8 (ago 2026) · Terciario sobre fondos azul-sutil luminosos o
+     superficies oscuras (foot__hero, banda de suscripción, cierres, los
+     bloques "practiquemos juntos"). Paralela y simétrica a
+     .btn-secundario--claro: sobre azul, el texto azul-oscuro base se
+     pierde, así que pasa a lino con el MISMO text-shadow sutil del em de
+     foot__h. La línea inferior (::after) se mantiene tal cual — su
+     degradado cubre ambos extremos y el dorado la define sobre el azul.
+
+     Antes esto vivía como parche de contexto en paramita-suscripcion.css
+     (.foot__hero .suscribe__apoyo .t-link ...). Se promueve aquí para que
+     cualquier bloque azul/oscuro pueda declararlo con la clase, sin
+     depender de dónde esté anidado el enlace.
+
+     HOVER · lino puro (NO revela el degradado).
+     Sobre azul, rellenar el texto con el degradado en hover haría caer el
+     contraste en su tramo azul-sutil. Igual que en btn-secundario--claro,
+     el texto permanece lino; el feedback del gesto sigue vivo en el resto:
+     apertura de gap, letter-spacing, avance de la flecha y aceleración de
+     la línea inferior. */
+  .t-link--claro .txt {
+    color: var(--lino);
+    -webkit-text-fill-color: var(--lino);
+    text-shadow: 0 1px 14px rgba(33, 30, 26, 0.28);
+  }
+  .t-link--claro .arw {
+    color: var(--lino);
+  }
+  .t-link--claro:hover .txt,
+  .t-link--claro:focus-visible .txt {
+    background-size: 0% 100%;
+    color: var(--lino);
+    -webkit-text-fill-color: var(--lino);
+  }
+  .t-link--claro:hover .arw,
+  .t-link--claro:focus-visible .arw {
+    color: var(--lino);
+  }
+
   /* Fallback para navegadores sin background-clip: text */
   @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
     .t-link .txt {
@@ -472,6 +526,13 @@
     .t-link:hover .txt,
     .t-link:focus-visible .txt {
       color: var(--azul-oscuro);
+    }
+    /* La variante clara conserva su lino también sin background-clip */
+    .t-link--claro .txt,
+    .t-link--claro:hover .txt,
+    .t-link--claro:focus-visible .txt {
+      color: var(--lino);
+      -webkit-text-fill-color: var(--lino);
     }
   }
 
@@ -517,6 +578,13 @@
       background-size: 0% 100%;
       color: var(--azul-oscuro);
       -webkit-text-fill-color: currentColor;
+    }
+
+    /* La variante clara mantiene su lino con reduced-motion */
+    .t-link--claro:hover .txt,
+    .t-link--claro:focus-visible .txt {
+      color: var(--lino);
+      -webkit-text-fill-color: var(--lino);
     }
 
   }
@@ -653,5 +721,5 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   FIN de paramita-cta.css · Fase 7
+   FIN de paramita-cta.css · Fase 8
    ═══════════════════════════════════════════════════════════════════════════ */
