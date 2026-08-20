@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscribirse no es comprar — Arquitectura transaccional Paramita 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;
+    --paper-2:#FBFAF7;
+    --ink:#191A1C;
+    --slate:#63656B;
+    --ink-deep:#132239;
+    --ink-deep-2:#0E1A2C;
+    --gold:#A8823F;
+    --gold-lite:#C9A96E;
+    --rule:#DAD6CC;
+    --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);
+    line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+  .flow > .bleed{grid-column:1/-1;width:100%}
+
+  /* ---------- COVER ---------- */
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;
+    font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--gold);margin:0 0 1.4rem
+  }
+  .cover h1{
+    font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;
+    font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem;
+  }
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:33em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.45;letter-spacing:-.01em;margin:2.6rem 0 0;color:var(--ink)}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:clamp(3rem,7vh,5rem) 0}
+  .sec-head{margin:0 0 2rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.2em;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(1.85rem,3.6vw,2.85rem);line-height:1.08;letter-spacing:-.012em;margin:0}
+  h3{font-family:"Hanken Grotesk",sans-serif;font-weight:650;font-size:1.18rem;letter-spacing:.005em;margin:2.6rem 0 .6rem;line-height:1.3}
+  h3 .tag{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);letter-spacing:.14em;vertical-align:.35em;margin-right:.55em;text-transform:uppercase}
+  p{margin:0 0 1.15rem}
+  a{color:var(--ink-deep);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;text-decoration-thickness:1px}
+  a:hover{text-decoration-thickness:2px}
+  strong{font-weight:650}
+  em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:rgba(168,130,63,.12);padding:.08em .38em;border-radius:3px}
+  .drop::first-letter{font-family:"Fraunces",serif;font-weight:500;float:left;font-size:3.5em;line-height:.72;padding:.06em .09em 0 0;color:var(--ink-deep)}
+
+  .pull{font-family:"Fraunces",serif;font-style:italic;font-weight:400;font-size:clamp(1.35rem,2.4vw,1.9rem);line-height:1.32;letter-spacing:-.01em;color:var(--ink-deep);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:1.6rem 0;margin:2.4rem 0}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .stat{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.9rem,3vw,2.6rem);line-height:1;letter-spacing:-.02em;color:var(--ink-deep)}
+  .stat .n small{font-size:.5em;color:var(--gold);font-weight:500}
+  .stat .l{font-family:"Hanken Grotesk",sans-serif;font-size:.9rem;line-height:1.35;color:var(--ink);margin-top:.6rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.66rem;color:var(--slate);margin-top:.5rem;letter-spacing:.02em}
+
+  .note{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:1.3rem 1.4rem;margin:1.8rem 0;font-size:.98rem;line-height:1.62}
+  .note .k{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+
+  /* evidence strength badge */
+  .fz{font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.2em .5em;border-radius:99px;border:1px solid;vertical-align:.12em;margin-left:.3em;white-space:nowrap}
+  .fz--fuerte{color:#5B7A52;border-color:#9fbf93;background:rgba(120,160,105,.1)}
+  .fz--media{color:var(--gold);border-color:var(--gold-lite);background:rgba(168,130,63,.08)}
+  .fz--debil{color:#A66;border-color:#d3a3a3;background:rgba(170,90,90,.07)}
+
+  .tbl-wrap{margin:2rem 0;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.92rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:.8rem}
+  th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  thead th{border-bottom:1.5px solid var(--ink);font-family:"Hanken Grotesk";font-weight:650;font-size:.82rem}
+  tbody td:first-child{font-weight:600}
+  .num{font-family:"JetBrains Mono",monospace;font-size:.85rem;white-space:nowrap;color:var(--ink-deep)}
+  tbody tr:hover td{background:var(--paper-2)}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .split > div{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .split h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.25rem;margin:0 0 .3rem}
+  .split .role{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+  .split ul{margin:0;padding-left:1.05em;font-size:.94rem;line-height:1.55}
+  .split li{margin-bottom:.5rem}
+
+  /* three-column flow diagram */
+  .tri{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .tri > div{background:var(--paper-2);padding:1.4rem 1.25rem}
+  .tri .role{font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+  .tri h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.2rem;margin:0 0 .5rem;line-height:1.1}
+  .tri p{font-size:.86rem;line-height:1.5;color:var(--slate);margin:0 0 .7rem}
+  .tri .foot{font-family:"JetBrains Mono",monospace;font-size:.64rem;color:var(--ink-deep);letter-spacing:.02em;border-top:1px solid var(--rule-soft);padding-top:.6rem;margin-top:.2rem}
+  @media (max-width:620px){.tri{grid-template-columns:1fr}}
+
+  /* ---------- dark demo ---------- */
+  .demo{background:var(--ink-deep);color:var(--paper);padding:clamp(2.6rem,5vh,4rem) 0}
+  .demo h2{color:var(--paper)}
+  .demo p{color:#C3CAD6}
+  .demo .eyebrow{color:var(--gold-lite)}
+  .demo .demo-label{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.12em;color:var(--gold-lite);text-transform:uppercase;margin:1.4rem 0 .9rem}
+  .esp{display:grid;gap:1.1rem}
+  .esp-group{background:var(--ink-deep-2);border:1px solid rgba(201,169,110,.22);border-radius:3px;padding:1.2rem 1.3rem}
+  .esp-group > .gh{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1rem;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:.7rem}
+  .esp-group .gh .t{font-family:"Fraunces",serif;font-weight:500;font-size:1.15rem;color:var(--paper)}
+  .esp-group .gh .c{font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.08em;color:#8B94A2;text-transform:uppercase}
+  .item{display:flex;align-items:center;gap:.9rem;padding:.55rem 0}
+  .item + .item{border-top:1px solid rgba(255,255,255,.06)}
+  .item .dot{width:34px;height:34px;flex:0 0 auto;border-radius:50%;border:1px solid rgba(201,169,110,.4);display:grid;place-items:center;font-family:"Fraunces",serif;font-size:.95rem;color:var(--gold-lite)}
+  .item .meta2{flex:1;min-width:0}
+  .item .meta2 .n2{font-weight:600;font-size:.96rem;color:var(--paper);line-height:1.25}
+  .item .meta2 .s2{font-size:.78rem;color:#98A1AE;line-height:1.3}
+  .item .act{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.04em;color:var(--gold-lite);white-space:nowrap}
+  .tagset{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.2rem}
+  .t-online,.t-presencial,.t-fecha{font-family:"JetBrains Mono",monospace;font-size:.56rem;letter-spacing:.06em;text-transform:uppercase;padding:.14em .5em;border-radius:99px;border:1px solid}
+  .t-online{color:#9ECBA8;border-color:rgba(150,200,160,.5)}
+  .t-presencial{color:var(--gold-lite);border-color:rgba(201,169,110,.5)}
+  .t-fecha{color:#C3CAD6;border-color:rgba(255,255,255,.2)}
+  .vinculo{display:flex;align-items:center;gap:1rem}
+  .vinculo .halo{width:44px;height:44px;border-radius:50%;flex:0 0 auto;background:radial-gradient(circle at 50% 40%,rgba(201,169,110,.55),rgba(201,169,110,.05));border:1px solid rgba(201,169,110,.4)}
+  /* checkout schematic */
+  .co{background:var(--ink-deep-2);border:1px solid rgba(201,169,110,.22);border-radius:3px;padding:1.3rem 1.4rem;max-width:420px}
+  .co .co-t{font-family:"Fraunces",serif;font-weight:500;font-size:1.1rem;color:var(--paper);margin-bottom:.9rem}
+  .co-line{display:flex;justify-content:space-between;font-size:.9rem;padding:.4rem 0;color:#C3CAD6}
+  .co-line.total{border-top:1px solid rgba(255,255,255,.14);margin-top:.5rem;padding-top:.7rem;color:var(--paper);font-weight:650}
+  .co-line .num{color:var(--gold-lite)}
+  .co-field{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:3px;padding:.6rem .8rem;font-size:.82rem;color:#8B94A2;margin:.5rem 0;font-family:"JetBrains Mono",monospace}
+  .co-btn{background:linear-gradient(92deg,var(--ink-deep),var(--gold));color:#fff;text-align:center;padding:.7rem;border-radius:3px;font-weight:650;font-size:.9rem;margin-top:.7rem}
+  .co-note{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:#8B94A2;margin-top:.7rem;line-height:1.5}
+
+  /* verdict */
+  .verdict{background:var(--ink-deep-2);color:var(--paper);padding:clamp(3rem,7vh,5rem) 0}
+  .verdict h2{color:var(--paper)}
+  .verdict .eyebrow{color:var(--gold-lite)}
+  .verdict p{color:#C3CAD6}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2rem}
+  .checks h4{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 1rem;padding-bottom:.6rem;border-bottom:1px solid rgba(255,255,255,.15)}
+  .checks .yes h4{color:#9ECBA8}
+  .checks .no h4{color:#D98C8C}
+  .checks ul{list-style:none;margin:0;padding:0;font-size:.94rem;line-height:1.5}
+  .checks li{padding-left:1.5em;position:relative;margin-bottom:.9rem;color:#D6DBE3}
+  .checks .yes li::before{content:"\2713";position:absolute;left:0;color:#9ECBA8;font-weight:700}
+  .checks .no li::before{content:"\2715";position:absolute;left:0;color:#D98C8C;font-weight:700}
+  @media (max-width:620px){.checks{grid-template-columns:1fr}}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.76rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:620px){.split{grid-template-columns:1fr}.cover h1{font-size:clamp(2.3rem,10vw,3rem)}}
+  @media (prefers-reduced-motion:reduce){.sheen::after{animation:none;transform:translateX(80%)}.reveal{opacity:1;transform:none;transition:none}*{scroll-behavior:auto}}
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe · Arquitectura transaccional · e-commerce + UX + fiscal · 2026</p>
+  <h1>Inscribirse<br><em>no es</em> comprar</h1>
+  <p class="deck">El vacío que señalas es real y es un error haberlo aplazado. Pero la forma correcta de llenarlo <strong>no es un carrito de compra</strong>: es una arquitectura de inscripción y acceso fiel al <em>dāna</em>. Cómo cobra Paramita cursos, eventos y retiros —online y presenciales— sin volverse una tienda.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Encargo</b> · Estudio profundo · referentes + datos + propuesta</span>
+    <span><b>Fecha</b> · Agosto 2026</span>
+    <span><b>Lectura</b> · ~24 min</span>
+  </div>
+  <p class="lede">La tesis en una frase: Paramita no tiene un problema de «cómo visualizar el carrito». Tiene un problema de arquitectura transaccional sin resolver —y el carrito es la respuesta equivocada a la pregunta correcta.</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 01 ===================== -->
+<section class="flow" id="s1">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — El diagnóstico</span>
+    <h2>Tienes razón: hay un agujero, y es grande</h2>
+  </div>
+
+  <p class="drop reveal">Todo el proyecto se ha construido con un cuidado enorme del <em>umbral</em> —la orilla de partida, la invitación, el gesto contemplativo— y con un vacío en el <em>otro lado del cruce</em>: qué pasa exactamente cuando alguien decide entrar y hay dinero de por medio. No es un descuido menor. Es la mitad de una fundación que se financia con formación y actividades. Antes de proponer nada, conviene mirar el hueco sin adornos.</p>
+
+  <p class="reveal">Hoy, en producción, la página de un curso (<code>emi-1-calma-y-lucidez.html</code>) tiene planes bien resueltos —Autoestudio 72&nbsp;€, Interactivo con tutor 120&nbsp;€, becas y descuento de Amigo/a— y cada botón «Inscríbete» apunta a <code>#pago-interactiva</code> o <code>#pago-autoestudio</code>: <strong>anclas que no llevan a ninguna parte</strong>. No existe la pantalla de pago. No existe una confirmación. La cuenta del practicante (<code>navbar-practicante.html</code>) despliega «Mi cuenta · Mi progreso · Ir al aula · Salir»: <strong>no hay ningún sitio donde la persona vea qué ha adquirido</strong>. Y la home logueada (<code>home-logueado.html</code>) tiene hero velado, sendero de progreso, encuentros, enseñanza del día, novedades y lectura —pero <strong>ningún bloque que responda a «¿qué tengo yo?»</strong>.</p>
+
+  <div class="note reveal">
+    <span class="k">El hueco, en tres frases</span>
+    Sabemos cobrar en teoría (planes y precios existen), pero no hay checkout. No hay momento de confirmación. Y no hay ningún lugar —ni en la barra, ni en la cuenta, ni en la home logueada— donde la persona vea el conjunto de lo que ha adquirido: sus cursos, sus fechas reservadas, su vínculo con la fundación.
+  </div>
+
+  <p class="reveal">La complicación —y la razón por la que «carrito» es una simplificación peligrosa— es que Paramita no vende una cosa. Conviven <strong>tres relaciones económicas distintas</strong>, con lógicas y hasta con implicaciones fiscales opuestas, y ninguna de las tres tiene cerrado su tramo transaccional:</p>
+
+  <div class="tri reveal">
+    <div>
+      <div class="role">Relación 1</div>
+      <h4>Dāna</h4>
+      <p>Donativo puntual o «Amigos de la Fundación» (10 / 30 / 60&nbsp;€ mes). No se recibe un producto a cambio. Es un vínculo, no una compra.</p>
+      <div class="foot">/contribuir · desgrava en España</div>
+    </div>
+    <div>
+      <div class="role">Relación 2</div>
+      <h4>Formación</h4>
+      <p>Matrícula de curso, pago único. Online: autoestudio o con tutor. La contraprestación es el <em>acceso</em> al aula.</p>
+      <div class="foot">/formacion · servicio (IVA/factura)</div>
+    </div>
+    <div>
+      <div class="role">Relación 3</div>
+      <h4>Actividades</h4>
+      <p>Eventos y retiros con fecha, aforo y a veces alojamiento. Presencial u online. La contraprestación es una <em>plaza</em>.</p>
+      <div class="foot">/actividades · plazas y fechas</div>
+    </div>
+  </div>
+
+  <p class="pull reveal">Un carrito de e-commerce mete estas tres cosas en la misma cesta. Y dos de ellas —el dāna y una matrícula— no pueden legalmente ir en la misma cesta. El error no sería estético: sería fiscal.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 ===================== -->
+<section class="flow" id="s2">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — La pregunta detrás de la pregunta</span>
+    <h2>¿Carrito? Casi con certeza, no</h2>
+  </div>
+
+  <p class="drop reveal">«Cómo visualizar el carrito» presupone que hace falta un carrito. Merece la pena desmontar ese supuesto antes de diseñar nada, porque el carrito arrastra consigo toda una psicología de consumo —acumular, «guardar para después», el badge con el numerito— que es justo lo que el proyecto ha rechazado explícitamente en el informe «Paramita no es un SaaS».</p>
+
+  <p class="reveal">Un carrito existe para <strong>consolidar varios artículos heterogéneos en un solo pago</strong>. Es imprescindible cuando alguien compra tres camisetas, un libro y unas velas de una sola tacada. La pregunta es sencilla: <em>¿cuándo, de verdad, una persona de Paramita necesita pagar dos cosas a la vez?</em> Casi nunca. Una matrícula de curso es una decisión única. Reservar un retiro es una decisión única. Hacerse Amigo/a es una decisión única. El sector lo tiene medido: para creadores de cursos, organizadores de eventos y membresías, <strong>la compra es una sola decisión y quien llega al pago ya ha decidido</strong> —el trabajo de la página es cerrar limpio, no ofrecer una cesta donde acumular.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">~70<small>%</small></div><div class="l">de carritos abandonados de media en e-commerce <span class="fz fz--fuerte">fuerte</span></div><div class="src">Baymard Institute</div></div>
+    <div class="stat"><div class="n">1</div><div class="l">sola decisión: el patrón real de curso, retiro o membresía <span class="fz fz--fuerte">fuerte</span></div><div class="src">Checkoutpage, 2026</div></div>
+    <div class="stat"><div class="n">0</div><div class="l">productos físicos apilables en el catálogo de Paramita hoy</div><div class="src">Auditoría del proyecto</div></div>
+    <div class="stat"><div class="n">−20<small>%</small></div><div class="l">de abandono con checkout de una sola página frente a multipaso <span class="fz fz--media">media</span></div><div class="src">Digital Applied, 2026</div></div>
+  </div>
+
+  <p class="reveal">Ese 70&nbsp;% de abandono es el argumento estrella para «optimizar el carrito», pero léelo al revés: es una cifra de <strong>e-commerce minorista multi-artículo</strong>. Buena parte de ese abandono <em>lo genera el propio carrito</em> —la gente lo usa como lista de deseos, como aparcamiento, como comparador— y luego se va. Si no importas el carrito, no importas su tasa de fuga. Para Paramita el dato no dice «optimiza el carrito»; dice «no traigas ese objeto a casa».</p>
+
+  <h3 class="reveal"><span class="tag">la única excepción</span>¿Y si alguien quiere inscribir a dos personas?</h3>
+  <p class="reveal">Hay un caso donde asoma algo parecido a un carrito: una pareja o una familia que reserva <strong>dos plazas del mismo retiro</strong>. Pero eso no es una cesta de productos distintos —es un <em>campo de cantidad</em> dentro de una sola inscripción («¿para cuántas personas?»). Se resuelve dentro del flujo de esa actividad, sin carrito global. El día que Paramita venda objetos físicos (libros, malas, incienso) —que hoy no ocurre— entonces sí habrá que revisar esto. Mientras el catálogo sean accesos y plazas, el carrito es un mueble que no usa nadie.</p>
+
+  <p class="pull reveal">La respuesta no es «un carrito bonito y contemplativo». Es no tener carrito, y hacer excelente el gesto de inscribirse en <em>una</em> cosa.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 ===================== -->
+<section class="flow" id="s3">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — La columna vertebral</span>
+    <h2>Tres flujos separados, por ley y por identidad</h2>
+  </div>
+
+  <p class="drop reveal">Aquí está el argumento más duro del informe, y no es de gusto: es de derecho. En una fundación, <strong>un donativo y la venta de un servicio son dos hechos jurídicos distintos.</strong> El donativo se da sin recibir nada a cambio (y por eso desgrava). La matrícula de un curso es una contraprestación por un servicio. Mezclarlas en una misma transacción no es solo confuso para la persona: es un riesgo contable que puede comprometer el tratamiento fiscal —y, en el peor de los casos, la propia condición de la entidad.</p>
+
+  <div class="note reveal">
+    <span class="k">Regla estructural · no negociable</span>
+    El dāna <strong>nunca</strong> entra en la misma cesta que una matrícula o una plaza. El flujo de Contribuir es un carril propio, con su propio recibo (donativo, con datos para desgravar) y su propia página de gracias. La formación y las actividades emiten factura de servicio. Son tuberías separadas que desembocan en sitios distintos.
+  </div>
+
+  <p class="reveal">Esto tiene una consecuencia de diseño preciosa: <em>libera</em> el flujo de dāna de toda la maquinaria de e-commerce. No necesita carrito, ni «resumen del pedido», ni upsell. Puede seguir siendo el gesto contemplativo que ya es en <code>/contribuir</code> (las tres cuotas iguales, el <code>.cuota-halo</code>, «la aportación cambia lo que sostienes, no quién eres»). El único puente legítimo entre carriles es el <strong>beneficio</strong>, que ya existe: ser Amigo/a da hasta un 50&nbsp;% de descuento en matrícula. Ese descuento se aplica <em>dentro</em> del checkout de formación —no arrastra el dāna al checkout, solo reconoce el vínculo.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Los tres carriles y qué NO comparten</caption>
+      <thead><tr><th>Carril</th><th>Gesto</th><th>Contraprestación</th><th>Documento</th><th>¿Carrito?</th></tr></thead>
+      <tbody>
+        <tr><td>Contribuir (dāna)</td><td>Donar / hacerse Amigo/a</td><td>Ninguna</td><td class="num">Recibo de donativo</td><td>No</td></tr>
+        <tr><td>Formación</td><td>Matricularse</td><td>Acceso al aula</td><td class="num">Factura de servicio</td><td>No · pago directo</td></tr>
+        <tr><td>Actividades</td><td>Reservar plaza</td><td>Plaza (fecha/aforo)</td><td class="num">Factura / confirmación</td><td>No · reserva por ítem</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="reveal">La tentación de e-commerce sería añadir en el checkout del curso un «¿quieres redondear con un donativo?». La evidencia sobre el <em>checkout charity</em> (el redondeo en caja) es que genera sensación de presión y de pillar desprevenido —exactamente el patrón de urgencia que Paramita rechaza. <strong>Recomendación: no.</strong> El dāna se ofrece desde su propio carril, no se cuela en la caja de un curso.</p>
+
+  <p class="pull reveal">Separar los tres carriles no es burocracia: es lo que permite que el dāna siga siendo dāna y que la matrícula sea limpia. La arquitectura protege la identidad.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 04 ===================== -->
+<section class="flow" id="s4">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — El checkout</span>
+    <h2>Cómo cobra cada ítem, uno a uno</h2>
+  </div>
+
+  <p class="drop reveal">Sin carrito, el checkout se simplifica muchísimo: es una <strong>página de pago de una sola cosa</strong>, colgada al final del flujo de ese ítem. Es el objeto que hoy falta —el destino de esas anclas <code>#pago-interactiva</code> huérfanas. Los datos sobre qué hace que un pago se complete o se abandone son de los más sólidos del sector, y apuntan todos en la misma dirección: menos pasos, menos campos, menos puertas.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">~24<small>%</small></div><div class="l">abandona porque «el sitio me obligó a crear una cuenta» <span class="fz fz--fuerte">fuerte</span></div><div class="src">Baymard Institute</div></div>
+    <div class="stat"><div class="n">+25–35<small>%</small></div><div class="l">de conversión al reducir el formulario de 12 a 7-8 campos <span class="fz fz--media">media</span></div><div class="src">Growth Engines, 2026</div></div>
+    <div class="stat"><div class="n">64<small>%</small><span style="font-size:.5em;color:var(--slate)"> vs </span>52<small>%</small></div><div class="l">convierte en recompra la cuenta registrada frente al invitado <span class="fz fz--media">media</span></div><div class="src">Ecommpay / IMRG</div></div>
+    <div class="stat"><div class="n">1</div><div class="l">página, no varias: el pago cabe en una sola pantalla <span class="fz fz--media">media</span></div><div class="src">Digital Applied, 2026</div></div>
+  </div>
+
+  <h3 class="reveal"><span class="tag">el hallazgo que resuelve el navbar</span>La cuenta se crea al pagar, no antes</h3>
+  <p class="reveal">Este es el punto que ordena todo lo demás. En e-commerce, obligar a registrarse <em>antes</em> de pagar es de las mayores causas de abandono; la buena práctica consolidada es <strong>pago como invitado + creación de cuenta después</strong> («crea tu contraseña para entrar»). Pero en Paramita hay un matiz que lo hace aún más claro: <strong>para un curso, la cuenta ES el producto</strong>. No es una comodidad opcional como en una tienda de zapatillas —es la llave del aula. La resolución elegante es:</p>
+
+  <div class="note reveal">
+    <span class="k">Secuencia de matrícula · sin fricción de registro</span>
+    <strong>1.</strong> Página del curso → «Inscríbete a Autoestudio». · <strong>2.</strong> Checkout de una página: email + pago (+ campo opcional «Soy Amigo/a» que aplica descuento). Nada de crear contraseña todavía. · <strong>3.</strong> Pago correcto → pantalla de confirmación + «Define tu contraseña para entrar al aula». · <strong>4.</strong> La cuenta nace <em>como consecuencia natural</em> de haber entrado, no como peaje previo. El <code>.btn-acceso</code> de la barra deja de ser hipotético: ahora hay algo dentro.
+  </div>
+
+  <p class="reveal">Para <strong>retiros y eventos</strong> el checkout es casi idéntico, con tres diferencias propias de una plaza con fecha: (a) el <em>campo de cantidad</em> («¿para cuántas personas?») que resuelve el caso pareja/familia sin carrito; (b) la posibilidad de <em>señal + resto</em> si el retiro lo requiere; y (c) mostrar el <strong>aforo real</strong> —escasez honesta, nunca fabricada («quedan 3 plazas» solo si de verdad quedan 3). El formulario pide lo mínimo primero; los datos que exigirían salir de la página (alojamiento, dieta, necesidades) van <em>después</em> de confirmar la plaza, no como barrera de entrada.</p>
+
+  <p class="reveal">Y el momento más descuidado y más valioso: <strong>la confirmación</strong>. No es una página técnica de «pago recibido». Es el primer instante de la persona ya dentro. Es donde se dice qué pasa ahora, cuándo empieza, cómo se entra —y donde, para un donativo, se muestra el sentido de lo aportado (el patrón de Charity Water). Una buena confirmación reduce ansiedad y consultas a secretaría, y en Paramita es además una oportunidad de voz editorial.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 05 ===================== -->
+<section class="flow" id="s5">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — Referentes</span>
+    <h2>Qué hacen las casas afines (y qué evitar)</h2>
+  </div>
+
+  <p class="drop reveal">Los referentes correctos no son Shopify ni las plataformas edtech. Son centros de práctica y comunidades contemplativas que llevan años cobrando formación y retiros sin traicionar su carácter. El patrón se repite con una consistencia que vale más que cualquier estadística: <strong>ninguno usa carrito.</strong></p>
+
+  <h3 class="reveal">Plum Village <span class="fz fz--fuerte">observación directa</span></h3>
+  <p class="reveal">La tradición de Thich Nhat Hanh gestiona decenas de retiros —presenciales y online— con un modelo de <strong>inscripción por retiro, con ventana de apertura y cierre</strong> («Registration open October 13 to January 13»). Cada retiro es su propio flujo: fechas, idiomas, precio por tramos. No hay cesta que cruce varios retiros. Reservas <em>este</em>, con <em>estas</em> fechas. Es exactamente el modelo «por ítem» que propongo para Actividades.</p>
+
+  <h3 class="reveal">Tergar · «Joy of Living» de Mingyur Rinpoche <span class="fz fz--fuerte">observación directa</span></h3>
+  <p class="reveal">Un currículo estructurado disponible <strong>online y presencial</strong>, con precios por rango. Es el análogo más cercano a la formación de Paramita: niveles, mezcla de formatos, comunidad detrás. Su lógica es de <em>programa al que te inscribes</em>, no de artículos que acumulas.</p>
+
+  <h3 class="reveal">GFOA · el hallazgo para la home logueada <span class="fz fz--media">observación</span></h3>
+  <p class="reveal">Este referente parece árido (es formación profesional) pero resuelve justo tu segunda pregunta. Su panel del alumno <strong>agrupa lo adquirido por naturaleza y formato</strong>: «cursos de varios días (online o presencial)», «cursos de un día», etc. No lo muestra como un historial de pedidos ni como un dashboard con barras: lo muestra como <em>«esto es lo que tienes y de qué tipo es»</em>. Es el precedente directo del bloque «Mi espacio» que propongo abajo.</p>
+
+  <div class="note reveal">
+    <span class="k">El anti-patrón a evitar</span>
+    La mayoría de paneles de LMS del mercado son lo contrario de Paramita: rachas («llevas 7 días»), insignias, XP, GPA, porcentajes que hay que rellenar. El documento 09 ya los descartó para la home logueada. La misma prohibición aplica a «Mi espacio»: <strong>mostrar lo que tienes no puede convertirse en gamificar lo que te falta.</strong>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 06 ===================== -->
+<section class="flow" id="s6">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — Tu primera pregunta</span>
+    <h2>¿Replantear la navbar? Apenas</h2>
+  </div>
+
+  <p class="drop reveal">La buena noticia: la barra que ya diseñaste es correcta y no necesita un icono de carrito. De hecho, <strong>añadir un badge de carrito con un numerito sería el gesto más anti-Paramita posible</strong> —es el emblema visual del consumo acumulativo, contando artículos en una esquina. La barra no cambia de estructura. Cambia una sola cosa, pequeña.</p>
+
+  <div class="split reveal">
+    <div>
+      <div class="role">Se mantiene</div>
+      <h4>Lo que ya funciona</h4>
+      <ul>
+        <li><strong>Sin icono de carrito.</strong> Nunca. Ni público ni logueado.</li>
+        <li>El <code>.btn-acceso</code> del navbar público (círculo → home logueada) es el punto de entrada correcto.</li>
+        <li>La <code>.cuenta</code> del navbar practicante (círculo con inicial + desplegable) es el contenedor correcto.</li>
+        <li>Contribuir sigue como <code>.btn-secundario</code>, en su carril.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="role">Cambia</div>
+      <h4>El único añadido</h4>
+      <ul>
+        <li>El panel <code>.cuenta__panel</code> gana una entrada: <strong>«Mi espacio»</strong> (o «Mis inscripciones»), por encima de «Mi progreso».</li>
+        <li>Es el destino donde vive todo lo adquirido y los recibos —el «historial», pero nombrado como pertenencia, no como pedidos.</li>
+        <li>Durante un pago activo: un <em>resumen en la propia página</em> del checkout, no un carrito global persistente en la barra.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="reveal">Dicho de otro modo: la barra no aloja el comercio. Aloja el <em>acceso</em>. El comercio ocurre en las páginas de cada ítem (matricularse, reservar) y su rastro se recoge en «Mi espacio», al que se llega desde la cuenta. Esto encaja con lo que ya está escrito en <code>navbar-practicante.html</code> —solo hay que darle un destino real a la cuenta.</p>
+
+  <div class="note reveal">
+    <span class="k">Dependencia honesta</span>
+    Dónde vive la sesión y cómo se comparte entre <code>paramita.org</code> y <code>cursos.paramita.org</code> condiciona los enlaces del desplegable. Es una decisión de arquitectura de dominio/LMS (la misma que ya recoge el documento 09). La barra propuesta funciona igual en ambos escenarios; solo cambian los destinos exactos. Un aviso de la investigación: las personas <strong>desconfían de los checkouts que las mandan a otro dominio</strong> a pagar —conviene que el pago se perciba dentro de Paramita aunque el LMS sea un subdominio.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 07 · DEMO (dark) ===================== -->
+<section class="demo" id="s7">
+  <div class="flow">
+    <div class="sec-head reveal">
+      <span class="eyebrow">07 — Tu segunda pregunta · esquema en vivo</span>
+      <h2 style="color:var(--paper)">La home logueada sí cambia: falta «Mi espacio»</h2>
+    </div>
+    <p class="reveal">Tienes toda la razón: la home logueada muestra el <em>progreso</em> del curso pero no <strong>«lo que tengo»</strong>. Y «lo que tengo» en Paramita es heterogéneo —cursos online en marcha, un retiro presencial reservado, un evento online con fecha, y el vínculo de Amigo/a. La solución no es un dashboard: es un bloque sereno, agrupado por naturaleza (el patrón GFOA), que respeta las reglas del documento 09 (no gamificar, uno o dos focos, estados sensibles). Así se vería, esquemáticamente —en la paleta de este informe, no en tokens del sitio:</p>
+
+    <div class="demo-label reveal">Esquema · bloque «Mi espacio» en la home logueada</div>
+
+    <div class="esp reveal">
+      <div class="esp-group">
+        <div class="gh"><span class="t">Estás en camino</span><span class="c">cursos en curso</span></div>
+        <div class="item">
+          <span class="dot">◐</span>
+          <div class="meta2">
+            <div class="n2">EMI 1 · Calma y Lucidez</div>
+            <div class="s2">Lección 4 de 8 · con tutor</div>
+            <div class="tagset"><span class="t-online">online</span></div>
+          </div>
+          <span class="act">Continuar →</span>
+        </div>
+      </div>
+
+      <div class="esp-group">
+        <div class="gh"><span class="t">Fechas que te esperan</span><span class="c">plazas reservadas</span></div>
+        <div class="item">
+          <span class="dot">☾</span>
+          <div class="meta2">
+            <div class="n2">Retiro de fin de semana · Lojong</div>
+            <div class="s2">Muntanya de la Sella · 14–16 nov</div>
+            <div class="tagset"><span class="t-presencial">presencial</span><span class="t-fecha">en 12 semanas</span></div>
+          </div>
+          <span class="act">Detalles →</span>
+        </div>
+        <div class="item">
+          <span class="dot">✦</span>
+          <div class="meta2">
+            <div class="n2">Charla · El refugio y su sentido</div>
+            <div class="s2">Retransmisión en directo · 5 oct, 19:00</div>
+            <div class="tagset"><span class="t-online">online</span><span class="t-fecha">con fecha</span></div>
+          </div>
+          <span class="act">Cómo entrar →</span>
+        </div>
+      </div>
+
+      <div class="esp-group">
+        <div class="gh"><span class="t">Tu vínculo</span><span class="c">contribución</span></div>
+        <div class="vinculo">
+          <span class="halo" aria-hidden="true"></span>
+          <div class="meta2">
+            <div class="n2">Amigo/a de Paramita</div>
+            <div class="s2">Sostienes la continuidad mes a mes · recibos en Mi espacio</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="reveal" style="margin-top:1.6rem">Tres claves de este esquema: <strong>agrupa por naturaleza</strong> (en curso / con fecha / vínculo), no por «pedido»; <strong>etiqueta formato</strong> (online / presencial / con fecha) porque es lo que la persona necesita saber de un vistazo cuando mezcla online y presencial; y <strong>no cuenta rachas ni porcentajes agresivos</strong> —el círculo <span style="color:var(--gold-lite)">◐</span> insinúa avance sin métrica de culpa. El «vínculo» aparece como estado sereno, jamás como historial de donativos a la vista (eso vive privado en Mi espacio, con sus recibos fiscales).</p>
+
+    <div class="demo-label reveal">Esquema · checkout de una página (destino de las anclas huérfanas)</div>
+    <div class="co reveal">
+      <div class="co-t">Inscripción · EMI 1 con tutor</div>
+      <div class="co-line"><span>Matrícula · Interactivo</span><span class="num">120,00 €</span></div>
+      <div class="co-line"><span>Descuento Amigo/a (−50%)</span><span class="num">−60,00 €</span></div>
+      <div class="co-line total"><span>Total</span><span class="num">60,00 €</span></div>
+      <div class="co-field">tu correo electrónico</div>
+      <div class="co-field">datos de pago · seguro</div>
+      <div class="co-btn">Completar inscripción</div>
+      <div class="co-note">Crearás tu acceso al aula después de pagar.<br>Sin cuenta previa. Sin campos de más.</div>
+    </div>
+    <p class="reveal" style="margin-top:1.2rem">Una sola pantalla. Sin registro previo. El descuento de Amigo/a reconoce el vínculo sin arrastrar el dāna a la caja. La cuenta —la llave del aula— se crea justo después. Eso es todo lo que hace falta para cerrar el cruce.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 08 ===================== -->
+<section class="flow" id="s8">
+  <div class="sec-head reveal">
+    <span class="sec-num">08 — El destino</span>
+    <h2>«Mi espacio»: el libro mayor, no la home</h2>
+  </div>
+
+  <p class="drop reveal">Conviene no confundir dos pantallas que la conversación tiende a fundir. La <strong>home logueada</strong> es el umbral diario —contemplativa, editorial, «estás de vuelta» (documento 09). <strong>Mi espacio</strong> es el registro práctico —el sitio al que vas cuando necesitas un recibo, revisar una fecha, o ver todo lo que tienes. La home <em>asoma</em> lo más relevante (el bloque del esquema anterior); Mi espacio lo <em>guarda</em> completo.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Home logueada vs. Mi espacio — dos objetos distintos</caption>
+      <thead><tr><th>—</th><th>Home logueada</th><th>Mi espacio</th></tr></thead>
+      <tbody>
+        <tr><td>Rol</td><td>Umbral diario, retorno a la práctica</td><td>Registro y gestión de lo adquirido</td></tr>
+        <tr><td>Tono</td><td>Contemplativo, editorial</td><td>Claro, funcional, sereno</td></tr>
+        <tr><td>Muestra</td><td>Un foco: continuar + qué asoma</td><td>Todo: formación, actividades, recibos, datos</td></tr>
+        <tr><td>Se llega</td><td>Logo / al iniciar sesión</td><td>Cuenta → «Mi espacio»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="reveal">Dentro, tres apartados que reflejan los tres carriles —y que resuelven de una vez el «historial de compras» sin llamarlo así: <strong>Formación</strong> (cursos activos, completados, con acceso al aula y a la factura), <strong>Actividades</strong> (próximas fechas, pasadas, confirmaciones), y <strong>Contribución</strong> (estado de Amigo/a, recibos de donativo con los datos para desgravar). El «historial de pedidos» de una tienda aquí se convierte en <em>«mis inscripciones» y «mis recibos»</em>: la misma función, otro contrato semántico. La persona no ha comprado productos; se ha inscrito y ha contribuido.</p>
+
+  <p class="pull reveal">Nunca se dice «tus compras» ni «tu cesta». Se dice «lo que tienes», «tus fechas», «tu vínculo». El vocabulario es parte de la arquitectura.</p>
+</section>
+
+<!-- ===================== VERDICT ===================== -->
+<section class="verdict" id="verdict">
+  <div class="flow">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Veredicto operativo</span>
+      <h2>Qué hacer y qué no</h2>
+    </div>
+    <div class="checks reveal">
+      <div class="yes">
+        <h4>Hazlo</h4>
+        <ul>
+          <li>Checkout de una sola página por ítem —el destino real de <code>#pago-interactiva</code>.</li>
+          <li>Pago como invitado; crear la cuenta (llave del aula) <strong>después</strong> de pagar.</li>
+          <li>Mantener los tres carriles separados: dāna, formación, actividades —tuberías y documentos distintos.</li>
+          <li>Aplicar el descuento de Amigo/a dentro del checkout, sin arrastrar el dāna a la caja.</li>
+          <li>Pantalla de confirmación con voz editorial: qué pasa ahora, cómo entrar.</li>
+          <li>Añadir «Mi espacio» al panel de cuenta y un bloque «lo que tienes» a la home logueada, agrupado por naturaleza.</li>
+          <li>Etiquetar formato (online / presencial / con fecha) y mostrar aforo real cuando exista.</li>
+          <li>Campo de cantidad para el caso pareja/familia dentro del flujo del retiro.</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h4>Evítalo</h4>
+        <ul>
+          <li>Un carrito de e-commerce global —ni siquiera «contemplativo».</li>
+          <li>El icono/badge de carrito con numerito en la barra.</li>
+          <li>Meter dāna y matrícula en la misma transacción (riesgo fiscal).</li>
+          <li>Redondeo-donativo tipo <em>checkout charity</em> en la caja del curso.</li>
+          <li>Obligar a registrarse antes de pagar.</li>
+          <li>Formularios largos; datos de alojamiento/dieta como barrera de entrada.</li>
+          <li>Convertir «Mi espacio» o la home logueada en un dashboard con rachas, insignias o porcentajes de culpa.</li>
+          <li>Enviar a pagar a otro dominio de forma que se perciba fuera de Paramita.</li>
+          <li>El vocabulario «compras / cesta / pedidos».</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DECISIONES ABIERTAS ===================== -->
+<section class="flow" id="abiertas">
+  <div class="sec-head reveal">
+    <span class="sec-num">Para cerrar una a una</span>
+    <h2>Decisiones abiertas, en orden</h2>
+  </div>
+  <p class="reveal">El estudio deja recomendaciones firmes, pero hay nudos que se cierran mejor de uno en uno, en secuencia —saltarse el orden produce rework (aprendizaje del documento 11):</p>
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Secuencia sugerida</caption>
+      <thead><tr><th>#</th><th>Decisión</th><th>Depende de</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td>Confirmar la tesis: sin carrito, tres carriles, pago por ítem</td><td>Diseño (esta conversación)</td></tr>
+        <tr><td class="num">2</td><td>Dónde vive la sesión: <code>paramita.org</code> vs. <code>cursos.paramita.org</code>, y SSO</td><td>Arquitectura de dominio / LMS</td></tr>
+        <tr><td class="num">3</td><td>Modelo de acceso por curso (autoestudio, con tutor, presencial, gratuito) y su representación</td><td>Modelo de contenido</td></tr>
+        <tr><td class="num">4</td><td>Diseñar el checkout de una página (formación) → dar destino a las anclas</td><td>Cerrado 2 y 3</td></tr>
+        <tr><td class="num">5</td><td>Checkout de actividad/retiro (cantidad, señal, aforo)</td><td>Cerrado 4</td></tr>
+        <tr><td class="num">6</td><td>Bloque «lo que tienes» en la home logueada + entrada «Mi espacio» en la cuenta</td><td>Cerrado 4 y 5</td></tr>
+        <tr><td class="num">7</td><td>Pantalla «Mi espacio» completa (formación / actividades / contribución + recibos)</td><td>Cerrado 6</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal">La pregunta que abre todo lo demás es la 1: <em>¿aceptamos que Paramita no lleva carrito?</em> Si es que sí, el resto es diseño ordenado. Si hay dudas, es el punto a debatir antes de tocar una línea.</p>
+</section>
+
+<!-- ===================== REFERENCES ===================== -->
+<section class="flow refs" id="fuentes">
+  <div class="sec-head reveal">
+    <span class="sec-num">Fuentes</span>
+    <h2>Referencias y salvedades</h2>
+  </div>
+  <p class="reveal" style="font-size:.94rem;color:var(--slate)">Nota de rigor y de contexto: casi toda la investigación de checkout y abandono procede de <strong>e-commerce minorista comercial</strong>, no de entornos prosociales o contemplativos. La <em>dirección</em> transfiere bien —la fricción es fricción en cualquier contexto— pero las magnitudes absolutas, y sobre todo el marco de «maximizar conversión», deben descontarse para Paramita, cuyo objetivo no es facturar sino sostener una comunidad. El dato del ~70&nbsp;% de carritos abandonados es especialmente engañoso aquí: describe un objeto (el carrito minorista) que este informe recomienda no importar. El marco fiscal (donativo vs. servicio) se apoya en principio contable general; los detalles concretos de desgravación y facturación son propios de la normativa española de fundaciones y exceden este estudio de UX.</p>
+  <ol class="reveal">
+    <li><b>Baymard Institute</b> — abandono de checkout (~70% de media); registro forzado como causa top (~24%); usabilidad de checkout y nº de campos. <span class="fz fz--fuerte">fuerte</span></li>
+    <li><b>Checkoutpage, 2026</b> — carrito vs. página de checkout; la compra de curso/evento/membresía como decisión única. <span class="fz fz--fuerte">fuerte (para el caso)</span></li>
+    <li><b>Corbado / NoFraud / Krepling / EcomHint, 2025–26</b> — invitado vs. registro; creación de cuenta post-compra como buena práctica; recompra registrada 64% vs. 52%. <span class="fz fz--media">media</span></li>
+    <li><b>Digital Applied / Growth Engines, 2026</b> — checkout de una página (−~20% abandono); reducción de campos (+25–35%). <span class="fz fz--media">media (agregadores)</span></li>
+    <li><b>WildApricot / nonprofit ecommerce</b> — distinción legal donativo vs. venta de bienes/servicios; riesgo de mezclarlos. <span class="fz fz--fuerte">fuerte (principio)</span></li>
+    <li><b>Candid / KLR</b> — <em>checkout charity</em> (redondeo): sensación de presión y de pillar desprevenido. <span class="fz fz--media">media</span></li>
+    <li><b>118Group / Charity Water</b> — desconfianza ante redirección de pago a otro dominio; la confirmación como momento de sentido. <span class="fz fz--media">media</span></li>
+    <li><b>Plum Village</b> — inscripción por retiro con ventana de apertura/cierre; presencial + online; sin carrito. <span class="fz fz--fuerte">observación directa</span></li>
+    <li><b>Tergar · Joy of Living (Mingyur Rinpoche)</b> — currículo online + presencial por tramos de precio; lógica de programa, no de artículos. <span class="fz fz--fuerte">observación directa</span></li>
+    <li><b>GFOA Learning</b> — panel del alumno agrupado por naturaleza/formato (varios días / un día / online / presencial). <span class="fz fz--media">observación</span></li>
+    <li><b>Documentos internos</b> — 09 (home logged-in), 05 (sistema de CTAs), «Paramita no es un SaaS», <code>emi-1-calma-y-lucidez.html</code>, <code>navbar-practicante.html</code>, <code>home-logueado.html</code>, <code>contribuir.html</code>. <span class="fz fz--fuerte">fuente primaria del proyecto</span></li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Estudio de arquitectura transaccional para Fundació Sakya Paramita · Agosto 2026 · Sin implementación: cierra la decisión 1 antes de construir · Documento autocontenido</div>
+</footer>
+
+<script>
+  var pb=document.getElementById('progress');
+  function onScroll(){
+    var h=document.documentElement;
+    var max=h.scrollHeight-h.clientHeight;
+    pb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';
+  }
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});
+  }
+</script>
+</body>
+</html>

@@ -133,7 +133,7 @@
   </section>
 
   <!-- ══════════════ 1 · QUÉ ES EL SEVA ══════════════ -->
-  <section class="v-sec v-seva-zona"><div class="wrap">
+  <section class="v-sec zona-luz"><div class="wrap">
     <div class="v-seva">
       <div class="v-seva__texto">
         <div class="v-head">
@@ -152,7 +152,7 @@
   </div></section>
 
   <!-- ══════════════ 2 · UN DÍA EN EL CENTRO ══════════════ -->
-  <section class="v-sec zona-luz" id="un-dia"><div class="wrap">
+  <section class="v-sec" id="un-dia"><div class="wrap">
     <div class="v-head">
       <span class="eyebrow" data-reveal>Un día en el Centro</span>
       <h2 data-reveal>Cómo es la vida <em>aquí</em></h2>
@@ -234,6 +234,12 @@
       <h2 data-reveal>Preguntas <em>frecuentes</em></h2>
     </div>
     <div class="faq" data-reveal>
+      <div class="faq__buscador">
+        <input id="faqBuscar" type="text" placeholder="Busca por palabra… estancia, dormir, gastos" aria-label="Buscar en las preguntas frecuentes" autocomplete="off">
+        <span class="faq__buscador__icono" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
+        </span>
+      </div>
       <div class="faq__lista">
         <div class="faq__item">
           <button class="faq__q" aria-expanded="false">¿Cuánto dura una estancia?<span class="faq__sign" aria-hidden="true"></span></button>
@@ -268,6 +274,7 @@
           <div class="faq__panel"><div class="faq__inner"><p>Sí. No descartamos estancias más cortas ni colaboraciones online en proyectos puntuales. Deja tus datos por la puerta ligera y te escribiremos cuando surja algo que encaje contigo.</p></div></div>
         </div>
       </div>
+      <p class="faq__vacio" id="faqVacio" hidden>No hemos encontrado nada con esas palabras. Prueba con otras, o escríbenos.</p>
     </div>
   </div></section>
 

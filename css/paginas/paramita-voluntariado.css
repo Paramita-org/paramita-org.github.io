@@ -58,15 +58,22 @@
   .v-prosa p { color: var(--texto-suave); }
   .v-prosa p strong { color: var(--antracita); }
 
-  /* ══ Bloque «Qué es el seva» · dos columnas + degradado sutil a la izquierda ══ */
-  /* Separación de bloque: velo cálido anclado al borde izquierdo, muy suave. */
-  .v-seva-zona { position: relative; isolation: isolate; }
-  .v-seva-zona::before {
+  /* ══ Difusor de zona · banda cálida que se desvanece arriba y abajo.
+     Misma receta que .zona-luz de meditación → crea la separación entre
+     bloques. OJO: .zona-luz NO es un componente cargado; cada página la
+     define localmente (aquí para «un día no», seva, puertas y coda). ══ */
+  .zona-luz { position: relative; isolation: isolate; }
+  .zona-luz::before {
     content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
     background:
-      radial-gradient(58% 92% at 0% 48%, color-mix(in oklch, var(--calido-zen) 52%, transparent), transparent 60%),
-      radial-gradient(38% 60% at 2% 92%, color-mix(in oklch, var(--dorado) 9%, transparent), transparent 58%);
+      radial-gradient(78% 66% at 82% 6%, color-mix(in oklch, var(--calido-zen) 62%, transparent), transparent 58%),
+      radial-gradient(66% 58% at 6% 100%, color-mix(in oklch, var(--dorado) 12%, transparent), transparent 62%),
+      linear-gradient(180deg, transparent,
+        color-mix(in oklch, var(--arena) 42%, transparent) 16%,
+        color-mix(in oklch, var(--arena) 42%, transparent) 84%, transparent);
   }
+
+  /* ══ Bloque «Qué es el seva» · dos columnas (texto izq · imagen der) ══ */
   .v-seva { display: grid; grid-template-columns: 1fr minmax(0, 44%); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
   .v-seva .v-head { margin-bottom: var(--espacio-grupo); }
   /* Imagen a la derecha · con degradado de reserva por si seva.jpg falta */

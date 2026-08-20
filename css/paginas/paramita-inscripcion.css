@@ -1,0 +1,341 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   css/paginas/paramita-inscripcion.css — Checkout de una página (matrícula)
+   ───────────────────────────────────────────────────────────────────────────
+   El objeto que faltaba: destino de las anclas #pago-interactiva / #pago-autoestudio
+   de la página de curso. UN solo ítem, sin carrito. Pago como invitado; la cuenta
+   (llave del aula) se crea DESPUÉS de pagar (estado .is-done).
+
+   PRINCIPIOS (informe «Inscribirse no es comprar», ago 2026)
+     · Sin carrito, sin badge, sin acumulación.
+     · Página distraída al mínimo: sin navbar completa, sin prefooter de dāna.
+       El dāna vive en su propio carril; no se cuela en la caja de un curso.
+     · Formulario mínimo primero; nada de crear contraseña antes de pagar.
+     · Resumen EN la página (no cesta global).
+
+   Depende de tokens ya cargados: paramita-color / -layout / -tipografia / -movimiento.
+   Reutiliza el idioma de input de paramita-suscripcion.css y de .plan (curso.css).
+   Se declara en @layer paginas para ceder ante componentes cuando toque.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer paginas {
+
+  /* ── Lienzo ───────────────────────────────────────────────────────────── */
+  .co-page {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background:
+      radial-gradient(120% 70% at 85% -10%,
+        color-mix(in oklch, var(--calido-zen) 55%, transparent), transparent 60%),
+      var(--lino);
+  }
+
+  /* ── Cabecera mínima · marca + acuse de seguridad + volver ────────────── */
+  .co-top {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-grupo);
+    padding: var(--s-3) 0;
+    border-bottom: 1px solid var(--hair);
+  }
+  .co-brand {
+    font-family: var(--display);
+    font-weight: var(--wght-presencia);
+    font-size: 1.35rem;
+    letter-spacing: -.01em;
+    color: var(--antracita);
+    text-decoration: none;
+  }
+  .co-brand em { font-style: italic; color: var(--azul-oscuro); }
+  .co-seguro {
+    margin-inline-start: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    font-family: var(--body);
+    font-weight: var(--wght-firmeza);
+    font-size: .74rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+  }
+  .co-seguro svg { width: 15px; height: 15px; stroke: var(--estado-exito); }
+  .co-volver {
+    font-family: var(--body);
+    font-size: .9rem;
+    color: var(--azul-oscuro);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+  }
+  .co-volver:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .co-volver .arw { transition: transform var(--t-med, .25s) var(--ease, ease); }
+  .co-volver:hover .arw { transform: translateX(-3px); }
+
+  /* ── Reja principal · formulario + resumen ────────────────────────────── */
+  .co-body { flex: 1; padding-block: var(--espacio-umbral); }
+  .co-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--espacio-contemplativo);
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .co-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: var(--s-6); }
+  }
+
+  .co-title {
+    font-family: var(--display);
+    font-weight: var(--wght-presencia);
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    line-height: 1.08;
+    letter-spacing: -.012em;
+    color: var(--antracita);
+    margin: 0 0 .5rem;
+  }
+  .co-title em { font-style: italic; color: var(--azul-oscuro); }
+  .co-intro { color: var(--texto-suave); max-width: 40ch; margin: 0 0 var(--espacio-contenido); }
+
+  /* ── Campos · reutiliza el idioma de .suscribe__input ─────────────────── */
+  .co-fieldset { border: 0; padding: 0; margin: 0 0 var(--espacio-contenido); }
+  .co-legend {
+    font-family: var(--body);
+    font-weight: var(--wght-firmeza);
+    font-size: .74rem;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    padding: 0;
+    margin: 0 0 var(--espacio-elemento);
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+  }
+  .co-legend .paso {
+    display: inline-grid; place-items: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    font-size: .72rem; color: var(--card);
+    background: linear-gradient(135deg, var(--azul-oscuro), var(--azul-sutil));
+  }
+
+  .co-field { margin-bottom: var(--espacio-elemento); }
+  .co-label {
+    display: block;
+    font-family: var(--body);
+    font-weight: var(--wght-firmeza);
+    font-size: .9rem;
+    color: var(--antracita);
+    margin-bottom: .4rem;
+  }
+  .co-input {
+    width: 100%;
+    font-family: var(--body);
+    font-size: 1rem;
+    color: var(--antracita);
+    padding: .85rem 1.1rem;
+    border-radius: 14px;
+    border: 1px solid var(--hair);
+    background: var(--card);
+    transition: border-color var(--t-med, .25s), box-shadow var(--t-med, .25s), background var(--t-med, .25s);
+  }
+  @supports (corner-shape: superellipse(2)) {
+    .co-input { border-radius: 16px; corner-shape: superellipse(2.2); }
+  }
+  .co-input::placeholder { color: color-mix(in oklch, var(--texto-suave) 60%, transparent); }
+  .co-input:focus {
+    outline: none;
+    border-color: color-mix(in oklch, var(--azul-oscuro) 55%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--azul-sutil) 16%, transparent);
+    background: var(--lino);
+  }
+  .co-input:user-invalid {
+    border-color: color-mix(in oklch, var(--estado-error) 55%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--estado-error) 12%, transparent);
+  }
+  .co-hint { font-size: .82rem; color: var(--texto-suave); margin: .4rem 0 0; }
+
+  /* Pareja de campos (nombre + apellidos, mes/año) */
+  .co-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--espacio-elemento); }
+  @media (max-width: 480px) { .co-row { grid-template-columns: 1fr; } }
+
+  /* ── Amigo/a · reconoce el vínculo, NO trae el dāna a la caja ─────────── */
+  .co-amigo {
+    display: flex;
+    gap: .7rem;
+    align-items: flex-start;
+    padding: var(--espacio-elemento) var(--espacio-elemento) var(--espacio-elemento) .9rem;
+    border-radius: 16px;
+    background: color-mix(in oklch, var(--calido-zen) 40%, var(--card));
+    border: 1px solid color-mix(in oklch, var(--dorado) 26%, transparent);
+    cursor: pointer;
+  }
+  .co-amigo input { margin-top: .2rem; accent-color: var(--dorado); flex: none; width: 18px; height: 18px; }
+  .co-amigo .txt { font-size: .92rem; color: var(--antracita); line-height: 1.4; }
+  .co-amigo .txt b { font-weight: var(--wght-asertivo); }
+  .co-amigo .txt small { display: block; color: var(--texto-suave); font-size: .82rem; margin-top: .1rem; }
+
+  /* ── Pago · ranura del proveedor (Alberto lo conecta) ─────────────────── */
+  .co-pago {
+    padding: var(--espacio-contenido);
+    border-radius: 18px;
+    border: 1px dashed color-mix(in oklch, var(--antracita) 22%, transparent);
+    background: color-mix(in oklch, var(--card) 70%, var(--arena));
+    color: var(--texto-suave);
+    font-size: .9rem;
+    text-align: center;
+  }
+  .co-pago .glyph { font-size: 1.4rem; color: color-mix(in oklch, var(--antracita) 40%, transparent); }
+  .co-pago b { color: var(--antracita); font-weight: var(--wght-firmeza); }
+
+  /* ── Consentimiento · idioma de suscribe__consent ─────────────────────── */
+  .co-consent {
+    display: flex; gap: .55rem; align-items: flex-start;
+    font-size: .82rem; color: var(--texto-suave); line-height: 1.45;
+    cursor: pointer; margin: var(--espacio-elemento) 0;
+  }
+  .co-consent input { margin-top: .18rem; accent-color: var(--azul-oscuro); flex: none; }
+  .co-consent a { color: var(--azul-oscuro); font-weight: 600; }
+
+  .co-submit { width: 100%; justify-content: center; text-align: center; margin-top: .3rem; }
+  .co-cierre {
+    display: flex; gap: .5rem; align-items: flex-start;
+    font-size: .84rem; color: var(--texto-suave); line-height: 1.5;
+    margin-top: var(--espacio-elemento);
+  }
+  .co-cierre svg { width: 16px; height: 16px; flex: none; margin-top: .15rem; stroke: var(--azul-oscuro); }
+
+  /* ── Aparte · resumen (el «carrito» que no es carrito) ────────────────── */
+  .co-aside { position: relative; }
+  @media (min-width: 900px) { .co-aside { position: sticky; top: calc(var(--bar-h) + var(--s-2)); } }
+
+  .co-resumen {
+    padding: var(--espacio-contenido);
+    border-radius: 22px;
+    background: var(--card);
+    border: 1px solid color-mix(in oklch, var(--antracita) 10%, transparent);
+    box-shadow: 0 30px 70px -50px color-mix(in oklch, var(--antracita) 60%, transparent);
+    overflow: hidden;
+  }
+  .co-resumen::before {
+    content: ""; display: block; height: 4px; margin: calc(-1 * var(--espacio-contenido)) calc(-1 * var(--espacio-contenido)) var(--espacio-elemento);
+    background: linear-gradient(90deg, var(--azul-oscuro), var(--azul-sutil) 55%, var(--dorado));
+  }
+  .co-resumen__eyebrow {
+    font-family: var(--body); font-weight: var(--wght-firmeza);
+    font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--texto-suave);
+  }
+  .co-curso { font-family: var(--display); font-weight: var(--wght-presencia); font-size: 1.4rem; line-height: 1.15; color: var(--antracita); margin: .3rem 0 .1rem; }
+  .co-mod {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-size: .86rem; color: var(--texto-suave);
+    margin-bottom: var(--espacio-elemento);
+  }
+  .co-mod .tag {
+    font-family: var(--body); font-weight: var(--wght-firmeza);
+    font-size: .64rem; letter-spacing: .08em; text-transform: uppercase;
+    padding: .18em .6em; border-radius: 99px;
+    color: color-mix(in oklch, var(--dorado) 78%, var(--antracita));
+    background: color-mix(in oklch, var(--dorado) 12%, var(--card));
+    border: 1px solid color-mix(in oklch, var(--dorado) 40%, transparent);
+  }
+  .co-cambiar {
+    background: none; border: 0; cursor: pointer; padding: 0;
+    font-family: var(--body); font-size: .82rem; color: var(--azul-oscuro);
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  .co-cambiar:hover { text-decoration-thickness: 2px; }
+
+  .co-incluye { list-style: none; margin: 0 0 var(--espacio-elemento); padding: var(--espacio-elemento) 0 0; border-top: 1px solid var(--hair); }
+  .co-incluye li { position: relative; padding-left: 1.5em; font-size: .88rem; color: var(--texto-suave); margin-bottom: .5rem; line-height: 1.4; }
+  .co-incluye li::before {
+    content: ""; position: absolute; left: 0; top: .45em;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--dorado);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--dorado) 20%, transparent);
+  }
+
+  .co-lineas { border-top: 1px solid var(--hair); padding-top: var(--espacio-elemento); }
+  .co-linea { display: flex; justify-content: space-between; gap: 1rem; font-size: .95rem; color: var(--antracita); padding: .35rem 0; }
+  .co-linea .num { font-variant-numeric: tabular-nums; color: var(--antracita); }
+  .co-linea.co-desc { color: var(--estado-exito); }
+  .co-linea.co-desc .num { color: var(--estado-exito); }
+  .co-linea.co-desc[hidden] { display: none; }
+  .co-total {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+    margin-top: .5rem; padding-top: var(--espacio-elemento);
+    border-top: 1px solid color-mix(in oklch, var(--antracita) 16%, transparent);
+  }
+  .co-total .lbl { font-family: var(--body); font-weight: var(--wght-asertivo); color: var(--antracita); }
+  .co-total .num {
+    font-family: var(--display); font-weight: var(--wght-presencia);
+    font-size: clamp(1.8rem, 4vw, 2.2rem); line-height: 1; color: var(--antracita);
+    font-variant-numeric: tabular-nums;
+  }
+  .co-total .num small { font-size: .9rem; color: var(--texto-suave); }
+  .co-resumen__nota { font-size: .78rem; color: var(--texto-suave); margin: var(--espacio-elemento) 0 0; line-height: 1.5; }
+
+  /* Beca · reversión de riesgo, en su propio carril suave */
+  .co-beca { margin-top: var(--espacio-elemento); font-size: .84rem; color: var(--texto-suave); }
+  .co-beca a { color: var(--azul-oscuro); font-weight: 600; }
+
+  /* ── Confirmación · estado tras pagar · la cuenta nace aquí ───────────── */
+  .co-ok { display: none; }
+  .co-page.is-done .co-grid { display: none; }
+  .co-page.is-done .co-ok { display: block; }
+  .co-ok__inner {
+    max-width: 34rem; margin-inline: auto; text-align: center;
+    padding-block: var(--espacio-contemplativo);
+  }
+  .co-ok__halo {
+    width: 78px; height: 78px; margin: 0 auto var(--espacio-contenido);
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 40%,
+      color-mix(in oklch, var(--dorado) 55%, transparent),
+      color-mix(in oklch, var(--dorado) 4%, transparent));
+    border: 1px solid color-mix(in oklch, var(--dorado) 40%, transparent);
+    display: grid; place-items: center;
+  }
+  .co-ok__halo svg { width: 34px; height: 34px; stroke: var(--azul-oscuro); }
+  .co-ok__eyebrow {
+    font-family: var(--body); font-weight: var(--wght-firmeza);
+    font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--dorado);
+  }
+  .co-ok h1 {
+    font-family: var(--display); font-weight: var(--wght-presencia);
+    font-size: clamp(2rem, 5vw, 2.8rem); line-height: 1.08; letter-spacing: -.012em;
+    color: var(--antracita); margin: .4rem 0 .6rem;
+  }
+  .co-ok h1 em { font-style: italic; color: var(--azul-oscuro); }
+  .co-ok__lede { color: var(--texto-suave); margin: 0 auto var(--espacio-contenido); max-width: 32ch; }
+  .co-ok__pass {
+    text-align: left; max-width: 24rem; margin: 0 auto var(--espacio-contenido);
+    padding: var(--espacio-contenido); border-radius: 20px;
+    background: var(--card); border: 1px solid color-mix(in oklch, var(--antracita) 10%, transparent);
+  }
+  .co-ok__pass .co-label { text-align: left; }
+  .co-ok__next { font-size: .82rem; color: var(--texto-suave); margin-top: var(--espacio-elemento); }
+
+  /* ── Pie mínimo · legal + seguridad, sin escapes de navegación ────────── */
+  .co-foot {
+    border-top: 1px solid var(--hair);
+    padding-block: var(--espacio-contenido);
+    display: flex; flex-wrap: wrap; gap: .6rem var(--espacio-grupo);
+    align-items: center;
+    font-size: .8rem; color: var(--texto-suave);
+  }
+  .co-foot a { color: var(--azul-oscuro); text-decoration: none; }
+  .co-foot a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .co-foot .sep { color: color-mix(in oklch, var(--antracita) 20%, transparent); }
+
+  /* ── En móvil, el resumen abre arriba (se ve el total antes de escribir) ─ */
+  @media (max-width: 899px) {
+    .co-grid { display: flex; flex-direction: column; }
+    .co-aside { order: -1; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .co-volver .arw { transition: none; }
+}
