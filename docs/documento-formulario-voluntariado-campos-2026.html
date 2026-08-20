@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campo a campo — Documento de campos del formulario de voluntariado · Paramita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC; --paper-2:#FBFAF7; --ink:#191A1C; --slate:#63656B;
+    --ink-deep:#132239; --ink-deep-2:#0E1A2C; --gold:#A8823F; --gold-lite:#C9A96E;
+    --rule:#DAD6CC; --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.42;color:var(--ink-deep);margin:2rem 0 0;font-style:italic}
+
+  section{padding:clamp(2.6rem,6vh,4.2rem) 0}
+  .sec-head{margin-bottom:1.8rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 .3rem}
+  h2 em{font-style:italic;font-weight:400;color:var(--gold)}
+  h3{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.25rem,2vw,1.55rem);line-height:1.2;margin:2.4rem 0 .6rem;letter-spacing:-.005em}
+  h3 em{font-style:italic;color:var(--ink-deep)}
+  p{margin:0 0 1.15rem}
+  strong{font-weight:600;color:var(--ink)}
+  em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:color-mix(in srgb,var(--gold) 12%,transparent);padding:.05em .35em;border-radius:4px;color:var(--ink-deep)}
+  .drop:first-letter{font-family:"Fraunces",serif;float:left;font-size:3.3rem;line-height:.82;font-weight:500;padding:.1em .12em 0 0;color:var(--ink-deep)}
+  .pull{font-family:"Fraunces",serif;font-weight:400;font-style:italic;font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.4;color:var(--ink-deep);border-left:2px solid var(--gold);padding-left:1.2rem;margin:2rem 0}
+  .fuente{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.01em;margin-top:-.4rem}
+
+  .dato{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:14px;padding:1.6rem 1.7rem;margin:1.4rem 0}
+  .dato__k{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+  .dato h3{margin:0 0 .5rem;font-size:clamp(1.15rem,1.8vw,1.4rem)}
+  .dato p{margin:0 0 .6rem}
+  .dato p:last-child{margin:0}
+  .cifra{font-family:"Fraunces",serif;font-weight:600;color:var(--ink-deep);font-size:1.08em}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--rule);border-radius:14px;overflow:hidden;margin:1.6rem 0}
+  .stat{background:var(--paper-2);padding:1.4rem 1.1rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.7rem,3vw,2.3rem);line-height:1;color:var(--ink-deep)}
+  .stat .n small{font-size:.55em;font-weight:500}
+  .stat .l{font-size:.82rem;line-height:1.35;color:var(--slate);margin-top:.5rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);margin-top:.5rem;letter-spacing:.04em}
+  @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+  .tbl-wrap{margin:1.6rem 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.88rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+  th,td{text-align:left;padding:.6rem .7rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:500;border-bottom:1.5px solid var(--rule)}
+  tbody td:first-child{font-weight:600;color:var(--ink)}
+  .yes{color:var(--ink-deep);font-weight:600}
+  .no{color:var(--gold);font-weight:600}
+
+  /* tabla de campos: 5 columnas */
+  .campos th:nth-child(1),.campos td:nth-child(1){width:24%}
+  .campos th:nth-child(2),.campos td:nth-child(2){width:13%}
+  .campos th:nth-child(3),.campos td:nth-child(3){width:9%}
+  .campos th:nth-child(4),.campos td:nth-child(4){width:31%}
+  .campos th:nth-child(5),.campos td:nth-child(5){width:23%}
+  .campos td:nth-child(2),.campos td:nth-child(5){font-family:"JetBrains Mono",monospace;font-size:.78rem;color:var(--slate)}
+  .req{font-family:"JetBrains Mono",monospace;font-size:.7rem;font-weight:500}
+  .req.o{color:var(--ink-deep)} .req.x{color:var(--gold)}
+
+  .paso{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:color-mix(in srgb,var(--gold) 12%,transparent);border-radius:20px;padding:.25em .8em;display:inline-block;margin:1.8rem 0 .2rem}
+
+  .copybox{background:var(--paper-2);border:1px solid var(--rule-soft);border-left:2px solid var(--gold);border-radius:12px;padding:1.3rem 1.5rem;margin:1.2rem 0}
+  .copybox .lbl{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+  .copybox h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.2rem;margin:0 0 .4rem;color:var(--ink-deep)}
+  .copybox p{margin:0 0 .5rem}.copybox p:last-child{margin:0}
+  .copybox .cta{font-family:"JetBrains Mono",monospace;font-size:.74rem;color:var(--ink-deep);border:1px solid var(--rule);border-radius:8px;padding:.4em .8em;display:inline-block;margin-top:.4rem}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.75rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.sheen::after{animation:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ══════════════ PORTADA ══════════════ -->
+<header class="cover flow">
+  <p class="eyebrow">Documento de campos · Formulario de voluntariado</p>
+  <h1>Campo<br>a <em>campo</em></h1>
+  <p class="deck">La especificación exacta de las dos puertas: cada campo con su etiqueta, tipo, si es obligatorio, su texto de ayuda y su mensaje de error. Más el número de pasos, el copy de las dos confirmaciones y la nota técnica de envío. Listo para construir y para afinar el copy.</p>
+  <div class="sheen"></div>
+  <div class="meta">
+    <span><b>Cierra</b> · el estudio «El paso que se da»</span>
+    <span><b>Puertas</b> · residencial · ligera («al tanto»)</span>
+    <span><b>Fecha</b> · 20 ago 2026</span>
+    <span><b>Base de copy</b> · página <code>/voluntarios/</code> actual</span>
+  </div>
+  <p class="lede">Del principio a la pieza. El estudio fijó el <em>cómo</em>; esto es el <em>qué</em>: la lista concreta que se puede maquetar tal cual, con un copy de partida que respira el tono de la casa.</p>
+</header>
+
+<div class="flow">
+  <div class="dato reveal" style="margin-top:2rem">
+    <span class="dato__k">Cómo leer este documento</span>
+    <p>Todo aplica las decisiones del estudio del formulario: <strong>columna única</strong>, <strong>etiqueta visible encima</strong> (nunca placeholder-como-etiqueta), <strong>se marca lo opcional</strong> (no lo obligatorio), <strong>validación al salir del campo</strong> y <strong>errores que dicen cómo corregir</strong>. Los mensajes de error solo aparecen si el campo se deja mal, no de entrada. El <strong>copy es de partida</strong>: dice lo correcto y suena a Paramita, y queda listo para pulir.</p>
+  </div>
+</div>
+
+<div class="flow"><hr class="divider"></div>
+
+<!-- ══════════════ 1 · PUERTA A ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — Puerta A</span>
+    <h2>Seva <em>residencial</em> · la solicitud</h2>
+  </div>
+  <p class="drop reveal">La puerta seria. Su objetivo no es volumen, es <strong>encaje</strong>: un formulario meditado que quien de verdad quiere venir completa con gusto y que, de paso, ayuda a autoseleccionar. Recoge lo que alimenta la decisión de admisión y la conversación posterior —ni un campo más—. Por su tamaño (~15 campos con sentido), se organiza en <strong>tres pasos suaves y nombrados</strong>, con progreso visible («Paso 2 de 3»).</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Decisión de pasos</span>
+    <p><strong>Tres pasos</strong> es la recomendación por número de campos, no por exprimir conversión: trocear evita el muro y da ritmo contemplativo. <em>Alternativa consciente:</em> si se prefiere un gesto más sobrio, cabe un <strong>único formulario en columna</strong> con los campos agrupados por títulos —más largo a la vista, pero de una sola pieza—. Decidís vosotros; el contenido es idéntico.</p>
+  </div>
+
+  <span class="paso reveal">Paso 1 de 3 · Quién eres</span>
+  <div class="tbl-wrap wide reveal">
+    <table class="campos">
+      <caption>Puerta A · Paso 1</caption>
+      <thead><tr><th>Campo (etiqueta)</th><th>Tipo</th><th>Oblig.</th><th>Ayuda (debajo del campo)</th><th>Error</th></tr></thead>
+      <tbody>
+        <tr><td>Nombre y apellidos</td><td>text · autocomplete=name</td><td><span class="req o">Sí</span></td><td>—</td><td>«Escribe tu nombre»</td></tr>
+        <tr><td>Correo electrónico</td><td>email · autocomplete=email</td><td><span class="req o">Sí</span></td><td>Te escribiremos aquí.</td><td>«Introduce un email válido, p. ej. nombre@correo.com»</td></tr>
+        <tr><td>Teléfono</td><td>tel · autocomplete=tel</td><td><span class="req x">Opcional</span></td><td>Solo si prefieres que coordinemos por teléfono o WhatsApp.</td><td>«Introduce un teléfono, p. ej. 600 000 000» <span class="fuente">(solo si se rellena mal)</span></td></tr>
+        <tr><td>País y ciudad de residencia</td><td>text · autocomplete</td><td><span class="req o">Sí</span></td><td>Nos ayuda a orientar el viaje y, si vienes de fuera de la UE, los trámites de visado.</td><td>«Dinos dónde resides»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <span class="paso reveal">Paso 2 de 3 · Tu práctica y la estancia</span>
+  <div class="tbl-wrap wide reveal">
+    <table class="campos">
+      <caption>Puerta A · Paso 2</caption>
+      <thead><tr><th>Campo (etiqueta)</th><th>Tipo</th><th>Oblig.</th><th>Ayuda (debajo del campo)</th><th>Error</th></tr></thead>
+      <tbody>
+        <tr><td>¿Qué te acerca a ofrecer tu tiempo en el Centro?</td><td>textarea</td><td><span class="req o">Sí</span></td><td>Cuéntanoslo con tus palabras, sin prisa. No hay respuesta correcta.</td><td>«Cuéntanos brevemente qué te acerca»</td></tr>
+        <tr><td>Tu relación con la meditación y el budismo</td><td>radio · 3 opciones</td><td><span class="req o">Sí</span></td><td>Se puede empezar el camino aquí: no pedimos experiencia previa, solo interés genuino. <em>(Empiezo ahora · Practico desde hace un tiempo · Tengo una práctica establecida)</em></td><td>«Elige la opción que mejor te describa»</td></tr>
+        <tr><td>Si quieres, cuéntanos algo más de tu práctica</td><td>textarea</td><td><span class="req x">Opcional</span></td><td>—</td><td>—</td></tr>
+        <tr><td>Fechas y duración que tienes en mente</td><td>text (o rango de fechas)</td><td><span class="req o">Sí</span></td><td>La estancia de prueba es de una semana completa; puede renovarse semana a semana hasta seis.</td><td>«Dinos qué fechas o duración tienes en mente»</td></tr>
+        <tr><td>¿En qué te gustaría ayudar?</td><td>checkboxes</td><td><span class="req x">Opcional</span></td><td>Marca lo que quieras; también vale «donde haga falta». <em>(Limpieza · Mantenimiento · Cocina · Construcción · Jardinería · Administración · Diseño gráfico · Traducción · Donde haga falta)</em></td><td>—</td></tr>
+        <tr><td>¿Algo sobre tu salud o movilidad que debamos tener en cuenta?</td><td>textarea</td><td><span class="req x">Opcional</span></td><td>Solo para acompañarte mejor. Nada de esto descarta de entrada.</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <span class="paso reveal">Paso 3 de 3 · Tu compromiso</span>
+  <div class="tbl-wrap wide reveal">
+    <table class="campos">
+      <caption>Puerta A · Paso 3 · (casillas: rápidas, cognitivamente ligeras)</caption>
+      <thead><tr><th>Campo (etiqueta)</th><th>Tipo</th><th>Oblig.</th><th>Ayuda (debajo del campo)</th><th>Error</th></tr></thead>
+      <tbody>
+        <tr><td>He leído cómo es un día en el Centro y puedo asumirlo</td><td>checkbox</td><td><span class="req o">Sí</span></td><td>Seis horas de trabajo, seis días; oración y meditación en comunidad; dormitorios compartidos. <em>(enlace a «un día en el Centro»)</em></td><td>«Marca la casilla para continuar»</td></tr>
+        <tr><td>Puedo cubrir mis necesidades personales durante la estancia</td><td>checkbox</td><td><span class="req o">Sí</span></td><td>Transporte, gastos médicos y, si vienes de fuera, visado.</td><td>«Marca la casilla para continuar»</td></tr>
+        <tr><td>Me comprometo a respetar los cinco preceptos de convivencia</td><td>checkbox + desplegable</td><td><span class="req o">Sí</span></td><td>Al desplegar se leen los cinco. <em>(no matar/dañar · no robar · no mentir · conducta sexual que no cause sufrimiento · no intoxicantes)</em></td><td>«Marca la casilla para continuar»</td></tr>
+        <tr><td>¿Cómo nos conociste? ¿Te animó alguien?</td><td>text (o select)</td><td><span class="req x">Opcional</span></td><td>Nos ayuda a saber cómo llega la gente al Centro.</td><td>—</td></tr>
+        <tr><td>Autorizo el tratamiento de mis datos <em>(enlace a política de privacidad)</em></td><td>checkbox</td><td><span class="req o">Sí</span></td><td>—</td><td>«Necesitamos tu consentimiento para poder responderte»</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal">Acción final: un único <code>.btn-primario</code> con etiqueta específica —<strong>«Enviar mi solicitud»</strong>, nunca «Enviar»—, sin botón de borrar al lado.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 2 · PUERTA B ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — Puerta B</span>
+    <h2>Ayuda puntual · <em>«mantenme al tanto»</em></h2>
+  </div>
+  <p class="reveal">La puerta ligera. Aquí el objetivo <em>sí</em> es que pasen muchos: es el paso pequeño para quien quiere ayudar sin comprometerse a una estancia. Mínima fricción, <strong>un solo paso</strong>, y ya está.</p>
+  <div class="tbl-wrap wide reveal">
+    <table class="campos">
+      <caption>Puerta B · paso único</caption>
+      <thead><tr><th>Campo (etiqueta)</th><th>Tipo</th><th>Oblig.</th><th>Ayuda (debajo del campo)</th><th>Error</th></tr></thead>
+      <tbody>
+        <tr><td>Nombre</td><td>text · autocomplete=name</td><td><span class="req o">Sí</span></td><td>—</td><td>«Escribe tu nombre»</td></tr>
+        <tr><td>Correo electrónico</td><td>email · autocomplete=email</td><td><span class="req o">Sí</span></td><td>Te avisaremos aquí, sin llenarte el buzón.</td><td>«Introduce un email válido, p. ej. nombre@correo.com»</td></tr>
+        <tr><td>¿En qué te gustaría ayudar?</td><td>checkboxes</td><td><span class="req x">Opcional</span></td><td>Marca lo que quieras; «aún no lo sé» también vale. <em>(Actividades puntuales en el Centro · Difusión · Traducción · Apoyo online · Aún no lo sé)</em></td><td>—</td></tr>
+        <tr><td>Autorizo el tratamiento de mis datos <em>(enlace a política de privacidad)</em></td><td>checkbox</td><td><span class="req o">Sí</span></td><td>—</td><td>«Necesitamos tu consentimiento para poder escribirte»</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal">Acción final: <code>.btn-primario</code> con etiqueta <strong>«Quiero estar al tanto»</strong>. Dos campos obligatorios reales: sin excusa para abandonar.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 3 · CONFIRMACIONES ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — Después de enviar</span>
+    <h2>Las dos <em>confirmaciones</em></h2>
+  </div>
+  <p class="reveal">La regla 3C del estudio —<strong>Confirmar · Clarificar el siguiente paso con plazo concreto · Continuar con una sola acción</strong>— aplicada a cada puerta. Nada de «pronto»; una sola CTA.</p>
+
+  <div class="copybox reveal">
+    <span class="lbl">Confirmación · Puerta A · seva residencial</span>
+    <h4>Hemos recibido tu solicitud.</h4>
+    <p>Gracias por ofrecer tu tiempo. La leeremos con calma y te escribiremos en <strong>3–5 días laborables</strong> para concertar una conversación y conocernos. Te hemos enviado una copia a tu correo.</p>
+    <span class="cta">CTA única → «Mientras tanto, conoce cómo es un día en el Centro»</span>
+  </div>
+
+  <div class="copybox reveal">
+    <span class="lbl">Confirmación · Puerta B · «al tanto»</span>
+    <h4>Gracias, te tenemos presente.</h4>
+    <p>Hemos guardado tus datos. Te escribiremos cuando surja algo que encaje con lo que puedes ofrecer. Sin prisa y sin compromiso.</p>
+    <span class="cta">CTA única → «Medita con nosotros»</span>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">La confirmación también es accesible · WCAG 4.1.3</span>
+    <p>Si el acuse aparece sin recargar la página, hay que <strong>mover el foco a su encabezado</strong> y anunciarlo por <em>live region</em>. Si no, para un lector de pantalla el envío es un silencio que parece un fallo. Encabezado real + foco movido + anuncio: así «éxito» se <em>oye</em>, no solo se ve. Mismo tratamiento para el mensaje de error de envío, si algo falla en el servidor.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 4 · NOTA TÉCNICA ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — Nota técnica</span>
+    <h2>Envío, datos y <em>construcción</em> · para Alberto</h2>
+  </div>
+  <p class="reveal">Las decisiones de <em>backend</em> y datos que este formulario necesita para existir de verdad. La recomendación de fondo del estudio: <strong>formulario nativo del sistema</strong> (HTML propio, tokens OKLCH, tipografía de la casa) en lugar del Google Form embebido —se gana estética, control, accesibilidad y rendimiento de una vez—.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Decisiones técnicas pendientes</caption>
+      <thead><tr><th>Tema</th><th>Recomendación</th></tr></thead>
+      <tbody>
+        <tr><td>Dos procesos, dos endpoints</td><td>Residencial y ligera son procesos distintos (WCAG): tratar como dos envíos separados, no un formulario con ramas.</td></tr>
+        <tr><td>Destino del envío</td><td>POST a backend → almacenamiento + <strong>email de aviso a secretaría</strong> + <strong>email de confirmación al solicitante</strong> (con copia de lo enviado).</td></tr>
+        <tr><td>Sustituir el Google Form</td><td class="yes">Formulario nativo. Si por plazos se mantiene el embed temporalmente, envolverlo con etiqueta y foco accesibles.</td></tr>
+        <tr><td>Anti-spam</td><td class="yes">Sin captcha cognitivo (WCAG 3.3.8): honeypot + <em>time-trap</em> + rate-limit. Nada de «demuestra que no eres un robot».</td></tr>
+        <tr><td>Validación</td><td>Cliente (on blur) <strong>y</strong> servidor. Nunca solo cliente.</td></tr>
+        <tr><td>RGPD / LOPD</td><td>Consentimiento explícito + base legal + enlace a política de privacidad + minimización (solo campos que se usan) + <strong>plazo de conservación</strong> de candidaturas definido (la página actual promete «guardar datos para futuras candidaturas» → fijar cuánto).</td></tr>
+        <tr><td>Autocompletado</td><td><code>autocomplete</code> en name, email, tel, country-name, address-level2; tipos <code>email</code>/<code>tel</code>; <code>inputmode</code>.</td></tr>
+        <tr><td>Accesibilidad de errores</td><td><code>aria-invalid</code> + <code>aria-describedby</code> por campo; resumen de errores arriba con foco; anuncio por <em>live region</em>.</td></tr>
+        <tr><td>Multi-paso (Puerta A)</td><td>Arrastrar valores entre pasos (WCAG 3.3.7, no re-teclear); anunciar cambio de paso y mover foco al encabezado; progreso en texto.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 5 · RESUMEN ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — Resumen</span>
+    <h2>De un <em>vistazo</em></h2>
+  </div>
+  <div class="stats reveal">
+    <div class="stat"><div class="n">2</div><div class="l">puertas / procesos separados</div><div class="src">residencial · ligera</div></div>
+    <div class="stat"><div class="n">3</div><div class="l">pasos en la residencial (o 1 en columna)</div><div class="src">Puerta A</div></div>
+    <div class="stat"><div class="n">4</div><div class="l">campos en la ligera (2 oblig. + 1 opc. + consent.)</div><div class="src">Puerta B</div></div>
+    <div class="stat"><div class="n">2</div><div class="l">confirmaciones con plazo y una CTA</div><div class="src">regla 3C</div></div>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Lo que queda para construir</span>
+    <p>Con esto, la fase de estudio y especificación del voluntariado está <strong>cerrada</strong>: identidad y estructura de la landing, prácticas de UX/UI del formulario, y esta lista campo a campo. La landing ya tiene <strong>muestra y demo</strong> sobre el sistema real (navbar, prefooter de suscripción y footer reales). Lo que queda es <strong>ejecución</strong>: (1) llevar la demo a producción en <code>/unete/voluntariado/</code> con copy definitivo y las fotos reales; (2) construir los dos formularios nativos según este documento; (3) que Alberto conecte el envío y defina almacenamiento y plazo RGPD. Cuando quieras arrancar cualquiera, lo abordamos de una en una.</p>
+  </div>
+  <p class="pull reveal">El formulario ya no es una incógnita: es una lista. Y una lista se construye.</p>
+</section>
+
+<div class="flow"><hr class="divider"></div>
+
+<footer class="flow">
+  <div>Paramita · Fundació Sakya — Documento interno · Campos del formulario de voluntariado: dos puertas, confirmaciones y nota técnica · 20 ago 2026. Cierra el estudio «El paso que se da». Copy de partida, listo para afinar. Set de voluntariado: estudio landing · estudio formulario · <b>documento de campos</b> · muestra · demo.</div>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    bar.style.width = (scrolled * 100) + '%';
+  };
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+</body>
+</html>

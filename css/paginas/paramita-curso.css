@@ -47,6 +47,24 @@
     --hair: color-mix(in oklch, var(--antracita) 10%, transparent);
   }
 
+  /* ═══════════ DIFUSOR DE ZONA ═══════════
+     Rompe la planicie entre secciones sin costura dura. Aura cálida central-
+     superior + apunte dorado en la esquina, SIN borde (familia de auras
+     identitarias, no banda). Estática: la doctrina de motion reserva lo
+     infinito a lo identitario. Se aplica a anclas concretas (temario,
+     inscripción), alternando con secciones planas → ritmo sin ruido.
+     La atmósfera vive tras el contenido: las cards (--card) se levantan
+     sobre ella y ganan profundidad. */
+  .curso-zona { isolation: isolate; }
+  .curso-zona::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(120% 76% at 50% 2%,
+        color-mix(in oklch, var(--calido-zen) 52%, transparent), transparent 60%),
+      radial-gradient(64% 56% at 90% 98%,
+        color-mix(in oklch, var(--dorado) 8%, transparent), transparent 60%);
+  }
+
   /* ═══════════ ESTADO · qué se ve en cada modo ═══════════ */
   .cta-txt--log, .cta-txt--ins,
   .estado-band__msg--log, .estado-band__msg--ins { display: none; }
@@ -91,6 +109,7 @@
     display: flex; flex-wrap: wrap; gap: .6rem;
   }
   .curso-chips li {
+    display: inline-flex; align-items: center; gap: .4rem;
     font-size: .86rem; color: var(--texto-suave);
     padding: .4rem .85rem; border-radius: 99px;
     background: color-mix(in oklch, var(--card) 70%, transparent);

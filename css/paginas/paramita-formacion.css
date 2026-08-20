@@ -886,64 +886,76 @@
    ═══════════════════════════════════════════════════════════════════════ */
 .cierre {
   position: relative;
-  text-align: center;
   padding-block: var(--espacio-orilla);
   padding-inline: 20px;
   overflow: hidden;
   isolation: isolate;
-  background:
-    radial-gradient(ellipse 65% 72% at 50% 40%,
-      rgba(255, 255, 255, 0.32) 0%,
-      transparent 68%),
-    linear-gradient(180deg,
-      color-mix(in oklch, var(--azul-sutil) 72%, #fff) 0%,
-      var(--azul-sutil) 45%,
-      color-mix(in oklch, var(--azul-sutil) 55%, var(--azul-oscuro)) 100%);
+  /* Ya NO es banda a sangre: fondo cálido claro. El azul de cierre queda
+     reservado a la banda del boletín (prefooter), evitando dos cierres gemelos. */
+  background: var(--lino);
 }
+/* Atmósfera cálida difusa detrás del panel · sin borde duro (familia de auras) */
+.cierre::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(90% 70% at 88% 4%,
+      color-mix(in oklch, var(--calido-zen) 55%, transparent), transparent 60%),
+    radial-gradient(70% 60% at 6% 100%,
+      color-mix(in oklch, var(--dorado) 8%, transparent), transparent 62%);
+}
+/* Panel contenido sobre --card · con hilo dorado superior (firma del sistema,
+   cf. .plan--destacada / .cruce__orilla--gana). Contenido a la izquierda:
+   registro editorial y quieto, distinto de la banda centrada del boletín. */
 .cierre__inner {
   position: relative;
   z-index: 1;
-  max-width: 720px;
+  max-width: 900px;
   margin-inline: auto;
+  background: var(--card);
+  border: 1px solid var(--hair);
+  border-radius: 22px;
+  padding: clamp(2.2rem, 5vw, 3.4rem);
+  box-shadow: 0 40px 90px -60px color-mix(in oklch, var(--antracita) 60%, transparent);
+  overflow: hidden;
+}
+.cierre__inner::before {
+  content: "";
+  position: absolute; inset: 0 0 auto 0; height: 4px;
+  background: linear-gradient(90deg,
+    var(--azul-oscuro), var(--azul-sutil) 55%, var(--dorado));
 }
 .cierre .eyebrow {
-  color: var(--antracita);
-  opacity: 0.8;
-  display: inline-block;
+  display: block;
   margin-bottom: var(--espacio-elemento);
 }
 .cierre h2 {
   font-family: var(--display);
   font-weight: var(--wght-contemplativo);
-  font-size: clamp(2.4rem, 6vw, 4rem);
-  line-height: 1.05;
+  font-size: clamp(2rem, 4.6vw, 3.1rem);
+  line-height: 1.06;
   letter-spacing: -0.02em;
   color: var(--antracita);
-  margin-bottom: var(--espacio-grupo);
+  margin-bottom: var(--espacio-elemento);
+  max-width: 20ch;
   text-wrap: balance;
-  /* Neutraliza max-width: 20ch del h2 global */
-  max-width: none;
-  margin-inline: auto;
 }
 .cierre h2 em {
   font-style: italic;
-  color: var(--lino);
-  text-shadow: 0 1px 14px rgba(33, 30, 26, 0.28);
+  color: var(--dorado);
 }
 .cierre p {
-  color: color-mix(in oklch, var(--antracita) 78%, transparent);
+  color: var(--texto-suave);
   font-size: 1.05rem;
-  max-width: 520px;
-  margin-inline: auto;
+  line-height: 1.55;
+  max-width: 52ch;
   margin-bottom: var(--espacio-grupo);
-  line-height: 1.5;
   text-wrap: pretty;
 }
 .cierre__ctas {
   display: flex;
   flex-wrap: wrap;
   gap: var(--espacio-elemento);
-  justify-content: center;
   align-items: center;
 }
 

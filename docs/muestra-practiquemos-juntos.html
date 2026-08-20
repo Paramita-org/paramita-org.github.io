@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muestra · Practiquemos juntos (2 direcciones)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     MUESTRA autocontenida · tokens OKLCH reales del sistema (paramita-color.css).
+     Fraunces/Hanken vía Google Fonts como APROXIMACIÓN visual; en producción son
+     los woff2 autoalojados con subsetting. Botones aproximados a
+     .btn-primario / .btn-secundario para poder juzgar el TRATAMIENTO del bloque,
+     no el pixel del CTA.
+     ───────────────────────────────────────────────────────────── */
+  :root{
+    --lino:       oklch(97% 0.008 85);
+    --arena:      oklch(94% 0.014 82);
+    --arcilla:    oklch(90% 0.02 80);
+    --calido-zen: oklch(88% 0.03 78);
+    --card:       oklch(98% 0.006 85);
+    --antracita:  oklch(22% 0.02 250);
+    --texto-suave:oklch(58% 0.015 250);
+    --texto-tenue:oklch(72% 0.012 250);
+    --azul-oscuro:oklch(38% 0.11 245);
+    --azul-sutil: oklch(68% 0.13 235);
+    --dorado:     oklch(78% 0.155 68);
+    --hair:       rgba(29,31,38,.10);
+
+    --display:'Fraunces', Georgia, serif;
+    --body:'Hanken Grotesk', system-ui, sans-serif;
+    --espacio-orilla: clamp(4rem, 10vh, 7rem);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--antracita);background:var(--lino);
+       -webkit-font-smoothing:antialiased}
+
+  /* Cabecera de la muestra */
+  .m-doc{max-width:1100px;margin:0 auto;padding:3rem 1.5rem 1rem}
+  .m-doc h1{font-family:var(--display);font-weight:400;font-size:2rem;letter-spacing:-.02em;margin:0 0 .4rem}
+  .m-doc p{color:var(--texto-suave);max-width:64ch;line-height:1.6;margin:.3rem 0}
+  .m-tag{display:inline-block;font-family:var(--body);font-weight:600;font-size:.72rem;letter-spacing:.14em;
+         text-transform:uppercase;color:var(--dorado);margin-top:1.5rem}
+  .m-etiqueta{max-width:1100px;margin:0 auto;padding:2.2rem 1.5rem .4rem}
+  .m-etiqueta .k{font-family:var(--body);font-weight:600;font-size:.74rem;letter-spacing:.14em;
+                 text-transform:uppercase;color:var(--antracita)}
+  .m-etiqueta .d{color:var(--texto-suave);font-size:.95rem;margin-top:.25rem;max-width:60ch;line-height:1.55}
+  .m-sep{height:1px;background:var(--hair);max-width:1100px;margin:2.5rem auto 0}
+
+  /* Eyebrow común */
+  .eyebrow{font-family:var(--body);font-weight:600;font-size:.78rem;letter-spacing:.16em;
+           text-transform:uppercase;color:var(--texto-suave)}
+
+  /* Botones aproximados */
+  .btn{font-family:var(--body);font-weight:600;font-size:1rem;border-radius:14px;padding:.85rem 1.6rem;
+       text-decoration:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border:0;
+       transition:transform .25s ease, box-shadow .25s ease}
+  .btn:hover{transform:translateY(-1px)}
+  .btn-primario{color:#fff;background:linear-gradient(100deg,var(--azul-oscuro),var(--azul-sutil) 55%,var(--dorado));
+       box-shadow:0 12px 30px -14px color-mix(in oklch,var(--azul-oscuro) 70%,transparent)}
+  .btn-secundario{color:var(--antracita);background:var(--card);position:relative;border:1px solid transparent;
+       background-image:linear-gradient(var(--card),var(--card)),
+                        linear-gradient(100deg,var(--azul-oscuro),var(--azul-sutil) 55%,var(--dorado));
+       background-origin:border-box;background-clip:padding-box, border-box}
+
+  /* ═══════════════════════════════════════════════════════════════
+     VARIANTE A · Panel editorial contenido (claro)
+     No es banda: es un panel sobre --card en el fondo cálido de página,
+     con hilo dorado superior (firma del sistema, cf. .plan--destacada) y
+     texto alineado a la izquierda → contraste de forma con la banda azul.
+     ═══════════════════════════════════════════════════════════════ */
+  .vA{position:relative;padding-block:var(--espacio-orilla);padding-inline:1.5rem;overflow:hidden;isolation:isolate;
+      background:var(--lino)}
+  .vA::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+      background:
+        radial-gradient(90% 70% at 88% 4%, color-mix(in oklch,var(--calido-zen) 55%,transparent), transparent 60%),
+        radial-gradient(70% 60% at 6% 100%, color-mix(in oklch,var(--dorado) 8%,transparent), transparent 62%)}
+  .vA__panel{position:relative;max-width:900px;margin-inline:auto;background:var(--card);
+      border:1px solid var(--hair);border-radius:22px;padding:clamp(2.2rem,5vw,3.4rem);
+      box-shadow:0 40px 90px -60px color-mix(in oklch,var(--antracita) 60%,transparent);overflow:hidden}
+  .vA__panel::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;
+      background:linear-gradient(90deg,var(--azul-oscuro),var(--azul-sutil) 55%,var(--dorado))}
+  .vA .eyebrow{display:block;margin-bottom:1rem}
+  .vA h2{font-family:var(--display);font-weight:400;font-size:clamp(2rem,4.6vw,3.1rem);line-height:1.06;
+      letter-spacing:-.02em;color:var(--antracita);margin:0 0 1rem;max-width:20ch}
+  .vA h2 em{font-style:italic;color:var(--dorado)}
+  .vA p{color:var(--texto-suave);font-size:1.05rem;line-height:1.55;max-width:52ch;margin:0 0 1.8rem}
+  .vA__ctas{display:flex;flex-wrap:wrap;gap:.8rem}
+
+  /* ═══════════════════════════════════════════════════════════════
+     VARIANTE B · Banda cálida difusa (a sangre, recoloreada)
+     Mantiene la presencia y composición centrada de la banda actual,
+     pero en familia CÁLIDA (arena/calido-zen + brillo dorado), no azul.
+     Así el azul queda reservado al boletín y el paso cálido→azul limpia
+     el relevo de cierre.
+     ═══════════════════════════════════════════════════════════════ */
+  .vB{position:relative;text-align:center;padding-block:var(--espacio-orilla);padding-inline:1.5rem;
+      overflow:hidden;isolation:isolate;
+      background:linear-gradient(180deg,
+        color-mix(in oklch,var(--arena) 40%,var(--lino)) 0%,
+        var(--arena) 50%,
+        color-mix(in oklch,var(--calido-zen) 70%,var(--arena)) 100%)}
+  .vB::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+      background:
+        radial-gradient(70% 60% at 50% 8%, color-mix(in oklch,var(--calido-zen) 60%,transparent), transparent 62%),
+        radial-gradient(46% 44% at 82% 92%, color-mix(in oklch,var(--dorado) 14%,transparent), transparent 60%)}
+  .vB__inner{position:relative;max-width:720px;margin-inline:auto}
+  .vB .eyebrow{display:inline-block;margin-bottom:1.1rem;color:color-mix(in oklch,var(--antracita) 60%,transparent)}
+  .vB h2{font-family:var(--display);font-weight:400;font-size:clamp(2.4rem,6vw,4rem);line-height:1.04;
+      letter-spacing:-.02em;color:var(--antracita);margin:0 0 1.1rem;text-wrap:balance}
+  .vB h2 em{font-style:italic;color:var(--dorado)}
+  .vB p{color:color-mix(in oklch,var(--antracita) 74%,transparent);font-size:1.05rem;line-height:1.5;
+      max-width:48ch;margin:0 auto 1.8rem}
+  .vB__ctas{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
+
+  /* ═══════════════════════════════════════════════════════════════
+     MOCK · banda azul del boletín (prefooter .foot__hero) — sin cambios.
+     Se muestra debajo de cada variante para verificar que ya NO compiten.
+     ═══════════════════════════════════════════════════════════════ */
+  .boletin{position:relative;text-align:center;padding-block:clamp(3rem,8vh,5rem);padding-inline:1.2rem;
+      display:grid;place-items:center;isolation:isolate;overflow:hidden;
+      background:
+        radial-gradient(ellipse 65% 72% at 50% 40%, rgba(255,255,255,.32) 0%, transparent 68%),
+        linear-gradient(180deg,
+          color-mix(in oklch,var(--azul-sutil) 72%,#fff) 0%,
+          var(--azul-sutil) 45%,
+          color-mix(in oklch,var(--azul-sutil) 55%,var(--azul-oscuro)) 100%)}
+  .boletin .eyebrow{color:color-mix(in oklch,var(--antracita) 58%,transparent);margin-bottom:.8rem;display:block}
+  .boletin h2{font-family:var(--display);font-weight:400;font-size:clamp(2rem,5vw,3.2rem);line-height:1.02;
+      letter-spacing:-.02em;color:var(--antracita);margin:0 0 1.4rem}
+  .boletin h2 em{font-style:italic;color:oklch(97% 0.008 85);text-shadow:0 1px 14px rgba(33,30,26,.28)}
+  .boletin__form{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;max-width:480px;width:100%}
+  .boletin__input{flex:1 1 240px;font-family:var(--body);font-size:1rem;padding:.85rem 1rem;border-radius:14px;
+      border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.85);color:var(--antracita)}
+  .boletin__mini{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+      color:color-mix(in oklch,var(--antracita) 55%,transparent);margin-top:1rem}
+
+  @media (max-width:640px){
+    .vA__panel{padding:1.8rem 1.4rem}
+    .btn{width:100%}
+    .vA__ctas .btn,.vB__ctas .btn{flex:1 1 100%}
+  }
+
+  /* ═══ MOCK · el globo (Guía del sendero) ═══ */
+  .globo{position:fixed;right:22px;bottom:22px;width:62px;height:62px;border-radius:50%;border:0;cursor:pointer;
+      display:grid;place-items:center;z-index:50;color:#fff;
+      background:linear-gradient(150deg,var(--azul-oscuro),var(--azul-sutil) 55%,var(--dorado));
+      box-shadow:0 18px 40px -16px color-mix(in oklch,var(--azul-oscuro) 80%,transparent)}
+  .globo svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .globo.pulse{animation:globopulse 1.1s ease}
+  @keyframes globopulse{0%{transform:scale(1)}30%{transform:scale(1.16)}60%{transform:scale(.96)}100%{transform:scale(1)}}
+  .globo-invita{position:fixed;right:22px;bottom:96px;z-index:50;max-width:250px;
+      background:var(--card);border:1px solid var(--hair);border-radius:16px;padding:.7rem 2rem .7rem 1rem;
+      font-family:var(--display);font-size:1.05rem;color:var(--antracita);
+      box-shadow:0 20px 50px -26px color-mix(in oklch,var(--antracita) 60%,transparent)}
+  .globo-invita em{font-style:italic;color:var(--dorado)}
+  .globo-invita__x{position:absolute;top:6px;right:8px;border:0;background:none;color:var(--texto-tenue);cursor:pointer;font-size:1rem;line-height:1}
+
+  .globo-panel{position:fixed;right:22px;bottom:96px;z-index:51;width:min(340px,calc(100vw - 44px));
+      background:var(--card);border:1px solid var(--hair);border-radius:20px;overflow:hidden;
+      box-shadow:0 30px 70px -30px color-mix(in oklch,var(--antracita) 65%,transparent);
+      opacity:0;transform:translateY(10px) scale(.98);pointer-events:none;transition:opacity .25s ease, transform .25s ease}
+  .globo-panel.is-open{opacity:1;transform:none;pointer-events:auto}
+  .globo-panel__head{padding:1.1rem 1.2rem;background:linear-gradient(120deg,
+      color-mix(in oklch,var(--calido-zen) 60%,var(--card)), var(--card))}
+  .globo-panel__eyebrow{font-family:var(--body);font-weight:600;font-size:.7rem;letter-spacing:.14em;
+      text-transform:uppercase;color:var(--texto-suave)}
+  .globo-panel__titulo{font-family:var(--display);font-size:1.25rem;color:var(--antracita);margin-top:.2rem}
+  .globo-panel__titulo em{font-style:italic;color:var(--dorado)}
+  .globo-panel__x{position:absolute;top:12px;right:12px;border:0;background:none;color:var(--texto-suave);cursor:pointer;font-size:1.2rem;line-height:1}
+  .globo-panel__body{padding:1.1rem 1.2rem 1.3rem}
+  .globo-panel__q{color:var(--antracita);font-size:1rem;line-height:1.4;margin:0 0 .9rem}
+  .globo-chips{display:flex;flex-wrap:wrap;gap:.5rem}
+  .globo-chips button{font-family:var(--body);font-size:.9rem;color:var(--antracita);cursor:pointer;
+      padding:.5rem .9rem;border-radius:99px;background:var(--card);
+      border:1px solid color-mix(in oklch,var(--dorado) 45%,var(--hair));transition:background .2s ease}
+  .globo-chips button:hover{background:color-mix(in oklch,var(--dorado) 14%,var(--card))}
+</style>
+</head>
+<body>
+
+  <div class="m-doc">
+    <span class="m-tag">Muestra · para elegir dirección</span>
+    <h1>«Practiquemos juntos» — dos direcciones</h1>
+    <p>El problema: hoy este bloque y la banda del boletín comparten <em>el mismo</em> fondo azul y la misma composición (eyebrow + Fraunces con <em>em</em> dorado, centrado), así que se leen como el mismo cierre repetido. La idea acordada: <strong>el azul de cierre es del boletín</strong>; este bloque baja de intensidad y deja de ser una banda azul gemela.</p>
+    <p>Debajo de cada variante verás el mock de la banda azul del boletín tal cual está ahora, para comprobar que el relevo ya no compite.</p>
+    <p><strong>Un solo CTA, nivel secundario → el globo.</strong> En vez de dos botones, un único CTA de apoyo abre la <em>Guía del sendero</em> (el globo con las preguntas). Secundario y no primario a propósito: el «volumen máximo» se reserva al boletín de abajo, y la acción primaria real del catálogo son las tarjetas de curso. Pruébalo: al pulsar «Encontrar mi curso» se abre el mock del globo abajo a la derecha. El label es provisional (de Ale).</p>
+  </div>
+
+  <!-- ══════════ A ══════════ -->
+  <div class="m-etiqueta">
+    <div class="k">Variante A · Panel editorial contenido</div>
+    <div class="d">No es banda: un panel sobre superficie cálida clara, con hilo dorado superior y texto a la izquierda. La opción más quieta y más distinta del boletín. Lee como «una ayuda que se ofrece», no como un segundo cierre.</div>
+  </div>
+  <section class="vA">
+    <div class="vA__panel">
+      <span class="eyebrow">Practiquemos juntos</span>
+      <h2>El paso más importante es siempre <em>el primero</em>.</h2>
+      <p>Si no sabes por dónde empezar, cuéntanos qué buscas. En pocas preguntas te ayudamos a encontrar el curso que resuena contigo.</p>
+      <div class="vA__ctas">
+        <button type="button" class="btn btn-secundario" data-abrir-globo>Encontrar mi curso</button>
+      </div>
+    </div>
+  </section>
+  <section class="boletin" aria-label="Mock del boletín">
+    <div>
+      <span class="eyebrow">Camina cerca</span>
+      <h2>Recibe inspiración y <em>sabiduría</em>.</h2>
+      <div class="boletin__form">
+        <input class="boletin__input" type="email" placeholder="Tu correo" aria-label="Correo">
+        <a href="#" class="btn btn-primario">Suscribirme</a>
+      </div>
+      <div class="boletin__mini">Banda del boletín · sin cambios</div>
+    </div>
+  </section>
+
+  <div class="m-sep"></div>
+
+  <!-- ══════════ B ══════════ -->
+  <div class="m-etiqueta">
+    <div class="k">Variante B · Banda cálida difusa</div>
+    <div class="d">Conserva la presencia a sangre y la composición centrada del bloque actual, pero recoloreada a la familia cálida (arena / cálido-zen + brillo dorado). El paso de cálido a azul limpia el relevo hacia el boletín.</div>
+  </div>
+  <section class="vB">
+    <div class="vB__inner">
+      <span class="eyebrow">Practiquemos juntos</span>
+      <h2>El paso más importante es siempre <em>el primero</em>.</h2>
+      <p>Si no sabes por dónde empezar, cuéntanos qué buscas. En pocas preguntas te ayudamos a encontrar el curso que resuena contigo.</p>
+      <div class="vB__ctas">
+        <button type="button" class="btn btn-secundario" data-abrir-globo>Encontrar mi curso</button>
+      </div>
+    </div>
+  </section>
+  <section class="boletin" aria-label="Mock del boletín">
+    <div>
+      <span class="eyebrow">Camina cerca</span>
+      <h2>Recibe inspiración y <em>sabiduría</em>.</h2>
+      <div class="boletin__form">
+        <input class="boletin__input" type="email" placeholder="Tu correo" aria-label="Correo">
+        <a href="#" class="btn btn-primario">Suscribirme</a>
+      </div>
+      <div class="boletin__mini">Banda del boletín · sin cambios</div>
+    </div>
+  </section>
+
+  <!-- ══════════ MOCK del globo ══════════ -->
+  <div class="globo-invita" id="globoInvita">
+    ¿No sabes por dónde <em>empezar</em>?
+    <button class="globo-invita__x" id="globoInvitaX" aria-label="Cerrar">×</button>
+  </div>
+
+  <div class="globo-panel" id="globoPanel" role="dialog" aria-label="Guía del sendero">
+    <div class="globo-panel__head">
+      <button class="globo-panel__x" id="globoPanelX" aria-label="Cerrar">×</button>
+      <div class="globo-panel__eyebrow">Guía del sendero</div>
+      <div class="globo-panel__titulo">Encontremos tu <em>primer curso</em></div>
+    </div>
+    <div class="globo-panel__body">
+      <p class="globo-panel__q">Para empezar: ¿qué te trae hasta aquí ahora mismo?</p>
+      <div class="globo-chips">
+        <button type="button">Calmar la mente</button>
+        <button type="button">Entender el budismo</button>
+        <button type="button">Profundizar mi práctica</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="globo" id="globo" aria-label="Abrir la Guía del sendero">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 12a8 8 0 0 1 16 0v.5a7.5 7.5 0 0 1-7.5 7.5H8l-4 3v-4a8 8 0 0 1 0-7Z"/>
+      <line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="14" x2="13" y2="14"/>
+    </svg>
+  </button>
+
+  <script>
+    (function(){
+      var globo   = document.getElementById('globo');
+      var panel   = document.getElementById('globoPanel');
+      var invita  = document.getElementById('globoInvita');
+      function abrir(){
+        panel.classList.add('is-open');
+        invita.style.display = 'none';
+        globo.classList.remove('pulse'); void globo.offsetWidth; globo.classList.add('pulse');
+      }
+      function cerrar(){ panel.classList.remove('is-open'); }
+      document.querySelectorAll('[data-abrir-globo]').forEach(function(b){ b.addEventListener('click', abrir); });
+      globo.addEventListener('click', function(){ panel.classList.contains('is-open') ? cerrar() : abrir(); });
+      document.getElementById('globoPanelX').addEventListener('click', cerrar);
+      document.getElementById('globoInvitaX').addEventListener('click', function(){ invita.style.display='none'; });
+    })();
+  </script>
+</body>
+</html>
