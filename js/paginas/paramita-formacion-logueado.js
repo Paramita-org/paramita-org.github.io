@@ -49,6 +49,47 @@
   });
 })();
 
+/* ─────────────────────────────────────────────────────────────────────────
+   RAIL «Para ti» · afordancia de scroll horizontal
+   Flechas prev/next (puntero fino) + estado de bordes para la máscara.
+   No secuestra el scroll: solo mueve el rail cuando el usuario pulsa.
+   ───────────────────────────────────────────────────────────────────────── */
+(() => {
+  const wrap = document.querySelector('.recomendados__rail');
+  if (!wrap) return;
+  const rail = wrap.querySelector('.empieza__rail');
+  if (!rail) return;
+  const prev = wrap.querySelector('.rail-flecha--prev');
+  const next = wrap.querySelector('.rail-flecha--next');
+
+  const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Un «paso» = ancho de una carta + gap. Fallback: 80% del viewport del rail.
+  const paso = () => {
+    const carta = rail.querySelector('.curso');
+    const estilos = getComputedStyle(rail);
+    const gap = parseFloat(estilos.columnGap || estilos.gap) || 24;
+    return carta ? carta.getBoundingClientRect().width + gap : rail.clientWidth * 0.8;
+  };
+
+  const desplazar = (dir) => {
+    rail.scrollBy({ left: dir * paso(), behavior: sinMovimiento ? 'auto' : 'smooth' });
+  };
+
+  const actualizarBordes = () => {
+    const max = rail.scrollWidth - rail.clientWidth;
+    if (max <= 1) { wrap.dataset.borde = 'none'; return; }
+    const x = rail.scrollLeft;
+    wrap.dataset.borde = x <= 1 ? 'inicio' : (x >= max - 1 ? 'fin' : 'medio');
+  };
+
+  prev && prev.addEventListener('click', () => desplazar(-1));
+  next && next.addEventListener('click', () => desplazar(1));
+  rail.addEventListener('scroll', actualizarBordes, { passive: true });
+  window.addEventListener('resize', actualizarBordes);
+  actualizarBordes();
+})();
+
 /* ═══════════════════════════════════════════════════════════════════════════
    FIN de paramita-formacion-logueado.js
    ═══════════════════════════════════════════════════════════════════════════ */

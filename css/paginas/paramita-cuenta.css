@@ -1,0 +1,178 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   css/paginas/paramita-cuenta.css — "Mi cuenta" · el cajón de gestión
+   ───────────────────────────────────────────────────────────────────────────
+   Complementa la home logueada ("Tu espacio", el hub que ASOMA lo vivo). Aquí
+   se GUARDA y GESTIONA: recibos, facturas, inscripciones, aportación y datos.
+   Tono claro y funcional, sin contenido editorial. NO es un segundo panel de
+   "lo que tienes": es el papeleo.
+
+   Reutiliza componentes (.section, .s-head, .eyebrow, .lede, .t-link) y el
+   ritmo de zonas difusas de la home. Reglas de página → SIN @layer (ganan
+   sobre los componentes sin pelear especificidad, igual que home-logueado).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Cabecera ─────────────────────────────────────────────────────────────── */
+.cuenta-cabe { padding-block: var(--espacio-contenido) var(--espacio-elemento); }
+.cuenta-titulo {
+  font-family: var(--display);
+  font-weight: var(--wght-contemplativo, 300);
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--antracita);
+  margin: 0 0 0.4rem;
+}
+.cuenta-titulo em { font-style: italic; color: var(--azul-oscuro); }
+.cuenta-cabe .lede a { color: var(--azul-oscuro); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--dorado); }
+
+/* Índice · sub-nav sobria (no pestañas SaaS), pegajosa bajo la barra */
+.cuenta-indice {
+  position: sticky;
+  top: calc(var(--bar-h, 72px) + 0.5rem);
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: var(--espacio-contenido);
+  padding: 0.4rem;
+  border-radius: 99px;
+  width: fit-content;
+  max-width: 100%;
+  background: color-mix(in oklch, var(--card) 74%, transparent);
+  border: 1px solid var(--hair);
+  backdrop-filter: blur(8px);
+}
+.cuenta-indice a {
+  font-family: var(--body);
+  font-weight: var(--wght-firmeza);
+  font-size: var(--texto-mini);
+  color: var(--texto-suave);
+  text-decoration: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 99px;
+  transition: background var(--t-hover), color var(--t-hover);
+}
+.cuenta-indice a:hover { color: var(--azul-oscuro); background: color-mix(in oklch, var(--dorado) 10%, transparent); }
+
+/* ── Secciones + difusores de zona (idioma de la home / meditación) ───────── */
+.cuenta-sec { padding-block: var(--espacio-contenido); position: relative; isolation: isolate; scroll-margin-top: calc(var(--bar-h, 72px) + 4rem); }
+.cuenta-sec--calida::before,
+.cuenta-sec--fria::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  top: 0; bottom: 0; left: 50%; margin-left: -50vw; width: 100vw;
+}
+.cuenta-sec--calida::before {
+  background:
+    radial-gradient(70% 58% at 84% 4%, color-mix(in oklch, var(--calido-zen) 55%, transparent), transparent 60%),
+    radial-gradient(62% 54% at 8% 98%, color-mix(in oklch, var(--dorado) 10%, transparent), transparent 62%);
+}
+.cuenta-sec--fria::before {
+  background:
+    radial-gradient(72% 60% at 12% 4%, color-mix(in oklch, var(--azul-sutil) 14%, transparent), transparent 60%),
+    radial-gradient(58% 52% at 92% 98%, color-mix(in oklch, var(--azul-sutil) 8%, transparent), transparent 62%);
+}
+
+/* Etiqueta de grupo dentro de una sección */
+.cuenta-glabel {
+  display: flex; align-items: center; gap: 0.7rem;
+  margin: var(--espacio-contenido) 0 var(--espacio-elemento);
+  font-family: var(--body); font-weight: var(--wght-firmeza);
+  font-size: 0.74rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--texto-suave);
+}
+.cuenta-glabel:first-of-type { margin-top: var(--espacio-elemento); }
+.cuenta-glabel::after { content: ""; flex: 1; height: 1px; background: var(--hair); }
+
+/* ── Filas · una fila = un documento / inscripción / dato ─────────────────── */
+.cuenta-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--espacio-elemento); }
+
+.cuenta-fila {
+  display: flex; align-items: center; gap: var(--espacio-grupo);
+  padding: var(--espacio-elemento);
+  border: 1px solid var(--hair); border-radius: 16px;
+  background: color-mix(in oklch, var(--card) 78%, transparent);
+  transition: background var(--t-hover), border-color var(--t-hover);
+}
+.cuenta-fila:hover { background: var(--card); border-color: color-mix(in oklch, var(--dorado) 22%, var(--hair)); }
+.cuenta-fila--hecho { opacity: 0.82; }
+
+.cuenta-fila__cuerpo { flex: 1; min-width: 0; display: grid; gap: 3px; }
+.cuenta-fila__titulo {
+  font-family: var(--display); font-size: var(--texto-h4); font-weight: 400; line-height: 1.25; color: var(--azul-oscuro);
+}
+.cuenta-fila__titulo em { font-style: italic; color: var(--dorado); }
+.cuenta-fila__meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.55rem;
+  font-size: var(--texto-mini); color: var(--texto-suave);
+}
+
+/* Chip de fecha para actividades */
+.cuenta-fila__fecha {
+  flex: none; display: grid; justify-items: center; align-content: center;
+  min-width: 54px; padding: 7px 9px; border-radius: 13px; line-height: 1;
+  background: color-mix(in oklch, var(--azul-sutil) 12%, transparent);
+  border: 1px solid color-mix(in oklch, var(--azul-sutil) 22%, transparent);
+}
+.cuenta-fila__fecha .d { font-family: var(--display); font-size: 1.4rem; font-weight: 400; color: var(--azul-oscuro); }
+.cuenta-fila__fecha .m { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--azul-sutil); margin-top: 2px; }
+.cuenta-fila__fecha--tenue { filter: grayscale(0.4); opacity: 0.75; }
+
+/* Acciones de fila */
+.cuenta-fila__acc { flex: none; display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap; justify-content: flex-end; }
+
+/* Acción-documento · afordancia sobria de descarga/gestión */
+.cuenta-doc {
+  font-family: var(--body); font-weight: var(--wght-firmeza); font-size: var(--texto-mini);
+  color: var(--azul-oscuro); text-decoration: none; white-space: nowrap;
+  border-bottom: 1px solid color-mix(in oklch, var(--dorado) 45%, transparent);
+  padding-bottom: 1px; transition: border-color var(--t-hover), color var(--t-hover);
+}
+.cuenta-doc:hover { border-color: var(--dorado); }
+
+/* ── Etiquetas de formato/estado ──────────────────────────────────────────── */
+.cuenta-tag {
+  font-family: var(--body); font-weight: 600; font-size: 0.6rem; letter-spacing: 0.06em;
+  text-transform: uppercase; padding: 0.14em 0.55em; border-radius: 99px; border: 1px solid; white-space: nowrap;
+}
+.cuenta-tag--online { color: color-mix(in oklch, var(--estado-exito) 72%, var(--antracita)); background: color-mix(in oklch, var(--estado-exito) 12%, var(--card)); border-color: color-mix(in oklch, var(--estado-exito) 32%, transparent); }
+.cuenta-tag--presencial { color: color-mix(in oklch, var(--dorado) 78%, var(--antracita)); background: color-mix(in oklch, var(--dorado) 12%, var(--card)); border-color: color-mix(in oklch, var(--dorado) 40%, transparent); }
+.cuenta-tag--reservado { color: color-mix(in oklch, var(--azul-oscuro) 82%, transparent); background: color-mix(in oklch, var(--azul-sutil) 12%, transparent); border-color: color-mix(in oklch, var(--azul-sutil) 30%, transparent); }
+.cuenta-tag--fiscal { color: color-mix(in oklch, var(--antracita) 70%, transparent); background: color-mix(in oklch, var(--arena) 55%, transparent); border-color: color-mix(in oklch, var(--antracita) 16%, transparent); }
+
+/* ── Tarjeta de vínculo (Amigo/a) ─────────────────────────────────────────── */
+.cuenta-amigo {
+  display: flex; align-items: center; gap: var(--espacio-grupo);
+  padding: var(--espacio-elemento); border-radius: 18px;
+  border: 1px solid color-mix(in oklch, var(--dorado) 24%, transparent);
+  background: color-mix(in oklch, var(--calido-zen) 34%, var(--card));
+}
+.cuenta-amigo__halo {
+  flex: none; width: 46px; height: 46px; border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, color-mix(in oklch, var(--dorado) 52%, transparent), color-mix(in oklch, var(--dorado) 4%, transparent));
+  border: 1px solid color-mix(in oklch, var(--dorado) 38%, transparent);
+}
+.cuenta-amigo__cuerpo { flex: 1; min-width: 0; display: grid; gap: 3px; }
+
+/* ── Datos y seguridad · clave/valor ──────────────────────────────────────── */
+.cuenta-lista--datos .cuenta-fila__cuerpo {
+  display: flex; flex-direction: row; align-items: baseline; gap: 1rem; flex-wrap: wrap;
+}
+.cuenta-dato__k {
+  min-width: 132px; font-family: var(--body); font-weight: var(--wght-firmeza);
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--texto-suave);
+}
+.cuenta-dato__v { font-size: 1rem; color: var(--antracita); font-weight: 500; }
+
+.cuenta-nota {
+  margin-top: var(--espacio-elemento); max-width: 62ch;
+  font-size: var(--texto-mini); color: var(--texto-tenue); line-height: 1.55;
+}
+.cuenta-salir { margin-top: var(--espacio-contenido); }
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .cuenta-fila { flex-wrap: wrap; }
+  .cuenta-fila__acc { width: 100%; justify-content: flex-start; gap: 1.4rem; margin-top: 2px; }
+  .cuenta-lista--datos .cuenta-dato__k { min-width: 0; width: 100%; }
+  .cuenta-indice { top: calc(var(--bar-h, 64px) + 0.25rem); overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+}

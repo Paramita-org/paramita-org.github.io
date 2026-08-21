@@ -583,7 +583,6 @@ a.tengo:hover .tengo__arw { transform: translateX(3px); }
    ───────────────────────────────────────────────────────────────────────── */
 
 .siguiente-paso {
-  border-top: 1px solid var(--hair);
   padding-block: var(--espacio-orilla);
 }
 
@@ -647,13 +646,14 @@ a.tengo:hover .tengo__arw { transform: translateX(3px); }
    "recordar dónde estoy". Estáticas: la doctrina de motion reserva lo infinito
    a lo identitario, y esto no lo es. Reglas de página → SIN @layer.
    ───────────────────────────────────────────────────────────────────────── */
-.lo-tuyo, .encuentros, .siguiente-paso { position: relative; isolation: isolate; }
+.lo-tuyo, .encuentros, .novedades, .siguiente-paso { position: relative; isolation: isolate; }
 
 .lo-tuyo::before,
 .encuentros::before,
+.novedades::before,
 .siguiente-paso::before {
   content: ""; position: absolute; z-index: -1; pointer-events: none;
-  top: calc(-1 * var(--espacio-grupo)); bottom: calc(-1 * var(--espacio-grupo));
+  top: 0; bottom: 0; right: auto;          /* CONTENIDA en su sección → sin solape con la vecina */
   left: 50%; margin-left: -50vw; width: 100vw;
 }
 /* Zona CÁLIDA · "Lo que ya es tuyo" (calido-zen arriba-dcha + dorado abajo-izq) */
@@ -668,9 +668,36 @@ a.tengo:hover .tengo__arw { transform: translateX(3px); }
     radial-gradient(72% 60% at 12% 4%, color-mix(in oklch, var(--azul-sutil) 15%, transparent), transparent 60%),
     radial-gradient(58% 52% at 92% 98%, color-mix(in oklch, var(--azul-sutil) 8%, transparent), transparent 62%);
 }
+/* Zona TIERRA · "De la fundación / Novedades" (arena + arcilla) → distinta de sus dos vecinas */
+.novedades::before {
+  background:
+    radial-gradient(82% 64% at 88% 4%, color-mix(in oklch, var(--arena) 72%, transparent), transparent 60%),
+    radial-gradient(64% 56% at 6% 98%, color-mix(in oklch, var(--arcilla) 20%, transparent), transparent 62%);
+}
 /* Zona CÁLIDA de cierre · "Siguiente paso" */
 .siguiente-paso::before {
   background:
     radial-gradient(92% 72% at 50% 0%, color-mix(in oklch, var(--calido-zen) 50%, transparent), transparent 60%),
     radial-gradient(60% 54% at 88% 100%, color-mix(in oklch, var(--dorado) 10%, transparent), transparent 60%);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   ENSEÑANZA DEL DÍA · efecto de aparición (movimiento CONVOCADO · familia B)
+   ─────────────────────────────────────────────────────────────────────────
+   Al entrar la sección en el viewport: la marca se dibuja, la cita emerge y la
+   firma/audio la siguen. Invocado por scroll (no ambiental → respeta doctrina).
+   El estado inicial "oculto" solo se aplica si el JS marca .ensenanza--reveal,
+   así que sin JS o sin IntersectionObserver la cita se ve siempre.
+   ───────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .ensenanza--reveal .ensenanza__marca { width: 0; transition: width 0.9s var(--ease, ease) 0.15s; }
+  .ensenanza--reveal .ensenanza__cita  { opacity: 0; transform: translateY(14px); transition: opacity 1.1s var(--ease, ease), transform 1.1s var(--ease, ease); }
+  .ensenanza--reveal .ensenanza__firma,
+  .ensenanza--reveal .ensenanza__audio { opacity: 0; transition: opacity 1s var(--ease, ease) 0.35s; }
+
+  .ensenanza--reveal.is-in .ensenanza__marca { width: 40px; }
+  .ensenanza--reveal.is-in .ensenanza__cita  { opacity: 1; transform: none; }
+  .ensenanza--reveal.is-in .ensenanza__firma,
+  .ensenanza--reveal.is-in .ensenanza__audio { opacity: 1; }
 }

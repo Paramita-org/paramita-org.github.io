@@ -34,3 +34,22 @@
   v.appendChild(source);
   v.load();
 })();
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ENSEÑANZA DEL DÍA · reveal invocado al entrar en viewport (familia B).
+   No-op con prefers-reduced-motion o sin IntersectionObserver → la cita se ve.
+   ═══════════════════════════════════════════════════════════════════════════ */
+(function () {
+  var s = document.querySelector('.ensenanza');
+  if (!s) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  s.classList.add('ensenanza--reveal');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.35 });
+  io.observe(s);
+})();

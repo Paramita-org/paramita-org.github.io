@@ -318,6 +318,75 @@
    5 · SECCIÓN "PARA TI" · reutiliza .empieza__rail; solo el contenedor
    ───────────────────────────────────────────────────────────────────────── */
 .recomendados { padding-block: var(--espacio-grupo); background: var(--lino); overflow: hidden; }
+
+/* Afordancia de scroll horizontal · el rail YA desliza; estas piezas hacen
+   VISIBLE que hay más contenido, sin secuestrar el scroll (nada de scroll-jacking).
+   1 · Desvanecido en el borde donde continúa el rail (máscara).
+   2 · Flechas discretas que aparecen al interactuar, solo con puntero fino.
+   El estado start/fin/medio/none lo fija el JS con data-borde en .recomendados__rail;
+   sin JS, la máscara se ve en ambos bordes (valor por defecto seguro). */
+.recomendados__rail { position: relative; }
+
+.recomendados .empieza__rail {
+  --fade: 56px;
+  --rail-mask: linear-gradient(to right,
+    transparent 0, #000 var(--fade),
+    #000 calc(100% - var(--fade)), transparent 100%);
+  -webkit-mask-image: var(--rail-mask);
+          mask-image: var(--rail-mask);
+}
+.recomendados__rail[data-borde="none"]   .empieza__rail { --rail-mask: none; }
+.recomendados__rail[data-borde="inicio"] .empieza__rail { --rail-mask: linear-gradient(to right, #000 calc(100% - var(--fade)), transparent 100%); }
+.recomendados__rail[data-borde="fin"]    .empieza__rail { --rail-mask: linear-gradient(to right, transparent 0, #000 var(--fade)); }
+/* "medio" conserva el desvanecido en ambos lados (valor por defecto). */
+
+.rail-flecha {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  z-index: 3;
+  width: 42px; height: 42px;
+  display: grid; place-items: center;
+  border: 0; border-radius: 50%; cursor: pointer;
+  background: var(--card, #fff);
+  color: var(--azul-oscuro);
+  box-shadow: 0 6px 18px -8px rgba(20, 14, 8, 0.35),
+              0 2px 6px  -4px rgba(20, 14, 8, 0.25);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--t-defecto, 280ms), color var(--t-defecto, 280ms),
+              transform var(--t-defecto, 280ms), box-shadow var(--t-defecto, 280ms);
+}
+.rail-flecha svg { width: 22px; height: 22px; }
+/* Alineadas con el margen de contenido: pegadas al borde en pantallas
+   estrechas, junto a la primera/última carta en anchas (mismo criterio de
+   gutter que el rail: max(20px, 50% - 600px + 20px)). */
+.rail-flecha--prev { left:  max(6px, calc(50% - 600px + 8px)); }
+.rail-flecha--next { right: max(6px, calc(50% - 600px + 8px)); }
+.rail-flecha:hover {
+  color: var(--dorado);
+  box-shadow: 0 8px 22px -8px rgba(20, 14, 8, 0.42),
+              0 0 0 4px color-mix(in oklch, var(--dorado) 16%, transparent);
+}
+.rail-flecha:focus-visible {
+  outline: none; opacity: 1; pointer-events: auto;
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--dorado) 55%, transparent);
+}
+
+/* Con puntero fino: las flechas se revelan al pasar por el rail o al enfocarlo,
+   y se oculta la del lado que ya no tiene recorrido. */
+@media (hover: hover) and (pointer: fine) {
+  .recomendados__rail:hover .rail-flecha,
+  .recomendados__rail:focus-within .rail-flecha { opacity: 1; pointer-events: auto; }
+  .recomendados__rail[data-borde="inicio"] .rail-flecha--prev,
+  .recomendados__rail[data-borde="fin"]    .rail-flecha--next,
+  .recomendados__rail[data-borde="none"]   .rail-flecha { opacity: 0; pointer-events: none; }
+}
+/* En táctil no hay flechas: el gesto natural es deslizar. */
+@media (hover: none), (pointer: coarse) {
+  .rail-flecha { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rail-flecha { transition: opacity 1ms; }
+}
+
 .recomendados__nota {
   font-family: var(--body); font-size: 0.8rem;
   color: var(--texto-suave, color-mix(in oklch, var(--antracita) 62%, transparent));
@@ -334,6 +403,9 @@
   max-width: 1200px; margin: 0 auto var(--espacio-contenido); padding-inline: 20px;
   flex-wrap: wrap;
 }
+/* Eyebrow apilado SOBRE el título, igual que .empieza__head ("Para ti"):
+   el bloque queda a la izquierda y el toggle conserva su margin-left:auto. */
+.explorar__titulo { min-width: 0; }
 .explorar__head h2 { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: clamp(1.6rem, 2.8vw, 2.2rem); letter-spacing: -0.01em; margin: 0; }
 .explorar__head h2 em { font-style: italic; color: var(--dorado); }
 
