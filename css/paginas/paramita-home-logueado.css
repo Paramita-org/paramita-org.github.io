@@ -77,6 +77,70 @@
 .hero--velado .saludo { max-width: 22ch; }
 .hero--velado .lede   { margin-top: calc(var(--espacio-elemento) * -0.25); }
 
+/* ── Vistazo rápido en el hero · "mis cosas" de un golpe (curso + cita) ──────
+   Dos chips compactos, más ligeros que las tarjetas de "Lo que ya es tuyo":
+   asoman lo inmediato sin competir con el inventario completo de más abajo. */
+.hero-estado {
+  display: grid;
+  gap: var(--espacio-elemento);
+  margin: var(--espacio-contenido) 0;
+  max-width: 660px;
+}
+@media (min-width: 760px) { .hero-estado { grid-template-columns: 1fr 1fr; } }
+
+.estado {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 14px;
+  border: 1px solid color-mix(in oklch, var(--antracita) 10%, transparent);
+  background: color-mix(in oklch, var(--card) 78%, transparent);
+  backdrop-filter: blur(4px);
+  text-decoration: none;
+  transition: background var(--t-hover), border-color var(--t-hover), transform var(--t-hover);
+}
+.estado:hover {
+  background: var(--card);
+  border-color: color-mix(in oklch, var(--dorado) 30%, var(--hair));
+  transform: translateX(2px);
+}
+
+/* Indicador del curso · disco con el punto dorado (reutiliza .pulse del hero) */
+.estado--curso .estado__ic {
+  display: grid; place-items: center;
+  min-width: 40px; height: 40px; border-radius: 50%;
+  background: color-mix(in oklch, var(--dorado) 12%, transparent);
+  border: 1px solid color-mix(in oklch, var(--dorado) 26%, transparent);
+}
+/* Chip de fecha de la cita · calendario compacto */
+.estado__fecha {
+  display: grid; justify-items: center; align-content: center;
+  min-width: 44px; padding: 5px 8px; border-radius: 11px; line-height: 1;
+  background: color-mix(in oklch, var(--azul-sutil) 12%, transparent);
+  border: 1px solid color-mix(in oklch, var(--azul-sutil) 22%, transparent);
+  font-size: 0.58rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--azul-sutil);
+}
+.estado__fecha b { font-family: var(--display); font-size: 1.15rem; font-weight: 400; color: var(--azul-oscuro); }
+
+.estado__txt {
+  min-width: 0; display: flex; flex-direction: column; line-height: 1.25;
+  font-size: var(--texto-mini); color: var(--texto-suave);
+}
+.estado__txt b { color: var(--antracita); font-weight: 600; font-size: 0.92rem; }
+.estado__sub { font-size: 0.76rem; color: var(--texto-suave); margin-top: 1px; }
+.estado__go {
+  font-size: 0.74rem; font-weight: var(--wght-firmeza); color: var(--azul-oscuro);
+  white-space: nowrap; opacity: 0.85; transition: transform var(--t-hover);
+}
+.estado:hover .estado__go { transform: translateX(2px); }
+@media (max-width: 480px) {
+  .estado { grid-template-columns: auto 1fr; }
+  .estado__go { grid-column: 2; justify-self: start; margin-top: 2px; }
+}
+
 
 /* ─────────────────────────────────────────────────────────────────────────
    A · SENDERO COMPACTO
@@ -255,6 +319,176 @@
 
 
 /* ─────────────────────────────────────────────────────────────────────────
+   B·b · LO QUE TIENES · inventario personal (informe transaccional §07)
+   ─────────────────────────────────────────────────────────────────────────
+   Responde a "¿qué tengo yo?". Tres grupos por naturaleza (cursos en curso ·
+   fechas reservadas · vínculo). Hereda el idioma de .encuentro para coherencia
+   visual, pero es "lo mío", no invitaciones abiertas. Sin métricas de culpa:
+   el avance del curso se insinúa con un anillo suave, no con una barra que
+   "hay que llenar" (doc 09). Reglas de página → SIN @layer.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.lo-tuyo__grupo { margin-bottom: var(--espacio-contenido); }
+.lo-tuyo__grupo:last-of-type { margin-bottom: var(--espacio-elemento); }
+
+.lo-tuyo__label {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0 0 var(--espacio-elemento);
+  font-family: var(--body);
+  font-weight: var(--wght-firmeza);
+  font-size: 0.74rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+.lo-tuyo__label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--hair);
+}
+
+.lo-tuyo__lista { display: grid; gap: var(--espacio-elemento); }
+
+/* Ítem · hereda las métricas de .encuentro */
+.tengo {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--espacio-grupo);
+  padding: var(--espacio-elemento);
+  border: 1px solid var(--hair);
+  border-radius: 16px;
+  background: color-mix(in oklch, var(--lino) 40%, transparent);
+  text-decoration: none;
+  transition: background var(--t-hover), border-color var(--t-hover), transform var(--t-hover);
+}
+a.tengo:hover {
+  background: color-mix(in oklch, var(--dorado) 6%, var(--lino));
+  border-color: color-mix(in oklch, var(--dorado) 30%, var(--hair));
+  transform: translateX(2px);
+}
+
+/* Cuerpo · título + meta (idéntico a .encuentro) */
+.tengo__cuerpo { min-width: 0; display: grid; }
+.tengo__titulo {
+  font-family: var(--display);
+  font-size: var(--texto-h4);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--azul-oscuro);
+}
+.tengo__titulo em { font-style: italic; color: var(--dorado); }
+.tengo__meta {
+  margin-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.55rem;
+  font-size: var(--texto-mini);
+  color: var(--texto-suave);
+}
+
+/* Chip de fecha · reservada · reutiliza el idioma calendario de .encuentro */
+.tengo__fecha {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  min-width: 58px;
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: color-mix(in oklch, var(--azul-sutil) 12%, transparent);
+  border: 1px solid color-mix(in oklch, var(--azul-sutil) 22%, transparent);
+  line-height: 1;
+}
+.tengo__dia { font-family: var(--display); font-size: 1.5rem; font-weight: 400; color: var(--azul-oscuro); }
+.tengo__mes { font-size: 0.64rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--azul-sutil); margin-top: 3px; }
+
+/* Anillo de avance · suave, "un círculo que se completa" (doc 09), sin cifra
+   gritada. El % se pasa por --prog (0–1); el dato exacto va en la meta. */
+.tengo__anillo {
+  width: 46px; height: 46px; flex: none; border-radius: 50%;
+  display: grid; place-items: center;
+  background: conic-gradient(
+    var(--dorado) calc(var(--prog, .5) * 360deg),
+    color-mix(in oklch, var(--antracita) 12%, transparent) 0);
+}
+.tengo__anillo::after {
+  content: ""; width: 34px; height: 34px; border-radius: 50%;
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--antracita) 6%, transparent);
+}
+
+/* Halo del vínculo · estado sereno, no acción */
+.tengo--vinculo { cursor: default; }
+.tengo__halo {
+  width: 46px; height: 46px; flex: none; border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%,
+    color-mix(in oklch, var(--dorado) 50%, transparent),
+    color-mix(in oklch, var(--dorado) 4%, transparent));
+  border: 1px solid color-mix(in oklch, var(--dorado) 38%, transparent);
+}
+
+/* Etiquetas de formato · online / presencial / reservado */
+.tengo__tag {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.14em 0.55em;
+  border-radius: 99px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.tengo__tag--online {
+  color: color-mix(in oklch, var(--estado-exito) 72%, var(--antracita));
+  background: color-mix(in oklch, var(--estado-exito) 12%, var(--card));
+  border-color: color-mix(in oklch, var(--estado-exito) 32%, transparent);
+}
+.tengo__tag--presencial {
+  color: color-mix(in oklch, var(--dorado) 78%, var(--antracita));
+  background: color-mix(in oklch, var(--dorado) 12%, var(--card));
+  border-color: color-mix(in oklch, var(--dorado) 40%, transparent);
+}
+.tengo__tag--reservado {
+  color: color-mix(in oklch, var(--azul-oscuro) 82%, transparent);
+  background: color-mix(in oklch, var(--azul-sutil) 12%, transparent);
+  border-color: color-mix(in oklch, var(--azul-sutil) 30%, transparent);
+}
+
+/* Acción · etiqueta + flecha que avanza en hover */
+.tengo__accion {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--body);
+  font-weight: var(--wght-firmeza);
+  font-size: var(--texto-mini);
+  color: var(--azul-oscuro);
+  white-space: nowrap;
+}
+.tengo__arw { color: var(--dorado); transition: transform var(--t-hover); }
+a.tengo:hover .tengo__arw { transform: translateX(3px); }
+
+@media (max-width: 620px) {
+  .tengo { grid-template-columns: auto 1fr; }
+  .tengo__accion {
+    grid-column: 2;
+    justify-self: start;
+    margin-top: 2px;
+    font-size: 0.8rem;
+  }
+  .tengo--vinculo { grid-template-columns: auto 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tengo, .tengo__arw { transition: none; }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
    C · ENSEÑANZA DEL DÍA
    ─────────────────────────────────────────────────────────────────────────
    Interludio contemplativo. Sin obligación de "consumirlo" (doc 09): una cita
@@ -402,3 +636,41 @@
   .novedad__fecha { grid-column: 2; }
 }
 
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   DIFUSORES DE ZONA · ritmo visual entre bloques (idioma de meditación)
+   ─────────────────────────────────────────────────────────────────────────
+   Los fondos planos hacían que un bloque se fundiera con el siguiente. Estas
+   auras a sangre completa, con bordes desvanecidos y sin línea dura, marcan
+   dónde empieza y acaba cada zona. Cálida / fría / cálida → ritmo que ayuda a
+   "recordar dónde estoy". Estáticas: la doctrina de motion reserva lo infinito
+   a lo identitario, y esto no lo es. Reglas de página → SIN @layer.
+   ───────────────────────────────────────────────────────────────────────── */
+.lo-tuyo, .encuentros, .siguiente-paso { position: relative; isolation: isolate; }
+
+.lo-tuyo::before,
+.encuentros::before,
+.siguiente-paso::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  top: calc(-1 * var(--espacio-grupo)); bottom: calc(-1 * var(--espacio-grupo));
+  left: 50%; margin-left: -50vw; width: 100vw;
+}
+/* Zona CÁLIDA · "Lo que ya es tuyo" (calido-zen arriba-dcha + dorado abajo-izq) */
+.lo-tuyo::before {
+  background:
+    radial-gradient(70% 58% at 84% 2%, color-mix(in oklch, var(--calido-zen) 60%, transparent), transparent 60%),
+    radial-gradient(64% 56% at 8% 100%, color-mix(in oklch, var(--dorado) 11%, transparent), transparent 62%);
+}
+/* Zona FRÍA · "Próximos encuentros" (azul-sutil, sobrio) → contraste con la de arriba */
+.encuentros::before {
+  background:
+    radial-gradient(72% 60% at 12% 4%, color-mix(in oklch, var(--azul-sutil) 15%, transparent), transparent 60%),
+    radial-gradient(58% 52% at 92% 98%, color-mix(in oklch, var(--azul-sutil) 8%, transparent), transparent 62%);
+}
+/* Zona CÁLIDA de cierre · "Siguiente paso" */
+.siguiente-paso::before {
+  background:
+    radial-gradient(92% 72% at 50% 0%, color-mix(in oklch, var(--calido-zen) 50%, transparent), transparent 60%),
+    radial-gradient(60% 54% at 88% 100%, color-mix(in oklch, var(--dorado) 10%, transparent), transparent 60%);
+}

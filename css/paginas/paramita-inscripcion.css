@@ -6,6 +6,9 @@
    de la página de curso. UN solo ítem, sin carrito. Pago como invitado; la cuenta
    (llave del aula) se crea DESPUÉS de pagar (estado .is-done).
 
+   La página HTML es archivo hermano del curso (misma carpeta, sin index nuevo):
+   formacion/emi-1-calma-y-lucidez/inscripcion.html
+
    PRINCIPIOS (informe «Inscribirse no es comprar», ago 2026)
      · Sin carrito, sin badge, sin acumulación.
      · Página distraída al mínimo: sin navbar completa, sin prefooter de dāna.
@@ -39,15 +42,35 @@
     padding: var(--s-3) 0;
     border-bottom: 1px solid var(--hair);
   }
-  .co-brand {
-    font-family: var(--display);
-    font-weight: var(--wght-presencia);
-    font-size: 1.35rem;
-    letter-spacing: -.01em;
-    color: var(--antracita);
-    text-decoration: none;
+  .co-brand { display: inline-flex; align-items: center; text-decoration: none; }
+  /* Logo animado · mismo idioma que el navbar: silueta SVG enmascarada con el
+     degradado identitario que respira (azul-oscuro → dorado → azul-oscuro). */
+  .logo-wave {
+    display: block;
+    width: 118px;
+    aspect-ratio: 612.3 / 181.4;
+    background: linear-gradient(100deg,
+      var(--azul-oscuro) 0%, var(--azul-sutil) 25%, var(--dorado) 50%,
+      var(--azul-sutil) 75%, var(--azul-oscuro) 100%);
+    background-size: 200% 100%;
+    animation: flow var(--dur-identidad-flujo, 14s) var(--ease-identidad-flujo, ease) infinite;
+    -webkit-mask: url('../../assets/img/logo.svg') no-repeat center / contain;
+            mask: url('../../assets/img/logo.svg') no-repeat center / contain;
+    will-change: background-position;
   }
-  .co-brand em { font-style: italic; color: var(--azul-oscuro); }
+  @keyframes flow { to { background-position: 200% 0; } }
+  .co-brand:hover .logo-wave { filter: saturate(1.2) brightness(1.03); }
+  /* Fallback textual · solo si el navegador no soporta CSS mask */
+  .co-brand__txt { display: none; }
+  @supports not ((-webkit-mask: url('x')) or (mask: url('x'))) {
+    .logo-wave { display: none; }
+    .co-brand__txt {
+      display: inline; font-family: var(--display);
+      font-weight: var(--wght-presencia); font-size: 1.35rem;
+      letter-spacing: -.01em; color: var(--antracita);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) { .logo-wave { animation: none; } }
   .co-seguro {
     margin-inline-start: auto;
     display: inline-flex;

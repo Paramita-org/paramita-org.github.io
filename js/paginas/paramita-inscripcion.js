@@ -25,7 +25,7 @@
   var CURSO = {
     slug: 'emi-1-calma-y-lucidez',
     titulo: 'EMI 1 · Calma y Lucidez',
-    volver: '/formacion/emi-1-calma-y-lucidez/',
+    volver: 'emi-1-calma-y-lucidez.html',
     planes: {
       interactivo: {
         nombre: 'Interactivo con tutor',
