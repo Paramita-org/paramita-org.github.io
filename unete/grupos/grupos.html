@@ -325,18 +325,21 @@
     </div>
   </section>
 
-  <!-- ══════════════ 9 · KHENPO (retrato + línea + enlace) ══════════════ -->
+  <!-- ══════════════ 9 · KHENPO · vcard (patrón unificado · paramita-tarjetas.css) ══════════════ -->
   <section class="g-sec">
     <div class="g-wrap g-col">
-      <figure class="khenpo" data-reveal style="display:flex;align-items:center;gap:1.6rem;flex-wrap:wrap;background:var(--arena);border-radius:20px;padding:1.8rem 2rem;margin:0">
-        <img src="/assets/img/khenpo-luz-dorada-low.jpg" alt="Ven. Khenpo Rinchen Gyaltsen" width="96" height="96" style="width:96px;height:96px;border-radius:50%;object-fit:cover;flex:0 0 auto">
-        <figcaption style="flex:1;min-width:240px">
-          <p class="eyebrow" style="margin-bottom:.4rem">Bajo su tutela</p>
-          <h3 style="font-family:var(--display);font-weight:var(--wght-presencia,400);margin:0 0 .3rem">Ven. Khenpo Rinchen Gyaltsen</h3>
-          <p style="color:var(--texto-suave);margin:0 0 .6rem">Maestro residente del Centro Budista Sakya en España. Más de 25 años transmitiendo el Dharma con cercanía, claridad y humor.</p>
-          <a class="t-link" href="/quienes-somos/maestros/lama-rinchen-gyaltsen/">Conócelo →</a>
-        </figcaption>
-      </figure>
+      <a class="vcard" href="/sobre/khenpo/khenpo.html" data-reveal aria-label="Conoce a Khenpo Rinchen Gyaltsen">
+        <span class="retrato">
+          <img class="foto" src="/assets/img/khenpo-luz-dorada-low.jpg" alt="Ven. Khenpo Rinchen Gyaltsen" loading="lazy" onerror="this.remove()">
+          <span class="ini">RG</span>
+        </span>
+        <span>
+          <span class="eyebrow">Bajo su tutela</span>
+          <h3>Ven. Khenpo Rinchen Gyaltsen</h3>
+          <p>Maestro residente del Centro Budista Sakya en España. Más de 25 años transmitiendo el Dharma con cercanía, claridad y humor.</p>
+          <span class="vcard__cue">Conócelo <span class="arw" aria-hidden="true">→</span></span>
+        </span>
+      </a>
     </div>
   </section>
 
