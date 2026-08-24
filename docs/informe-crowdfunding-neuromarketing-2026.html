@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La puerta del dāna — Neuromarketing, conversión y diseño de una landing de crowdfunding · Paramita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC; --paper-2:#FBFAF7; --ink:#191A1C; --slate:#63656B;
+    --ink-deep:#132239; --ink-deep-2:#0E1A2C; --gold:#A8823F; --gold-lite:#C9A96E;
+    --rule:#DAD6CC; --rule-soft:#E5E2D9; --good:#3C6E52; --warn:#9A5B2E;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.42;color:var(--ink-deep);margin:2rem 0 0;font-style:italic}
+
+  section{padding:clamp(2.6rem,6vh,4.2rem) 0}
+  .sec-head{margin-bottom:1.8rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 .3rem}
+  h2 em{font-style:italic;font-weight:400;color:var(--gold)}
+  h3{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.25rem,2vw,1.55rem);line-height:1.2;margin:2.4rem 0 .6rem;letter-spacing:-.005em}
+  h3 em{font-style:italic;color:var(--ink-deep)}
+  h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.18rem;margin:0 0 .3rem;letter-spacing:-.005em}
+  p{margin:0 0 1.15rem}
+  strong{font-weight:600;color:var(--ink)}
+  em{font-style:italic}
+  a{color:var(--ink-deep);text-decoration:underline;text-decoration-color:var(--gold-lite);text-underline-offset:2px}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:color-mix(in srgb,var(--gold) 12%,transparent);padding:.05em .35em;border-radius:4px;color:var(--ink-deep)}
+  .drop:first-letter{font-family:"Fraunces",serif;float:left;font-size:3.3rem;line-height:.82;font-weight:500;padding:.1em .12em 0 0;color:var(--ink-deep)}
+  .pull{font-family:"Fraunces",serif;font-weight:400;font-style:italic;font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.4;color:var(--ink-deep);border-left:2px solid var(--gold);padding-left:1.2rem;margin:2rem 0}
+
+  .dato{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:14px;padding:1.6rem 1.7rem;margin:1.4rem 0}
+  .dato__k{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+  .dato h3{margin:0 0 .5rem;font-size:clamp(1.15rem,1.8vw,1.4rem)}
+  .dato p{margin:0 0 .6rem}
+  .dato p:last-child{margin:0}
+  .dato--warn{border-color:color-mix(in srgb,var(--warn) 40%,var(--rule-soft));background:color-mix(in srgb,var(--warn) 5%,var(--paper-2))}
+  .dato--warn .dato__k{color:var(--warn)}
+  .cifra{font-family:"Fraunces",serif;font-weight:600;color:var(--ink-deep);font-size:1.08em}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--rule);border-radius:14px;overflow:hidden;margin:1.6rem 0}
+  .stat{background:var(--paper-2);padding:1.4rem 1.1rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.7rem,3vw,2.3rem);line-height:1;color:var(--ink-deep)}
+  .stat .n small{font-size:.55em;font-weight:500}
+  .stat .l{font-size:.82rem;line-height:1.35;color:var(--slate);margin-top:.5rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);margin-top:.5rem;letter-spacing:.04em}
+  @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stats.tri{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:640px){.stats.tri{grid-template-columns:1fr}}
+
+  .tbl-wrap{margin:1.6rem 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.9rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+  th,td{text-align:left;padding:.65rem .75rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:500;border-bottom:1px solid var(--rule)}
+  tbody tr:last-child td{border-bottom:0}
+  td .up{color:var(--good);font-weight:600}
+  td .down{color:var(--warn);font-weight:600}
+
+  .lever{background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:16px;padding:1.5rem 1.6rem;margin:1.3rem 0}
+  .lever__n{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.8rem,3.2vw,2.5rem);line-height:1;color:var(--good);display:block}
+  .lever__n small{font-size:.42em;color:var(--slate);font-weight:500;letter-spacing:.02em}
+  .lever h4{margin:.5rem 0 .4rem}
+  .lever p{margin:0 0 .5rem;font-size:.95rem}
+  .lever p:last-child{margin:0}
+  .lever .src{font-family:"JetBrains Mono",monospace;font-size:.66rem;color:var(--gold);letter-spacing:.03em}
+
+  .blocks{counter-reset:blk;margin:1.8rem 0;border-top:1px solid var(--rule)}
+  .blk{display:grid;grid-template-columns:auto 1fr;gap:1rem 1.3rem;padding:1.4rem 0;border-bottom:1px solid var(--rule);align-items:start}
+  .blk__i{counter-increment:blk;font-family:"JetBrains Mono",monospace;font-size:.78rem;color:var(--paper-2);background:var(--ink-deep);width:2.1rem;height:2.1rem;border-radius:50%;display:grid;place-items:center;font-weight:500}
+  .blk__i::before{content:counter(blk,decimal-leading-zero)}
+  .blk h4{margin:0 0 .25rem;font-size:1.15rem}
+  .blk p{margin:0;font-size:.93rem;color:var(--slate);line-height:1.55}
+  .blk .fn{font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);display:block;margin-top:.4rem}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.75rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.sheen::after{animation:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ══════════════ PORTADA ══════════════ -->
+<header class="cover flow">
+  <p class="eyebrow">Estudio · Landing de crowdfunding · Fase 7+</p>
+  <h1>La puerta<br>del <em>dāna</em></h1>
+  <p class="deck">Cómo se construye una página de recaudación que convierte sin traicionar el dharma. Neuromarketing con base en neurociencia, conversión con datos de campo contrastados, entidades budistas reales y una estructura de bloques ordenada por cómo decide el cerebro que dona.</p>
+  <div class="sheen"></div>
+  <div class="meta">
+    <span><b>Objeto</b> · Landing <code>/contribuir/crowdfunding/</code></span>
+    <span><b>Ámbito</b> · Neuromarketing · UX/UI · conversión · diseño 2026</span>
+    <span><b>Fecha</b> · 24 ago 2026</span>
+    <span><b>Fuentes</b> · 15 · contrastadas entre sí</span>
+    <span><b>Audiencia</b> · España + Latinoamérica</span>
+  </div>
+  <p class="lede">La donación no es una compra. Se decide con la misma maquinaria cerebral que la compasión: el rostro antes que la cifra, el gesto antes que el argumento. Una landing que lo entiende no <em>persuade</em>: retira los obstáculos entre el impulso de dar y el acto de dar.</p>
+</header>
+
+<div class="flow"><hr class="divider"></div>
+
+<!-- ══════════════ 1 · EL TERRENO ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — El terreno</span>
+    <h2>Casi nadie dona. <em>Ese</em> es el punto de partida</h2>
+  </div>
+  <p class="drop reveal">Antes de hablar de estética conviene mirar los números en frío, porque cambian por completo la conversación. Una landing de recaudación no juega en el terreno del <em>bonito o feo</em>: juega en el de <em>convierte o gotea</em>. Y el sector entero gotea. Según el estudio <strong>M+R Benchmarks 2026</strong> —la referencia anual del sector, sobre una muestra de unas 180 organizaciones—, de cada persona que visita una web solo el <strong>1,6 %</strong> acaba donando, con un ingreso medio de 1,33 $ por visitante. Ya sobre la propia página de donación, completan el gesto el <strong>11 % en escritorio</strong> y el <strong>8 % en móvil</strong>. En organizaciones pequeñas, el móvil se hunde al 4 %.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">11<small>%</small></div><div class="l">conversión en la página de donación, escritorio</div><div class="src">M+R 2026</div></div>
+    <div class="stat"><div class="n">8<small>%</small></div><div class="l">conversión en la página de donación, móvil</div><div class="src">M+R 2026</div></div>
+    <div class="stat"><div class="n">1,6<small>%</small></div><div class="l">de visitantes web que llegan a donar</div><div class="src">M+R 2026</div></div>
+    <div class="stat"><div class="n">4<small>%</small></div><div class="l">móvil en organizaciones pequeñas</div><div class="src">M+R 2026</div></div>
+  </div>
+
+  <p class="reveal">Dicho de otro modo: <strong>en torno a 9 de cada 10 personas que abren una página de donación se van sin dar</strong>. La cifra la repiten, con matices, M+R, iDonate y FundEasy. No es un problema de generosidad —el gasto benéfico global sigue creciendo— sino de <em>fricción</em>: cuentas obligatorias, formularios largos, importes que no encajan, la opción mensual escondida.</p>
+
+  <p class="reveal">El segundo dato que reordena todo es el <strong>móvil</strong>. Ya es el <strong>52 % del tráfico</strong> de las webs sin ánimo de lucro, pero solo el 43 % de las transacciones y el 28 % de los ingresos (M+R 2026). Es decir: la mayoría llega por móvil y ahí es donde peor se convierte. El regalo medio lo confirma —168 $ en escritorio frente a 88 $ en móvil—. La lectura no es "ignora el móvil": es que <strong>cada punto de fricción se paga más caro en una pantalla pequeña</strong>, y que el crecimiento está justo ahí (los ingresos móviles subieron un 48 % en un año según M+R, muy por encima del 15 % del total online).</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">La consecuencia de diseño</span>
+    <p>Una landing de crowdfunding <strong>se diseña primero para el pulgar</strong>, no se "adapta" después. Formulario corto, teclado numérico correcto para el importe, métodos de pago que evitan teclear la tarjeta (Apple Pay, Google Pay, PayPal —los aceptan ya el 57–79 % de las organizaciones—) y cero pasos que no aporten. Todo lo demás de este informe se subordina a eso.</p>
+  </div>
+  <p class="pull reveal">El enemigo no es la competencia por la atención. Es la fricción entre el "quiero dar" y el "he dado".</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 2 · EL CEREBRO QUE DONA ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — El cerebro que dona</span>
+    <h2>Qué dice la <em>neurociencia</em>, no la intuición</h2>
+  </div>
+  <p class="reveal">"Neuromarketing" se usa muchas veces como sinónimo de trucos. Aquí lo tomamos en su sentido literal: qué se sabe, con imagen cerebral y experimentos, sobre cómo se decide donar. Cuatro hallazgos sostienen todo lo demás.</p>
+
+  <h3 class="reveal">La <em>víctima identificable</em>: un rostro vale más que un millón</h3>
+  <p class="reveal">Es el efecto mejor documentado del sector: la gente da más a <strong>un individuo concreto e identificable</strong> que a un grupo anónimo o a una estadística —y, paradójicamente, la disposición a dar suele <em>bajar</em> a medida que crece el número de víctimas. Lo describieron Small, Loewenstein y Slovic; y un estudio de <strong>fMRI de Genevsky y colegas (Journal of Neuroscience, 2013)</strong> mostró el mecanismo: al ver <em>fotografías</em> de niños en lugar de siluetas, los sujetos donaban más, y ese salto estaba mediado por afecto positivo y por la activación del <strong>núcleo accumbens</strong> —el mismo circuito de anticipación de recompensa que se activa cuando <em>nosotros</em> vamos a recibir algo—. Donar, neuralmente, se parece a recibir.</p>
+  <div class="dato reveal">
+    <span class="dato__k">Traducción a la página</span>
+    <p>El bloque emocional no es "una foto bonita del centro". Es <strong>un rostro concreto y una historia con nombre</strong>: un practicante, un monje, una persona a la que el proyecto cambia la vida. Cara antes que cifra. Persona antes que institución. El plano general del edificio conmueve mucho menos que la mirada de alguien.</p>
+  </div>
+
+  <h3 class="reveal">El <em>warm glow</em>: se dona para sentir, no para calcular</h3>
+  <p class="reveal">Andreoni lo llamó <em>warm glow</em>: buena parte de la motivación para dar es el afecto positivo del propio acto, no un cálculo de eficiencia. Encaja con la neurociencia anterior —el circuito de recompensa se enciende— y tiene una consecuencia práctica incómoda: <strong>los argumentos de eficiencia ("tu euro rinde el 94 %") mueven menos que el sentido y la pertenencia</strong>. La página debe hacer <em>sentir</em> el bien que se hace, no demostrarlo con una hoja de cálculo.</p>
+
+  <h3 class="reveal"><em>Anclaje</em> y <em>priming</em>: la cifra que ves primero fija lo que das</h3>
+  <p class="reveal">Sobre la base de Kahneman y Tversky, el anclaje está bien establecido en donación: el primer importe que la persona ve —los botones sugeridos— fija su idea de lo que es "una donación normal". El <em>priming</em> es su hermano: el lenguaje, las imágenes y el encuadre previos condicionan la respuesta. No es opcional decidir los importes sugeridos: <strong>si no los eliges tú, los elige el sesgo</strong>, casi siempre a la baja.</p>
+
+  <h3 class="reveal">La <em>aversión a decidir</em>: cada opción de más resta</h3>
+  <p class="reveal">El clásico de Iyengar y Lepper (las mermeladas: 6 opciones convertían al 30 %, 24 opciones al 3 %) tiene matices —el efecto es más fuerte con no expertos, opciones comparables y decisiones que importan—, pero el principio aplica de lleno a una página de donación: <strong>demasiadas decisiones simultáneas paralizan</strong>. Importe, frecuencia, método, causa, dedicatoria… si todo aparece a la vez, la persona cierra. La cura no es quitar contenido: es <em>secuenciar</em> las decisiones.</p>
+
+  <p class="pull reveal">Rostro, no logo. Sentido, no eficiencia. Un ancla que tú eliges. Una decisión cada vez.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 3 · LAS PALANCAS CONTRASTADAS ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — Las palancas contrastadas</span>
+    <h2>Lo que mueve la aguja, <em>con cifras de campo</em></h2>
+  </div>
+  <p class="reveal">Aquí pasamos de la teoría a los experimentos A/B reales, sobre todo del laboratorio de <strong>NextAfter</strong> (su biblioteca de experimentos de fundraising es la más citada del sector) y de datos agregados de iDonate, Fundraise Up y M+R. Cada palanca lleva su matiz honesto: ninguna es magia y varias se contradicen entre sí según el contexto.</p>
+
+  <div class="lever reveal">
+    <span class="lever__n">+150 %<small>conversión</small></span>
+    <h4>La propuesta de valor, <em>antes</em> del formulario</h4>
+    <p>Poner como primera sección una explicación clara de <em>por qué</em> dar y <em>qué</em> cambia la donación —no el formulario a secas— eleva la conversión hasta un 150 %, según iDonate. Es la palanca de mayor impacto y la más barata: es copy, no tecnología.</p>
+    <p class="src">Fuente · iDonate (guía de A/B testing)</p>
+  </div>
+
+  <div class="lever reveal">
+    <span class="lever__n">+104 %<small>conversión</small></span>
+    <h4>Ofrecer <em>importes sugeridos</em> (frente a campo vacío)</h4>
+    <p>En un experimento de NextAfter con CaringBridge, pasar de un campo libre a una rejilla de importes sugeridos duplicó la conversión (+104,4 %) con una caída de donativo medio no significativa. La gente <em>quiere</em> orientación sobre cuánto es apropiado.</p>
+    <p class="src">Fuente · NextAfter · CaringBridge</p>
+  </div>
+
+  <div class="lever reveal">
+    <span class="lever__n">+94 %<small>ingresos</small></span>
+    <h4>Marcar uno como <em>«el más elegido»</em></h4>
+    <p>Señalar un importe (p. ej. el central) como "el más popular" subió los ingresos un 94 % y el donativo medio en 11 $, sobre todo en móvil. Combina anclaje con prueba social: elimina la incertidumbre de "¿cuánto es normal?".</p>
+    <p class="src">Fuente · NextAfter</p>
+  </div>
+
+  <div class="lever reveal">
+    <span class="lever__n">+125 %<small>recurrentes</small></span>
+    <h4>Entrada baja + opción <em>mensual</em> clara</h4>
+    <p>Una rejilla de 5 opciones con un punto de entrada bajo (10 $) subió las donaciones recurrentes un 125,5 % y la conversión total un 44 %, sin bajar el importe medio: el punto de entrada bajo hace decir "sí", no rebaja lo que se da. El donante mensual vale mucho más a largo plazo —el giving mensual ya es el 31 % de los ingresos online del sector—.</p>
+    <p class="src">Fuente · NextAfter · M+R 2025</p>
+  </div>
+
+  <h3 class="reveal">El caso del <em>vídeo</em>: cuidado con el reflejo</h3>
+  <div class="dato dato--warn reveal">
+    <span class="dato__k">Contraintuitivo · contrastado</span>
+    <p>Casi todos los experimentos de NextAfter con vídeo <em>en la propia página de donación</em> lo ven <strong>bajar la conversión</strong>, o como mucho no moverla. En un caso, <strong>quitar el vídeo la subió un 527 %</strong>. El vídeo distrae y se lleva a la persona a YouTube justo cuando iba a dar. Lección: el vídeo emociona en las páginas <em>previas</em> (home, "quiénes somos", campaña), pero <strong>en la landing de donación, la historia va en imagen fija + copy</strong>, no en un reproductor que compite con el botón.</p>
+  </div>
+
+  <h3 class="reveal">El <em>matching</em>: sí funciona, pero no como se cree</h3>
+  <p class="reveal">"Duplica tu donación: un donante iguala cada euro" es de los mensajes más potentes. El estudio de referencia —<strong>Karlan y List (American Economic Review, 2007)</strong>, sobre más de 50.000 donantes reales— confirma que <strong>anunciar un <em>match</em> aumenta tanto la probabilidad de donar como los ingresos por solicitud</strong>. Pero con un matiz que casi nadie aplica:</p>
+  <div class="dato dato--warn reveal">
+    <span class="dato__k">El matiz que ahorra dinero</span>
+    <p>Un <em>match</em> más generoso <strong>no rinde más</strong>. Ratios de 2:1 y 3:1 <em>no</em> recaudaron más que un simple 1:1. La existencia del match importa; su tamaño, casi nada. Y un estudio posterior (Karlan, List y Shafir, 2011) matiza aún más: en <em>matches</em> pequeños el efecto es débil y desigual —fuerte en donantes activos, nulo o negativo en donantes dormidos—. Traducción para Paramita: <strong>si hay un donante o patrón dispuesto a igualar, basta anunciar "cada euro se duplica" (1:1)</strong>; no hace falta prometer que se triplica.</p>
+  </div>
+
+  <h3 class="reveal">La <em>barra de progreso</em>: el efecto meta</h3>
+  <p class="reveal">La barra o "termómetro" es casi obligatoria en crowdfunding, y por buenas razones convergentes. Las campañas con progreso visible recaudan <strong>hasta un 32 % más</strong>; los objetivos con una <em>cifra concreta</em> superan en un 33 % a los objetivos vagos; y compartir el progreso públicamente eleva el seguimiento hasta un 65 %. El mecanismo tiene dos capas: <strong>prueba social</strong> ("otros ya confían": mostrar un donativo medio subió las donaciones un 17 % en datos de Fundraise Up) y <strong>efecto de gradiente de meta</strong> —Cryder, Loewenstein y Scheines (2007) mostraron que la generosidad crece según se acerca el objetivo; la gente quiere ser quien empuja la campaña por encima de la línea—.</p>
+  <div class="dato dato--warn reveal">
+    <span class="dato__k">El error a evitar</span>
+    <p>La prueba social <strong>se vuelve en contra si se muestra demasiado pronto</strong>: un termómetro al 0 % (o al 5 %) señala "nadie apoya esto". Varias fuentes sitúan el punto en que el progreso empieza a impulsar donaciones en torno al <strong>30–40 %</strong>, y el empuje fuerte a partir del <strong>66 %</strong>. Consecuencia: <strong>arrancar la campaña en privado</strong> (donantes semilla, un tramo del match) para salir a público ya con la barra en un tercio, nunca desde cero.</p>
+  </div>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Resumen de palancas · efecto y matiz</caption>
+      <thead><tr><th>Palanca</th><th>Efecto medido</th><th>Matiz</th></tr></thead>
+      <tbody>
+        <tr><td>Propuesta de valor primero</td><td><span class="up">+150 %</span> conversión</td><td>La más rentable; es copy</td></tr>
+        <tr><td>Importes sugeridos</td><td><span class="up">+104 %</span> conversión</td><td>Frente a campo libre</td></tr>
+        <tr><td>Marcar «el más elegido»</td><td><span class="up">+94 %</span> ingresos</td><td>Anclaje + prueba social</td></tr>
+        <tr><td>Entrada baja + mensual</td><td><span class="up">+125 %</span> recurrentes</td><td>Sin bajar el importe medio</td></tr>
+        <tr><td>Vídeo en la landing de pago</td><td><span class="down">suele bajar</span></td><td>Va en páginas previas, no aquí</td></tr>
+        <tr><td>Matching 1:1</td><td><span class="up">sube</span> prob. e ingresos</td><td>2:1 y 3:1 no aportan más</td></tr>
+        <tr><td>Barra de progreso</td><td><span class="up">+32 %</span> recaudación</td><td>Nunca arrancar desde 0 %</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 4 · ENTIDADES REALES ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — Entidades reales</span>
+    <h2>Qué hacen las fundaciones budistas <em>que ya recaudan</em></h2>
+  </div>
+  <p class="drop reveal">Conviene mirar cómo lo resuelven organizaciones del mismo mundo, no solo ONG genéricas. En el budismo la donación tiene su propia gramática —<em>dāna</em>, mérito, patrocinio, dedicatoria— y eso da patrones que Paramita puede tomar sin sentirse impostada.</p>
+
+  <h3 class="reveal">Buddhist Churches of America · <em>«Dharma Forward»</em></h3>
+  <p class="reveal">Campaña de capital con meta pública de <strong>15 M$</strong>. Muestran los <strong>3 M$ ya recaudados</strong> en fase temprana (barra de progreso arrancada, no desde cero) y, sobre todo, apoyan la credibilidad en <strong>respaldo institucional explícito</strong>: "100 % de apoyo" de sus juntas y del cuerpo de ministros. Es prueba social <em>de autoridad</em>: si los que saben ya están dentro, el donante se fía.</p>
+
+  <h3 class="reveal">Tibetan Buddhist Centre · <em>patrocinio por niveles y plazos</em></h3>
+  <p class="reveal">Recaudación para sede y operación diaria con dos ideas trasladables. Una: <strong>pago fraccionado</strong> (3/6/9/12 meses) —bajar la barrera del importe grande sin bajar el importe—. Otra: enmarcar la donación como <strong>generar mérito y buen karma colectivo</strong>, citando el Sutra del Loto. La donación deja de ser gasto y pasa a ser práctica.</p>
+
+  <h3 class="reveal">Drikung Dharma Surya · <em>la donación con nombre</em></h3>
+  <p class="reveal">Modelo de <strong>patrocinio dedicado</strong>: 1.000 $ patrocinan una estatua de Buda con una <strong>placa con el nombre</strong> de la persona a quien se dedica. Y reconocimiento permanente para <em>todo</em> tipo de aportación —dinero, tiempo, trabajo—. Convierte el dar en algo tangible, memorable y honrado públicamente: anclaje ("1.000 $ = una estatua") + reconocimiento.</p>
+
+  <h3 class="reveal">American Buddhist Seminary · <em>el ancla descompuesta</em></h3>
+  <div class="dato reveal">
+    <span class="dato__k">Anclaje temporal · ejemplo real</span>
+    <p>Para su templo nuevo plantean la donación "por metro cuadrado" y descomponen el importe en el tiempo: una aportación equivale a <strong>2,28 $ al día</strong>, y lo comparan explícitamente con "un café" (~2,50 $). Un compromiso grande se vuelve pequeño al dividirlo por días y contrastarlo con un gasto trivial. Sumaban además un <strong>match</strong> comprometido de hasta 1 M$.</p>
+  </div>
+
+  <h3 class="reveal">Dharma Bum Temple · <em>la pertenencia como motor</em></h3>
+  <p class="reveal">Su apelación de fin de año no habla de la institución: habla de <em>la comunidad</em>. Enumera todo lo que la gente <em>hace</em> en el templo y cierra con "tú <em>eres</em> el templo". Meta muy concreta y tangible (pagar lo que falta del tejado, 35.000 $) en vez de "necesitamos fondos". Pertenencia + causa específica y verificable.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Patrones transversales · donation pages 2026</span>
+    <p>Más allá del budismo, las auditorías de páginas que convierten en 2026 (Zeffy, Bloomerang, Momentive) coinciden: <strong>imagen emocional que abre</strong>, <strong>importes atados a impacto concreto</strong>, <strong>interruptor de recurrente visible y arriba</strong>, y <strong>señales de confianza junto al formulario</strong>. Lo que hunde: formularios largos, lenguaje de impacto genérico, la opción mensual escondida y comisiones que recortan cada regalo en silencio. El informe de Bloomerang (<em>Giving Signals 2026</em>) añade el marco general: en 2026 los donantes <strong>concentran su generosidad en las organizaciones en las que confían</strong> —confianza, transparencia de impacto, conexión personal y comodidad de pago son los cuatro motores—.</p>
+  </div>
+
+  <h3 class="reveal">La confianza tiene un <em>orden</em> de comprobación</h3>
+  <p class="reveal">Morweb sistematizó las señales que un donante revisa antes de dar, y llegan en secuencia predecible: primero <strong>identidad y legitimidad</strong> (nombre, entidad jurídica, dominio seguro, dirección física), luego <strong>transparencia financiera</strong>, luego <strong>misión e impacto</strong>, luego <strong>las personas detrás</strong>, y solo al final la <strong>experiencia de donar</strong>. Los arreglos de mayor impacto son los de los primeros treinta segundos: una frase de misión visible arriba, la personalidad jurídica y los datos de la fundación en el pie, y una página de donación que <strong>parece la misma web</strong> de la que se viene (no un formulario de pasarela ajeno y desnudo).</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 5 · EL MATIZ BUDISTA ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — El matiz budista</span>
+    <h2>Convertir sin <em>manipular</em></h2>
+  </div>
+  <p class="reveal">Aquí está la tensión de fondo, y para Paramita es la decisión más importante del informe. Muchas palancas del sector nacieron en un marco transaccional y de urgencia que <strong>choca con la identidad de la fundación</strong> —nada de patrones de urgencia, gamificación, métricas de vanidad ni UI de SaaS—. La buena noticia: casi todas las palancas <em>eficaces</em> se pueden expresar en clave dhármica sin perder fuerza. Y las que no, se descartan.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>La misma palanca · dos maneras de decirla</caption>
+      <thead><tr><th>Palanca</th><th>Versión transaccional (evitar)</th><th>Versión dhármica (usar)</th></tr></thead>
+      <tbody>
+        <tr><td>Escasez / urgencia</td><td>"¡Solo 3 días! ¡No te lo pierdas!"</td><td>Meta y horizonte claros, sin cuenta atrás agresiva ni parpadeos</td></tr>
+        <tr><td>Prueba social</td><td>Contadores en vivo, "23 personas viendo esto"</td><td>Progreso real de la campaña; comunidad que sostiene; mérito compartido</td></tr>
+        <tr><td>Anclaje</td><td>Importe alto preseleccionado para exprimir</td><td>Importes atados a impacto real ("una beca", "un mes de sede")</td></tr>
+        <tr><td>Reconocimiento</td><td>Ranking de donantes, badges, puntos</td><td>Dedicatoria del mérito; placa o muro de gratitud sobrio y opcional</td></tr>
+        <tr><td>Recurrencia</td><td>Casilla premarcada engañosa</td><td>Dāna sostenido presentado con honestidad; fácil de elegir y de dejar</td></tr>
+        <tr><td>El acto de dar</td><td>"Compra impacto"</td><td>Dāna: la generosidad como práctica, no como compra</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">El principio rector</span>
+    <p>El neuromarketing ético que encaja con Paramita <strong>no fabrica emoción ni presión: retira fricción y revela lo que ya es verdad</strong>. La víctima identificable funciona porque un rostro real <em>es</em> más cercano que una estadística. La barra de progreso funciona porque el progreso <em>es</em> real. El anclaje funciona porque orientar sobre el importe <em>es</em> un servicio al donante indeciso. Nada de esto miente. El día que una técnica exija fingir —urgencia inventada, escasez falsa, métricas infladas— se descarta, sin discusión.</p>
+  </div>
+
+  <p class="pull reveal">Dāna no es un checkout. La página no vende impacto: ofrece una puerta para practicar la generosidad.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 6 · TENDENCIAS 2026 ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — Diseño 2026</span>
+    <h2>Las tendencias que <em>sí</em> encajan con Paramita</h2>
+  </div>
+  <p class="reveal">Filtrando lo que dicen las recopilaciones de tendencias 2026 (Graphic Design Junction, Envato, Fireart, Tubik, Webflow, Wix) por lo que es coherente con el sistema de diseño de la fundación, quedan cinco corrientes claras. La buena noticia: el estilo que Paramita ya construyó <strong>está adelantado</strong>, no persiguiendo la moda.</p>
+
+  <h3 class="reveal">1 · <em>Restraint</em>, no vacío — la calma como señal de solvencia</h3>
+  <p class="reveal">La corriente dominante es la "barely-there UI": layouts limpios, una o dos familias tipográficas, dos o tres tonos, y el <strong>espacio en blanco como estructura, no como adorno</strong>. Envato lo resume como reducir la carga cognitiva: menos decisiones por pantalla, jerarquías claras, defaults visibles. Se alinea de lleno con el minimalismo cálido de Paramita —y con la aversión a decidir de la sección 02—.</p>
+
+  <h3 class="reveal">2 · La <em>tipografía como arquitectura</em></h3>
+  <p class="reveal">2026 pone la tipografía a soportar el peso de la marca: titulares grandes, contraste de estilos (el neo-serif elegante junto a la mono para metadatos y cifras) y <strong>tipografía cinética con <em>variable fonts</em></strong> —peso y anchura mapeados al scroll, revelados sutiles—. Paramita ya tiene lo necesario: Fraunces (con sus ejes opsz/wght/SOFT/WONK) y Hanken Grotesk, ambas variables y autoalojadas. La landing puede usar Fraunces italic en momentos clave del titular y un revelado por scroll discreto —respetando siempre <code>prefers-reduced-motion</code> y sin tocar el <code>&lt;h1&gt;</code> del hero, para no dañar el LCP—.</p>
+
+  <h3 class="reveal">3 · <em>Human touch</em> — imperfección contra la era de la IA</h3>
+  <div class="dato reveal">
+    <span class="dato__k">La tendencia más relevante para una landing de donación</span>
+    <p>Según las imágenes generadas por IA se vuelven impecables, los diseñadores reintroducen <strong>lo humano imperfecto</strong> —fotografía real, textura, trazo hecho a mano— para reconstruir confianza emocional. Para Paramita es doblemente estratégico: encaja con la víctima/beneficiario identificable (sección 02) <em>y</em> con la señal de confianza (sección 04). <strong>Foto real de Khenpo, de la sangha, del centro y de las personas del proyecto</strong> —nunca stock ni render de IA— es, a la vez, tendencia 2026, palanca de conversión y coherencia doctrinal.</p>
+  </div>
+
+  <h3 class="reveal">4 · <em>Bento grids</em> y movimiento con propósito</h3>
+  <p class="reveal">La rejilla tipo "bento" (bloques de distinto tamaño que cuentan una historia por módulos) es útil para presentar los <strong>tramos de la campaña o los destinos del dinero</strong> de un vistazo. Y el consenso sobre movimiento es unánime: <strong>animación solo cuando explica</strong> —nada de efectos por lucirse—. Coincide punto por punto con la doctrina de motion de Paramita: ambiente/identidad siempre discreto, interacción invocada por la persona, sin scroll-jacking ni animaciones infinitas fuera de los elementos ambientales.</p>
+
+  <h3 class="reveal">5 · <em>Accesibilidad y rendimiento como infraestructura</em></h3>
+  <p class="reveal">En 2026 la accesibilidad deja de ser "una función" y pasa a ser base: alto contraste, navegación por teclado, movimiento reducido, lenguaje claro, todo de serie. Y el rendimiento es diseño: con más de la mitad del tráfico en móvil y el tráfico orgánico en descenso (por los resúmenes de IA en buscadores, según M+R), una landing lenta pierde donantes antes de mostrarse. Para un sitio estático en GitHub Pages esto es una ventaja: <strong>hero ligero, imágenes optimizadas, cero dependencias pesadas en la ruta crítica</strong>.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 7 · LA ESTRUCTURA DE BLOQUES ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">07 — La estructura</span>
+    <h2>El orden de los bloques, y <em>por qué</em> ese orden</h2>
+  </div>
+  <p class="reveal">Toda la investigación converge en una secuencia. No es arbitraria: sigue el orden en que el cerebro <em>decide</em> donar (siente → entiende el impacto → confía → actúa) y el orden en que se comprueba la confianza (identidad → transparencia → misión → personas → acción). Cada bloque tiene una función neuromarketing declarada; si un bloque no tiene función, sobra.</p>
+
+  <div class="blocks reveal">
+    <div class="blk"><div class="blk__i"></div><div>
+      <h4>Hero: rostro, promesa y la meta viva</h4>
+      <p>Foto real y humana (no el edificio, una persona), una frase de misión clara, la barra de progreso con una cifra concreta y un único CTA primario. La barra ya arranca por encima del 30 % (campaña sembrada en privado). Sin vídeo aquí.</p>
+      <span class="fn">Función · víctima identificable · prueba social · gradiente de meta · un solo CTA</span>
+    </div></div>
+
+    <div class="blk"><div class="blk__i"></div><div>
+      <h4>La historia con nombre</h4>
+      <p>Quién es la persona/comunidad a la que esto cambia la vida, contada en imagen fija + copy breve. Concreta, no abstracta. Es el bloque que enciende el afecto —el que "vale más que la estadística"—.</p>
+      <span class="fn">Función · warm glow · afecto positivo (núcleo accumbens)</span>
+    </div></div>
+
+    <div class="blk"><div class="blk__i"></div><div>
+      <h4>Por qué ahora · propuesta de valor</h4>
+      <p>Qué se construye, por qué importa y qué pasa si se logra. Es la sección de mayor impacto de conversión (+150 %). En clave dāna: la donación como práctica y mérito, no como transacción.</p>
+      <span class="fn">Función · propuesta de valor · priming · sentido sobre eficiencia</span>
+    </div></div>
+
+    <div class="blk"><div class="blk__i"></div><div>
+      <h4>El dinero, traducido a impacto (tramos)</h4>
+      <p>Bento grid con destinos concretos del dinero e importes atados a impacto ("X sostiene un mes de sede", "Y patrocina una beca"). Aquí vive el anclaje honesto y, si existe, el match 1:1 anunciado con claridad.</p>
+      <span class="fn">Función · anclaje · impacto tangible · descomposición · matching</span>
+    </div></div>
+
+    <div class="blk"><div class="blk__i"></div><div>
+      <h4>El formulario de donación</h4>
+      <p>Corto, móvil-primero. Rejilla de importes con uno marcado como "el más elegido", punto de entrada bajo, interruptor mensual/único visible y arriba, métodos que evitan teclear la tarjeta. Señales de confianza (pago seguro, entidad) junto al campo. Una decisión cada vez.</p>
+      <span class="fn">Función · importes sugeridos · «el más elegido» · recurrente · anti-fricción</span>
+    </div></div>
+
+    <div class="blk"><div class="blk__i"></div><div>
+      <h4>Confianza y transparencia</h4>
+      <p>Quiénes están detrás (Khenpo, la fundación), a qué se destina, y los datos de la entidad. Refuerza lo que el donante ya venía comprobando en silencio. Puede incluir respaldo del linaje/maestros como prueba social de autoridad.</p>
+      <span class="fn">Función · legitimidad · transparencia · prueba social de autoridad</span>
+    </div></div>
+
+    <div class="blk"><div class="blk__i"></div><div>
+      <h4>La comunidad que ya sostiene</h4>
+      <p>Muro de gratitud sobrio, mérito dedicado, palabras de la sangha. Pertenencia ("tú eres parte de esto"), no ranking ni gamificación. Reconocimiento honrado, siempre opcional.</p>
+      <span class="fn">Función · pertenencia · prueba social entre pares · reconocimiento</span>
+    </div></div>
+
+    <div class="blk"><div class="blk__i"></div><div>
+      <h4>Cierre y segundo CTA · dudas</h4>
+      <p>Repetición del CTA (quien baja hasta aquí está decidido), FAQ corta que retira las últimas objeciones (deducción fiscal, a dónde va, cómo cancelar el recurrente) y cierre agradecido. Sin muros de texto.</p>
+      <span class="fn">Función · reducción de objeciones · segunda puerta · cierre</span>
+    </div></div>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">La regla de oro de la secuencia</span>
+    <p><strong>Emocionar antes de pedir; hacer confiar antes de cobrar.</strong> El error más común es poner el formulario primero "para no perder al que ya quiere dar". Los datos dicen lo contrario: la propuesta de valor <em>antes</em> del formulario multiplica la conversión. El que ya está decidido encuentra el CTA del hero; a todos los demás hay que darles la razón para decidirse antes de enseñarles el campo del importe.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════ 8 · RECOMENDACIONES PARAMITA ══════════════ -->
+<section class="flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">08 — Para Paramita</span>
+    <h2>Decisiones <em>concretas</em> para la landing</h2>
+  </div>
+  <p class="reveal">Traducción del informe a decisiones accionables para <code>/contribuir/crowdfunding/</code>, dentro del sistema de diseño existente.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Contenido y neuromarketing</span>
+    <p><strong>Hero con rostro real</strong> (Khenpo, sangha o beneficiario), no el edificio. Barra de progreso con cifra concreta, <strong>sembrada por encima del 30 %</strong> antes de salir a público. Historia con nombre antes del formulario. Importes atados a impacto verificable, con el central marcado como "el más elegido" y un punto de entrada bajo. Si hay donante dispuesto: <strong>match 1:1</strong> anunciado (no 2:1 ni 3:1: no aporta). Interruptor mensual visible y honesto. <strong>Sin vídeo en la landing de pago</strong>; el vídeo emociona en la home y en "la fundación".</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Diseño y sistema</span>
+    <p>Reutilizar el sistema Paramita: tokens OKLCH vía <code>color-mix</code>, Fraunces/Hanken variables, ledes en Hanken (nunca Fraunces italic salvo <code>&lt;em&gt;</code> en títulos), eyebrows en gris tenue. <strong>Bento grid</strong> para los tramos del dinero. Movimiento solo donde explique, <code>prefers-reduced-motion</code> respetado, sin <code>data-reveal</code> en el <code>&lt;h1&gt;</code> del hero (LCP). Un solo CTA primario por hero. <code>.zona-luz</code> local con la receta de meditación para los descansos visuales.</p>
+  </div>
+
+  <div class="dato reveal">
+    <span class="dato__k">Técnico y conversión</span>
+    <p><strong>Móvil-primero de verdad</strong>: formulario corto, teclado numérico para el importe, Apple/Google Pay + PayPal para no teclear tarjeta. Pasarela de Alberto integrada de forma que la página de pago <strong>parezca la misma web</strong> (no un formulario ajeno desnudo). Datos de la fundación y personalidad jurídica en el pie. Hero ligero, imágenes optimizadas: el rendimiento es parte de la conversión.</p>
+  </div>
+
+  <div class="dato dato--warn reveal">
+    <span class="dato__k">Líneas rojas (identidad Paramita)</span>
+    <p>Nada de cuentas atrás agresivas, contadores "en vivo" fabricados, casillas premarcadas, rankings de donantes, badges ni métricas de vanidad. La emoción viene de la verdad del proyecto, no de la presión. Si una técnica exige fingir, se descarta.</p>
+  </div>
+
+  <p class="pull reveal">Paramita no necesita gritar. Necesita mostrar un rostro, decir la verdad del proyecto y quitar de en medio todo lo que estorbe entre el impulso de dar y el gesto de dar.</p>
+
+  <div class="dato reveal">
+    <span class="dato__k">Siguiente paso propuesto</span>
+    <p>Con el análisis cerrado, lo natural es redactar el <strong>copy y la estructura editorial de la landing</strong> siguiendo los ocho bloques de la sección 07, y en paralelo definir con Alberto la <strong>integración de pasarela y la barra de progreso en vivo</strong> (¿dato manual, o conectada al backend de pagos?). La maqueta, después del copy.</p>
+  </div>
+</section>
+
+<div class="flow"><hr class="divider"></div>
+
+<!-- ══════════════ FUENTES ══════════════ -->
+<section class="refs flow">
+  <div class="sec-head reveal">
+    <span class="sec-num">Fuentes</span>
+    <h2>De dónde salen los <em>datos</em></h2>
+  </div>
+  <ol class="reveal">
+    <li><b>M+R Benchmarks 2026</b> · muestra ~180 organizaciones · conversión 11 % escritorio / 8 % móvil (4 % en pequeñas); 1,6 % de visitantes donan, 1,33 $/visitante; móvil = 52 % del tráfico, 43 % de transacciones, 28 % de ingresos; regalo medio 168 $ vs 88 $; ingresos online +15 %, ingresos móviles +48 % en un año. Vía mrbenchmarks.com, iDonate, FundEasy, DonorDock.</li>
+    <li><b>Giving mensual = 31 % de ingresos online</b> (M+R Benchmarks 2025, vía CO Consulting) · valor del donante recurrente.</li>
+    <li><b>Genevsky, Västfjäll, Slovic &amp; Knutson (2013), Journal of Neuroscience</b> · base fMRI del efecto víctima identificable: fotos &gt; siluetas, mediado por afecto positivo y activación del núcleo accumbens.</li>
+    <li><b>Small, Loewenstein &amp; Slovic; Dickert &amp; Slovic</b> · efecto víctima identificable y efecto número de víctimas (menos disposición a dar cuanto mayor el grupo).</li>
+    <li><b>Andreoni · «warm glow»</b> · la donación como afecto positivo del propio acto, no cálculo de eficiencia.</li>
+    <li><b>Kahneman &amp; Tversky</b> · base del anclaje y el <em>priming</em> aplicados a importes sugeridos y encuadre (vía Reef Digital, GC-BS, James Mattison).</li>
+    <li><b>Iyengar &amp; Lepper (2000)</b> · sobrecarga de opciones (mermeladas 6 → 30 %, 24 → 3 %); matizado por Scheibehenne et al.</li>
+    <li><b>NextAfter · biblioteca de experimentos</b> · importes sugeridos +104,4 % (CaringBridge); "el más popular" +94 % ingresos; entrada baja + 5 opciones +125,5 % recurrentes / +44 % conversión; vídeo en página de donación suele bajar (un caso, quitarlo +527 %).</li>
+    <li><b>iDonate</b> · propuesta de valor primero +150 % conversión; guías de A/B testing y benchmarks.</li>
+    <li><b>Fundraise Up</b> · mostrar donativo medio +17 %; smart suggested amounts; datos de recurrencia y checkout.</li>
+    <li><b>Karlan &amp; List (2007), American Economic Review</b> · +50.000 donantes: el <em>match</em> sube probabilidad e ingresos; 2:1 y 3:1 no superan a 1:1. Karlan, List &amp; Shafir (2011): en <em>matches</em> pequeños el efecto es débil y heterogéneo.</li>
+    <li><b>Barra de progreso</b> · +32 % recaudación y +33 % con meta numérica concreta (FundraisingThermometer.org); +65 % follow-through; umbrales ~30–40 % y 66 % (OptinMonster, Paymattic, Raisely, Digital Trophy Case); riesgo de tiro por la culata si se muestra muy pronto (Fundraise Up).</li>
+    <li><b>Cryder, Loewenstein &amp; Scheines (2007)</b> · tangibilidad y generosidad; efecto de gradiente de meta.</li>
+    <li><b>Ejemplos reales</b> · BCA "Dharma Forward" (buddhistchurchesofamerica.org); Tibetan Buddhist Centre (tibetanbc.org); Drikung Dharma Surya (drikungdharmasurya.org); American Buddhist Seminary (abstemple.org); Dharma Bum Temple (thedharmabums.org).</li>
+    <li><b>Confianza y tendencias 2026</b> · checklist de confianza (Morweb); Giving Signals 2026 (Bloomerang); auditorías de donation pages (Zeffy, Momentive); transparencia (Zeffy); tendencias de diseño (Graphic Design Junction, Envato, Fireart, Tubik, Webflow, Wix).</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Paramita · Fundació Sakya Paramita — Estudio interno · «La puerta del dāna»: neuromarketing, conversión y diseño de la landing de crowdfunding · ago 2026. Datos contrastados entre 15 fuentes. Siguiente entrega: copy y estructura editorial de la landing.</div>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    bar.style.width = (scrolled * 100) + '%';
+  };
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+</body>
+</html>
