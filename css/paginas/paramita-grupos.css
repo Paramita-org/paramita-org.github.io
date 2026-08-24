@@ -19,9 +19,31 @@
 
   /* ══ HERO · foto de fondo ══ */
   .hero--grupos .hero__bg{ background:linear-gradient(150deg, var(--calido-zen), color-mix(in oklch,var(--azul-sutil) 22%, var(--calido-zen))); }
-  .hero--grupos .hero__bg-img{ width:100%; height:100%; object-fit:cover; }
+  /* object-position a la derecha: lleva el grupo hacia la foto y deja la
+     columna izquierda (texto) sobre la parte menos cargada. */
+  .hero--grupos .hero__bg-img{ width:100%; height:100%; object-fit:cover; object-position:center right; opacity:.95; }
   /* La foto vive en img/hero-grupos.jpg (ajusta la ruta a tu estructura).
      El degradado de arriba es red de seguridad si la foto falta o tarda. */
+
+  /* ══ Velo del hero · sustituye al ::after genérico SOLO en esta página ══
+     El velo base (paramita-hero.css) está pensado para el hero de vídeo de la
+     home: solo protege la franja superior. Sobre la foto de grupos, la mitad
+     inferior de la columna de texto (la línea «164 círculos») quedaba sin
+     scrim, sobre la hierba clara. Este velo cálido pesa a la izquierda —a
+     toda la altura— y se disuelve hacia la foto a la derecha; luminoso, no
+     oscurece. Mismo patrón que el hero de foto de meditación. */
+  .hero--grupos::after{
+    content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:
+      linear-gradient(95deg,
+        var(--lino) 0%,
+        color-mix(in oklch, var(--lino) 86%, transparent) 34%,
+        color-mix(in oklch, var(--lino) 40%, transparent) 58%,
+        transparent 80%),
+      linear-gradient(180deg,
+        transparent 52%,
+        color-mix(in oklch, var(--lino) 50%, transparent));
+  }
 
   /* ══ Contenedor de lectura local (por si la página no hereda .wrap) ══ */
   .g-wrap{ max-width:1120px; margin-inline:auto; padding-inline:clamp(1.1rem,4vw,2rem); }
@@ -117,32 +139,24 @@
   .comparativa .g{ color:var(--azul-oscuro); font-weight:500; }
   .comparativa > div:nth-last-child(-n+3){ border-bottom:none; }
 
-  /* ══ Mapa de presencia · interactivo (SVG propio, proyección Natural Earth) ══ */
+  /* ══ Mapa de presencia · glow tranquilo (sin marcadores) ══ */
   .presencia{ position:relative; isolation:isolate; text-align:center; overflow:hidden; }
+  /* Difusión más marcada arriba y abajo: dos glows cálidos que entran por los
+     bordes hacen que la transición con los bloques vecinos se note más, y el
+     centro queda como zona cálida propia. */
   .presencia::before{ content:""; position:absolute; inset:0; z-index:-2; background:
-    radial-gradient(72% 78% at 50% 38%, color-mix(in oklch, var(--calido-zen) 46%, transparent), transparent 70%),
-    linear-gradient(180deg, var(--lino), color-mix(in oklch, var(--arena) 22%, var(--lino)) 50%, var(--lino)); }
-  .presencia__canvas{ position:absolute; inset:0; width:100%; height:100%; z-index:-1; opacity:.9; pointer-events:none; }
+    radial-gradient(120% 58% at 50% -6%,  color-mix(in oklch, var(--calido-zen) 62%, transparent), transparent 60%),
+    radial-gradient(120% 58% at 50% 106%, color-mix(in oklch, var(--calido-zen) 55%, transparent), transparent 60%),
+    radial-gradient(70% 70% at 50% 44%,   color-mix(in oklch, var(--calido-zen) 40%, transparent), transparent 72%),
+    linear-gradient(180deg, var(--lino), color-mix(in oklch, var(--arena) 20%, var(--lino)) 50%, var(--lino)); }
+  .presencia__canvas{ position:absolute; inset:0; width:100%; height:100%; z-index:-1; opacity:1; pointer-events:none; }
   .presencia .g-wrap{ position:relative; z-index:2; }
   .mapa{ max-width:1040px; margin:1.8rem auto 0; }
   .mapa__svg{ width:100%; height:auto; display:block; overflow:visible; }
-  /* Países */
-  .pais{ fill:color-mix(in oklch, var(--antracita) 9%, var(--card)); stroke:var(--lino); stroke-width:.5;
-    transition:fill var(--t-defecto,.3s) ease; }
-  .pais--on{ fill:color-mix(in oklch, var(--dorado) 30%, var(--card)); }
-  .pais--hi{ fill:color-mix(in oklch, var(--dorado) 56%, var(--card)); }   /* al iluminar (JS) */
-  /* Lotos */
-  .loto{ cursor:pointer; outline:none; }
-  .loto__hit{ fill:transparent; }
-  .loto use{ fill:var(--dorado); }
-  .loto__s{ transform-box:fill-box; transform-origin:center; opacity:.5;
-    transition:transform var(--t-defecto,.3s) var(--ease-suave,cubic-bezier(.22,1,.36,1)), opacity var(--t-defecto,.3s) ease, filter var(--t-defecto,.3s) ease; }
-  .loto__lbl{ fill:var(--azul-oscuro); font-family:var(--display); font-weight:600; font-size:15px; text-anchor:middle;
-    opacity:0; transition:opacity .25s ease; pointer-events:none;
-    paint-order:stroke; stroke:var(--lino); stroke-width:3.5px; stroke-linejoin:round; }
-  .loto:hover .loto__s, .loto:focus-visible .loto__s, .loto.on .loto__s{
-    opacity:1; transform:scale(1.42); filter:drop-shadow(0 1px 5px color-mix(in oklch, var(--dorado) 75%, transparent)); }
-  .loto:hover .loto__lbl, .loto:focus-visible .loto__lbl, .loto.on .loto__lbl{ opacity:1; }
+  /* Países · base tenue; los de presencia iluminados en dorado (sinergia con
+     «círculos» y las partículas del bloque). */
+  .pais{ fill:color-mix(in oklch, var(--antracita) 8%, var(--card)); stroke:var(--lino); stroke-width:.5; }
+  .pais--on{ fill:color-mix(in oklch, var(--dorado) 40%, var(--card)); }
   .presencia .cifra{ font-family:var(--display); font-weight:var(--wght-presencia,400);
     font-size:clamp(2.5rem,6.4vw,4.4rem); line-height:1.04; color:var(--azul-oscuro); letter-spacing:-.02em; }
   .presencia .cifra em{ font-style:italic; color:var(--dorado); }
@@ -180,7 +194,7 @@
   .res__go{ margin-left:auto; font-family:var(--mono); font-size:.62rem; letter-spacing:.05em; text-transform:uppercase; color:var(--dorado); white-space:nowrap; }
   .res__vacio{ padding:1.4rem; text-align:center; color:var(--texto-suave); font-size:.9rem; }
   .res__prompt{ display:flex; flex-direction:column; align-items:center; gap:.7rem; padding:2rem 1.4rem; text-align:center; color:var(--texto-suave); font-size:.95rem; }
-  .res__prompt svg{ width:1.9rem; height:1.9rem; color:color-mix(in oklch,var(--dorado) 70%,var(--texto-tenue)); }
+  .res__prompt svg{ width:1.9rem; height:1.9rem; color:var(--dorado); }
   .buscador__nota{ font-family:var(--mono); font-size:.64rem; color:var(--texto-tenue); letter-spacing:.02em; margin-top:.9rem; text-align:center; }
 
   /* ══ ¿Es el momento? ══ */
@@ -189,13 +203,18 @@
     overflow:hidden; transition:transform var(--t-revelacion,.5s) ease, box-shadow var(--t-revelacion,.5s) ease; }
   @supports (corner-shape:superellipse(2)){ .momento__col{ border-radius:26px; corner-shape:superellipse(2.5); } }
   .momento__col:hover{ transform:translateY(-3px); box-shadow:0 24px 50px -34px var(--antracita); }
-  .momento__col.si{ background:linear-gradient(180deg, color-mix(in oklch,var(--dorado) 14%,var(--card)), color-mix(in oklch,var(--dorado) 5%,var(--card)));
-    border-color:color-mix(in oklch,var(--dorado) 45%,var(--hair)); box-shadow:0 26px 54px -34px color-mix(in oklch,var(--dorado) 60%,var(--antracita)); }
+  /* Card «adelante» · fondo neutro + SOMBRA cálida dorada (no negra): la card
+     no se tiñe (ni azul ni dorado saturado), la calidez vive en el glow inferior
+     y en el acento del icono/tics. Sombra dorada = dorado mezclado con
+     transparent (conserva el tono, no vira a verde). */
+  .momento__col.si{ background:var(--card);
+    border-color:color-mix(in oklch,var(--dorado) 24%,var(--hair));
+    box-shadow:0 26px 54px -30px color-mix(in oklch,var(--dorado) 44%,transparent); }
   .momento__col.no{ background:color-mix(in oklch,var(--arena) 70%,var(--card)); border-color:var(--hair); box-shadow:none; }
   .momento__col.no h3{ color:var(--texto-suave); }
   .momento__cab{ display:flex; align-items:center; gap:.7rem; margin-bottom:1.1rem; }
   .momento__ico{ width:2.4rem; height:2.4rem; border-radius:50%; flex:none; display:grid; place-items:center; }
-  .momento__col.si .momento__ico{ background:color-mix(in oklch,var(--dorado) 18%,var(--card)); color:var(--dorado); }
+  .momento__col.si .momento__ico{ background:color-mix(in oklch,var(--dorado) 14%,var(--card)); color:color-mix(in oklch,var(--dorado) 78%,var(--antracita)); }
   .momento__col.no .momento__ico{ background:color-mix(in oklch,var(--antracita) 6%,var(--card)); color:var(--texto-suave); }
   .momento__ico svg{ width:1.25rem; height:1.25rem; }
   .momento__tag{ font-family:var(--mono); font-size:.64rem; letter-spacing:.12em; text-transform:uppercase; color:var(--texto-tenue); display:block; margin-bottom:.15rem; }
@@ -206,15 +225,14 @@
   .momento__col.si .momento__lista li::before{ content:"✓"; color:var(--dorado); font-weight:600; }
   .momento__col.no .momento__lista li::before{ content:"–"; color:var(--texto-tenue); font-weight:600; }
 
-  /* ══ Cita del río · profundidad ══ */
+  /* ══ Cita del río · profundidad cálida (sin sombra negra) ══
+     Antes un box-shadow interior antracita arriba/abajo ensombrecía la frase.
+     Se sustituye por un resplandor cálido central: la cita se lee iluminada y
+     los bordes se disuelven en --lino (sin división dura, sin oscurecer). */
   .cita{ position:relative; text-align:center; overflow:hidden; isolation:isolate; }
   .cita::before{ content:""; position:absolute; inset:0; z-index:-1; background:
-    radial-gradient(60% 70% at 50% 32%, color-mix(in oklch,var(--calido-zen) 70%,transparent), transparent 62%),
-    radial-gradient(90% 60% at 50% 120%, color-mix(in oklch,var(--azul-sutil) 12%,transparent), transparent 60%),
-    linear-gradient(180deg, var(--lino), var(--calido-zen) 46%, var(--lino)); }
-  .cita::after{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
-    box-shadow:inset 0 40px 60px -50px color-mix(in oklch,var(--antracita) 60%,transparent),
-               inset 0 -40px 60px -50px color-mix(in oklch,var(--antracita) 60%,transparent); }
+    radial-gradient(72% 82% at 50% 40%, color-mix(in oklch,var(--calido-zen) 82%,transparent), transparent 66%),
+    linear-gradient(180deg, var(--lino), color-mix(in oklch,var(--calido-zen) 55%,var(--lino)) 48%, var(--lino)); }
   .cita blockquote{ font-family:var(--display); font-weight:var(--wght-contemplativo,300); font-style:italic;
     font-size:clamp(1.5rem,3.4vw,2.5rem); line-height:1.4; color:var(--antracita); max-width:16em; margin:1.6rem auto 1.2rem; }
   .cita blockquote em{ color:var(--dorado); font-style:italic; display:block; margin-top:.6rem; }
@@ -223,10 +241,17 @@
   /* ══ Sembrar un grupo ══ */
   .sembrar{ background:linear-gradient(135deg, color-mix(in oklch,var(--calido-zen) 42%,var(--card)), var(--card));
     border:1px solid color-mix(in oklch,var(--dorado) 22%,var(--hair)); border-radius:20px;
-    padding:clamp(1.8rem,4vw,2.8rem); display:flex; gap:1.6rem; align-items:center; flex-wrap:wrap; }
+    padding:clamp(1.6rem,4vw,2.4rem); display:flex; gap:clamp(1.4rem,3vw,2.2rem); align-items:center; flex-wrap:wrap; }
   @supports (corner-shape:superellipse(2)){ .sembrar{ border-radius:26px; corner-shape:superellipse(2.5); } }
+  .sembrar__foto{ flex:0 0 clamp(200px,32%,340px); margin:0; border-radius:16px; overflow:hidden; align-self:stretch; min-height:210px;
+    box-shadow:0 20px 44px -24px color-mix(in oklch,var(--antracita) 34%,transparent); }
+  .sembrar__foto img{ width:100%; height:100%; object-fit:cover; display:block; }
   .sembrar__txt{ flex:1; min-width:260px; }
   .sembrar__txt h2{ font-size:clamp(1.5rem,3vw,2.1rem); }
+  @media (max-width:640px){
+    .sembrar{ flex-direction:column; align-items:stretch; }
+    .sembrar__foto{ flex:none; width:100%; height:200px; min-height:0; align-self:auto; }
+  }
 
   /* ══ Entradas especiales (hook con reveal.js · .is-in) ══ */
   [data-reveal].entra-zoom{ transform:scale(.68); opacity:0; transform-origin:center; }
@@ -234,7 +259,44 @@
   [data-reveal].entra-cita{ filter:blur(14px); transform:scale(1.06); opacity:0; }
   [data-reveal].entra-cita.is-in{ filter:blur(0); transform:none; opacity:1; transition:filter 1.05s ease, transform 1.15s var(--ease-suave,ease), opacity 1.05s ease; }
 
+  /* ══ Semblanza · Khenpo (estética «khenpo residente» de maestros) ══
+     Estilos LOCALES de la página: el bloque no depende de paramita-tarjetas.css
+     para evitar descuadres por desajuste entre archivos. Banda cálida a sangre
+     (.semblanza en la <section>), contenido centrado en .g-wrap.semblanza__grid.
+     Retrato vertical; la pastilla y las iniciales son reserva bajo la foto. */
+  .semblanza{ background:linear-gradient(175deg, var(--lino), var(--calido-zen)); }
+  .semblanza__grid{ display:flex; align-items:center; gap:clamp(1.5rem,4vw,3rem); }
+  .semblanza__retrato{ flex:none; margin:0; width:var(--foto-w,120px); height:var(--foto-h,150px);
+    border-radius:16px; overflow:hidden; position:relative; display:grid; place-items:end center;
+    background:
+      radial-gradient(120% 120% at 70% 12%, color-mix(in oklch,var(--dorado) 30%,transparent), transparent 60%),
+      linear-gradient(155deg, var(--arcilla), var(--calido-zen));
+    box-shadow:0 22px 48px -20px color-mix(in oklch,var(--azul-oscuro) 40%,transparent); }
+  .semblanza__retrato .foto{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center top; z-index:3; }
+  .semblanza__retrato .ini{ position:absolute; inset:0; z-index:0; display:grid; place-items:center;
+    font-family:var(--display); font-weight:var(--wght-contemplativo); font-size:2rem; color:color-mix(in oklch,var(--azul-oscuro) 45%,transparent); }
+  .semblanza__retrato .ph{ position:relative; z-index:2; margin-bottom:.7rem; font-size:var(--texto-micro,.62rem); letter-spacing:.14em; text-transform:uppercase;
+    color:color-mix(in oklch,var(--antracita) 60%,transparent); background:color-mix(in oklch,var(--lino) 78%,transparent); padding:.3rem .7rem; border-radius:99px; }
+  .semblanza__txt{ flex:1; min-width:0; }
+  .semblanza__txt .eyebrow{ margin-bottom:.5rem; }
+  .semblanza__txt h3{ font-family:var(--display); font-weight:var(--wght-presencia); font-size:clamp(1.6rem,3.2vw,2.3rem); line-height:1.08; margin:.2rem 0 1rem; }
+  .semblanza__txt p:not(.eyebrow){ color:var(--antracita); max-width:50ch; margin:0 0 1.6rem; line-height:1.6; }
+
   /* ══ Responsive ══ */
+  @media (max-width:640px){ .semblanza__grid{ flex-direction:column; align-items:flex-start; } }
+  /* Hero móvil · el velo lateral no basta cuando el texto cae sobre la foto:
+     velo cálido vertical denso en toda la banda de texto y foto centrada. */
+  @media (max-width:768px){
+    .hero--grupos::after{
+      background:linear-gradient(180deg,
+        color-mix(in oklch, var(--lino) 90%, transparent) 0%,
+        color-mix(in oklch, var(--lino) 82%, transparent) 42%,
+        color-mix(in oklch, var(--lino) 70%, transparent) 72%,
+        color-mix(in oklch, var(--lino) 40%, transparent) 100%);
+    }
+    .hero--grupos .hero__bg-img{ object-position:center; }
+    .hero--grupos .meta{ color:color-mix(in oklch, var(--antracita) 78%, var(--texto-suave)); }
+  }
   @media (max-width:900px){ .pictos{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:800px){ .voces{ grid-template-columns:1fr; } }
   @media (max-width:720px){ .momento{ grid-template-columns:1fr; } }
@@ -245,8 +307,6 @@
     [data-reveal].entra-zoom, [data-reveal].entra-cita{ opacity:1; transform:none; filter:none; }
     .picto .pico svg path, .picto .pico svg circle{ stroke-dashoffset:0; }
     .cinevideo__media{ transform:none !important; }
-    .loto__s{ transition:none; }
-    .loto:hover .loto__s, .loto:focus-visible .loto__s, .loto.on .loto__s{ transform:none; }
   }
 
 } /* @layer paginas */

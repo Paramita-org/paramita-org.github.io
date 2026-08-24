@@ -52,86 +52,68 @@
   }
 
   /* ═══════════════════════════════════════════════════════════════════════
-     VCARD — tarjeta-persona (retrato + nombre + texto), toda ella enlace
+     SEMBLANZA — persona destacada (banda cálida a sangre)
      ───────────────────────────────────────────────────────────────────────
-     Canon compartido: el patrón nace en la landing de maestros y se sube
-     aquí para unificar estilos entre páginas (grupos «Bajo su tutela»,
-     maestros «Visitantes/Bisagra», etc.). Profundidad real: sombra
-     azul-oscuro + elevación al hover + foco accesible; sin dorado de fondo.
+     Estética del bloque «khenpo residente» (.bisagra) de la landing de
+     maestros, subida aquí para unificar. Banda cálida lino→calido-zen a todo
+     el ancho (la clase va en la <section>); el contenido se centra con .g-wrap
+     .semblanza__grid. Retrato vertical con marco dorado tenue + sombra azul;
+     la pastilla y las iniciales son SOLO reserva y quedan bajo la foto (la foto
+     las tapa cuando carga). Medida del retrato con --foto-w/--foto-h (120×150
+     por defecto); la página puede redefinirlas en un ancestro.
 
      MARCADO
-       <a class="vcard" href="…">
-         <span class="retrato">
-           <img class="foto" src="…" alt="…" loading="lazy" onerror="this.remove()">
-           <span class="ini">RG</span>            (iniciales de reserva)
-         </span>
-         <span>
-           <span class="eyebrow">Rol / kicker</span>   (opcional · nunca dorado)
-           <h3>Nombre</h3>
-           <p>Descripción</p>
-           <span class="vcard__cue">Enlace <span class="arw" aria-hidden="true">→</span></span>
-         </span>
-       </a>
-
-     Medida del retrato configurable con --foto-w / --foto-h (por defecto
-     120×150); la página puede redefinirlas en un contenedor ancestro.
+       <section class="g-sec semblanza">
+         <div class="g-wrap semblanza__grid">
+           <figure class="semblanza__retrato">
+             <img class="foto" src="…" alt="…" loading="lazy" onerror="this.remove()">
+             <span class="ini">RG</span>          (iniciales de reserva)
+             <span class="ph">khenpo</span>        (pastilla de reserva · opcional)
+           </figure>
+           <div class="semblanza__txt">
+             <p class="eyebrow">Kicker</p>          (nunca dorado)
+             <h3>Nombre</h3>
+             <p>Descripción</p>
+             <a class="btn-secundario" href="…"><span>CTA</span><span class="arw" aria-hidden="true">→</span></a>
+           </div>
+         </div>
+       </section>
      ─────────────────────────────────────────────────────────────────────── */
-  a.vcard {
-    display: grid; grid-template-columns: var(--foto-w, 120px) 1fr; gap: 1.1rem; align-items: start;
-    background: var(--card); border: 1px solid var(--hair); border-radius: 18px; padding: 1.3rem;
-    text-decoration: none; color: inherit; position: relative; overflow: hidden;
-    transition: transform var(--t-defecto), box-shadow var(--t-revelacion), border-color var(--t-defecto);
-  }
-  @supports (corner-shape: superellipse(2)) { a.vcard { border-radius: 22px; corner-shape: superellipse(2.4); } }
-  a.vcard:hover {
-    transform: translateY(-4px);
-    border-color: color-mix(in oklch, var(--dorado) 40%, var(--hair));
-    box-shadow:
-      0 24px 48px -22px color-mix(in oklch, var(--azul-oscuro) 50%, transparent),
-      0 0 36px -8px color-mix(in oklch, var(--dorado) 26%, transparent);
-  }
-  a.vcard:focus-visible { outline: 2px solid var(--dorado); outline-offset: 3px; }
+  .semblanza { background: linear-gradient(175deg, var(--lino), var(--calido-zen)); }
+  .semblanza__grid { display: flex; align-items: center; gap: clamp(1.5rem, 4vw, 3rem); }
 
-  .vcard .retrato {
-    width: var(--foto-w, 120px); height: var(--foto-h, 150px);
-    border-radius: 14px; overflow: hidden; position: relative;
+  .semblanza__retrato {
+    flex: none; margin: 0; width: var(--foto-w, 120px); height: var(--foto-h, 150px);
+    border-radius: 16px; overflow: hidden; position: relative;
+    display: grid; place-items: end center;
     background:
-      radial-gradient(120% 120% at 70% 15%, color-mix(in oklch, var(--dorado) 30%, transparent), transparent 60%),
+      radial-gradient(120% 120% at 70% 12%, color-mix(in oklch, var(--dorado) 30%, transparent), transparent 60%),
       linear-gradient(155deg, var(--arcilla), var(--calido-zen));
+    box-shadow: 0 22px 48px -20px color-mix(in oklch, var(--azul-oscuro) 40%, transparent);
   }
-  .vcard .retrato .foto {
+  .semblanza__retrato .foto {
     position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: cover; object-position: center top; z-index: 3;
+    object-fit: cover; object-position: center top; z-index: 3;   /* tapa ini + ph */
   }
-  .vcard .retrato .ini {
+  .semblanza__retrato .ini {
     position: absolute; inset: 0; z-index: 0; display: grid; place-items: center;
     font-family: var(--display); font-weight: var(--wght-contemplativo);
-    font-size: 1.9rem; color: color-mix(in oklch, var(--azul-oscuro) 45%, transparent);
+    font-size: 2rem; color: color-mix(in oklch, var(--azul-oscuro) 45%, transparent);
   }
-  .vcard h3 {
+  .semblanza__retrato .ph {
+    position: relative; z-index: 2; margin-bottom: .7rem;
+    font-size: var(--texto-micro, .62rem); letter-spacing: .14em; text-transform: uppercase;
+    color: color-mix(in oklch, var(--antracita) 60%, transparent);
+    background: color-mix(in oklch, var(--lino) 78%, transparent);
+    padding: .3rem .7rem; border-radius: 99px;
+  }
+  .semblanza__txt { flex: 1; min-width: 0; }
+  .semblanza__txt .eyebrow { margin-bottom: .5rem; }
+  .semblanza__txt h3 {
     font-family: var(--display); font-weight: var(--wght-presencia);
-    font-size: 1.28rem; line-height: 1.1; margin: 0 0 .4rem;
+    font-size: clamp(1.6rem, 3.2vw, 2.3rem); line-height: 1.08; margin: .2rem 0 1rem;
   }
-  .vcard .eyebrow { margin-bottom: .45rem; }
-  .vcard p { margin: 0; color: var(--texto-suave); font-size: .95rem; line-height: 1.55; }
+  .semblanza__txt p:not(.eyebrow) { color: var(--antracita); max-width: 50ch; margin: 0 0 1.6rem; line-height: 1.6; }
 
-  /* Pista terciaria: como la card entera es el enlace, es un <span> (no un
-     <a> anidado). La flecha avanza al pasar el cursor por la card. */
-  .vcard__cue {
-    display: inline-flex; align-items: center; gap: .45em; margin-top: .85rem;
-    font-family: var(--body); font-weight: 500; font-size: 1rem; color: var(--azul-oscuro);
-  }
-  .vcard__cue .arw { transition: transform var(--t-defecto); }
-  a.vcard:hover .vcard__cue .arw { transform: translateX(4px); }
-
-  @media (max-width: 460px) {
-    a.vcard { grid-template-columns: 1fr; }
-    .vcard .retrato { width: 100%; height: auto; aspect-ratio: 4/5; max-width: 220px; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    a.vcard, .vcard__cue .arw { transition: none; }
-    a.vcard:hover { transform: none; }
-    a.vcard:hover .vcard__cue .arw { transform: none; }
-  }
+  @media (max-width: 640px) { .semblanza__grid { flex-direction: column; align-items: flex-start; } }
 }

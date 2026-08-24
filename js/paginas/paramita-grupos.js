@@ -159,18 +159,26 @@
 
   /* ── 3 · MAPA DE PRESENCIA ─────────────────────────────────────────────── */
 
-  /* 3a · Esporas de fondo · flotan y brillan (ambiental, detrás del mapa) */
+  /* 3a · Esporas de fondo · flotan y brillan (ambiental, detrás del mapa)
+     Redondas siempre: el lienzo se dimensiona a px CSS × densidad de píxel y
+     se reconstruye con ResizeObserver cuando la sección cambia de alto (antes
+     el canvas se estiraba por CSS y los círculos salían ovalados). */
   const esp = $('#mapaEsporas');
   if(esp){
-    const ctx = esp.getContext('2d'); let w,h,pts=[];
-    const clusters=[[0.12,0.30,12],[0.24,0.66,14],[0.40,0.24,12],[0.50,0.72,14],[0.62,0.40,12],[0.76,0.68,13],[0.86,0.30,11],[0.70,0.20,9]];
-    const nuevo=(x0,y0)=>({ x0,y0, base:0.12+Math.random()*0.28, ph:Math.random()*Math.PI*2, sp:0.0006+Math.random()*0.0011,
-      dph:Math.random()*Math.PI*2, dsp:0.00018+Math.random()*0.00035, damp:6+Math.random()*16, r:1.5+Math.random()*1.2 });
+    const ctx = esp.getContext('2d'); let w=0,h=0,pts=[];
+    const clusters=[[0.12,0.30,16],[0.24,0.66,18],[0.40,0.24,16],[0.50,0.72,18],[0.62,0.40,16],[0.76,0.68,17],[0.86,0.30,15],[0.70,0.20,12]];
+    const nuevo=(x0,y0)=>({ x0,y0, base:0.22+Math.random()*0.30, ph:Math.random()*Math.PI*2, sp:0.0006+Math.random()*0.0011,
+      dph:Math.random()*Math.PI*2, dsp:0.00018+Math.random()*0.00035, damp:6+Math.random()*16, r:1.8+Math.random()*1.6 });
     function build(){
-      w=esp.width=esp.offsetWidth; h=esp.height=esp.offsetHeight; pts=[];
+      const dpr = Math.min(devicePixelRatio||1, 2);
+      w=esp.offsetWidth; h=esp.offsetHeight;
+      if(!w||!h) return;
+      esp.width=Math.round(w*dpr); esp.height=Math.round(h*dpr);
+      ctx.setTransform(dpr,0,0,dpr,0,0);   /* dibujar en px CSS → círculo = círculo */
+      pts=[];
       clusters.forEach(([cx,cy,n])=>{ for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, rad=Math.random()*0.1;
         pts.push(nuevo((cx+Math.cos(a)*rad)*w,(cy+Math.sin(a)*rad)*h)); } });
-      for(let i=0;i<40;i++){ pts.push(nuevo((0.04+Math.random()*0.92)*w,(0.10+Math.random()*0.80)*h)); }
+      for(let i=0;i<90;i++){ pts.push(nuevo((0.04+Math.random()*0.92)*w,(0.10+Math.random()*0.80)*h)); }
     }
     function paint(t){
       ctx.clearRect(0,0,w,h);
@@ -183,50 +191,21 @@
       });
       if(!reduce) requestAnimationFrame(paint);
     }
-    addEventListener('resize', build, {passive:true});
+    if('ResizeObserver' in window){ new ResizeObserver(()=>build()).observe(esp); }
+    else { addEventListener('resize', build, {passive:true}); }
     build(); reduce ? paint(0) : requestAnimationFrame(paint);
   }
 
-  /* 3b · MAPA · SVG aparte (fetch+inject) e interactivo (hover ilumina país+loto; clic filtra) */
-  function wireMapa(svgMapa){
-    const paisPorId = id => svgMapa.querySelector('.pais[data-id="'+id+'"]');
-    const REGION = { 'Panamá':'Centro América', 'República Dominicana':'Centro América',
-                     'Reino Unido':'Europa', 'Francia':'Europa', 'Alemania':'Europa' };
-    $$('.loto', svgMapa).forEach(g=>{
-      const id = g.getAttribute('data-id');
-      const nombre = g.getAttribute('data-pais');
-      const p = id && paisPorId(id);
-      const on  = ()=>{ if(p) p.classList.add('pais--hi'); };
-      const off = ()=>{ if(p) p.classList.remove('pais--hi'); };
-      g.addEventListener('pointerenter', on);
-      g.addEventListener('pointerleave', off);
-      g.addEventListener('focus', on);
-      g.addEventListener('blur', off);
-      const activar = ()=>{
-        const buscador = document.getElementById('buscador');
-        if(buscador) buscador.scrollIntoView({behavior:'smooth', block:'start'});
-        const chipsEl = document.getElementById('chips');
-        if(!chipsEl) return;
-        const destino = REGION[nombre] || nombre;
-        const chip = chipsEl.querySelector('.chip[data-f="'+destino+'"]');
-        setTimeout(()=>{
-          if(chip){ chip.click(); }
-          else { const inp=document.getElementById('busca'); if(inp){ inp.value=nombre; inp.dispatchEvent(new Event('input',{bubbles:true})); } }
-        }, 420);
-      };
-      g.addEventListener('click', activar);
-      g.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); activar(); } });
-    });
-  }
+  /* 3b · MAPA · SVG aparte (fetch+inject) · glow tranquilo, sin marcadores.
+     Los países con presencia ya vienen iluminados (class "pais pais--on") en el
+     propio SVG; el filtrado vive en el buscador de abajo. */
   const mapaBox = document.querySelector('.mapa[data-src]');
   if(mapaBox){
     fetch(mapaBox.getAttribute('data-src')).then(r=> r.ok ? r.text() : Promise.reject()).then(txt=>{
       mapaBox.innerHTML = txt;
       const svg = mapaBox.querySelector('svg');
-      if(svg){ svg.classList.add('mapa__svg'); wireMapa(svg); }
+      if(svg) svg.classList.add('mapa__svg');
     }).catch(()=>{ /* si la carga falla, el bloque conserva esporas + cifra */ });
-  } else {
-    const svg = $('.mapa__svg'); if(svg) wireMapa(svg);
   }
 
   /* ── 4 · Pictogramas: longitud de trazo para el «dibujado» ───────────── */
@@ -249,22 +228,37 @@
     addEventListener('scroll', ()=>requestAnimationFrame(draw), {passive:true});
     draw();
   }
-  /* ── 6 · Testimonios · asegurar la aparición (.voz → .in) ─────────────────
-     El bloque de voces se revela por enfoque (opacity/blur → .in). Lo activamos
-     aquí por si el componente del sistema no engancha con este marcado. */
-  const voces = $$('.voz');
-  if(voces.length){
-    if(reduce){ voces.forEach(v=>v.classList.add('in')); }
+  /* Nota · el revelado en cascada de las .voz (.voz → .in) lo gestiona el
+     componente del proyecto paramita-testimonios.js (observa .bloque-voces).
+     Aquí NO se duplica para no competir con su animación escalonada. */
+
+  /* ── 7 · Testimonios en vídeo (Vimeo) · facade con miniatura + click-to-play ─
+     paramita-video.js solo cubre YouTube (data-yt). Aquí se cubre Vimeo
+     (data-vimeo): miniatura vía oEmbed (CORS) e iframe de player.vimeo.com al
+     interactuar. Reutiliza el CSS de .video-facade / __thumb / __play. */
+  $$('.video-facade[data-vimeo]').forEach(el=>{
+    const id = el.getAttribute('data-vimeo');
+    if(!id) return;
+    const thumb = document.createElement('img');
+    thumb.className='video-facade__thumb'; thumb.alt=''; thumb.loading='lazy'; thumb.decoding='async';
+    const custom = el.getAttribute('data-thumb');
+    if(custom){ thumb.src=custom; el.insertBefore(thumb, el.firstChild); }
     else{
-      const iov = new IntersectionObserver((es)=>{
-        es.forEach(e=>{ if(e.isIntersecting){
-          const grid = e.target.closest('.voces');
-          const idx = grid ? [...grid.querySelectorAll('.voz')].indexOf(e.target) : 0;
-          setTimeout(()=> e.target.classList.add('in'), Math.max(0,idx)*120);
-          iov.unobserve(e.target);
-        }});
-      },{threshold:.18, rootMargin:'0px 0px -8% 0px'});
-      voces.forEach(v=>iov.observe(v));
+      fetch('https://vimeo.com/api/oembed.json?width=800&url=https://vimeo.com/'+id)
+        .then(r=> r.ok ? r.json() : Promise.reject())
+        .then(d=>{ if(d && d.thumbnail_url){ thumb.src=d.thumbnail_url; el.insertBefore(thumb, el.firstChild); } })
+        .catch(()=>{ /* sin miniatura: queda el degradado de marca del facade */ });
     }
-  }
+    const play = ()=>{
+      if(el.dataset.cargado) return; el.dataset.cargado='1'; el.classList.add('is-playing');
+      const ifr=document.createElement('iframe');
+      ifr.src='https://player.vimeo.com/video/'+id+'?autoplay=1&title=0&byline=0&portrait=0&dnt=1';
+      ifr.title=el.getAttribute('aria-label')||'Testimonio en vídeo · Paramita';
+      ifr.allow='autoplay; fullscreen; picture-in-picture';
+      ifr.allowFullscreen=true; ifr.loading='lazy';
+      el.appendChild(ifr);
+    };
+    el.addEventListener('click', play);
+    el.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); play(); } });
+  });
 })();
