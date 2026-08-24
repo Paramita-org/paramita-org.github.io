@@ -119,7 +119,10 @@
   <!-- ══════════════ 0 · HERO ══════════════ -->
   <section class="hero hero--voluntariado">
     <div class="hero__bg" aria-hidden="true">
-      <img class="hero__bg-img" src="/assets/img/hero-voluntariado.jpg" alt="">
+      <picture>
+        <source media="(max-width:768px)" srcset="/assets/img/hero-voluntariado-movil.jpg">
+        <img class="hero__bg-img" src="/assets/img/hero-voluntariado.jpg" alt="">
+      </picture>
     </div>
     <div class="hero__inner">
       <span class="eyebrow">Únete · Voluntariado</span>
@@ -188,9 +191,14 @@
       <span class="eyebrow" data-reveal>Quién ya lo vive</span>
       <h2 data-reveal>Voces de quienes han <em>servido</em></h2>
     </div>
-    <figure class="v-cita" data-reveal>
-      <blockquote>Vine una semana a ayudar en la cocina y me quedé con algo que no esperaba: una forma de estar presente que ahora me acompaña a casa.</blockquote>
-      <figcaption>— Testimonio provisional · voluntaria, estancia de primavera</figcaption>
+    <figure class="v-voz" data-reveal>
+      <div class="v-voz__fig">
+        <img class="v-voz__img" src="/assets/img/voz-voluntaria.jpg" alt="Voluntaria del Centro" onerror="this.remove()">
+      </div>
+      <div class="v-voz__cont">
+        <blockquote>Vine una semana a ayudar en la cocina y me quedé con algo que no esperaba: una forma de estar presente que ahora me acompaña a casa.</blockquote>
+        <figcaption>Voluntaria · estancia de primavera</figcaption>
+      </div>
     </figure>
   </div></section>
 
