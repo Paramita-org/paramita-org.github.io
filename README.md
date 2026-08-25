@@ -1,225 +1,289 @@
 # Paramita · Sitio web
 
-Fundación Sakya · Alicante. Diseño y desarrollo del sitio institucional.
+Rediseño completo del sitio de la **Fundació Sakya Paramita**, tradición budista tibetana (escuela Sakya) con sede en Pedreguer (Monte Sella), Alicante, y comunidades por España y Latinoamérica.
 
-## Estado del sitio
+Sitio estático (HTML/CSS/JS *vanilla*) servido en **GitHub Pages** desde el repositorio de organización `Paramita-org/paramita-org.github.io` (patrón de *organization site*: se sirve en la raíz del dominio). Audiencia hispanohablante. Estado actual: **Fase 7+**.
 
-Resumen rápido de qué está construido y qué falta:
+> `www.paramita.org` es el sitio vivo actual de la fundación, gestionado por Alberto. No se toca desde este repositorio.
 
-| Área | Estado |
-|---|---|
-| Home pública (`index.html`) | ✅ Cerrada (Fase 7) |
-| Home del practicante (`home-logueado/`) | 🟡 A medias |
-| Catálogo público de cursos (`formacion/`) | ✅ Terminado |
-| Catálogo del practicante (`formacion-logueado/`) | 🟡 Construido · navbar practicante provisional |
-| Plantilla de curso individual (`formacion/emi-1-calma-y-lucidez/`) | 🟡 Hecha · pendiente de repaso |
-| Actividades (`actividades/`) | 🟡 En construcción activa |
-| Medita con nosotros (`meditacion/`) | ⬜ Investigación + maqueta de hero hechas · aún sin commit |
-| Navbar público + navbar practicante | ✅ Ambos existen |
-| Footer | 🟡 Solo genérico · footer privado por decidir |
-| Resto de landings | ⬜ Pendientes |
+---
 
-## Flujo de trabajo
+## Índice
 
-**Columna vertebral: chat + código, con handoff a Claude Code para implementar.**
-Es el flujo que sostiene el proyecto y donde vive el contexto acumulado.
+1. [Stack](#stack)
+2. [Estructura del repositorio](#estructura-del-repositorio)
+3. [Sistema de diseño](#sistema-de-diseño-reglas-no-negociables)
+4. [Arquitectura CSS y JS](#arquitectura-css-y-js)
+5. [Partials y `sync.py`](#partials-y-syncpy)
+6. [GitHub Action](#github-action)
+7. [Flujo de despliegue](#flujo-de-despliegue)
+8. [Estado de las páginas](#estado-de-las-páginas)
+9. [Pendientes y decisiones abiertas](#pendientes-y-decisiones-abiertas)
+10. [Reparto de responsabilidades](#reparto-de-responsabilidades)
+11. [Método de trabajo](#método-de-trabajo)
+12. [Documentación](#documentación)
 
-**Claude Design no es el entorno principal.** Se evaluó y se decidió no migrar
-(ver `docs/14-claude-design-alcance.md`): el lienzo solo renderiza HTML/CSS y no
-reproduce la capa de firma del sitio (WebGL del fluido, GSAP/ScrollTrigger,
-filtros SVG, animación de ejes variables de Fraunces), que es justo lo que
-distingue a Paramita de una "wellness app". Además, importar tokens no importa
-las decisiones: re-generar una página ya cerrada arriesga deshacer trabajo bueno.
+---
 
-**Claude Design sí, pero acotado** a exploración *greenfield*: arrancar una página
-nueva sin estructura decidida, comparar 2–3 variaciones, o un mockup navegable
-para que Ale/Gerard/Khenpo comenten sin tocar código. Nunca sobre lo ya cerrado.
+## Stack
 
-## Estructura de landings
+- **HTML/CSS/JS vanilla** — sin framework ni *build step* en producción.
+- **GitHub Pages** — hosting; se sirve en la raíz del dominio.
+- **GSAP + ScrollTrigger** — animación de scroll y revelados.
+- **WebGL (canvas)** — efecto de fluido con el ratón.
+- **Fuentes variables autoalojadas** — Fraunces (display/italic, ejes `SOFT` y `WONK`) + Hanken Grotesk (texto), subseteadas a woff2 con cobertura IAST. JetBrains Mono para código/informes.
+- **Playwright** — render y validación *headless* antes de entregar.
+- **Python 3** — `sync.py`, el propagador de partials.
 
-Cada landing vive en su propia carpeta con un `index.html` dentro. GitHub Pages
-sirve `carpeta/index.html` como `carpeta/`, así que las URLs quedan limpias
-(`paramita.org/formacion/` en vez de `paramita.org/index-formacion.html`).
+Migración futura a **Eleventy (11ty)** contemplada pero **deferida** (pendiente de aprobación de arquitectura).
 
-```
-/
-├── index.html                              ← home pública (paramita.org/) · ✅ cerrada
-├── home-logueado/index.html                ← home del practicante · 🟡 a medias
-│
-├── formacion/
-│   ├── index.html                          ← catálogo público · ✅ terminado
-│   └── emi-1-calma-y-lucidez/index.html    ← plantilla de curso individual · 🟡 hecha, a repasar
-├── formacion-logueado/index.html           ← catálogo del practicante · 🟡 construido · navbar provisional
-│
-├── meditacion/index.html                   ← 🟡 investigación + maqueta de hero · aún sin commit
-├── actividades/index.html                  ← 🟡 en construcción activa
-├── blog/index.html                         ← pendiente
-├── crowdfunding/index.html                 ← pendiente
-├── unete/index.html                        ← pendiente (destino CTA "Únete")
-├── contribuir/index.html                   ← pendiente (destino CTA "Contribuir")
-├── comunidad/index.html                    ← pendiente (teaser "tradición viva" de la home apunta aquí)
-└── sobre/
-    ├── index.html                          ← La Fundación · pendiente
-    ├── maestros/index.html                 ← pendiente
-    ├── monasticos/index.html               ← pendiente
-    └── faq/index.html                      ← pendiente
-```
+---
 
-La plantilla de curso individual usa `emi-1-calma-y-lucidez/` como referencia:
-funciona con tres estados vía `body[data-estado="anonimo|logueado|inscrito"]`
-y sus archivos de producción son `index.html`, `paramita-curso.css` y
-`paramita-curso.js`.
+## Estructura del repositorio
 
-Las carpetas vacías tienen un `.gitkeep` para que Git preserve la estructura
-hasta que se cree el `index.html` correspondiente.
-
-## Estructura de assets
+Rutas absolutas desde la raíz del dominio. Cada página vive en su carpeta y sirve una URL limpia.
 
 ```
-/
-├── css/
-│   ├── tokens/           ← color, tipografía, fuentes, layout, movimiento
-│   ├── base/             ← reset, base, responsive
-│   ├── componentes/      ← bar, menu, cta, cursos, footer, modal, suscripción, tradición…
-│   └── paginas/          ← estilos específicos por landing
-├── js/
-│   ├── primitivos/       ← utilidades reutilizables
-│   ├── componentes/      ← comportamientos de componentes
-│   └── paginas/          ← comportamientos específicos por landing
-├── assets/
-│   ├── fonts/            ← fuentes variables autoalojadas (.woff2)
-│   └── img/              ← imágenes del sitio
-├── partials/             ← fragmentos HTML canónicos (navbar, footer)
-└── docs/                 ← registro de decisiones (00-indice.md → 14)
+/                                index.html                       Home pública
+/meditacion/                     meditacion.html
+/formacion/                      formacion-publica.html           Catálogo de cursos
+/formacion/emi-1-calma-y-lucidez/
+    emi-1-calma-y-lucidez.html   Ficha de curso (prototipo canónico)
+    inscripcion.html             Alta en el curso
+/formacion-logueado/             formacion-logueado.html          Área de formación (logueado)
+/actividades/                    actividades.html
+/blog/                           blog.html
+/sobre/khenpo/                   khenpo.html
+/sobre/maestros/                 maestros.html
+/sobre/la-fundacion/             la-fundacion.html
+/sobre/sangha-monastica/         sangha-monastica.html
+/sobre/preguntas-frecuentes/     preguntas-frecuentes.html
+/unete/grupos/                   grupos.html                      Buscador de círculos + mapa
+/unete/voluntariado/             voluntariado.html
+/contribuir/                     contribuir.html                  Landing de dāna (Amigos)
+/crowdfunding/                   crowdfunding.html                Campaña «Centro de Retiros»
+/home-logueado/                  home-logueado.html               Espacio del practicante
+/cuenta/                         cuenta.html                      Ajustes de cuenta
+/politica-de-privacidad/         index.html
+
+/partials/
+    navbar-publico.html          navbar-practicante.html
+    footer.html                  prefooter.html
+    pictogramas/*.svg            Canon de pictogramas (SVG inline)
+    sync.py                      Propagador de partials
+
+/css/
+    paramita-color.css           Tokens OKLCH
+    paramita-tipografia.css      paramita-fuentes.css
+    paramita-movimiento.css      paramita-cta.css
+    paramita-hero.css            paramita-sections.css   …
+    paginas/                     CSS específico por página (@layer paginas)
+
+/js/
+    primitivos/                  paramita-reveal.js, paramita-tema.js, …
+    componentes/                 faq, testimonios, video, suscripción, menú, …
+    paginas/                     Un archivo por página
+
+/assets/
+    img/                         fonts/
+
+/docs/                           00-indice.md … 17-landing-grupos.md
+favicon.svg  favicon-32x32.png  favicon-16x16.png  apple-touch-icon.png
 ```
 
-## Partials
+Notas de rutas:
 
-El navbar y el footer viven en `partials/` como **fuente única de verdad**.
-Cuando cambian, se editan ahí primero y luego se sincronizan a todas las
-landings (a mano o con `partials/sync.py`).
+- Los **assets** siempre con ruta absoluta (`/assets/…`). Requieren servir por HTTP (Live Server desde la raíz del proyecto o GitHub Pages), **nunca** `file://`.
+- Las páginas de subcarpeta enlazan CSS/JS con `../`; las de dos niveles (p. ej. `formacion/emi-1-…/`) con `../../`.
+- La **política de privacidad** real es `politica-de-privacidad/index.html`. El archivo `index-politica-de-privacidad.html` es solo un alias de trabajo para no confundirlo con el index de la home.
+
+---
+
+## Sistema de diseño (reglas no negociables)
+
+**Color.** Exclusivamente tokens **OKLCH** de `paramita-color.css` y `color-mix(in oklch, …)`. Nunca hex, rgb ni valores inventados. Regla 70/30 en el degradado de marca (nunca dorado dominante). Al mezclar azul con tonos cálidos, la interpolación pasa por verde en valores intermedios: mezclar el azul con `transparent`, no con un token cálido, para preservar el tono.
+
+**Tipografía.** Fraunces (display) × Hanken Grotesk (texto). Eje `SOFT` animado en scroll como movimiento de firma; `WONK` fijo en 0. Pesos nombrados por intención (`--wght-contemplativo` como *default*). **La italic dorada de Fraunces se reserva exclusivamente para `<em>` de acento dentro de títulos.**
+
+**Regla de heroes (sin excepciones).** El *lede*/subtítulo de todo hero va siempre en Hanken Grotesk (`var(--body)`), estilo y peso normales (`--wght-presencia`). Nunca Fraunces, nunca italic, nunca negrita. Los *eyebrows* usan `--texto-tenue`, nunca dorado. **`data-reveal` nunca en el `<h1>` ni en el eyebrow del hero** (dependen del LCP, no deben esperar al JS).
+
+**CTAs.** Nomenclatura unificada (Fase 6, jul 2026):
+
+| Rol | Clase actual | Nombre antiguo (obsoleto) |
+|---|---|---|
+| Primario | `.btn-primario` | `.btn-amigo` |
+| Secundario | `.btn-secundario` | `.btn-umbral` |
+| Terciario editorial | `.t-link` / `.t-link--primario` | — |
+
+Cualquier referencia a `.btn-amigo` o `.btn-umbral` es código heredado por migrar.
+
+**Motion.** Dos familias: *ambiente/identitaria* (gradientes lentos, siempre activos, interruptor global `--identidad-estado`) y *user-invoked* (scroll, hover, focus, click). Sin animaciones infinitas fuera de la familia identitaria. Carruseles auto-avanzados son antipatrón. `prefers-reduced-motion` siempre respetado.
+
+**Pictogramas.** Canon SVG: `viewBox 0 0 24 24`, `stroke-width 1.5`, `fill none`, `stroke currentColor`, caps/joins redondeados, un único acento dorado vía `class="acc"` (no atributo `stroke` inline, por compatibilidad con Safari). Regla «nunca desnudo»: siempre con etiqueta. El canon debe existir en `partials/pictogramas/` **antes** de cualquier referencia `data-pico` (si falta un SVG, `sync.py` aborta la página entera).
+
+**Modo penumbra (dark).** Opt-in del usuario, persistido en `localStorage` bajo la clave `paramita-tema`. Nunca como dirección primaria de identidad.
+
+---
+
+## Arquitectura CSS y JS
+
+**CSS por capas** (`@layer`), en este orden:
 
 ```
-partials/
-├── navbar-publico.html       ← navbar del sitio anónimo
-├── navbar-practicante.html   ← navbar del practicante autenticado
-├── footer.html               ← footer genérico (público y privado por ahora)
-├── prefooter.html            ← bloque previo al footer
-├── pictogramas/              ← SVGs del sistema de pictogramas (+ su README.md)
-└── sync.py                   ← propaga partials y pictogramas a las landings
+tokens → base → bar → menu → cta → hero → sections → paginas → footer → responsive → tema
 ```
 
-`sync.py` admite las flags `--aria-current` (marca la página activa en el
-navbar), `--with-prefooter` (incluye el prefooter al sincronizar) y
-`--only-pictos` (sincroniza solo los pictogramas; admite globs tipo
-`formacion/*/index.html`).
+El CSS específico de página vive en `@layer paginas` (archivos en `css/paginas/`). **No se redefinen tokens dentro de archivos de página.**
 
-Los pictogramas SVG viven en `partials/pictogramas/` y se inyectan en las
-landings con `sync.py --only-pictos`, que sustituye el contenido de cada
-`<span data-pico="nombre">` conservando sus clases (`pico--sm`, etc.). Ver
-`partials/pictogramas/README.md`.
+**JS modular** (Fase 6), organizado en tres niveles:
 
-**Footer privado — decisión abierta.** Hoy existe un único footer genérico que
-sirve tanto al sitio público como al del practicante. Está pendiente decidir si
-el área logueada necesita su propio `footer-practicante.html` (más sobrio, sin
-llamadas de conversión, con enlaces relevantes para quien ya está dentro). Se
-resolverá junto con el diseño del área logueada.
+- `js/primitivos/` — comportamientos base (revelado, tema, refresh de GSAP).
+- `js/componentes/` — piezas reutilizables (FAQ, testimonios, vídeo, suscripción, menú, modal…).
+- `js/paginas/` — un archivo por página, con su lógica propia.
 
-## Convenciones
+Para blindar páginas frente a desajustes entre archivos de sistema, la lógica muy específica de una página (p. ej. el vídeo Vimeo y la `.semblanza` de grupos) vive en el JS/CSS de esa página, no en los componentes compartidos.
 
-**Rutas de assets: relativas a la posición de la landing.** Los `href` y `src`
-de CSS, JS, imágenes y fuentes se escriben relativos a la carpeta de la landing:
+---
 
-- Desde la home (`/index.html`): `href="css/base/paramita-base.css"`
-- Desde `formacion/index.html`: `href="../css/base/paramita-base.css"`
-- Desde `sobre/maestros/index.html`: `href="../../css/base/paramita-base.css"`
+## Partials y `sync.py`
 
-Esta convención permite pruebas visuales en GitHub Pages (que sirve el sitio
-bajo una subruta tipo `janams.github.io/nombre-repo/`) sin configuración extra.
-Cuando el sitio migre a un dominio propio sin subruta, se podrá reconsiderar
-volver a rutas absolutas — pero por ahora, relativas.
+Las piezas comunes (**navbar, footer, prefooter, pictogramas** y, opcional, las piezas del **tema** penumbra/luz) se mantienen en `partials/` y se propagan a cada página con `sync.py`.
 
-**Enlaces internos del navbar y footer: absolutos.** Los `href` que apuntan
-a otras landings (`/formacion/`, `/blog`, `/sobre/maestros`) se dejan absolutos.
-Razón: los partials `navbar-publico.html`, `navbar-practicante.html` y
-`footer.html` son fuente única de verdad y deben poder pegarse en cualquier
-landing sin adaptación. Consecuencia aceptada: en GitHub Pages con subruta, la
-navegación entre landings a través del navbar no funcionará hasta que haya
-dominio propio o migración de hosting. Para pruebas visuales se accede a cada
-landing por URL directa.
+**Cómo marca cada página lo que necesita.** Un comentario de autodeclaración, normalmente tras `<body>` o en el `<head>`:
 
-**Fuentes autoalojadas.** Fraunces y Hanken Grotesk se sirven desde `assets/fonts/`
-en woff2 variable (subseteado latin + latin-ext + latin extended additional, este
-último imprescindible para la transliteración IAST), **sin instanciar los ejes**.
-Se precargan con `<link rel="preload" ... crossorigin>`. Para propagarlas al resto
-de páginas, seguir `traspaso-fuentes-autoalojadas.md`. Nota: el eje `SOFT` de
-Fraunces se mantiene firme en 0 en toda la home, y `WONK` se conserva con default 0
-(no eliminar el eje: el CSS lo referencia).
+```html
+<!-- sync: navbar=publico current="Cursos" -->
+<!-- sync: navbar=practicante current="Mi formación" -->
+<!-- sync: navbar=skip -->        navbar bespoke: no se toca
+<!-- sync: no-tema -->            no inyectar el tema en esta página
+<!-- sync: ignore -->             excluir la página del sync
+```
 
-**Tema oscuro «penumbra» — opt-in, solo home.** Existe un modo oscuro opt-in
-para la home pública en `css/componentes/paramita-tema.css`, activado por el
-toggle del navbar. El claro sigue siendo el estado por defecto y la cara de
-marca: no se sigue `prefers-color-scheme`, la home arranca en luz salvo que haya
-preferencia guardada. Persiste en `localStorage` (clave `paramita-tema`) y se
-aplica con `data-tema="oscuro"` en `<html>`. Redefine los tokens nominales bajo
-`:root[data-tema="oscuro"]` con una penumbra cálida pensada desde cero, no una
-inversión mecánica de la paleta clara. Es un experimento acotado a la home;
-extenderlo al resto de páginas queda pendiente.
+Campos (todos opcionales): `navbar=publico|practicante|skip` · `current="Texto del enlace"` · `prefooter` · `no-tema` · `ignore`.
 
-**Nomenclatura Fase 6 de CTAs:**
+**Flags de línea de comandos** (ganan sobre el marcador; el marcador gana sobre el *default*):
 
-- `.btn-primario` — primario, conversión (antes `.btn-amigo`)
-- `.btn-secundario` — secundario, acompaña (antes `.btn-umbral`)
-- `.t-link` / `.t-link--primario` — enlaces terciarios editoriales
+```bash
+python3 partials/sync.py <landing.html>
+python3 partials/sync.py <landing.html> --aria-current="Cursos"
+python3 partials/sync.py <landing.html> --with-prefooter
+python3 partials/sync.py <landing.html> --tema
+python3 partials/sync.py <landing.html> --practicante
+python3 partials/sync.py <landing.html> --skip-navbar
+python3 partials/sync.py <landing.html> --only-pictos
+python3 partials/sync.py --all           # recorre el repo y sincroniza cada página
+python3 partials/sync.py --all --only-pictos
+```
 
-Ya no se usa `.btn-amigo` ni `.btn-umbral`.
+**Comportamiento clave a recordar:**
+
+- `sync.py` usa `replace_block`: **reemplaza** el navbar/footer/prefooter existente, **no lo inserta desde cero**. Cada página debe nacer con los partials inline verbatim.
+- `--all` procesa toda página con un navbar del sistema, excluyendo `partials/`, `css/`, `js/`, `assets/`, `.git/`, y todo lo que empiece por `informe-`, `maqueta-`, `plantilla-` o lleve `sync: ignore`. Informes y maquetas quedan fuera por diseño.
+- `apply_aria_current` solo marca elementos `<a>`; el valor de `current=""` debe coincidir con el **texto real del enlace del submenú**, no con el botón que lo despliega.
+- **`sync.py` no toca el `<head>`.** El bloque de favicon y cualquier `<link>`/`<meta>` del head se añaden a mano en páginas nuevas (o se extiende `sync.py` con un partial de head).
+- Ejecutar **siempre desde la raíz del proyecto** (donde se resuelve `partials/sync.py`), nunca desde una subcarpeta.
+
+---
+
+## GitHub Action
+
+`sync.yml` se dispara en cada push a `main` que toque `partials/**`, ejecuta `sync.py --all` y hace commit con `[skip ci]`.
+
+> Como la Action commitea de forma autónoma, **siempre `git pull --rebase origin main` antes de cada push** para no divergir de sus commits.
+
+---
+
+## Flujo de despliegue
+
+Orden estable, sin saltarse pasos:
+
+1. **SVG primero** — cualquier pictograma nuevo a `partials/pictogramas/` antes que nada (`sync.py` aborta si falta un `data-pico`).
+2. **Imágenes** — a `/assets/img/` con `width`/`height` para reservar espacio (CLS). El LCP del hero, con `fetchpriority="high"` y sin lazy.
+3. **HTML / CSS / JS** — página, `css/paginas/…`, `js/paginas/…`.
+4. **`git pull --rebase origin main`**.
+5. **`python3 partials/sync.py --all`**.
+6. **Comprobación visual** con recarga forzada (`Cmd+Shift+R`) — la caché del navegador es el primer sospechoso ante cualquier discrepancia visual en GitHub Pages.
+
+---
+
+## Estado de las páginas
+
+**Construidas y estables**
+
+`index` (home pública) · `meditacion` · `formacion-publica` · `formacion-logueado` · `emi-1-calma-y-lucidez` (ficha) · `inscripcion` · `khenpo` · `maestros` · `sangha-monastica` · `la-fundacion` · `actividades` · `blog` · `preguntas-frecuentes` · `grupos` · `voluntariado` · `contribuir` · `crowdfunding` · `politica-de-privacidad`.
+
+**En curso / dependientes de backend**
+
+- `home-logueado` — espacio del practicante; bloqueado en las decisiones de LMS/sesión.
+- `cuenta` — la carpeta existe; el nombre final del archivo (`index.html` para URL limpia, o `cuenta.html` con redirect) lo cierra la capa de sesión.
+- `solicitud` (voluntariado) y `solicitud-grupo` / `nuevos` (crear un círculo) — formularios de alta con copy provisional; a la espera de los endpoints de backend.
+
+**Recursos de referencia (no son páginas del sitio)**
+
+`maqueta-blog-entrada` (plantilla de entrada de blog) · `emi-1` como prototipo canónico de aplicación de tokens · `paramita-design-system.html` · informes HTML de estudio.
+
+---
+
+## Pendientes y decisiones abiertas
+
+**Por construir / resolver**
+
+- **Hub de «Únete»** — la sección tiene ya su primer *spoke* (grupos) y voluntariado; falta consolidar el hub (`/unete/`): decidir si existe página índice, rutas y copy.
+- **Área logueada** en conjunto (`home-logueado`, navbar de practicante, resolución de `/cuenta`, `/logout`, `/mi-progreso`): bloqueada en las decisiones de LMS/sesión.
+- **Enlaces a páginas que aún no existen** (construir o retirar el enlace): `/contacto/` (desde `actividades`), `/mi-progreso` (navbar practicante, home y formación logueadas), y el índice `/unete/`.
+
+**Backend (flujos transaccionales)**
+
+Tres raíles separados, sin carrito de la compra (checkout de un solo ítem):
+
+- **dāna** — donación / Amigos de Paramita (`contribuir`, `crowdfunding`).
+- **formación** — inscripción a cursos: el pago ocurre en paramita.org y la matrícula se aprovisiona por API a LearnWorlds en `cursos.paramita.org` (URL provisional).
+- **actividades** — reserva de eventos.
+
+En `crowdfunding`, el `submit`, la barra de progreso (`data-fill`), los métodos de pago y el toggle de recurrencia son demo hasta conectar la pasarela real.
+
+**Coherencia / limpieza**
+
+- **Fuentes del área logueada** — `home-logueado`, `formacion-logueado` y `cuenta` cargan Fraunces/Hanken desde Google Fonts en lugar de las woff2 autoalojadas del sitio público. Divergencia de rendimiento y de render a unificar.
+- **Cyan heredado** — `#00C7E5` hardcodeado en el shader del fluido WebGL, por migrar al token `--azul-sutil`.
+- **Favicon en páginas nuevas** — como `sync.py` no toca el `<head>`, cada página futura necesita el bloque de favicon a mano.
+- **Aliases legacy** — de motion (`--t-fast`/`--t-med`/`--t-slow`) y de CTA (`.btn-amigo`/`.btn-umbral`), migrados página a página al tocarlas.
+
+**Decisiones abiertas (copy / rutas)**
+
+- Orden del título de la home (marca delante como excepción, o uniformar a «… · Paramita»).
+- Uniformidad de las cláusulas descriptivas en los `<title>` (todas con descripción o todas sin).
+- Ubicación de `inscripcion`: hoy cableada como hermana de `emi-1` a dos niveles, pero su `canonical` apunta a una URL limpia de tres niveles. Elegir una y cuadrar `canonical`, rutas CSS y el enlace de entrada.
+
+**Deferido**
+
+Migración a Eleventy · variante logueada del navbar (`navbar-practicante`) · GDPR/cookies + selector de idioma · modal `<dialog>` nativo con focus trap · refactor a `card-base` común · subsistema gráfico de YouTube · retirada eventual de `lamarinchen.org` con redirects 301 a `paramita.org`.
+
+---
+
+## Reparto de responsabilidades
+
+- **Jana** — diseño y frontend (sistema de diseño, maquetación, motion, partials).
+- **Khenpo Rinchen Gyaltsen** — dirección espiritual; doctrina e identidad.
+- **Ale** — contenido y copy.
+- **Alberto** — backend, pagos y arquitectura LMS (`cursos.paramita.org`, LearnWorlds); pasarela, endpoints de formularios y decisiones de sesión/redirect.
+- **Gerard** — arquitectura y efectos WebGL.
+
+El copy de todo el sitio es provisional; la doctrina/identidad, otro tanto.
+
+---
+
+## Método de trabajo
+
+- **Archivo primero** — leer los archivos reales del proyecto antes de escribir una sola clase, token o valor. Nunca inventar valores.
+- **Una decisión a la vez** — proponer antes de ejecutar; esperar aprobación explícita.
+- **Archivos completos, no diffs** — se entrega el archivo de reemplazo entero. ZIP con estructura de carpetas solo para proyectos nuevos.
+- **Validación visual iterativa** — revisión en navegador entre pasos (`Cmd+Shift+R`), y solo entonces el siguiente paso.
+- **Verificación antes de entregar** — Playwright para render, y chequeo de balance de llaves CSS y sintaxis JS.
+- **Sin patrones de presión** — sin urgencia, gamificación, métricas de vanidad, cuentas atrás ni carruseles auto-avanzados. Testimonios como *transmisión*, atribuidos y con rostro, nunca anónimos ni auto-rotatorios.
+
+---
 
 ## Documentación
 
-El registro de decisiones vive en `docs/` como documentos numerados con estructura
-común (contexto → decisión → alternativas descartadas → implicaciones → referencias
-en el código). Empezar por `docs/00-indice.md`.
-
-**Identidad y sistema visual**
-
-- `01-fundamentos-de-identidad.md` — hilo conceptual "el cruce como acto", identidad sobre tendencia, rechazo del dark mode.
-- `02-sistema-de-color.md` — paleta OKLCH, tokens oficiales, regla 70/30, prohibición de colores inventados, `color-mix`.
-- `03-tipografia.md` — Fraunces × Hanken Grotesk, eje SOFT, escala semántica de pesos, regla de la italic dorada.
-- `04-sistema-de-motion.md` — cuatro capas, respiración ambiente 25s, interruptor `--identidad-estado`, "hover intensifica lo que ya vive".
-- `05-sistema-de-ctas.md` — nomenclatura `.btn-primario` / `.btn-secundario` / `.t-link`, pairing por página, evolución desde `.btn-amigo` / `.btn-umbral`.
-
-**Arquitectura y trabajo por página**
-
-- `06-navbar.md` — IA de cinco entradas, pairing dual de CTAs, ajustes de comportamiento.
-- `07-formacion-landing.md` — metáfora del sendero, cinco niveles, siete secciones, FLIP, filtro en lenguaje natural, gratuito vs. pago.
-- `08-modularizacion-js-fase-6.md` — extracción de ~875 líneas inline a 13 archivos (`primitivos/` · `componentes/` · `paginas/`).
-- `09-home-logged-in.md` — propuesta de bloques del practicante autenticado y sus dependencias pendientes.
-- `13-home-publica.md` — cierre de la home pública (Fase 7): estructura bloque a bloque, jerarquía de CTAs, "una tradición viva" (sustituye al carrusel), suscripción en el cierre, tipografía firme, rendimiento del LCP.
-
-**Aprendizajes transversales**
-
-- `10-aprendizajes-tecnicos.md` — lecciones de CSS/JS (button nesting, box-shadow + clip-path, `auto-fit` vs. `repeat(N)`, caché, leer antes de proponer, debug visual).
-- `11-metodo-de-trabajo.md` — validación visual iterativa, archivos completos vs. diffs, evidencia sobre opinión, pushback esperado, secuenciación por fases.
-- `12-hoja-de-ruta-y-fases.md` — resumen de fases completadas, horizonte inmediato, trabajos deferidos.
-- `14-claude-design-alcance.md` — por qué el proyecto no migra a Claude Design y en qué casos acotados sí se usa (resumido arriba en "Flujo de trabajo").
-
-## Limpieza pendiente
-
-- El CSS del antiguo carrusel de testimonios (`.testimonios`, `.tcard`, `.tcarousel`)
-  quedó huérfano en `paramita-extras.css`, y `js/componentes/paramita-testimonios.js`
-  ya no se enlaza. Ambos pueden borrarse.
-- **Endpoint de la newsletter** (backend, Alberto): el formulario del cierre es un
-  mock visual (valida y muestra acuse); falta conectar el envío real. El JS deja el
-  punto marcado.
-
-## Estado de sincronización de partials
-
-| Landing | Navbar | Footer | Notas |
-|---|---|---|---|
-| `index.html` (home pública) | ✅ público | ✅ | Cerrada · sin aria-current |
-| `formacion/index.html` | ✅ público | ✅ | Terminada · aria-current="page" en Cursos |
-| `formacion/emi-1-calma-y-lucidez/index.html` | ✅ público | ✅ | Plantilla · pendiente de repaso |
-| `home-logueado/index.html` | ✅ practicante | ✅ | A medias |
-| `formacion-logueado/index.html` | ✅ practicante | ✅ | Construido · navbar provisional |
-| `actividades/index.html` | ✅ público | ✅ + prefooter | En construcción · aria-current="page" en Actividades |
-| todas las demás | — | — | Pendientes de crear |
+El detalle de cada decisión vive en `docs/`, numerado `00`–`17`, con estructura común (contexto → decisión → alternativas descartadas → implicaciones → referencias en el código). `00-indice.md` es el punto de entrada. Los estudios profundos viven además como informes HTML, que un documento numerado consolida al cerrarse la decisión.
