@@ -3,114 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Khenpo Rinchen Gyaltsen (Lama Rinchen) · director espiritual · Paramita</title>
+<!-- COPY PROVISIONAL -->
+<title>Crear un círculo · Solicitud de nuevo grupo · Paramita</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="description" content="Conoce a Khenpo Rinchen Gyaltsen —conocido durante años como Lama Rinchen—, director espiritual de la Fundación Sakya Paramita.">
+<meta name="description" content="Solicita iniciar un Círculo de Estudio Paramita: cuéntanos quién coordina, el círculo que imaginas y tu compromiso. Te acompañamos en cada paso, en Europa y en Latinoamérica.">
 
-<!-- Fuentes autoalojadas (como en index) · profundidad ../../ -->
-<link rel="preload" href="../../assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="../../assets/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
 
-<!-- Marca JS activo cuanto antes (gate de los revelados) -->
+<!-- Marca JS activo cuanto antes · gate de los revelados -->
 <script>document.documentElement.classList.add('js')</script>
 
-<!-- TEMA · anti-FOUC · aplica la penumbra guardada ANTES de pintar (opt-in) -->
+<!-- TEMA · anti-FOUC · aplica la penumbra guardada ANTES de pintar -->
 <script>
   try { if (localStorage.getItem('paramita-tema') === 'oscuro') document.documentElement.setAttribute('data-tema','oscuro'); } catch(e){}
 </script>
 
-<!-- GSAP · para el scroll horizontal fijado de "La mirada" -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
-<!-- 1 · Primitivos -->
+<!-- Primitivos + comportamientos que usa esta página -->
 <script src="../../js/primitivos/paramita-reveal.js" defer></script>
 <script src="../../js/primitivos/paramita-gsap-refresh.js" defer></script>
-<!-- 2 · Comportamientos -->
 <script src="../../js/componentes/paramita-bar.js" defer></script>
 <script src="../../js/componentes/paramita-footer-lotos.js" defer></script>
 <script src="../../js/componentes/paramita-suscripcion.js" defer></script>
-<!-- tema · listener del toggle del sol -->
-<!-- TEMA · listener del toggle · compartido (sync) -->
-<script src="../../js/componentes/paramita-tema.js" defer></script>
-<!-- 3 · Página -->
-<script src="../../js/paginas/paramita-khenpo.js" defer></script>
-<!-- MENÚ · acordeón de submenús en móvil · compartido (sync) -->
-<script src="../../js/componentes/paramita-menu.js" defer></script>
 
-<!-- 1 · Reset -->
+<!-- CSS · reset primero, luego fuentes + tokens, base, componentes, página, responsive, tema (último) -->
 <link rel="stylesheet" href="../../css/base/paramita-reset.css">
-<!-- 2 · Tokens -->
 <link rel="stylesheet" href="../../css/tokens/paramita-fuentes.css">
 <link rel="stylesheet" href="../../css/tokens/paramita-color.css">
 <link rel="stylesheet" href="../../css/tokens/paramita-tipografia.css">
 <link rel="stylesheet" href="../../css/tokens/paramita-layout.css">
 <link rel="stylesheet" href="../../css/tokens/paramita-movimiento.css">
-<!-- 3 · Base -->
 <link rel="stylesheet" href="../../css/base/paramita-base.css">
-<!-- 4 · Componentes (navbar, menú, ctas, secciones, revelados, footer) -->
 <link rel="stylesheet" href="../../css/componentes/paramita-bar.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-menu.css">
-<link rel="stylesheet" href="../../css/componentes/paramita-pictogramas.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-cta.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-hero.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-sections.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-extras.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-footer.css">
-  <link rel="stylesheet" href="../../css/componentes/paramita-suscripcion.css">
-<!-- 5 · Página · estilos propios de /sobre/khenpo/ -->
-<link rel="stylesheet" href="../../css/paginas/paramita-khenpo.css">
-<!-- 6 · Responsive común (al final) -->
+<link rel="stylesheet" href="../../css/componentes/paramita-suscripcion.css">
+<link rel="stylesheet" href="../../css/componentes/paramita-pictogramas.css">
+<link rel="stylesheet" href="../../css/paginas/paramita-solicitud.css">
 <link rel="stylesheet" href="../../css/base/paramita-responsive.css">
   <!-- TEMA · penumbra/luz · el ÚLTIMO para ganar la cascada (sync) -->
   <link rel="stylesheet" href="../../css/componentes/paramita-tema.css">
 </head>
-<body>
-<!-- sync: navbar=publico current="Khenpo Rinchen Gyaltsen" prefooter -->
+<body class="pagina-solicitud">
 
-<!-- navbar · partials/navbar-publico.html (incrustado; equivale a correr sync) -->
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PARAMITA · FUNDACIÓN SAKYA
-     partials/navbar-publico.html — Navbar público (usuarios sin sesión)
-     ───────────────────────────────────────────────────────────────────────────
+<!-- sync: navbar=publico current="Grupos" prefooter -->
 
-     CAMBIO FASE 7 · añadido .btn-acceso
-     ────────────────────────────────────
-     Añadido el círculo .btn-acceso al final del .bar-inner (fuera del .menu)
-     para dar entrada al login. Cuando el usuario se autentica, este mismo
-     círculo se sustituye por el .avatar-menu del navbar-practicante (misma
-     posición, mismo tamaño, misma familia lumínica) — continuidad visual
-     entre ambos navbars.
-
-     CAMBIO FASE 7+ · «Únete» pasa de CTA a apartado del menú
-     ────────────────────────────────────────────────────────
-     «Únete» ya no es un .btn-secundario del .ctas: ahora es el sexto apartado
-     del menú, con submenú (Grupos + Voluntariado), como «Sobre». El .ctas queda
-     con un único secundario (Contribuir); el acceso a cuenta lo sigue dando el
-     .btn-acceso. Fundamento: doc 06 (actualizado) y estudio «Únete». Páginas
-     destino: /unete/grupos/ y /unete/voluntariado/.
-
-     REORDENACIÓN DEL DOM
-     ────────────────────
-     El .burger se mueve al final del .bar-inner (antes estaba en 3ª posición).
-     El .btn-acceso queda como penúltimo hijo, justo antes del burger, para:
-       · En desktop: aparecer al final de la fila, después de los CTAs.
-       · En móvil: quedar visible en la barra sin abrir el hamburguesa.
-
-     La reordenación no rompe el sibling selector `.nt:checked ~ .menu`
-     porque el input.nt sigue estando ANTES del .menu en el DOM. El label
-     .burger[for="nt"] funciona por atributo, no por proximidad.
-
-     Depende de estos CSS del sistema (ya cargados):
-       · paramita-bar.css     → contenedor sticky, glass, logo
-       · paramita-menu.css    → menú horizontal, links, submenús, caret
-       · paramita-cta.css     → .btn-secundario, .btn-primario, .btn-acceso
-       · paramita-responsive.css → burger + comportamiento móvil
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
+<!-- ════════════════════════════════════════════════════════════════════
+     NAVBAR PÚBLICO · lo inyecta sync.py (copia de partials/navbar-publico.html).
+     Despliegue:
+       python3 partials/sync.py unete/grupos/nuevos.html --tema --aria-current="Únete"
+     o, en lote:  python3 partials/sync.py --all
+     ════════════════════════════════════════════════════════════════════ -->
+<!-- @sync:navbar -->
 <header class="bar">
   <div class="bar-inner wrap">
 
@@ -173,7 +127,7 @@
   <path d="M12 6.5 L12 18.5"/>
   <path class="acc" d="M6.6 9 L9.4 9 M6.6 11.4 L9.4 11.4"/>
 </svg></span></a></li>
-            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html" aria-current="page"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span><span class="pico" data-pico="khenpo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span><span class="pico" data-pico="khenpo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
   <path d="M12 4.5 C10.6 7.5 10.6 10.5 12 12.8 C13.4 10.5 13.4 7.5 12 4.5 Z"/>
   <path d="M12 12.8 C10 10.5 6.5 9.8 4.2 10.6 C5 13.6 8 15.6 12 15.6"/>
   <path d="M12 12.8 C14 10.5 17.5 9.8 19.8 10.6 C19 13.6 16 15.6 12 15.6"/>
@@ -209,7 +163,7 @@
         <li class="has-sub end">
           <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Únete <i class="caret" aria-hidden="true"></i></button>
           <ul class="sub" role="menu" aria-label="Únete a Paramita">
-            <li role="none"><a role="menuitem" href="/unete/grupos/grupos.html"><strong>Grupos</strong><span>Círculos de estudio cerca de ti</span><span class="pico" data-pico="grupos" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <li role="none"><a role="menuitem" href="/unete/grupos/grupos.html" aria-current="page"><strong>Grupos</strong><span>Círculos de estudio cerca de ti</span><span class="pico" data-pico="grupos" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
   <circle cx="12" cy="11.5" r="7"/>
   <circle cx="12" cy="6.5" r="1.2"/>
   <circle cx="16.9" cy="13.5" r="1.2"/>
@@ -282,188 +236,167 @@
 
   </div>
 </header>
+<!-- /@sync:navbar -->
+<!-- Nota: el logo inline (SVG imagotipo) se re-inyecta con sync.py; aquí va el .logo-wave (máscara CSS). -->
 
-<main class="pagina-khenpo">
+<main>
 
-  <!-- ═══ 1 · PRESENCIA · hero del sistema con foto de fondo ═══ -->
-  <section class="hero hero--foto" id="hero">
+  <!-- ══════════════ 0 · HERO ══════════════ -->
+  <section class="hero hero--solicitud">
     <div class="hero__bg" aria-hidden="true">
-      <picture>
-        <source media="(max-width:768px)" srcset="../../assets/img/khenpo-hero-movil-luz-exterior.jpg">
-        <img class="hero__bg-img" src="../../assets/img/khenpo-luz-dorada-exterior.jpg" alt="">
-      </picture>
+      <img class="hero__bg-img" src="/assets/img/semilla-espiritual-grupos.jpg" alt="">
     </div>
-    <div class="wrap hero__inner">
-      <p class="eyebrow">Director espiritual · Fundación Sakya Paramita</p>
-      <h1><em>Khenpo</em> Rinchen Gyaltsen</h1>
-      <p class="lede">Del arte y la psicología en Nueva York a la tradición Sakya en Nepal. Hoy acerca el Dharma, en español, a un mundo entero.</p>
-      <div class="actions">
-        <a class="btn-primario" href="#ensenanzas">Recibe sus enseñanzas</a>
-      </div>
+    <div class="hero__inner">
+      <span class="eyebrow">Únete · Grupos</span>
+      <h1>Crea un <em>círculo</em></h1>
+      <p class="lede">Cuéntanos tu aspiración con calma. No hay respuestas correctas: solo queremos conocerte y caminar juntos el primer tramo.</p>
     </div>
   </section>
 
-  <!-- ═══ 2 · SEMBLANZA ═══ -->
-  <section class="semblanza" id="semblanza">
-    <div class="wrap grid">
-      <div class="semblanza__texto">
-        <p class="eyebrow" data-reveal>La semblanza</p>
-        <h2 data-reveal="2">El cruce de <em>una vida</em></h2>
-        <p data-reveal>Nació en Montevideo en 1972, hijo de padres gallegos, y creció en Estados Unidos. Estudió arte —con la fotografía como oficio— y psicología, hasta que un retiro en Nueva York, en 1993, lo puso por primera vez frente a un maestro y frente al <em>Sutra del Corazón</em>.</p>
-        <p data-reveal class="d1">Desde entonces su vida ha sido un solo gesto sostenido: cruzar hacia el Dharma, y tender el puente para que otros crucen.</p>
-        <p data-reveal>Ese puente lo construyó cruzando primero él mismo. Ordenado monje en Lumbini —donde nació el Buddha—, pasó más de una década entre los monasterios de India, Nepal y el Tíbet, y siete años estudiando filosofía en Katmandú. De aquellos años volvió como <em>lotsawa</em>: traductor, el oficio de llevar la palabra de una orilla a la otra, del tibetano al español.</p>
-        <p class="naming" data-reveal><em>2024.</em> Durante años se le conoció como <b>Lama Rinchen</b>; en enero recibió el título de <b>Khenpo</b> —la más alta distinción que la tradición Sakya concede a un maestro plenamente cualificado—.</p>
-      </div>
-      <figure class="media-grow">
-        <img class="media-grow-img" src="../../assets/img/khenpo-luz-dorada-low.jpg" alt="Retrato de Khenpo Rinchen Gyaltsen a la luz dorada" loading="lazy" onerror="this.remove()">
-        <div class="ph"><span class="pico" data-pico="imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <rect x="3.5" y="5" width="17" height="14" rx="2"/>
-  <path d="M3.7 16.2 L8.5 11.6 L12.4 15 L15.4 12.4 L20.3 16.6"/>
-  <circle class="acc" cx="15.4" cy="9" r="1.6"/>
-</svg></span><span>Foto · retrato</span></div>
-      </figure>
+  <!-- ══════════════ SOLICITUD · UNA PUERTA ══════════════ -->
+  <section class="sol-sec" id="crear"><div class="sol-col">
+    <div class="puerta-head">
+      <span class="eyebrow">Tu solicitud</span>
+      <h2>Iniciar un <em>Círculo de Estudio</em></h2>
+      <p>Rellena el formulario sin prisa. Al recibirlo, una coordinación de grupos se pondrá en contacto contigo para conoceros y darte los siguientes pasos.</p>
     </div>
-  </section>
 
-  <!-- ═══ 3 · CITA ═══ -->
-  <section class="cita">
-    <img class="cita__bg" src="../../assets/img/khenpo-orando-luz-dorada.jpg" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">
-    <div class="cita__scrim"></div>
-    <div class="wrap">
-      <span class="cita__eyebrow">Sobre los maestros</span>
-      <blockquote class="cita__frase">Al hablar de un maestro, deberíamos hacerlo hasta tener <em>lágrimas</em> en los ojos.</blockquote>
-      <span class="cita__autor">Khenpo Rinchen Gyaltsen</span>
-    </div>
-  </section>
+    <form class="vf" id="formGrupo" novalidate>
+      <!-- Resumen de errores (foco al enviar con fallos) -->
+      <div class="vf__resumen" id="resumenGrupo" tabindex="-1" role="alert" aria-labelledby="resumenGrupo-tit">
+        <h3 id="resumenGrupo-tit">Revisa estos campos antes de enviar</h3>
+        <ul></ul>
+      </div>
 
-  <!-- ═══ 4 · LINAJE ═══ -->
-  <section class="linaje" id="linaje">
-    <div class="wrap">
-      <div class="linaje__head">
-        <p class="eyebrow" data-reveal>El linaje</p>
-        <h2 data-reveal="2">De dónde viene su <em>autoridad</em></h2>
-        <p class="lede-linaje" data-reveal>La autoridad de un maestro no se declara: se recibe.</p>
-      </div>
-      <div class="linaje__spine" id="spine">
-        <div class="rail" aria-hidden="true"><span class="rail__fill" id="railFill"></span></div>
-        <div class="nodo nodo--der"><span class="nodo__dot"></span><div class="nodo__content"><span class="nodo__label">Buddha Sakyamuni</span><span class="nodo__sub">el origen de la transmisión</span></div></div>
-        <div class="nodo nodo--izq"><span class="nodo__dot"></span><div class="nodo__content"><span class="nodo__label">Sachen Kunga Nyingpo</span><span class="nodo__sub">fundador de la tradición Sakya · s. XI</span></div></div>
-        <div class="nodo nodo--der"><span class="nodo__dot"></span><div class="nodo__content"><span class="nodo__label">S.E. Chogye Trichen Rinpoché</span><span class="nodo__sub">su maestro de ordenación · Lumbini, 2003</span></div></div>
-        <div class="nodo nodo--izq"><span class="nodo__dot"></span><div class="nodo__content"><span class="nodo__label">Khenpo Pema Wangdak</span><span class="nodo__sub">su primer maestro · Nueva York, 1993</span></div></div>
-        <div class="nodo nodo--der"><span class="nodo__dot"></span><div class="nodo__content"><span class="nodo__label">S.S. Gongma Trichen</span><span class="nodo__sub">gurú raíz · lo nombró Maestro Vajra, 2012</span></div></div>
-        <div class="nodo nodo--izq"><span class="nodo__dot"></span><div class="nodo__content"><span class="nodo__label">Khenpo Rinchen Gyaltsen</span><span class="nodo__sub">Pedreguer · hoy</span></div></div>
-      </div>
-    </div>
-  </section>
+      <!-- Honeypot -->
+      <div class="vf__hp" aria-hidden="true"><label>No rellenar<input type="text" name="empresa" tabindex="-1" autocomplete="off"></label></div>
 
-  <!-- ═══ 5 · LABOR ═══ -->
-  <section class="labor" id="labor">
-    <div class="wrap">
-      <div class="labor__intro">
-        <p class="eyebrow" data-reveal>La misión</p>
-        <h2 data-reveal="2">Paramita, una <em>comunidad viva</em></h2>
-        <p data-reveal>En 2012, Su Santidad Gongma Trichen lo nombró Maestro Vajra y le confió una misión: llevar el Dharma al mundo hispano. Un año después fundó Paramita en Pedreguer —tradición y tecnología para acercar el estudio al hogar de cada practicante—.</p>
-      </div>
-      <div class="stats" data-reveal>
-        <div class="stat"><span class="num" data-to="300" data-prefix="+">+300</span><span class="stat__l">grupos activos en el mundo</span></div>
-        <div class="stat"><span class="num" data-to="150" data-prefix="~">~150</span><span class="stat__l">cursos en una década</span></div>
-        <div class="stat"><span class="num" data-to="5">5</span><span class="stat__l">niveles de formación</span></div>
-        <div class="stat"><span class="num" data-to="3">3</span><span class="stat__l">centros · Pedreguer, Madrid, Bolivia</span></div>
-      </div>
-      <p class="labor__link" data-reveal><a class="t-link t-link--primario" href="/formacion/formacion-publica.html"><span class="txt">Explora la formación</span><span class="arw" aria-hidden="true">→</span></a></p>
-    </div>
-  </section>
+      <!-- Grupo 1 · Quién coordina -->
+      <div class="vf__grupo">
+        <span class="vf__grupo-num">01 — Quién coordina</span>
+        <h3 class="vf__grupo-tit">Para empezar</h3>
 
-  <!-- ═══ 6 · LA MIRADA ═══ -->
-  <section class="mirada" id="mirada">
-    <div class="wrap mirada__head">
-      <p class="eyebrow" data-reveal>La mirada</p>
-      <h2 data-reveal="2">Antes que maestro, <em>fotógrafo</em></h2>
-      <p class="lede-linaje" data-reveal>Durante años ha retratado la vida de los monasterios, los rituales y los caminos de peregrinación. Su archivo es su forma de habitar lo sagrado.</p>
-      <span class="mirada__hint" data-reveal aria-hidden="true"><span>→</span></span>
-    </div>
-    <div class="galeria" id="galeria" aria-label="Archivo fotográfico de Khenpo Rinchen">
-      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <rect x="3.5" y="5" width="17" height="14" rx="2"/>
-  <path d="M3.7 16.2 L8.5 11.6 L12.4 15 L15.4 12.4 L20.3 16.6"/>
-  <circle class="acc" cx="15.4" cy="9" r="1.6"/>
-</svg></span><span>archivo · monasterios</span></div></div>
-      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <rect x="3.5" y="5" width="17" height="14" rx="2"/>
-  <path d="M3.7 16.2 L8.5 11.6 L12.4 15 L15.4 12.4 L20.3 16.6"/>
-  <circle class="acc" cx="15.4" cy="9" r="1.6"/>
-</svg></span><span>archivo · peregrinación</span></div></div>
-      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <rect x="3.5" y="5" width="17" height="14" rx="2"/>
-  <path d="M3.7 16.2 L8.5 11.6 L12.4 15 L15.4 12.4 L20.3 16.6"/>
-  <circle class="acc" cx="15.4" cy="9" r="1.6"/>
-</svg></span><span>archivo · rituales</span></div></div>
-      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <rect x="3.5" y="5" width="17" height="14" rx="2"/>
-  <path d="M3.7 16.2 L8.5 11.6 L12.4 15 L15.4 12.4 L20.3 16.6"/>
-  <circle class="acc" cx="15.4" cy="9" r="1.6"/>
-</svg></span><span>archivo · Nepal</span></div></div>
-      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <rect x="3.5" y="5" width="17" height="14" rx="2"/>
-  <path d="M3.7 16.2 L8.5 11.6 L12.4 15 L15.4 12.4 L20.3 16.6"/>
-  <circle class="acc" cx="15.4" cy="9" r="1.6"/>
-</svg></span><span>archivo · Tradición Sakya</span></div></div>
-      <div class="gtile"><div class="ph"><span class="pico" data-pico="imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <rect x="3.5" y="5" width="17" height="14" rx="2"/>
-  <path d="M3.7 16.2 L8.5 11.6 L12.4 15 L15.4 12.4 L20.3 16.6"/>
-  <circle class="acc" cx="15.4" cy="9" r="1.6"/>
-</svg></span><span>archivo · Bodhgaya</span></div></div>
-    </div>
-  </section>
+        <div class="vf__campo" data-req>
+          <label class="vf__label" for="G-nombre">Nombre y apellidos</label>
+          <input class="vf__input" id="G-nombre" name="nombre" type="text" autocomplete="name" required>
+          <p class="vf__error" id="G-nombre-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Escribe tu nombre.</span></p>
+        </div>
 
-  <!-- ═══ 7 · ENSEÑANZAS ═══ -->
-  <section class="ensen" id="ensenanzas">
-    <div class="wrap">
-      <div class="ensen__head">
-        <p class="eyebrow" data-reveal>Sus enseñanzas</p>
-        <h2 data-reveal="2">Recíbelas</h2>
-      </div>
-      <div class="ensen__grid">
-        <article class="tarjeta" data-reveal>
-          <h3>Cursos</h3>
-          <p>Un camino de cinco niveles sobre textos clásicos y comentarios vivos.</p>
-          <a class="t-link" href="/formacion/formacion-publica.html"><span class="txt">Ver la formación</span><span class="arw" aria-hidden="true">→</span></a>
-        </article>
-        <article class="tarjeta d1" data-reveal>
-          <h3>Canal y charlas</h3>
-          <p>Enseñanzas, conferencias y entrevistas donde el Dharma se cuenta en español.</p>
-          <a class="t-link" href="#"><span class="txt">Ir al canal</span><span class="arw" aria-hidden="true">→</span></a>
-        </article>
-      </div>
-    </div>
-  </section>
+        <div class="vf__campo" data-req>
+          <label class="vf__label" for="G-email">Correo electrónico</label>
+          <input class="vf__input" id="G-email" name="email" type="email" autocomplete="email" required aria-describedby="G-email-ayuda">
+          <p class="vf__ayuda" id="G-email-ayuda">Te escribiremos aquí.</p>
+          <p class="vf__error" id="G-email-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Introduce un email válido, p. ej. nombre@correo.com</span></p>
+        </div>
 
-  <!-- La suscripción vive en la banda del prefooter (partials/prefooter.html),
-       inyectada por sync antes del footer. Marcador de página: `prefooter`. -->
+        <div class="vf__campo">
+          <label class="vf__label" for="G-tel">Teléfono <span class="vf__opcional">(opcional)</span></label>
+          <input class="vf__input" id="G-tel" name="telefono" type="tel" autocomplete="tel" aria-describedby="G-tel-ayuda">
+          <p class="vf__ayuda" id="G-tel-ayuda">Solo si prefieres que coordinemos por teléfono o WhatsApp.</p>
+          <p class="vf__error" id="G-tel-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Introduce un teléfono válido, p. ej. 600 000 000</span></p>
+        </div>
+
+        <div class="vf__campo" data-req>
+          <label class="vf__label" for="G-lugar">País y ciudad de residencia</label>
+          <input class="vf__input" id="G-lugar" name="residencia" type="text" autocomplete="address-level2" required aria-describedby="G-lugar-ayuda">
+          <p class="vf__ayuda" id="G-lugar-ayuda">Nos ayuda a asignarte la coordinación de tu zona (Europa o Latinoamérica).</p>
+          <p class="vf__error" id="G-lugar-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Dinos dónde resides.</span></p>
+        </div>
+      </div>
+
+      <!-- Grupo 2 · El círculo que imaginas -->
+      <div class="vf__grupo">
+        <span class="vf__grupo-num">02 — El círculo que imaginas</span>
+        <h3 class="vf__grupo-tit">Tu propósito</h3>
+
+        <div class="vf__campo" data-req data-grupo="radio">
+          <span class="vf__label" id="G-modo-lbl">¿Cómo imaginas las reuniones?</span>
+          <div class="vf__opciones vf__opciones--fila" role="radiogroup" aria-labelledby="G-modo-lbl">
+            <label class="vf__opcion"><input type="radio" name="modalidad" value="presencial"><span>Presenciales</span></label>
+            <label class="vf__opcion"><input type="radio" name="modalidad" value="online"><span>En línea</span></label>
+            <label class="vf__opcion"><input type="radio" name="modalidad" value="mixto"><span>Mixtas</span></label>
+          </div>
+          <p class="vf__error" id="G-modo-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Elige cómo imaginas las reuniones.</span></p>
+        </div>
+
+        <div class="vf__campo">
+          <label class="vf__label" for="G-donde">¿Dónde os reuniríais? <span class="vf__opcional">(opcional)</span></label>
+          <input class="vf__input" id="G-donde" name="lugar" type="text" aria-describedby="G-donde-ayuda">
+          <p class="vf__ayuda" id="G-donde-ayuda">Un salón, un centro de yoga, una sala online… lo que tengas en mente.</p>
+        </div>
+
+        <div class="vf__campo">
+          <label class="vf__label" for="G-personas">¿Ya hay personas interesadas? <span class="vf__opcional">(opcional)</span></label>
+          <input class="vf__input" id="G-personas" name="personas" type="text" aria-describedby="G-personas-ayuda">
+          <p class="vf__ayuda" id="G-personas-ayuda">Cuéntanos cuántas sois, aunque sea una estimación. Un círculo suele nacer de un grupo de amigos.</p>
+        </div>
+
+        <div class="vf__campo" data-req>
+          <label class="vf__label" for="G-motivo">¿Qué te mueve a sembrar un círculo?</label>
+          <textarea class="vf__textarea" id="G-motivo" name="motivo" required aria-describedby="G-motivo-ayuda"></textarea>
+          <p class="vf__ayuda" id="G-motivo-ayuda">Con tus palabras, sin prisa. No hay respuesta correcta.</p>
+          <p class="vf__error" id="G-motivo-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Cuéntanos brevemente qué te mueve.</span></p>
+        </div>
+      </div>
+
+      <!-- Grupo 3 · Camino y compromiso -->
+      <div class="vf__grupo">
+        <span class="vf__grupo-num">03 — Camino y compromiso</span>
+        <h3 class="vf__grupo-tit">El terreno</h3>
+
+        <div class="vf__campo" data-grupo="check">
+          <span class="vf__label" id="G-suelo-lbl">¿Qué condiciones cumples ya? <span class="vf__opcional">(opcional)</span></span>
+          <p class="vf__ayuda">Marca las que se cumplan. Si aún te falta alguna, cuéntanoslo igual: cada caso se mira con calma.</p>
+          <div class="vf__opciones" role="group" aria-labelledby="G-suelo-lbl">
+            <label class="vf__opcion"><input type="checkbox" name="condiciones" value="antiguedad"><span>Llevo un año o más registrado en Paramita</span></label>
+            <label class="vf__opcion"><input type="checkbox" name="condiciones" value="cursos"><span>He completado tres cursos de ocho o más semanas</span></label>
+            <label class="vf__opcion"><input type="checkbox" name="condiciones" value="retiro"><span>He participado en al menos un retiro</span></label>
+          </div>
+        </div>
+
+        <div class="vf__campo" data-req data-grupo="uno" style="margin-top:1.35rem">
+          <label class="vf__consent">
+            <input type="checkbox" name="etico" required>
+            <span>He leído y acepto el <a href="https://www.paramita.org/docs/Coordinadores-Tutores/Codigo_Etico_Paramita_V2.05.22.pdf" target="_blank" rel="noopener">código ético de los grupos Paramita</a>.</span>
+          </label>
+          <p class="vf__error" id="G-etico-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Necesitamos que aceptes el código ético para continuar.</span></p>
+        </div>
+
+        <div class="vf__campo" data-req data-grupo="uno">
+          <label class="vf__consent">
+            <input type="checkbox" name="rgpd" required>
+            <span>Autorizo el tratamiento de mis datos según la <a href="/politica-de-privacidad/" target="_blank" rel="noopener">política de privacidad</a>.</span>
+          </label>
+          <p class="vf__error" id="G-rgpd-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Necesitamos tu consentimiento para poder responderte.</span></p>
+        </div>
+      </div>
+
+      <div class="vf__accion">
+        <button class="btn-primario" type="submit">Enviar mi solicitud</button>
+        <p class="vf__nota-envio">Te enviaremos una copia a tu correo.</p>
+      </div>
+    </form>
+
+    <!-- Acuse (regla 3C) -->
+    <div class="vf__acuse" id="acuseGrupo" tabindex="-1" role="status" aria-live="polite">
+      <div class="vf__acuse-ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h3>Hemos recibido tu solicitud.</h3>
+      <p>Gracias por querer sembrar un círculo. La leeremos con calma y te escribiremos para conoceros y darte los siguientes pasos. Te hemos enviado una copia a tu correo.</p>
+      <a class="t-link vf__acuse-cta" href="/unete/grupos/nuevos.html#pasos"><span class="txt">Mientras tanto, repasa cómo es el viaje</span><span class="arw">→</span></a>
+    </div>
+  </div></section>
 
 </main>
 
-<!-- footer · partials/footer.html (incrustado) -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
+<!-- @sync:prefooter -->
+<!-- /@sync:prefooter -->
+
+<!-- @sync:footer -->
 <!-- prefooter · sincronizado con partials/prefooter.html -->
 <!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
      Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en
-     paramita-footer.css (.foot__hero .suscribe · variante por contexto).
-     El endpoint del formulario lo conecta Alberto; hasta entonces, mock. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en
-     paramita-footer.css (.foot__hero .suscribe · variante por contexto).
-     El endpoint del formulario lo conecta Alberto; hasta entonces, mock. -->
+     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
+     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- prefooter · sincronizado con partials/prefooter.html -->
 <!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
@@ -576,6 +509,12 @@
     </div>
   </div>
 </footer>
+<!-- /@sync:footer -->
 
+<script src="../../js/paginas/paramita-solicitud-grupo.js" defer></script>
+<!-- TEMA · listener del toggle · compartido (sync) -->
+<script src="../../js/componentes/paramita-tema.js" defer></script>
+<!-- MENÚ · acordeón de submenús en móvil · compartido (sync) -->
+<script src="../../js/componentes/paramita-menu.js" defer></script>
 </body>
 </html>

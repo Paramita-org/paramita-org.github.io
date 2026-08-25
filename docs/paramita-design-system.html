@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paramita · Sistema de Diseño — Documento maestro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Hanken+Grotesk:ital,wght@0,300..700;1,300..600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   PARAMITA · SISTEMA DE DISEÑO — hoja de estilo del propio documento.
+   El documento está construido CON el sistema que describe (dogfooding):
+   cada token, cada color OKLCH, cada peldaño tipográfico que aparece en
+   estas páginas es el valor real de producción.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root{
+  /* ── SUPERFICIES ── */
+  --lino:oklch(97% 0.008 85); --arena:oklch(94% 0.014 82);
+  --arcilla:oklch(90% 0.02 80); --calido-zen:oklch(88% 0.03 78);
+  --card:oklch(98% 0.006 85); --base-bg:oklch(97% 0.008 85);
+  /* ── TINTA ── */
+  --antracita:oklch(22% 0.02 250); --texto-suave:oklch(58% 0.015 250);
+  --texto-tenue:oklch(72% 0.012 250);
+  /* ── MARCA ── */
+  --azul-oscuro:oklch(38% 0.11 245); --azul-sutil:oklch(68% 0.13 235);
+  --dorado:oklch(78% 0.155 68);
+  /* ── ESTADO ── */
+  --estado-error:oklch(50% 0.16 25); --estado-exito:oklch(52% 0.12 145);
+  --estado-aviso:oklch(60% 0.13 75);
+  /* ── HILOS ── */
+  --hair:rgba(29,31,38,.10); --hair-fuerte:rgba(29,31,38,.22);
+  /* ── DEGRADADO DE MARCA 70/30 ── */
+  --degradado-marca:linear-gradient(135deg,oklch(38% 0.11 245) 0%,oklch(68% 0.13 235) 68%,oklch(78% 0.155 68) 100%);
+  --degradado-marca-h:linear-gradient(90deg,oklch(38% 0.11 245) 0%,oklch(68% 0.13 235) 68%,oklch(78% 0.155 68) 100%);
+  /* ── TIPOGRAFÍA ── */
+  --display:"Fraunces",Georgia,serif; --body:"Hanken Grotesk",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  /* ── ESPACIO (base 8) ── */
+  --s-1:.5rem; --s-2:1rem; --s-3:1.5rem; --s-4:2rem; --s-5:3rem;
+  --s-6:4rem; --s-7:6rem; --s-8:8rem;
+  --contenedor:1120px; --lectura:760px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0; background:var(--lino); color:var(--antracita);
+  font-family:var(--body); font-weight:300; font-size:1.02rem;
+  line-height:1.65; letter-spacing:0;
+  -webkit-font-smoothing:antialiased;
+}
+/* Fondo cálido con veladura de luz azul→dorado, evocando el lienzo del sitio */
+body::before{
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(120% 80% at 88% 6%, oklch(68% 0.13 235 / .07), transparent 55%),
+    radial-gradient(90% 70% at 6% 96%, oklch(78% 0.155 68 / .08), transparent 55%);
+}
+
+/* ── TIPOGRAFÍA DEL DOCUMENTO ── */
+h1,h2,h3,h4{font-family:var(--display); font-weight:300; line-height:1.05;
+  letter-spacing:-.02em; text-wrap:balance; font-variation-settings:"opsz" 96,"SOFT" 0}
+h1{font-size:clamp(2.6rem,7vw,4.6rem); letter-spacing:-.035em}
+h2{font-size:clamp(1.9rem,4vw,3rem); margin:0 0 .4em}
+h3{font-size:1.55rem; font-weight:400; font-variation-settings:"opsz" 60,"SOFT" 0; margin:2.4em 0 .5em}
+h4{font-size:1.18rem; font-weight:500; font-variation-settings:"opsz" 28,"SOFT" 0; margin:1.8em 0 .4em}
+h1 em,h2 em,h3 em{font-style:italic; color:var(--dorado); font-weight:300}
+p{max-width:66ch; margin:0 0 1.1em}
+a{color:var(--azul-oscuro); text-decoration-color:var(--hair-fuerte); text-underline-offset:3px}
+strong{font-weight:600}
+em{font-style:italic}
+code{font-family:var(--mono); font-size:.86em; background:var(--arena);
+  padding:.1em .4em; border-radius:4px; color:var(--antracita)}
+hr{border:none; border-top:1px solid var(--hair); margin:var(--s-6) 0}
+
+/* ── LAYOUT ── */
+.wrap{width:min(var(--contenedor),100% - 3rem); margin-inline:auto}
+.lectura{max-width:var(--lectura)}
+section.cap{padding-block:var(--s-7); border-top:1px solid var(--hair)}
+section.cap:first-of-type{border-top:none}
+
+/* ── PORTADA ── */
+.portada{min-height:92vh; display:flex; flex-direction:column; justify-content:center;
+  padding-block:var(--s-7); position:relative}
+.portada .eyebrow{margin-bottom:1.4rem}
+.portada h1{max-width:16ch; margin:0 0 .3em}
+.portada .sub{font-family:var(--display); font-style:italic; font-weight:400;
+  font-size:clamp(1.2rem,2.4vw,1.7rem); color:var(--texto-suave); max-width:44ch;
+  font-variation-settings:"opsz" 28}
+.portada .meta{margin-top:var(--s-6); display:flex; flex-wrap:wrap; gap:.6rem 2.4rem;
+  font-family:var(--mono); font-size:.8rem; color:var(--texto-suave); letter-spacing:.02em}
+.franja{height:6px; border-radius:99px; background:var(--degradado-marca-h);
+  background-size:200% 100%; margin:var(--s-4) 0; max-width:340px}
+
+.eyebrow{font-family:var(--body); font-weight:600; font-size:.82rem;
+  letter-spacing:.24em; text-transform:uppercase; color:var(--texto-tenue); display:block}
+
+/* ── ÍNDICE ── */
+.toc{background:var(--card); border:1px solid var(--hair); border-radius:16px;
+  padding:var(--s-5); columns:2; column-gap:var(--s-5)}
+@media(max-width:680px){.toc{columns:1}}
+.toc a{display:block; break-inside:avoid; text-decoration:none; color:var(--antracita);
+  padding:.5rem 0; border-bottom:1px solid var(--hair); font-size:.98rem}
+.toc a:last-child{border-bottom:none}
+.toc a b{font-family:var(--mono); color:var(--dorado); font-weight:500;
+  font-size:.8rem; margin-right:.7rem}
+.toc a:hover{color:var(--azul-oscuro)}
+
+/* ── LEDE de capítulo ── */
+.lede{font-family:var(--display); font-style:italic; font-weight:400;
+  font-size:1.3rem; line-height:1.5; color:var(--texto-suave); max-width:46ch;
+  font-variation-settings:"opsz" 28; margin:0 0 2rem}
+.num-cap{font-family:var(--mono); font-size:.82rem; letter-spacing:.24em;
+  text-transform:uppercase; color:var(--dorado); display:block; margin-bottom:.6rem}
+
+/* ── TARJETAS / CAJAS ── */
+.caja{background:var(--card); border:1px solid var(--hair); border-radius:14px;
+  padding:var(--s-4); margin:1.5rem 0}
+.caja.doctrina{border-left:3px solid var(--dorado)}
+.caja.referentes{background:color-mix(in oklch,var(--azul-sutil) 6%,var(--card));
+  border-color:color-mix(in oklch,var(--azul-sutil) 22%,transparent)}
+.caja.dato{background:color-mix(in oklch,var(--dorado) 8%,var(--card));
+  border-color:color-mix(in oklch,var(--dorado) 26%,transparent)}
+.caja h4{margin-top:0}
+.caja .tag{font-family:var(--mono); font-size:.72rem; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--texto-tenue); display:block; margin-bottom:.5rem}
+
+/* ── CÓDIGO ── */
+pre{background:oklch(24% 0.02 250); color:oklch(92% 0.01 85);
+  border-radius:12px; padding:1.2rem 1.4rem; overflow-x:auto; margin:1.4rem 0;
+  font-family:var(--mono); font-size:.82rem; line-height:1.7; letter-spacing:0}
+pre code{background:none; color:inherit; padding:0; font-size:1em}
+.tok-com{color:oklch(62% 0.03 200)} .tok-key{color:oklch(80% 0.13 68)}
+.tok-val{color:oklch(78% 0.10 200)} .tok-sel{color:oklch(85% 0.08 85)}
+
+/* ── SWATCHES DE COLOR ── */
+.swatches{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:1rem; margin:1.5rem 0}
+.sw{border:1px solid var(--hair); border-radius:12px; overflow:hidden; background:var(--card)}
+.sw .chip{height:88px}
+.sw .info{padding:.7rem .8rem}
+.sw .nom{font-weight:600; font-size:.9rem}
+.sw .val{font-family:var(--mono); font-size:.7rem; color:var(--texto-suave); display:block; margin-top:.2rem}
+.sw .rol{font-size:.76rem; color:var(--texto-suave); display:block; margin-top:.35rem; line-height:1.4}
+
+/* ── TABLAS ── */
+table{width:100%; border-collapse:collapse; margin:1.5rem 0; font-size:.9rem}
+th,td{text-align:left; padding:.7rem .8rem; border-bottom:1px solid var(--hair);
+  vertical-align:top}
+th{font-family:var(--body); font-weight:600; font-size:.78rem; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--texto-suave)}
+td code{font-size:.8em}
+tr:hover td{background:color-mix(in oklch,var(--arena) 40%,transparent)}
+
+/* ── ESPÉCIMEN TIPOGRÁFICO ── */
+.spec{border:1px solid var(--hair); border-radius:14px; padding:var(--s-4);
+  margin:1.4rem 0; background:var(--card)}
+.spec .fila{display:flex; align-items:baseline; gap:1.4rem; padding:.8rem 0;
+  border-bottom:1px solid var(--hair); flex-wrap:wrap}
+.spec .fila:last-child{border-bottom:none}
+.spec .lab{font-family:var(--mono); font-size:.72rem; color:var(--texto-tenue);
+  width:130px; flex:none; letter-spacing:.04em}
+.spec .muestra{font-family:var(--display); color:var(--antracita); line-height:1.1}
+
+/* ── ESCALERA (spacing) ── */
+.escalera{margin:1.5rem 0}
+.escalera .paso{display:flex; align-items:center; gap:1.2rem; margin:.5rem 0}
+.escalera .barra{height:22px; background:var(--degradado-marca-h); border-radius:5px}
+.escalera .et{font-family:var(--mono); font-size:.78rem; color:var(--texto-suave)}
+
+/* ── DO / DON'T ── */
+.dodont{display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.5rem 0}
+@media(max-width:680px){.dodont{grid-template-columns:1fr}}
+.dodont .col{border-radius:12px; padding:1.1rem 1.3rem; border:1px solid var(--hair)}
+.dodont .do{background:color-mix(in oklch,var(--estado-exito) 8%,var(--card));
+  border-color:color-mix(in oklch,var(--estado-exito) 30%,transparent)}
+.dodont .dont{background:color-mix(in oklch,var(--estado-error) 7%,var(--card));
+  border-color:color-mix(in oklch,var(--estado-error) 28%,transparent)}
+.dodont h4{margin:0 0 .5rem; font-size:.82rem; letter-spacing:.12em; text-transform:uppercase}
+.dodont .do h4{color:var(--estado-exito)} .dodont .dont h4{color:var(--estado-error)}
+.dodont ul{margin:0; padding-left:1.1rem} .dodont li{margin:.3rem 0; font-size:.92rem}
+
+/* ── COMPONENTES REALES (CTAs) ── */
+.demo{background:var(--calido-zen); border-radius:14px; padding:var(--s-5);
+  display:flex; gap:1rem; flex-wrap:wrap; align-items:center; margin:1.4rem 0;
+  justify-content:center}
+.demo.azul{background:var(--azul-sutil)}
+.btn-primario{position:relative; isolation:isolate; overflow:hidden; font-family:var(--body);
+  font-size:.96rem; font-weight:600; color:#fff; letter-spacing:.005em;
+  padding:.66rem 1.45rem; border:none; cursor:pointer; border-radius:14px;
+  text-decoration:none; display:inline-block;
+  box-shadow:0 14px 34px -20px var(--azul-oscuro),0 4px 12px -8px var(--azul-oscuro)}
+.btn-primario::before{content:""; position:absolute; inset:0; z-index:-1;
+  background:linear-gradient(100deg,var(--azul-oscuro),var(--azul-sutil),var(--dorado),var(--azul-sutil),var(--azul-oscuro));
+  background-size:200% 100%; animation:flow 17.5s cubic-bezier(.45,.05,.55,.95) infinite}
+@keyframes flow{to{background-position:200% 0}}
+/* Secundario · transparente + trazo del degradado por máscara (NO relleno).
+   Reproduce fielmente producción: el interior queda vacío, solo vive el borde. */
+.btn-secundario{position:relative; display:inline-flex; align-items:center; gap:.55em;
+  font-family:var(--body); font-size:.95rem; font-weight:450; letter-spacing:.01em;
+  color:var(--azul-oscuro); background:transparent; border:none; cursor:pointer;
+  padding:.66rem 1.4rem; border-radius:12px; text-decoration:none}
+.btn-secundario::before{content:""; position:absolute; inset:0; border-radius:12px; padding:1px;
+  background:linear-gradient(100deg,var(--azul-oscuro),var(--azul-sutil),var(--dorado),var(--azul-sutil),var(--azul-oscuro));
+  background-size:200% 100%; opacity:.9; pointer-events:none;
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+          mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude}
+.btn-secundario:hover::before{animation:flow 3.4s cubic-bezier(.45,.05,.55,.95) infinite}
+.btn-secundario>*{position:relative; z-index:1}
+.t-link{font-family:var(--body); font-weight:500; color:var(--azul-oscuro);
+  text-decoration:none; display:inline-flex; align-items:center; gap:.35rem;
+  border-bottom:2px solid; border-image:var(--degradado-marca-h) 1}
+/* Variantes claras · sobre azul luminoso el texto azul-oscuro se pierde → pasa a
+   lino con text-shadow sutil (mismo tratamiento del em dorado del sistema). */
+.btn-secundario--claro{color:var(--lino); text-shadow:0 1px 14px rgba(33,30,26,.28)}
+.btn-secundario--claro::before{opacity:1}
+.t-link--claro{color:var(--lino); text-shadow:0 1px 14px rgba(33,30,26,.28)}
+.btn-primario--claro{color:var(--lino)}
+/* Demo penumbra · reproduce el tema oscuro opt-in, scopeado a este contenedor.
+   Redefine los tokens nominales como en :root[data-tema="oscuro"]. */
+.demo.dark{background:oklch(19% 0.012 65);
+  --lino:oklch(19% 0.012 65); --card:oklch(25% 0.015 66); --calido-zen:oklch(26% 0.020 66);
+  --antracita:oklch(92% 0.012 85); --texto-suave:oklch(74% 0.012 82); --texto-tenue:oklch(60% 0.012 80);
+  --azul-oscuro:oklch(74% 0.12 232)}
+/* El primario re-ancla su degradado a paradas oscuras fijas: con --azul-oscuro
+   ya luminoso, el texto blanco perdería contraste en el extremo azul. */
+.demo.dark .btn-primario::before{
+  background:linear-gradient(100deg,oklch(38% 0.11 245),oklch(68% 0.13 235),oklch(78% 0.155 68),oklch(68% 0.13 235),oklch(38% 0.11 245));
+  background-size:200% 100%}
+.demo.dark .btn-primario{box-shadow:0 14px 34px -20px oklch(12% 0.02 250),0 4px 12px -8px oklch(12% 0.02 250)}
+@media(prefers-reduced-motion:reduce){.btn-primario::before,.btn-secundario:hover::before{animation:none}}
+/* Acento de pictograma · por CLASE (no stroke inline · compat. Safari) */
+.acc{stroke:var(--dorado)}
+
+/* ── PIE ── */
+.pie{border-top:1px solid var(--hair); padding-block:var(--s-6); margin-top:var(--s-7);
+  font-size:.9rem; color:var(--texto-suave)}
+.pie .franja{max-width:100%}
+
+/* ── BIBLIOGRAFÍA ── */
+.biblio{font-size:.88rem; line-height:1.6}
+.biblio li{margin:.7rem 0; max-width:80ch}
+.biblio .autor{font-weight:600; color:var(--antracita)}
+.biblio a{font-family:var(--mono); font-size:.8em; word-break:break-all}
+
+/* ── responsive general ── */
+@media(max-width:680px){
+  body{font-size:.98rem}
+  section.cap{padding-block:var(--s-6)}
+  .spec .lab{width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ PORTADA ═══════════════════ -->
+<header class="wrap portada">
+  <span class="eyebrow">Fundació Sakya Paramita · Documento maestro</span>
+  <h1>Sistema de <em>Diseño</em></h1>
+  <div class="franja"></div>
+  <p class="sub">La identidad del sitio codificada como fuente de verdad — el sustrato del que se extraerá el manual de identidad corporativa.</p>
+  <div class="meta">
+    <span>VERSIÓN · Fase 8 (ago 2026)</span>
+    <span>ÁMBITO · web + fundamento de marca</span>
+    <span>HILO · «el cruce como acto»</span>
+    <span>ESPACIO DE COLOR · OKLCH</span>
+  </div>
+</header>
+
+<!-- ═══════════════════ ÍNDICE ═══════════════════ -->
+<section class="cap wrap">
+  <span class="num-cap">Índice</span>
+  <h2>Qué contiene este documento</h2>
+  <p class="lede">Doce capítulos que van del porqué (el hilo conceptual) al cómo (tokens, componentes, gobernanza) y terminan tendiendo el puente hacia el manual de identidad.</p>
+  <nav class="toc">
+    <a href="#c0"><b>00</b>Cómo usar este documento</a>
+    <a href="#c1"><b>01</b>Fundamentos de identidad</a>
+    <a href="#c2"><b>02</b>Arquitectura de tokens</a>
+    <a href="#c3"><b>03</b>Color</a>
+    <a href="#c4"><b>04</b>Tipografía</a>
+    <a href="#c5"><b>05</b>Espacio, retícula y layout</a>
+    <a href="#c6"><b>06</b>Movimiento</a>
+    <a href="#c7"><b>07</b>Iconografía y pictogramas</a>
+    <a href="#c8"><b>08</b>Componentes</a>
+    <a href="#c9"><b>09</b>Voz y contenido</a>
+    <a href="#c10"><b>10</b>Accesibilidad</a>
+    <a href="#c11"><b>11</b>Gobernanza y evolución</a>
+    <a href="#c12"><b>12</b>Del sistema al manual de identidad</a>
+    <a href="#biblio"><b>—</b>Referentes y bibliografía</a>
+  </nav>
+</section>
+
+<!-- ═══════════════════ 00 · CÓMO USAR ═══════════════════ -->
+<section class="cap wrap" id="c0">
+  <div class="lectura">
+  <span class="num-cap">Capítulo 00</span>
+  <h2>Cómo usar este documento</h2>
+  <p class="lede">Un sistema de diseño no es un PDF que se archiva: es un producto vivo que se mantiene, se versiona y sirve a públicos distintos. Este capítulo fija ese marco.</p>
+
+  <h3>Qué es y qué no es</h3>
+  <p>Este es el <strong>sistema de diseño</strong> de Paramita: la identidad ya codificada en decisiones reproducibles —tokens de color, escala tipográfica, ritmo espacial, vocabulario de movimiento, componentes—. No es un manual de identidad corporativa, aunque será su cimiento. La distinción es más que semántica y conviene fijarla desde la primera página, porque confundirlas lleva a encargar el documento equivocado.</p>
+  <p>En la práctica establecida del sector la secuencia habitual es la inversa: primero se redactan las <em>directrices de marca</em> (qué reglas rigen la identidad) y de ahí se deriva el sistema de diseño (cómo se encarnan esas reglas en el material con el que se construye). Paramita ha recorrido el camino al revés —el sistema nació primero, madurado fase a fase en el código— y por eso este documento es hoy la fuente de verdad. El manual de identidad se extraerá de aquí, no al contrario (ver capítulo 12).</p>
+
+  <div class="caja referentes">
+    <span class="tag">Referente contrastado</span>
+    <p style="margin:0">Como resume Sutter Group, «las directrices de marca definen la identidad y el sistema de diseño la codifica en el entorno de producción; un sistema de diseño sin directrices de marca en su base no es más que una biblioteca de componentes». Paramita evita ese vacío porque su base <em>es</em> una doctrina explícita —el capítulo 01— y no un conjunto de piezas sueltas.</p>
+  </div>
+
+  <h3>Para quién es cada parte</h3>
+  <p>La literatura sobre documentación de sistemas —de IBM Carbon a Shopify Polaris— coincide en una cosa: hay que conocer a las audiencias antes de escribir una sola página, porque diseñadores, personas que programan, responsables de contenido y dirección necesitan cosas distintas del mismo sistema. Este documento las atiende así:</p>
+  <table>
+    <thead><tr><th>Público</th><th>Qué busca aquí</th><th>Capítulos</th></tr></thead>
+    <tbody>
+      <tr><td>Diseño / frontend</td><td>Valores exactos, reglas de uso, anatomía de componentes, estados</td><td>02–08</td></tr>
+      <tr><td>Contenido y copy</td><td>Voz, registro, cómo se nombran las cosas, qué no se dice</td><td>09</td></tr>
+      <tr><td>Dirección y doctrina</td><td>El porqué, los principios, lo que el sistema decide no hacer</td><td>01, 11</td></tr>
+      <tr><td>Marca / futuro manual</td><td>Qué está ya resuelto y qué añadirá el manual de identidad</td><td>12</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Cómo leer las muestras</h3>
+  <p>Este documento está construido <strong>con el propio sistema que describe</strong>. Los títulos que lees son Fraunces en su tamaño óptico monumental; el cuerpo es Hanken Grotesk en peso contemplativo; los colores de las muestras son los valores OKLCH exactos de producción; los botones de ejemplo son los componentes reales, con su degradado identitario respirando. Ver el sistema aplicado a su propia documentación es la prueba más honesta de que funciona.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ 01 · FUNDAMENTOS ═══════════════════ -->
+<section class="cap wrap" id="c1">
+  <div class="lectura">
+  <span class="num-cap">Capítulo 01</span>
+  <h2>Fundamentos de <em>identidad</em></h2>
+  <p class="lede">Antes de rediseñar un solo componente hubo que fijar el hilo conceptual del sitio. Sin ese hilo, cada decisión posterior se resolvería por gusto o por tendencia — no por coherencia.</p>
+
+  <h3>El hilo: «el cruce como acto»</h3>
+  <p>Paramita es la fundación Sakya con sede en Alicante que traduce la tradición himalaya a un público hispanohablante contemporáneo. El hilo conceptual del sistema es <strong>«el cruce como acto»</strong>: el paso de una orilla a otra entendido como gesto activo, no pasivo. <em>Pāramitā</em> significa, precisamente, «lo que ha llegado a la otra orilla». Toda decisión visual, tipográfica o de movimiento se valida contra este hilo antes de aprobarse.</p>
+  </div>
+
+  <div class="caja doctrina">
+    <span class="tag">Doctrina · cuatro principios operativos</span>
+    <h4>1 · Identidad sobre tendencia</h4>
+    <p>Las decisiones se fundamentan en coherencia con la identidad, no en lo que hace el resto de la web ahora mismo. Una animación técnicamente impecable que rompe el hilo se descarta.</p>
+    <h4>2 · Paramita no es un SaaS</h4>
+    <p>Los patrones de producto —gamificación agresiva, <em>streak-shaming</em>, rankings competitivos, urgencia manufacturada, UX transaccional— son antipatrones para este público. El practicante entra en una tradición viva, no descarga un producto.</p>
+    <h4>3 · Luminosidad mediterránea por defecto</h4>
+    <p>La paleta cálida (lino, arena, arcilla) y el peso contemplativo (300) son la superficie de reposo del sistema, no una decoración.</p>
+    <h4>4 · El sistema respira</h4>
+    <p>Existe un movimiento ambiental identitario que atraviesa el sitio de forma imperceptible en el ritmo individual pero presente en la acumulación — como el agua atraviesa el paisaje.</p>
+  </div>
+
+  <div class="lectura">
+  <h3>Lo que el sistema decide no hacer</h3>
+  <p>Una identidad firme se define tanto por sus ausencias como por sus presencias. El hilo se aplica también a lo que <strong>no</strong> se hace: ausencia de <em>streaks</em>, de <em>leaderboards</em>, de insignias, de banners de «solo quedan 3 plazas», de carruseles que avanzan solos, de métricas de vanidad. Estas ausencias no son omisiones: son decisiones.</p>
+
+  <h3>Alternativas descartadas</h3>
+  <table>
+    <thead><tr><th>Alternativa</th><th>Por qué se rechazó</th></tr></thead>
+    <tbody>
+      <tr><td>Dark mode como dirección primaria</td><td>Contradice la luminosidad mediterránea y el cruce, que se leen mejor sobre superficies cálidas y claras. Se conserva como modo opcional del usuario («penumbra»), nunca como dirección de marca.</td></tr>
+      <tr><td>Estética «wellness app»</td><td>Convierte la práctica contemplativa en producto de autoconsumo.</td></tr>
+      <tr><td>Neutralidad tipográfica y cromática («mínimo seguro»)</td><td>Produce un sitio que podría ser de cualquier fundación. La firmeza estética es lo que impide que Paramita se confunda con nadie.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja dato">
+    <span class="tag">Dato · por qué la coherencia importa</span>
+    <p style="margin:0">La coherencia no es solo estética: es rendimiento medible. El estudio <em>The Business Value of Design</em> de McKinsey (2018) siguió a 300 empresas cotizadas durante cinco años y halló que el cuartil superior de su índice de diseño obtuvo <strong>32 puntos porcentuales</strong> más de crecimiento de ingresos y <strong>56 puntos porcentuales</strong> más de crecimiento del retorno total al accionista (TRS) que sus pares. Nielsen Norman Group lo formula en términos de usabilidad: cuando las cosas se comportan siempre igual, la persona deja de tener que preguntarse qué va a pasar. Para Paramita, la coherencia es lo que permite que el usuario confíe y se recoja en lugar de estar descifrando la interfaz.</p>
+  </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 02 · TOKENS ═══════════════════ -->
+<section class="cap wrap" id="c2">
+  <div class="lectura">
+  <span class="num-cap">Capítulo 02</span>
+  <h2>Arquitectura de <em>tokens</em></h2>
+  <p class="lede">Un token es una decisión de diseño con nombre. La arquitectura decide si el sistema envejece bien o se convierte en una lista inmanejable de valores sueltos.</p>
+
+  <h3>El modelo por capas</h3>
+  <p>El patrón que adopta casi todo sistema maduro es el de tres niveles: <strong>primitivo → semántico → componente</strong>. Cada capa añade contexto sobre la de abajo. Los primitivos son valores crudos sin significado; los semánticos les asignan una intención; los de componente resuelven casos concretos. La regla de oro, la que los equipos rompen primero bajo presión de plazo: <strong>un componente referencia solo tokens semánticos, nunca primitivos</strong>, y cada token apunta exactamente a un nivel por debajo, sin saltarse capas ni alcanzar de lado.</p>
+  </div>
+
+  <div class="caja referentes">
+    <span class="tag">Referente contrastado · el estándar W3C</span>
+    <p style="margin:0 0 .6em">El <em>Design Tokens Community Group</em> del W3C formalizó por fin el formato: la primera versión estable del <em>DTCG Format Module</em> salió el 28 de octubre de 2025. Estandariza el JSON con <code>$value</code>, <code>$type</code>, <code>$description</code>, <code>$deprecated</code> y la sintaxis de alias <code>{ref}</code>. Según el informe <em>State of Design Systems</em> de Specify (2024), el 74 % de los sistemas maduros ya usan tokens como método principal para distribuir decisiones de diseño al código.</p>
+    <p style="margin:0"><strong>Por qué importa para Paramita:</strong> el día que la marca cambie un azul, se edita un primitivo; el día que se quiera un tema nuevo, se re-apuntan los semánticos y no se toca ni un componente. Esa es la diferencia entre un cambio de tres líneas y una cacería por cincuenta archivos.</p>
+  </div>
+
+  <div class="lectura">
+  <h3>Cómo lo implementa Paramita hoy</h3>
+  <p>Paramita ya practica este modelo, de forma más explícita en unos sistemas que en otros. El sistema de <strong>movimiento</strong> es el más maduro: declara literalmente cuatro capas (primitivos → semánticos → familia identitaria → contrato de quietud). El <strong>color</strong> mezcla primitivos de nombre evocador (<code>--lino</code>, <code>--arena</code>) con semánticos de estado y degradados. El <strong>espacio</strong> tiene su escala cruda (<code>--s-1…--s-9</code>) y su capa semántica (<code>--espacio-atomo</code>, <code>--espacio-orilla</code>).</p>
+  <p>La nomenclatura de Paramita tiene una virtud poco común: <strong>nombra por intención, no por valor</strong>. No hay un <code>--gris-400</code>; hay <code>--texto-suave</code>. No hay un <code>--peso-300</code>; hay <code>--wght-contemplativo</code>. Esto es exactamente lo que la disciplina de tokens recomienda —nunca nombrar un token semántico por su aspecto— y es lo que permite que el sistema hable el idioma de la doctrina y no el de la máquina.</p>
+  </div>
+
+  <h4>Orden de la cascada · @layer</h4>
+  <p class="lectura">Todo el CSS vive dentro de capas en cascada declaradas en un orden fijo. Esto hace que el orden de los <code>&lt;link&gt;</code> deje de ser frágil: una capa posterior gana siempre a una anterior, independientemente de la especificidad del selector.</p>
+  <pre><code><span class="tok-com">/* orden maestro de la cascada — de menor a mayor prioridad */</span>
+<span class="tok-key">@layer</span> reset, tokens, base, bar, menu, cta, hero,
+       sections, paginas, footer, responsive, tema;</code></pre>
+
+  <div class="caja">
+    <span class="tag">Camino de migración · cuando llegue Eleventy</span>
+    <p style="margin:0">El sistema actual es CSS con <em>custom properties</em>. La ruta recomendada hacia el futuro (documentada para la migración a 11ty) es envolver los tokens actuales en un <code>tokens.json</code> con el esquema DTCG, mapear las variables existentes a la estructura de tres niveles y generar el CSS desde esa única fuente con una herramienta tipo Style Dictionary. Ventaja lateral notable: un <code>tokens.md</code> legible acompañando al paquete permite que herramientas de IA generen componentes que se mantienen dentro de la marca — el modelo tiene entonces un vocabulario de primitivos nombrados y descritos en lugar de improvisar.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ 03 · COLOR ═══════════════════ -->
+<section class="cap wrap" id="c3">
+  <div class="lectura">
+  <span class="num-cap">Capítulo 03</span>
+  <h2>Color</h2>
+  <p class="lede">Toda la paleta se define en OKLCH. No es una moda técnica: es lo que hace que el sistema sea predecible, accesible y coherente entre pantallas.</p>
+
+  <h3>Por qué OKLCH</h3>
+  <p>OKLCH es un espacio de color perceptualmente uniforme: describe el color por Luminosidad, Croma y Tono tal como lo percibe el ojo humano, no como lo emite el monitor. Dos consecuencias prácticas que sostienen todo el sistema de Paramita:</p>
+  <p><strong>Luminosidad predecible.</strong> Dos colores con la misma L se perciben con el mismo brillo, sea cual sea su tono. Esto da contrastes fiables y accesibilidad más consistente —a diferencia de HSL, donde la misma «lightness» produce brillos dispares—. <strong>Manipulación segura.</strong> Aclarar, oscurecer o generar una familia se hace moviendo un eje sin sorpresas, sin las torsiones de tono que sufría <code>darken()</code> en Sass. Y como bonus, más gamut: en pantallas P3 (Apple y similares) OKLCH ofrece entre un 25 % y un 30 % más de colores que sRGB.</p>
+  </div>
+
+  <div class="caja referentes">
+    <span class="tag">Referente contrastado</span>
+    <p style="margin:0">La referencia canónica es la serie <em>OKLCH in CSS</em> de Evil Martians, que documenta el paso de RGB/HSL a OKLCH en sistemas multimarca. Funciona en todos los navegadores modernos desde mayo de 2023 y forma parte de CSS Color Module Level 4. Paramita mantiene además un fallback HEX en cada token para navegadores sin soporte.</p>
+  </div>
+
+  <div class="lectura"><h3>Superficies · el gradiente cálido base</h3>
+  <p>Cinco valores cálidos forman el reposo del sistema. Ninguno es blanco puro: hasta las tarjetas usan un blanco cálido.</p></div>
+  <div class="swatches">
+    <div class="sw"><div class="chip" style="background:oklch(97% 0.008 85)"></div><div class="info"><span class="nom">lino</span><span class="val">oklch(97% .008 85)</span><span class="rol">Hueso cálido · fondo global</span></div></div>
+    <div class="sw"><div class="chip" style="background:oklch(94% 0.014 82)"></div><div class="info"><span class="nom">arena</span><span class="val">oklch(94% .014 82)</span><span class="rol">Pergamino · secciones alternas</span></div></div>
+    <div class="sw"><div class="chip" style="background:oklch(90% 0.02 80)"></div><div class="info"><span class="nom">arcilla</span><span class="val">oklch(90% .02 80)</span><span class="rol">Tierra lavada · hovers</span></div></div>
+    <div class="sw"><div class="chip" style="background:oklch(88% 0.03 78)"></div><div class="info"><span class="nom">calido-zen</span><span class="val">oklch(88% .03 78)</span><span class="rol">Fondo hero · hover cursos/eventos</span></div></div>
+    <div class="sw"><div class="chip" style="background:oklch(98% 0.006 85)"></div><div class="info"><span class="nom">card</span><span class="val">oklch(98% .006 85)</span><span class="rol">Blanco cálido · tarjetas</span></div></div>
+  </div>
+
+  <div class="lectura"><h3>Tinta · tres niveles de contraste</h3>
+  <p>El texto lleva un matiz azulado sutil (tono 250) para que no compita con el dorado. Tres peldaños cubren cuerpo, secundario y metadatos.</p></div>
+  <div class="swatches">
+    <div class="sw"><div class="chip" style="background:oklch(22% 0.02 250)"></div><div class="info"><span class="nom">antracita</span><span class="val">oklch(22% .02 250)</span><span class="rol">Cuerpo y titulares</span></div></div>
+    <div class="sw"><div class="chip" style="background:oklch(58% 0.015 250)"></div><div class="info"><span class="nom">texto-suave</span><span class="val">oklch(58% .015 250)</span><span class="rol">Secundario · lede · captions</span></div></div>
+    <div class="sw"><div class="chip" style="background:oklch(72% 0.012 250)"></div><div class="info"><span class="nom">texto-tenue</span><span class="val">oklch(72% .012 250)</span><span class="rol">Metadatos · eyebrows · deshabilitado</span></div></div>
+  </div>
+
+  <div class="lectura"><h3>Marca · el degradado 70/30</h3>
+  <p>Tres colores forman el gesto identitario. Regla del sistema fijada en Fase 0: el dorado ocupa siempre el <strong>30 % final</strong> del degradado; el azul, el 70 % de partida. El azul-sutil sustituyó al cyan <code>#00C7E5</code> retirado en Fase 1a.</p></div>
+  <div class="swatches">
+    <div class="sw"><div class="chip" style="background:oklch(38% 0.11 245)"></div><div class="info"><span class="nom">azul-oscuro</span><span class="val">oklch(38% .11 245)</span><span class="rol">Enlaces · títulos alternos</span></div></div>
+    <div class="sw"><div class="chip" style="background:oklch(68% 0.13 235)"></div><div class="info"><span class="nom">azul-sutil</span><span class="val">oklch(68% .13 235)</span><span class="rol">Azul cielo luminoso</span></div></div>
+    <div class="sw"><div class="chip" style="background:oklch(78% 0.155 68)"></div><div class="info"><span class="nom">dorado</span><span class="val">oklch(78% .155 68)</span><span class="rol">CTA principal · énfasis · acento</span></div></div>
+  </div>
+  <div style="height:64px;border-radius:14px;background:var(--degradado-marca-h);margin:1.2rem 0" class="wrap"></div>
+  <p class="lectura" style="font-size:.86rem;color:var(--texto-suave)">↑ El degradado de marca en su recorrido horizontal: azul-oscuro 0 % → azul-sutil 68 % → dorado 100 %.</p>
+
+  <div class="lectura"><h3>Estado · el sistema de formularios</h3>
+  <p>Tres valores para retroalimentación de UI, todos con contraste WCAG 2.2 AA verificado sobre fondos lino/arena.</p></div>
+  <div class="swatches">
+    <div class="sw"><div class="chip" style="background:oklch(50% 0.16 25)"></div><div class="info"><span class="nom">estado-error</span><span class="val">oklch(50% .16 25)</span></div></div>
+    <div class="sw"><div class="chip" style="background:oklch(52% 0.12 145)"></div><div class="info"><span class="nom">estado-exito</span><span class="val">oklch(52% .12 145)</span></div></div>
+    <div class="sw"><div class="chip" style="background:oklch(60% 0.13 75)"></div><div class="info"><span class="nom">estado-aviso</span><span class="val">oklch(60% .13 75)</span></div></div>
+  </div>
+
+  <div class="caja doctrina">
+    <span class="tag">Aprendizaje del sistema · la trampa del verde</span>
+    <p style="margin:0 0 .6em">Al mezclar en OKLCH un tono cálido con el azul, el camino intermedio <strong>pasa por el verde</strong> —los valores interpolados cruzan esa región del espacio—. Es un artefacto perceptivo real, no un error de código.</p>
+    <p style="margin:0"><strong>Regla:</strong> para preservar el tono al mezclar, se mezcla el azul con <code>transparent</code>, nunca con un token cálido. Así se conserva el hue sin desviarlo hacia el verde.</p>
+  </div>
+  <pre><code><span class="tok-com">/* evitar (cruza por el verde) */</span>
+<span class="tok-sel">.x</span>{ background: <span class="tok-key">color-mix</span>(in oklch, <span class="tok-val">var(--azul-sutil)</span> 40%, <span class="tok-val">var(--arena)</span>) }
+<span class="tok-com">/* ✓ok: preserva el tono azul */</span>
+<span class="tok-sel">.x</span>{ background: <span class="tok-key">color-mix</span>(in oklch, <span class="tok-val">var(--azul-sutil)</span> 40%, <span class="tok-val">transparent</span>) }</code></pre>
+
+  <div class="dodont">
+    <div class="col do"><h4>Sí</h4><ul>
+      <li>Definir todo color vía token OKLCH o <code>color-mix(in oklch, …)</code>.</li>
+      <li>Reservar el dorado para el acento y el 30 % del degradado.</li>
+      <li>Usar los tres niveles de tinta según jerarquía de lectura.</li>
+    </ul></div>
+    <div class="col dont"><h4>No</h4><ul>
+      <li>Escribir hex, rgb o valores inventados sueltos.</li>
+      <li>Redefinir tokens dentro de un archivo de página.</li>
+      <li>Usar blanco puro (#FFF) para tarjetas: rompe la calidez.</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 04 · TIPOGRAFÍA ═══════════════════ -->
+<section class="cap wrap" id="c4">
+  <div class="lectura">
+  <span class="num-cap">Capítulo 04</span>
+  <h2>Tipografía</h2>
+  <p class="lede">Dos familias variables, una para hablar y otra para leer. La tipografía no es el vehículo neutro del contenido: es donde vive la personalidad del sitio.</p>
+
+  <h3>El emparejamiento</h3>
+  <p><strong>Fraunces</strong> (display, serif variable) para titulares, lede y citas — una serif de alto contraste con carácter caligráfico. <strong>Hanken Grotesk</strong> (sans variable) para el cuerpo y toda la interfaz. Ambas se sirven <strong>autoalojadas</strong> como woff2 subseteado, no desde Google Fonts, con una decisión importante: la cobertura de glifos incluye el rango IAST (ā ī ū ṃ ḥ ṭ ḍ ṇ ś ṣ ṛ…) para transliteración sánscrita y tibetana. La tradición se escribe correctamente o no se escribe.</p>
+
+  <h3>Los ejes de Fraunces, mapeados a intención</h3>
+  <p>Fraunces es variable en cuatro ejes. El sistema no los expone como números crudos sino como intención semántica:</p>
+  <table>
+    <thead><tr><th>Eje</th><th>Qué hace</th><th>Uso en el sistema</th></tr></thead>
+    <tbody>
+      <tr><td><code>opsz</code> (tamaño óptico)</td><td>Formas robustas en pequeño; refinadas y de alto contraste en grande</td><td>Cinco peldaños, de 14 (cuerpo) a 144 (monumental)</td></tr>
+      <tr><td><code>wght</code> (peso)</td><td>Grosor del trazo</td><td>Escala semántica de contemplativo (300) a declaración (700)</td></tr>
+      <tr><td><code>SOFT</code></td><td>0 = firme y anguloso; 100 = ablandado, casi caligráfico</td><td>Fijado en <strong>0 constante</strong> en todo el sitio (decisión jul 2026): las serifas conservan su filo de principio a fin</td></tr>
+      <tr><td><code>WONK</code></td><td>Alterna glifos excéntricos</td><td>Desactivado (0). Reservado para casos futuros concretos</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Escala de peso · nombres por intención</h3>
+  <div class="spec">
+    <div class="fila"><span class="lab">contemplativo · 300</span><span class="muestra" style="font-weight:300;font-size:1.5rem">Cuerpo, textos largos</span></div>
+    <div class="fila"><span class="lab">presencia · 400</span><span class="muestra" style="font-weight:400;font-size:1.5rem">Lede, subtítulos, body con más peso</span></div>
+    <div class="fila"><span class="lab">firmeza · 500</span><span class="muestra" style="font-weight:500;font-size:1.5rem">Labels, botones, eyebrows</span></div>
+    <div class="fila"><span class="lab">asertivo · 600</span><span class="muestra" style="font-weight:600;font-size:1.5rem">Énfasis en body, CTAs</span></div>
+    <div class="fila"><span class="lab">declaración · 700</span><span class="muestra" style="font-weight:700;font-size:1.5rem">Muy raro — declaraciones fuertes</span></div>
+  </div>
+  </div>
+
+  <h3 class="wrap">La escala tipográfica · ratio 1.25</h3>
+  <p class="lectura">Escala modular en <strong>mayor tercera (1.25)</strong> sobre base de 18 px, con nombres semánticos y no numéricos. Los tamaños grandes son fluidos con <code>clamp()</code>: interpolan entre un mínimo y un máximo según el viewport, sin saltos por breakpoint.</p>
+  <div class="spec">
+    <div class="fila"><span class="lab">monumental · clamp</span><span class="muestra" style="font-size:clamp(2.6rem,7vw,4.4rem);font-variation-settings:'opsz' 144">Cruzar</span></div>
+    <div class="fila"><span class="lab">h1 · clamp 48–90px</span><span class="muestra" style="font-size:clamp(2.4rem,6vw,3.6rem);font-variation-settings:'opsz' 96">La otra orilla</span></div>
+    <div class="fila"><span class="lab">h2 · clamp 32–54px</span><span class="muestra" style="font-size:clamp(2rem,4vw,3rem);font-variation-settings:'opsz' 96">Título de sección</span></div>
+    <div class="fila"><span class="lab">h3 · 1.7rem</span><span class="muestra" style="font-size:1.7rem;font-weight:400;font-variation-settings:'opsz' 60">Título de tarjeta</span></div>
+    <div class="fila"><span class="lab">h4 · 1.35rem</span><span class="muestra" style="font-size:1.35rem;font-weight:500;font-variation-settings:'opsz' 28">Subsección</span></div>
+    <div class="fila"><span class="lab">lede · 1.2rem italic</span><span class="muestra" style="font-size:1.2rem;font-style:italic;font-weight:400;color:var(--texto-suave);font-variation-settings:'opsz' 28">Introducción de sección, en cursiva</span></div>
+    <div class="fila"><span class="lab">cuerpo · 1rem</span><span class="muestra" style="font-family:var(--body);font-size:1rem;font-weight:300">Texto por defecto en Hanken Grotesk, peso contemplativo, interlineado generoso 1.65.</span></div>
+    <div class="fila"><span class="lab">eyebrow · 0.9rem</span><span class="muestra" style="font-family:var(--body);font-size:.9rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--texto-tenue)">EYEBROW / KICKER</span></div>
+  </div>
+
+  <div class="caja referentes wrap">
+    <span class="tag">Referente contrastado · escalas fluidas</span>
+    <p style="margin:0">La técnica de interpolar entre dos escalas modulares (una para pantalla pequeña, otra para grande) la formalizaron Trys Mudford y James Gilyead en Utopia, apoyándose en el trabajo de Tim Brown sobre escalas modulares y el de Mike Riethmuller sobre tipografía fluida. La consecuencia: nunca hay un salto brusco de tamaño en ningún ancho. Paramita aplica el mismo principio con <code>clamp()</code> en <code>--texto-h1</code>, <code>--texto-h2</code> y <code>--texto-monumental</code>, garantizando un mínimo legible de 48 px en el h1 móvil.</p>
+  </div>
+
+  <div class="lectura">
+  <h3>Dos reglas tipográficas no negociables</h3>
+  <div class="caja doctrina">
+    <h4 style="margin-top:0">La cursiva dorada</h4>
+    <p>Las palabras en cursiva dentro de un título van en <strong>dorado</strong>, nunca en azul (evita el conflicto perceptivo entre dos elementos cromáticos fuertes). Fraunces <em>italic</em> en dorado es el acento reservado para el <code>&lt;em&gt;</code> dentro de titulares — y para nada más.</p>
+    <h4>Dos ledes distintos · el de sección y el del hero</h4>
+    <p>Conviene no confundirlos, porque se escriben con tipografías opuestas. El <strong>lede de sección</strong> (la clase base <code>.lede</code>, como las intros de este documento) va en Fraunces <em>italic</em>, peso presencia (400) y color texto-suave: es el registro editorial. El <strong>lede/subtítulo del hero</strong> (<code>.hero .lede</code>), en cambio, va siempre en Hanken Grotesk (<code>--body</code>), recto, peso presencia (400) — <strong>nunca Fraunces, nunca cursiva</strong>. La razón (Fase 5.6): con el rotador de palabras del <code>&lt;h1&gt;</code>, una serif en cursiva competía; el hero baja a Hanken recto para anclar y contrastar con el título display. La cursiva dorada de Fraunces queda reservada, en ambos casos, al <code>&lt;em&gt;</code> dentro de titulares.</p>
+  </div>
+  <p style="font-size:.86rem;color:var(--texto-suave)">Nota técnica: el <code>&lt;h1&gt;</code> y el eyebrow del hero <strong>no</strong> llevan <code>data-reveal</code> — su aparición depende del LCP y no debe quedar a merced de que cargue el JS.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ 05 · ESPACIO ═══════════════════ -->
+<section class="cap wrap" id="c5">
+  <div class="lectura">
+  <span class="num-cap">Capítulo 05</span>
+  <h2>Espacio, retícula y <em>layout</em></h2>
+  <p class="lede">El espacio también narra el cruce. La escala parte de la lengua franca del diseño digital —el múltiplo de 8— y sube hasta tokens semánticos que traducen distancia en significado.</p>
+
+  <h3>Escala base · múltiplos de 8</h3>
+  </div>
+  <div class="escalera">
+    <div class="paso"><span class="et" style="width:120px">s-1 · 8px</span><div class="barra" style="width:8px"></div></div>
+    <div class="paso"><span class="et" style="width:120px">s-2 · 16px</span><div class="barra" style="width:16px"></div></div>
+    <div class="paso"><span class="et" style="width:120px">s-3 · 24px</span><div class="barra" style="width:24px"></div></div>
+    <div class="paso"><span class="et" style="width:120px">s-4 · 32px</span><div class="barra" style="width:32px"></div></div>
+    <div class="paso"><span class="et" style="width:120px">s-5 · 48px</span><div class="barra" style="width:48px"></div></div>
+    <div class="paso"><span class="et" style="width:120px">s-6 · 64px</span><div class="barra" style="width:64px"></div></div>
+    <div class="paso"><span class="et" style="width:120px">s-7 · 96px</span><div class="barra" style="width:96px"></div></div>
+    <div class="paso"><span class="et" style="width:120px">s-8 · 128px</span><div class="barra" style="width:128px"></div></div>
+  </div>
+
+  <div class="lectura">
+  <h3>Tokens semánticos · el espacio como narrativa</h3>
+  <p>Sobre la escala cruda, una capa semántica distingue las relaciones internas de componente (fijas) del ritmo de la travesía entre secciones (fluido). Los pequeños se mantienen constantes porque son relaciones internas; los grandes respiran con el viewport.</p>
+  <table>
+    <thead><tr><th>Token</th><th>Valor</th><th>Para</th></tr></thead>
+    <tbody>
+      <tr><td><code>--espacio-atomo</code></td><td>8px</td><td>icono ↔ texto, chip ↔ chip</td></tr>
+      <tr><td><code>--espacio-elemento</code></td><td>16px</td><td>label ↔ input, párrafo ↔ párrafo</td></tr>
+      <tr><td><code>--espacio-grupo</code></td><td>24px</td><td>tarjeta ↔ tarjeta, campo ↔ campo</td></tr>
+      <tr><td><code>--espacio-contenido</code></td><td>32px</td><td>padding interior de tarjetas</td></tr>
+      <tr><td><code>--espacio-contemplativo</code></td><td>64px</td><td>aire de lectura profunda</td></tr>
+      <tr><td><code>--espacio-umbral</code></td><td>clamp 48→96px</td><td>antes de un CTA, entre bloques</td></tr>
+      <tr><td><code>--espacio-orilla</code></td><td>clamp 64→128px</td><td>separación entre secciones</td></tr>
+      <tr><td><code>--espacio-otro-lado</code></td><td>clamp 96→192px</td><td>respiro extremo, casos raros</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Contenedor, retícula y breakpoints</h3>
+  <p>Dos anchos útiles: <code>--contenedor-max</code> a 1200 px para el sitio y <code>--contenedor-lectura</code> a 720 px para textos largos. La retícula es de <strong>12 columnas</strong> con canalete estándar de 24 px. Los breakpoints se redujeron de los siete casi idénticos del sistema anterior a solo <strong>tres niveles semánticos</strong>: tablet (768 px), escritorio (1024 px) y el móvil como base. En móvil, todas las columnas se apilan a ancho completo.</p>
+
+  <div class="caja">
+    <span class="tag">Dimensiones fijas con motivo</span>
+    <p style="margin:0"><code>--bar-h: 80px</code> (altura de navbar) y <code>--target-min: 44px</code> (área táctil mínima según WCAG 2.5.5). Este último no es arbitrario: es el suelo de accesibilidad para que cualquier control sea cómodo al tacto.</p>
+  </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 06 · MOVIMIENTO ═══════════════════ -->
+<section class="cap wrap" id="c6">
+  <div class="lectura">
+  <span class="num-cap">Capítulo 06</span>
+  <h2>Movimiento</h2>
+  <p class="lede">En Paramita el sistema respira. Un flujo ambiental lento, identitario, atraviesa el sitio como el agua atraviesa el paisaje. Todo lo demás es movimiento convocado por el usuario.</p>
+
+  <h3>Arquitectura en cuatro capas</h3>
+  <p>El sistema de movimiento es el más explícitamente estratificado de Paramita:</p>
+  <table>
+    <thead><tr><th>Capa</th><th>Contenido</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Primitivos</td><td>Valores crudos (duraciones, curvas, rangos de scroll). Nunca se usan directamente en un componente.</td></tr>
+      <tr><td>2 · Semánticos</td><td>Tokens con intención declarada — el «por qué», no el valor. Es lo que los componentes deben usar.</td></tr>
+      <tr><td>3 · Familia identitaria</td><td>La respiración ambiental del sistema, con un interruptor global.</td></tr>
+      <tr><td>4 · Contrato de quietud</td><td>No produce tokens: son las reglas que gobiernan el uso de todo lo anterior.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Duraciones · escala contemplativa</h3>
+  <p>Seis peldaños absorben las quince duraciones únicas del prototipo original. Cada uno con una intención:</p>
+  <table>
+    <thead><tr><th>Semántico</th><th>Valor</th><th>Para</th></tr></thead>
+    <tbody>
+      <tr><td><code>--dur-micro</code></td><td>80 ms</td><td>Feedback instantáneo — respuesta, no movimiento</td></tr>
+      <tr><td><code>--dur-rapido</code></td><td>200 ms</td><td>Hovers, tooltips, submenús</td></tr>
+      <tr><td><code>--dur-estandar</code></td><td>400 ms</td><td>Duración por defecto del sistema</td></tr>
+      <tr><td><code>--dur-deliberado</code></td><td>700 ms</td><td>Revelaciones al entrar en viewport</td></tr>
+      <tr><td><code>--dur-cinematografico</code></td><td>1200 ms</td><td>Los dos o tres gestos más grandes de cada página</td></tr>
+      <tr><td><code>--dur-respiro</code></td><td>25 s</td><td>Respiración identitaria (provisional, se calibra a ojo)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Cuatro curvas, cuatro intenciones</h3>
+  <table>
+    <thead><tr><th>Curva</th><th>Encarna</th></tr></thead>
+    <tbody>
+      <tr><td><code>--curva-llegada</code> · out-quart</td><td>La forma de <em>llegar</em> a reposo. Curva por defecto para aparecer.</td></tr>
+      <tr><td><code>--curva-salida</code> · in-quart</td><td>Lo que se va debe irse rápido. Nunca usar «llegada» para salidas.</td></tr>
+      <tr><td><code>--curva-ambiental</code> · sinusoidal</td><td>Sin picos ni valles: respirar. Solo para bucles permitidos.</td></tr>
+      <tr><td><code>--curva-umbral</code> · in-out cuártica</td><td>El gesto mismo del cruce. Solo para transiciones grandes de sección.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="caja doctrina wrap">
+    <span class="tag">Contrato de quietud · las cinco reglas</span>
+    <p style="margin:0 0 .5em"><strong>1 · Texto en lectura no se mueve.</strong> Puede animarse al entrar, pero una vez presente no vuelve a moverse.</p>
+    <p style="margin:0 0 .5em"><strong>2 · Nada late en bucle para reclamar atención.</strong> Distinción clave: <em>flujo</em> (colores que se desplazan atravesando el elemento) está permitido en la familia identitaria; <em>pulso</em> (aparecer/desaparecer en el mismo sitio) está prohibido siempre.</p>
+    <p style="margin:0 0 .5em"><strong>3 · Máximo dos elementos en movimiento simultáneo</strong> en lo que el usuario ve. Obliga a orquestar.</p>
+    <p style="margin:0 0 .5em"><strong>4 · Animaciones infinitas prohibidas por defecto</strong>, salvo la familia identitaria documentada. Cualquier otra requiere justificación en el propio comentario del código.</p>
+    <p style="margin:0"><strong>5 · Dos familias de movimiento.</strong> A) Ambiental identitaria: imperceptible en el ritmo individual, presente en la acumulación, no compite con la lectura. B) Convocada por el usuario: scroll, hover, focus, click, carga inicial una vez. Todo lo que no sea (A) cae en (B).</p>
+  </div>
+
+  <div class="lectura">
+  <h3>El interruptor global</h3>
+  <p>La familia identitaria completa —toda la respiración del sitio— se detiene con un solo cambio: <code>--identidad-estado: reposo</code>. El sistema respira, pero puede callar. Los colores estáticos se conservan; solo cesa el flujo. Esta reversibilidad es una decisión de diseño, no un accidente.</p>
+  <pre><code><span class="tok-sel">:root</span>{ <span class="tok-key">--identidad-estado</span>: activo; } <span class="tok-com">/* activo | reposo */</span>
+<span class="tok-sel">:root[style*=<span class="tok-val">"--identidad-estado: reposo"</span>]</span>{
+  <span class="tok-key">--dur-identidad-flujo</span>: 0s; <span class="tok-com">/* se congela en todo el sitio */</span>
+}</code></pre>
+  <p>Los elementos identitarios secundarios respiran con ritmos <strong>proporcionales</strong> —el logo a 25 s, el botón primario a 17,5 s, el logo del footer a 32,5 s— para que verlos sincronizados no resulte antinatural. Un único ajuste de <code>--dur-respiro</code> reajusta todos manteniendo su relación.</p>
+  </div>
+
+  <div class="caja referentes wrap">
+    <span class="tag">Referentes contrastados · cómo lo hacen los grandes</span>
+    <p style="margin:0 0 .6em"><strong>Carbon (IBM)</strong> distingue movimiento «productivo» (rápido, funcional) de «expresivo» (más lento, con carácter) y usa una escala de duración no lineal para lograr consistencia perceptiva entre distancias. <strong>Atlassian</strong> empaqueta duración + curva + propiedad en tokens semánticos como <code>motion.popup.enter</code>, de modo que se elige por intención y no por valor crudo. <strong>PatternFly</strong> eleva la accesibilidad a principio: el movimiento siempre debe ser opcional.</p>
+    <p style="margin:0">Paramita comparte el ADN —tokens semánticos, motion por intención, respeto de preferencias— y añade algo poco común: una <em>familia ambiental identitaria</em> con doctrina propia (flujo ≠ pulso) que la mayoría de sistemas de producto, más transaccionales, no necesitan tener.</p>
+  </div>
+
+  <div class="lectura">
+  <h3>El contrato con prefers-reduced-motion</h3>
+  <p>Todo componente que anime <strong>debe</strong> declarar su comportamiento con la preferencia activa, y el elemento debe llegar a su estado final sin recorrido — no quedarse a medias, no ocultarse. Una salvaguarda global captura además cualquier animación no gestionada. Esto no es un extra: es parte del suelo de calidad.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ 07 · PICTOGRAMAS ═══════════════════ -->
+<section class="cap wrap" id="c7">
+  <div class="lectura">
+  <span class="num-cap">Capítulo 07</span>
+  <h2>Iconografía y <em>pictogramas</em></h2>
+  <p class="lede">Una sola línea humanista, un único acento dorado. Los pictogramas son coherentes entre sí porque comparten una receta estricta.</p>
+
+  <h3>El canon</h3>
+  <p>Cada pictograma se dibuja con la misma receta, sin excepción:</p>
+  </div>
+  <div class="wrap" style="display:flex;gap:2rem;flex-wrap:wrap;align-items:center;margin:1.4rem 0">
+    <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--antracita)">
+      <path d="M3 12h13"/><path d="M12 6l6 6-6 6" class="acc"/><circle cx="20" cy="12" r="1.4" class="acc"/>
+    </svg>
+    <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--antracita)">
+      <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" class="acc"/>
+    </svg>
+    <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--antracita)">
+      <path d="M12 3C7 8 7 16 12 21"/><path d="M12 3c5 5 5 13 0 18" class="acc"/><path d="M4 12h16"/>
+    </svg>
+    <div style="max-width:32ch;font-size:.9rem;color:var(--texto-suave)">
+      <code style="display:block;margin-bottom:.4rem">viewBox 0 0 24 24 · stroke-width 1.5</code>
+      <code style="display:block;margin-bottom:.4rem">fill none · stroke currentColor</code>
+      <code style="display:block">caps/joins redondeados · un solo acento .acc</code>
+    </div>
+  </div>
+
+  <div class="lectura">
+  <h3>Por qué SVG inline (y no icon-font ni background)</h3>
+  <p>Se descartaron el <em>icon-font</em> (un solo color, inaccesible), el <code>&lt;img src&gt;</code> y las técnicas de <code>mask</code>/<code>background</code> (aíslan el SVG: ni heredan la tinta de la sección vía <code>currentColor</code> ni ven el <code>--dorado</code>). Solo el <strong>SVG inline</strong> permite tinta + acento heredados, cero peticiones de red, animación y accesibilidad. Una sola copia en disco, inyectada por partial: cambiar un icono lo cambia en todas las páginas.</p>
+
+  <div class="caja doctrina">
+    <h4 style="margin-top:0">El acento va por clase, no por atributo</h4>
+    <p style="margin:0 0 .6em">El único trazo dorado se colorea con <code>class="acc"</code> desde CSS, nunca con <code>stroke="var(--dorado)"</code> inline: <code>var()</code> dentro de un atributo de presentación es frágil entre navegadores (Safari). La clase funciona el 100 % de las veces.</p>
+  </div>
+
+  <div class="caja dato">
+    <span class="tag">Dato · la regla de oro del pictograma</span>
+    <p style="margin:0">Ningún pictograma viaja solo: cada uno lleva <code>aria-hidden="true"</code> más una etiqueta de texto al lado. El motivo es medible — la comprensión de un icono acompañado de palabra alcanza el 88 % de acierto frente al 34 % del icono aislado.</p>
+  </div>
+
+  <p style="font-size:.86rem;color:var(--texto-suave)">Nota de sistema: el canon de un pictograma debe existir en <code>partials/pictogramas/</code> antes de cualquier referencia <code>data-pico</code>. El propagador <code>sync.py</code> aborta la página entera si un <code>data-pico</code> apunta a un SVG inexistente — es una salvaguarda de todo-o-nada, no un fallo silencioso.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ 08 · COMPONENTES ═══════════════════ -->
+<section class="cap wrap" id="c8">
+  <div class="lectura">
+  <span class="num-cap">Capítulo 08</span>
+  <h2>Componentes</h2>
+  <p class="lede">Un componente bien documentado incluye anatomía, variantes, estados, reglas de uso y accesibilidad. Aquí se documenta a fondo el sistema de CTA como pieza ejemplar, y se inventaría el resto.</p>
+
+  <h3>El sistema de CTA · tres formas de cruzar</h3>
+  <p>El sistema define tres tipos de llamada a la acción con roles claros y expresión visual diferenciada del mismo idioma cromático (azul-oscuro → azul-sutil → dorado). Cada tipo expresa el degradado de una manera distinta — y esa diferencia <em>significa</em> algo:</p>
+  <table>
+    <thead><tr><th>Tipo</th><th>Rol</th><th>Cómo expresa el degradado</th></tr></thead>
+    <tbody>
+      <tr><td><code>.btn-primario</code></td><td>Conversión decisiva</td><td>Degradado <strong>lleno</strong> — «entrar del todo»</td></tr>
+      <tr><td><code>.btn-secundario</code></td><td>Acompaña sin competir</td><td>Degradado en el <strong>borde</strong> — «asomarse al umbral»</td></tr>
+      <tr><td><code>.t-link</code></td><td>Continuidad editorial</td><td>Degradado en la <strong>línea</strong> inferior — «seguir el camino»</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p class="wrap" style="font-size:.86rem;color:var(--texto-suave);margin-bottom:.4rem">Los tres, renderizados con el código real de producción:</p>
+  <div class="demo">
+    <a href="#c8" class="btn-primario" onclick="return false">Quiero cruzar</a>
+    <a href="#c8" class="btn-secundario" onclick="return false">Conocer más</a>
+    <a href="#c8" class="t-link" onclick="return false">Seguir leyendo →</a>
+  </div>
+  <p class="wrap" style="font-size:.86rem;color:var(--texto-suave);margin:.4rem 0">↑ El primario respira siempre (su degradado fluye). Pasa el ratón por encima para ver el principio de motion en acción.</p>
+
+  <p class="wrap" style="font-size:.86rem;color:var(--texto-suave);margin:.9rem 0 .4rem">Los mismos tres en <strong>penumbra</strong> (el modo oscuro opt-in). El primario re-ancla su degradado a paradas oscuras fijas para conservar el contraste del texto blanco; el secundario y el terciario heredan el azul aclarado del tema y siguen leyéndose limpios:</p>
+  <div class="demo dark">
+    <a href="#c8" class="btn-primario" onclick="return false">Quiero cruzar</a>
+    <a href="#c8" class="btn-secundario" onclick="return false">Conocer más</a>
+    <a href="#c8" class="t-link" onclick="return false">Seguir leyendo →</a>
+  </div>
+
+  <div class="lectura">
+  <div class="caja doctrina">
+    <span class="tag">Principio de motion de los CTA</span>
+    <p style="margin:0 0 .5em"><strong>El hover intensifica lo que ya vive, no enciende nada nuevo.</strong></p>
+    <p style="margin:0">El primario respira siempre y al hover acelera. El terciario fluye siempre en su línea y al hover acelera. El secundario ancla el sistema en reposo (estático) y al hover se activa: establece resonancia identitaria justo cuando el usuario pone atención.</p>
+  </div>
+
+  <h3>Anatomía del primario</h3>
+  <p>El <code>.btn-primario</code> se compone de: una capa base <code>::before</code> con el degradado identitario respirando; una capa <code>::after</code> de brillo que cruza el botón en hover; el texto en blanco; una sombra difusa que actúa como peso (no como contorno); y esquinas orgánicas con <code>corner-shape: superellipse(2.4)</code> donde el navegador lo soporta, con fallback a <code>border-radius: 14px</code>.</p>
+
+  <h3>Estados y accesibilidad</h3>
+  <table>
+    <thead><tr><th>Estado</th><th>Comportamiento</th></tr></thead>
+    <tbody>
+      <tr><td>Reposo</td><td>Primario respira; secundario estático; terciario fluye en su línea</td></tr>
+      <tr><td>Hover</td><td>Elevación (−2px) + glow dorado multicapa; intensifica lo existente</td></tr>
+      <tr><td><code>:focus-visible</code></td><td>Mismo glow del hover pero <strong>sin elevación</strong> — el foco por teclado no debe desplazar el elemento; la persona necesita saber dónde está anclada</td></tr>
+      <tr><td>reduced-motion</td><td>Sin respiración ni brillo; la elevación y el glow bastan como feedback</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja">
+    <span class="tag">Nomenclatura · unificada en Fase 6 (jul 2026)</span>
+    <p style="margin:0">Los nombres antiguos <code>.btn-amigo</code> y <code>.btn-umbral</code> están <strong>obsoletos</strong>. Hoy: <code>.btn-primario</code> (primario), <code>.btn-secundario</code> (secundario), <code>.t-link</code> / <code>.t-link--primario</code> (terciario editorial). Sobre fondos azul luminosos existen las variantes <code>--claro</code> (texto lino con text-shadow) para el secundario y el terciario.</p>
+  </div>
+  </div>
+
+  <p class="wrap" style="font-size:.86rem;color:var(--texto-suave);margin-bottom:.4rem">Variantes <code>--claro</code> sobre fondo azul luminoso:</p>
+  <div class="demo azul">
+    <a href="#c8" class="btn-primario" onclick="return false">Primario (no cambia)</a>
+    <a href="#c8" class="btn-secundario btn-secundario--claro" onclick="return false">Secundario claro</a>
+    <a href="#c8" class="t-link t-link--claro" onclick="return false">Terciario claro →</a>
+  </div>
+
+  <div class="lectura">
+  <h3>El botón de acceso</h3>
+  <p>El <code>.btn-acceso</code> es el círculo de login del navbar público (42×42, la referencia que compartirá con el avatar del practicante). A diferencia de los otros CTA, <strong>no respira en reposo</strong>: espera atento y silencioso hasta que se le invoca; solo en hover intensifica con aro dorado y halo triple. Coherente con el principio: lo que vive aquí es la espera, y lo que se intensifica es la disposición a cruzar. Se ancla siempre visible en la barra (nunca detrás del menú hamburguesa) — patrón consolidado en Notion, Linear y Gmail móvil: el acceso a la cuenta no se esconde.</p>
+
+  <h3>Inventario de componentes del sistema</h3>
+  <p>Además del CTA, el sistema tiene módulos documentados en sus propios archivos, cada uno con su CSS y su JS. Este es el mapa vivo:</p>
+  <table>
+    <thead><tr><th>Módulo</th><th>Función</th></tr></thead>
+    <tbody>
+      <tr><td>Barra / navbar</td><td>Público y practicante; fijación al scroll, submenús desplegables</td></tr>
+      <tr><td>Hero</td><td>Título monumental + lede Hanken; LCP protegido</td></tr>
+      <tr><td>Secciones y tarjetas</td><td>Bloques de contenido sobre la retícula de 12</td></tr>
+      <tr><td>FAQ (acordeón)</td><td>Apertura con fade + slide; una sola pregunta abierta</td></tr>
+      <tr><td>Testimonios</td><td>«Transmisión», con rostro y atribución; nunca auto-avance</td></tr>
+      <tr><td>Vídeo</td><td>Apertura cinematográfica de la misión</td></tr>
+      <tr><td>Suscripción / prefooter</td><td>Banda sobre azul con variantes claras de CTA</td></tr>
+      <tr><td>Footer + lotos</td><td>Logo en respiración lenta (descanso, 32,5 s)</td></tr>
+      <tr><td>Modal · Antesala · Fluido (WebGL)</td><td>Capas de identidad y transición</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:.86rem;color:var(--texto-suave)">El JS está modularizado (Fase 6): un archivo por componente, cargado con <code>defer</code>. La propagación de partiales (navbar, footer, prefooter, pictogramas) la gestiona <code>sync.py</code> con marcadores, disparado además por una GitHub Action al tocar <code>partials/**</code>.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ 09 · VOZ ═══════════════════ -->
+<section class="cap wrap" id="c9">
+  <div class="lectura">
+  <span class="num-cap">Capítulo 09</span>
+  <h2>Voz y contenido</h2>
+  <p class="lede">Las palabras son material de diseño, no decoración. Los sistemas maduros —Polaris es el referente— documentan cómo se escribe para sus componentes, no solo cómo se ven.</p>
+
+  <h3>Registro</h3>
+  <p>La voz de Paramita acompaña una tradición viva. Es cálida, precisa y sin prisa; explica en términos llanos lo que algo hace en lugar de venderlo; es específica antes que ingeniosa. Nombra las cosas por lo que la persona controla y reconoce, no por cómo está construido el sistema. Un control dice exactamente qué ocurre al usarlo, y mantiene su nombre a lo largo de todo el flujo: el botón que dice «Inscribirme» produce una confirmación que dice «Inscrito».</p>
+
+  <div class="caja doctrina">
+    <span class="tag">Principios de contenido no negociables</span>
+    <h4 style="margin-top:0">Transmisión, no reseñas</h4>
+    <p>Los testimonios se enmarcan como <em>transmisión</em>, no como valoraciones de producto: específicos, atribuidos, con rostro humano. Nunca anónimos, nunca auto-avanzando.</p>
+    <h4>Sin urgencia manufacturada</h4>
+    <p>Ni cuentas atrás, ni «solo quedan 3 plazas», ni gamificación, ni <em>pins</em> tipo SaaS, ni métricas de vanidad. La invitación a cruzar no se fuerza.</p>
+    <h4>Tres raíles transaccionales separados</h4>
+    <p>Paramita no necesita carrito de la compra: pago de un solo ítem. Tres raíles distintos e independientes: <em>dāna</em> (donativo / Amigos), formación (inscripción a cursos) y actividades (reserva de eventos).</p>
+  </div>
+
+  <h3>Errores y vacíos como dirección</h3>
+  <p>El fracaso y la ausencia son momentos para orientar, no para el estado de ánimo. Un error explica qué pasó y cómo resolverlo, en la voz de la interfaz —no se disculpa ni es vago sobre lo ocurrido—. Una pantalla vacía es una invitación a actuar.</p>
+
+  <div class="caja">
+    <span class="tag">Gobernanza editorial</span>
+    <p style="margin:0">El contenido del sitio atraviesa dos filtros independientes antes de considerarse definitivo: uno <strong>editorial</strong>, que cuida la calidad y coherencia del lenguaje, y otro <strong>doctrinal</strong>, que vela por la fidelidad de la identidad y la enseñanza a la tradición. Separar ambos planos protege a la vez la voz de la interfaz y la exactitud de lo que se transmite.</p>
+  </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 10 · ACCESIBILIDAD ═══════════════════ -->
+<section class="cap wrap" id="c10">
+  <div class="lectura">
+  <span class="num-cap">Capítulo 10</span>
+  <h2>Accesibilidad</h2>
+  <p class="lede">La accesibilidad no es una capa que se añade al final: está horneada en los tokens, los componentes y el contrato de movimiento. Es parte del suelo de calidad.</p>
+
+  <h3>El estándar: WCAG 2.2 AA</h3>
+  <p>El sistema se construye contra WCAG 2.2 nivel AA. Esto no vive en un documento aparte, sino codificado en el sistema mismo:</p>
+  <table>
+    <thead><tr><th>Criterio</th><th>Cómo lo cumple Paramita</th></tr></thead>
+    <tbody>
+      <tr><td>Contraste de color</td><td>Los tres colores de estado tienen contraste AA verificado sobre lino/arena; OKLCH da luminosidad predecible, que hace el contraste más fiable de gestionar</td></tr>
+      <tr><td>Área táctil</td><td><code>--target-min: 44px</code> (WCAG 2.5.5) como suelo para todo control</td></tr>
+      <tr><td>Foco visible</td><td><code>:focus-visible</code> propio en cada CTA — glow dorado sin elevación, para que el foco por teclado no desplace el elemento</td></tr>
+      <tr><td>Movimiento</td><td>Contrato con <code>prefers-reduced-motion</code> obligatorio por componente + salvaguarda global; el elemento llega a su estado final sin recorrido</td></tr>
+      <tr><td>Iconos</td><td><code>aria-hidden</code> + etiqueta de texto siempre; ningún icono viaja solo</td></tr>
+      <tr><td>Idioma / escritura</td><td>Cobertura IAST en las fuentes para transliteración correcta</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="caja referentes wrap">
+    <span class="tag">Referente contrastado</span>
+    <p style="margin:0">La documentación de sistemas de referencia coincide en que la accesibilidad es innegociable: Carbon dedica en cada componente una pestaña específica a interacciones de teclado y requisitos ARIA. La recomendación general del sector para 2026 es codificar WCAG 2.2 en los componentes desde el origen —anillos de foco, objetivos táctiles de 24 px o más, controles etiquetados— en lugar de auditarlos después. Paramita ya opera así.</p>
+  </div>
+
+  <div class="lectura">
+  <p style="font-size:.9rem;color:var(--texto-suave)">Verificación previa a producción: renderizado headless con Playwright, más comprobaciones de balance de llaves CSS y sintaxis JS antes de entregar cualquier archivo.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ 11 · GOBERNANZA ═══════════════════ -->
+<section class="cap wrap" id="c11">
+  <div class="lectura">
+  <span class="num-cap">Capítulo 11</span>
+  <h2>Gobernanza y evolución</h2>
+  <p class="lede">Un sistema de diseño es software: necesita propiedad, versionado y mantenimiento, no una entrega única que se archiva y se pudre en un repositorio olvidado.</p>
+
+  <h3>El método de trabajo</h3>
+  <div class="caja doctrina">
+    <h4 style="margin-top:0">Archivo primero</h4>
+    <p>Antes de escribir una clase, un token o un valor CSS, se lee el archivo real del proyecto. Nunca se inventan valores.</p>
+    <h4>Una decisión cada vez</h4>
+    <p>Se propone antes de ejecutar; se espera aprobación explícita antes de cambiar. El sistema tiene derecho al <em>pushback</em>: cuando una petición entra en conflicto con la identidad, se explica el conflicto en lugar de ejecutar sin más.</p>
+    <h4>Archivos completos, no diffs</h4>
+    <p>Se entrega el archivo de reemplazo completo, verificado, con la muestra más relevante primero.</p>
+  </div>
+
+  <h3>Versionado por fases</h3>
+  <p>El sistema se versiona por fases numeradas (hoy Fase 8, ago 2026). Cada decisión mayor queda registrada en documentos numerados (<code>00-indice.md</code> a <code>14-…</code>) con su contexto, alternativas descartadas e implicaciones. Los cambios de nomenclatura (como la unificación de CTA en Fase 6) documentan explícitamente qué queda obsoleto.</p>
+
+  <h3>Propagación e infraestructura</h3>
+  <p><code>sync.py</code> propaga los partiales compartidos (navbar, footer, prefooter, pictogramas) por todas las páginas mediante marcadores; una GitHub Action lo dispara al tocar <code>partials/**</code>. El despliegue sigue un orden fijo: SVG primero → HTML/CSS/JS → <code>git pull --rebase</code> → <code>sync.py --all</code> → comprobación visual con recarga forzada. La caché del navegador es siempre el primer sospechoso ante una discrepancia visual en GitHub Pages.</p>
+
+  <div class="caja">
+    <span class="tag">Deuda técnica conocida · registrada, no oculta</span>
+    <p style="margin:0 0 .5em">Un buen sistema nombra su propia deuda. La pendiente hoy: migración del cyan hardcodeado del shader WebGL al token <code>--azul-sutil</code>; finalización de la home y navbar del practicante (a la espera de decisiones de LMS/sesión); landing de crowdfunding; y la migración diferida a Eleventy.</p>
+    <p style="margin:0">Ninguna es un fallo: son decisiones aplazadas con motivo, visibles para quien mantenga el sistema.</p>
+  </div>
+
+  <div class="caja dato">
+    <span class="tag">Dato · el retorno de mantener el sistema</span>
+    <p style="margin:0">La disciplina de tokens no es burocracia: convierte una actualización de varios días entre equipos en un cambio de un solo punto. La evidencia agregada del sector estima que los equipos sin biblioteca de componentes compartida entregan hasta un 52 % más lento, y que la interfaz inconsistente incrementa los errores de usuario en torno a un 34 %. Para un equipo pequeño como el de Paramita, el sistema es lo que permite construir mucho con pocas manos.</p>
+  </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 12 · AL MANUAL ═══════════════════ -->
+<section class="cap wrap" id="c12">
+  <div class="lectura">
+  <span class="num-cap">Capítulo 12</span>
+  <h2>Del sistema al <em>manual de identidad</em></h2>
+  <p class="lede">Este documento es el cimiento. El manual de identidad corporativa se extraerá de aquí — y añadirá lo que un sistema de diseño digital, por su naturaleza, no contiene.</p>
+
+  <h3>Qué aporta ya este documento al manual</h3>
+  <p>El manual heredará directamente, sin reinterpretación, todo lo que aquí está resuelto: el hilo conceptual y los principios (cap. 01), la paleta con sus valores exactos y su lógica 70/30 (cap. 03), el emparejamiento tipográfico y sus reglas (cap. 04), el vocabulario de movimiento (cap. 06), la iconografía (cap. 07) y la voz (cap. 09). Todo eso ya es identidad codificada.</p>
+
+  <h3>Qué añadirá el manual de identidad</h3>
+  <p>Las directrices de marca describen intención y cubren todos los puntos de contacto, también los físicos. Estas piezas quedan <em>fuera</em> del sistema de diseño digital y son el trabajo propio del manual:</p>
+  <table>
+    <thead><tr><th>Bloque del manual</th><th>Qué desarrollará</th></tr></thead>
+    <tbody>
+      <tr><td>Marca gráfica / logotipo</td><td>Construcción, área de respeto, tamaños mínimos, versiones (positiva, negativa, monocroma), usos correctos e incorrectos</td></tr>
+      <tr><td>Color para impresión</td><td>Equivalencias CMYK y Pantone de la paleta OKLCH, para que lo impreso case con lo digital</td></tr>
+      <tr><td>Aplicaciones</td><td>Papelería, señalética del monasterio, cartelería de retiros, redes sociales, merchandising, materiales de la sangha</td></tr>
+      <tr><td>Fotografía e ilustración</td><td>Dirección de imagen: qué se fotografía y cómo, tratamiento, encuadres</td></tr>
+      <tr><td>Arquitectura de marca</td><td>Relación entre Paramita, la tradición Sakya y las comunidades de España y Latinoamérica</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja referentes">
+    <span class="tag">La secuencia, explicada</span>
+    <p style="margin:0">En el flujo habitual las directrices de marca vienen primero y el sistema de diseño se construye a partir de ellas — «las directrices se leen, el sistema se importa al código». Paramita invirtió el orden por necesidad: primero maduró el sistema en producción, fase a fase. La ventaja de llegar así al manual es enorme: no se parte de una hoja en blanco ni de intenciones abstractas, sino de una identidad ya probada, viva y coherente. El manual no tendrá que inventar la marca; tendrá que darle su forma impresa y su alcance completo.</p>
+  </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ BIBLIOGRAFÍA ═══════════════════ -->
+<section class="cap wrap" id="biblio">
+  <div class="lectura">
+  <span class="num-cap">Referentes y fuentes</span>
+  <h2>Bibliografía contrastada</h2>
+  <p class="lede">Fuentes reales consultadas para fundamentar cada decisión de estructura y contenido de este documento. Sistemas de referencia, estándares, investigación y datos.</p>
+
+  <h4>Estándares y arquitectura de tokens</h4>
+  <ul class="biblio">
+    <li><span class="autor">W3C Design Tokens Community Group</span> — <em>Design Tokens Format Module 2025.10</em>, primera versión estable (28 oct 2025). Formato canónico: <code>$value</code>, <code>$type</code>, alias <code>{ref}</code>. <a href="https://www.designtokens.org/">designtokens.org</a></li>
+    <li><span class="autor">Specify</span> — <em>State of Design Systems</em> (2024): el 74 % de los sistemas maduros usa tokens como método principal de distribución.</li>
+    <li><span class="autor">Sujeet Jaiswal / Taste Profile / Product Rocket</span> — Guías técnicas sobre la taxonomía de tres niveles (primitivo/semántico/componente) y la regla de no saltar capas.</li>
+  </ul>
+
+  <h4>Documentación de sistemas de referencia</h4>
+  <ul class="biblio">
+    <li><span class="autor">IBM Carbon Design System</span> — Anatomía por componente, pestaña de accesibilidad, motion productivo/expresivo con escala de duración no lineal. <a href="https://carbondesignsystem.com/">carbondesignsystem.com</a></li>
+    <li><span class="autor">Shopify Polaris</span> — Documentación de contenido junto a la de UI: voz y tono como parte del sistema.</li>
+    <li><span class="autor">Atlassian Design System</span> — Consistencia de plantilla por componente; tokens de motion semánticos que empaquetan duración + curva + propiedad. <a href="https://atlassian.design/">atlassian.design</a></li>
+    <li><span class="autor">Material Design (Google)</span> — Guías de uso por componente y sistema de motion.</li>
+    <li><span class="autor">UXPin, Magic Patterns, DesignX, Netguru</span> — Buenas prácticas de documentación: estructura consistente, anatomía, do/don't, versionado, documentación como producto.</li>
+  </ul>
+
+  <h4>Color y OKLCH</h4>
+  <ul class="biblio">
+    <li><span class="autor">Evil Martians</span> — <em>OKLCH in CSS: why we moved from RGB and HSL</em> y ecosistema OKLCH. Referencia canónica sobre uniformidad perceptual y accesibilidad. <a href="https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl">evilmartians.com</a></li>
+    <li><span class="autor">CSS-Tricks, Uploadcare</span> — OKLCH en CSS Color Module Level 4; gamut P3 (25–30 % más color que sRGB); soporte multinavegador desde mayo 2023.</li>
+  </ul>
+
+  <h4>Tipografía fluida</h4>
+  <ul class="biblio">
+    <li><span class="autor">Trys Mudford y James Gilyead — Utopia</span> — Técnica de interpolación fluida de escalas modulares de tipo y espacio con <code>clamp()</code>, sin breakpoints (Clearleft). El ratio concreto —1.25, mayor tercera— es elección de Paramita, no una prescripción de la herramienta. <a href="https://utopia.fyi/">utopia.fyi</a></li>
+    <li><span class="autor">Tim Brown</span> — Escalas modulares en tipografía (modularscale).</li>
+  </ul>
+
+  <h4>Movimiento y accesibilidad</h4>
+  <ul class="biblio">
+    <li><span class="autor">PatternFly (Red Hat)</span> — <em>Motion with purpose</em>: motion inclusivo y tokens semánticos de duración/easing.</li>
+    <li><span class="autor">Norton Design System</span> — Patrón de <em>duration-scalar</em> para respetar <code>prefers-reduced-motion</code>.</li>
+  </ul>
+
+  <h4>Valor de negocio y datos</h4>
+  <ul class="biblio">
+    <li><span class="autor">McKinsey &amp; Company</span> — <em>The Business Value of Design</em> (25 oct 2018): el cuartil superior del McKinsey Design Index logró +32 puntos porcentuales de crecimiento de ingresos y +56 puntos porcentuales de crecimiento del retorno total al accionista (TRS) frente a sus pares, en cinco años. <a href="https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/the-business-value-of-design">mckinsey.com</a></li>
+    <li><span class="autor">Nielsen Norman Group</span> — Principio de consistencia como pilar de usabilidad.</li>
+    <li><span class="autor">Sparkbox / informes de deuda de diseño</span> — Métricas agregadas de velocidad de entrega y errores por inconsistencia.</li>
+  </ul>
+
+  <h4>Design system vs. manual de identidad</h4>
+  <ul class="biblio">
+    <li><span class="autor">Sutter Group, Tribe Studio, Frontify, Digital Polo</span> — Distinción y secuencia entre directrices de marca (describen intención) y sistema de diseño (codifica intención en producción); qué añade el manual (CMYK/Pantone, logo, aplicaciones).</li>
+  </ul>
+
+  <h4>Documentos internos del proyecto</h4>
+  <ul class="biblio">
+    <li><span class="autor">Paramita · docs internos</span> — <code>01-fundamentos-de-identidad.md</code>, <code>02-sistema-de-color.md</code>, <code>03-tipografia.md</code>, <code>04-sistema-de-motion.md</code>, <code>05-sistema-de-ctas.md</code>, <code>README-pictograms.md</code>; y los archivos de tokens en producción (<code>paramita-color.css</code>, <code>-tipografia</code>, <code>-movimiento</code>, <code>-layout</code>, <code>-cta</code>, <code>-fuentes</code>).</li>
+  </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════ PIE ═══════════════════ -->
+<footer class="wrap pie">
+  <div class="franja"></div>
+  <p style="margin:0"><strong>Fundació Sakya Paramita</strong> · Sistema de Diseño — documento maestro · Fase 8 (ago 2026).<br>
+  Documento vivo. Se versiona con el sistema. Construido con los propios tokens que describe.</p>
+</footer>
+
+</body>
+</html>

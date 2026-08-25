@@ -281,7 +281,16 @@
   .cal-nota { margin-top: 1rem; font-size: 0.78rem; color: var(--texto-tenue); line-height: 1.6; }
 
   /* VISTA SECTION */
-  .vista-section { background: var(--arena); padding-block: var(--espacio-orilla); }
+  .vista-section {
+    background: var(--arena); padding-block: var(--espacio-orilla);
+    /* Color canónico por tipo · FUENTE ÚNICA (coincide con el chip del filtro).
+       Derivado de tokens del sistema; no redefine tokens globales. Lo consumen
+       el chip activo, la pastilla de card y la pastilla de agenda por igual. */
+    --tipo-retiro: color-mix(in oklch, var(--azul-oscuro) 85%, var(--dorado));
+    --tipo-evento: var(--azul-sutil);
+    --tipo-gira: color-mix(in oklch, var(--azul-oscuro) 60%, var(--azul-sutil));
+    --tipo-celebracion: var(--dorado);
+  }
   .vista-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.2rem; flex-wrap: wrap; gap: 1.2rem; }
   .vista-h2 { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.05; letter-spacing: -0.02em; color: var(--azul-oscuro); }
   .vista-h2 em { font-style: italic; }
@@ -295,10 +304,10 @@
   .filtro-chip { display: inline-flex; align-items: center; gap: 6px; padding: 0.42rem 1.1rem; border-radius: 99px; border: 1px solid var(--hair-fuerte); background: transparent; font-family: var(--body); font-size: 0.82rem; font-weight: 500; color: var(--antracita); cursor: pointer; transition: background var(--t-hover), color var(--t-hover), border-color var(--t-hover), box-shadow var(--t-defecto); }
   .filtro-chip[data-tipo]:not([data-tipo="todos"])::before { content: ''; display: block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
   .filtro-chip.is-active { background: var(--azul-oscuro); color: #fff; border-color: var(--azul-oscuro); box-shadow: 0 0 14px oklch(38% 0.11 245 / 0.3); }
-  .filtro-chip[data-tipo="retiro"].is-active { background: color-mix(in oklch, var(--azul-oscuro) 85%, var(--dorado)); border-color: transparent; }
-  .filtro-chip[data-tipo="evento"].is-active { background: var(--azul-sutil); border-color: transparent; }
-  .filtro-chip[data-tipo="gira"].is-active { background: color-mix(in oklch, var(--azul-oscuro) 60%, var(--azul-sutil)); border-color: transparent; }
-  .filtro-chip[data-tipo="celebracion"].is-active { background: var(--dorado); color: var(--antracita); border-color: transparent; }
+  .filtro-chip[data-tipo="retiro"].is-active { background: var(--tipo-retiro); border-color: transparent; }
+  .filtro-chip[data-tipo="evento"].is-active { background: var(--tipo-evento); border-color: transparent; }
+  .filtro-chip[data-tipo="gira"].is-active { background: var(--tipo-gira); border-color: transparent; }
+  .filtro-chip[data-tipo="celebracion"].is-active { background: var(--tipo-celebracion); color: var(--antracita); border-color: transparent; }
   .filtros-limpiar { background: none; border: none; font-family: var(--body); font-size: 0.82rem; color: var(--texto-suave); cursor: pointer; padding: 6px 12px; border-radius: 99px; opacity: 0; pointer-events: none; transition: opacity var(--t-defecto), color var(--t-defecto); }
   .filtros-limpiar::before { content: '↺ '; }
   .filtros-limpiar.is-visible { opacity: 1; pointer-events: auto; }
@@ -317,12 +326,12 @@
   .act-card__img-inner { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.5s var(--ease-identidad-flujo); }
   .act-card:hover .act-card__img-inner { transform: scale(1.04); }
   .act-card__img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, color-mix(in oklch, var(--antracita) 55%, transparent) 0%, transparent 50%); pointer-events: none; }
-  .act-card__tipo { position: absolute; top: 12px; left: 12px; z-index: 3; display: inline-flex; align-items: center; gap: 5px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 10px; border-radius: 99px; background: color-mix(in oklch, var(--lino) 88%, transparent); border: 0.5px solid rgba(29,31,38,.12); backdrop-filter: blur(10px); color: var(--azul-oscuro); }
+  .act-card__tipo { position: absolute; top: 12px; left: 12px; z-index: 3; display: inline-flex; align-items: center; gap: 5px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 10px; border-radius: 99px; background: color-mix(in oklch, var(--lino) 88%, transparent); border: 0.5px solid rgba(29,31,38,.12); backdrop-filter: blur(10px); color: color-mix(in oklch, var(--t, var(--azul-oscuro)) 82%, black); }
   .act-card__tipo::before { content: ''; display: block; width: 5px; height: 5px; border-radius: 50%; background: currentColor; box-shadow: 0 0 6px currentColor; }
-  .act-card[data-tipo="retiro"]      .act-card__tipo { color: color-mix(in oklch, var(--dorado) 78%, var(--antracita)); }
-  .act-card[data-tipo="evento"]      .act-card__tipo { color: var(--azul-sutil); }
-  .act-card[data-tipo="gira"]        .act-card__tipo { color: color-mix(in oklch, var(--azul-oscuro) 50%, var(--azul-sutil)); }
-  .act-card[data-tipo="celebracion"] .act-card__tipo { color: color-mix(in oklch, var(--dorado) 85%, var(--azul-oscuro)); }
+  .act-card[data-tipo="retiro"]      .act-card__tipo { --t: var(--tipo-retiro); }
+  .act-card[data-tipo="evento"]      .act-card__tipo { --t: var(--tipo-evento); }
+  .act-card[data-tipo="gira"]        .act-card__tipo { --t: var(--tipo-gira); }
+  .act-card[data-tipo="celebracion"] .act-card__tipo { --t: var(--tipo-celebracion); }
   .act-card__body { padding: 1.2rem; }
   .act-card__fecha { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--texto-tenue); margin-bottom: 6px; }
   .act-card__titulo { font-family: var(--display); font-weight: var(--wght-contemplativo); font-size: 1.15rem; line-height: 1.2; color: var(--antracita); margin-bottom: 6px; }
@@ -344,7 +353,11 @@
   .mes-evento.is-oculto { display: none; }
   .mes-evento__dia { font-family: var(--display); font-style: italic; font-size: 1.4rem; color: var(--azul-oscuro); text-align: center; line-height: 1; }
   .mes-evento__titulo { font-size: 0.9rem; font-weight: 500; color: var(--antracita); }
-  .mes-evento__tipo { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; background: color-mix(in oklch, var(--azul-sutil) 12%, transparent); color: var(--azul-sutil); white-space: nowrap; }
+  .mes-evento[data-tipo="retiro"]      .mes-evento__tipo { --t: var(--tipo-retiro); }
+  .mes-evento[data-tipo="evento"]      .mes-evento__tipo { --t: var(--tipo-evento); }
+  .mes-evento[data-tipo="gira"]        .mes-evento__tipo { --t: var(--tipo-gira); }
+  .mes-evento[data-tipo="celebracion"] .mes-evento__tipo { --t: var(--tipo-celebracion); }
+  .mes-evento__tipo { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; background: color-mix(in oklch, var(--t, var(--tipo-evento)) 14%, transparent); color: color-mix(in oklch, var(--t, var(--tipo-evento)) 76%, black); white-space: nowrap; }
 
   /* ══════════ VISITA AL CENTRO ══════════
      Banda oscura — degradado idéntico al bloque .retiro de paramita-curso.css */
