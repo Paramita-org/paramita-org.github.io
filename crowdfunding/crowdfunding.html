@@ -21,33 +21,33 @@
   <script>
     try { if (localStorage.getItem('paramita-tema') === 'oscuro') document.documentElement.setAttribute('data-tema','oscuro'); } catch(e){}
   </script>
-<link rel="stylesheet" href="/css/tokens/paramita-fuentes.css">
-  <link rel="stylesheet" href="/css/tokens/paramita-color.css">
-  <link rel="stylesheet" href="/css/tokens/paramita-tipografia.css">
-  <link rel="stylesheet" href="/css/tokens/paramita-layout.css">
-  <link rel="stylesheet" href="/css/tokens/paramita-movimiento.css">
+<link rel="stylesheet" href="../css/tokens/paramita-fuentes.css">
+  <link rel="stylesheet" href="../css/tokens/paramita-color.css">
+  <link rel="stylesheet" href="../css/tokens/paramita-tipografia.css">
+  <link rel="stylesheet" href="../css/tokens/paramita-layout.css">
+  <link rel="stylesheet" href="../css/tokens/paramita-movimiento.css">
 
   <!-- BASE -->
-  <link rel="stylesheet" href="/css/base/paramita-reset.css">
-  <link rel="stylesheet" href="/css/base/paramita-base.css">
+  <link rel="stylesheet" href="../css/base/paramita-reset.css">
+  <link rel="stylesheet" href="../css/base/paramita-base.css">
 
   <!-- COMPONENTES del sistema -->
-  <link rel="stylesheet" href="/css/componentes/paramita-bar.css">
-  <link rel="stylesheet" href="/css/componentes/paramita-menu.css">
-  <link rel="stylesheet" href="/css/componentes/paramita-cta.css">
-  <link rel="stylesheet" href="/css/componentes/paramita-hero.css">
-  <link rel="stylesheet" href="/css/componentes/paramita-pictogramas.css">
-  <link rel="stylesheet" href="/css/componentes/paramita-footer.css">
-  <link rel="stylesheet" href="/css/componentes/paramita-suscripcion.css">
-  <link rel="stylesheet" href="/css/componentes/paramita-faq.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-bar.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-menu.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-cta.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-hero.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-pictogramas.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-footer.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-suscripcion.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-faq.css">
 
   <!-- ESPECÍFICO de esta página -->
-  <link rel="stylesheet" href="/css/paginas/paramita-crowdfunding.css">
+  <link rel="stylesheet" href="../css/paginas/paramita-crowdfunding.css">
 
   <!-- Responsive común (siempre al final) -->
-  <link rel="stylesheet" href="/css/base/paramita-responsive.css">
+  <link rel="stylesheet" href="../css/base/paramita-responsive.css">
   <!-- TEMA · penumbra/luz · el ÚLTIMO para ganar la cascada (sync) -->
-  <link rel="stylesheet" href="css/componentes/paramita-tema.css">
+  <link rel="stylesheet" href="../css/componentes/paramita-tema.css">
 
   <script>document.documentElement.classList.add('js')</script>
 </head>
@@ -522,24 +522,6 @@
      Se inyecta antes del footer en las páginas marcadas `prefooter`.
      COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
      (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
 <section class="foot__hero" aria-labelledby="prefooter-titulo">
   <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
   <div>
@@ -618,19 +600,19 @@
 </footer>
 
 <!-- Sistema · navbar, prefooter de lotos y revelado al scroll -->
-<script src="/js/componentes/paramita-bar.js" defer></script>
-<script src="/js/componentes/paramita-footer-lotos.js" defer></script>
-<script src="/js/componentes/paramita-suscripcion.js" defer></script>
-<script src="/js/primitivos/paramita-reveal.js" defer></script>
+<script src="../js/componentes/paramita-bar.js" defer></script>
+<script src="../js/componentes/paramita-footer-lotos.js" defer></script>
+<script src="../js/componentes/paramita-suscripcion.js" defer></script>
+<script src="../js/primitivos/paramita-reveal.js" defer></script>
 <!-- FAQ · acordeón + buscador (compartido) -->
-<script src="/js/componentes/paramita-faq.js" defer></script>
+<script src="../js/componentes/paramita-faq.js" defer></script>
 
 <!-- Específico de esta página · frecuencia, importe, barra de progreso y flujo -->
-<script src="/js/paginas/paramita-crowdfunding.js" defer></script>
+<script src="../js/paginas/paramita-crowdfunding.js" defer></script>
 <!-- TEMA · listener del toggle · compartido (sync) -->
-<script src="js/componentes/paramita-tema.js" defer></script>
+<script src="../js/componentes/paramita-tema.js" defer></script>
 <!-- MENÚ · acordeón de submenús en móvil · compartido (sync) -->
-<script src="js/componentes/paramita-menu.js" defer></script>
+<script src="../js/componentes/paramita-menu.js" defer></script>
 
 <!-- Red de seguridad de revelado · autosuficiente.
      Si paramita-reveal.js no llegara a cargar, esto garantiza que el contenido

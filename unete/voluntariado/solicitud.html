@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- COPY PROVISIONAL -->
-<title>Voluntariado · Ofrece tu tiempo en el Centro · Paramita</title>
+<title>Solicitud de voluntariado · Ofrece tu tiempo · Paramita</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="description" content="Ofrece tu tiempo en el Centro Budista Sakya (Pedreguer, Alicante) como una forma de práctica: seva. Estancia residencial a corto plazo o ayuda puntual y a distancia. Descubre cómo es un día y da el paso.">
+<meta name="description" content="Ofrece tu tiempo en el Centro Budista Sakya: solicita una estancia de seva residencial o deja tus datos para colaboraciones puntuales y a distancia.">
 
 <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -31,7 +31,6 @@
 <script src="../../js/componentes/paramita-bar.js" defer></script>
 <script src="../../js/componentes/paramita-footer-lotos.js" defer></script>
 <script src="../../js/componentes/paramita-suscripcion.js" defer></script>
-<script src="../../js/componentes/paramita-faq.js" defer></script>
 
 <!-- CSS · reset primero, luego fuentes + tokens, base, componentes, página, responsive, tema (último) -->
 <link rel="stylesheet" href="../../css/base/paramita-reset.css">
@@ -49,16 +48,13 @@
 <link rel="stylesheet" href="../../css/componentes/paramita-extras.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-footer.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-suscripcion.css">
-<link rel="stylesheet" href="../../css/componentes/paramita-chat.css">
-<link rel="stylesheet" href="../../css/componentes/paramita-faq.css">
 <link rel="stylesheet" href="../../css/componentes/paramita-pictogramas.css">
-<link rel="stylesheet" href="../../css/componentes/paramita-tarjetas.css">
-<link rel="stylesheet" href="../../css/paginas/paramita-voluntariado.css">
+<link rel="stylesheet" href="../../css/paginas/paramita-solicitud.css">
 <link rel="stylesheet" href="../../css/base/paramita-responsive.css">
   <!-- TEMA · penumbra/luz · el ÚLTIMO para ganar la cascada (sync) -->
   <link rel="stylesheet" href="../../css/componentes/paramita-tema.css">
 </head>
-<body>
+<body class="pagina-solicitud">
 
 <!-- sync: navbar=publico current="Voluntariado" prefooter -->
 
@@ -243,198 +239,269 @@
 <!-- /@sync:navbar -->
 <!-- Nota: el logo inline (SVG imagotipo) se re-inyecta con sync.py; aquí va el .logo-wave (máscara CSS). -->
 
-
 <main>
 
   <!-- ══════════════ 0 · HERO ══════════════ -->
-  <section class="hero hero--voluntariado">
+  <section class="hero hero--solicitud">
     <div class="hero__bg" aria-hidden="true">
-      <picture>
-        <source media="(max-width:768px)" srcset="/assets/img/hero-voluntariado-movil.jpg">
-        <img class="hero__bg-img" src="/assets/img/hero-voluntariado.jpg" alt="">
-      </picture>
+      <img class="hero__bg-img" src="/assets/img/seva.jpg" alt="">
     </div>
     <div class="hero__inner">
-      <span class="eyebrow">Únete · Voluntariado</span>
-      <h1>El tiempo que se <em>ofrece</em></h1>
-      <p class="lede">Ofrecer tu tiempo en el Centro es una forma de práctica: atender de manera altruista lo que la comunidad necesita, cada día. Una residencia a corto plazo para empezar o continuar un camino.</p>
-      <div class="actions" data-reveal>
-        <a class="btn-primario" href="#puertas">Quiero ofrecer mi tiempo</a>
-        <a class="btn-secundario" href="#un-dia"><span>Ver cómo es un día</span></a>
-      </div>
+      <span class="eyebrow">Da el paso</span>
+      <h1>Ofrece tu <em>tiempo</em></h1>
+      <p class="lede">Dos formas de acercarte, con procesos distintos. Elige la que encaje contigo; ninguna es más valiosa que la otra.</p>
     </div>
   </section>
 
-  <!-- ══════════════ 1 · QUÉ ES EL SEVA ══════════════ -->
-  <section class="v-sec zona-luz"><div class="wrap">
-    <div class="v-seva">
-      <div class="v-seva__texto">
-        <div class="v-head">
-          <span class="eyebrow" data-reveal>Qué es el seva aquí</span>
-          <h2 data-reveal>Ofrecer tiempo <em>es</em> práctica</h2>
+  <!-- ══════════════ PUERTA A · SEVA RESIDENCIAL ══════════════ -->
+  <section class="sol-sec" id="residencial"><div class="sol-col">
+    <div class="puerta-head">
+      <span class="eyebrow">Puerta A · Compromiso pleno</span>
+      <h2>Solicitud de seva <em>residencial</em></h2>
+      <p>Una estancia de prueba de una semana, renovable hasta seis. No pedimos experiencia previa, solo interés genuino. Tómate tu tiempo: no hay respuestas correctas.</p>
+    </div>
+
+    <form class="vf" id="formA" novalidate>
+      <!-- Resumen de errores (foco al enviar con fallos) -->
+      <div class="vf__resumen" id="resumenA" tabindex="-1" role="alert" aria-labelledby="resumenA-tit">
+        <h3 id="resumenA-tit">Revisa estos campos antes de enviar</h3>
+        <ul></ul>
+      </div>
+
+      <!-- Honeypot -->
+      <div class="vf__hp" aria-hidden="true"><label>No rellenar<input type="text" name="empresa" tabindex="-1" autocomplete="off"></label></div>
+
+      <!-- Grupo 1 · Quién eres -->
+      <div class="vf__grupo">
+        <span class="vf__grupo-num">01 — Quién eres</span>
+        <h3 class="vf__grupo-tit">Para empezar</h3>
+
+        <div class="vf__campo" data-req>
+          <label class="vf__label" for="A-nombre">Nombre y apellidos</label>
+          <input class="vf__input" id="A-nombre" name="nombre" type="text" autocomplete="name" required>
+          <p class="vf__error" id="A-nombre-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Escribe tu nombre.</span></p>
         </div>
-        <div class="v-prosa" data-reveal>
-          <p>El voluntariado en Paramita no es «echar una mano» con las tareas del Centro: es <strong>seva</strong>, el servicio como camino. Cocinar, cuidar el jardín, mantener los espacios o traducir un texto se vuelven, hechos con atención, una forma de práctica tan real como sentarse a meditar.</p>
-          <p>No pedimos experiencia previa ni un currículum. Pedimos <strong>interés genuino</strong> por la meditación y la filosofía budista, y disposición a compartir la vida de la comunidad durante una temporada. El resto se aprende viviéndolo.</p>
+
+        <div class="vf__campo" data-req>
+          <label class="vf__label" for="A-email">Correo electrónico</label>
+          <input class="vf__input" id="A-email" name="email" type="email" autocomplete="email" required aria-describedby="A-email-ayuda">
+          <p class="vf__ayuda" id="A-email-ayuda">Te escribiremos aquí.</p>
+          <p class="vf__error" id="A-email-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Introduce un email válido, p. ej. nombre@correo.com</span></p>
+        </div>
+
+        <div class="vf__campo">
+          <label class="vf__label" for="A-tel">Teléfono <span class="vf__opcional">(opcional)</span></label>
+          <input class="vf__input" id="A-tel" name="telefono" type="tel" autocomplete="tel" aria-describedby="A-tel-ayuda">
+          <p class="vf__ayuda" id="A-tel-ayuda">Solo si prefieres que coordinemos por teléfono o WhatsApp.</p>
+          <p class="vf__error" id="A-tel-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Introduce un teléfono válido, p. ej. 600 000 000</span></p>
+        </div>
+
+        <div class="vf__campo" data-req>
+          <label class="vf__label" for="A-lugar">País y ciudad de residencia</label>
+          <input class="vf__input" id="A-lugar" name="residencia" type="text" autocomplete="address-level2" required aria-describedby="A-lugar-ayuda">
+          <p class="vf__ayuda" id="A-lugar-ayuda">Nos ayuda a orientar el viaje y, si vienes de fuera de la UE, los trámites de visado.</p>
+          <p class="vf__error" id="A-lugar-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Dinos dónde resides.</span></p>
         </div>
       </div>
-      <figure class="v-seva__fig" data-reveal>
-        <img class="v-seva__img" src="/assets/img/seva.jpg" alt="Voluntariado en el Centro: el servicio como práctica">
-      </figure>
+
+      <!-- Grupo 2 · Tu práctica y la estancia -->
+      <div class="vf__grupo">
+        <span class="vf__grupo-num">02 — Tu práctica y la estancia</span>
+        <h3 class="vf__grupo-tit">Lo que te trae</h3>
+
+        <div class="vf__campo" data-req>
+          <label class="vf__label" for="A-motivo">¿Qué te acerca a ofrecer tu tiempo en el Centro?</label>
+          <textarea class="vf__textarea" id="A-motivo" name="motivo" required aria-describedby="A-motivo-ayuda"></textarea>
+          <p class="vf__ayuda" id="A-motivo-ayuda">Cuéntanoslo con tus palabras, sin prisa. No hay respuesta correcta.</p>
+          <p class="vf__error" id="A-motivo-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Cuéntanos brevemente qué te acerca.</span></p>
+        </div>
+
+        <div class="vf__campo" data-req data-grupo="radio">
+          <span class="vf__label" id="A-nivel-lbl">Tu relación con la meditación y el budismo</span>
+          <p class="vf__ayuda">Se puede empezar el camino aquí: no pedimos experiencia previa, solo interés genuino.</p>
+          <div class="vf__opciones" role="radiogroup" aria-labelledby="A-nivel-lbl">
+            <label class="vf__opcion"><input type="radio" name="nivel" value="empiezo"><span>Empiezo ahora</span></label>
+            <label class="vf__opcion"><input type="radio" name="nivel" value="tiempo"><span>Practico desde hace un tiempo</span></label>
+            <label class="vf__opcion"><input type="radio" name="nivel" value="establecida"><span>Tengo una práctica establecida</span></label>
+          </div>
+          <p class="vf__error" id="A-nivel-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Elige la opción que mejor te describa.</span></p>
+        </div>
+
+        <div class="vf__campo">
+          <label class="vf__label" for="A-practica">Si quieres, cuéntanos algo más de tu práctica <span class="vf__opcional">(opcional)</span></label>
+          <textarea class="vf__textarea" id="A-practica" name="practica"></textarea>
+        </div>
+
+        <div class="vf__campo" data-req>
+          <label class="vf__label" for="A-fechas">Fechas y duración que tienes en mente</label>
+          <input class="vf__input" id="A-fechas" name="fechas" type="text" required aria-describedby="A-fechas-ayuda">
+          <p class="vf__ayuda" id="A-fechas-ayuda">La estancia de prueba es de una semana completa; puede renovarse semana a semana hasta seis.</p>
+          <p class="vf__error" id="A-fechas-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Dinos qué fechas o duración tienes en mente.</span></p>
+        </div>
+
+        <div class="vf__campo" data-grupo="check">
+          <span class="vf__label" id="A-tareas-lbl">¿En qué te gustaría ayudar? <span class="vf__opcional">(opcional)</span></span>
+          <p class="vf__ayuda">Marca lo que quieras; también vale «donde haga falta».</p>
+          <div class="vf__opciones vf__opciones--fila" role="group" aria-labelledby="A-tareas-lbl">
+            <label class="vf__opcion"><input type="checkbox" name="tareas" value="limpieza"><span>Limpieza</span></label>
+            <label class="vf__opcion"><input type="checkbox" name="tareas" value="mantenimiento"><span>Mantenimiento</span></label>
+            <label class="vf__opcion"><input type="checkbox" name="tareas" value="cocina"><span>Cocina</span></label>
+            <label class="vf__opcion"><input type="checkbox" name="tareas" value="construccion"><span>Construcción</span></label>
+            <label class="vf__opcion"><input type="checkbox" name="tareas" value="jardineria"><span>Jardinería</span></label>
+            <label class="vf__opcion"><input type="checkbox" name="tareas" value="administracion"><span>Administración</span></label>
+            <label class="vf__opcion"><input type="checkbox" name="tareas" value="diseno"><span>Diseño gráfico</span></label>
+            <label class="vf__opcion"><input type="checkbox" name="tareas" value="traduccion"><span>Traducción</span></label>
+            <label class="vf__opcion"><input type="checkbox" name="tareas" value="donde"><span>Donde haga falta</span></label>
+          </div>
+        </div>
+
+        <div class="vf__campo">
+          <label class="vf__label" for="A-salud">¿Algo sobre tu salud o movilidad que debamos tener en cuenta? <span class="vf__opcional">(opcional)</span></label>
+          <textarea class="vf__textarea" id="A-salud" name="salud" aria-describedby="A-salud-ayuda"></textarea>
+          <p class="vf__ayuda" id="A-salud-ayuda">Solo para acompañarte mejor. Nada de esto descarta de entrada.</p>
+        </div>
+      </div>
+
+      <!-- Grupo 3 · Tu compromiso -->
+      <div class="vf__grupo">
+        <span class="vf__grupo-num">03 — Tu compromiso</span>
+        <h3 class="vf__grupo-tit">Antes de enviar</h3>
+
+        <div class="vf__campo" data-req data-grupo="uno">
+          <label class="vf__compromiso">
+            <input type="checkbox" name="acepta-dia" required>
+            <span class="vf__ctexto">He leído cómo es un día en el Centro y puedo asumirlo.
+              <span class="vf__ayuda">Seis horas de trabajo, seis días; oración y meditación en comunidad; dormitorios compartidos. <a href="/unete/voluntariado/voluntariado.html#un-dia">Ver «un día en el Centro»</a></span>
+            </span>
+          </label>
+          <p class="vf__error" id="A-dia-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Marca la casilla para continuar.</span></p>
+        </div>
+
+        <div class="vf__campo" data-req data-grupo="uno">
+          <label class="vf__compromiso">
+            <input type="checkbox" name="acepta-gastos" required>
+            <span class="vf__ctexto">Puedo cubrir mis necesidades personales durante la estancia.
+              <span class="vf__ayuda">Transporte, gastos médicos y, si vienes de fuera, visado.</span>
+            </span>
+          </label>
+          <p class="vf__error" id="A-gastos-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Marca la casilla para continuar.</span></p>
+        </div>
+
+        <div class="vf__campo" data-req data-grupo="uno">
+          <label class="vf__compromiso">
+            <input type="checkbox" name="acepta-preceptos" required>
+            <span class="vf__ctexto">Me comprometo a respetar los cinco preceptos de convivencia.</span>
+          </label>
+          <details class="vf__preceptos">
+            <summary>Leer los cinco preceptos</summary>
+            <ol>
+              <li>Respetar toda forma de vida.</li>
+              <li>No tomar lo que no se ha dado.</li>
+              <li>No mentir.</li>
+              <li>Una conducta sexual que no cause sufrimiento.</li>
+              <li>No consumir sustancias intoxicantes.</li>
+            </ol>
+          </details>
+          <p class="vf__error" id="A-preceptos-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Marca la casilla para continuar.</span></p>
+        </div>
+
+        <div class="vf__campo" style="margin-top:1.35rem">
+          <label class="vf__label" for="A-conocio">¿Cómo nos conociste? ¿Te animó alguien? <span class="vf__opcional">(opcional)</span></label>
+          <input class="vf__input" id="A-conocio" name="conocio" type="text" aria-describedby="A-conocio-ayuda">
+          <p class="vf__ayuda" id="A-conocio-ayuda">Nos ayuda a saber cómo llega la gente al Centro.</p>
+        </div>
+
+        <div class="vf__campo" data-req data-grupo="uno">
+          <label class="vf__consent">
+            <input type="checkbox" name="rgpd" required>
+            <span>Autorizo el tratamiento de mis datos según la <a href="/politica-de-privacidad/" target="_blank" rel="noopener">política de privacidad</a>.</span>
+          </label>
+          <p class="vf__error" id="A-rgpd-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Necesitamos tu consentimiento para poder responderte.</span></p>
+        </div>
+      </div>
+
+      <div class="vf__accion">
+        <button class="btn-primario" type="submit">Enviar mi solicitud</button>
+        <p class="vf__nota-envio">Te enviaremos una copia a tu correo.</p>
+      </div>
+    </form>
+
+    <!-- Acuse Puerta A (regla 3C) -->
+    <div class="vf__acuse" id="acuseA" tabindex="-1" role="status" aria-live="polite">
+      <div class="vf__acuse-ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h3>Hemos recibido tu solicitud.</h3>
+      <p>Gracias por ofrecer tu tiempo. La leeremos con calma y te escribiremos en <strong>3–5 días laborables</strong> para concertar una conversación y conocernos. Te hemos enviado una copia a tu correo.</p>
+      <a class="t-link vf__acuse-cta" href="/unete/voluntariado/voluntariado.html#un-dia"><span class="txt">Mientras tanto, conoce cómo es un día en el Centro</span><span class="arw">→</span></a>
     </div>
   </div></section>
 
-  <!-- ══════════════ 2 · UN DÍA EN EL CENTRO ══════════════ -->
-  <section class="v-sec" id="un-dia"><div class="wrap">
-    <div class="v-head">
-      <span class="eyebrow" data-reveal>Un día en el Centro</span>
-      <h2 data-reveal>Cómo es la vida <em>aquí</em></h2>
-      <p data-reveal>Contarlo con honestidad es parte de la invitación. La vida en el Centro tiene un ritmo claro y exigente; quien lo abraza suele encontrar en él justo lo que buscaba.</p>
+  <!-- ══════════════ PUERTA B · AYUDA PUNTUAL ══════════════ -->
+  <section class="sol-sec zona-luz" id="ligera"><div class="sol-col">
+    <div class="vf-caja">
+    <div class="puerta-head puerta-head--caja">
+      <span class="eyebrow">Puerta B · Paso ligero</span>
+      <h2 class="h-compacto">Mantenme <em>al tanto</em></h2>
+      <p>¿No es tu momento para una estancia? Deja tus datos y te escribiremos cuando surja algo que encaje con lo que puedes ofrecer. Sin prisa y sin compromiso.</p>
     </div>
-    <div class="v-ritmo">
-      <div class="v-ritmo__item" data-reveal>
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" class="acc"/></svg>
-        <h4>Seis horas, seis días</h4>
-        <p>Seis horas de trabajo al día, seis días por semana. El servicio marca el pulso de la jornada.</p>
-      </div>
-      <div class="v-ritmo__item" data-reveal>
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" class="acc"/><path d="M6.5 12a5.5 5.5 0 0 1 11 0"/><path d="M3.5 12a8.5 8.5 0 0 1 17 0"/></svg>
-        <h4>Oración y meditación</h4>
-        <p>Dos veces al día, la comunidad se reúne a practicar. El trabajo se sostiene en la práctica, no al revés.</p>
-      </div>
-      <div class="v-ritmo__item" data-reveal>
-        <svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><path d="M2.5 20c0-3.6 3-6.2 6.5-6.2"/><circle cx="16.5" cy="10.5" r="2.4" class="acc"/><path d="M21.5 20c0-3-2.4-5.4-5.5-5.4"/></svg>
-        <h4>En comunidad</h4>
-        <p>Desayuno, comida y cena en común; se reside en dormitorios compartidos. Se vive con otros, no en paralelo.</p>
-      </div>
-      <div class="v-ritmo__item" data-reveal>
-        <svg viewBox="0 0 24 24"><path d="M5 19c0-8 6-13 14-13 0 8-6 14-14 13Z"/><path d="M9 15c2-3 5-5 8-6" class="acc"/></svg>
-        <h4>Tiempo propio</h4>
-        <p>Antes, después y entre las sesiones de trabajo hay tiempo personal, y espacio para asistir a las enseñanzas.</p>
-      </div>
-    </div>
-  </div></section>
 
-  <!-- ══════════════ 3 · QUIÉN YA LO VIVE ══════════════ -->
-  <section class="v-sec"><div class="wrap">
-    <div class="v-head">
-      <span class="eyebrow" data-reveal>Quién ya lo vive</span>
-      <h2 data-reveal>Voces de quienes han <em>servido</em></h2>
-    </div>
-    <figure class="v-voz" data-reveal>
-      <div class="v-voz__fig">
-        <img class="v-voz__img" src="/assets/img/voz-voluntaria.jpg" alt="Voluntaria del Centro" onerror="this.remove()">
+    <form class="vf" id="formB" novalidate>
+      <div class="vf__resumen" id="resumenB" tabindex="-1" role="alert" aria-labelledby="resumenB-tit">
+        <h3 id="resumenB-tit">Revisa estos campos antes de enviar</h3>
+        <ul></ul>
       </div>
-      <div class="v-voz__cont">
-        <blockquote>Vine una semana a ayudar en la cocina y me quedé con algo que no esperaba: una forma de estar presente que ahora me acompaña a casa.</blockquote>
-        <figcaption>Voluntaria · estancia de primavera</figcaption>
-      </div>
-    </figure>
-  </div></section>
 
-  <!-- ══════════════ 4 · LAS DOS PUERTAS ══════════════ -->
-  <section class="v-sec zona-luz" id="puertas"><div class="wrap">
-    <div class="v-head v-head--center">
-      <span class="eyebrow" data-reveal>Dos formas de ofrecerte</span>
-      <h2 data-reveal>Elige tu <em>puerta</em></h2>
-      <p data-reveal>No todo el mundo puede —ni quiere— mudarse una temporada al Centro. Por eso hay dos caminos, y los dos importan.</p>
-    </div>
-    <div class="v-puertas">
-      <div class="v-puerta" data-reveal>
-        <span class="v-puerta__k">Compromiso pleno</span>
-        <h3>Seva residencial</h3>
-        <p>Vivir en el Centro una temporada y sostener su día a día. Una <strong>estancia de prueba de una semana</strong>, renovable semana a semana hasta seis, según las necesidades del Centro.</p>
-        <ul>
-          <li>Vida en comunidad, con su ritmo y sus preceptos.</li>
-          <li>Tareas según tus manos: cocina, jardín, mantenimiento, administración, traducción…</li>
-          <li>Proceso cuidado: solicitud y, después, una conversación para conocernos.</li>
-        </ul>
-        <div class="v-puerta__accion"><a class="btn-primario" href="/unete/voluntariado/solicitud.html#residencial">Enviar mi solicitud</a></div>
-      </div>
-      <div class="v-puerta" data-reveal>
-        <span class="v-puerta__k">Paso ligero</span>
-        <h3>Ayuda puntual o a distancia</h3>
-        <p>¿No es tu momento para una estancia? También hay sitio para <strong>colaboraciones más cortas o en remoto</strong>: difusión, traducción, apoyo en actividades puntuales.</p>
-        <ul>
-          <li>Sin mudarte ni comprometer una temporada.</li>
-          <li>Desde donde estés, con el tiempo que tengas.</li>
-          <li>Te escribimos cuando surja algo que encaje contigo.</li>
-        </ul>
-        <div class="v-puerta__accion"><a class="btn-secundario" href="/unete/voluntariado/solicitud.html#ligera"><span>Quiero estar al tanto</span></a></div>
-      </div>
-    </div>
-  </div></section>
+      <div class="vf__hp" aria-hidden="true"><label>No rellenar<input type="text" name="empresa" tabindex="-1" autocomplete="off"></label></div>
 
-  <!-- ══════════════ 5 · PREGUNTAS FRECUENTES ══════════════ -->
-  <section class="v-sec"><div class="wrap">
-    <div class="v-head v-head--center">
-      <span class="eyebrow" data-reveal>Antes de dar el paso</span>
-      <h2 data-reveal>Preguntas <em>frecuentes</em></h2>
-    </div>
-    <div class="faq" data-reveal>
-      <div class="faq__buscador">
-        <input id="faqBuscar" type="text" placeholder="Busca por palabra… estancia, dormir, gastos" aria-label="Buscar en las preguntas frecuentes" autocomplete="off">
-        <span class="faq__buscador__icono" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
-        </span>
+      <div class="vf__campo" data-req>
+        <label class="vf__label" for="B-nombre">Nombre</label>
+        <input class="vf__input" id="B-nombre" name="nombre" type="text" autocomplete="name" required>
+        <p class="vf__error" id="B-nombre-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Escribe tu nombre.</span></p>
       </div>
-      <div class="faq__lista">
-        <div class="faq__item">
-          <button class="faq__q" aria-expanded="false">¿Cuánto dura una estancia?<span class="faq__sign" aria-hidden="true"></span></button>
-          <div class="faq__panel"><div class="faq__inner"><p>La estancia mínima de prueba es de una semana completa. A partir de ahí puede renovarse semana a semana, hasta un máximo de seis, según las necesidades del Centro y la aprobación del responsable de programación.</p></div></div>
-        </div>
-        <div class="faq__item">
-          <button class="faq__q" aria-expanded="false">¿Qué se hace cada día?<span class="faq__sign" aria-hidden="true"></span></button>
-          <div class="faq__panel"><div class="faq__inner"><p>Seis horas de trabajo al día, seis días a la semana; oración y meditación en comunidad dos veces al día; desayuno, comida y cena en común. Y tiempo personal antes, después y entre las sesiones de trabajo.</p></div></div>
-        </div>
-        <div class="faq__item">
-          <button class="faq__q" aria-expanded="false">¿Dónde se duerme?<span class="faq__sign" aria-hidden="true"></span></button>
-          <div class="faq__panel"><div class="faq__inner"><p>En dormitorios compartidos. Se vive en comunidad y se comparten espacios; conviene sentirse cómodo con la convivencia y con una intimidad limitada.</p></div></div>
-        </div>
-        <div class="faq__item">
-          <button class="faq__q" aria-expanded="false">¿Necesito experiencia previa en meditación?<span class="faq__sign" aria-hidden="true"></span></button>
-          <div class="faq__panel"><div class="faq__inner"><p>No. Se puede empezar el camino aquí. Lo que pedimos es interés genuino por la meditación, el desarrollo espiritual y la filosofía budista, y disposición a seguir los horarios y la guía del Centro.</p></div></div>
-        </div>
-        <div class="faq__item">
-          <button class="faq__q" aria-expanded="false">¿Qué gastos asumo yo?<span class="faq__sign" aria-hidden="true"></span></button>
-          <div class="faq__panel"><div class="faq__inner"><p>Debes poder cubrir tus necesidades personales durante la estancia: transporte, gastos médicos y, si vienes de fuera de la UE, los trámites de visado.</p></div></div>
-        </div>
-        <div class="faq__item">
-          <button class="faq__q" aria-expanded="false">¿Qué se espera de la convivencia?<span class="faq__sign" aria-hidden="true"></span></button>
-          <div class="faq__panel"><div class="faq__inner"><p>Quien reside en el Centro se compromete a cuidar las instalaciones y a respetar los cinco preceptos básicos de convivencia:</p><ul><li>Respetar toda forma de vida.</li><li>No tomar lo que no se ha dado.</li><li>No mentir.</li><li>Una conducta sexual que no cause sufrimiento.</li><li>No consumir sustancias intoxicantes; no se fuma en el recinto.</li></ul></div></div>
-        </div>
-        <div class="faq__item">
-          <button class="faq__q" aria-expanded="false">¿Cómo es el proceso?<span class="faq__sign" aria-hidden="true"></span></button>
-          <div class="faq__panel"><div class="faq__inner"><p>Dos pasos: primero rellenas la solicitud en esta página; después, una entrevista personal para conocernos. Aceptamos voluntarios según las necesidades del Centro, que cambian con la temporada.</p></div></div>
-        </div>
-        <div class="faq__item">
-          <button class="faq__q" aria-expanded="false">¿Puedo ayudar sin quedarme a vivir?<span class="faq__sign" aria-hidden="true"></span></button>
-          <div class="faq__panel"><div class="faq__inner"><p>Sí. No descartamos estancias más cortas ni colaboraciones online en proyectos puntuales. Deja tus datos por la puerta ligera y te escribiremos cuando surja algo que encaje contigo.</p></div></div>
-        </div>
-      </div>
-      <p class="faq__vacio" id="faqVacio" hidden>No hemos encontrado nada con esas palabras. Prueba con otras, o escríbenos.</p>
-    </div>
-  </div></section>
 
-  <!-- ══════════════ 6 · CIERRE SIN PRESIÓN ══════════════ -->
-  <section class="v-sec zona-luz"><div class="wrap">
-    <div class="v-head v-head--center">
-      <span class="eyebrow" data-reveal>Si aún no es tu momento</span>
-      <h2 data-reveal>No hay <em>prisa</em></h2>
-      <p class="v-coda" data-reveal>El voluntariado es una puerta entre varias. Si hoy no es la tuya, puedes empezar por meditar con nosotros o sostener el Centro de otras formas. Cada camino cuenta.</p>
+      <div class="vf__campo" data-req>
+        <label class="vf__label" for="B-email">Correo electrónico</label>
+        <input class="vf__input" id="B-email" name="email" type="email" autocomplete="email" required aria-describedby="B-email-ayuda">
+        <p class="vf__ayuda" id="B-email-ayuda">Te avisaremos aquí, sin llenarte el buzón.</p>
+        <p class="vf__error" id="B-email-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Introduce un email válido, p. ej. nombre@correo.com</span></p>
+      </div>
+
+      <div class="vf__campo" data-grupo="check">
+        <span class="vf__label" id="B-tareas-lbl">¿En qué te gustaría ayudar? <span class="vf__opcional">(opcional)</span></span>
+        <p class="vf__ayuda">Marca lo que quieras; «aún no lo sé» también vale.</p>
+        <div class="vf__opciones vf__opciones--fila" role="group" aria-labelledby="B-tareas-lbl">
+          <label class="vf__opcion"><input type="checkbox" name="tareas" value="actividades"><span>Actividades puntuales en el Centro</span></label>
+          <label class="vf__opcion"><input type="checkbox" name="tareas" value="difusion"><span>Difusión</span></label>
+          <label class="vf__opcion"><input type="checkbox" name="tareas" value="traduccion"><span>Traducción</span></label>
+          <label class="vf__opcion"><input type="checkbox" name="tareas" value="online"><span>Apoyo online</span></label>
+          <label class="vf__opcion"><input type="checkbox" name="tareas" value="nose"><span>Aún no lo sé</span></label>
+        </div>
+      </div>
+
+      <div class="vf__campo" data-req data-grupo="uno">
+        <label class="vf__consent">
+          <input type="checkbox" name="rgpd" required>
+          <span>Autorizo el tratamiento de mis datos según la <a href="/politica-de-privacidad/" target="_blank" rel="noopener">política de privacidad</a>.</span>
+        </label>
+        <p class="vf__error" id="B-rgpd-err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>Necesitamos tu consentimiento para poder escribirte.</span></p>
+      </div>
+
+      <div class="vf__accion">
+        <button class="btn-primario" type="submit">Quiero estar al tanto</button>
+      </div>
+    </form>
+
+    <!-- Acuse Puerta B (regla 3C) -->
+    <div class="vf__acuse" id="acuseB" tabindex="-1" role="status" aria-live="polite">
+      <div class="vf__acuse-ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h3>Gracias, te tenemos presente.</h3>
+      <p>Hemos guardado tus datos. Te escribiremos cuando surja algo que encaje con lo que puedes ofrecer. Sin prisa y sin compromiso.</p>
+      <a class="t-link vf__acuse-cta" href="/meditacion/meditacion.html"><span class="txt">Medita con nosotros</span><span class="arw">→</span></a>
     </div>
-    <div class="v-cta-fila" data-reveal>
-      <a class="t-link" href="/meditacion/meditacion.html"><span class="txt">Meditar con nosotros</span><span class="arw">→</span></a>
-      <a class="t-link" href="/contribuir/contribuir.html"><span class="txt">Otras formas de contribuir</span><span class="arw">→</span></a>
     </div>
   </div></section>
 
 </main>
 
-<!-- ════════════════════════════════════════════════════════════════════
-     PREFOOTER + FOOTER · los inyecta sync.py (partials/prefooter.html + footer.html).
-     El marcador `prefooter` del comentario sync de arriba activa el prefooter.
-     ════════════════════════════════════════════════════════════════════ -->
 <!-- @sync:prefooter -->
 <!-- /@sync:prefooter -->
 
@@ -558,7 +625,7 @@
 </footer>
 <!-- /@sync:footer -->
 
-<script src="../../js/paginas/paramita-voluntariado.js" defer></script>
+<script src="../../js/paginas/paramita-solicitud.js" defer></script>
 <!-- TEMA · listener del toggle · compartido (sync) -->
 <script src="../../js/componentes/paramita-tema.js" defer></script>
 <!-- MENÚ · acordeón de submenús en móvil · compartido (sync) -->

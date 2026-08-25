@@ -1,0 +1,111 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   css/paginas/paramita-solicitud.css — Landing de solicitud de voluntariado
+   ───────────────────────────────────────────────────────────────────────────
+   Dos puertas: seva residencial (columna única con secciones) y paso ligero
+   («al tanto», caja contenida). Depende de tokens y componentes del sistema
+   (color, tipografía, layout, movimiento, cta, hero, sections, footer,
+   suscripcion). No redefine tokens. Todo scopeado bajo .pagina-solicitud.
+   Color exclusivamente vía tokens OKLCH y color-mix(in oklch, …).
+   El azul del velo del hero se mezcla con transparent (no con cálidos) para
+   preservar el hue en OKLCH.
+
+   Formulario .vf: etiqueta encima, validación al salir del campo, errores
+   accesibles (aria-invalid + aria-describedby + resumen con foco), acuse
+   (regla 3C) con foco (WCAG 4.1.3). Sin endpoint: lo conecta el backend.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer paginas {
+  .pagina-solicitud .hero--solicitud { min-height:min(56svh,520px) }
+  .pagina-solicitud .hero--solicitud .hero__bg { background:linear-gradient(150deg,var(--calido-zen),color-mix(in oklch,var(--dorado) 16%,var(--calido-zen))) }
+  .pagina-solicitud .hero--solicitud .hero__bg-img { width:100%;height:100%;object-fit:cover;object-position:center 30% }
+  .pagina-solicitud .hero--solicitud .hero__bg::after { content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(100deg,color-mix(in oklch,var(--calido-zen) 92%,transparent) 0%,color-mix(in oklch,var(--calido-zen) 74%,transparent) 34%,color-mix(in oklch,var(--calido-zen) 28%,transparent) 66%,transparent 100%),linear-gradient(0deg,color-mix(in oklch,var(--lino) 40%,transparent),transparent 42%) }
+  .pagina-solicitud .hero--solicitud .hero h1 { max-width:16ch }
+  .pagina-solicitud .sol-sec { position:relative;z-index:2;padding-block:var(--espacio-orilla) }
+  .pagina-solicitud .sol-col { width:min(var(--contenedor-lectura),100% - var(--contenedor-padding) * 2);margin-inline:auto }
+  .pagina-solicitud .puerta-head { margin-bottom:var(--espacio-contemplativo) }
+  .pagina-solicitud .puerta-head .eyebrow { display:block;margin-bottom:var(--espacio-elemento) }
+  .pagina-solicitud .puerta-head p { margin:var(--espacio-elemento) 0 0;max-width:46ch;color:var(--texto-suave) }
+  .pagina-solicitud .puerta-head--caja { margin-bottom:var(--espacio-grupo) }
+  .pagina-solicitud .h-compacto { font-size:var(--texto-h3);font-variation-settings:"opsz" var(--opsz-titulo),"SOFT" var(--paramita-soft,0) }
+  .pagina-solicitud .zona-luz { position:relative;isolation:isolate }
+  .pagina-solicitud .zona-luz::before { content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(78% 66% at 82% 6%,color-mix(in oklch,var(--calido-zen) 62%,transparent),transparent 58%),radial-gradient(66% 58% at 6% 100%,color-mix(in oklch,var(--dorado) 12%,transparent),transparent 62%),linear-gradient(180deg,transparent,color-mix(in oklch,var(--arena) 42%,transparent) 16%,color-mix(in oklch,var(--arena) 42%,transparent) 84%,transparent) }
+  .pagina-solicitud .vf-caja { max-width:38rem;margin-inline:auto;background:var(--card);border:1px solid var(--hair);border-radius:16px;padding:var(--espacio-contenido) }
+  @supports (corner-shape:superellipse(2)) {
+    .pagina-solicitud .vf-caja { border-radius:20px;corner-shape:superellipse(2.4) }
+  }
+  .pagina-solicitud .vf { display:grid;gap:0 }
+  .pagina-solicitud .vf__grupo { border-top:1px solid var(--hair);padding-top:var(--espacio-contenido);margin-top:var(--espacio-contenido) }
+  .pagina-solicitud .vf__grupo:first-of-type { border-top:0;padding-top:0;margin-top:0 }
+  .pagina-solicitud .vf__grupo-num { font-family:var(--body);font-weight:var(--wght-firmeza);font-size:var(--texto-micro);letter-spacing:var(--tracking-overline);text-transform:uppercase;color:var(--texto-tenue);display:block;margin-bottom:var(--espacio-atomo) }
+  .pagina-solicitud .vf__grupo-tit { margin:0 0 var(--espacio-grupo) }
+  .pagina-solicitud .vf__campo { display:grid;gap:var(--espacio-atomo);margin-bottom:var(--espacio-grupo) }
+  .pagina-solicitud .vf__label { font-family:var(--body);font-weight:var(--wght-firmeza);font-size:var(--texto-label);color:var(--antracita);line-height:var(--leading-label) }
+  .pagina-solicitud .vf__opcional { font-family:var(--body);font-weight:var(--wght-presencia);font-size:var(--texto-mini);color:var(--texto-tenue);margin-left:.4em }
+  .pagina-solicitud .vf__ayuda { font-size:var(--texto-mini);color:var(--texto-suave);line-height:1.45;margin:.1rem 0 0 }
+  .pagina-solicitud .vf__ayuda em { font-style:italic }
+  .pagina-solicitud .vf__input, .pagina-solicitud .vf__textarea, .pagina-solicitud .vf__select { font-family:var(--body);font-size:var(--texto-cuerpo);color:var(--antracita);padding:.85rem 1.1rem;border-radius:14px;border:1px solid var(--hair);background:var(--card);width:100%;transition:border-color var(--t-defecto),box-shadow var(--t-defecto),background var(--t-defecto) }
+  @supports (corner-shape:superellipse(2)) {
+    .pagina-solicitud .vf__input, .pagina-solicitud .vf__textarea, .pagina-solicitud .vf__select { border-radius:16px;corner-shape:superellipse(2.2) }
+  }
+  .pagina-solicitud .vf__textarea { min-height:6.5rem;resize:vertical;line-height:var(--leading-lede) }
+  .pagina-solicitud .vf__input::placeholder, .pagina-solicitud .vf__textarea::placeholder { color:color-mix(in oklch,var(--texto-suave) 60%,transparent) }
+  .pagina-solicitud .vf__input:focus, .pagina-solicitud .vf__textarea:focus, .pagina-solicitud .vf__select:focus { outline:none;border-color:color-mix(in oklch,var(--azul-oscuro) 55%,transparent);box-shadow:0 0 0 4px color-mix(in oklch,var(--azul-sutil) 16%,transparent);background:var(--lino) }
+  .pagina-solicitud .vf__select { appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%231F4E8F' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.6rem }
+  .pagina-solicitud .vf__campo.is-invalid .vf__input, .pagina-solicitud .vf__campo.is-invalid .vf__textarea, .pagina-solicitud .vf__campo.is-invalid .vf__select { border-color:color-mix(in oklch,var(--estado-error) 60%,transparent);box-shadow:0 0 0 4px color-mix(in oklch,var(--estado-error) 12%,transparent) }
+  .pagina-solicitud .vf__error { font-size:var(--texto-label);color:var(--estado-error);font-weight:var(--wght-firmeza);line-height:var(--leading-label);display:none;align-items:flex-start;gap:.4em }
+  .pagina-solicitud .vf__campo.is-invalid .vf__error { display:flex }
+  .pagina-solicitud .vf__error svg { width:15px;height:15px;flex:none;margin-top:.15em;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round }
+  .pagina-solicitud .vf__opciones { display:grid;gap:var(--espacio-atomo);margin:.15rem 0 0 }
+  .pagina-solicitud .vf__opciones--fila { grid-template-columns:repeat(auto-fit,minmax(13rem,1fr)) }
+  .pagina-solicitud .vf__opcion { display:flex;align-items:flex-start;gap:.55rem;padding:.7rem .9rem;border:1px solid var(--hair);border-radius:12px;background:var(--card);cursor:pointer;transition:border-color var(--t-hover),background var(--t-hover) }
+  @supports (corner-shape:superellipse(2)) {
+    .pagina-solicitud .vf__opcion { corner-shape:superellipse(2.2) }
+  }
+  .pagina-solicitud .vf__opcion:hover { border-color:color-mix(in oklch,var(--azul-oscuro) 30%,transparent);background:var(--lino) }
+  .pagina-solicitud .vf__opcion input { margin-top:.18rem;accent-color:var(--azul-oscuro);flex:none }
+  .pagina-solicitud .vf__opcion span { font-size:var(--texto-label);color:var(--antracita);line-height:var(--leading-label) }
+  .pagina-solicitud .vf__opcion input:checked ~ span { color:var(--azul-oscuro) }
+  .pagina-solicitud .vf__campo.is-invalid .vf__opciones .vf__opcion { border-color:color-mix(in oklch,var(--estado-error) 40%,transparent) }
+  .pagina-solicitud .vf__compromiso { display:flex;align-items:flex-start;gap:.55rem;padding:.85rem 0;border-bottom:1px solid var(--hair) }
+  .pagina-solicitud .vf__compromiso:last-of-type { border-bottom:0 }
+  .pagina-solicitud .vf__compromiso input { margin-top:.18rem;accent-color:var(--azul-oscuro);flex:none }
+  .pagina-solicitud .vf__compromiso .vf__ctexto { font-size:var(--texto-cuerpo);color:var(--antracita);line-height:1.5 }
+  .pagina-solicitud .vf__compromiso .vf__ayuda { margin-top:.25rem }
+  .pagina-solicitud .vf__campo.is-invalid .vf__compromiso input { outline:2px solid color-mix(in oklch,var(--estado-error) 55%,transparent);outline-offset:2px;border-radius:3px }
+  .pagina-solicitud .vf__preceptos { margin-top:.5rem;border:1px solid var(--hair);border-radius:12px;background:color-mix(in oklch,var(--arena) 34%,transparent);overflow:hidden }
+  .pagina-solicitud .vf__preceptos summary { font-family:var(--body);font-weight:var(--wght-firmeza);font-size:var(--texto-label);color:var(--azul-oscuro);padding:.7rem .9rem;cursor:pointer;list-style:none }
+  .pagina-solicitud .vf__preceptos summary::-webkit-details-marker { display:none }
+  .pagina-solicitud .vf__preceptos summary::after { content:" \25BE";color:var(--texto-tenue) }
+  .pagina-solicitud .vf__preceptos[open] summary::after { content:" \25B4" }
+  .pagina-solicitud .vf__preceptos ol { margin:0;padding:.2rem 1.3rem 1rem 2.4rem;font-size:var(--texto-label);color:var(--texto-suave);line-height:1.6 }
+  .pagina-solicitud .vf__consent { display:flex;gap:.55rem;align-items:flex-start;font-size:var(--texto-mini);color:var(--texto-suave);line-height:1.45;cursor:pointer;margin-top:.4rem }
+  .pagina-solicitud .vf__consent input { margin-top:.18rem;accent-color:var(--azul-oscuro);flex:none }
+  .pagina-solicitud .vf__consent a { color:var(--azul-oscuro);font-weight:var(--wght-asertivo) }
+  .pagina-solicitud .vf__campo.is-invalid .vf__consent input { outline:2px solid color-mix(in oklch,var(--estado-error) 55%,transparent);outline-offset:2px;border-radius:3px }
+  .pagina-solicitud .vf__hp { position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden }
+  .pagina-solicitud .vf__resumen { display:none;border:1px solid color-mix(in oklch,var(--estado-error) 45%,transparent);background:color-mix(in oklch,var(--estado-error) 8%,transparent);border-radius:14px;padding:var(--espacio-elemento) var(--espacio-grupo);margin-bottom:var(--espacio-contenido) }
+  .pagina-solicitud .vf__resumen.is-visible { display:block }
+  .pagina-solicitud .vf__resumen:focus { outline:2px solid color-mix(in oklch,var(--estado-error) 55%,transparent);outline-offset:3px }
+  .pagina-solicitud .vf__resumen h3 { font-family:var(--body);font-weight:var(--wght-asertivo);font-size:var(--texto-cuerpo);color:var(--estado-error);margin:0 0 var(--espacio-atomo) }
+  .pagina-solicitud .vf__resumen ul { margin:0;padding-left:1.2rem }
+  .pagina-solicitud .vf__resumen li { font-size:var(--texto-label);line-height:1.6 }
+  .pagina-solicitud .vf__resumen a { color:var(--estado-error);text-decoration:underline;text-underline-offset:.15em }
+  .pagina-solicitud .vf__accion { margin-top:var(--espacio-contenido);display:flex;flex-wrap:wrap;gap:var(--espacio-elemento);align-items:center }
+  .pagina-solicitud .vf__nota-envio { font-size:var(--texto-mini);color:var(--texto-tenue);margin:0;max-width:26ch }
+  .pagina-solicitud .vf__acuse { display:none;border:1px solid color-mix(in oklch,var(--estado-exito) 35%,transparent);background:color-mix(in oklch,var(--estado-exito) 8%,transparent);border-radius:16px;padding:var(--espacio-contenido) }
+  @supports (corner-shape:superellipse(2)) {
+    .pagina-solicitud .vf__acuse { border-radius:20px;corner-shape:superellipse(2.4) }
+  }
+  .pagina-solicitud .vf__acuse.is-visible { display:block }
+  .pagina-solicitud .vf__acuse:focus { outline:none }
+  .pagina-solicitud .vf__acuse-ic { width:2.4rem;height:2.4rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:color-mix(in oklch,var(--estado-exito) 16%,transparent);margin-bottom:var(--espacio-elemento) }
+  .pagina-solicitud .vf__acuse-ic svg { width:1.4rem;height:1.4rem;stroke:var(--estado-exito);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round }
+  .pagina-solicitud .vf__acuse h3 { margin:0 0 var(--espacio-atomo) }
+  .pagina-solicitud .vf__acuse p { color:var(--texto-suave);max-width:44ch }
+  .pagina-solicitud .vf__acuse .vf__acuse-cta { margin-top:var(--espacio-atomo) }
+  @media (max-width:768px) {
+    .pagina-solicitud .vf__opciones--fila { grid-template-columns:1fr }
+    .pagina-solicitud .vf__accion .btn-primario { width:100%;text-align:center }
+  }
+}
