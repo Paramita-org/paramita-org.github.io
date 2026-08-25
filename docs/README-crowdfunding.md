@@ -8,7 +8,7 @@ canónicos, revelado por `data-reveal`). Copy y cifras provisionales.
 
 | Archivo | Destino en el repo |
 |---|---|
-| `crowdfunding.html` | raíz del repo (o cualquier carpeta: usa rutas **absolutas** `/css/`, `/js/`, `/assets/`) |
+| `crowdfunding.html` | **`crowdfunding/`** (su propia carpeta; css/js con `../` como el resto de subcarpetas, assets con `/assets/`) |
 | `paramita-crowdfunding.css` | `css/paginas/` |
 | `paramita-crowdfunding.js` | `js/paginas/` |
 | `silencio.svg` | `partials/pictogramas/` |
@@ -31,25 +31,25 @@ como siempre.
 | «El lugar» (edificio / propiedad) | `/assets/img/imagen-muestra-crowfunding.jpg` |
 | Círculo de «La comunidad que ya lo sostiene» | `/assets/img/Pema-Retoque-low.jpg` |
 
-Tres avisos sobre los nombres que pasaste, por si fueron erratas:
-- **carpeta `comunidad monastica`**: la escribí con guion (`comunidad-monastica`)
-  porque los espacios en rutas se codifican como `%20` y rompen con facilidad en
-  GitHub Pages / Live Server. Si prefieres el espacio, es una sola edición en el
-  `<img src>` del bloque 07.
-
 El hero es a **dos columnas** (texto + foto contenida a la derecha, `<img>` con
 `fetchpriority="high"`, sin lazy por ser el LCP). Las otras dos son `<img loading="lazy">`
 con `width`/`height` para reservar espacio y no penalizar el CLS.
 
 ## Rutas
 
-La página usa rutas **absolutas** del sistema (`/css/…`, `/js/…`, `/assets/…`), no relativas. Por eso funciona en la raíz y también si la mueves a `/contribuir/crowdfunding/`, siempre que se sirva por **HTTP desde la raíz** (Live Server desde project root o GitHub Pages). `paramita-reveal.js` va en `js/primitivos/` (no en `componentes/`).
+La página vive en `crowdfunding/crowdfunding.html` (un nivel de profundidad). Los CSS y JS del sistema se enlazan con **`../`** (igual que `contribuir` y las demás páginas de subcarpeta); los assets con `/assets/…` absoluto. Debe servirse por **HTTP desde la raíz** (Live Server desde project root o GitHub Pages). `paramita-reveal.js` va en `js/primitivos/` (no en `componentes/`).
+
+**Si al montarlo ves 404 de `paramita-tema.js`/`-menu.js` pedidos desde `/crowdfunding/js/…`**, es que el archivo servido tiene rutas *bare* (`js/…` sin barra ni `../`): reemplázalo por este y, si Live Server sigue mostrando el viejo, reinícialo (cachea).
+
+## Enlace desde el index
+
+El CTA del bloque 7 (crowdfunding) de `index.html` apunta a `/crowdfunding/crowdfunding.html`.
 
 ## Orden de despliegue (el de siempre)
 
 1. SVG primero → `partials/pictogramas/silencio.svg`, `linaje.svg`, `expansion.svg`, `seguro.svg`
-2. Imágenes → las tres de la tabla anterior
-3. HTML/CSS/JS → `crowdfunding.html`, `css/paginas/…`, `js/paginas/…`
+2. Imágenes → las **cuatro** de la tabla anterior (hero, origen-linaje, imagen-muestra-crowfunding, Pema)
+3. HTML/CSS/JS → `crowdfunding/crowdfunding.html`, `css/paginas/…`, `js/paginas/…`
 4. `git pull --rebase origin main`
 5. `python3 partials/sync.py --all`
 6. Comprobación visual (`Cmd+Shift+R`)

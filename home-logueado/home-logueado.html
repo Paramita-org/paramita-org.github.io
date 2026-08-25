@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tu espacio · Paramita</title>
+  <title>Mi espacio · Paramita</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="description" content="Tu espacio de práctica en Paramita: retoma donde lo dejaste, mira dónde estás en el camino y encuentra lo que acompaña tu práctica hoy.">
 
   <!-- TEMA · anti-FOUC · aplica la penumbra guardada ANTES de pintar.
@@ -954,398 +958,6 @@
      provisionales · PENDIENTE ALBERTO (arquitectura de sesión / LMS).
      ═══════════════════════════════════════════════════════════════════════════ -->
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PARAMITA · FUNDACIÓN SAKYA
-     partials/navbar-practicante.html — Navbar logueado (usuarios con sesión)
-     ───────────────────────────────────────────────────────────────────────────
-
-     FUENTE ÚNICA · reescrito sobre el componente .cuenta
-     ────────────────────────────────────────────────────
-     Este partial usa .cuenta (círculo con inicial + desplegable), que YA tiene
-     CSS en paramita-formacion-logueado.css y es lo que se ve en producción.
-     Sustituye al antiguo borrador con .avatar-menu (Fase 8, sin CSS), que se
-     DESCARTA: había dos componentes de cuenta divergentes y ahora hay uno solo.
-     Con esto, las páginas logueadas se sincronizan con `sync.py … --practicante`
-     igual que las públicas con el público — sin bloques sueltos por página.
-
-     PARIDAD CON EL PÚBLICO · solo cambia lo imprescindible
-     ──────────────────────────────────────────────────────
-       · MEDITACIÓN / ACTIVIDADES / BLOG / SOBRE → idénticos al público.
-       · "Cursos" → "MI FORMACIÓN" (catálogo logueado con estado) → /formacion-logueado/.
-       · Únete SÍ se mantiene (Fase 7+): como apartado del menú con submenú
-         (Grupos + Voluntariado). Antes se retiraba pensando en «hazte miembro»;
-         pero ahora «Únete» = Grupos + Voluntariado, que le siguen sirviendo al
-         practicante (encontrar su círculo, ofrecer seva). Lo que NO existe en
-         ningún navbar es un CTA «Únete»: eso desapareció.
-       · Los CTAs del público → aquí solo Contribuir + la cuenta.
-
-     ESTRUCTURA · sol + círculo VISIBLES en móvil
-     ────────────────────────────────────────────
-       · Contribuir va en .ctas DENTRO del <nav> → en móvil cae en el
-         hamburguesa (sigue alcanzable; dāna no debe quedar inaccesible).
-       · .bar-derecha (sol + círculo) va FUERA del <nav>: al no colapsarse con
-         el menú móvil, quedan siempre visibles en la barra. Mismo patrón que
-         el .btn-acceso del navbar público. Su margin-left:auto (CSS compartido)
-         lo ancla a la derecha en escritorio y en móvil.
-
-     ARIA-CURRENT · lo aplica el sync, NO va fijo aquí
-     ─────────────────────────────────────────────────
-       Este partial NO lleva aria-current (si no, "Mi formación" saldría
-       marcada en todas las páginas). En la página del catálogo logueado se
-       aplica con:  sync.py formacion-logueado/formacion-logueado.html \
-                      --practicante --aria-current="Mi formación" --tema --skip-navbar
-       (o el flag de navbar que uses; ver notas del sync).
-
-     DEPENDE DE (ya cargados):
-       · paramita-bar.css     → barra sticky, glass, logo
-       · paramita-menu.css    → menú, links, submenús, caret
-       · paramita-cta.css     → .btn-secundario
-       · paramita-formacion-logueado.css → .cuenta, .avatar, .bar-derecha
-       · paramita-tema.css    → toggle del sol (penumbra)
-
-     TEMPLATING · a rellenar server-side desde la sesión
-       Jana   Nombre del practicante (ej. "Jana")
-       J  Inicial mayúscula (ej. "J")
-     Los destinos del desplegable (/cuenta, /formacion-logueado, LMS, /logout) son
-     provisionales · PENDIENTE ALBERTO (arquitectura de sesión / LMS).
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PARAMITA · FUNDACIÓN SAKYA
-     partials/navbar-practicante.html — Navbar logueado (usuarios con sesión)
-     ───────────────────────────────────────────────────────────────────────────
-
-     FUENTE ÚNICA · reescrito sobre el componente .cuenta
-     ────────────────────────────────────────────────────
-     Este partial usa .cuenta (círculo con inicial + desplegable), que YA tiene
-     CSS en paramita-formacion-logueado.css y es lo que se ve en producción.
-     Sustituye al antiguo borrador con .avatar-menu (Fase 8, sin CSS), que se
-     DESCARTA: había dos componentes de cuenta divergentes y ahora hay uno solo.
-     Con esto, las páginas logueadas se sincronizan con `sync.py … --practicante`
-     igual que las públicas con el público — sin bloques sueltos por página.
-
-     PARIDAD CON EL PÚBLICO · solo cambia lo imprescindible
-     ──────────────────────────────────────────────────────
-       · MEDITACIÓN / ACTIVIDADES / BLOG / SOBRE → idénticos al público.
-       · "Cursos" → "MI FORMACIÓN" (catálogo logueado con estado) → /formacion-logueado/.
-       · Únete SÍ se mantiene (Fase 7+): como apartado del menú con submenú
-         (Grupos + Voluntariado). Antes se retiraba pensando en «hazte miembro»;
-         pero ahora «Únete» = Grupos + Voluntariado, que le siguen sirviendo al
-         practicante (encontrar su círculo, ofrecer seva). Lo que NO existe en
-         ningún navbar es un CTA «Únete»: eso desapareció.
-       · Los CTAs del público → aquí solo Contribuir + la cuenta.
-
-     ESTRUCTURA · sol + círculo VISIBLES en móvil
-     ────────────────────────────────────────────
-       · Contribuir va en .ctas DENTRO del <nav> → en móvil cae en el
-         hamburguesa (sigue alcanzable; dāna no debe quedar inaccesible).
-       · .bar-derecha (sol + círculo) va FUERA del <nav>: al no colapsarse con
-         el menú móvil, quedan siempre visibles en la barra. Mismo patrón que
-         el .btn-acceso del navbar público. Su margin-left:auto (CSS compartido)
-         lo ancla a la derecha en escritorio y en móvil.
-
-     ARIA-CURRENT · lo aplica el sync, NO va fijo aquí
-     ─────────────────────────────────────────────────
-       Este partial NO lleva aria-current (si no, "Mi formación" saldría
-       marcada en todas las páginas). En la página del catálogo logueado se
-       aplica con:  sync.py formacion-logueado/formacion-logueado.html \
-                      --practicante --aria-current="Mi formación" --tema --skip-navbar
-       (o el flag de navbar que uses; ver notas del sync).
-
-     DEPENDE DE (ya cargados):
-       · paramita-bar.css     → barra sticky, glass, logo
-       · paramita-menu.css    → menú, links, submenús, caret
-       · paramita-cta.css     → .btn-secundario
-       · paramita-formacion-logueado.css → .cuenta, .avatar, .bar-derecha
-       · paramita-tema.css    → toggle del sol (penumbra)
-
-     TEMPLATING · a rellenar server-side desde la sesión
-       Jana   Nombre del practicante (ej. "Jana")
-       J  Inicial mayúscula (ej. "J")
-     Los destinos del desplegable (/cuenta, /formacion-logueado, LMS, /logout) son
-     provisionales · PENDIENTE ALBERTO (arquitectura de sesión / LMS).
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PARAMITA · FUNDACIÓN SAKYA
-     partials/navbar-practicante.html — Navbar logueado (usuarios con sesión)
-     ───────────────────────────────────────────────────────────────────────────
-
-     FUENTE ÚNICA · reescrito sobre el componente .cuenta
-     ────────────────────────────────────────────────────
-     Este partial usa .cuenta (círculo con inicial + desplegable), que YA tiene
-     CSS en paramita-formacion-logueado.css y es lo que se ve en producción.
-     Sustituye al antiguo borrador con .avatar-menu (Fase 8, sin CSS), que se
-     DESCARTA: había dos componentes de cuenta divergentes y ahora hay uno solo.
-     Con esto, las páginas logueadas se sincronizan con `sync.py … --practicante`
-     igual que las públicas con el público — sin bloques sueltos por página.
-
-     PARIDAD CON EL PÚBLICO · solo cambia lo imprescindible
-     ──────────────────────────────────────────────────────
-       · MEDITACIÓN / ACTIVIDADES / BLOG / SOBRE → idénticos al público.
-       · "Cursos" → "MI FORMACIÓN" (catálogo logueado con estado) → /formacion-logueado/.
-       · Únete SÍ se mantiene (Fase 7+): como apartado del menú con submenú
-         (Grupos + Voluntariado). Antes se retiraba pensando en «hazte miembro»;
-         pero ahora «Únete» = Grupos + Voluntariado, que le siguen sirviendo al
-         practicante (encontrar su círculo, ofrecer seva). Lo que NO existe en
-         ningún navbar es un CTA «Únete»: eso desapareció.
-       · Los CTAs del público → aquí solo Contribuir + la cuenta.
-
-     ESTRUCTURA · sol + círculo VISIBLES en móvil
-     ────────────────────────────────────────────
-       · Contribuir va en .ctas DENTRO del <nav> → en móvil cae en el
-         hamburguesa (sigue alcanzable; dāna no debe quedar inaccesible).
-       · .bar-derecha (sol + círculo) va FUERA del <nav>: al no colapsarse con
-         el menú móvil, quedan siempre visibles en la barra. Mismo patrón que
-         el .btn-acceso del navbar público. Su margin-left:auto (CSS compartido)
-         lo ancla a la derecha en escritorio y en móvil.
-
-     ARIA-CURRENT · lo aplica el sync, NO va fijo aquí
-     ─────────────────────────────────────────────────
-       Este partial NO lleva aria-current (si no, "Mi formación" saldría
-       marcada en todas las páginas). En la página del catálogo logueado se
-       aplica con:  sync.py formacion-logueado/formacion-logueado.html \
-                      --practicante --aria-current="Mi formación" --tema --skip-navbar
-       (o el flag de navbar que uses; ver notas del sync).
-
-     DEPENDE DE (ya cargados):
-       · paramita-bar.css     → barra sticky, glass, logo
-       · paramita-menu.css    → menú, links, submenús, caret
-       · paramita-cta.css     → .btn-secundario
-       · paramita-formacion-logueado.css → .cuenta, .avatar, .bar-derecha
-       · paramita-tema.css    → toggle del sol (penumbra)
-
-     TEMPLATING · a rellenar server-side desde la sesión
-       Jana   Nombre del practicante (ej. "Jana")
-       J  Inicial mayúscula (ej. "J")
-     Los destinos del desplegable (/cuenta, /formacion-logueado, LMS, /logout) son
-     provisionales · PENDIENTE ALBERTO (arquitectura de sesión / LMS).
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PARAMITA · FUNDACIÓN SAKYA
-     partials/navbar-practicante.html — Navbar logueado (usuarios con sesión)
-     ───────────────────────────────────────────────────────────────────────────
-
-     FUENTE ÚNICA · reescrito sobre el componente .cuenta
-     ────────────────────────────────────────────────────
-     Este partial usa .cuenta (círculo con inicial + desplegable), que YA tiene
-     CSS en paramita-formacion-logueado.css y es lo que se ve en producción.
-     Sustituye al antiguo borrador con .avatar-menu (Fase 8, sin CSS), que se
-     DESCARTA: había dos componentes de cuenta divergentes y ahora hay uno solo.
-     Con esto, las páginas logueadas se sincronizan con `sync.py … --practicante`
-     igual que las públicas con el público — sin bloques sueltos por página.
-
-     PARIDAD CON EL PÚBLICO · solo cambia lo imprescindible
-     ──────────────────────────────────────────────────────
-       · MEDITACIÓN / ACTIVIDADES / BLOG / SOBRE → idénticos al público.
-       · "Cursos" → "MI FORMACIÓN" (catálogo logueado con estado) → /formacion-logueado/.
-       · Únete SÍ se mantiene (Fase 7+): como apartado del menú con submenú
-         (Grupos + Voluntariado). Antes se retiraba pensando en «hazte miembro»;
-         pero ahora «Únete» = Grupos + Voluntariado, que le siguen sirviendo al
-         practicante (encontrar su círculo, ofrecer seva). Lo que NO existe en
-         ningún navbar es un CTA «Únete»: eso desapareció.
-       · Los CTAs del público → aquí solo Contribuir + la cuenta.
-
-     ESTRUCTURA · sol + círculo VISIBLES en móvil
-     ────────────────────────────────────────────
-       · Contribuir va en .ctas DENTRO del <nav> → en móvil cae en el
-         hamburguesa (sigue alcanzable; dāna no debe quedar inaccesible).
-       · .bar-derecha (sol + círculo) va FUERA del <nav>: al no colapsarse con
-         el menú móvil, quedan siempre visibles en la barra. Mismo patrón que
-         el .btn-acceso del navbar público. Su margin-left:auto (CSS compartido)
-         lo ancla a la derecha en escritorio y en móvil.
-
-     ARIA-CURRENT · lo aplica el sync, NO va fijo aquí
-     ─────────────────────────────────────────────────
-       Este partial NO lleva aria-current (si no, "Mi formación" saldría
-       marcada en todas las páginas). En la página del catálogo logueado se
-       aplica con:  sync.py formacion-logueado/formacion-logueado.html \
-                      --practicante --aria-current="Mi formación" --tema --skip-navbar
-       (o el flag de navbar que uses; ver notas del sync).
-
-     DEPENDE DE (ya cargados):
-       · paramita-bar.css     → barra sticky, glass, logo
-       · paramita-menu.css    → menú, links, submenús, caret
-       · paramita-cta.css     → .btn-secundario
-       · paramita-formacion-logueado.css → .cuenta, .avatar, .bar-derecha
-       · paramita-tema.css    → toggle del sol (penumbra)
-
-     TEMPLATING · a rellenar server-side desde la sesión
-       Jana   Nombre del practicante (ej. "Jana")
-       J  Inicial mayúscula (ej. "J")
-     Los destinos del desplegable (/cuenta, /formacion-logueado, LMS, /logout) son
-     provisionales · PENDIENTE ALBERTO (arquitectura de sesión / LMS).
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PARAMITA · FUNDACIÓN SAKYA
-     partials/navbar-practicante.html — Navbar logueado (usuarios con sesión)
-     ───────────────────────────────────────────────────────────────────────────
-
-     FUENTE ÚNICA · reescrito sobre el componente .cuenta
-     ────────────────────────────────────────────────────
-     Este partial usa .cuenta (círculo con inicial + desplegable), que YA tiene
-     CSS en paramita-formacion-logueado.css y es lo que se ve en producción.
-     Sustituye al antiguo borrador con .avatar-menu (Fase 8, sin CSS), que se
-     DESCARTA: había dos componentes de cuenta divergentes y ahora hay uno solo.
-     Con esto, las páginas logueadas se sincronizan con `sync.py … --practicante`
-     igual que las públicas con el público — sin bloques sueltos por página.
-
-     PARIDAD CON EL PÚBLICO · solo cambia lo imprescindible
-     ──────────────────────────────────────────────────────
-       · MEDITACIÓN / ACTIVIDADES / BLOG / SOBRE → idénticos al público.
-       · "Cursos" → "MI FORMACIÓN" (catálogo logueado con estado) → /formacion-logueado/.
-       · Únete SÍ se mantiene (Fase 7+): como apartado del menú con submenú
-         (Grupos + Voluntariado). Antes se retiraba pensando en «hazte miembro»;
-         pero ahora «Únete» = Grupos + Voluntariado, que le siguen sirviendo al
-         practicante (encontrar su círculo, ofrecer seva). Lo que NO existe en
-         ningún navbar es un CTA «Únete»: eso desapareció.
-       · Los CTAs del público → aquí solo Contribuir + la cuenta.
-
-     ESTRUCTURA · sol + círculo VISIBLES en móvil
-     ────────────────────────────────────────────
-       · Contribuir va en .ctas DENTRO del <nav> → en móvil cae en el
-         hamburguesa (sigue alcanzable; dāna no debe quedar inaccesible).
-       · .bar-derecha (sol + círculo) va FUERA del <nav>: al no colapsarse con
-         el menú móvil, quedan siempre visibles en la barra. Mismo patrón que
-         el .btn-acceso del navbar público. Su margin-left:auto (CSS compartido)
-         lo ancla a la derecha en escritorio y en móvil.
-
-     ARIA-CURRENT · lo aplica el sync, NO va fijo aquí
-     ─────────────────────────────────────────────────
-       Este partial NO lleva aria-current (si no, "Mi formación" saldría
-       marcada en todas las páginas). En la página del catálogo logueado se
-       aplica con:  sync.py formacion-logueado/formacion-logueado.html \
-                      --practicante --aria-current="Mi formación" --tema --skip-navbar
-       (o el flag de navbar que uses; ver notas del sync).
-
-     DEPENDE DE (ya cargados):
-       · paramita-bar.css     → barra sticky, glass, logo
-       · paramita-menu.css    → menú, links, submenús, caret
-       · paramita-cta.css     → .btn-secundario
-       · paramita-formacion-logueado.css → .cuenta, .avatar, .bar-derecha
-       · paramita-tema.css    → toggle del sol (penumbra)
-
-     TEMPLATING · a rellenar server-side desde la sesión
-       Jana   Nombre del practicante (ej. "Jana")
-       J  Inicial mayúscula (ej. "J")
-     Los destinos del desplegable (/cuenta, /formacion-logueado, LMS, /logout) son
-     provisionales · PENDIENTE ALBERTO (arquitectura de sesión / LMS).
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PARAMITA · FUNDACIÓN SAKYA
-     partials/navbar-practicante.html — Navbar logueado (usuarios con sesión)
-     ───────────────────────────────────────────────────────────────────────────
-
-     FUENTE ÚNICA · reescrito sobre el componente .cuenta
-     ────────────────────────────────────────────────────
-     Este partial usa .cuenta (círculo con inicial + desplegable), que YA tiene
-     CSS en paramita-formacion-logueado.css y es lo que se ve en producción.
-     Sustituye al antiguo borrador con .avatar-menu (Fase 8, sin CSS), que se
-     DESCARTA: había dos componentes de cuenta divergentes y ahora hay uno solo.
-     Con esto, las páginas logueadas se sincronizan con `sync.py … --practicante`
-     igual que las públicas con el público — sin bloques sueltos por página.
-
-     PARIDAD CON EL PÚBLICO · solo cambia lo imprescindible
-     ──────────────────────────────────────────────────────
-       · MEDITACIÓN / ACTIVIDADES / BLOG / SOBRE → idénticos al público.
-       · "Cursos" → "MI FORMACIÓN" (catálogo logueado con estado) → /formacion-logueado/.
-       · Únete SÍ se mantiene (Fase 7+): como apartado del menú con submenú
-         (Grupos + Voluntariado). Antes se retiraba pensando en «hazte miembro»;
-         pero ahora «Únete» = Grupos + Voluntariado, que le siguen sirviendo al
-         practicante (encontrar su círculo, ofrecer seva). Lo que NO existe en
-         ningún navbar es un CTA «Únete»: eso desapareció.
-       · Los CTAs del público → aquí solo Contribuir + la cuenta.
-
-     ESTRUCTURA · sol + círculo VISIBLES en móvil
-     ────────────────────────────────────────────
-       · Contribuir va en .ctas DENTRO del <nav> → en móvil cae en el
-         hamburguesa (sigue alcanzable; dāna no debe quedar inaccesible).
-       · .bar-derecha (sol + círculo) va FUERA del <nav>: al no colapsarse con
-         el menú móvil, quedan siempre visibles en la barra. Mismo patrón que
-         el .btn-acceso del navbar público. Su margin-left:auto (CSS compartido)
-         lo ancla a la derecha en escritorio y en móvil.
-
-     ARIA-CURRENT · lo aplica el sync, NO va fijo aquí
-     ─────────────────────────────────────────────────
-       Este partial NO lleva aria-current (si no, "Mi formación" saldría
-       marcada en todas las páginas). En la página del catálogo logueado se
-       aplica con:  sync.py formacion-logueado/formacion-logueado.html \
-                      --practicante --aria-current="Mi formación" --tema --skip-navbar
-       (o el flag de navbar que uses; ver notas del sync).
-
-     DEPENDE DE (ya cargados):
-       · paramita-bar.css     → barra sticky, glass, logo
-       · paramita-menu.css    → menú, links, submenús, caret
-       · paramita-cta.css     → .btn-secundario
-       · paramita-formacion-logueado.css → .cuenta, .avatar, .bar-derecha
-       · paramita-tema.css    → toggle del sol (penumbra)
-
-     TEMPLATING · a rellenar server-side desde la sesión
-       Jana   Nombre del practicante (ej. "Jana")
-       J  Inicial mayúscula (ej. "J")
-     Los destinos del desplegable (/cuenta, /formacion-logueado, LMS, /logout) son
-     provisionales · PENDIENTE ALBERTO (arquitectura de sesión / LMS).
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PARAMITA · FUNDACIÓN SAKYA
-     partials/navbar-practicante.html — Navbar logueado (usuarios con sesión)
-     ───────────────────────────────────────────────────────────────────────────
-
-     FUENTE ÚNICA · reescrito sobre el componente .cuenta
-     ────────────────────────────────────────────────────
-     Este partial usa .cuenta (círculo con inicial + desplegable), que YA tiene
-     CSS en paramita-formacion-logueado.css y es lo que se ve en producción.
-     Sustituye al antiguo borrador con .avatar-menu (Fase 8, sin CSS), que se
-     DESCARTA: había dos componentes de cuenta divergentes y ahora hay uno solo.
-     Con esto, las páginas logueadas se sincronizan con `sync.py … --practicante`
-     igual que las públicas con el público — sin bloques sueltos por página.
-
-     PARIDAD CON EL PÚBLICO · solo cambia lo imprescindible
-     ──────────────────────────────────────────────────────
-       · MEDITACIÓN / ACTIVIDADES / BLOG / SOBRE → idénticos al público.
-       · "Cursos" → "MI FORMACIÓN" (catálogo logueado con estado) → /formacion-logueado/.
-       · Únete SÍ se mantiene (Fase 7+): como apartado del menú con submenú
-         (Grupos + Voluntariado). Antes se retiraba pensando en «hazte miembro»;
-         pero ahora «Únete» = Grupos + Voluntariado, que le siguen sirviendo al
-         practicante (encontrar su círculo, ofrecer seva). Lo que NO existe en
-         ningún navbar es un CTA «Únete»: eso desapareció.
-       · Los CTAs del público → aquí solo Contribuir + la cuenta.
-
-     ESTRUCTURA · sol + círculo VISIBLES en móvil
-     ────────────────────────────────────────────
-       · Contribuir va en .ctas DENTRO del <nav> → en móvil cae en el
-         hamburguesa (sigue alcanzable; dāna no debe quedar inaccesible).
-       · .bar-derecha (sol + círculo) va FUERA del <nav>: al no colapsarse con
-         el menú móvil, quedan siempre visibles en la barra. Mismo patrón que
-         el .btn-acceso del navbar público. Su margin-left:auto (CSS compartido)
-         lo ancla a la derecha en escritorio y en móvil.
-
-     ARIA-CURRENT · lo aplica el sync, NO va fijo aquí
-     ─────────────────────────────────────────────────
-       Este partial NO lleva aria-current (si no, "Mi formación" saldría
-       marcada en todas las páginas). En la página del catálogo logueado se
-       aplica con:  sync.py formacion-logueado/formacion-logueado.html \
-                      --practicante --aria-current="Mi formación" --tema --skip-navbar
-       (o el flag de navbar que uses; ver notas del sync).
-
-     DEPENDE DE (ya cargados):
-       · paramita-bar.css     → barra sticky, glass, logo
-       · paramita-menu.css    → menú, links, submenús, caret
-       · paramita-cta.css     → .btn-secundario
-       · paramita-formacion-logueado.css → .cuenta, .avatar, .bar-derecha
-       · paramita-tema.css    → toggle del sol (penumbra)
-
-     TEMPLATING · a rellenar server-side desde la sesión
-       Jana   Nombre del practicante (ej. "Jana")
-       J  Inicial mayúscula (ej. "J")
-     Los destinos del desplegable (/cuenta, /formacion-logueado, LMS, /logout) son
-     provisionales · PENDIENTE ALBERTO (arquitectura de sesión / LMS).
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
 <header class="bar bar--practicante">
   <div class="bar-inner wrap">
 
@@ -1439,7 +1051,7 @@
      subordinado (velado) porque la home logueada es puerta calmada, no
      escaparate. Como Cursos NO lleva vídeo, esto además distingue la home de
      Cursos en vez de clonarla. CTA = .btn-primario REAL del sistema.
-     COPY PROVISIONAL · Ale/Khenpo. Curso activo · server-side. -->
+     COPY PROVISIONAL. Curso activo · server-side. -->
 <section class="hero hero--velado" id="inicio">
 
   <!-- Fondo · vídeo cargado por paramita-home-logueado.js según viewport
@@ -1453,28 +1065,15 @@
 
   <div class="hero__inner">
     <span class="eyebrow">Tu espacio</span>
-    <p class="saludo">Buenas tardes, <b>Jana</b>. Bienvenida a <em>tu espacio</em>.</p>
-    <p class="lede">Tu práctica y tus próximas citas, de un vistazo.</p>
-
-    <!-- Vistazo rápido de "mis cosas" · curso en marcha + próxima cita reservada
-         (informe transaccional: la home ASOMA lo inmediato; el inventario
-         completo vive en el bloque "Lo que ya es tuyo", más abajo). Datos ·
-         PROVISIONALES · server-side desde la sesión. -->
-    <div class="hero-estado">
-      <a class="estado estado--curso" href="https://cursos.paramita.org/">
-        <span class="estado__ic"><span class="pulse" aria-hidden="true"></span></span>
-        <span class="estado__txt">Sigues en <b>El despertar de la bodhichitta</b><span class="estado__sub">Lección 3 de 8 · con tutor</span></span>
-        <span class="estado__go" aria-hidden="true">Continuar →</span>
-      </a>
-      <a class="estado estado--cita" href="/actividades/actividades.html">
-        <span class="estado__fecha"><b>14</b>Nov</span>
-        <span class="estado__txt">Tu próxima cita · <b>Retiro Lojong</b><span class="estado__sub">Presencial · 14–16 nov · reservado</span></span>
-        <span class="estado__go" aria-hidden="true">Detalles →</span>
-      </a>
-    </div>
-
+    <p class="saludo">Buenas tardes, <b>Jana</b>. Bienvenida a tu <em>espacio</em>.</p>
+    <p class="lede">Tu práctica, los próximos encuentros y lo último de la fundación — todo en un vistazo tranquilo.</p>
     <div class="actions">
-      <a class="btn-primario" href="/formacion-logueado/formacion-logueado.html">Ir a mi formación <span aria-hidden="true">→</span></a>
+      <!-- Primario REAL del sistema (letras claras sobre el degradado que
+           respira). Placeholder de destino: depende de la plantilla de curso
+           y de la arquitectura de dominio (doc 09, dependencias 2 y 3). -->
+      <a class="btn-primario" href="https://cursos.paramita.org/home">Reanudar mi práctica <span aria-hidden="true">→</span></a>
+      <a class="btn-secundario" href="/formacion-logueado/">Explorar mis cursos</a>
+      <span class="meta"><span class="pulse" aria-hidden="true"></span> Sigues en <b>El despertar de la bodhichitta</b> · lección 3 de 8</span>
     </div>
   </div>
 </section>
@@ -1496,79 +1095,6 @@
       </div>
       <p class="sendero-mini__pie">Estás en el <b>Nivel II · Profundización</b>. El camino no es una carrera.</p>
     </div>
-  </div>
-</section>
-
-<!-- ══ LO QUE TIENES · inventario personal (informe transaccional §07) ══
-     Responde a "¿qué tengo yo?": cursos en curso, fechas reservadas (curso /
-     evento / retiro · online o presencial) y vínculo. NO es historial de
-     "compras" ni un dashboard: agrupado por naturaleza, sin rachas ni % de
-     culpa (doc 09). El registro completo + recibos fiscales viven en "Mi
-     espacio" (destino del círculo de cuenta). COPY y datos · PROVISIONALES ·
-     server-side desde la sesión. -->
-<section class="section wrap lo-tuyo" aria-labelledby="tuyo-t">
-  <div class="s-head">
-    <div>
-      <span class="eyebrow">Reunido para ti</span>
-      <h2 id="tuyo-t">Lo que ya es <em>tuyo</em>.</h2>
-    </div>
-    <p>Tus cursos, tus fechas y tu vínculo — en un solo lugar.</p>
-  </div>
-
-  <!-- Grupo · cursos en curso -->
-  <div class="lo-tuyo__grupo">
-    <p class="lo-tuyo__label">Estás en camino</p>
-    <div class="lo-tuyo__lista">
-      <a class="tengo tengo--curso" href="https://cursos.paramita.org/">
-        <span class="tengo__anillo" style="--prog:.375" role="img" aria-label="Lección 3 de 8"></span>
-        <span class="tengo__cuerpo">
-          <span class="tengo__titulo">El despertar de la <em>bodhichitta</em></span>
-          <span class="tengo__meta">Lección 3 de 8 · con tutor <span class="tengo__tag tengo__tag--online">Online</span></span>
-        </span>
-        <span class="tengo__accion">Continuar <span class="tengo__arw" aria-hidden="true">→</span></span>
-      </a>
-    </div>
-  </div>
-
-  <!-- Grupo · fechas reservadas · curso / evento / retiro, online o presencial -->
-  <div class="lo-tuyo__grupo">
-    <p class="lo-tuyo__label">Fechas que te esperan</p>
-    <div class="lo-tuyo__lista">
-      <a class="tengo tengo--fecha" href="/actividades/actividades.html">
-        <span class="tengo__fecha"><span class="tengo__dia">14</span><span class="tengo__mes">Nov</span></span>
-        <span class="tengo__cuerpo">
-          <span class="tengo__titulo">Retiro de fin de semana · <em>Lojong</em></span>
-          <span class="tengo__meta">Muntanya de la Sella · 14–16 nov <span class="tengo__tag tengo__tag--presencial">Presencial</span> <span class="tengo__tag tengo__tag--reservado">Reservado</span></span>
-        </span>
-        <span class="tengo__accion">Detalles <span class="tengo__arw" aria-hidden="true">→</span></span>
-      </a>
-      <a class="tengo tengo--fecha" href="/actividades/actividades.html">
-        <span class="tengo__fecha"><span class="tengo__dia">05</span><span class="tengo__mes">Oct</span></span>
-        <span class="tengo__cuerpo">
-          <span class="tengo__titulo">Charla · El <em>refugio</em> y su sentido</span>
-          <span class="tengo__meta">En directo · 19:00 <span class="tengo__tag tengo__tag--online">Online</span> <span class="tengo__tag tengo__tag--reservado">Reservado</span></span>
-        </span>
-        <span class="tengo__accion">Cómo entrar <span class="tengo__arw" aria-hidden="true">→</span></span>
-      </a>
-    </div>
-  </div>
-
-  <!-- Grupo · vínculo · estado, no compra -->
-  <div class="lo-tuyo__grupo">
-    <p class="lo-tuyo__label">Tu vínculo</p>
-    <div class="lo-tuyo__lista">
-      <div class="tengo tengo--vinculo">
-        <span class="tengo__halo" aria-hidden="true"></span>
-        <span class="tengo__cuerpo">
-          <span class="tengo__titulo">Amigo/a de <em>Paramita</em></span>
-          <span class="tengo__meta">Sostienes la continuidad, mes a mes · tus recibos en Mi cuenta</span>
-        </span>
-      </div>
-    </div>
-  </div>
-
-  <div class="idx-foot idx-foot--center">
-    <a class="t-link" href="/cuenta/cuenta.html"><span class="txt">Recibos y datos</span><span class="arw" aria-hidden="true">→</span></a>
   </div>
 </section>
 
@@ -1616,7 +1142,7 @@
 
 <!-- ══ 04 · ENSEÑANZA DEL DÍA (bloque 5 doc 09) ══
      Respiro contemplativo. Rotación diaria server-side. La cita es un texto de
-     marcador ORIGINAL, a sustituir por selección de Khenpo. Audio · MOCK. -->
+     marcador ORIGINAL. Audio · MOCK. -->
 <section class="section section-contemplativa ensenanza">
   <div class="wrap">
     <div class="ensenanza__inner">
@@ -1633,7 +1159,7 @@
 
 <!-- ══ 05 · NOVEDADES (fuera del guion del doc 09 · aprobado por Jana) ══
      Lo último de la fundación, CURADO — no un feed. Registro distinto al de
-     encuentros (tag de tipo + fecha discreta). COPY y curación · Ale/Khenpo. -->
+     encuentros (tag de tipo + fecha discreta). COPY y curación. -->
 <section class="section wrap novedades" aria-labelledby="nov-t">
   <div class="s-head">
     <div>
@@ -1666,7 +1192,7 @@
 
 <!-- ══ 06 · LECTURA (bloque 6 doc 09) ══
      Uno o dos textos que expanden la práctica en curso. Reutiliza .efx-card de
-     la home pública (paramita-sections.css). Curación · Ale/Khenpo. -->
+     la home pública (paramita-sections.css). Curación. -->
 <section class="section wrap blog" aria-labelledby="lectura-t">
   <div class="s-head">
     <div>
@@ -1706,7 +1232,7 @@
 
 <!-- ══ 07 · SIGUIENTE PASO (upsell suave · bloque 7 doc 09) ══
      Invitación contenida. Sin banner, sin urgencia. Server-side solo si el
-     practicante está cerca de cerrar su nivel. COPY PROVISIONAL · Ale/Khenpo. -->
+     practicante está cerca de cerrar su nivel. COPY PROVISIONAL. -->
 <section class="siguiente-paso">
   <div class="wrap">
     <div class="siguiente-paso__inner">
@@ -1721,13 +1247,6 @@
 
 </main>
 
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- footer · sincronizado con partials/footer.html -->

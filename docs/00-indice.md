@@ -48,11 +48,14 @@ Documentos que resumen el estado actual del sistema de diseño y desarrollo del 
 - **[16 · Landing de contribución](16-landing-contribuir.md)**
   dāna sobre funnel; identidad única «Amigo/a de Paramita»; una landing con dos puertas; transparencia vs. acción; integración al sistema real. Fundamento en `informe-donativo-vs-membresia-2026.html`.
 
+- **[17 · Landing de grupos](17-landing-grupos.md)** — *nuevo · Fase 7+*
+  Primer spoke de Únete documentado (`/unete/grupos/`). Buscador filtrable de círculos (Grid FLIP, datos de muestra); mapa de presencia como SVG externo con países en **dorado** y sin lotos ni interacción; invitación de Khenpo en vídeo + **semblanza** «Bajo su tutela» (estética de la `.bisagra` de maestros); **testimonios en vídeo Vimeo** (el componente cubre solo YouTube, así que el manejo va en la página); card «¿es el momento?» con **sombra dorada** (ni azul ni relleno saturado); bloque «Siembra un grupo» con imagen; **prefooter de suscripción**; FAQ con buscador de palabra. Nota clave: `.semblanza` y el vídeo Vimeo viven en `paramita-grupos.css/js`, no en los componentes, para blindar la página frente a desajustes de archivos.
+
 - **Únete · comunidad laica** *(en curso · Fase 7+)*
   La puerta de la pertenencia no monetaria (practicante · Sangha de grupos · voluntariado), hermana de Contribuir. Estudio en dos informes HTML:
   · `informe-landing-unete-comunidad-2026.html` — marco, identidades, conversión honesta, dirección gráfica 2026, SEO local.
   · `informe-unete-arquitectura-neuromarketing-2026.html` — auditoría de las páginas actuales, modelo **hub-and-spoke**, neuromarketing (sobrecarga de opciones, escalera de compromiso), reducción de texto y aplicación de los pictogramas.
-  Documento numerado de consolidación (**17 · Únete**), pendiente al cerrar hub-sí/hub-no, rutas y copy.
+  Primer spoke ya construido y documentado en **17 · Landing de grupos**. La consolidación a nivel de **hub** (hub-sí/hub-no, rutas y copy) queda pendiente de numerar cuando se cierre.
 
 ---
 
@@ -72,4 +75,4 @@ Documentos que resumen el estado actual del sistema de diseño y desarrollo del 
 
 ---
 
-*Documentos vivos · se actualizan cuando el sistema evoluciona. Última actualización: Fase 7+ (ago 2026) — sexta entrada de navbar «Únete» y arranque del estudio de la comunidad laica.*
+*Documentos vivos · se actualizan cuando el sistema evoluciona. Última actualización: Fase 7+ (ago 2026) — landing de grupos construida y documentada (**17**), primer spoke de «Únete»: buscador de círculos, mapa de presencia, testimonios en vídeo Vimeo, semblanza de Khenpo y prefooter de suscripción.*
