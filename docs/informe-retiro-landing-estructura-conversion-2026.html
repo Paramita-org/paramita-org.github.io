@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El refugio, antes de la reserva — Estudio de la plantilla de retiro · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;--paper-2:#FBFAF7;--ink:#191A1C;--slate:#63656B;
+    --ink-deep:#132239;--ink-deep-2:#0E1A2C;--gold:#A8823F;--gold-lite:#C9A96E;
+    --rule:#DAD6CC;--rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));--wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.45;letter-spacing:-.01em;margin:2.6rem 0 0;color:var(--ink)}
+
+  section{padding:clamp(3rem,7vh,5rem) 0}
+  .sec-head{margin:0 0 2rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.2em;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(1.85rem,3.6vw,2.85rem);line-height:1.08;letter-spacing:-.012em;margin:0}
+  h3{font-family:"Hanken Grotesk",sans-serif;font-weight:650;font-size:1.18rem;letter-spacing:.005em;margin:2.6rem 0 .6rem;line-height:1.3}
+  h3 .tag{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);letter-spacing:.14em;vertical-align:.35em;margin-right:.55em;text-transform:uppercase}
+  p{margin:0 0 1.15rem}
+  a{color:var(--ink-deep);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;text-decoration-thickness:1px}
+  strong{font-weight:650}em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:var(--paper-2);border:1px solid var(--rule-soft);padding:.06em .35em;border-radius:3px}
+  .drop::first-letter{font-family:"Fraunces",serif;font-weight:500;float:left;font-size:3.5em;line-height:.72;padding:.06em .09em 0 0;color:var(--ink-deep)}
+
+  .pull{font-family:"Fraunces",serif;font-style:italic;font-weight:400;font-size:clamp(1.35rem,2.4vw,1.9rem);line-height:1.32;letter-spacing:-.01em;color:var(--ink-deep);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:1.6rem 0;margin:2.4rem 0}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .stat{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.9rem,3vw,2.6rem);line-height:1;letter-spacing:-.02em;color:var(--ink-deep)}
+  .stat .n small{font-size:.5em;color:var(--gold);font-weight:500}
+  .stat .l{font-size:.9rem;line-height:1.35;color:var(--ink);margin-top:.6rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.66rem;color:var(--slate);margin-top:.5rem;letter-spacing:.02em}
+
+  .note{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:1.3rem 1.4rem;margin:1.8rem 0;font-size:.98rem;line-height:1.62}
+  .note .k{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+
+  .tbl-wrap{margin:2rem 0;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.9rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:.8rem}
+  th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  thead th{border-bottom:1.5px solid var(--ink);font-weight:650;font-size:.8rem}
+  tbody td:first-child{font-weight:600}
+  tbody tr:hover td{background:var(--paper-2)}
+  .bk{font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--gold);white-space:nowrap}
+
+  .verdict{background:var(--ink-deep-2);color:var(--paper);padding:clamp(3rem,7vh,5rem) 0}
+  .verdict h2{color:var(--paper)}
+  .verdict .eyebrow{color:var(--gold-lite)}
+  .verdict p{color:#C3CAD6}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2rem}
+  .checks h4{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 1rem;padding-bottom:.6rem;border-bottom:1px solid rgba(255,255,255,.15)}
+  .checks .yes h4{color:#9ECBA8}
+  .checks .no h4{color:#D98C8C}
+  .checks ul{list-style:none;margin:0;padding:0;font-size:.94rem;line-height:1.5}
+  .checks li{padding-left:1.5em;position:relative;margin-bottom:.9rem;color:#D6DBE3}
+  .checks .yes li::before{content:"\2713";position:absolute;left:0;color:#9ECBA8;font-weight:700}
+  .checks .no li::before{content:"\2715";position:absolute;left:0;color:#D98C8C;font-weight:700}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.76rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:620px){.checks{grid-template-columns:1fr}.cover h1{font-size:clamp(2.3rem,10vw,3rem)}}
+  @media (prefers-reduced-motion:reduce){.sheen::after{animation:none;transform:translateX(80%)}.reveal{opacity:1;transform:none;transition:none}*{scroll-behavior:auto}}
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe · Plantilla de retiro · Estructura y conversión · 2026</p>
+  <h1>El refugio,<br><em>antes</em> de la reserva</h1>
+  <p class="deck">El estudio a fondo de la plantilla de mayor compromiso: el perfil de quien duda, el mapa de sus miedos y la estructura bloque a bloque que los disuelve. La bajada del maestro al primer tipo.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Encargo</b> · Estudio de tipo · datos contrastados</span>
+    <span><b>Fecha</b> · Agosto 2026</span>
+    <span><b>Lectura</b> · ~20 min</span>
+  </div>
+  <p class="lede">La tesis del retiro: nadie deja de reservar por falta de argumentos. Se deja por miedo a lo desconocido —dónde dormiré, habrá silencio, aguantaré—. La página no persuade: <em>desactiva el miedo</em> hasta que la persona sienta que ya está allí.</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 01 ===================== -->
+<section class="flow" id="s1">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — El punto</span>
+    <h2>El punto de máxima ansiedad de toda la web</h2>
+  </div>
+
+  <p class="drop reveal">De las cuatro plantillas de actividad, el retiro es la de mayor compromiso: pide días, cuerpo, dinero y —lo más difícil— la confianza para dormir fuera de casa en un régimen que la persona no conoce. Por eso la decisión no es intelectual como en un curso, sino casi biológica. El maestro ya lo fijó: aquí el <em>lugar</em> pesa tanto como el <em>maestro</em>, y el trabajo de la página es transformar la ansiedad por el ruido cotidiano en certeza de refugio.</p>
+
+  <p class="reveal">Esto tiene un correlato en la investigación de decisiones de compra experiencial. Cuando alguien reserva una estancia que no ha visto, la imagen no es decoración: es el mecanismo por el que <em>reduce la incertidumbre</em> y se permite una "pre-experiencia mental" —imaginarse dentro antes de comprometerse—. La literatura académica sobre reserva de alojamiento muestra que las imágenes de la propiedad resuelven la incertidumbre propia de una oferta no estandarizada, y que las que transmiten valor emocional (no meramente funcional) elevan la intención de reserva y la disposición a pagar, precisamente porque facilitan ese ensayo mental. Un retiro es exactamente eso: una estancia no estandarizada que se compra a ciegas salvo por lo que la página deje ver.</p>
+
+  <p class="pull reveal">El retiro no se vende: se deja visitar por adelantado. Quien puede imaginarse ya en la cama, en el silencio, en la mesa, es quien reserva.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 ===================== -->
+<section class="flow" id="s2">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — El perfil</span>
+    <h2>Quién duda, y qué le frena de verdad</h2>
+  </div>
+
+  <p class="drop reveal">El perfil es "el que huye del ruido": anhela silencio y teme lo desconocido a partes iguales. Lo valioso no es describirlo en abstracto, sino nombrar la duda concreta que le detiene —porque cada bloque de la página existe para disolver una de ellas—. Y aquí tenemos una ventaja: la casa ya sabe qué se pregunta. La FAQ existente es, casi entera, logística de huésped residencial —comida, habitaciones, qué traer, la sala, cómo llegar—. Esas preguntas no son ruido: son el mapa exacto del miedo.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Mapa de objeciones del retiro</caption>
+      <thead>
+        <tr><th>Familia de miedo</th><th>La duda, en sus palabras</th><th>Qué la disuelve</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Logístico · dormir</td><td>"¿Dónde dormiré? ¿Baño privado? ¿Cómo es la habitación?"</td><td>Galería honesta del alojamiento; tipos de habitación y equipamiento</td></tr>
+        <tr><td>Logístico · comer</td><td>"¿Qué se come? ¿Y si tengo restricciones?"</td><td>Bloque de alimentación claro; FAQ de dietas</td></tr>
+        <tr><td>Práctica · capacidad</td><td>"¿Aguantaré tantas horas de meditación? ¿Estaré a la altura?"</td><td>Ritmo diario que alterna práctica y descanso; filtro de idoneidad honesto</td></tr>
+        <tr><td>Silencio · convivencia</td><td>"¿Habrá silencio real? ¿Tendré privacidad? Soy introvertido/a"</td><td>Descripción franca del régimen; qué esperar hora a hora</td></tr>
+        <tr><td>Económico</td><td>"¿Cuánto, y qué incluye? ¿Costes ocultos?"</td><td>Precio por tipo de alojamiento, con lo incluido desglosado</td></tr>
+        <tr><td>Pertenencia</td><td>"¿Es para alguien como yo? No sé suficiente"</td><td>Inclusión radical; "es para ti si… / no es para ti si…"</td></tr>
+        <tr><td>Riesgo</td><td>"¿Y si me surge un imprevisto y lo pierdo?"</td><td>Condiciones de reserva y cambio claras (compromiso de cuidado)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note reveal">
+    <span class="k">Lo que ya sabe la casa</span>
+    Las preguntas reales fichadas en la FAQ —baño privado, equipamiento de la habitación, tipo de comida, qué llevar (higiene, medicinas, ropa cómoda y discreta, tapones para los oídos, linterna, termo), colada, horarios por temporada, cancelación— confirman el mapa: el miedo del retiro es, sobre todo, de huésped. La plantilla no inventa preocupaciones; contesta las que ya existen, antes de que haya que preguntarlas.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 ===================== -->
+<section class="flow" id="s3">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — El entorno</span>
+    <h2>Por qué el lugar pesa tanto como el maestro</h2>
+  </div>
+
+  <p class="drop reveal">Si la página tiene un corazón, es el bloque del entorno. Es donde se disuelve el miedo logístico —el más común y el más silenciado— y donde la pre-experiencia mental se hace posible. La regla no es "poner fotos bonitas", sino <em>guiar un paseo</em>: una secuencia lógica que lleve a la persona por la casa como si caminara por ella —exterior, sala de meditación, habitaciones por tipo, baño, comedor, jardines—.</p>
+
+  <h3 class="reveal"><span class="tag">Cantidad</span>Ni pocas ni un muro</h3>
+  <p class="reveal">La investigación sobre listados de alojamiento converge en un rango útil: se revisan del orden de diez a veinte imágenes antes de decidir, con la mayor parte de la atención en las primeras cinco. Por debajo de una docena, la ausencia genera sospecha ("¿qué esconden?"); por encima de unas cuarenta, la galería se vuelve repetitiva y entierra las imágenes fuertes. Para el retiro: una galería cuidada de en torno a quince a veinticinco imágenes, con la más evocadora primero, cubre cada espacio clave sin fatigar.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">~5</div><div class="l">primeras imágenes concentran la mayor parte de la atención</div><div class="src">Investigación de listados STR</div></div>
+    <div class="stat"><div class="n">&lt;12</div><div class="l">fotos: la escasez de imágenes genera desconfianza</div><div class="src">Investigación de listados STR</div></div>
+    <div class="stat"><div class="n">+26<small>%</small></div><div class="l">de reservas con política de cancelación flexible (reserva vs. rígida)</div><div class="src">Expedia Group, vía PriceLabs</div></div>
+  </div>
+
+  <h3 class="reveal"><span class="tag">Honestidad</span>La foto que promete de más, cobra caro</h3>
+  <p class="reveal">Un matiz crítico para una casa como esta: la imagen debe ser fiel. Los estudios muestran que la <em>inconsistencia</em> entre lo que promete el material de marketing y lo que el huésped percibe eleva el riesgo percibido y las emociones negativas, y baja la intención de reserva. Traducido: nada de banco de imágenes genéricas ni ángulos que agranden una habitación real. La foto del entorno de Paramita tiene que ser del entorno de Paramita. La coherencia entre expectativa y realidad no es solo ética —es lo que evita la decepción que destruye la confianza a la vuelta.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 04 ===================== -->
+<section class="flow" id="s4">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — La estructura</span>
+    <h2>Bloque a bloque, y qué miedo disuelve cada uno</h2>
+  </div>
+
+  <p class="drop reveal">La secuencia recomendada no es un índice arbitrario: sigue el arco emocional de llevar a la persona del ruido a la certeza, resolviendo primero el espíritu, luego la mente, luego el cuerpo, y solo entonces pidiendo la acción. Cada bloque tiene un trabajo.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>La plantilla de retiro · orden y función</caption>
+      <thead>
+        <tr><th>#</th><th>Bloque</th><th>Qué hace / miedo que toca</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="bk">01</td><td>Hero</td><td>Evoca el estado final (calma, claridad) y ancla el lugar. CTA suave: "Reservar mi plaza". Sin <code>data-reveal</code> en el h1 (LCP).</td></tr>
+        <tr><td class="bk">02</td><td>Invitación en vídeo</td><td>El maestro/facilitador conecta y explica el propósito. Facade / poster-first, sin autoplay.</td></tr>
+        <tr><td class="bk">03</td><td>El guía</td><td>Trayectoria y cercanía. Da autoridad sin distancia. Miedo: "¿en manos de quién me pongo?".</td></tr>
+        <tr><td class="bk">04</td><td>El enfoque</td><td>El sentido y el marco del retiro. Eleva la motivación antes de la logística y el precio.</td></tr>
+        <tr><td class="bk">05</td><td>La práctica central</td><td>Qué se hará, en pasos claros. Miedo: "¿de qué va exactamente?".</td></tr>
+        <tr><td class="bk">06</td><td><strong>El entorno</strong></td><td>Galería-paseo del lugar. El bloque decisivo: disuelve el miedo a dormir fuera. (§03)</td></tr>
+        <tr><td class="bk">07</td><td>Programa y ritmo diario</td><td>Alterna práctica y descanso. Miedo: "¿aguantaré? ¿tendré respiro?".</td></tr>
+        <tr><td class="bk">08</td><td>¿Es para ti?</td><td>Filtro de idoneidad honesto ("es para ti si… / no es para ti si…"). Autocualifica y elimina el síndrome del impostor.</td></tr>
+        <tr><td class="bk">09</td><td>Voces del sendero</td><td>Transformación real, con nombre y rostro. Nunca anónimo ni carrusel. (§07)</td></tr>
+        <tr><td class="bk">10</td><td>Reserva y alojamiento</td><td>Precio por tipo de habitación, lo incluido, condiciones. Aforo real. Formulario a la altura. (§05)</td></tr>
+        <tr><td class="bk">11</td><td>FAQ</td><td>Logística de huésped: comida, qué llevar, silencio, cómo llegar. Autoservicio. (§07)</td></tr>
+        <tr><td class="bk">12</td><td>Cierre / CTA final</td><td>Recordatorio breve del refugio. Última puerta, sin presión.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="reveal">Un principio de orden que la investigación de conversión respalda: elevar la motivación (bloques 01–05) <em>antes</em> de mostrar el precio y la logística (07, 10). Nadie evalúa un coste con frialdad si primero no ha deseado el lugar; pero, invertido, el precio sin deseo previo solo produce abandono.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 05 ===================== -->
+<section class="flow" id="s5">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — La reserva</span>
+    <h2>Aforo honesto, formulario a la altura, compromiso de cuidado</h2>
+  </div>
+
+  <h3 class="reveal"><span class="tag">Escasez</span>El único sitio donde el aforo es central</h3>
+  <p class="reveal">El retiro es el único tipo de actividad donde la escasez es verdad de raíz: las camas son finitas. Por eso "quedan N plazas" es información honesta y útil, no un truco. Se comunica como dato —un número real que baja— y jamás como reloj de cuenta atrás. Esta es la frontera que el maestro ya fijó y que la evidencia externa sobre patrones oscuros respalda: la escasez fabricada erosiona la misma confianza que hace funcionar a la honesta.</p>
+
+  <h3 class="reveal"><span class="tag">Formulario</span>Aquí, más campos ayudan</h3>
+  <p class="reveal">Contra el dogma de "menos campos", el retiro es alto compromiso: los campos "de más" señalan seriedad y autocualifican. El caso de referencia —un registro que al recortar de 9 a 6 campos <em>perdió</em> un 14% de conversión— aplica de lleno. La reserva puede ser un formulario más completo (tipo de alojamiento, necesidades dietéticas, contacto), preferiblemente multipaso con indicador de progreso, con las preguntas fáciles primero y sin ningún campo que obligue a salir de la página a buscar un dato.</p>
+
+  <h3 class="reveal"><span class="tag">Cancelación</span>De "garantía comercial" a compromiso de cuidado</h3>
+  <p class="reveal">Aquí corrijo la previa. El bloque de "garantía / devolución" con lógica de reembolso comercial no encaja con el dāna —pero <em>sí</em> hace falta resolver el miedo al riesgo ("¿y si me surge un imprevisto?")—. La investigación de reserva de estancias es clara: una política de cancelación transparente funciona como red de seguridad psicológica que reduce el riesgo percibido y sube la reserva; una política rígida y opaca aumenta el abandono. La reformulación para Paramita: no "te devolvemos el dinero", sino un <strong>compromiso de cuidado</strong> —condiciones claras de cambio de fecha o de modalidad ante un imprevisto, comunicadas con franqueza—. Misma función tranquilizadora, en la voz de la casa.</p>
+
+  <div class="note reveal">
+    <span class="k">Señal / depósito</span>
+    Para un compromiso de este peso, la reserva con señal o depósito parcial es coherente con la práctica del sector y baja la fricción de la decisión total. La mecánica exacta (importe, pasarela) depende del rail transaccional de actividades; la muestra front-first llevará el CTA provisional hasta entonces.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 06 · WHATSAPP ===================== -->
+<section class="verdict">
+  <div class="flow">
+    <div class="sec-head reveal">
+      <span class="eyebrow">06 — El canal humano</span>
+      <h2>WhatsApp: canal sí, asistente 24/7 no</h2>
+    </div>
+    <p class="reveal">El retiro es el punto más frágil de la web, y por eso el canal directo importa —pero hay que repartir bien el trabajo—. El enlace en sí (<code>wa.me</code>) es un link trivial, cero mantenimiento. El problema no es el botón: es prometer un asistente automático que resuelva dudas. Las preguntas del retiro nacen del miedo, y un bot las contesta mal. Peor aún: un auto-respuesta que dice "te contestamos" y luego no llega señala abandono justo donde más cuesta ganar la confianza.</p>
+
+    <div class="checks reveal">
+      <div class="yes">
+        <h4>El reparto que sí</h4>
+        <ul>
+          <li>WhatsApp como puerta al "necesito hablar con alguien antes de reservar": pocos casos, altísimo valor, persona detrás.</li>
+          <li>Automatización solo para <em>gestionar expectativas</em>: un mensaje de ausencia franco ("te leemos y respondemos en X horas").</li>
+          <li>Las FAQ (comida, qué llevar, silencio) resueltas en la propia página, no en el chat.</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h4>El espejismo que no</h4>
+        <ul>
+          <li>Vender un bot "24/7 sin humano": la app gratis solo hace bienvenida y ausencia; un bot real exige la API, plantillas y coste.</li>
+          <li>Que un automatismo intente calmar el miedo a lo desconocido en lugar de una persona.</li>
+          <li>Prometer respuesta y no darla: rompe la confianza en el peor momento.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 07 ===================== -->
+<section class="flow" id="s7">
+  <div class="sec-head reveal">
+    <span class="sec-num">07 — Voces y FAQ</span>
+    <h2>La prueba y la limpieza final</h2>
+  </div>
+
+  <p class="drop reveal">Dos bloques que cierran el arco. Las <strong>voces del sendero</strong> van donde se decide —cerca de la reserva—, no en la home: relatos de transformación y refugio, con nombre y rostro reales, experiencia concreta, contexto y antigüedad; nunca anónimas, nunca en carrusel, nunca con estrellas ni contadores. El vídeo, siempre facade / poster-first.</p>
+
+  <p class="reveal">La <strong>FAQ</strong> del retiro no es genérica: es la logística de huésped que la casa ya tiene fichada —comida, habitaciones, qué llevar, silencio, cómo llegar, cancelación—. Su objetivo es autoservicio: que la persona resuelva sola la micro-duda que la bloquea, sin tener que escribir. Los datos volátiles (horarios por temporada) apuntan a su fuente única de verdad en lugar de duplicarse.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 08 ===================== -->
+<section class="flow" id="s8">
+  <div class="sec-head reveal">
+    <span class="sec-num">08 — Resumen</span>
+    <h2>La plantilla de retiro en una página</h2>
+  </div>
+  <p class="reveal">El retiro es la plantilla que más trabaja el miedo. Su columna es el <em>entorno</em> —el lugar pesa como el maestro— y su arco lleva del ruido a la certeza: espíritu, mente, cuerpo, acción. La escasez es real (aforo de camas) y se dice como dato; el formulario es más largo porque el compromiso es alto; la cancelación se reformula como compromiso de cuidado; y el canal humano es una persona, no un bot. Todo lo demás lo hereda del maestro: escaneo sin carrusel, voces del sendero, movimiento, CTA y color de la casa.</p>
+  <p class="reveal">Con esto fijado, el siguiente paso es la <strong>muestra HTML</strong> del retiro —front-first, como EMI, con el CTA de reserva provisional hasta que exista el rail de actividades—.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== REFERENCIAS ===================== -->
+<section class="flow refs">
+  <div class="sec-head reveal">
+    <span class="sec-num">R — Fuentes</span>
+    <h2>De dónde salen los datos</h2>
+  </div>
+  <ol class="reveal">
+    <li><b>Consumer research · reserva de alojamiento</b> — estudios en <i>Int. J. of Hospitality Management</i> y <i>J. of Retailing</i> (ScienceDirect): la imagen reduce la incertidumbre de calidad y facilita la "pre-experiencia mental"; las imágenes de valor hedónico elevan intención de reserva y disposición a pagar; mostrar el interior mejora la reserva (estudios sobre Airbnb).</li>
+    <li><b>Inconsistencia de imagen</b> — estudio sobre fotos de marketing vs. generadas por usuarios (ScienceDirect, 810 participantes): la inconsistencia eleva riesgo percibido y emociones negativas y baja la intención de reserva.</li>
+    <li><b>Galerías de listados</b> — investigación del sector STR: ~10–20 imágenes revisadas, atención concentrada en las primeras ~5; por debajo de ~12 genera desconfianza; por encima de ~40 diluye; galería como "paseo" por la propiedad.</li>
+    <li><b>Política de cancelación</b> — estudio de Expedia Group (vía PriceLabs): +26% en reservas y +53% en ingresos con cancelación flexible; literatura de hostelería: la transparencia de cancelación reduce riesgo percibido y abandono; la rigidez opaca lo aumenta. (Cifras de fuente secundaria; tratar como indicativas.)</li>
+    <li><b>Formularios</b> — Unbounce: registro a conferencia 9→6 campos (−14%); HubSpot: multipaso (hasta +86%). El nº de campos se ajusta al compromiso, no al dogma.</li>
+    <li><b>Escasez honesta vs. patrones oscuros</b> — Nielsen Norman Group (línea honesta/engañosa, 2024); FTC <i>Bringing Dark Patterns to Light</i> (2022); barrido FTC·ICPEN·GPEN 2024 (75,7% de 642 sitios); Scandiweb (la escasez falsa convierte peor que ninguna).</li>
+    <li><b>Datos internos Paramita</b> — FAQ y arquitectura de información (preguntas reales de huésped residencial); informe maestro de plantillas de actividad; informe de testimonios y vídeo; Espectáculo vs. Conversión.</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Estudio de la plantilla de retiro · Fundació Sakya Paramita · Agosto 2026 · Datos verificados en fuentes citadas · Documento autocontenido</div>
+</footer>
+
+<script>
+  var pb=document.getElementById('progress');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;pb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  } else {document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});}
+</script>
+</body>
+</html>

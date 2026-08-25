@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Curso EMI 1: Calma y Lucidez · Paramita</title>
+  <title>Retiro · Paramita</title>
+  <meta name="description" content="Retiro de Silencio y Presencia en el Centro Budista Sakya de Pedreguer (Alicante), guiado por Ven. Khenpo Rinchen. Práctica, silencio y descanso, del 16 al 19 de octubre de 2026.">
+  \g<0>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
   <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <meta name="description" content="EMI 1: Calma y Lucidez. El primer módulo del Entrenamiento Mental Integral de Paramita: meditación estructurada, secular y profunda en lengua hispana.">
-  <link rel="canonical" href="https://paramita.org/formacion/emi-1-calma-y-lucidez/">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,6 +45,7 @@
   <link rel="stylesheet" href="../../css/componentes/paramita-suscripcion.css">
   <!-- PÁGINA -->
   <link rel="stylesheet" href="../../css/paginas/paramita-curso.css">
+  <link rel="stylesheet" href="../../css/paginas/paramita-retiro.css">
   <!-- Componentes reutilizables · vídeo + bloque de testimonios · unlayered, ganan sobre curso.css -->
   <link rel="stylesheet" href="../../css/componentes/paramita-video.css">
   <link rel="stylesheet" href="../../css/componentes/paramita-testimonios.css">
@@ -55,7 +56,7 @@
   <link rel="stylesheet" href="../../css/componentes/paramita-tema.css">
 </head>
 <body data-estado="anonimo">
-<!-- sync: navbar=publico current="Cursos" prefooter -->
+<!-- sync: navbar=publico current="Actividades" prefooter -->
 
 <!-- FONDO GLOBAL · lienzo del fluido WebGL -->
 <canvas id="fluido" aria-hidden="true"></canvas>
@@ -151,12 +152,12 @@
 
         <!-- 2 · Cursos · puerta pública al catálogo formativo (/formacion/, no el LMS) -->
         <li>
-          <a class="navlink" href="/formacion/formacion-publica.html" aria-current="page">Cursos</a>
+          <a class="navlink" href="/formacion/formacion-publica.html">Cursos</a>
         </li>
 
         <!-- 3 · Actividades · enlace plano (sin desplegable) -->
         <li>
-          <a class="navlink" href="/actividades/actividades.html">Actividades</a>
+          <a class="navlink" href="/actividades/actividades.html" aria-current="page">Actividades</a>
         </li>
 
         <!-- 4 · Blog · enlace plano (sin desplegable) -->
@@ -296,116 +297,39 @@
 
 <main>
 
-  <!-- ═══ VISTA PREVIA · herramienta de desarrollo para revisar los 3 estados.
-       QUITAR EN PRODUCCIÓN: el estado real lo fija el backend/LMS con data-estado. ═══ -->
-  <div class="estado-toggle" role="group" aria-label="Vista previa del estado del visitante">
-    <span class="estado-toggle__k">vista&nbsp;previa</span>
-    <button type="button" data-set="anonimo" class="is-active">Anónimo</button>
-    <button type="button" data-set="logueado">Logueado</button>
-    <button type="button" data-set="inscrito">Inscrito</button>
-  </div>
-
-  <!-- ═══ BANDA DE ESTADO · una plantilla, tres estados.
-       Solo visible para logueado/inscrito. «Reanudar, no convencer»: el que vuelve
-       encuentra su siguiente paso arriba, sin que la ficha le revenda. ═══ -->
-  <div class="estado-band" role="status">
-    <div class="wrap estado-band__inner">
-      <p class="estado-band__msg estado-band__msg--log">
-        <span class="estado-band__dot" aria-hidden="true"></span>
-        Hola de nuevo, <b>Ana</b> — aún no estás inscrita en este curso.
-      </p>
-      <div class="estado-band__msg estado-band__msg--ins">
-        <p><span class="estado-band__dot" aria-hidden="true"></span>Continúas tu camino · <b>Lección 3 de 8</b></p>
-        <div class="estado-band__barra" aria-hidden="true"><span style="width:37.5%"></span></div>
-      </div>
-      <a class="btn-primario btn-primario--sm estado-band__cta" href="#reanudar">
-        <span class="cta-txt--log">Añadir a mi camino</span>
-        <span class="cta-txt--ins">Reanudar lección</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- ═══ HERO · componente del sistema (paramita-hero.css) + meta de curso ═══ -->
+  <!-- ═══ 01 · HERO · componente del sistema (paramita-hero.css) + meta de retiro ═══ -->
   <section class="hero" id="hero">
     <div class="hero__bg" aria-hidden="true">
       <div class="hero__bg-fallback"></div>
-      <div class="hero__bg-img" style="background-image:url('../../assets/img/banner-hero-desktop-emi-1.jpg')"></div>
+      <div class="hero__bg-img" style="background-image:url('../../assets/img/hero-retiro.jpg')"></div>
     </div>
 
     <div class="wrap hero__inner">
-      <!-- Nodo del sendero · ubica el curso en los 5 niveles de /formacion/ -->
-      <div class="curso-nodo" aria-label="Nivel I · Introducción · primer módulo del sendero">
-        <span class="curso-nodo__puntos" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></span>
-        <span class="curso-nodo__label">Nivel&nbsp;I · Introducción</span>
-      </div>
-
-      <p class="eyebrow" data-reveal="1">El inicio de tu transformación interior</p>
-      <h1 data-reveal="2">Curso EMI 1: <em>Calma y Lucidez</em></h1>
-      <p class="lede">Redescubre tu vida y cultiva una mente en paz con el entrenamiento de meditación más estructurado y profundo en lengua hispana. Un viaje hacia tu potencial, guiado por la sabiduría milenaria.</p>
+      <p class="eyebrow">Retiro residencial · Centro Budista Sakya</p>
+      <h1>Retiro de <em>Silencio y Presencia</em></h1>
+      <p class="lede">Unos días para dejar el ruido fuera y volver a habitarte. Práctica guiada, silencio compartido y descanso, en la montaña de la Sella, junto a Ven. Khenpo Rinchen.</p>
 
       <div class="actions">
-        <a class="btn-primario cta-estado" href="#inscripcion"><span class="cta-txt--anon">Inscríbete al curso</span><span class="cta-txt--log">Añadir a mi camino</span><span class="cta-txt--ins">Reanudar · Lección 3</span></a>
-        <span class="meta"><span class="pulse" aria-hidden="true"></span>Inicio: <b>3 de febrero de 2027</b></span>
+        <a class="btn-primario" href="#inscripcion">Reservar mi plaza</a>
+        <span class="meta"><span class="pulse" aria-hidden="true"></span>Del <b>16 al 19 de octubre de 2026</b></span>
+        <span class="aforo" aria-label="Quedan 6 plazas de 20"><span class="aforo__dot" aria-hidden="true"></span>Quedan <b>6</b> plazas</span>
       </div>
 
-      <!-- chips de curso: reversión de duda inmediata -->
-      <ul class="curso-chips" aria-label="Detalles del curso">
-        <li><span class="pico pico--sm" data-pico="duracion" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path class="acc" d="M12 7.5V12l3.5 2"/></svg></span><b>8</b> lecciones</li>
-        <li><span class="pico pico--sm" data-pico="idioma" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M4 12h16"/><path class="acc" d="M12 4c2.6 2.3 2.6 13.7 0 16M12 4c-2.6 2.3-2.6 13.7 0 16"/></svg></span>Español</li>
-        <li><b>72&nbsp;€</b> pago único</li>
-        <li>Certificado al finalizar</li>
+      <ul class="curso-chips" aria-label="Detalles del retiro">
+        <li><span class="pico pico--sm" data-pico="duracion" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path class="acc" d="M12 7.5V12l3.5 2"/></svg></span><b>4</b> días · 3 noches</li>
+        <li><span class="pico pico--sm" data-pico="ubicacion" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M12 21 C12 21 5.5 14.8 5.5 10.2 C5.5 6.5 8.4 3.6 12 3.6 C15.6 3.6 18.5 6.5 18.5 10.2 C18.5 14.8 12 21 12 21 Z"/>
+  <circle class="acc" cx="12" cy="10" r="2.3"/>
+</svg></span>Pedreguer, Alicante</li>
+        <li><span class="pico pico--sm" data-pico="silencio" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h11M6.5 20.5h11"/><path d="M8 3.5v2.6l4 5.9 4-5.9V3.5"/><path d="M8 20.5v-2.6l4-5.9 4 5.9v2.6"/><path class="acc" d="M12 13.7v3.3"/></svg></span>Parcialmente en silencio</li>
+        <li>Comidas incluidas</li>
         <li>Sin experiencia previa</li>
       </ul>
     </div>
   </section>
 
-  <!-- ═══ PRUEBA SOCIAL TEMPRANA · franja condensada, combate la duda en los primeros segundos ═══ -->
-  <section class="prueba" aria-label="Confianza de la comunidad">
-    <div class="wrap prueba__inner">
-      <div class="prueba__stat">
-        <strong>+2.400</strong>
-        <span>practicantes en lengua hispana</span>
-      </div>
-      <span class="prueba__sep" aria-hidden="true"></span>
-      <blockquote class="prueba__cita">
-        <p>«Me ha servido muchísimo para ordenar mi vida.»</p>
-        <cite>María Fernanda · practicante EMI</cite>
-      </blockquote>
-      <span class="prueba__sep" aria-hidden="true"></span>
-      <div class="prueba__rating" aria-label="Valoración media 4,9 sobre 5">
-        <span class="prueba__estrellas" aria-hidden="true">★★★★★</span>
-        <span>4,9 · 320 valoraciones</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ EL MAESTRO · credibilidad arriba (el activo diferencial de Paramita) ═══ -->
-  <section class="section wrap split" id="maestro" aria-labelledby="maes-t">
-    <div class="split__media">
-      <figure class="retrato">
-        <img src="../../assets/img/khenpo-luz-dorada-low.jpg" alt="Ven. Khenpo Rinchen Gyaltsen" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
-      </figure>
-    </div>
-    <div class="split__body">
-      <span class="eyebrow" data-reveal="1">El maestro</span>
-      <h2 id="maes-t" data-reveal="2">Empieza a meditar con <em>Khenpo Rinchen</em>.</h2>
-      <p class="split__sub">Del Himalaya a tu pantalla: el origen de esta enseñanza.</p>
-      <p>Este curso ha sido diseñado por <b>Khenpo Rinchen Gyaltsen</b>, director y maestro residente en el Centro Budista Sakya (Alicante) y uno de los referentes en meditación y filosofía budista más importantes para el mundo hispanohablante. Tras diez años de formación en India, Nepal y Tíbet, Khenpo Rinchen sintetizó la práctica diaria de los grandes maestros:</p>
-      <ul class="checks">
-        <li>El <b>Lojong</b> (o Adiestramiento Mental en 7 Puntos): el manual de meditación más famoso del Tíbet.</li>
-        <li>Un proceso de actualización para que sea relevante en el siglo&nbsp;XXI.</li>
-        <li>Una enseñanza para personas seculares y espirituales por igual.</li>
-      </ul>
-      <figure class="cita-maestro">
-        <blockquote>Es un maestro muy valioso; todo el que lo siga irá por el buen camino.</blockquote>
-        <figcaption>— S. S. Gongma Trichen</figcaption>
-      </figure>
-      <a class="t-link" href="/sobre/khenpo/khenpo.html"><span class="txt">Quiero saber más de él</span> <span class="arw" aria-hidden="true">→</span></a>
-    </div>
-  </section>
-
-  <!-- ═══ LA INVITACIÓN · vídeo + propósito ═══ -->
-  <section class="section wrap split split--inv" id="proposito" aria-labelledby="prop-t">
+  <!-- ═══ 02 · LA INVITACIÓN · vídeo + propósito ═══ -->
+  <section class="section wrap split split--inv" id="invitacion" aria-labelledby="inv-t">
     <div class="split__media">
       <div class="video-facade" data-yt="4XPkYkF7MfQ" role="button" tabindex="0" aria-label="Reproducir la invitación en vídeo">
         <div class="video-facade__play" aria-hidden="true"><span></span></div>
@@ -413,350 +337,330 @@
     </div>
     <div class="split__body">
       <span class="eyebrow" data-reveal="1">La invitación</span>
-      <h2 id="prop-t" data-reveal="2">Mira la invitación de <em>Ven. Khenpo Rinchen</em>.</h2>
-      <p>«Calma y Lucidez» no es solo un curso de meditación; es el primer paso del <b>Entrenamiento Mental Integral (EMI)</b>: un programa de cuatro módulos diseñado para que dejes de sobrevivir al caos externo y comiences a habitar tu propia mente con claridad. A través de este módulo asentarás las bases para recuperar el control de tu mundo interno, fortaleciendo tu resiliencia ante los desafíos actuales.</p>
-      <p class="split__sub">¿Para quién es este programa? Para personas que buscan:</p>
+      <h2 id="inv-t" data-reveal="2">Unos días para <em>parar de verdad</em>.</h2>
+      <p>Un retiro no es un curso: no se trata de acumular ideas, sino de dejar sitio. Durante estos días sostenemos juntos un ritmo sencillo —práctica, silencio, descanso— para que el cuerpo se afloje y la mente se asiente. No hace falta llegar preparado; solo con ganas de bajar el ruido.</p>
+      <p class="split__sub">Este retiro es una invitación a:</p>
       <ul class="checks">
-        <li><b>Filtrar el ruido interno.</b> Purifica los bloqueos que nublan tu mente para ver y decidir con total nitidez.</li>
-        <li><b>Cultivar estabilidad.</b> Transforma las dificultades diarias en herramientas de estabilidad emocional profunda.</li>
-        <li><b>Vivir con intención.</b> Sal del piloto automático y conecta tus acciones con un sentido de beneficio real.</li>
+        <li><b>Soltar el ruido.</b> Unos días fuera de las pantallas y las urgencias, en un entorno pensado para el silencio.</li>
+        <li><b>Asentar la práctica.</b> Meditación guiada paso a paso, con espacio para preguntar y para no hacer nada.</li>
+        <li><b>Descansar de verdad.</b> Un ritmo que alterna la práctica con el reposo, sin exigencia de rendir.</li>
       </ul>
     </div>
   </section>
 
-  <!-- ═══ VENTAJAS · el cruce (dejar una orilla para alcanzar otra) ═══ -->
-  <section class="section wrap cruce-seccion" id="ventajas" aria-labelledby="vent-t">
-    <div class="seccion-head" data-reveal="1">
-      <span class="eyebrow">Por qué Paramita</span>
-      <h2 id="vent-t" data-reveal="2">¿Por qué entrenar tu mente con <em>Paramita</em>?</h2>
-      <p class="lede">Todo entrenamiento es un cruce: se deja una orilla para alcanzar otra.</p>
-    </div>
-    <div class="cruce">
-      <article class="cruce__orilla cruce__orilla--deja">
-        <span class="cruce__tag">Lo que dejas atrás</span>
-        <ul class="cruce__lista">
-          <li>La dispersión mental</li>
-          <li>La reactividad emocional</li>
-          <li>La sensación de ir en «piloto automático»</li>
-        </ul>
-      </article>
-      <div class="cruce__paso" aria-hidden="true"><span class="cruce__flecha">→</span></div>
-      <article class="cruce__orilla cruce__orilla--gana">
-        <span class="cruce__tag">Lo que ganas</span>
-        <ul class="cruce__lista">
-          <li>Una atención inquebrantable</li>
-          <li>Autoestima basada en el autoconocimiento</li>
-          <li>Un refugio de paz interior que te acompaña</li>
-        </ul>
-      </article>
-    </div>
-  </section>
-
-  <!-- ═══ TEMARIO · las 8 lecciones (corazón informativo) ═══ -->
-  <section class="section wrap temario" id="temario" aria-labelledby="tem-t">
-    <div class="seccion-head" data-reveal="1">
-      <span class="eyebrow">Metodología</span>
-      <h2 id="tem-t" data-reveal="2">El programa está repartido en <em>8 lecciones</em>.</h2>
-      <p class="lede">Una lección nueva cada semana, para que avances a tu ritmo.</p>
-    </div>
-    <ol class="temario__lista">
-      <li class="leccion"><span class="leccion__n">Lección 01</span><h3>Aterrizar en la práctica</h3><p>Establecer una base sólida entre cuerpo y mente.</p></li>
-      <li class="leccion"><span class="leccion__n">Lección 02</span><h3>El soltar consciente</h3><p>Redefinir el desapego como libertad, no como carencia.</p></li>
-      <li class="leccion"><span class="leccion__n">Lección 03</span><h3>Aduéñate del presente</h3><p>Gestionar las emociones y la fusión cognitiva.</p></li>
-      <li class="leccion"><span class="leccion__n">Lección 04</span><h3>Maximizar la oportunidad</h3><p>Comprender el karma para tomar mejores decisiones.</p></li>
-      <li class="leccion"><span class="leccion__n">Lección 05</span><h3>Encuentra el equilibrio</h3><p>Ampliar la memoria y la observación en la era digital.</p></li>
-      <li class="leccion"><span class="leccion__n">Lección 06</span><h3>Entrenamiento transparente</h3><p>Transformar el victimismo en potencial evolutivo.</p></li>
-      <li class="leccion"><span class="leccion__n">Lección 07</span><h3>Equilibrio emocional</h3><p>Convertir la meditación en un estado permanente.</p></li>
-      <li class="leccion"><span class="leccion__n">Lección 08</span><h3>Entrenamiento total</h3><p>Consolidar hábitos y construir una autoestima sana.</p></li>
-    </ol>
-  </section>
-
-  <!-- ═══ QUÉ INCLUYE ═══ -->
-  <section class="section wrap split split--inv incluye" id="incluye" aria-labelledby="inc-t">
+  <!-- ═══ 03 · EL GUÍA · credibilidad y cercanía ═══ -->
+  <section class="section wrap split" id="guia" aria-labelledby="guia-t">
     <div class="split__media">
-      <figure class="retrato retrato--material">
-        <img src="../../assets/img/hombre-tablet.jpg" alt="Practicante siguiendo una lección de EMI 1 en una tablet" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
+      <figure class="retrato">
+        <img src="../../assets/img/khenpo-luz-dorada-low.jpg" alt="Ven. Khenpo Rinchen Gyaltsen" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
       </figure>
     </div>
     <div class="split__body">
-      <span class="eyebrow" data-reveal="1">El paquete</span>
-      <h2 id="inc-t" data-reveal="2">¿Qué incluye este módulo <em>EMI 1</em>?</h2>
-      <ul class="incluye__grid">
-        <li>
-          <span class="incluye__ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="10" x2="5" y2="14"/>
-              <line x1="8.5" y1="7" x2="8.5" y2="17"/>
-              <line x1="12" y1="4" x2="12" y2="20" stroke="var(--dorado)"/>
-              <line x1="15.5" y1="7" x2="15.5" y2="17"/>
-              <line x1="19" y1="10" x2="19" y2="14"/>
-            </svg>
-          </span>
-          <h3>Material de audio</h3><p>8 meditaciones guiadas para integrar cada lección.</p>
-        </li>
-        <li>
-          <span class="incluye__ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="6" y="4" width="13" height="16" rx="2"/>
-              <line x1="9.5" y1="9" x2="16" y2="9"/>
-              <line x1="9.5" y1="12" x2="16" y2="12"/>
-              <line x1="9.5" y1="15" x2="13.5" y2="15"/>
-              <path d="M6 7.5 H3.2 M6 11.5 H3.2 M6 15.5 H3.2" stroke="var(--dorado)"/>
-            </svg>
-          </span>
-          <h3>Cuaderno de trabajo</h3><p>Cuaderno semanal en PDF con ejercicios de reflexión.</p>
-        </li>
-        <li>
-          <span class="incluye__ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="8.5"/>
-              <circle cx="12" cy="12" r="5"/>
-              <circle cx="12" cy="12" r="1.7" stroke="var(--dorado)"/>
-            </svg>
-          </span>
-          <h3>Ejercicios prácticos</h3><p>Prácticas de aplicación diaria para profundizar en tu práctica personal.</p>
-        </li>
-        <li>
-          <span class="incluye__ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="4" y1="6" x2="20" y2="6"/>
-              <line x1="4" y1="10" x2="20" y2="10"/>
-              <line x1="4" y1="14" x2="20" y2="14"/>
-              <line x1="4" y1="18" x2="13" y2="18" stroke="var(--dorado)"/>
-            </svg>
-          </span>
-          <h3>Transcripciones completas</h3><p>Lee y estudia cada palabra a tu propio ritmo.</p>
-        </li>
-      </ul>
-      <p class="incluye__foot">El material del curso es tuyo para siempre; repásalo cuando lo necesites. Al completar el 100&nbsp;% del curso podrás <b>descargar tu certificado de finalización</b>.</p>
+      <span class="eyebrow" data-reveal="1">Quién guía</span>
+      <h2 id="guia-t" data-reveal="2">En manos de <em>Khenpo Rinchen</em>.</h2>
+      <p class="split__sub">Cercano, claro, y con el camino recorrido.</p>
+      <p>El retiro lo guía <b>Khenpo Rinchen Gyaltsen</b>, director y maestro residente del Centro Budista Sakya. Tras diez años de formación en India, Nepal y Tíbet, enseña meditación y filosofía budista en lengua hispana con una cercanía poco habitual: traduce lo milenario a los retos de la vida de hoy, sin distancia y sin jerga.</p>
+      <a class="t-link" href="/maestros/khenpo.html"><span class="txt">Conocer a Khenpo Rinchen</span> <span class="arw" aria-hidden="true">→</span></a>
     </div>
   </section>
 
-  <!-- ═══ INSCRIPCIÓN · dos modalidades ═══ -->
-  <section class="section wrap inscripcion" id="inscripcion" aria-labelledby="opc-t">
+  <!-- ═══ 04 · EL ENFOQUE · sentido y beneficios ═══ -->
+  <section class="section wrap enfoque zona-luz" id="enfoque" aria-labelledby="enf-t">
     <div class="seccion-head" data-reveal="1">
-      <span class="eyebrow">Inscripción</span>
-      <h2 id="opc-t" data-reveal="2">Elige la modalidad que mejor se <em>adapta a ti</em>.</h2>
-      <p class="lede"><span class="estado-abierto"><span class="pulse" aria-hidden="true"></span>¡Inscripciones activas!</span> Inscríbete ahora y recupera el control de tu mente.</p>
+      <span class="eyebrow">El enfoque</span>
+      <h2 id="enf-t" data-reveal="2">Por qué un retiro, y no otra <em>clase más</em>.</h2>
+      <p class="lede">Hay cosas que solo ocurren cuando se para del todo. El retiro abre ese espacio.</p>
     </div>
-
-    <div class="planes">
-      <article class="plan plan--destacada">
-        <span class="plan__flag">Recomendado</span>
-        <p class="plan__eyebrow">Interactivo<br>con tutor</p>
-        <h3>Conoce a Ven. Khenpo Rinchen</h3>
-        <p class="plan__precio">120<small>,00&nbsp;€</small> <span>pago único</span></p>
-        <ul class="checks checks--sm">
-          <li><b>Dos encuentros grupales en directo</b> con Khenpo Rinchen para resolver dudas con el Maestro.</li>
-          <li><b>Ritmo semanal con el grupo.</b> Un calendario fijo que fomenta la disciplina y el compromiso.</li>
-          <li><b>Acceso completo.</b> El mismo material de alta calidad que en Autoestudio.</li>
-          <li><b>Tutorías en grupos reducidos.</b> Un tutor modera un espacio semanal para compartir reflexiones. 8 sesiones.</li>
-          <li><b>Plazas limitadas.</b> La inscripción se cierra al llenar los cupos.</li>
-        </ul>
-        <p class="plan__ideal">Ideal para quienes valoran el compromiso grupal, el acompañamiento cercano y el aprendizaje compartido.</p>
-        <a class="btn-primario" href="inscripcion.html?plan=interactivo">Inscríbete a Interactivo</a>
-      </article>
-
-      <article class="plan">
-        <span class="plan__flag plan__flag--sutil">Autoestudio</span>
-        <p class="plan__eyebrow">Autoestudio<br>autónomo</p>
-        <h3>A tu propio ritmo</h3>
-        <p class="plan__precio">72<small>,00&nbsp;€</small> <span>pago único</span></p>
-        <ul class="checks checks--sm">
-          <li><b>Una lección nueva cada semana</b>, que podrás ver cuando quieras.</li>
-          <li><b>Acceso completo.</b> Todos los vídeos, audios de meditación, transcripciones y cuadernos.</li>
-          <li><b>Estudio independiente.</b> Acceso a un foro comunitario para compartir experiencias.</li>
-          <li><b>Sin sesiones en directo.</b> Se accede únicamente al contenido base.</li>
-          <li><b>Plazas ilimitadas.</b> Empieza cuando quieras: EMI&nbsp;1 está abierto todo el año.</li>
-        </ul>
-        <p class="plan__ideal">Ideal para personas que necesitan máxima flexibilidad o prefieren un camino de estudio más autónomo.</p>
-        <a class="btn-secundario" href="inscripcion.html?plan=autoestudio"> Inscríbete a Autoestudio</a>
-      </article>
+    <div class="pictos">
+      <div class="picto" data-reveal>
+        <span class="pico" data-pico="retiro-base" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17.5 L9.5 9 L13 13.5 L16.5 7.5 L20 17.5"/><path class="acc" d="M3.5 20 H20.5"/></svg></span>
+        <h3>Una base sólida</h3><p>Salir con un hábito de práctica asentado, no con más teoría por leer.</p>
+      </div>
+      <div class="picto" data-reveal>
+        <span class="pico" data-pico="retiro-claridad" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path class="acc" d="M12 7 L13.7 12 L12 17 L10.3 12 Z"/></svg></span>
+        <h3>Claridad y dirección</h3><p>Unos días de silencio ordenan lo que el ruido diario enreda.</p>
+      </div>
+      <div class="picto" data-reveal>
+        <span class="pico" data-pico="retiro-descanso" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 5 A8.5 8.5 0 1 0 16 19 A6.5 6.5 0 0 1 16 5 Z"/><path class="acc" d="M8 8.2 V10.4 M6.9 9.3 H9.1"/></svg></span>
+        <h3>Descanso profundo</h3><p>El sistema nervioso se calma cuando deja de anticipar la siguiente urgencia.</p>
+      </div>
+      <div class="picto" data-reveal>
+        <span class="pico" data-pico="retiro-comunidad" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="2.5"/><circle cx="16" cy="9" r="2.5"/><path d="M3.8 18 C3.8 15.3 5.7 13.7 8 13.7 C10.3 13.7 12.2 15.3 12.2 18"/><path class="acc" d="M11.8 18 C11.8 15.3 13.7 13.7 16 13.7 C18.3 13.7 20.2 15.3 20.2 18"/></svg></span>
+        <h3>Comunidad</h3><p>Practicar en grupo sostiene lo que en solitario cuesta mantener.</p>
+      </div>
     </div>
-    <p class="plazas-nota"><span class="pulse" aria-hidden="true"></span><b>Las plazas del formato Interactivo son limitadas.</b> Debido al número reducido de tutores, este formato tiene cupos limitados. Inscríbete ahora para aprovechar un seguimiento cercano.</p>
   </section>
 
-  <!-- ═══ BECAS · reversión de riesgo, pegada al precio ═══ -->
-  <section class="section wrap becas" id="becas" aria-labelledby="becas-t">
+  <!-- ═══ 05 · LA PRÁCTICA CENTRAL ═══ -->
+  <section class="section wrap practica" id="practica" aria-labelledby="prac-t">
     <div class="seccion-head" data-reveal="1">
-      <span class="eyebrow">Comunidad</span>
-      <h2 id="becas-t" data-reveal="2">Becas y <em>descuentos</em>.</h2>
+      <span class="eyebrow">Qué haremos</span>
+      <h2 id="prac-t" data-reveal="2">Un mismo gesto, <em>repetido con calma</em>.</h2>
+      <p class="lede">La práctica del retiro sigue un recorrido sencillo, que se repite y se profundiza cada día.</p>
     </div>
-    <div class="becas__grid">
-      <article class="beca">
-        <h3>Beca del 50&nbsp;%</h3>
-        <p>Si tu situación económica es un obstáculo, puedes solicitar una beca del 50&nbsp;% sobre la matrícula.</p>
-        <a class="t-link" href="#beca"><span class="txt">Solicitar beca para «Calma y Lucidez»</span> <span class="arw" aria-hidden="true">→</span></a>
-      </article>
-      <article class="beca">
-        <h3>Amigos de la Fundación</h3>
-        <p>Como agradecimiento por su generoso apoyo, los Amigos de la Fundación Sakya reciben el descuento correspondiente a su membresía (hasta el 50&nbsp;%) sobre la matrícula.</p>
-        <a class="t-link" href="/contribuir/contribuir.html"><span class="txt">Quiero ser parte de esta comunidad</span> <span class="arw" aria-hidden="true">→</span></a>
-      </article>
-    </div>
+    <ol class="recorrido">
+      <li class="recorrido__paso" data-reveal><span class="recorrido__n">1</span><div><h3>Escuchar</h3><p>Recibir la enseñanza con atención abierta, sin prisa.</p></div></li>
+      <li class="recorrido__paso" data-reveal><span class="recorrido__n">2</span><div><h3>Reflexionar</h3><p>Dejar que lo escuchado se asiente y cobre sentido propio.</p></div></li>
+      <li class="recorrido__paso" data-reveal><span class="recorrido__n">3</span><div><h3>Meditar</h3><p>Llevarlo a la práctica en el silencio, una y otra vez.</p></div></li>
+      <li class="recorrido__paso" data-reveal><span class="recorrido__n">4</span><div><h3>Integrar</h3><p>Que la práctica impregne el modo de estar en el día a día.</p></div></li>
+    </ol>
   </section>
 
-  <!-- ═══ TESTIMONIOS · prueba social completa ═══ -->
-  <!-- Bloque de testimonios unificado · componentes paramita-testimonios + paramita-video -->
-  <section class="section wrap bloque-voces" id="testimonios" aria-labelledby="test-t">
+  <!-- ═══ 06 · EL ENTORNO · el bloque decisivo (galería-paseo) ═══ -->
+  <section class="section wrap entorno" id="entorno" aria-labelledby="ent-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Tu refugio estos días</span>
+      <h2 id="ent-t" data-reveal="2">Así es el <em>lugar</em> donde estarás.</h2>
+      <p class="lede">Un paseo por la casa antes de llegar: la sala, las habitaciones, el comedor y el entorno de la montaña de la Sella.</p>
+    </div>
+    <div class="entorno__galeria">
+      <figure class="entorno__fig entorno__fig--hero" data-reveal data-vacio="Vista del centro y la montaña de la Sella">
+        <img src="../../assets/img/retiro/entorno-exterior.jpg" alt="Exterior del Centro Budista Sakya en la montaña de la Sella" loading="lazy" onerror="this.closest('.entorno__fig').classList.add('is-vacio')">
+        <figcaption>El centro, en la montaña de la Sella</figcaption>
+      </figure>
+      <figure class="entorno__fig" data-reveal data-vacio="Sala de meditación">
+        <img src="../../assets/img/retiro/entorno-sala.jpg" alt="Sala de meditación del centro" loading="lazy" onerror="this.closest('.entorno__fig').classList.add('is-vacio')">
+        <figcaption>La sala de meditación</figcaption>
+      </figure>
+      <figure class="entorno__fig" data-reveal data-vacio="Habitación individual">
+        <img src="../../assets/img/retiro/entorno-habitacion.jpg" alt="Habitación individual con baño privado" loading="lazy" onerror="this.closest('.entorno__fig').classList.add('is-vacio')">
+        <figcaption>Habitación con baño privado</figcaption>
+      </figure>
+      <figure class="entorno__fig" data-reveal data-vacio="Comedor comunitario">
+        <img src="../../assets/img/retiro/entorno-comedor.jpg" alt="Comedor comunitario del centro" loading="lazy" onerror="this.closest('.entorno__fig').classList.add('is-vacio')">
+        <figcaption>El comedor comunitario</figcaption>
+      </figure>
+      <figure class="entorno__fig" data-reveal data-vacio="Jardines y zonas de paseo">
+        <img src="../../assets/img/retiro/entorno-jardin.jpg" alt="Jardines y zonas de paseo del centro" loading="lazy" onerror="this.closest('.entorno__fig').classList.add('is-vacio')">
+        <figcaption>Jardines y paseo</figcaption>
+      </figure>
+    </div>
+    <p class="entorno__nota">Fotografías del propio centro. Lo que ves es lo que encontrarás al llegar.</p>
+  </section>
+
+  <!-- ═══ 07 · PROGRAMA Y RITMO DIARIO ═══ -->
+  <section class="section wrap ritmo" id="programa" aria-labelledby="prog-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">El ritmo del día</span>
+      <h2 id="prog-t" data-reveal="2">Un día en el retiro, <em>hora a hora</em>.</h2>
+      <p class="lede">Hemos equilibrado la práctica con el descanso a propósito: no se trata de aguantar, sino de asentar.</p>
+    </div>
+    <ol class="ritmo__lista">
+      <li class="ritmo__item" data-reveal>
+        <span class="ritmo__hora">7:00</span>
+        <div class="ritmo__cuerpo"><h3>Meditación de la mañana</h3><p>Primera práctica del día, en silencio, antes del desayuno.</p></div>
+      </li>
+      <li class="ritmo__item ritmo__item--descanso" data-reveal>
+        <span class="ritmo__hora">8:30</span>
+        <div class="ritmo__cuerpo"><h3>Desayuno y descanso</h3><p>Comida sencilla y un rato para uno mismo.</p></div>
+      </li>
+      <li class="ritmo__item" data-reveal>
+        <span class="ritmo__hora">10:00</span>
+        <div class="ritmo__cuerpo"><h3>Enseñanza y práctica guiada</h3><p>Khenpo Rinchen guía la sesión y hay espacio para preguntar.</p></div>
+      </li>
+      <li class="ritmo__item ritmo__item--descanso" data-reveal>
+        <span class="ritmo__hora">13:30</span>
+        <div class="ritmo__cuerpo"><h3>Almuerzo y reposo</h3><p>Comida en comunidad y descanso amplio hasta media tarde.</p></div>
+      </li>
+      <li class="ritmo__item" data-reveal>
+        <span class="ritmo__hora">17:00</span>
+        <div class="ritmo__cuerpo"><h3>Práctica de la tarde</h3><p>Meditación y, según el día, ceremonia o lectura compartida.</p></div>
+      </li>
+      <li class="ritmo__item ritmo__item--descanso" data-reveal>
+        <span class="ritmo__hora">20:00</span>
+        <div class="ritmo__cuerpo"><h3>Cena y silencio nocturno</h3><p>El día se cierra con cena ligera y el centro entra en silencio.</p></div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ═══ 08 · ¿ES PARA TI? · filtro de idoneidad honesto ═══ -->
+  <section class="section wrap idoneidad zona-luz" id="idoneidad" aria-labelledby="ido-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Con honestidad</span>
+      <h2 id="ido-t" data-reveal="2">¿Es el momento <em>para ti</em>?</h2>
+      <p class="lede">Preferimos decirlo claro: así llegas sabiendo a qué vienes.</p>
+    </div>
+    <div class="momento">
+      <div class="momento__col si" data-reveal>
+        <div class="momento__cab">
+          <span class="momento__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <span><span class="momento__tag">Adelante</span><h3>Este es tu retiro</h3></span>
+        </div>
+        <ul class="momento__lista">
+          <li>Buscas parar unos días y no sabes muy bien por dónde empezar.</li>
+          <li>Quieres asentar una práctica de meditación, con o sin experiencia previa.</li>
+          <li>Te sienta bien el silencio compartido y un ritmo sin prisa.</li>
+          <li>Te apetece practicar en comunidad, sin presión de rendir.</li>
+        </ul>
+      </div>
+      <div class="momento__col no" data-reveal>
+        <div class="momento__cab">
+          <span class="momento__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 1.5"/></svg></span>
+          <span><span class="momento__tag">Quizás más adelante</span><h3>No es el momento si…</h3></span>
+        </div>
+        <ul class="momento__lista">
+          <li>Buscas unas vacaciones con actividades y planes; el retiro es reposo, no turismo.</li>
+          <li>Ahora mismo el silencio te resulta más carga que alivio.</li>
+          <li>No puedes reservar los cuatro días completos: el retiro se vive entero.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="idoneidad__cta"><a class="t-link" href="#inscripcion"><span class="txt">Me encaja, quiero reservar</span> <span class="arw" aria-hidden="true">→</span></a></div>
+  </section>
+
+  <!-- ═══ 09 · VOCES DEL SENDERO · testimonios (componentes testimonios + video) ═══ -->
+  <section class="section wrap bloque-voces" id="voces" aria-labelledby="voc-t">
     <div class="bloque-voces__head">
       <span class="eyebrow">Voces del sendero</span>
-      <h2 id="test-t">Voces de quienes ya <em>practican</em>.</h2>
+      <h2 id="voc-t">Quienes ya han <em>hecho el retiro</em>.</h2>
       <p class="bloque-voces__sub">Practicantes reales de la comunidad. Pulsa para escucharles — sin guion ni plató.</p>
     </div>
     <div class="voces">
       <figure class="voz voz--video">
         <div class="video-facade" data-yt="AKQ1vWQUz1Y" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de María Fernanda Corona"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
-        <blockquote class="voz__q">Lo recomiendo muchísimo: me ha servido mucho para ordenar mi vida.</blockquote>
-        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">MF</span><span><span class="voz__n">María Fernanda Corona</span><span class="voz__meta">vídeo-testimonio</span></span></figcaption>
+        <blockquote class="voz__q">Volví a casa descansada de una forma que no recordaba desde hacía años.</blockquote>
+        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">MF</span><span><span class="voz__n">María Fernanda Corona</span><span class="voz__meta">retiro de otoño · 2025</span></span></figcaption>
       </figure>
       <figure class="voz voz--video">
         <div class="video-facade" data-yt="JKKthx8ASls" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Valentina García"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
-        <blockquote class="voz__q">Son enseñanzas complicadas explicadas de una manera tan cercana que absorberlas es mucho más fácil.</blockquote>
-        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">VG</span><span><span class="voz__n">Valentina García</span><span class="voz__meta">vídeo-testimonio</span></span></figcaption>
+        <blockquote class="voz__q">Llegué con miedo al silencio y me fui deseando que durara más.</blockquote>
+        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">VG</span><span><span class="voz__n">Valentina García</span><span class="voz__meta">primer retiro · 2025</span></span></figcaption>
       </figure>
       <figure class="voz voz--video">
         <div class="video-facade" data-yt="FnENOAZHOjk" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Oscar Conde"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
-        <blockquote class="voz__q">Te da herramientas para corregir lo que más te aflige.</blockquote>
-        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">OC</span><span><span class="voz__n">Oscar Conde</span><span class="voz__meta">vídeo-testimonio</span></span></figcaption>
-      </figure>
-      <figure class="voz voz--video">
-        <div class="video-facade" data-yt="kl3-Nrxe8_k" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Juanita Galaz"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
-        <blockquote class="voz__q">Si estudias el material que EMI te entrega, tu vida cambiará.</blockquote>
-        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">JG</span><span><span class="voz__n">Juanita Galaz</span><span class="voz__meta">vídeo-testimonio</span></span></figcaption>
+        <blockquote class="voz__q">El ritmo del día te cuida: practicas, pero también descansas de verdad.</blockquote>
+        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">OC</span><span><span class="voz__n">Oscar Conde</span><span class="voz__meta">practicante · 2024</span></span></figcaption>
       </figure>
     </div>
   </section>
 
-  <!-- ═══ RETIRO · extra presencial ═══ -->
-  <section class="retiro" id="retiro" aria-labelledby="ret-t">
-    <div class="wrap retiro__inner">
-      <span class="eyebrow" data-reveal="1">Extra presencial</span>
-      <h2 id="ret-t" data-reveal="2">Retiro de <em>Integración</em>.</h2>
-      <p>Al finalizar tus lecciones tendrás la oportunidad de participar en un Retiro de Integración en nuestra sede central, el Centro Budista Sakya de Pedreguer (Alicante, España). Un espacio sagrado para meditar en directo con Khenpo Rinchen y resolver dudas profundas.</p>
-      <a class="t-link" href="#retiro-detalle"><span class="txt">Ver detalles del Retiro</span> <span class="arw" aria-hidden="true">→</span></a>
-    </div>
-  </section>
-
-  <!-- ═══ FAQ · acordeón accesible (reversión de riesgo final) ═══ -->
-  <section class="section wrap faq" id="faq" aria-labelledby="faq-t">
+  <!-- ═══ 10 · RESERVA Y ALOJAMIENTO · aforo real + compromiso de cuidado ═══ -->
+  <section class="section wrap inscripcion" id="inscripcion" aria-labelledby="res-t">
     <div class="seccion-head" data-reveal="1">
-      <span class="eyebrow">¿Tienes alguna duda?</span>
-      <h2 id="faq-t" data-reveal="2">Respuestas a las preguntas más <em>frecuentes</em>.</h2>
+      <span class="eyebrow">Reserva</span>
+      <h2 id="res-t" data-reveal="2">Elige cómo quieres <em>alojarte</em>.</h2>
+      <p class="lede"><span class="aforo"><span class="aforo__dot" aria-hidden="true"></span>Quedan <b>6</b> de 20 plazas</span> Todas las opciones incluyen las comidas y el material del retiro.</p>
+    </div>
+
+    <div class="planes">
+      <article class="plan plan--destacada" data-reveal>
+        <span class="plan__flag">Más elegida</span>
+        <p class="plan__eyebrow">Habitación<br>individual</p>
+        <h3>Individual con baño</h3>
+        <p class="plan__precio">280<small>,00&nbsp;€</small> <span>3 noches · comidas incl.</span></p>
+        <ul class="checks checks--sm">
+          <li><b>Habitación individual</b> con baño privado.</li>
+          <li><b>Todas las comidas</b> del retiro incluidas.</li>
+          <li><b>Material de práctica</b> y acceso a todas las sesiones.</li>
+          <li><b>Máximo silencio y descanso</b>, para quien quiere recogerse.</li>
+        </ul>
+        <p class="plan__ideal">Ideal para quien busca privacidad total y el máximo reposo.</p>
+        <a class="btn-primario" href="#">Reservar individual</a>
+      </article>
+
+      <article class="plan" data-reveal>
+        <span class="plan__flag plan__flag--sutil">Compartida</span>
+        <p class="plan__eyebrow">Habitación<br>compartida</p>
+        <h3>Compartida (2–4)</h3>
+        <p class="plan__precio">190<small>,00&nbsp;€</small> <span>3 noches · comidas incl.</span></p>
+        <ul class="checks checks--sm">
+          <li><b>Habitación compartida</b> de dos a cuatro personas, con baño.</li>
+          <li><b>Todas las comidas</b> del retiro incluidas.</li>
+          <li><b>Material de práctica</b> y acceso a todas las sesiones.</li>
+          <li><b>Opción más económica</b> con alojamiento en el centro.</li>
+        </ul>
+        <p class="plan__ideal">Ideal para quien no necesita privacidad y prefiere ajustar el coste.</p>
+        <a class="btn-secundario" href="#">Reservar compartida</a>
+      </article>
+
+      <article class="plan" data-reveal>
+        <span class="plan__flag plan__flag--sutil">Sin alojamiento</span>
+        <p class="plan__eyebrow">Solo<br>asistencia</p>
+        <h3>Sin alojamiento</h3>
+        <p class="plan__precio">120<small>,00&nbsp;€</small> <span>4 días · comidas incl.</span></p>
+        <ul class="checks checks--sm">
+          <li><b>Asistencia completa</b> a todas las sesiones del retiro.</li>
+          <li><b>Comidas del día</b> incluidas.</li>
+          <li><b>Sin pernoctar</b>: duermes en tu casa o alojamiento propio.</li>
+          <li><b>Para quien vive cerca</b> o prefiere organizar su estancia.</li>
+        </ul>
+        <p class="plan__ideal">Ideal para quien reside en la zona o ya tiene dónde alojarse.</p>
+        <a class="btn-secundario" href="#">Reservar sin alojamiento</a>
+      </article>
+    </div>
+
+    <p class="plazas-nota"><span class="pulse" aria-hidden="true"></span><b>El aforo es real y limitado.</b> Las camas del centro son contadas; cuando se llenan, se abre lista de espera. El número de plazas que ves es el que queda de verdad.</p>
+
+    <div class="cuidado" data-reveal>
+      <h3>Nuestro compromiso de cuidado</h3>
+      <p>Sabemos que puede surgir un imprevisto. Si no pudieras venir, avísanos con antelación y buscaremos la mejor solución —cambiar tu plaza a otra fecha o ayudarte a que otra persona la ocupe—. Queremos que la reserva no sea un motivo de tensión.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 11 · FAQ · logística de huésped (acordeón accesible) ═══ -->
+  <section class="section wrap faq zona-luz" id="faq" aria-labelledby="faq-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Antes de venir</span>
+      <h2 id="faq-t" data-reveal="2">Las dudas <em>más habituales</em>.</h2>
     </div>
     <div class="faq__buscador" data-reveal="2">
-      <input id="faqBuscar" type="text" autocomplete="off"
-             placeholder="Busca por palabra… certificado, tutorías, experiencia"
-             aria-label="Buscar en las preguntas frecuentes">
-      <span class="faq__buscador__icono" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21" stroke-linecap="round"></line></svg>
-      </span>
+      <input id="faqBuscar" type="text" autocomplete="off" placeholder="Busca por palabra… comida, silencio, qué llevar" aria-label="Buscar en las preguntas frecuentes">
+      <span class="faq__buscador__icono" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21" stroke-linecap="round"></line></svg></span>
     </div>
     <div class="faq__lista">
       <div class="faq__item">
-        <button class="faq__q" type="button" aria-expanded="false" aria-controls="fa1">¿Este curso tiene un enfoque religioso?<span class="faq__sign" aria-hidden="true"></span></button>
-        <div class="faq__panel" id="fa1" role="region"><div class="faq__inner"><p>El propósito de «Calma y Lucidez» es facilitar tu <b>desarrollo mental</b> y ayudarte a manejar las adversidades cotidianas. Aunque incluye enseñanzas de origen budista, se ofrece desde una perspectiva <b>secular y práctica</b>, útil a personas de <b>cualquier creencia</b>. Y si buscas profundizar espiritualmente, también encontrarás recursos valiosos.</p></div></div>
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="rf1">¿Qué tipo de comida se sirve?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="rf1" role="region"><div class="faq__inner"><p>La comida es <b>vegetariana</b>, sencilla y de temporada. Si tienes alguna <b>alergia o restricción</b>, lo indicas al reservar y lo tenemos en cuenta.</p></div></div>
       </div>
       <div class="faq__item">
-        <button class="faq__q" type="button" aria-expanded="false" aria-controls="fa2">¿Se otorga algún tipo de certificación al terminar el curso?<span class="faq__sign" aria-hidden="true"></span></button>
-        <div class="faq__panel" id="fa2" role="region"><div class="faq__inner"><p>Sí. Al completar cada módulo recibirás un <b>certificado</b> que acredita tu participación y finalización. Solo necesitas visualizar <b>todas las lecciones</b> y completar el <b>cuaderno de trabajo semanal</b>.</p></div></div>
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="rf2">¿Cómo son las habitaciones?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="rf2" role="region"><div class="faq__inner"><p>Hay <b>individuales y compartidas</b>, todas con <b>baño</b>. Están equipadas con lo necesario para el descanso; en el bloque «El entorno» puedes ver cómo son.</p></div></div>
       </div>
       <div class="faq__item">
-        <button class="faq__q" type="button" aria-expanded="false" aria-controls="fa3">¿Qué sucede si falto o llego tarde a una sesión?<span class="faq__sign" aria-hidden="true"></span></button>
-        <div class="faq__panel" id="fa3" role="region"><div class="faq__inner"><p>No te preocupes. <b>Todas las sesiones se graban</b> y quedan disponibles en línea durante <b>un año</b>: accede cuando y donde quieras y repasa el contenido <b>a tu propio ritmo</b>.</p></div></div>
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="rf3">¿Qué debo llevar?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="rf3" role="region"><div class="faq__inner"><p>Ropa <b>cómoda, discreta y de abrigo</b>, útiles de higiene, tus medicinas si las tomas, y algún imprescindible personal. <b>Tapones para los oídos</b> y una <b>linterna</b> pueden venir bien.</p></div></div>
       </div>
       <div class="faq__item">
-        <button class="faq__q" type="button" aria-expanded="false" aria-controls="fa4">¿Es necesario tener experiencia previa para inscribirse?<span class="faq__sign" aria-hidden="true"></span></button>
-        <div class="faq__panel" id="fa4" role="region"><div class="faq__inner"><p><b>No es necesaria ninguna experiencia previa.</b> «Calma y Lucidez» es accesible y provechoso tanto para <b>principiantes</b> como para personas con experiencia en yoga y meditación.</p></div></div>
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="rf4">¿Es un retiro en silencio total?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="rf4" role="region"><div class="faq__inner"><p>Es <b>parcialmente en silencio</b>: hay silencio durante las prácticas y las noches, y momentos para preguntar y compartir. No hace falta experiencia previa con el silencio.</p></div></div>
       </div>
       <div class="faq__item">
-        <button class="faq__q" type="button" aria-expanded="false" aria-controls="fa5">¿Puedo inscribirme si ya tengo experiencia en meditación?<span class="faq__sign" aria-hidden="true"></span></button>
-        <div class="faq__panel" id="fa5" role="region"><div class="faq__inner"><p><b>Definitivamente, sí.</b> Muchos estudiantes con práctica avanzada encuentran valor en <b>revisitar los fundamentos</b> para superar periodos de estancamiento.</p></div></div>
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="rf5">¿Cómo llego al centro?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="rf5" role="region"><div class="faq__inner"><p>El centro está en <b>Pedreguer (Alicante)</b>, en la montaña de la Sella. Al confirmar la reserva te enviamos indicaciones detalladas para llegar en coche o transporte público. Los horarios actualizados están en <a href="#">«Visita el Centro»</a>.</p></div></div>
       </div>
       <div class="faq__item">
-        <button class="faq__q" type="button" aria-expanded="false" aria-controls="fa6">¿Qué sucede después de inscribirte al curso?<span class="faq__sign" aria-hidden="true"></span></button>
-        <div class="faq__panel" id="fa6" role="region"><div class="faq__inner"><p>Recibirás un <b>correo de confirmación</b> y accederás al curso desde tu perfil, en <b>«Mis Cursos»</b>. El contenido se habilita <b>semanalmente</b> —una lección por semana— para que avances a tu ritmo.</p></div></div>
-      </div>
-      <div class="faq__item">
-        <button class="faq__q" type="button" aria-expanded="false" aria-controls="fa7">¿Cómo funcionan las tutorías?<span class="faq__sign" aria-hidden="true"></span></button>
-        <div class="faq__panel" id="fa7" role="region"><div class="faq__inner"><p>Al comenzar recibirás un <b>formulario</b> para elegir día y horario. Las tutorías empiezan en la <b>segunda semana</b>, las guía un <b>tutor del equipo Paramita</b>, y tendrás acceso a una <b>tutoría mensual con el Ven. Khenpo Rinchen</b>.</p></div></div>
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="rf6">¿Y si me surge un imprevisto y no puedo venir?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="rf6" role="region"><div class="faq__inner"><p>Avísanos con antelación y <b>buscamos la mejor solución</b>: cambiar tu plaza a otra fecha o ayudarte a que otra persona la ocupe. Lo explicamos en «Nuestro compromiso de cuidado».</p></div></div>
       </div>
     </div>
     <p class="faq__vacio" id="faqVacio" hidden>Ninguna pregunta coincide con eso. Escríbenos y te orientamos.</p>
   </section>
 
-  <!-- ═══ CTA FINAL ═══ -->
+  <!-- ═══ 12 · CTA FINAL ═══ -->
   <section class="cta-final" id="cta-final" aria-labelledby="ctaf-t">
     <div class="wrap cta-final__inner">
-      <p class="eyebrow" data-reveal="1">Da el primer paso</p>
-      <h2 class="cta-final__title" id="ctaf-t" data-reveal="2">Si sientes el llamado,<br><em>te esperamos</em>.</h2>
+      <p class="eyebrow" data-reveal="1">El refugio te espera</p>
+      <h2 class="cta-final__title" id="ctaf-t" data-reveal="2">Unos días para volver<br><em>a ti</em>.</h2>
       <div class="actions actions--centro">
-        <a class="btn-primario cta-estado" href="#inscripcion"><span class="cta-txt--anon">Inscríbete al curso</span><span class="cta-txt--log">Añadir a mi camino</span><span class="cta-txt--ins">Reanudar · Lección 3</span></a>
+        <a class="btn-primario" href="#inscripcion">Reservar mi plaza</a>
       </div>
     </div>
   </section>
 
-  <!-- La suscripción vive ahora en la banda del prefooter (partials/prefooter.html),
-       inyectada por sync antes del footer. Marcador de página: `prefooter`. -->
-
-  <!-- ═══ CTA STICKY · aparece tras el hero, se oculta al llegar a inscripción ═══ -->
+  <!-- ═══ CTA STICKY · aparece tras el hero, se oculta al llegar a la reserva ═══ -->
   <div class="cta-sticky" id="ctaSticky" aria-hidden="true">
     <div class="cta-sticky__info">
-      <span class="cta-sticky__precio">72&nbsp;€ <small>pago único</small></span>
-      <span class="cta-sticky__lec">Lección 3 de 8</span>
-      <span class="cta-sticky__meta">Nivel I · 8 lecciones</span>
+      <span class="cta-sticky__precio">desde 120&nbsp;€ <small>comidas incl.</small></span>
+      <span class="cta-sticky__lec">16–19 oct 2026</span>
+      <span class="cta-sticky__meta">Quedan 6 plazas</span>
     </div>
-    <a class="btn-primario cta-sticky__btn" href="#inscripcion">
-      <span class="cta-txt--anon">Inscríbete</span>
-      <span class="cta-txt--log">Añadir</span>
-      <span class="cta-txt--ins">Reanudar</span>
-    </a>
+    <a class="btn-primario cta-sticky__btn" href="#inscripcion">Reservar</a>
   </div>
 
 </main>
 
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
 <!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL · pendiente de Ale. El estilado sobre azul vive en
-     paramita-footer.css (.foot__hero .suscribe · variante por contexto).
-     El endpoint del formulario lo conecta Alberto; hasta entonces, mock. -->
 <!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL · pendiente de Ale. El estilado sobre azul vive en
-     paramita-footer.css (.foot__hero .suscribe · variante por contexto).
-     El endpoint del formulario lo conecta Alberto; hasta entonces, mock. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- prefooter · sincronizado con partials/prefooter.html -->
 <!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.

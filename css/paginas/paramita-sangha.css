@@ -29,11 +29,11 @@
   .hero--sangha{min-height:min(84vh,760px)}
   .hero--sangha .hero__bg-img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
   .hero--sangha::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-    background:linear-gradient(100deg,
-      color-mix(in oklch,var(--calido-zen) 94%,transparent) 0%,
-      color-mix(in oklch,var(--calido-zen) 80%,transparent) 34%,
-      color-mix(in oklch,var(--calido-zen) 32%,transparent) 66%,
-      transparent 100%)}
+    background:linear-gradient(to bottom,
+      color-mix(in oklch,var(--calido-zen) 93%,transparent) 0%,
+      color-mix(in oklch,var(--calido-zen) 87%,transparent) 48%,
+      color-mix(in oklch,var(--calido-zen) 26%,transparent) 66%,
+      color-mix(in oklch,var(--calido-zen) 18%,transparent) 100%)}
   .hero--sangha .hero__inner{position:relative;z-index:2}
   .hero--sangha .hero__inner h1{max-width:16ch}
 
@@ -247,7 +247,7 @@
 
   /* ── Responsive tira / panel ─────────────────────────────────────────── */
   @media (max-width:760px){
-    .hero--sangha::after{background:linear-gradient(to bottom,color-mix(in oklch,var(--calido-zen) 28%,transparent) 0%,color-mix(in oklch,var(--calido-zen) 80%,transparent) 60%,color-mix(in oklch,var(--calido-zen) 94%,transparent) 100%)}
+    .hero--sangha::after{background:linear-gradient(to bottom,color-mix(in oklch,var(--calido-zen) 92%,transparent) 0%,color-mix(in oklch,var(--calido-zen) 86%,transparent) 50%,color-mix(in oklch,var(--calido-zen) 40%,transparent) 72%,color-mix(in oklch,var(--calido-zen) 58%,transparent) 100%)}
     .sangha-lugar__grid{grid-template-columns:1fr;gap:1.6rem}
     .sangha-lugar__foto{order:-1}
     .sangha-panel__in{grid-template-columns:1fr}

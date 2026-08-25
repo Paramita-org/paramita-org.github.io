@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuatro puertas, una casa — Estudio maestro de las plantillas de actividad · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;
+    --paper-2:#FBFAF7;
+    --ink:#191A1C;
+    --slate:#63656B;
+    --ink-deep:#132239;
+    --ink-deep-2:#0E1A2C;
+    --gold:#A8823F;
+    --gold-lite:#C9A96E;
+    --rule:#DAD6CC;
+    --rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));
+    --wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);
+    line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+  .flow > .bleed{grid-column:1/-1;width:100%}
+
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.45;letter-spacing:-.01em;margin:2.6rem 0 0;color:var(--ink)}
+
+  section{padding:clamp(3rem,7vh,5rem) 0}
+  .sec-head{margin:0 0 2rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.2em;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(1.85rem,3.6vw,2.85rem);line-height:1.08;letter-spacing:-.012em;margin:0}
+  h3{font-family:"Hanken Grotesk",sans-serif;font-weight:650;font-size:1.18rem;letter-spacing:.005em;margin:2.6rem 0 .6rem;line-height:1.3}
+  h3 .tag{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);letter-spacing:.14em;vertical-align:.35em;margin-right:.55em;text-transform:uppercase}
+  p{margin:0 0 1.15rem}
+  a{color:var(--ink-deep);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;text-decoration-thickness:1px}
+  a:hover{text-decoration-thickness:2px}
+  strong{font-weight:650}
+  em{font-style:italic}
+  .drop::first-letter{font-family:"Fraunces",serif;font-weight:500;float:left;font-size:3.5em;line-height:.72;padding:.06em .09em 0 0;color:var(--ink-deep)}
+
+  .pull{font-family:"Fraunces",serif;font-style:italic;font-weight:400;font-size:clamp(1.35rem,2.4vw,1.9rem);line-height:1.32;letter-spacing:-.01em;color:var(--ink-deep);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:1.6rem 0;margin:2.4rem 0}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .stat{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.9rem,3vw,2.6rem);line-height:1;letter-spacing:-.02em;color:var(--ink-deep)}
+  .stat .n small{font-size:.5em;color:var(--gold);font-weight:500}
+  .stat .l{font-family:"Hanken Grotesk",sans-serif;font-size:.9rem;line-height:1.35;color:var(--ink);margin-top:.6rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.66rem;color:var(--slate);margin-top:.5rem;letter-spacing:.02em}
+
+  .note{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:1.3rem 1.4rem;margin:1.8rem 0;font-size:.98rem;line-height:1.62}
+  .note .k{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+
+  .tbl-wrap{margin:2rem 0;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.9rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:.8rem}
+  th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  thead th{border-bottom:1.5px solid var(--ink);font-family:"Hanken Grotesk";font-weight:650;font-size:.8rem}
+  tbody td:first-child{font-weight:600}
+  .num{font-family:"JetBrains Mono",monospace;font-size:.85rem;white-space:nowrap;color:var(--ink-deep)}
+  tbody tr:hover td{background:var(--paper-2)}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .split > div{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .split h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.25rem;margin:0 0 .3rem}
+  .split .role{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+  .split ul{margin:0;padding-left:1.05em;font-size:.94rem;line-height:1.55}
+  .split li{margin-bottom:.5rem}
+
+  /* compromiso gradient strip */
+  .grad{margin:2.2rem 0}
+  .grad-bar{height:12px;border-radius:99px;background:linear-gradient(90deg,#9ECBA8,var(--gold-lite),var(--gold),var(--ink-deep));border:1px solid var(--rule)}
+  .grad-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-top:.9rem}
+  .grad-labels div{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.04em;color:var(--slate);line-height:1.4}
+  .grad-labels b{display:block;font-family:"Hanken Grotesk";font-weight:650;font-size:.92rem;color:var(--ink);letter-spacing:0;margin-bottom:.15rem}
+
+  /* profile cards */
+  .profiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .pc{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .pc .who{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+  .pc h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.3rem;margin:0 0 .5rem;line-height:1.1}
+  .pc p{font-size:.9rem;line-height:1.5;color:var(--ink);margin:0 0 .7rem}
+  .pc .obj{font-size:.86rem;color:var(--slate);font-style:italic;border-top:1px solid var(--rule-soft);padding-top:.7rem}
+
+  .verdict{background:var(--ink-deep-2);color:var(--paper);padding:clamp(3rem,7vh,5rem) 0}
+  .verdict h2{color:var(--paper)}
+  .verdict .eyebrow{color:var(--gold-lite)}
+  .verdict p{color:#C3CAD6}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2rem}
+  .checks h4{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 1rem;padding-bottom:.6rem;border-bottom:1px solid rgba(255,255,255,.15)}
+  .checks .yes h4{color:#9ECBA8}
+  .checks .no h4{color:#D98C8C}
+  .checks ul{list-style:none;margin:0;padding:0;font-size:.94rem;line-height:1.5}
+  .checks li{padding-left:1.5em;position:relative;margin-bottom:.9rem;color:#D6DBE3}
+  .checks .yes li::before{content:"\2713";position:absolute;left:0;color:#9ECBA8;font-weight:700}
+  .checks .no li::before{content:"\2715";position:absolute;left:0;color:#D98C8C;font-weight:700}
+
+  /* type anchor header */
+  .typehead{border-top:2px solid var(--ink);padding-top:1.4rem;margin-top:1rem}
+  .typehead .kind{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.76rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:620px){
+    .split{grid-template-columns:1fr}
+    .checks{grid-template-columns:1fr}
+    .grad-labels{grid-template-columns:1fr 1fr}
+    .cover h1{font-size:clamp(2.3rem,10vw,3rem)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .sheen::after{animation:none;transform:translateX(80%)}
+    .reveal{opacity:1;transform:none;transition:none}
+    *{scroll-behavior:auto}
+  }
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe · Arquitectura de landings · Actividades · Estudio maestro · 2026</p>
+  <h1>Cuatro puertas,<br><em>una</em> casa</h1>
+  <p class="deck">El estudio maestro de las plantillas de actividad —<strong>retiro</strong>, <strong>evento</strong>, <strong>celebración</strong> y <strong>gira</strong>—: qué comparten, qué las separa y qué exige cada perfil. La doctrina común, antes de bajar a cada plantilla por separado.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Encargo</b> · Estudio maestro con datos contrastados</span>
+    <span><b>Fecha</b> · Agosto 2026</span>
+    <span><b>Lectura</b> · ~25 min</span>
+  </div>
+  <p class="lede">La tesis en una frase: una actividad no se comunica como un curso. Se rige por fecha, aforo y compromiso —y el compromiso no pesa igual en una celebración de una tarde que en un retiro residencial de una semana. Una plantilla por tipo no es capricho: es la única forma de que cada puerta pese lo que debe pesar.</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 01 ===================== -->
+<section class="flow" id="s1">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — El encargo</span>
+    <h2>Por qué una plantilla por tipo, y no una plantilla flexible</h2>
+  </div>
+
+  <p class="drop reveal">La plantilla de curso ya está resuelta: es la de EMI, con su columna de maestro, propósito, temario, lo que incluye, planes de inscripción y becas. Sirve porque un curso es, en el fondo, un proceso intelectual con un contenido que se puede desplegar en un índice. Una actividad no funciona así. En el informe interno sobre conversión de cursos y actividades ya quedó sentenciado que son <em>dos trabajos distintos</em>: la actividad se rige por tres variables que un curso no maneja igual —una fecha (caduca), un aforo (es finito) y un nivel de compromiso radicalmente variable.</p>
+
+  <p class="reveal">La tentación de resolverlo con una sola plantilla parametrizable es real y, para el mantenimiento, tentadora. Pero se rompe en cuanto se mira de cerca el eje del compromiso. Una celebración de Vesak es una tarjeta de invitación sin barrera de pago; un retiro residencial es una decisión que activa miedos logísticos profundos (dónde dormiré, habrá silencio, estaré a la altura). La objeción dominante que hay que disolver, el punto emocional de entrada y hasta la propia existencia de una transacción cambian por completo. Forzar los cuatro casos por el mismo molde obliga a que la celebración cargue con secciones de reserva que no necesita, y a que el retiro se quede corto de las que sí. La decisión —<strong>una plantilla por tipo</strong>— es la correcta.</p>
+
+  <p class="reveal">Este documento es el <strong>maestro</strong>: fija la doctrina que gobierna a las cuatro por igual y el eje que las separa, para que cuando bajemos a cada plantilla no tengamos que volver a discutir los cimientos. Lo que sigue combina lo que ya firmamos en informes internos con investigación externa contrastada, dando prioridad a fuentes de investigación primaria (Nielsen Norman Group, Baymard, literatura académica) sobre el folclore de agencia.</p>
+
+  <p class="pull reveal">Una plantilla por tipo no multiplica el trabajo: reconoce que cada puerta tiene un miedo distinto que disolver.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 ===================== -->
+<section class="flow" id="s2">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — Cimientos</span>
+    <h2>La doctrina común: lo que ya está firmado</h2>
+  </div>
+
+  <p class="drop reveal">Antes de diferenciar, conviene fijar lo que las cuatro plantillas comparten sin excepción. No es teoría nueva: casi todo esto ya está decidido en la casa. Lo recojo aquí porque es el suelo sobre el que se apoya cada tipo, y porque parte de ello contradice de frente a las plantillas de referencia habituales del sector.</p>
+
+  <h3 class="reveal"><span class="tag">01</span>Se escanea, no se lee — y nunca en carrusel</h3>
+  <p class="reveal">La estructura base es rejilla vertical escaneable, idea primero (BLUF), un pictograma y cuatro palabras en lugar de un párrafo. El carrusel autorrotativo y el scroll horizontal como navegación quedan descartados por datos, no por gusto: Baymard documenta que el 46% de los carruseles de home tienen problemas de usabilidad y que una alternativa estática rinde igual de bien; el drop-off es demoledor —apenas un ~2% del público pasa del primer ítem. Y Nielsen Norman Group registra que el scroll horizontal en escritorio es una de las poquísimas interacciones que genera rechazo de forma consistente.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">46<small>%</small></div><div class="l">de los carruseles de home tienen problemas de usabilidad</div><div class="src">Baymard Institute</div></div>
+    <div class="stat"><div class="n">~2<small>%</small></div><div class="l">del público pasa del primer ítem de un carrusel</div><div class="src">Eckman / estudios citados</div></div>
+    <div class="stat"><div class="n">75<small>%</small></div><div class="l">no advirtió que podía hacer scroll (Illusion of Completeness)</div><div class="src">Nielsen Norman Group</div></div>
+  </div>
+
+  <h3 class="reveal"><span class="tag">02</span>Escasez honesta, jamás urgencia fabricada</h3>
+  <p class="reveal">Este es el punto donde la casa se separa más nítidamente de la plantilla de "landing de evento" al uso, que empuja siempre hacia contadores de cuenta atrás y disparadores de FOMO. Nuestra postura ya firmada: el <em>único</em> uso legítimo de la escasez es el aforo real —un retiro con plazas contadas, una sala local con capacidad finita—. "Quedan 4 plazas" es información útil y honesta; un reloj que corre no lo es.</p>
+
+  <p class="reveal">La investigación externa refuerza esta frontera con dureza. Nielsen Norman Group traza una línea limpia entre escasez honesta (el límite refleja la realidad) y escasez engañosa (erosiona la confianza). La Comisión Federal de Comercio de EE. UU., en su informe <em>Bringing Dark Patterns to Light</em> (2022), nombra explícitamente las falsas alarmas de urgencia y los avisos falsos de "poco stock" como prácticas engañosas perseguibles. Un barrido internacional de la FTC, ICPEN y GPEN en 2024 encontró que el 75,7% de 642 sitios usaba al menos un patrón oscuro, y dos tercios usaban dos o más. Y el argumento que cierra el caso no es ético sino práctico: la escasez falsa erosiona la misma confianza que hace funcionar a la escasez honesta —quien usa ambas convierte peor que quien no usa ninguna.</p>
+
+  <div class="note reveal">
+    <span class="k">Frontera ética = frontera práctica</span>
+    La prueba de un contador honesto es simple: si el usuario se detuviera a verificarlo, ¿encontraría que decimos la verdad? Un aforo real la pasa. Un reloj que se reinicia al recargar la página, no. En Paramita esto no es negociable, y además protege la conversión a largo plazo.
+  </div>
+
+  <h3 class="reveal"><span class="tag">03</span>El formulario se ajusta al compromiso, no al dogma</h3>
+  <p class="reveal">La "mejor práctica" de recortar campos miente por simplificar. El dato que desmonta el dogma: Unbounce recortó un registro a conferencia de 9 a 6 campos esperando subir la conversión —y cayó un 14%—, porque en un contexto de alto compromiso los campos "de más" señalan seriedad y ayudan a autocualificar. La lección real: el número de campos se ajusta al nivel de compromiso y al valor percibido. Preguntas fáciles primero, multipaso con indicador de progreso (HubSpot reporta hasta +86% en formularios multipaso), autocompletado, y nunca un campo que obligue a salir de la página a buscar un dato.</p>
+
+  <h3 class="reveal"><span class="tag">04</span>Voces del sendero, no testimonios de reseña</h3>
+  <p class="reveal">Donde se muestran experiencias de otros participantes, se muestran como <em>voces del sendero</em>: nombre y rostro reales, experiencia concreta (no elogio), contexto y antigüedad, consentimiento explícito. Jamás anónimas, jamás en carrusel autoavanzando, jamás con estrellas, sellos ni contadores. El vídeo, siempre en patrón facade / poster-first para no cargar el LCP. El informe interno de testimonios ya nombra "/actividades/ · retiros" como sitio legítimo para esto: es donde se decide, no en la home.</p>
+
+  <h3 class="reveal"><span class="tag">05</span>Marco dāna donde toca — y el rostro real, con matices</h3>
+  <p class="reveal">En celebraciones y en las giras entra la gramática del dāna, ya establecida: no se premia el don, la recurrencia sí pero nunca vestida de "suscripción", identidad única "Amigo/a de Paramita", beneficios en voz baja. Sobre el conocido efecto del "rostro identificable" —una persona concreta mueve más que una estadística abstracta— conviene ser honestos con la evidencia: es real pero <em>modesto</em>. Un meta-análisis de 41 estudios lo cifra en un efecto pequeño (r ≈ .05), fiable sobre todo cuando hay un único sujeto fotografiado; y una replicación preregistrada de 2023 no logró reproducirlo. Traducción para Paramita: mostrar la cara de la comunidad y del maestro ayuda y humaniza, pero no es magia. Lo que de verdad sostiene la generosidad es la transparencia y el <em>warm glow</em> —se dona para sentir que se participa, no para calcular—, no un truco visual.</p>
+
+  <h3 class="reveal"><span class="tag">06</span>Lo demás, heredado del sistema</h3>
+  <p class="reveal">Movimiento: dos familias (ambiental/identitaria siempre viva; e invocada por el usuario), sin animaciones infinitas fuera de la familia ambiental, <code>prefers-reduced-motion</code> respetado. CTA con la nomenclatura unificada (<code>.btn-primario</code> / <code>.btn-secundario</code> / <code>.t-link</code>). Color siempre por tokens OKLCH. Nada de esto cambia entre tipos.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 ===================== -->
+<section class="flow" id="s3">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — El eje</span>
+    <h2>Lo que las separa: el gradiente de compromiso</h2>
+  </div>
+
+  <p class="drop reveal">Si algo justifica cuatro plantillas, es esto. Las cuatro actividades se ordenan a lo largo de un mismo eje —cuánto pide al usuario y cuánto miedo hay que disolver para que diga que sí—. De menos a más: la celebración apenas pide una tarde; el evento pide un día o varios y cierta intensidad; la gira pide desplazarse dentro del propio país en una ventana concreta; el retiro pide días, cuerpo, dinero y confianza para dormir fuera de casa.</p>
+
+  <div class="grad reveal" aria-hidden="true">
+    <div class="grad-bar"></div>
+    <div class="grad-labels">
+      <div><b>Celebración</b>Compromiso bajo · acceso libre · confirmar</div>
+      <div><b>Evento</b>Compromiso medio-alto · aforo · pago o dāna</div>
+      <div><b>Gira</b>Compromiso medio · multi-sede · pago local</div>
+      <div><b>Retiro</b>Compromiso alto · residencial · reserva</div>
+    </div>
+  </div>
+
+  <p class="reveal">El orden no es del todo lineal —la gira y el evento se rozan, y una gira puede contener un retiro— pero como brújula sirve: a más compromiso, más peso del lugar y de la logística, más justificado el formulario largo, y más central el trabajo de disolver el miedo antes de pedir la acción. A menos compromiso, más ligereza, menos fricción, menos persuasión y más pura invitación.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Las cuatro plantillas en un vistazo</caption>
+      <thead>
+        <tr><th>Tipo</th><th>Unidad</th><th>Transacción</th><th>Escasez legítima</th><th>Objeción dominante</th><th>Puerta emocional</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Celebración</td><td>Una fecha, una tarde</td><td>Ninguna · RSVP</td><td>No aplica</td><td>"¿Merece mi tarde?"</td><td>Alegría, pertenencia</td></tr>
+        <tr><td>Evento</td><td>Uno o varios días</td><td>Pago o dāna · aforo</td><td>Aforo de sala</td><td>"¿Estaré a la altura? ¿La logística?"</td><td>Intensidad, transmisión</td></tr>
+        <tr><td>Gira</td><td>Calendario multi-sede</td><td>Pago en moneda local</td><td>Aforo por sede</td><td>"¿Viene a mi tierra?"</td><td>Fortuna, cercanía</td></tr>
+        <tr><td>Retiro</td><td>Varios días, residencial</td><td>Reserva + alojamiento + señal</td><td>Plazas cerradas</td><td>"¿Dónde dormiré? ¿Habrá silencio?"</td><td>Refugio, miedo a lo desconocido</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 04 ===================== -->
+<section class="flow" id="s4">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — Perfiles</span>
+    <h2>Cuatro personas, en el punto de entrada</h2>
+  </div>
+
+  <p class="drop reveal">La pregunta útil no es "quién es el usuario" en abstracto, sino qué siente en el momento en que llega a la página y qué duda concreta le impide seguir. Cada plantilla se diseña alrededor de disolver <em>esa</em> duda, no de acumular argumentos.</p>
+
+  <div class="profiles reveal">
+    <div class="pc">
+      <div class="who">Celebración</div>
+      <h4>El vínculo</h4>
+      <p>Ya siente cercanía con la casa o la busca. No calcula: quiere pertenecer y compartir un día señalado. La barrera no es el precio (no hay), es la claridad —¿cuándo, dónde, y puedo aparecer sin más?</p>
+      <div class="obj">"¿Es abierto? ¿Tengo que llevar algo?"</div>
+    </div>
+    <div class="pc">
+      <div class="who">Evento</div>
+      <h4>El comprometido</h4>
+      <p>Dispuesto a dar tiempo y energía reales, presencial u online. Su miedo mutó de "no tengo tiempo de verlo" a "me asusta la intensidad" y "la logística es compleja". Necesita seguridad corporal y técnica antes que argumentos.</p>
+      <div class="obj">"¿Recibiré lo mismo por pantalla? ¿Aguantaré tantas horas?"</div>
+    </div>
+    <div class="pc">
+      <div class="who">Gira</div>
+      <h4>El afortunado</h4>
+      <p>Muchos son nuevos. Sienten que algo raro y valioso pasa cerca. Su objeción es la fuga al online ("mejor lo veo en streaming") y la intimidación ("no encajo"). El puente es la cercanía: el maestro viene a su tierra, en su idioma.</p>
+      <div class="obj">"¿Realmente viene a mi ciudad? ¿Es para alguien como yo?"</div>
+    </div>
+    <div class="pc">
+      <div class="who">Retiro</div>
+      <h4>El que huye del ruido</h4>
+      <p>Anhela silencio y teme lo desconocido a partes iguales. No es una decisión intelectual: es casi biológica. Todo su "sí" depende de poder <em>visualizarse ya allí</em> —la cama, el silencio, la comida— antes de pagar.</p>
+      <div class="obj">"¿Dónde dormiré? ¿Estaré seguro? ¿Podré con ello?"</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 05 · RETIRO ===================== -->
+<section class="flow" id="retiro">
+  <div class="typehead reveal">
+    <span class="kind">Plantilla · Tipo A</span>
+    <h2>Retiro — la inmersión</h2>
+  </div>
+
+  <p class="drop reveal">Es la plantilla de máximo compromiso y, por tanto, la de mayor trabajo emocional. A diferencia del curso, aquí el <em>lugar</em> y el <em>maestro</em> pesan lo mismo. El objetivo de la página es transformar la ansiedad por el ruido cotidiano en certeza de refugio: llevar a la persona de un estado de estrés a uno de seguridad, de modo que sienta que ya está allí antes de reservar. La literatura del sector coincide en que la palanca decisiva es la <em>visualización del lugar</em> —imagen y vídeo de alta calidad que transmitan el sentido del espacio, el silencio y la comodidad reducen el miedo a lo desconocido y hacen posible el sí.</p>
+
+  <p class="reveal">Estructura recomendada, coherente con el gradiente: hero que evoca el estado final (calma, claridad); invitación en vídeo del maestro o facilitador; conoce al guía; el enfoque y el sentido del retiro; la práctica central; <strong>el entorno</strong> —galería del alojamiento, la sala, los jardines: aquí es donde se disuelve el miedo logístico—; contenidos; filtro de idoneidad ("es para ti si… / no es para ti si…"); programa y ritmo diario; voces del sendero; e inscripción con opciones de alojamiento (individual, compartida, sin alojamiento) y condiciones claras de reserva. El formulario, aquí, puede y debe ser más largo: es alto compromiso, y los campos de más autocualifican.</p>
+
+  <div class="note reveal">
+    <span class="k">Escasez en el retiro</span>
+    Es el único tipo donde el aforo cerrado es central y legítimo. "Plazas limitadas" es verdad porque las camas son finitas. Se comunica como información ("quedan N plazas"), nunca como reloj.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 06 · EVENTO ===================== -->
+<section class="flow" id="evento">
+  <div class="typehead reveal">
+    <span class="kind">Plantilla · Tipo B</span>
+    <h2>Evento — el encuentro vivo</h2>
+  </div>
+
+  <p class="drop reveal">Un evento (presencial en la sede, u online en vivo) implica un compromiso temporal y energético mayor que un curso grabado, pero sin la inmersión residencial del retiro. Aquí las objeciones se dividen por modalidad: en presencial, el viaje, la convivencia, la intensidad y los costes ocultos; en online, la desconexión energética, el entorno doméstico lleno de distracciones y la fatiga digital. La plantilla se ordena para resolver ambas ramas: elevar el espíritu, dar claridad del qué y el para quién, aportar seguridad corporal y técnica (cómo llegar / cómo conectarse), e invitar a la acción.</p>
+
+  <p class="reveal">Una advertencia sobre la temperatura. La plantilla de referencia de eventos tiende a un neuromarketing agresivo —una "objeción silenciosa" armada en cada bloque, garantías de reembolso, disparadores de escasez—. El armazón sirve, pero hay que bajarle el volumen para que hable como la casa. Dos correcciones concretas: el bloque de "garantía / devolución" con lógica comercial no encaja con el dāna —se reformula como <em>compromiso de cuidado</em> (facilidades para grabaciones o cambio de modalidad ante un imprevisto), sin lenguaje de reembolso—; y cualquier "oportunidad única" se apoya solo en el aforo real de la sala o queda fuera.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 07 · CELEBRACIÓN ===================== -->
+<section class="flow" id="celebracion">
+  <div class="typehead reveal">
+    <span class="kind">Plantilla · Tipo C</span>
+    <h2>Celebración — la tarjeta de invitación</h2>
+  </div>
+
+  <p class="drop reveal">Es la plantilla más distinta, y por sí sola justifica no unificar. No hay barrera de pago ni miedos que calmar con FAQs largas: hay una oportunidad espiritual que comunicar con alegría y claridad. Su función es informar e inspirar de un vistazo. Es, literalmente, una <em>tarjeta de invitación</em>: nombre de la celebración, el porqué del día, cómo se celebrará, la práctica, quién guía, y el acceso —lugar, hora, y la confirmación de que es un evento abierto y gratuito—.</p>
+
+  <p class="reveal">La acción no es comprar sino <strong>confirmar asistencia</strong>. Y aquí la regla del formulario proporcional al compromiso funciona al revés que en el retiro: compromiso bajísimo, así que fricción mínima —un solo paso, uno o dos campos, sin peaje—. Esta plantilla <em>no</em> es transaccional; hereda el marco dāna sin pasarela de pago. Todo lo que en las otras es persuasión, aquí es hospitalidad.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 08 · GIRA ===================== -->
+<section class="flow" id="gira">
+  <div class="typehead reveal">
+    <span class="kind">Plantilla · Tipo D · dos variantes</span>
+    <h2>Gira — el mapa y la ciudad</h2>
+  </div>
+
+  <p class="drop reveal">La gira es el único tipo cuya unidad no es una fecha sino un <em>calendario</em>: un maestro que mueve su energía por varios países y ciudades. Eso obliga a dos variantes de una misma familia. La <strong>genérica</strong> es un catálogo de destinos —tarjetas por país/ciudad con fecha y estado (inscripciones abiertas / próximamente / lista de espera), un contador de plazas cuando el aforo del local es real, y una suscripción para avisar de "apertura de inscripciones" a quien aún no encontró su fecha—. La <strong>de país específico</strong> es el punto de conversión local: elimina toda duda sobre transporte, alojamiento y tipo de enseñanza para que el sí sea inmediato.</p>
+
+  <h3 class="reveal">El clúster de destinos es, en el fondo, un buscador de sedes</h3>
+  <p class="reveal">Y los buscadores de ubicaciones se hacen mal con frecuencia: en los estudios de Nielsen Norman Group, los usuarios encontraban la sede adecuada solo el 63% de las veces, y los sitios cumplían menos de la mitad de las guías de usabilidad. Las lecciones aplicables: ofrecer "usar mi ubicación" (geolocalización) para ahorrar tecleo, que la mayoría acepta de buen grado; y priorizar la <em>vista de lista</em> sobre el mapa por defecto —da más densidad de información y hace más rápido elegir—, dejando el mapa como alternativa conmutable, no como pantalla principal.</p>
+
+  <div class="split reveal">
+    <div>
+      <div class="role">Variante · Genérica</div>
+      <h4>El catálogo de ilusión</h4>
+      <ul>
+        <li>Hero que establece la rareza del acontecimiento (un despliegue que ocurre cada X años), sin FOMO fabricado.</li>
+        <li>Clúster de sedes: lista primero, geolocalización, estado honesto por ciudad.</li>
+        <li>El propósito del viaje: fortalecer la Sangha local, la transmisión presencial.</li>
+        <li>Suscripción para "apertura de inscripciones" — crucial para quien no tiene fecha aún.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="role">Variante · País específico</div>
+      <h4>La guía práctica</h4>
+      <ul>
+        <li>Hero de anclaje local: el maestro en tu ciudad, la sala concreta.</li>
+        <li>Temario específico de esa sede (a veces varía por ciudad).</li>
+        <li>Logística local: dirección, mapa, transporte, alojamiento cercano.</li>
+        <li>Precio en <strong>moneda local</strong> y organización local visible (confianza).</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="reveal">El activo diferencial de Paramita aquí es Khenpo Rinchen Gyaltsen: su origen latino es un puente de confianza que elimina la "distancia cultural" —sabiduría milenaria en el propio idioma—. Es exactamente el tipo de cercanía humana (un rostro y una voz concretos) que, con las cautelas del apartado 02, ayuda a que la invitación no suene lejana.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 09 · AUDITORÍA PREVIA ===================== -->
+<section class="verdict">
+  <div class="flow">
+    <div class="sec-head reveal">
+      <span class="eyebrow">09 — Auditoría</span>
+      <h2>Tu previa, contrastada con la doctrina</h2>
+    </div>
+    <p class="reveal">Los cuatro esqueletos de la previa están bien pensados y se conservan casi enteros. Lo que hay que corregir es, sobre todo, lenguaje persuasivo que la casa ya rechazó. Resumen de lo que pasa el filtro y lo que se ajusta.</p>
+
+    <div class="checks reveal">
+      <div class="yes">
+        <h4>Se conserva</h4>
+        <ul>
+          <li>Retiro: lugar y maestro con el mismo peso; visualizar el entorno para disolver el miedo; inscripción con opciones de alojamiento.</li>
+          <li>Celebración: la lógica de "tarjeta de invitación", acceso libre, "confirmar asistencia" en vez de comprar.</li>
+          <li>Gira: separarla en genérica (clúster de sedes con estado) y país específico (conversión local, moneda local).</li>
+          <li>Evento: la doble rama presencial / online y la resolución de logística como columna.</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h4>Se ajusta</h4>
+        <ul>
+          <li>Toda "oportunidad única / últimas plazas" → solo si hay aforo real; si es disparador emocional, fuera.</li>
+          <li>"Garantía / devolución" comercial (evento, retiro) → compromiso de cuidado, sin lenguaje de reembolso.</li>
+          <li>"Testimonios" → voces del sendero: con nombre, rostro y experiencia concreta.</li>
+          <li>WhatsApp flotante y contadores por bloque quedan como decisión abierta, no como patrón por defecto.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 10 · CIERRE ===================== -->
+<section class="flow" id="cierre">
+  <div class="sec-head reveal">
+    <span class="sec-num">10 — Cierre</span>
+    <h2>Qué queda cerrado y qué baja a plantilla</h2>
+  </div>
+
+  <p class="drop reveal">Este maestro deja fijados los cimientos: las cuatro plantillas comparten escaneo vertical sin carrusel, escasez honesta sin urgencia fabricada, formulario proporcional al compromiso, voces del sendero, marco dāna donde toca, y el sistema de movimiento, CTA y color de la casa. Y deja fijado el eje que las separa —el gradiente de compromiso— y el perfil y la objeción dominante de cada una.</p>
+
+  <p class="reveal">El siguiente paso, cuando toque construir, es bajar cada tipo a su plantilla real, empezando por la de mayor exigencia. El orden lógico de desarrollo sigue el propio gradiente en sentido descendente: si la espina aguanta el <strong>retiro</strong>, aguanta el resto. Después evento, gira (con sus dos variantes) y celebración —la más ligera— como cierre.</p>
+
+  <p class="reveal">Cada plantilla llegará como muestra front-first, igual que EMI: con los CTA de reserva o confirmación provisionales hasta que exista el rail transaccional de actividades en el backend. La maqueta no depende de ello.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== REFERENCIAS ===================== -->
+<section class="flow refs">
+  <div class="sec-head reveal">
+    <span class="sec-num">R — Fuentes</span>
+    <h2>De dónde salen los datos</h2>
+  </div>
+  <ol class="reveal">
+    <li><b>Nielsen Norman Group</b> — Illusion of Completeness; scroll y atención; escasez honesta vs. engañosa (2024); Store Finders and Locators, Maps and Location Finders on Mobile, Helping Users Find Physical Locations (éxito del 63%).</li>
+    <li><b>Baymard Institute</b> — "10 UX Requirements for Homepage Carousels" (46% con problemas); navegación de catálogo; ejemplos de store locator.</li>
+    <li><b>Federal Trade Commission (EE. UU.)</b> — <i>Bringing Dark Patterns to Light</i> (2022): falsas alarmas de urgencia y falso "poco stock" como prácticas engañosas.</li>
+    <li><b>FTC · ICPEN · GPEN</b> — barrido internacional 2024: 75,7% de 642 sitios con ≥1 patrón oscuro; 66,8% con dos o más.</li>
+    <li><b>Comisión Europea</b> — estudio 2018: 97% de sitios y apps populares con al menos una táctica de diseño engañoso.</li>
+    <li><b>Mathur et al.</b> — "Dark Patterns at Scale", rastreo de 11.000 sitios: 157 contadores de cuenta atrás engañosos en 140 sitios.</li>
+    <li><b>Scandiweb</b> (2026) — escasez honesta vs. falsa; usar escasez falsa convierte peor que no usar ninguna.</li>
+    <li><b>Unbounce</b> — benchmark de landing pages; caso de registro a conferencia 9→6 campos (−14%).</li>
+    <li><b>HubSpot</b> — formularios multipaso (hasta +86%).</li>
+    <li><b>Small, Loewenstein & Slovic (2007)</b>; <b>Lee & Feeley (2016)</b>, meta-análisis (r ≈ .05); <b>Maier et al. (2023)</b>, replicación preregistrada sin apoyo — efecto de la víctima/rostro identificable, modesto y contestado.</li>
+    <li><b>Informes internos Paramita</b> — Espectáculo vs. Conversión (cursos y actividades); Testimonios y vídeo; Donativo vs. membresía; Crowdfunding y neuromarketing; Voluntariado (landing y formulario); FAQ, arquitectura de información.</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Estudio maestro de plantillas de actividad · Fundació Sakya Paramita · Agosto 2026 · Datos verificados en fuentes citadas · Documento autocontenido</div>
+</footer>
+
+<script>
+  var pb=document.getElementById('progress');
+  function onScroll(){
+    var h=document.documentElement;
+    var max=h.scrollHeight-h.clientHeight;
+    pb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';
+  }
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});
+  }
+</script>
+</body>
+</html>

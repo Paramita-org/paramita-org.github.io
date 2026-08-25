@@ -1,0 +1,199 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-retiro.css — Página de retiro (plantilla de actividad · Tipo A)
+   ───────────────────────────────────────────────────────────────────────────
+   Reutiliza el vocabulario de landing de paramita-curso.css (.split, .planes,
+   .checks, .seccion-head, .bloque-voces, .video-facade, .faq, .faq__buscador,
+   .cta-final) y porta de paramita-grupos.css los patrones que Jana pidió
+   replicar (cards con pictogramas .pictos/.picto y el bloque «Con honestidad»
+   .momento). Añade además los bloques propios del retiro:
+     · .entorno  — galería-paseo del lugar (hero a sangre + tira de miniaturas)
+     · .ritmo    — línea de tiempo del día (alterna práctica y descanso)
+     · .aforo    — píldora de plazas reales (escasez honesta, nunca reloj)
+     · .cuidado  — compromiso de cuidado (cancelación en voz de la casa)
+   Separación entre bloques con velos en degradado (.zona-luz / .difusor),
+   «como venimos haciendo». Colores solo por tokens OKLCH de paramita-color.css.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer paginas {
+
+  /* ── SEPARACIÓN ENTRE BLOQUES · velos en degradado a sangre ───────────────── */
+  .zona-luz{ position:relative; isolation:isolate; }
+  .zona-luz::before{
+    content:""; position:absolute; top:0; bottom:0; left:50%; margin-left:-50vw;
+    width:100vw; z-index:-1; background:
+      radial-gradient(78% 66% at 82% 6%, color-mix(in oklch,var(--calido-zen) 60%,transparent), transparent 58%),
+      linear-gradient(180deg, var(--lino), color-mix(in oklch,var(--arena) 30%, var(--lino)) 50%, var(--lino));
+  }
+  .difusor{ position:relative; isolation:isolate; }
+  .difusor::before{
+    content:""; position:absolute; top:0; bottom:0; left:50%; margin-left:-50vw;
+    width:100vw; z-index:-1; background:
+      radial-gradient(56% 96% at 0% 42%,  color-mix(in oklch,var(--calido-zen) 84%,transparent), transparent 62%),
+      radial-gradient(56% 96% at 100% 46%,color-mix(in oklch,var(--calido-zen) 72%,transparent), transparent 62%),
+      radial-gradient(42% 58% at 6% 96%,  color-mix(in oklch,var(--dorado) 13%,transparent),     transparent 60%),
+      linear-gradient(180deg, color-mix(in oklch,var(--calido-zen) 42%, var(--lino)), var(--lino));
+  }
+
+  /* ── AFORO · píldora honesta de plazas reales ────────────────────────────── */
+  .aforo{
+    display:inline-flex; align-items:center; gap:.5rem;
+    font-family:var(--body); font-size:.9rem; color:var(--antracita);
+    background:color-mix(in oklch, var(--dorado) 12%, var(--card));
+    border:1px solid color-mix(in oklch, var(--dorado) 40%, transparent);
+    padding:.35rem .8rem; border-radius:999px; font-variant-numeric:tabular-nums;
+  }
+  .aforo__dot{ width:7px; height:7px; border-radius:50%; background:var(--dorado); flex:none; }
+  .aforo b{ font-weight:var(--wght-asertivo); }
+
+  /* ── EL ENTORNO · galería-paseo (hero a sangre + miniaturas) ──────────────── */
+  .entorno__galeria{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:.7rem;
+    margin-top:var(--espacio-contenido);
+  }
+  .entorno__fig{
+    position:relative; margin:0; overflow:hidden; border-radius:16px;
+    background:var(--arena); aspect-ratio:4/3;
+  }
+  .entorno__fig--hero{ grid-column:1 / -1; aspect-ratio:21/9; }
+  .entorno__fig img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform .6s var(--ease);
+  }
+  .entorno__fig:hover img{ transform:scale(1.04); }
+  .entorno__fig figcaption{
+    position:absolute; inset:auto 0 0 0; padding:.8rem .9rem;
+    font-family:var(--body); font-size:.82rem; color:var(--lino); letter-spacing:.01em;
+    background:linear-gradient(to top, color-mix(in oklch, var(--antracita) 82%, transparent), transparent);
+  }
+  .entorno__fig.is-vacio img{ opacity:0; }
+  .entorno__fig.is-vacio::after{
+    content:attr(data-vacio); position:absolute; inset:0;
+    display:grid; place-items:center; padding:1rem; text-align:center;
+    color:var(--texto-tenue); font-family:var(--body); font-size:.82rem;
+  }
+  .entorno__nota{ margin-top:var(--espacio-elemento); color:var(--texto-suave); font-size:.92rem; }
+
+  /* ── PROGRAMA Y RITMO DIARIO · línea de tiempo ───────────────────────────── */
+  .ritmo__lista{ list-style:none; margin:var(--espacio-contenido) 0 0; padding:0; }
+  .ritmo__item{ display:grid; grid-template-columns:6rem 1fr; gap:1.2rem; }
+  .ritmo__hora{
+    font-family:var(--body); font-variant-numeric:tabular-nums;
+    color:var(--texto-suave); font-size:.95rem; text-align:right; padding-top:.05rem;
+  }
+  .ritmo__cuerpo{ position:relative; border-left:1px solid var(--hair); padding:0 0 1.4rem 1.4rem; }
+  .ritmo__cuerpo::before{
+    content:""; position:absolute; left:-5px; top:.3rem; width:9px; height:9px;
+    border-radius:50%; background:var(--card); border:2px solid var(--dorado);
+  }
+  .ritmo__item:last-child .ritmo__cuerpo{ border-color:transparent; padding-bottom:0; }
+  .ritmo__cuerpo h3{ font-size:1.05rem; margin:0 0 .2rem; line-height:1.3; }
+  .ritmo__cuerpo p{ margin:0; color:var(--texto-suave); font-size:.95rem; line-height:1.5; }
+  .ritmo__item--descanso .ritmo__cuerpo::before{ border-color:var(--azul-sutil); }
+  .ritmo__item--descanso .ritmo__cuerpo h3{ color:var(--texto-suave); font-weight:var(--wght-presencia); }
+
+  /* ── PASOS · la práctica central (Escuchar → Reflexionar → Meditar → …) ───── */
+  .pasos{ display:flex; flex-wrap:wrap; align-items:center; gap:.7rem 1rem; margin:var(--espacio-elemento) 0 0; padding:0; list-style:none; }
+  .pasos li{ font-family:var(--body); font-size:1rem; color:var(--antracita); background:var(--card); border:1px solid var(--hair); padding:.5rem 1rem; border-radius:999px; }
+  .pasos li::after{ content:"→"; color:var(--dorado); margin-left:1rem; margin-right:-.35rem; }
+  .pasos li:last-child::after{ content:""; margin:0; }
+
+  /* ── RECORRIDO · la práctica central como pasos numerados sobre una línea ──── */
+  .recorrido{ list-style:none; margin:var(--espacio-contenido) 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:1.6rem; position:relative; }
+  .recorrido::before{ content:""; position:absolute; top:1.1rem; left:12%; right:12%; height:1px; z-index:0;
+    background:linear-gradient(90deg, transparent, color-mix(in oklch,var(--dorado) 55%,transparent), transparent); }
+  .recorrido__paso{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; text-align:center; gap:.45rem; }
+  .recorrido__n{ width:2.2rem; height:2.2rem; border-radius:50%; display:grid; place-items:center; flex:none;
+    font-family:var(--display); font-size:1.05rem; color:var(--azul-oscuro);
+    background:var(--card); border:1.5px solid color-mix(in oklch,var(--dorado) 55%,var(--hair)); }
+  .recorrido__paso h3{ font-family:var(--display); font-weight:var(--wght-presencia); font-size:1.05rem; margin:.25rem 0 0; line-height:1.2; }
+  .recorrido__paso p{ font-size:.9rem; color:var(--texto-suave); line-height:1.45; margin:0; max-width:22ch; }
+  @media (max-width:640px){
+    .recorrido{ grid-template-columns:1fr; gap:1.1rem; }
+    .recorrido::before{ display:none; }
+    .recorrido__paso{ flex-direction:row; text-align:left; align-items:flex-start; gap:.9rem; }
+    .recorrido__paso > div{ padding-top:.15rem; }
+    .recorrido__paso p{ max-width:none; }
+  }
+
+  /* ── CARDS CON PICTOGRAMAS · portado de grupos (.pictos/.picto) ───────────── */
+  .pictos{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:var(--espacio-contenido); }
+  .picto{
+    position:relative; isolation:isolate; overflow:hidden; background:var(--card);
+    border:1px solid var(--hair); border-radius:18px; padding:1.6rem 1.4rem;
+    transition:transform var(--t-revelacion,.5s) var(--ease-suave,ease),
+               box-shadow var(--t-revelacion,.5s) var(--ease-suave,ease),
+               border-color var(--t-revelacion,.5s) var(--ease-suave,ease);
+  }
+  .picto::before{
+    content:""; position:absolute; inset:0; z-index:0; opacity:0; transition:opacity var(--t-revelacion,.5s) ease;
+    background:radial-gradient(62% 58% at 50% 26%, color-mix(in oklch,var(--dorado) 16%,transparent), transparent 70%);
+  }
+  .picto > *{ position:relative; z-index:1; }
+  .picto:hover{ transform:translateY(-5px); border-color:color-mix(in oklch,var(--dorado) 45%,var(--hair)); box-shadow:0 22px 48px -30px var(--antracita); }
+  .picto:hover::before{ opacity:1; }
+  .picto .pico{
+    display:block; width:2.6rem; height:2.6rem; margin-bottom:1rem;
+    color:color-mix(in oklch,var(--antracita) 62%,transparent);
+    transition:color var(--t-revelacion,.5s) ease, transform var(--t-revelacion,.5s) ease;
+  }
+  .picto .pico svg{ width:100%; height:100%; display:block; }
+  .pictos .pico .acc{ stroke:var(--dorado); }
+  .picto:hover .pico{ color:var(--antracita); transform:scale(1.09); }
+  .picto h3{ font-family:var(--display); font-weight:var(--wght-presencia,400); font-size:1.15rem; margin:0 0 .35rem; line-height:1.2; }
+  .picto p{ font-size:.92rem; color:var(--texto-suave); line-height:1.5; margin:0; }
+  /* dibujado del trazo al revelar (reveal.js añade .is-in a [data-reveal]) */
+  .picto .pico svg path, .picto .pico svg circle{ stroke-dasharray:var(--pl,140); stroke-dashoffset:var(--pl,140); }
+  .picto.is-in .pico svg path, .picto.is-in .pico svg circle{ stroke-dashoffset:0; transition:stroke-dashoffset 1.15s var(--ease-suave,ease); }
+
+  /* ── «CON HONESTIDAD» · ¿es para ti? · portado de grupos (.momento) ───────── */
+  .momento{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:var(--espacio-contenido); }
+  .momento__col{
+    position:relative; border-radius:20px; padding:1.8rem 1.7rem 1.9rem; border:1px solid var(--hair);
+    overflow:hidden; transition:transform var(--t-revelacion,.5s) ease, box-shadow var(--t-revelacion,.5s) ease;
+  }
+  .momento__col:hover{ transform:translateY(-3px); box-shadow:0 24px 50px -34px var(--antracita); }
+  .momento__col.si{ background:var(--card); border-color:color-mix(in oklch,var(--dorado) 24%,var(--hair)); box-shadow:0 26px 54px -30px color-mix(in oklch,var(--dorado) 44%,transparent); }
+  .momento__col.no{ background:color-mix(in oklch,var(--arena) 70%,var(--card)); border-color:var(--hair); box-shadow:none; }
+  .momento__col.no h3{ color:var(--texto-suave); }
+  .momento__cab{ display:flex; align-items:center; gap:.7rem; margin-bottom:1.1rem; }
+  .momento__ico{ width:2.4rem; height:2.4rem; border-radius:50%; flex:none; display:grid; place-items:center; }
+  .momento__col.si .momento__ico{ background:color-mix(in oklch,var(--dorado) 14%,var(--card)); color:color-mix(in oklch,var(--dorado) 78%,var(--antracita)); }
+  .momento__col.no .momento__ico{ background:color-mix(in oklch,var(--antracita) 6%,var(--card)); color:var(--texto-suave); }
+  .momento__ico svg{ width:1.25rem; height:1.25rem; }
+  .momento__tag{ font-family:var(--mono); font-size:.64rem; letter-spacing:.12em; text-transform:uppercase; color:var(--texto-tenue); display:block; margin-bottom:.15rem; }
+  .momento__col h3{ font-family:var(--display); font-weight:var(--wght-presencia,400); font-size:1.28rem; line-height:1.15; margin:0; }
+  .momento__lista{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.75rem; }
+  .momento__lista li{ position:relative; padding-left:1.7rem; font-size:.98rem; line-height:1.5; color:var(--texto-suave); }
+  .momento__lista li::before{ position:absolute; left:0; top:.05em; font-size:1rem; }
+  .momento__col.si .momento__lista li::before{ content:"✓"; color:var(--dorado); font-weight:600; }
+  .momento__col.no .momento__lista li::before{ content:"–"; color:var(--texto-tenue); font-weight:600; }
+  .idoneidad__cta{ margin-top:var(--espacio-grupo); text-align:center; }
+
+  /* ── COMPROMISO DE CUIDADO · cancelación en voz de la casa ────────────────── */
+  .cuidado{
+    margin-top:var(--espacio-grupo); background:var(--card); border:1px solid var(--hair);
+    border-left:3px solid color-mix(in oklch, var(--dorado) 60%, transparent);
+    border-radius:16px; padding:var(--espacio-contenido);
+  }
+  .cuidado h3{ margin:0 0 .5rem; font-size:1.1rem; }
+  .cuidado p{ margin:0; color:var(--texto-suave); }
+
+  /* ── CTA FINAL · tono más sereno que el de curso (no gigante) ─────────────── */
+  /* curso usa --espacio-otro-lado (hasta 192px arriba+abajo): demasiado vacío
+     para el cierre de un retiro. Se baja a un respiro contenido. */
+  .cta-final{ padding-block: clamp(3.5rem, 8vh, 6rem); }
+  .cta-final__title{ font-size:clamp(1.9rem,4.2vw,3rem); max-width:18ch; margin-inline:auto; }
+
+  /* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
+  @media (max-width:760px){
+    .entorno__galeria{ grid-template-columns:1fr 1fr; }
+    .entorno__fig--hero{ grid-column:1 / -1; aspect-ratio:16/9; }
+    .pictos{ grid-template-columns:1fr 1fr; }
+    .momento{ grid-template-columns:1fr; }
+    .ritmo__item{ grid-template-columns:4.5rem 1fr; gap:.9rem; }
+  }
+  @media (max-width:460px){
+    .pictos{ grid-template-columns:1fr; }
+  }
+}

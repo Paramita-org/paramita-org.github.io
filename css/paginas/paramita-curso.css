@@ -127,7 +127,7 @@
   }
   body[data-estado="logueado"] .estado-band,
   body[data-estado="inscrito"] .estado-band { display: block; }
-  body[data-estado="logueado"] .estado-band__msg--log { display: flex; }
+  body[data-estado="logueado"] .estado-band__msg--log { display: block; }
   body[data-estado="inscrito"] .estado-band__msg--ins { display: flex; }
 
   .estado-band__inner {
@@ -135,7 +135,8 @@
     padding-block: .85rem; flex-wrap: wrap;
   }
   .estado-band__msg { margin: 0; font-size: 1rem; color: var(--antracita); flex: 1 1 auto; }
-  .estado-band__msg--log { align-items: center; gap: .6rem; }
+  .estado-band__msg--log { line-height: 1.5; }
+  .estado-band__msg--log .estado-band__dot { display: inline-block; vertical-align: middle; margin-right: .5rem; }
   .estado-band__msg--ins { flex-direction: column; gap: .5rem; }
   .estado-band__msg--ins p { display: flex; align-items: center; gap: .6rem; margin: 0; }
   .estado-band__dot {
@@ -152,6 +153,12 @@
   }
   .estado-band__cta { flex: none; }
   .btn-primario--sm { font-size: .86rem; padding: .55rem 1.15rem; }
+
+  /* Hero de curso sobre foto · el acento del título (<em>) pasa de dorado a
+     azul-oscuro, igual que el acento del hero de la home (.rotator__word).
+     El dorado se lavaba sobre foto brillante (sobre todo en móvil); el azul
+     es oscuro y contrasta sobre el velo claro. Doctrina del hero home. */
+  #hero h1 em { color: var(--azul-oscuro); }
 
   /* ═══════════ PRUEBA SOCIAL TEMPRANA ═══════════ */
   .prueba { position: relative; z-index: 2; padding-block: var(--espacio-umbral); }
