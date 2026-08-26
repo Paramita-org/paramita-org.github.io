@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evento · Paramita</title>
+  <meta name="description" content="La mente de despertar: seminario en vivo con Ven. Khenpo Rinchen sobre la bodhichita, en el Centro Budista Sakya de Pedreguer o en directo online. Sábado 8 de marzo de 2027, contribución libre.">
+  \g<0>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- TEMA · anti-FOUC (sync) · aplica la penumbra guardada ANTES de pintar -->
+  <script>
+    try { if (localStorage.getItem('paramita-tema') === 'oscuro') document.documentElement.setAttribute('data-tema','oscuro'); } catch(e){}
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- marca JS activo cuanto antes (gate de los revelados) -->
+  <script>document.documentElement.classList.add('js')</script>
+
+  <!-- TOKENS -->
+  <link rel="stylesheet" href="../../css/tokens/paramita-color.css">
+  <link rel="stylesheet" href="../../css/tokens/paramita-tipografia.css">
+  <link rel="stylesheet" href="../../css/tokens/paramita-layout.css">
+  <link rel="stylesheet" href="../../css/tokens/paramita-movimiento.css">
+  <!-- BASE -->
+  <link rel="stylesheet" href="../../css/base/paramita-reset.css">
+  <link rel="stylesheet" href="../../css/base/paramita-base.css">
+  <!-- COMPONENTES -->
+  <link rel="stylesheet" href="../../css/componentes/paramita-fluido.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-bar.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-menu.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-cta.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-hero.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-sections.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-cursos.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-pictogramas.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-modal.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-extras.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-footer.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-suscripcion.css">
+  <!-- PÁGINA -->
+  <link rel="stylesheet" href="../../css/paginas/paramita-curso.css">
+  <link rel="stylesheet" href="../../css/paginas/paramita-evento.css">
+  <!-- Componentes reutilizables · vídeo + bloque de testimonios · unlayered, ganan sobre curso.css -->
+  <link rel="stylesheet" href="../../css/componentes/paramita-video.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-testimonios.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-chat.css">
+  <!-- Responsive común (al final) -->
+  <link rel="stylesheet" href="../../css/base/paramita-responsive.css">
+  <!-- TEMA · penumbra/luz · el ÚLTIMO para ganar la cascada (sync) -->
+  <link rel="stylesheet" href="../../css/componentes/paramita-tema.css">
+</head>
+<body data-estado="anonimo">
+<!-- sync: navbar=publico current="Actividades" prefooter -->
+
+<!-- FONDO GLOBAL · lienzo del fluido WebGL -->
+<canvas id="fluido" aria-hidden="true"></canvas>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     PARAMITA · FUNDACIÓN SAKYA
+     partials/navbar-publico.html — Navbar público (usuarios sin sesión)
+     ───────────────────────────────────────────────────────────────────────────
+
+     CAMBIO FASE 7 · añadido .btn-acceso
+     ────────────────────────────────────
+     Añadido el círculo .btn-acceso al final del .bar-inner (fuera del .menu)
+     para dar entrada al login. Cuando el usuario se autentica, este mismo
+     círculo se sustituye por el .avatar-menu del navbar-practicante (misma
+     posición, mismo tamaño, misma familia lumínica) — continuidad visual
+     entre ambos navbars.
+
+     REORDENACIÓN DEL DOM
+     ────────────────────
+     El .burger se mueve al final del .bar-inner (antes estaba en 3ª posición).
+     El .btn-acceso queda como penúltimo hijo, justo antes del burger, para:
+       · En desktop: aparecer al final de la fila, después de los CTAs.
+       · En móvil: quedar visible en la barra sin abrir el hamburguesa.
+
+     La reordenación no rompe el sibling selector `.nt:checked ~ .menu`
+     porque el input.nt sigue estando ANTES del .menu en el DOM. El label
+     .burger[for="nt"] funciona por atributo, no por proximidad.
+
+     Depende de estos CSS del sistema (ya cargados):
+       · paramita-bar.css     → contenedor sticky, glass, logo
+       · paramita-menu.css    → menú horizontal, links, submenús, caret
+       · paramita-cta.css     → .btn-secundario, .btn-primario, .btn-acceso
+       · paramita-responsive.css → burger + comportamiento móvil
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     PARAMITA · FUNDACIÓN SAKYA
+     partials/navbar-publico.html — Navbar público (usuarios sin sesión)
+     ───────────────────────────────────────────────────────────────────────────
+
+     CAMBIO FASE 7 · añadido .btn-acceso
+     ────────────────────────────────────
+     Añadido el círculo .btn-acceso al final del .bar-inner (fuera del .menu)
+     para dar entrada al login. Cuando el usuario se autentica, este mismo
+     círculo se sustituye por el .avatar-menu del navbar-practicante (misma
+     posición, mismo tamaño, misma familia lumínica) — continuidad visual
+     entre ambos navbars.
+
+     REORDENACIÓN DEL DOM
+     ────────────────────
+     El .burger se mueve al final del .bar-inner (antes estaba en 3ª posición).
+     El .btn-acceso queda como penúltimo hijo, justo antes del burger, para:
+       · En desktop: aparecer al final de la fila, después de los CTAs.
+       · En móvil: quedar visible en la barra sin abrir el hamburguesa.
+
+     La reordenación no rompe el sibling selector `.nt:checked ~ .menu`
+     porque el input.nt sigue estando ANTES del .menu en el DOM. El label
+     .burger[for="nt"] funciona por atributo, no por proximidad.
+
+     Depende de estos CSS del sistema (ya cargados):
+       · paramita-bar.css     → contenedor sticky, glass, logo
+       · paramita-menu.css    → menú horizontal, links, submenús, caret
+       · paramita-cta.css     → .btn-secundario, .btn-primario, .btn-acceso
+       · paramita-responsive.css → burger + comportamiento móvil
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
+<header class="bar">
+  <div class="bar-inner wrap">
+
+    <!-- Logo · SVG imagotipo + wave fallback -->
+    <a class="logo" href="/" aria-label="Paramita · inicio">
+      <span class="logo-wave" role="img" aria-label="Paramita"></span>
+      <svg class="logo-fallback" viewBox="0 0 612.3 181.4" role="img" aria-label="Paramita" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#0d539f"><path d="M225.4,64c15.5,0,24.8,7,24.8,18.8s-8.5,19.7-22.9,20c-1.3,0-2.4,0-3.1,0l-.2-1.3c6.7-2.8,9.4-7.7,9.4-18.6s-3.9-15.8-11.9-15.8h-1.4v44.4c0,5.1,1.3,8.5,3.9,10.3v1.3h-23v-1.3c2.5-1.7,3.9-5.1,3.9-10.3v-35.7c0-5.2-1.3-8.7-3.9-10.3v-1.3h24.5Z"/><path d="M295.1,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM274.6,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M506.7,116.4c-3.4,4.5-9,7.4-14.6,7.4-8.1,0-11.6-4.7-11.6-14.4v-27.9h-5.5v-4.2c6.7-2.5,13.5-6.9,17-14h3v13.9l9.8-1-.8,5.2h-9v26.2c0,6,1.8,9,5.6,9s3.2-.4,5.3-1.3l.8,1.1Z"/><path d="M552.4,118.2v1.6c-3.2,2.7-5.5,3.9-10.5,3.9s-7.3-1.9-8.9-5.7c-3.2,3.8-7.6,5.7-13,5.7s-12-4.8-12-11.6,1.9-8.2,5.7-10.6c3.8-2.4,8.4-3.7,13.7-3.7s3.2,0,4.5.3v-4.4c0-5.5-.3-8.9-.7-10.2-.8-2-2.4-3.1-5-3.2-2.5,0-4.5.9-5.7,2.6,1.5,1.3,2.2,3,2.2,5,0,3.9-2.5,6.7-6.5,6.7s-6.5-2.7-6.5-6.5,1.6-5.8,4.8-7.7c3.2-1.9,7.3-2.9,12.1-2.9,10.3,0,15.4,2.5,17.7,7.2,1.7,3.2,2,6.2,2,11v18c0,2.9,1.6,4.4,4.6,4.4h1.5ZM531.8,101c-6.3,0-9.5,3.6-9.5,9.5s1.9,6.7,5.4,6.7,3.2-.6,4.3-1.9c-.2-1-.3-2.2-.3-3.5v-10.8Z"/><path d="M367.7,118.2c-3.1,0-4.6-1.5-4.6-4.4v-18c0-4.8-.3-7.9-2-11-2.3-4.6-7.4-7.2-17.7-7.2s-2.4,0-4.1.4c.7.9,1.2,1.6,1.7,2.6.5-.1.8-.2,2-.2,2.5,0,4.2,1.1,5,3.2.4,1.3.7,4.7.7,10.2v4.4c-1.3-.2-2.8-.3-4.5-.3-5.3,0-10,1.2-13.7,3.7-3.8,2.4-5.7,6-5.7,10.6,0,6.7,4.7,11.6,12,11.6s9.8-1.9,13-5.7c1.7,3.8,4.6,5.7,8.9,5.7s7.4-1.2,10.5-3.9v-1.6h-1.5ZM344.5,117.2c-3.5,0-5.4-2.9-5.4-6.7,0-5.9,3.2-9.5,9.5-9.5v10.8c0,1.3,0,2.5.3,3.5-1.1,1.3-2.6,1.9-4.3,1.9Z"/><path d="M444.2,111.4v-18.2c0-10.5-3-15.5-11.6-15.5s-12.5,3.4-16.4,8.8c-1.2-5.9-4.9-8.8-11-8.8s-11.5,2.9-15.8,8.8v-9.2c-4.9,1.8-10.9,3.5-18.2,5h-.1v1.4l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h22.6v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-22.9c2.2-1.1,4.5-1.7,6.7-1.7,4.2,0,6.3,2.4,6.3,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.2v-1.3c-2.5-1.8-3.9-5.3-3.9-10.3v-18.8c0-1.5,0-2.9-.3-4.2,1.7-1,3.8-1.5,6.3-1.5,4.6,0,6.9,2.4,6.9,7.3v17.2c0,5.2-1.3,8.7-3.9,10.3v1.3h22.6v-1.3c-2.9-2-4.3-5.5-4.3-10.3Z"/><path d="M330.8,77.6c-5.3,0-12.3,4.5-15.5,9.7v-10.1c-5,1.8-10.9,3.6-18.3,5v1.3l1,.6c1.3.7,2.9,3.3,2.9,6.6v20.7c0,5.1-1.4,8.5-4.3,10.3v1.3h24.8v-1.3c-4-1.8-6-5.3-6-10.3v-21.5c2.4-2.4,6.6-3.6,8.6-3.8.3,3.9,3.2,7.2,7.1,7.2s7.7-3.3,7.7-8-3.1-7.7-7.9-7.7Z"/><path d="M468.9,70.6c3.4-3.2,3.4-8.7,0-11.9-3.2-3.4-8.7-3.4-11.9,0-3.2,3.2-3.2,8.7,0,11.9,3.2,3.2,8.7,3.2,11.9,0Z"/><path d="M452.4,83.8v1.3l1,.5c1.3.8,2.9,3.4,2.9,6.7v19.1c0,5.1-1.4,8.5-4.3,10.3v1.3h23v-1.3c-2.9-2-4.3-5.5-4.3-10.3v-32.7c-4.9,1.8-10.9,3.6-18.3,5Z"/></g>
+        <g fill="#1cb1da"><circle cx="112.1" cy="58.6" r="10.1"/><path d="M94,67.6s2,5.3,8,10c6,4.7,8.6,10,9,20.3s.5,24.3.5,24.3c0,0-3.8-10.5-4.8-13.6s-4.2-15.9-9.7-21-7.9-5.6-7.9-5.6c0,0,1.1-8.3,4.9-14.4Z"/><path d="M130.3,67.6s-2,5.3-8,10c-6,4.7-8.6,10-9,20.3-.4,10.3-.5,24.3-.5,24.3,0,0,3.8-10.5,4.8-13.6,1-3.1,4.2-15.9,9.7-21,4.7-4.4,7.9-5.6,7.9-5.6,0,0-1.1-8.3-4.9-14.4Z"/></g>
+        <g fill="#0689c2"><path d="M74.3,74.8s2.6,4.3,5.7,5.6,11.6,4.7,15.5,8.6c3.9,3.9,11,25.5,11,25.5,0,0-3.6-5.7-13-9.7,0,0-5.3-2.1-9.7-2.6s-5.9-1.9-7.3-4.9-4.1-13.9-2.2-22.4Z"/><path d="M149.9,74.8s-2.6,4.3-5.7,5.6-11.6,4.7-15.5,8.6-11,25.5-11,25.5c0,0,3.6-5.7,13-9.7,0,0,5.3-2.1,9.7-2.6,4.4-.5,5.9-1.9,7.3-4.9s4.1-13.9,2.2-22.4Z"/></g>
+        <g fill="#0d539f"><path d="M109.8,124s-8.4-29.3-49.1-17.5c0,0,5.7.7,9.9,6,4.2,5.3,7.4,11.2,18,10.2,10.5-1,17.4-1.3,21.2,1.3Z"/><path d="M114.4,124s8.4-29.3,49.1-17.5c0,0-5.7.7-9.9,6s-7.4,11.2-18,10.2c-10.5-1-17.4-1.3-21.2,1.3Z"/></g>
+      </svg>
+    </a>
+
+    <!-- Input hidden que controla el toggle del menú móvil.
+         DEBE ir antes del .menu para que `.nt:checked ~ .menu` funcione. -->
+    <input class="nt" id="nt" type="checkbox" hidden>
+
+    <!-- Menú principal -->
+    <nav class="menu" aria-label="Principal">
+      <ul class="links">
+
+        <!-- 1 · Meditación -->
+        <li>
+          <a class="navlink" href="/meditacion/meditacion.html">Meditación</a>
+        </li>
+
+        <!-- 2 · Cursos · puerta pública al catálogo formativo (/formacion/, no el LMS) -->
+        <li>
+          <a class="navlink" href="/formacion/formacion-publica.html">Cursos</a>
+        </li>
+
+        <!-- 3 · Actividades · enlace plano (sin desplegable) -->
+        <li>
+          <a class="navlink" href="/actividades/actividades.html" aria-current="page">Actividades</a>
+        </li>
+
+        <!-- 4 · Blog · enlace plano (sin desplegable) -->
+        <li>
+          <a class="navlink" href="/blog/blog.html">Blog</a>
+        </li>
+
+        <!-- 5 · Sobre · institucional, anclado a la derecha con .end
+             Cada ítem lleva un pictograma del sistema (Propuesta B): el
+             <span class="pico" data-pico="..."> lo rellena sync.py desde
+             partials/pictogramas/NOMBRE.svg. aria-hidden + etiqueta de texto
+             al lado (regla de oro). -->
+        <li class="has-sub end">
+          <!-- Padre NO navegable · solo abre el submenú (no lleva a página).
+               <button> en vez de <a href>: en móvil el tap abre el desplegable
+               en lugar de navegar; .navlink ya normaliza el estilo del button
+               (background:none, border:none, cursor:pointer). aria-haspopup se
+               mantiene; el aria-expanded queda en false (hover/focus-within CSS
+               puro en escritorio — un toggle JS del aria-expanded para móvil/
+               teclado sería refinamiento de fase posterior, no se necesita aún). -->
+          <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Sobre <i class="caret" aria-hidden="true"></i></button>
+          <ul class="sub" role="menu" aria-label="Sobre Paramita">
+            <li role="none"><a role="menuitem" href="/sobre/maestros/maestros.html"><strong>Maestros</strong><span>Quienes transmiten la enseñanza</span><span class="pico" data-pico="maestros" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/khenpo/khenpo.html"><strong>Khenpo Rinchen Gyaltsen</strong><span>El director espiritual</span><span class="pico" data-pico="khenpo" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/sangha-monastica/sangha-monastica.html"><strong>Comunidad Monástica</strong><span>Monásticos y monásticas</span><span class="pico" data-pico="comunidad" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/la-fundacion/la-fundacion.html"><strong>La Fundación</strong><span>Historia, misión, la tradición Sakya</span><span class="pico" data-pico="fundacion" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/sobre/preguntas-frecuentes/preguntas-frecuentes.html"><strong>Preguntas Frecuentes</strong><span>Resolvemos tus dudas</span><span class="pico" data-pico="faq" aria-hidden="true"></span></a></li>
+          </ul>
+        </li>
+
+        <!-- 6 · Únete · comunidad laica · Fase 7+
+             Sexto apartado, con submenú (Grupos + Voluntariado). Padre NO
+             navegable (mismo patrón que «Sobre»): <button> que solo abre el
+             desplegable; en móvil el tap abre el submenú en vez de navegar.
+             .end ancla el desplegable al borde derecho (es el último apartado,
+             como antes lo era «Sobre»). Destinos: los dos spokes de /unete/. -->
+        <li class="has-sub end">
+          <button type="button" class="navlink" aria-haspopup="true" aria-expanded="false">Únete <i class="caret" aria-hidden="true"></i></button>
+          <ul class="sub" role="menu" aria-label="Únete a Paramita">
+            <li role="none"><a role="menuitem" href="/unete/grupos/grupos.html"><strong>Grupos</strong><span>Círculos de estudio cerca de ti</span><span class="pico" data-pico="grupos" aria-hidden="true"></span></a></li>
+            <li role="none"><a role="menuitem" href="/unete/voluntariado/voluntariado.html"><strong>Voluntariado</strong><span>Ofrece tu tiempo en el centro</span><span class="pico" data-pico="voluntariado" aria-hidden="true"></span></a></li>
+          </ul>
+        </li>
+
+      </ul>
+
+      <span class="div" aria-hidden="true"></span>
+
+      <!-- CTA · un solo secundario · Fase 7+
+           «Únete» salió de aquí y pasó a apartado del menú con submenú
+           (ver el <li class="has-sub end"> de arriba y el doc 06). El navbar
+           sigue SIN acción prioritaria en ninguna página (la acción vive en el
+           hero/contexto): queda Contribuir como único secundario, y el acceso a
+           cuenta lo da el .btn-acceso de la derecha. Así el navbar es idéntico
+           en home y resto (sync sin excepciones). -->
+      <div class="ctas">
+        <a class="btn-secundario" href="/contribuir/contribuir.html">Contribuir</a>
+      </div>
+
+    </nav>
+
+    <!-- ═════════════════════════════════════════════════════════════════
+         ACCESO A CUENTA · .btn-acceso · Fase 7
+         ─────────────────────────────────────────────────────────────────
+         Círculo con silueta de usuario que lleva al login. Cuando el
+         practicante inicia sesión, este mismo círculo se sustituye por
+         el .avatar-menu del navbar-practicante (Fase 8, pendiente) —
+         continuidad visual: la silueta anónima se convierte en el
+         avatar del usuario.
+
+         Ubicado FUERA del .menu para que en móvil quede siempre visible
+         en la barra sin necesidad de abrir el hamburguesa (patrón
+         consolidado en Notion, Linear, Gmail móvil).
+
+         El tooltip "Entrar" viene del CSS (::after). El aria-label es
+         explícito para lectores de pantalla.
+         ═════════════════════════════════════════════════════════════════ -->
+
+    <!-- TEMA · toggle penumbra/luz · hermano del .btn-acceso.
+         Vive en el partial (no solo en la home) para que la penumbra sea una
+         preferencia de lectura GLOBAL, disponible desde cualquier página.
+         Requiere en cada página: el script anti-FOUC en el <head>, el <link>
+         a paramita-tema.css y el listener paramita-tema.js (ver notas de sync). -->
+    <button class="tema-toggle" id="temaToggle" type="button" aria-label="Cambiar entre luz y penumbra" aria-pressed="false" title="Penumbra">
+      <svg class="ico-luz" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+      </svg>
+      <svg class="ico-penumbra" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+      </svg>
+    </button>
+
+    <a class="btn-acceso" href="/home-logueado/home-logueado.html" aria-label="Entrar a mi cuenta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+      </svg>
+    </a>
+
+    <!-- Burger · toggle del menú en móvil (CSS puro con :checked).
+         Al final del .bar-inner, funciona por atributo `for="nt"`. -->
+    <label class="burger" for="nt" aria-label="Abrir y cerrar menú"><span></span><span></span><span></span></label>
+
+  </div>
+</header>
+
+<main>
+
+  <!-- ═══ 01 · HERO · doble CTA (presencial / online) ═══ -->
+  <section class="hero" id="hero">
+    <div class="hero__bg" aria-hidden="true">
+      <div class="hero__bg-fallback"></div>
+      <div class="hero__bg-img" style="background-image:url('../../assets/img/hero-eventos.jpg')"></div>
+    </div>
+    <div class="wrap hero__inner">
+      <p class="eyebrow">Seminario en vivo · presencial y online</p>
+      <h1>La mente de <em>despertar</em></h1>
+      <p class="lede">Una jornada con Ven. Khenpo Rinchen sobre la bodhichita: el corazón del camino. Vívela en la sala de Pedreguer o en directo desde donde estés.</p>
+
+      <div class="actions">
+        <a class="btn-primario" href="#inscripcion">Asistir en persona</a>
+        <a class="btn-secundario" href="#inscripcion">Participar online</a>
+        <span class="meta"><span class="pulse" aria-hidden="true"></span>Sábado <b>8 de marzo de 2027</b></span>
+      </div>
+
+      <ul class="curso-chips" aria-label="Detalles del encuentro">
+        <li><span class="pico pico--sm" data-pico="reloj" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path class="acc" d="M12 7.5V12l3.5 2"/></svg></span>Jornada completa</li>
+        <li><span class="pico pico--sm" data-pico="en-linea" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="1.5"/><path class="acc" d="M8 20h8"/></svg></span>Presencial y online</li>
+        <li><span class="pico pico--sm" data-pico="ubicacion" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.2-6.5-10a6.5 6.5 0 0 1 13 0c0 4.8-6.5 10-6.5 10Z"/><circle class="acc" cx="12" cy="11" r="2.3"/></svg></span>Pedreguer, Alicante</li>
+        <li>Contribución libre</li>
+        <li>Sin experiencia previa</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══ 02 · LA INVITACIÓN · vídeo + propósito ═══ -->
+  <section class="section wrap split split--inv difusor" id="invitacion" aria-labelledby="inv-t">
+    <div class="split__media">
+      <div class="video-facade" data-yt="4XPkYkF7MfQ" role="button" tabindex="0" aria-label="Reproducir la invitación en vídeo">
+        <div class="video-facade__play" aria-hidden="true"><span></span></div>
+      </div>
+    </div>
+    <div class="split__body">
+      <span class="eyebrow" data-reveal="1">La invitación</span>
+      <h2 id="inv-t" data-reveal="2">Por qué un <em>encuentro</em>, y no un curso.</h2>
+      <p>Un curso se puede ver cuando quieras; un encuentro ocurre una vez, en directo, contigo dentro. No se trata de acumular ideas sobre la compasión, sino de que la enseñanza pase de corazón a corazón —esté el cuerpo en la sala o la atención frente a la pantalla—.</p>
+      <p class="split__sub">En esta jornada vas a:</p>
+      <ul class="checks">
+        <li><b>Entender qué es la bodhichita.</b> La mente que quiere el bien de todos, explicada sin jerga.</li>
+        <li><b>Practicarla en directo.</b> Meditación guiada paso a paso, con espacio para preguntar.</li>
+        <li><b>Llevártela a casa.</b> Una práctica sencilla para seguir después del encuentro.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══ 03 · AUTORIDAD / LINAJE ═══ -->
+  <section class="section wrap split" id="guia" aria-labelledby="guia-t">
+    <div class="split__media">
+      <figure class="retrato">
+        <img src="../../assets/img/khenpo-luz-dorada-low.jpg" alt="Ven. Khenpo Rinchen Gyaltsen" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
+      </figure>
+    </div>
+    <div class="split__body">
+      <span class="eyebrow" data-reveal="1">Quién enseña</span>
+      <h2 id="guia-t" data-reveal="2">Un puente directo al <em>Buda</em>.</h2>
+      <p>El encuentro lo guía <b>Khenpo Rinchen Gyaltsen</b>, director y maestro residente del Centro Budista Sakya. Formado durante diez años en India, Nepal y Tíbet, transmite el Dharma en lengua hispana con la autoridad de un linaje ininterrumpido y la cercanía de quien traduce lo milenario a la vida de hoy.</p>
+      <a class="t-link" href="/sobre/khenpo/khenpo.html"><span class="txt">Conocer a Khenpo Rinchen</span> <span class="arw" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <!-- ═══ 04 · TEMARIO · el mapa del día ═══ -->
+  <section class="section wrap temario-evento" id="temario" aria-labelledby="tem-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">El mapa del día</span>
+      <h2 id="tem-t" data-reveal="2">Lo que <em>exploraremos</em>.</h2>
+      <p class="lede">Un recorrido claro, para que sepas a qué vienes y no te asuste la intensidad.</p>
+    </div>
+    <ul class="checks checks--dos">
+      <li><b>Qué es la bodhichita.</b> La aspiración y la acción de la mente despierta.</li>
+      <li><b>Las dos verdades.</b> Cómo ver la realidad sin perderse en ella.</li>
+      <li><b>La práctica del tonglen.</b> Dar y recibir con la respiración.</li>
+      <li><b>Integración.</b> Cómo sostener la compasión en la vida diaria.</li>
+    </ul>
+  </section>
+
+  <!-- ═══ 05 · PROGRAMA Y HORARIOS · con zona horaria para el online ═══ -->
+  <section class="section wrap zona-luz" id="programa" aria-labelledby="prog-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">El ritmo del día</span>
+      <h2 id="prog-t" data-reveal="2">Un flujo <em>equilibrado</em>.</h2>
+      <p class="lede">Alternamos enseñanza y descanso a propósito: profundidad sin agotamiento, dentro o fuera de la sala.</p>
+    </div>
+    <ol class="horario">
+      <li data-reveal><span class="horario__h">10:00</span><div class="horario__t"><h3>Apertura y primera enseñanza</h3><p>Qué es la bodhichita y por qué transforma la práctica.</p></div></li>
+      <li data-reveal><span class="horario__h">11:30</span><div class="horario__t"><h3>Descanso</h3><p>Pausa real —también para quien sigue online—.</p></div></li>
+      <li data-reveal><span class="horario__h">12:00</span><div class="horario__t"><h3>Práctica guiada: tonglen</h3><p>Meditación paso a paso, con preguntas.</p></div></li>
+      <li data-reveal><span class="horario__h">14:00</span><div class="horario__t"><h3>Almuerzo</h3><p>Comida vegetariana para los presenciales; pausa larga para el online.</p></div></li>
+      <li data-reveal><span class="horario__h">16:00</span><div class="horario__t"><h3>Integración y cierre</h3><p>Cómo llevar la compasión al día a día. Ronda final de preguntas.</p></div></li>
+    </ol>
+    <p class="horario__zona">Horario peninsular (CET). Para el online, al inscribirte verás la hora en tu zona.</p>
+  </section>
+
+  <!-- ═══ 06 · ¿ES PARA TI? ═══ -->
+  <section class="section wrap" id="idoneidad" aria-labelledby="ido-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Con honestidad</span>
+      <h2 id="ido-t" data-reveal="2">¿Es para ti este <em>encuentro</em>?</h2>
+      <p class="lede">Una orilla abierta a cualquier buscador —pero preferimos decirlo claro—.</p>
+    </div>
+    <div class="momento">
+      <div class="momento__col si" data-reveal>
+        <div class="momento__cab">
+          <span class="momento__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <span><span class="momento__tag">Adelante</span><h3>Este encuentro es para ti</h3></span>
+        </div>
+        <ul class="momento__lista">
+          <li>Te acercas al budismo por primera vez y quieres una puerta accesible.</li>
+          <li>Ya practicas y quieres profundizar en la compasión con un maestro en directo.</li>
+          <li>Vives lejos y agradeces poder seguirlo online sin renunciar a preguntar.</li>
+        </ul>
+      </div>
+      <div class="momento__col no" data-reveal>
+        <div class="momento__cab">
+          <span class="momento__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 1.5"/></svg></span>
+          <span><span class="momento__tag">Quizás otra cosa</span><h3>Quizá busques otra cosa</h3></span>
+        </div>
+        <ul class="momento__lista">
+          <li>Buscas una inmersión larga en silencio: eso es un <a href="/actividades/retiros/retiro.html">retiro</a>.</li>
+          <li>Quieres un estudio sistemático y progresivo: eso es un <a href="/formacion/formacion-publica.html">curso</a>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 07 · EL VALOR DEL «EN VIVO» · pictos canon ═══ -->
+  <section class="section wrap zona-luz" id="valor" aria-labelledby="val-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Por qué en directo</span>
+      <h2 id="val-t" data-reveal="2">Lo que un vídeo <em>no da</em>.</h2>
+      <p class="lede">La diferencia entre informarse y recibir. Presencial u online, el encuentro es en vivo.</p>
+    </div>
+    <div class="pictos">
+      <div class="picto" data-reveal>
+        <span class="pico" data-pico="linaje" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><circle cx="12" cy="5" r="2"/><path class="acc" d="M12 12c-3 0-5-1.6-5-4M12 12c3 0 5-1.6 5-4"/><circle cx="6.5" cy="8" r="1.6"/><circle cx="17.5" cy="8" r="1.6"/></svg></span>
+        <h3>Transmisión viva</h3><p>La enseñanza en directo, con la voz y el tiempo del maestro, no un archivo.</p>
+      </div>
+      <div class="picto" data-reveal>
+        <span class="pico" data-pico="comunidad" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="2.5"/><circle cx="16" cy="9" r="2.5"/><path d="M3.8 18c0-2.7 1.9-4.3 4.2-4.3s4.2 1.6 4.2 4.3"/><path class="acc" d="M11.8 18c0-2.7 1.9-4.3 4.2-4.3s4.2 1.6 4.2 4.3"/></svg></span>
+        <h3>La Sangha reunida</h3><p>Practicar con otros —en la sala o en la pantalla— sostiene lo que en solitario cuesta.</p>
+      </div>
+      <div class="picto" data-reveal>
+        <span class="pico" data-pico="encuentros" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v10H8l-4 3z"/><path class="acc" d="M8 10h8M8 13h5"/></svg></span>
+        <h3>Preguntar de verdad</h3><p>Tus dudas, resueltas en el momento. También quien sigue online puede preguntar.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 08 · VOCES DEL SENDERO ═══ -->
+  <section class="section wrap bloque-voces" id="voces" aria-labelledby="voc-t">
+    <div class="bloque-voces__head">
+      <span class="eyebrow">Voces del sendero</span>
+      <h2 id="voc-t">Quienes ya <em>estuvieron</em>.</h2>
+      <p class="bloque-voces__sub">Practicantes reales de la comunidad. Pulsa para escucharles.</p>
+    </div>
+    <div class="voces">
+      <figure class="voz voz--video">
+        <div class="video-facade" data-yt="AKQ1vWQUz1Y" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de María Fernanda Corona"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+        <blockquote class="voz__q">Lo seguí online desde México y sentí que estaba en la sala.</blockquote>
+        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">MF</span><span><span class="voz__n">María Fernanda Corona</span><span class="voz__meta">online · 2026</span></span></figcaption>
+      </figure>
+      <figure class="voz voz--video">
+        <div class="video-facade" data-yt="JKKthx8ASls" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Valentina García"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+        <blockquote class="voz__q">Poder preguntar en directo lo cambió todo para mí.</blockquote>
+        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">VG</span><span><span class="voz__n">Valentina García</span><span class="voz__meta">presencial · 2026</span></span></figcaption>
+      </figure>
+      <figure class="voz voz--video">
+        <div class="video-facade" data-yt="FnENOAZHOjk" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Oscar Conde"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+        <blockquote class="voz__q">Vine sin saber nada de budismo y me fui con una práctica.</blockquote>
+        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">OC</span><span><span class="voz__n">Oscar Conde</span><span class="voz__meta">presencial · 2025</span></span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═══ 09 · LOGÍSTICA · dos ramas ═══ -->
+  <section class="section wrap" id="logistica" aria-labelledby="log-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Cómo participar</span>
+      <h2 id="log-t" data-reveal="2">Elige tu <em>manera</em> de estar.</h2>
+      <p class="lede">Las dos ramas valen lo mismo. Resolvemos lo práctico de cada una para que solo tengas que venir —o conectarte—.</p>
+    </div>
+    <div class="ramas">
+      <div class="rama" data-reveal>
+        <div class="rama__cab">
+          <span class="rama__ico"><span class="pico" data-pico="ubicacion" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.2-6.5-10a6.5 6.5 0 0 1 13 0c0 4.8-6.5 10-6.5 10Z"/><circle class="acc" cx="12" cy="11" r="2.3"/></svg></span></span>
+          <span><span class="rama__tag">En la sala</span><h3>Presencial</h3></span>
+        </div>
+        <ul class="rama__lista">
+          <li><b>Dónde:</b> Centro Budista Sakya, Pedreguer (Alicante). Enviamos indicaciones al inscribirte.</li>
+          <li><b>Cómo llegar:</b> en coche o transporte público; hay aparcamiento.</li>
+          <li><b>Comida:</b> almuerzo vegetariano incluido.</li>
+          <li><b>Aforo:</b> limitado a 80 personas en la sala.</li>
+        </ul>
+      </div>
+      <div class="rama rama--online" data-reveal>
+        <div class="rama__cab">
+          <span class="rama__ico"><span class="pico" data-pico="en-linea" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="1.5"/><path class="acc" d="M8 20h8"/></svg></span></span>
+          <span><span class="rama__tag">Desde donde estés</span><h3>Online en vivo</h3></span>
+        </div>
+        <ul class="rama__lista">
+          <li><b>Cómo:</b> enlace privado por correo; se abre 15 min antes.</li>
+          <li><b>Diseñado para no agotar:</b> cámara opcional, descansos reales, sin seis horas de pantalla seguidas.</li>
+          <li><b>Puedes preguntar:</b> las dudas del online se atienden igual que las de la sala.</li>
+          <li><b>Zona horaria:</b> al inscribirte ves la hora en tu país.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 10 · PRECIO / OFRENDA · dos tarjetas + dāna ═══ -->
+  <section class="section wrap inscripcion" id="inscripcion" aria-labelledby="ins-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Ofrenda</span>
+      <h2 id="ins-t" data-reveal="2">Tu contribución <em>sostiene</em> el Dharma.</h2>
+      <p class="lede"><span class="aforo"><span class="aforo__dot" aria-hidden="true"></span>Quedan <b>23</b> de 80 plazas presenciales</span> El encuentro es de contribución libre: das lo que puedas y quieras.</p>
+    </div>
+
+    <div class="planes">
+      <article class="plan plan--destacada" data-reveal>
+        <span class="plan__flag">En la sala</span>
+        <p class="plan__eyebrow">Asistencia<br>presencial</p>
+        <h3>Presencial</h3>
+        <p class="plan__precio">Aportación<small>&nbsp;libre</small> <span>almuerzo incluido</span></p>
+        <ul class="checks checks--sm">
+          <li><b>Plaza en la sala</b> de Pedreguer (aforo 80).</li>
+          <li><b>Almuerzo vegetariano</b> incluido.</li>
+          <li><b>Preguntas en directo</b> con el maestro.</li>
+          <li><b>Material</b> de práctica para llevarte.</li>
+        </ul>
+        <p class="plan__ideal">Ideal si puedes acercarte: la presencia física tiene su propio peso.</p>
+        <a class="btn-primario" href="#">Inscribirme · presencial</a>
+      </article>
+
+      <article class="plan" data-reveal>
+        <span class="plan__flag plan__flag--sutil">En directo</span>
+        <p class="plan__eyebrow">Asistencia<br>online</p>
+        <h3>Online en vivo</h3>
+        <p class="plan__precio">Aportación<small>&nbsp;libre</small> <span>desde donde estés</span></p>
+        <ul class="checks checks--sm">
+          <li><b>Acceso en directo</b> a toda la jornada.</li>
+          <li><b>Puedes preguntar</b> también online.</li>
+          <li><b>Diseñado sin fatiga:</b> cámara opcional, descansos.</li>
+          <li><b>Grabación</b> disponible después, por si un imprevisto.</li>
+        </ul>
+        <p class="plan__ideal">Ideal si vives lejos o prefieres seguirlo desde casa.</p>
+        <a class="btn-secundario" href="#">Inscribirme · online</a>
+      </article>
+    </div>
+
+    <p class="plazas-nota"><span class="pulse" aria-hidden="true"></span><b>El aforo presencial es real y limitado.</b> Cuando la sala se llena, se abre lista de espera. El online no tiene límite de plazas.</p>
+
+    <div class="cuidado">
+      <h3>Nuestro compromiso de cuidado</h3>
+      <p>Si un imprevisto te impide venir o conectarte, avísanos: te facilitamos la grabación o el cambio a otra modalidad. Queremos que participar no sea una fuente de tensión.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 11 · BECAS Y DONATIVOS ═══ -->
+  <section class="section wrap difusor" id="becas" aria-labelledby="bec-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Compasión en acción</span>
+      <h2 id="bec-t" data-reveal="2">Que la economía no sea un <em>obstáculo</em>.</h2>
+      <p class="lede">Este encuentro es de contribución libre precisamente por esto: nadie se queda fuera por dinero. Y quien puede dar de más, sostiene la plaza de otro.</p>
+    </div>
+    <div class="cuidado" data-reveal>
+      <h3>Cómo funciona</h3>
+      <p>Al inscribirte eliges tu aportación, sea cual sea. Si quieres, puedes añadir un donativo que cubra la asistencia de alguien con dificultades. Es la práctica del dāna: la generosidad que hace girar la rueda del Dharma.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 12 · FAQ ═══ -->
+  <section class="section wrap faq zona-luz" id="faq" aria-labelledby="faq-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Antes de inscribirte</span>
+      <h2 id="faq-t" data-reveal="2">Las dudas <em>más habituales</em>.</h2>
+    </div>
+    <div class="faq__buscador" data-reveal="2">
+      <input id="faqBuscar" type="text" autocomplete="off" placeholder="Busca por palabra… online, grabación, idioma" aria-label="Buscar en las preguntas frecuentes">
+      <span class="faq__buscador__icono" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21" stroke-linecap="round"></line></svg></span>
+    </div>
+    <div class="faq__lista">
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="ev1">¿En qué idioma es? ¿Hay traducción?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="ev1" role="region"><div class="faq__inner"><p>El encuentro es <b>en español</b>. Khenpo Rinchen enseña directamente en lengua hispana, así que no hace falta traducción.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="ev2">Si me inscribo online, ¿habrá grabación?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="ev2" role="region"><div class="faq__inner"><p>Sí. Quienes se inscriben online reciben la <b>grabación</b> después, por si un imprevisto les impide seguir el directo.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="ev3">¿Cómo me conecto al online?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="ev3" role="region"><div class="faq__inner"><p>Te enviamos un <b>enlace privado</b> por correo. La sala virtual se abre 15 minutos antes. No necesitas instalar nada complicado.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="ev4">¿Tengo que tener la cámara encendida?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="ev4" role="region"><div class="faq__inner"><p>No. La <b>cámara es opcional</b>. Hemos diseñado el online para que acompañe sin agotar: puedes seguir la jornada con el vídeo apagado.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="ev5">¿Qué llevo si voy presencial?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="ev5" role="region"><div class="faq__inner"><p>Ropa cómoda y ganas. El almuerzo está incluido. Si usas cojín de meditación propio, puedes traerlo, aunque hay disponibles en la sala.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="ev6">¿Es gratis? ¿Cuánto aporto?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="ev6" role="region"><div class="faq__inner"><p>Es de <b>contribución libre</b>: das lo que puedas y quieras. Tu aportación sostiene el templo y hace posible que otros también asistan.</p></div></div>
+      </div>
+    </div>
+    <p class="faq__vacio" id="faqVacio" hidden>Ninguna pregunta coincide con eso. Escríbenos y te orientamos.</p>
+  </section>
+
+  <!-- ═══ 13 · CTA FINAL ═══ -->
+  <section class="cta-final" id="cta-final" aria-labelledby="ctaf-t">
+    <div class="wrap cta-final__inner">
+      <p class="eyebrow" data-reveal="1">Te esperamos</p>
+      <h2 class="cta-final__title" id="ctaf-t" data-reveal="2">La mente de despertar,<br><em>en directo</em>.</h2>
+      <div class="actions actions--centro">
+        <a class="btn-primario" href="#inscripcion">Asistir en persona</a>
+        <a class="btn-secundario" href="#inscripcion">Participar online</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA STICKY ═══ -->
+  <div class="cta-sticky" id="ctaSticky" aria-hidden="true">
+    <div class="cta-sticky__info">
+      <span class="cta-sticky__precio">Contribución libre</span>
+      <span class="cta-sticky__lec">Sáb 8 mar 2027 · presencial u online</span>
+      <span class="cta-sticky__meta">23 plazas presenciales</span>
+    </div>
+    <a class="btn-primario cta-sticky__btn" href="#inscripcion">Inscribirme</a>
+  </div>
+
+</main>
+
+<!-- prefooter · sincronizado con partials/prefooter.html -->
+<!-- footer · sincronizado con partials/footer.html -->
+<section class="foot__hero" aria-labelledby="prefooter-titulo">
+  <canvas class="foot__canvas" id="physics" aria-hidden="true"></canvas>
+  <div>
+    <span class="eyebrow">Camina cerca</span>
+    <h2 class="foot__h" id="prefooter-titulo">Recibe inspiración y <em>sabiduría</em>.</h2>
+    <p class="foot__nl-sub">Ideas sencillas, propuestas de práctica y noticias de Paramita, de vez en cuando, en tu correo.</p>
+
+    <form class="suscribe" novalidate>
+      <div class="suscribe__fila">
+        <input class="suscribe__input" name="email" type="email"
+               autocomplete="email" aria-label="Correo electrónico"
+               placeholder="Tu dirección de correo" required>
+        <button class="btn-primario suscribe__btn" type="submit">Suscribirme</button>
+      </div>
+      <label class="suscribe__consent">
+        <input type="checkbox" required>
+        <span>Acepto las <a href="/politica-de-privacidad/" target="_blank" rel="noopener">políticas de privacidad</a> y recibir la newsletter de Paramita.</span>
+      </label>
+      <p class="suscribe__ok" role="status" aria-live="polite">Gracias. Te has suscrito correctamente.</p>
+    </form>
+  </div>
+</section>
+
+<!-- footer · sincronizado con partials/footer.html -->
+<footer class="foot" id="contacto">
+  <div class="foot__info">
+    <div class="wrap">
+      <div class="foot-grid">
+
+        <!-- Columna 1 · marca + tagline + social -->
+        <div>
+          <span class="logo-wave" role="img" aria-label="Paramita"></span>
+          <p class="tagline">Meditación y enseñanzas del Buddha, como puente entre los Himalayas y el mundo hispanohablante.</p>
+          <div class="social">
+            <a href="https://www.facebook.com/paramitaorg/?locale=es_ES" target="_blank" rel="noopener" aria-label="Facebook"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M13.7 8.3c-1.5-.3-2.6.3-2.6 2V17"/><path d="M9.7 11.7h3.6"/></svg>Facebook</a>
+            <a href="https://www.youtube.com/@Paramitaorg" target="_blank" rel="noopener" aria-label="YouTube"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4.2"/><path d="M10.4 9.4 15 12l-4.6 2.6z"/></svg>YouTube</a>
+            <a href="https://www.instagram.com/paramitaorg/?hl=es" target="_blank" rel="noopener" aria-label="Instagram"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="16.8" cy="7.2" r=".7" fill="currentColor" stroke="none"/></svg>Instagram</a>
+            <a href="https://open.spotify.com/show/0lFfiHcQQCd2geCDefB1bf" target="_blank" rel="noopener" aria-label="Spotify"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.4 9.7c3-.9 6.6-.6 9.1.9"/><path d="M8 12.6c2.4-.7 5.2-.4 7.2.8"/><path d="M8.6 15.4c1.9-.5 4-.3 5.6.6"/></svg>Spotify</a>
+          </div>
+        </div>
+
+        <!-- Columna 2 · Navegar (refleja la IA del navbar público) -->
+        <div>
+          <h2>Navegar</h2>
+          <a class="fl" href="/meditacion/meditacion.html">Meditación</a>
+          <a class="fl" href="/formacion/formacion-publica.html">Cursos</a>
+          <a class="fl" href="/actividades/actividades.html">Actividades</a>
+          <a class="fl" href="/blog/blog.html">Blog</a>
+          <a class="fl" href="/sobre/la-fundacion/la-fundacion.html">Sobre</a>
+          <a class="fl" href="/unete/grupos/grupos.html">Grupos</a>
+          <a class="fl" href="/unete/voluntariado/voluntariado.html">Voluntariado</a>
+        </div>
+
+        <!-- Columna 3 · Contacto -->
+        <div>
+          <h2>Contacto</h2>
+          <address>
+            <b>Dirección</b><br>Av. de Comtat, 1 Bis, buzón 207<br>Pedreguer (Muntanya de la Sella)<br>03750 Alicante, España<br><br>
+            <b>Teléfono</b> (+34) 965 760 777<br>
+            <a class="fl" href="mailto:secretaria@paramita.org">secretaria@paramita.org</a>
+            <a class="fl" href="mailto:soporte@paramita.org">soporte@paramita.org</a><br>
+            <b>Horario</b> L–V · 10–13 h y 15–17 h
+          </address>
+        </div>
+
+      </div>
+
+      <!-- Base del pie · copyright y firma -->
+      <div class="foot-base">
+        <span>© 2026 Fundación Paramita. Todos los seres, libres del sufrimiento.</span>
+        <span>Centro Budista Sakya · Alicante</span>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+<!-- JS · primitivos → componentes → página (rutas relativas, sin GSAP) -->
+<script src="../../js/primitivos/paramita-reveal.js" defer></script>
+<script src="../../js/componentes/paramita-bar.js" defer></script>
+<script src="../../js/componentes/paramita-hero.js" defer></script>
+<script src="../../js/componentes/paramita-fluido.js" defer></script>
+<script src="../../js/componentes/paramita-footer-lotos.js" defer></script>
+<script src="../../js/componentes/paramita-suscripcion.js" defer></script>
+<script src="../../js/componentes/paramita-chat.js" defer></script>
+<!-- Componentes · vídeo ANTES de curso.js (marca el flag y curso.js cede) + bloque de testimonios -->
+<script src="../../js/componentes/paramita-video.js" defer></script>
+<script src="../../js/componentes/paramita-testimonios.js" defer></script>
+<script src="../../js/paginas/paramita-curso.js" defer></script>
+<!-- TEMA · listener del toggle · compartido (sync) -->
+<script src="../../js/componentes/paramita-tema.js" defer></script>
+<!-- MENÚ · acordeón de submenús en móvil · compartido (sync) -->
+<script src="../../js/componentes/paramita-menu.js" defer></script>
+
+</body>
+</html>
