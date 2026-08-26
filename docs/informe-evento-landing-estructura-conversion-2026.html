@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presencia y pantalla — Estudio de la plantilla de evento · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;--paper-2:#FBFAF7;--ink:#191A1C;--slate:#63656B;
+    --ink-deep:#132239;--ink-deep-2:#0E1A2C;--gold:#A8823F;--gold-lite:#C9A96E;
+    --rule:#DAD6CC;--rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));--wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.45;letter-spacing:-.01em;margin:2.6rem 0 0;color:var(--ink)}
+
+  section{padding:clamp(3rem,7vh,5rem) 0}
+  .sec-head{margin:0 0 2rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.2em;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(1.85rem,3.6vw,2.85rem);line-height:1.08;letter-spacing:-.012em;margin:0}
+  h3{font-family:"Hanken Grotesk",sans-serif;font-weight:650;font-size:1.18rem;letter-spacing:.005em;margin:2.6rem 0 .6rem;line-height:1.3}
+  h3 .tag{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);letter-spacing:.14em;vertical-align:.35em;margin-right:.55em;text-transform:uppercase}
+  p{margin:0 0 1.15rem}
+  a{color:var(--ink-deep);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;text-decoration-thickness:1px}
+  strong{font-weight:650}em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:var(--paper-2);border:1px solid var(--rule-soft);padding:.06em .35em;border-radius:3px}
+  .drop::first-letter{font-family:"Fraunces",serif;font-weight:500;float:left;font-size:3.5em;line-height:.72;padding:.06em .09em 0 0;color:var(--ink-deep)}
+
+  .pull{font-family:"Fraunces",serif;font-style:italic;font-weight:400;font-size:clamp(1.35rem,2.4vw,1.9rem);line-height:1.32;letter-spacing:-.01em;color:var(--ink-deep);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:1.6rem 0;margin:2.4rem 0}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .stat{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.9rem,3vw,2.6rem);line-height:1;letter-spacing:-.02em;color:var(--ink-deep)}
+  .stat .n small{font-size:.5em;color:var(--gold);font-weight:500}
+  .stat .l{font-size:.9rem;line-height:1.35;color:var(--ink);margin-top:.6rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.66rem;color:var(--slate);margin-top:.5rem;letter-spacing:.02em}
+
+  .note{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:1.3rem 1.4rem;margin:1.8rem 0;font-size:.98rem;line-height:1.62}
+  .note .k{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+
+  .tbl-wrap{margin:2rem 0;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.9rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:.8rem}
+  th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  thead th{border-bottom:1.5px solid var(--ink);font-weight:650;font-size:.8rem}
+  tbody td:first-child{font-weight:600}
+  tbody tr:hover td{background:var(--paper-2)}
+  .bk{font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--gold);white-space:nowrap}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .split > div{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .split h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.25rem;margin:0 0 .3rem}
+  .split .role{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+  .split ul{margin:0;padding-left:1.05em;font-size:.94rem;line-height:1.55}
+  .split li{margin-bottom:.5rem}
+
+  .verdict{background:var(--ink-deep-2);color:var(--paper);padding:clamp(3rem,7vh,5rem) 0}
+  .verdict h2{color:var(--paper)}
+  .verdict .eyebrow{color:var(--gold-lite)}
+  .verdict p{color:#C3CAD6}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2rem}
+  .checks h4{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 1rem;padding-bottom:.6rem;border-bottom:1px solid rgba(255,255,255,.15)}
+  .checks .yes h4{color:#9ECBA8}
+  .checks .no h4{color:#D98C8C}
+  .checks ul{list-style:none;margin:0;padding:0;font-size:.94rem;line-height:1.5}
+  .checks li{padding-left:1.5em;position:relative;margin-bottom:.9rem;color:#D6DBE3}
+  .checks .yes li::before{content:"\2713";position:absolute;left:0;color:#9ECBA8;font-weight:700}
+  .checks .no li::before{content:"\2715";position:absolute;left:0;color:#D98C8C;font-weight:700}
+
+  .typehead{border-top:2px solid var(--ink);padding-top:1.4rem;margin-top:1rem}
+  .typehead .kind{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.76rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:620px){.split{grid-template-columns:1fr}.checks{grid-template-columns:1fr}.cover h1{font-size:clamp(2.3rem,10vw,3rem)}}
+  @media (prefers-reduced-motion:reduce){.sheen::after{animation:none;transform:translateX(80%)}.reveal{opacity:1;transform:none;transition:none}*{scroll-behavior:auto}}
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe · Plantilla de evento · Estructura y conversión · 2026</p>
+  <h1>Presencia y <em>pantalla</em></h1>
+  <p class="deck">El estudio a fondo del segundo tipo de actividad: el encuentro en vivo, presencial u online. Dos ramas, dos miedos, una decisión de arquitectura que lo gobierna todo.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Encargo</b> · Estudio de tipo · datos contrastados</span>
+    <span><b>Fecha</b> · Agosto 2026</span>
+    <span><b>Lectura</b> · ~20 min</span>
+  </div>
+  <p class="lede">La tesis del evento: no es un curso grabado ni un retiro residencial. Es un encuentro con hora fija que pide presencia —del cuerpo o de la atención—. Y como esa presencia se puede dar de dos formas, la plantilla no elige por el usuario: <em>ofrece las dos</em> y disuelve el miedo propio de cada una.</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 01 ===================== -->
+<section class="flow" id="s1">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — El encargo</span>
+    <h2>Por qué el evento es otro trabajo</h2>
+  </div>
+
+  <p class="drop reveal">En el gradiente de compromiso, el evento se sitúa en el medio-alto: pide más que una celebración de una tarde, menos que un retiro residencial. Pero lo que de verdad lo separa no es la intensidad, sino una bifurcación que ningún otro tipo tiene: un evento puede vivirse <em>presencial</em> (en la sede) u <em>online en vivo</em>, y esas dos formas activan objeciones distintas. En un curso grabado la duda es "no tengo tiempo de verlo"; en un evento en vivo muta a "me asusta la intensidad", "la logística es compleja" o "¿recibiré lo mismo por una pantalla?".</p>
+
+  <p class="reveal">Esa bifurcación es la decisión de arquitectura central de la plantilla. No es un detalle de maquetación: cambia el hero (dos CTA), el bloque de logística (dos ramas), el precio (dos ofrendas) y hasta el trabajo emocional (dos miedos que calmar). Todo lo demás —escaneo vertical, escasez honesta, formulario proporcional, voces del sendero, marco dāna— lo hereda del maestro y del estudio del retiro, sin cambios.</p>
+
+  <p class="pull reveal">El evento no obliga a elegir entre venir o conectarse. Ofrece ambas puertas y quita el miedo de cruzar cualquiera de las dos.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 ===================== -->
+<section class="flow" id="s2">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — La tesis</span>
+    <h2>El doble carril no es un lujo: es la mitad del público</h2>
+  </div>
+
+  <p class="drop reveal">La tentación de simplificar —"hagámoslo solo presencial, es más puro"— tiene un coste medible. Los datos de sector convergen en que, en formatos híbridos, la asistencia se reparte casi a partes iguales entre las dos modalidades: alrededor de un 56% presencial y un 44% online. Dicho de otro modo, ofrecer una sola puerta deja fuera a cerca de la mitad de quienes habrían venido. Y no son los mismos: se estima que un 41% del público virtual no se habría desplazado a un evento presencial —viven lejos, no pueden viajar, o el online es su única vía—.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">56/44</div><div class="l">reparto típico presencial / online en eventos híbridos</div><div class="src">Benchmarks de sector (Goldcast)</div></div>
+    <div class="stat"><div class="n">~2,5<small>×</small></div><div class="l">alcance total al añadir la rama online</div><div class="src">Benchmarks de sector (AMW)</div></div>
+    <div class="stat"><div class="n">41<small>%</small></div><div class="l">del público online no se habría desplazado a lo presencial</div><div class="src">Benchmarks de sector (AMW)</div></div>
+  </div>
+
+  <p class="reveal">Para una fundación cuya misión es difundir el Dharma, esto es doblemente relevante: la rama online no compite con la presencial, la <em>extiende</em> —lleva la enseñanza a quien nunca podría llegar a Pedreguer—. La plantilla, por tanto, trata las dos modalidades como iguales en dignidad, no como "la de verdad" y "la de repuesto". (Estas cifras provienen de fuentes de sector, no de investigación primaria; se usan como orden de magnitud, no como verdad exacta.)</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 ===================== -->
+<section class="flow" id="s3">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — Dos miedos</span>
+    <h2>El mapa de objeciones se bifurca por modalidad</h2>
+  </div>
+
+  <p class="drop reveal">Aquí está la diferencia práctica con el retiro. En el retiro, el miedo era uno (de huésped). En el evento, hay dos conjuntos de dudas según cómo se asista, y la página debe resolver ambos sin que el que elige una rama tenga que leer las objeciones de la otra.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Mapa de objeciones del evento, por modalidad</caption>
+      <thead>
+        <tr><th>Rama</th><th>La duda, en sus palabras</th><th>Qué la disuelve</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Presencial · viaje</td><td>"Pedreguer me queda lejos, no sé cómo llegar"</td><td>Cómo llegar detallado, mapa, transporte, alojamiento cercano</td></tr>
+        <tr><td>Presencial · convivencia</td><td>"Soy introvertido/a, ¿tendré privacidad?"</td><td>Descripción franca del formato y del trato</td></tr>
+        <tr><td>Presencial · intensidad</td><td>"¿Aguantaré tantas horas de práctica?"</td><td>Programa que alterna enseñanza y descanso</td></tr>
+        <tr><td>Presencial · costes ocultos</td><td>"¿Cuánto gastaré de más en comidas o transporte?"</td><td>Qué incluye el precio, desglosado y sin sorpresas</td></tr>
+        <tr><td>Online · transmisión</td><td>"¿Recibiré la misma bendición por una pantalla?"</td><td>Explicar con honestidad qué sí y qué no da el online en vivo</td></tr>
+        <tr><td>Online · entorno</td><td>"En casa tengo distracciones, no mantendré el estado"</td><td>Guía breve para preparar tu espacio y tu presencia</td></tr>
+        <tr><td>Online · fatiga digital</td><td>"Seis horas de Zoom me agotan"</td><td>Formato en vivo diseñado contra la fatiga de pantalla (§05)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 04 · PRESENCIAL ===================== -->
+<section class="flow" id="presencial">
+  <div class="typehead reveal">
+    <span class="kind">Rama A · Presencial</span>
+    <h2>El cuerpo en la sala</h2>
+  </div>
+
+  <p class="drop reveal">La rama presencial resuelve, sobre todo, el cuerpo: si la persona sabe cómo llegar, dónde aparcar, qué comerá y cuánto costará, la mente queda libre para decidir. Es la misma lógica del retiro, comprimida. El bloque de logística —dirección exacta, mapa, transporte, alojamiento cercano, qué incluye— no es relleno: es lo que convierte el "me gustaría" en "voy".</p>
+
+  <p class="reveal">Y hay un argumento de valor que la plantilla debe hacer explícito, porque es la razón de ser de lo presencial: la gente asiste en persona, sobre todo, por lo que no cabe en una pantalla. Los datos de sector cifran en torno al 81% quienes ponen el encuentro y el acceso directo a la enseñanza por delante del mero contenido. En el lenguaje de la casa: la transmisión de viva voz, el silencio compartido, la energía de la Sangha reunida. Eso es lo que justifica el desplazamiento —no un argumento de escasez, sino uno de presencia—.</p>
+
+  <div class="note reveal">
+    <span class="k">Escasez en el evento presencial</span>
+    Como en el retiro, la única escasez legítima es el aforo real de la sala. "Aforo limitado a 80 personas" es información honesta cuando la sala tiene 80 sitios. Se comunica como dato, nunca como reloj de cuenta atrás.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 05 · ONLINE ===================== -->
+<section class="flow" id="online">
+  <div class="typehead reveal">
+    <span class="kind">Rama B · Online en vivo</span>
+    <h2>La atención frente a la pantalla</h2>
+  </div>
+
+  <p class="drop reveal">La rama online tiene un enemigo con nombre y respaldo científico: la fatiga de videollamada. El profesor Jeremy Bailenson (Stanford) la explica como una <em>sobrecarga no verbal</em> con cuatro causas —exceso de contacto visual de cerca, carga cognitiva por producir y leer señales no verbales, autoevaluación constante de verse a uno mismo, y la sensación de estar físicamente atrapado ante la cámara—. Un estudio posterior con casi diez mil personas (Fauville y colegas) confirmó empíricamente el marco: a más frecuencia, más duración y menos descansos, más agotamiento.</p>
+
+  <p class="reveal">Esto tiene consecuencias directas de diseño para el evento online, que la plantilla debe recoger: segmentos más cortos con descansos reales, no exigir la cámara ni el autovisionado, permitir apagar el propio vídeo, y prometer un ritmo que no sea "seis horas de gaze continuo". La página lo comunica como un cuidado, no como una disculpa: "hemos diseñado el online para que acompañe, no para que agote".</p>
+
+  <p class="reveal">Y la objeción más delicada —"¿recibiré lo mismo?"— se responde con honestidad, no con humo. Lo honesto es reconocer que la presencia física y la online no son idénticas, y a la vez afirmar lo que el online sí da: acceso real a la enseñanza en directo, la posibilidad de preguntar, y la pertenencia a una Sangha que se reúne aunque sea a través de la pantalla. La transparencia aquí construye más confianza que cualquier promesa de equivalencia total.</p>
+
+  <div class="note reveal">
+    <span class="k">Diseñar contra la fatiga</span>
+    Cámara opcional · autovisionado desactivable · segmentos con pausa · duración honesta con zona horaria clara. El online no imita al presencial: se diseña con sus propias reglas.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 06 · ESTRUCTURA ===================== -->
+<section class="flow" id="estructura">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — La estructura</span>
+    <h2>Bloque a bloque, con las dos ramas tejidas</h2>
+  </div>
+
+  <p class="drop reveal">La secuencia sigue el arco del maestro —espíritu, mente, cuerpo, acción— pero cada bloque de logística, precio y acción se desdobla en presencial / online. La clave es que el usuario pueda seguir su rama sin fricción, eligiéndola pronto (en el hero) y viéndola confirmada en cada punto de decisión.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>La plantilla de evento · orden y función</caption>
+      <thead>
+        <tr><th>#</th><th>Bloque</th><th>Qué hace / miedo que toca</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="bk">01</td><td>Hero</td><td>Nombre del encuentro + maestro. <strong>Doble CTA</strong>: "Asistir en persona" / "Participar online". Sin <code>data-reveal</code> en el h1.</td></tr>
+        <tr><td class="bk">02</td><td>La invitación</td><td>Por qué es un encuentro, no solo información. Vídeo del maestro, facade / poster-first.</td></tr>
+        <tr><td class="bk">03</td><td>Autoridad / linaje</td><td>Trayectoria y respaldo del linaje. Devoción, no escepticismo.</td></tr>
+        <tr><td class="bk">04</td><td>Temario</td><td>Mapa claro de lo que se impartirá. Reduce la ansiedad intelectual.</td></tr>
+        <tr><td class="bk">05</td><td>Programa y horarios</td><td>Ritmo que alterna enseñanza y descanso. <strong>Zona horaria clara</strong> para el online.</td></tr>
+        <tr><td class="bk">06</td><td>¿Es para ti?</td><td>Inclusión radical (principiante / practicante). Elimina el impostor.</td></tr>
+        <tr><td class="bk">07</td><td>El valor del «en vivo»</td><td>Presencia y transmisión frente a un vídeo grabado. (§04)</td></tr>
+        <tr><td class="bk">08</td><td>Voces del sendero</td><td>Transformación real, con nombre y rostro. Sin estrellas ni carrusel.</td></tr>
+        <tr><td class="bk">09</td><td><strong>Logística · dos ramas</strong></td><td>Presencial: cómo llegar, alojamiento, comida. Online: acceso, soporte, zona horaria. (§04, §05)</td></tr>
+        <tr><td class="bk">10</td><td>Precio / ofrenda</td><td>Dos tarjetas (presencial / online). Reencuadre dāna: sostiene el templo y el linaje.</td></tr>
+        <tr><td class="bk">11</td><td>Becas y donativos</td><td>Que la economía no sea obstáculo. Institución sin ánimo de lucro.</td></tr>
+        <tr><td class="bk">12</td><td>FAQ</td><td>Micro-resistencias finales: idioma, traducción, grabación, qué llevar.</td></tr>
+        <tr><td class="bk">13</td><td>Cierre / CTA final</td><td>Última invitación serena, con las dos puertas a la vista.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="reveal">Respecto a tu previa de eventos —quince bloques con una "objeción silenciosa" en cada uno—, el armazón se conserva; lo que se ajusta es la temperatura (§08). El añadido estructural nuevo es la <em>disciplina de las dos ramas</em>: elegir modalidad en el hero y que esa elección se refleje en logística y precio.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 07 · COMPROMISO ===================== -->
+<section class="flow" id="compromiso">
+  <div class="sec-head reveal">
+    <span class="sec-num">07 — El compromiso</span>
+    <h2>Aforo honesto, recordatorios, y el «commitment gap»</h2>
+  </div>
+
+  <p class="drop reveal">Un dato de sector que conviene tener presente al diseñar la inscripción: entre el registro y la asistencia real hay una brecha. En eventos presenciales, del orden del 60–70% de quienes se inscriben acaban asistiendo; en online, la proporción es menor. Y la inscripción llega tarde: buena parte se produce en la última semana, y una fracción notable el mismo día. La lección para la plantilla no es fabricar urgencia, sino dos cosas honestas: comunicar el aforo real cuando lo hay, y no cortar los recordatorios demasiado pronto —el sistema de suscripción y avisos importa tanto como la landing—.</p>
+
+  <p class="reveal">El formulario de inscripción sigue la regla de la casa: proporcional al compromiso, multipaso con progreso si hace falta, preguntas fáciles primero, y captura la modalidad elegida desde el principio. Y el bloque de condiciones se reformula, como en el retiro, de "garantía / devolución" comercial a <strong>compromiso de cuidado</strong> —facilidades para cambiar de modalidad o acceder a la grabación ante un imprevisto—, en la voz de la casa y sin lenguaje de reembolso.</p>
+
+  <div class="note reveal">
+    <span class="k">Un puente entre tipos</span>
+    Para el online en vivo, la grabación posterior es el equivalente natural al "compromiso de cuidado" del retiro: si surge un imprevisto, la enseñanza no se pierde. Es cuidado, no una función de e-commerce.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 08 · AUDITORÍA PREVIA ===================== -->
+<section class="verdict">
+  <div class="flow">
+    <div class="sec-head reveal">
+      <span class="eyebrow">08 — Auditoría</span>
+      <h2>Tu previa de eventos, contrastada</h2>
+    </div>
+    <p class="reveal">Es la previa más extensa de las cuatro, y la de neuromarketing más agresivo. El esqueleto de quince bloques sirve; lo que hay que corregir es el volumen persuasivo, para que hable como la casa.</p>
+
+    <div class="checks reveal">
+      <div class="yes">
+        <h4>Se conserva</h4>
+        <ul>
+          <li>La doble rama presencial / online como columna de logística y precio.</li>
+          <li>El mapa de objeciones por modalidad (viaje, convivencia, intensidad / transmisión, entorno, fatiga).</li>
+          <li>Autoridad y linaje, temario como mapa, programa que alterna enseñanza y descanso.</li>
+          <li>El reencuadre dāna del precio y el bloque de becas.</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h4>Se ajusta</h4>
+        <ul>
+          <li>La "objeción silenciosa" en cada bloque: se baja de táctica a criterio de diseño, sin lenguaje de presión.</li>
+          <li>"Garantía / reembolso" comercial → compromiso de cuidado (grabación, cambio de modalidad).</li>
+          <li>"Oportunidad kármica única / rompe la procrastinación" → solo aforo real; si es disparador, fuera.</li>
+          <li>WhatsApp flotante: decisión abierta, no patrón por defecto.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 09 · CIERRE ===================== -->
+<section class="flow" id="cierre">
+  <div class="sec-head reveal">
+    <span class="sec-num">09 — Cierre</span>
+    <h2>La plantilla de evento en una página</h2>
+  </div>
+  <p class="reveal">El evento es la plantilla de las dos puertas. Su decisión de arquitectura es la bifurcación presencial / online: elegir modalidad en el hero y que esa elección gobierne logística y precio. La rama presencial resuelve el cuerpo y afirma el valor de la presencia; la online se diseña contra la fatiga de pantalla y responde con honestidad al "¿recibiré lo mismo?". La escasez es real (aforo de sala), el formulario proporcional, la cancelación se vuelve compromiso de cuidado, y el resto —escaneo, voces del sendero, dāna, movimiento, CTA, color— lo hereda del sistema.</p>
+  <p class="reveal">Con esto fijado, el siguiente paso es la <strong>muestra HTML</strong> del evento —front-first, como EMI y como el retiro, con los CTA de inscripción provisionales hasta que exista el rail transaccional de actividades—.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== REFERENCIAS ===================== -->
+<section class="flow refs">
+  <div class="sec-head reveal">
+    <span class="sec-num">R — Fuentes</span>
+    <h2>De dónde salen los datos</h2>
+  </div>
+  <ol class="reveal">
+    <li><b>Bailenson, J. N. (2021)</b> — «Nonverbal Overload: A Theoretical Argument for the Causes of Zoom Fatigue», <i>Technology, Mind, and Behavior</i> (APA). Cuatro causas de la fatiga de videollamada. El propio autor las plantea como argumentos, no como hallazgos cerrados.</li>
+    <li><b>Fauville, Luo, Queiroz, Bailenson & Hancock (2021–2023)</b> — Zoom Exhaustion & Fatigue Scale; validación empírica con n≈9.787.</li>
+    <li><b>Benchmarks de sector de eventos híbridos</b> — Goldcast (reparto ~56/44 presencial/online), AMW (alcance ~2,5×; 41% del online no viajaría), Bizzabo/ON24/EventsAir (brecha registro-asistencia ~60–70% presencial; registro tardío). Cifras indicativas, de fuentes de industria, no de investigación primaria.</li>
+    <li><b>Datos de asistencia presencial</b> — encuestas de sector: ~81% prioriza el encuentro y el acceso directo sobre el contenido como motivo de asistir en persona.</li>
+    <li><b>Doctrina interna Paramita</b> — Informe maestro de plantillas de actividad; Estudio de la plantilla de retiro; Espectáculo vs. Conversión (cursos y actividades); Testimonios y vídeo; Arquitectura transaccional (e-commerce); Donativo vs. membresía; FAQ, arquitectura de información.</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Estudio de la plantilla de evento · Fundació Sakya Paramita · Agosto 2026 · Datos verificados en fuentes citadas · Documento autocontenido</div>
+</footer>
+
+<script>
+  var pb=document.getElementById('progress');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;pb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  } else {document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});}
+</script>
+</body>
+</html>

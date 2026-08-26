@@ -1,52 +1,97 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Diario · Paramita</title>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- TEMA · anti-FOUC (sync) · aplica la penumbra guardada ANTES de pintar -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gira · Paramita</title>
+  <meta name="description" content="La gira de la compasión: Ven. Khenpo Rinchen recorre España y Latinoamérica llevando la enseñanza de viva voz, primavera 2027. Encuentra tu ciudad.">
+  <link rel="canonical" href="https://paramita.org/actividades/giras/gira.html">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- TEMA · anti-FOUC (sync) · aplica la penumbra guardada ANTES de pintar -->
   <script>
     try { if (localStorage.getItem('paramita-tema') === 'oscuro') document.documentElement.setAttribute('data-tema','oscuro'); } catch(e){}
   </script>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<!-- marca JS activo cuanto antes (gate de los revelados) -->
-<script>document.documentElement.classList.add('js')</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- TOKENS -->
-<link rel="stylesheet" href="../css/tokens/paramita-color.css">
-<link rel="stylesheet" href="../css/tokens/paramita-tipografia.css">
-<link rel="stylesheet" href="../css/tokens/paramita-layout.css">
-<link rel="stylesheet" href="../css/tokens/paramita-movimiento.css">
-<!-- BASE -->
-<link rel="stylesheet" href="../css/base/paramita-reset.css">
-<link rel="stylesheet" href="../css/base/paramita-base.css">
-<!-- COMPONENTES -->
-<link rel="stylesheet" href="../css/componentes/paramita-bar.css">
-<link rel="stylesheet" href="../css/componentes/paramita-menu.css">
-<link rel="stylesheet" href="../css/componentes/paramita-pictogramas.css">
-<link rel="stylesheet" href="../css/componentes/paramita-cta.css">
-<link rel="stylesheet" href="../css/componentes/paramita-sections.css">
-<link rel="stylesheet" href="../css/componentes/paramita-extras.css">
-<link rel="stylesheet" href="../css/componentes/paramita-footer.css">
-  <link rel="stylesheet" href="../css/componentes/paramita-suscripcion.css">
-<link rel="stylesheet" href="../css/componentes/paramita-chat.css">
-<!-- PÁGINA · blog (grid del Diario + entrada) -->
-<link rel="stylesheet" href="../css/paginas/paramita-blog.css">
-<!-- Responsive común (al final) -->
-<link rel="stylesheet" href="../css/base/paramita-responsive.css">
+  <!-- marca JS activo cuanto antes (gate de los revelados) -->
+  <script>document.documentElement.classList.add('js')</script>
+
+  <!-- TOKENS -->
+  <link rel="stylesheet" href="../../css/tokens/paramita-color.css">
+  <link rel="stylesheet" href="../../css/tokens/paramita-tipografia.css">
+  <link rel="stylesheet" href="../../css/tokens/paramita-layout.css">
+  <link rel="stylesheet" href="../../css/tokens/paramita-movimiento.css">
+  <!-- BASE -->
+  <link rel="stylesheet" href="../../css/base/paramita-reset.css">
+  <link rel="stylesheet" href="../../css/base/paramita-base.css">
+  <!-- COMPONENTES -->
+  <link rel="stylesheet" href="../../css/componentes/paramita-fluido.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-bar.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-menu.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-cta.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-hero.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-sections.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-cursos.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-pictogramas.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-modal.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-extras.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-footer.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-suscripcion.css">
+  <!-- PÁGINA -->
+  <link rel="stylesheet" href="../../css/paginas/paramita-curso.css">
+  <link rel="stylesheet" href="../../css/paginas/paramita-gira.css">
+  <!-- Componentes reutilizables · vídeo + bloque de testimonios · unlayered, ganan sobre curso.css -->
+  <link rel="stylesheet" href="../../css/componentes/paramita-video.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-testimonios.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-chat.css">
+  <!-- Responsive común (al final) -->
+  <link rel="stylesheet" href="../../css/base/paramita-responsive.css">
   <!-- TEMA · penumbra/luz · el ÚLTIMO para ganar la cascada (sync) -->
-  <link rel="stylesheet" href="../css/componentes/paramita-tema.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-tema.css">
 </head>
-<body>
-<!-- sync: navbar=publico prefooter -->
+<body data-estado="anonimo">
+<!-- sync: navbar=publico current="Actividades" prefooter -->
 
-<!-- ── Navbar ── -->
+<!-- FONDO GLOBAL · lienzo del fluido WebGL -->
+<canvas id="fluido" aria-hidden="true"></canvas>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     PARAMITA · FUNDACIÓN SAKYA
+     partials/navbar-publico.html — Navbar público (usuarios sin sesión)
+     ───────────────────────────────────────────────────────────────────────────
+
+     CAMBIO FASE 7 · añadido .btn-acceso
+     ────────────────────────────────────
+     Añadido el círculo .btn-acceso al final del .bar-inner (fuera del .menu)
+     para dar entrada al login. Cuando el usuario se autentica, este mismo
+     círculo se sustituye por el .avatar-menu del navbar-practicante (misma
+     posición, mismo tamaño, misma familia lumínica) — continuidad visual
+     entre ambos navbars.
+
+     REORDENACIÓN DEL DOM
+     ────────────────────
+     El .burger se mueve al final del .bar-inner (antes estaba en 3ª posición).
+     El .btn-acceso queda como penúltimo hijo, justo antes del burger, para:
+       · En desktop: aparecer al final de la fila, después de los CTAs.
+       · En móvil: quedar visible en la barra sin abrir el hamburguesa.
+
+     La reordenación no rompe el sibling selector `.nt:checked ~ .menu`
+     porque el input.nt sigue estando ANTES del .menu en el DOM. El label
+     .burger[for="nt"] funciona por atributo, no por proximidad.
+
+     Depende de estos CSS del sistema (ya cargados):
+       · paramita-bar.css     → contenedor sticky, glass, logo
+       · paramita-menu.css    → menú horizontal, links, submenús, caret
+       · paramita-cta.css     → .btn-secundario, .btn-primario, .btn-acceso
+       · paramita-responsive.css → burger + comportamiento móvil
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
 <!-- ═══════════════════════════════════════════════════════════════════════════
      PARAMITA · FUNDACIÓN SAKYA
      partials/navbar-publico.html — Navbar público (usuarios sin sesión)
@@ -112,7 +157,7 @@
 
         <!-- 3 · Actividades · enlace plano (sin desplegable) -->
         <li>
-          <a class="navlink" href="/actividades/actividades.html">Actividades</a>
+          <a class="navlink" href="/actividades/actividades.html" aria-current="page">Actividades</a>
         </li>
 
         <!-- 4 · Blog · enlace plano (sin desplegable) -->
@@ -250,232 +295,243 @@
   </div>
 </header>
 
-<!-- ── Cabecera de la grilla ── -->
-<section class="hero-grid">
-  <div class="wrap">
-    <div class="s-head">
-      <div>
-        <span class="eyebrow">Diario</span>
-        <h1>Historias, enseñanzas y <em>vida de práctica</em></h1>
-      </div>
-      <p>Textos de la tradición Sakya para acompañar el camino. Sin prisa, a tu ritmo.</p>
+<main>
+
+  <!-- ═══ 01 · HERO · la rareza del acontecimiento (sin FOMO) ═══ -->
+  <section class="hero" id="hero">
+    <div class="hero__bg" aria-hidden="true">
+      <div class="hero__bg-fallback"></div>
+      <div class="hero__bg-img" style="background-image:url('../../assets/img/hero-gira.jpg')"></div>
     </div>
-    <!-- Búsqueda por palabras + filtro por temas (provisional) -->
-    <div class="filtro-zona">
-      <div class="busqueda">
-        <input id="buscar" type="text" autocomplete="off" placeholder="Busca por palabra… meditación, linaje, mérito" aria-label="Buscar artículos por palabra">
-        <span class="lupa" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21" stroke-linecap="round"></line></svg></span>
+    <div class="wrap hero__inner">
+      <p class="eyebrow">Gira · primavera 2027</p>
+      <h1>La gira de la <em>compasión</em></h1>
+      <p class="lede">Ven. Khenpo Rinchen recorre España y Latinoamérica llevando la enseñanza de viva voz. Un despliegue que ocurre pocas veces. Encuentra tu ciudad.</p>
+
+      <div class="actions">
+        <a class="btn-primario" href="#sedes">Ver las ciudades</a>
+        <span class="meta"><span class="pulse" aria-hidden="true"></span>De <b>febrero a mayo de 2027</b></span>
       </div>
-      <div class="filtro" role="group" aria-label="Filtrar por tema">
-        <button class="chip activo" data-filtro="todos">Todos</button>
-        <button class="chip" data-filtro="meditacion">Meditación</button>
-        <button class="chip" data-filtro="filosofia">Filosofía</button>
-        <button class="chip" data-filtro="historia">Historia</button>
-        <button class="chip" data-filtro="maestros">Maestros</button>
-        <button class="chip" data-filtro="practica">Práctica</button>
-        <button class="chip" data-filtro="textos">Textos</button>
+
+      <ul class="curso-chips" aria-label="Detalles de la gira">
+        <li><span class="pico pico--sm" data-pico="ubicacion" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M12 21 C12 21 5.5 14.8 5.5 10.2 C5.5 6.5 8.4 3.6 12 3.6 C15.6 3.6 18.5 6.5 18.5 10.2 C18.5 14.8 12 21 12 21 Z"/>
+  <circle class="acc" cx="12" cy="10" r="2.3"/>
+</svg></span>6 ciudades</li>
+        <li><span class="pico pico--sm" data-pico="reloj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <circle cx="12" cy="12" r="8"/>
+  <path d="M12 4.4 L12 5.6 M19.6 12 L18.4 12 M12 19.6 L12 18.4 M4.4 12 L5.6 12"/>
+  <path class="acc" d="M12 7.6 L12 12 L15 13.6"/>
+</svg></span>Feb – may 2027</li>
+        <li><span class="pico pico--sm" data-pico="comunidad" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <circle cx="7.5" cy="10" r="2.3"/>
+  <circle cx="16.5" cy="10" r="2.3"/>
+  <circle class="acc" cx="12" cy="8.6" r="2.4"/>
+  <path d="M3.8 18.6 C3.8 14.9 5.6 13.7 7.5 13.7 C8.4 13.7 9.1 14 9.7 14.5"/>
+  <path d="M20.2 18.6 C20.2 14.9 18.4 13.7 16.5 13.7 C15.6 13.7 14.9 14 14.3 14.5"/>
+  <path d="M8.2 18.6 C8.2 14.1 9.8 13 12 13 C14.2 13 15.8 14.1 15.8 18.6"/>
+</svg></span>Presencial</li>
+        <li>España y Latinoamérica</li>
+        <li>En español</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══ 02 · EL MAESTRO Y EL PROPÓSITO ═══ -->
+  <section class="section wrap split difusor" id="proposito" aria-labelledby="pro-t">
+    <div class="split__media">
+      <figure class="retrato">
+        <img src="../../assets/img/khenpo-luz-dorada-low.jpg" alt="Ven. Khenpo Rinchen Gyaltsen" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
+      </figure>
+    </div>
+    <div class="split__body">
+      <span class="eyebrow" data-reveal="1">Por qué esta gira</span>
+      <h2 id="pro-t" data-reveal="2">El maestro viene a <em>tu tierra</em>.</h2>
+      <p>No es habitual que un maestro del linaje recorra tantas ciudades en una misma temporada. Khenpo Rinchen lo hace con un propósito: fortalecer la Sangha local —los grupos que sostienen la práctica en cada lugar— y llevar la transmisión de viva voz allí donde suele llegar solo por pantalla.</p>
+      <p class="split__sub">Y hay una cercanía poco común:</p>
+      <ul class="checks">
+        <li><b>En tu idioma.</b> Enseña directamente en español, sin traducción ni distancia.</li>
+        <li><b>Sin barrera de entrada.</b> Para quien empieza y para quien ya practica.</li>
+        <li><b>De aquí.</b> En cada ciudad, un grupo local acoge el encuentro.</li>
+      </ul>
+      <a class="t-link" href="/sobre/khenpo/khenpo.html"><span class="txt">Conocer a Khenpo Rinchen</span> <span class="arw" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <!-- ═══ 03 · CLÚSTER DE SEDES · lista escaneable (no mapa) ═══ -->
+  <section class="section wrap sedes-sec zona-luz" id="sedes" aria-labelledby="sed-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Dónde y cuándo</span>
+      <h2 id="sed-t" data-reveal="2">Encuentra <em>tu ciudad</em>.</h2>
+      <p class="lede">Estas son las ciudades de la gira, con su estado actualizado. ¿No ves la tuya todavía? Pídenos aviso más abajo.</p>
+    </div>
+
+    <div class="geoloc" data-reveal>
+      <button class="geoloc__btn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="5"/><circle class="acc" cx="12" cy="12" r="1.6"/></svg>
+        Usar mi ubicación
+      </button>
+      <span class="geoloc__nota">o busca tu ciudad en la lista.</span>
+    </div>
+
+    <ul class="sedes">
+      <li class="sede sede--abierta" data-reveal>
+        <div class="sede__ciudad"><h3>Madrid</h3><p>España · Centro Sakya Madrid</p></div>
+        <div class="sede__fecha">14–15 feb 2027</div>
+        <div class="sede__estado"><span class="estado estado--abierta">Inscripciones abiertas</span><span class="sede__plazas">Quedan 18 plazas</span></div>
+        <a class="sede__cta btn-secundario" href="/actividades/giras/gira-madrid.html">Ver Madrid</a>
+      </li>
+      <li class="sede sede--abierta" data-reveal>
+        <div class="sede__ciudad"><h3>Barcelona</h3><p>España · Casa de Meditación</p></div>
+        <div class="sede__fecha">21–22 feb 2027</div>
+        <div class="sede__estado"><span class="estado estado--abierta">Inscripciones abiertas</span><span class="sede__plazas">Quedan 6 plazas</span></div>
+        <a class="sede__cta btn-secundario" href="/actividades/giras/gira-madrid.html">Ver Barcelona</a>
+      </li>
+      <li class="sede sede--abierta" data-reveal>
+        <div class="sede__ciudad"><h3>Valencia</h3><p>España · Ateneo Contemplativo</p></div>
+        <div class="sede__fecha">28 feb 2027</div>
+        <div class="sede__estado"><span class="estado estado--abierta">Inscripciones abiertas</span><span class="sede__plazas">Últimas plazas</span></div>
+        <a class="sede__cta btn-secundario" href="/actividades/giras/gira-madrid.html">Ver Valencia</a>
+      </li>
+      <li class="sede sede--proximamente" data-reveal>
+        <div class="sede__ciudad"><h3>Ciudad de México</h3><p>México · sede por confirmar</p></div>
+        <div class="sede__fecha">14–15 mar 2027</div>
+        <div class="sede__estado"><span class="estado estado--proximamente">Próximamente</span><span class="sede__plazas">Inscripciones aún no abiertas</span></div>
+        <a class="sede__cta t-link" href="#aviso"><span class="txt">Avísame</span> <span class="arw" aria-hidden="true">→</span></a>
+      </li>
+      <li class="sede sede--proximamente" data-reveal>
+        <div class="sede__ciudad"><h3>Buenos Aires</h3><p>Argentina · sede por confirmar</p></div>
+        <div class="sede__fecha">21–22 mar 2027</div>
+        <div class="sede__estado"><span class="estado estado--proximamente">Próximamente</span><span class="sede__plazas">Inscripciones aún no abiertas</span></div>
+        <a class="sede__cta t-link" href="#aviso"><span class="txt">Avísame</span> <span class="arw" aria-hidden="true">→</span></a>
+      </li>
+      <li class="sede sede--espera" data-reveal>
+        <div class="sede__ciudad"><h3>Lima</h3><p>Perú · Centro Dharma Andino</p></div>
+        <div class="sede__fecha">28–29 mar 2027</div>
+        <div class="sede__estado"><span class="estado estado--espera">Lista de espera</span><span class="sede__plazas">Aforo completo</span></div>
+        <a class="sede__cta t-link" href="#aviso"><span class="txt">Apuntarme a la lista</span> <span class="arw" aria-hidden="true">→</span></a>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ═══ 04 · EL VALOR DEL «EN VIVO» · pictos del evento ═══ -->
+  <section class="section wrap valor" id="valor" aria-labelledby="val-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Por qué ir en persona</span>
+      <h2 id="val-t" data-reveal="2">Lo que un <em>streaming</em> no da.</h2>
+      <p class="lede">Cuando el maestro viene a tu ciudad, estar en la sala tiene un peso que la pantalla no alcanza.</p>
+    </div>
+    <div class="pictos">
+      <div class="picto" data-reveal>
+        <span class="pico" data-pico="evento-transmision" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle class="acc" cx="12" cy="12" r="2.2"/><path d="M7.5 7.5a6.5 6.5 0 0 0 0 9M16.5 7.5a6.5 6.5 0 0 1 0 9"/><path d="M4.5 4.5a11 11 0 0 0 0 15M19.5 4.5a11 11 0 0 1 0 15"/></svg></span>
+        <h3>Transmisión viva</h3><p>La enseñanza en directo, con la voz y la presencia del maestro.</p>
+      </div>
+      <div class="picto" data-reveal>
+        <span class="pico" data-pico="evento-sangha" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="2.5"/><circle cx="16" cy="9" r="2.5"/><path d="M3.8 18 C3.8 15.3 5.7 13.7 8 13.7 C10.3 13.7 12.2 15.3 12.2 18"/><path class="acc" d="M11.8 18 C11.8 15.3 13.7 13.7 16 13.7 C18.3 13.7 20.2 15.3 20.2 18"/></svg></span>
+        <h3>La Sangha de tu ciudad</h3><p>Conocer a los que practican cerca de ti. La gira teje comunidad local.</p>
+      </div>
+      <div class="picto" data-reveal>
+        <span class="pico" data-pico="evento-dialogo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5h11a1 1 0 0 1 1 1V12a1 1 0 0 1-1 1H8l-3 2.5V13H3a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1z"/><path class="acc" d="M17 9h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-1v2.2L16.5 15"/></svg></span>
+        <h3>Preguntar de verdad</h3><p>Tus dudas, resueltas cara a cara con el maestro.</p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── Destacado ── -->
-<div class="destacado-wrap"><div class="wrap">
-  <article class="destacado" data-tema="historia maestros">
-    <div class="d-img">
-      <span class="d-flag">Destacado</span>
-      <div class="pic" style="background-image:url('/assets/img/blog-1-color.jpg'),linear-gradient(150deg,#EBDEC4,#E4D9C4)"></div>
+  <!-- ═══ 05 · VOCES DEL SENDERO ═══ -->
+  <section class="section wrap bloque-voces zona-luz" id="voces" aria-labelledby="voc-t">
+    <div class="bloque-voces__head">
+      <span class="eyebrow">Voces del sendero</span>
+      <h2 id="voc-t">De giras <em>anteriores</em>.</h2>
+      <p class="bloque-voces__sub">Practicantes que vivieron el paso del maestro por su ciudad.</p>
     </div>
-    <div class="d-body">
-      <span class="kicker">Maestras del linaje</span>
-      <h2>Mandarava: la mujer que emergió <em>del fuego</em></h2>
-      <p>Tres veces intentaron apagarla. Tres veces emergió más luminosa. La historia de la princesa que renunció a todo por seguir su llamada.</p>
-      <span class="meta-min">Anahí Yanez Pagans · 13 min de lectura</span>
-      <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer el artículo <span aria-hidden="true">→</span></a>
+    <div class="voces">
+      <figure class="voz voz--video">
+        <div class="video-facade" data-yt="AKQ1vWQUz1Y" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de María Fernanda Corona"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+        <blockquote class="voz__q">Que viniera a mi ciudad fue un regalo que no esperaba.</blockquote>
+        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">MF</span><span><span class="voz__n">María Fernanda Corona</span><span class="voz__meta">gira 2025 · Ciudad de México</span></span></figcaption>
+      </figure>
+      <figure class="voz voz--video">
+        <div class="video-facade" data-yt="JKKthx8ASls" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Valentina García"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+        <blockquote class="voz__q">Conocí a la Sangha de mi zona y ya no practico sola.</blockquote>
+        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">VG</span><span><span class="voz__n">Valentina García</span><span class="voz__meta">gira 2025 · Buenos Aires</span></span></figcaption>
+      </figure>
+      <figure class="voz voz--video">
+        <div class="video-facade" data-yt="FnENOAZHOjk" role="button" tabindex="0" aria-label="Reproducir el vídeo-testimonio de Oscar Conde"><div class="video-facade__play" aria-hidden="true"><span></span></div></div>
+        <blockquote class="voz__q">Escucharle en persona no se parece a verlo en vídeo.</blockquote>
+        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">OC</span><span><span class="voz__n">Oscar Conde</span><span class="voz__meta">gira 2024 · Madrid</span></span></figcaption>
+      </figure>
     </div>
-  </article>
-</div></div>
+  </section>
 
-<!-- ── Rejilla ── -->
-<div class="rejilla"><div class="wrap">
-  <div class="grid-cards" id="grid">
-
-    <article class="efx-card" data-tema="filosofia practica">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-2-color.jpg'),linear-gradient(150deg,#EBDEC4,#E4D9C4)"></div></div>
-      <span class="ghost" aria-hidden="true">道</span>
-      <div class="body">
-        <span class="kicker">Caminos</span>
-        <h3>Vajrayana: cómo recorrer el camino tántrico</h3>
-        <p>Una introducción serena al vehículo del diamante y sus métodos de transformación.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
+  <!-- ═══ 06 · AVISO DE APERTURA · suscripción por ciudad ═══ -->
+  <section class="section wrap aviso-sec" id="aviso" aria-labelledby="avi-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">¿No está tu ciudad?</span>
+      <h2 id="avi-t" data-reveal="2">Te avisamos cuando <em>abra cerca</em>.</h2>
+    </div>
+    <div class="aviso" data-reveal>
+      <div class="aviso__texto">
+        <h3>Aviso de apertura</h3>
+        <p>Déjanos tu correo y tu ciudad. Te escribiremos en cuanto se abran inscripciones cerca de ti —o si añadimos una parada nueva a la gira—.</p>
       </div>
-    </article>
-
-    <article class="efx-card" data-tema="historia maestros">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-3-color.jpg'),linear-gradient(150deg,#E4D9C4,#EBDEC4)"></div></div>
-      <span class="ghost" aria-hidden="true">源</span>
-      <div class="body">
-        <span class="kicker">Fundadores</span>
-        <h3>Sachen Kunga Ñingpo, el primer maestro Sakya</h3>
-        <p>El origen del linaje Sakya y la transmisión que aún nos acompaña hoy.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
+      <div class="aviso__form">
+        <input type="email" placeholder="Tu correo" aria-label="Tu correo electrónico" autocomplete="email">
+        <input type="text" placeholder="Tu ciudad" aria-label="Tu ciudad" autocomplete="address-level2">
+        <button class="btn-primario" type="button">Avísame</button>
       </div>
-    </article>
+    </div>
+  </section>
 
-    <article class="efx-card" data-tema="filosofia">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-4-color.jpg'),linear-gradient(150deg,#EBDEC4,#EFE8DB)"></div></div>
-      <span class="ghost" aria-hidden="true">壇</span>
-      <div class="body">
-        <span class="kicker">Filosofía</span>
-        <h3>Ofrenda de Mandala: el método supremo para acumular mérito</h3>
-        <p>La quinta práctica fundamental del Ngöndro de la tradición Sakya, explicada con calma.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
+  <!-- ═══ 07 · FAQ ═══ -->
+  <section class="section wrap faq difusor" id="faq" aria-labelledby="faq-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Antes de nada</span>
+      <h2 id="faq-t" data-reveal="2">Las dudas <em>más habituales</em>.</h2>
+    </div>
+    <div class="faq__buscador" data-reveal="2">
+      <input id="faqBuscar" type="text" autocomplete="off" placeholder="Busca por palabra… ciudad, idioma, precio" aria-label="Buscar en las preguntas frecuentes">
+      <span class="faq__buscador__icono" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21" stroke-linecap="round"></line></svg></span>
+    </div>
+    <div class="faq__lista">
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="gi1">¿Qué pasa si mi ciudad aparece como «próximamente»?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="gi1" role="region"><div class="faq__inner"><p>Significa que la parada está confirmada pero las inscripciones aún no se han abierto. Deja tu aviso y te escribimos en cuanto abran.</p></div></div>
       </div>
-    </article>
-
-    <article class="efx-card" data-tema="practica">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-1-color.jpg'),linear-gradient(150deg,#E4D9C4,#EBDEC4)"></div></div>
-      <span class="ghost" aria-hidden="true">行</span>
-      <div class="body">
-        <span class="kicker">Práctica</span>
-        <h3><em>Kora</em> budista: la circunvalación sagrada, paso a paso</h3>
-        <p>El sentido de caminar en círculo alrededor de lo sagrado, y cómo hacerlo.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="gi2">¿Y si mi ciudad no está en la lista?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="gi2" role="region"><div class="faq__inner"><p>Apúntate igualmente al <a href="#aviso">aviso de apertura</a> con tu ciudad: nos ayuda a saber dónde hay interés para futuras paradas.</p></div></div>
       </div>
-    </article>
-
-    <article class="efx-card" data-tema="filosofia">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-2-color.jpg'),linear-gradient(150deg,#EBDEC4,#E4D9C4)"></div></div>
-      <span class="ghost" aria-hidden="true">供</span>
-      <div class="body">
-        <span class="kicker">Filosofía</span>
-        <h3>El arte de la ofrenda perfecta: intención, mérito y dedicación</h3>
-        <p>Qué convierte un gesto sencillo en una práctica que genera mérito.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="gi3">¿En qué idioma son los encuentros?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="gi3" role="region"><div class="faq__inner"><p>Todos en <b>español</b>. Khenpo Rinchen enseña directamente en lengua hispana, sin traducción.</p></div></div>
       </div>
-    </article>
-
-    <article class="efx-card" data-tema="textos">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-3-color.jpg'),linear-gradient(150deg,#E4D9C4,#EBDEC4)"></div></div>
-      <span class="ghost" aria-hidden="true">輪</span>
-      <div class="body">
-        <span class="kicker">Textos</span>
-        <h3><em>La rueda de las armas afiladas</em>: el texto que cambia la mirada</h3>
-        <p>Una obra del lojong que da la vuelta a cómo entendemos la adversidad.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="gi4">¿Cuánto cuesta? ¿Y en mi moneda?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="gi4" role="region"><div class="faq__inner"><p>Cada ciudad tiene su propia página con el precio <b>en la moneda local</b> y lo que incluye. Entra en la ciudad que te interese para verlo.</p></div></div>
       </div>
-    </article>
-
-    <!-- Ocultas hasta "Cargar más" -->
-    <article class="efx-card oculto" data-lote="2" data-tema="meditacion">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-4-color.jpg'),linear-gradient(150deg,#EBDEC4,#EFE8DB)"></div></div>
-      <span class="ghost" aria-hidden="true">禪</span>
-      <div class="body">
-        <span class="kicker">Meditación</span>
-        <h3>Shamatha: cómo empezar a calmar la mente de verdad</h3>
-        <p>Los primeros pasos de la meditación de calma mental, sin idealizaciones.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="gi5">¿Hace falta experiencia previa?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="gi5" role="region"><div class="faq__inner"><p>No. La gira está pensada para acoger tanto a quien se acerca por primera vez como a quien ya practica.</p></div></div>
       </div>
-    </article>
+    </div>
+    <p class="faq__vacio" id="faqVacio" hidden>Ninguna pregunta coincide con eso. Escríbenos y te orientamos.</p>
+  </section>
 
-    <article class="efx-card oculto" data-lote="2" data-tema="meditacion practica">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-1-color.jpg'),linear-gradient(150deg,#EBDEC4,#E4D9C4)"></div></div>
-      <span class="ghost" aria-hidden="true">觀</span>
-      <div class="body">
-        <span class="kicker">Vida de práctica</span>
-        <h3>La sangha como espejo: practicar en comunidad</h3>
-        <p>Por qué la comunidad no es un accesorio, sino parte del camino.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
+  <!-- ═══ CTA FINAL ═══ -->
+  <section class="cta-final" id="cta-final" aria-labelledby="ctaf-t">
+    <div class="wrap cta-final__inner">
+      <p class="eyebrow" data-reveal="1">El maestro está en camino</p>
+      <h2 class="cta-final__title" id="ctaf-t" data-reveal="2">Encuentra tu ciudad<br><em>y reserva tu plaza</em>.</h2>
+      <div class="actions actions--centro">
+        <a class="btn-primario" href="#sedes">Ver las ciudades</a>
       </div>
-    </article>
+    </div>
+  </section>
 
-    <article class="efx-card oculto" data-lote="2" data-tema="historia">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-2-color.jpg'),linear-gradient(150deg,#E4D9C4,#EFE8DB)"></div></div>
-      <span class="ghost" aria-hidden="true">慧</span>
-      <div class="body">
-        <span class="kicker">Historia</span>
-        <h3>Sakya en el siglo XI: por qué aquel linaje importa hoy</h3>
-        <p>Un recorrido breve por los orígenes de una tradición viva.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
+</main>
 
-  </div>
-
-  <p class="sin-resultados" id="sinResultados" hidden>No hay artículos que coincidan. Prueba otra palabra o tema.</p>
-
-  <!-- Cargar más -->
-  <div class="cargar" id="cargar">
-    <button class="btn-secundario" id="btnCargar" type="button">Cargar más artículos</button>
-  </div>
-</div></div>
-
-<!-- ── Footer ── -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
 <!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en
-     paramita-footer.css (.foot__hero .suscribe · variante por contexto).
-     El endpoint del formulario lo conecta Alberto; hasta entonces, mock. -->
 <!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en
-     paramita-footer.css (.foot__hero .suscribe · variante por contexto).
-     El endpoint del formulario lo conecta Alberto; hasta entonces, mock. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- prefooter · sincronizado con partials/prefooter.html -->
 <!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
@@ -565,70 +621,22 @@
   </div>
 </footer>
 
-<script>
-document.documentElement.classList.add('js');
-var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-var bar=document.getElementById('bar');
-addEventListener('scroll',function(){bar.classList.toggle('scrolled',scrollY>8);},{passive:true});
-
-// Cascada de entrada (emula paramita-blog-cascada.js · stagger 110ms)
-function revelar(cards){
-  if(reduce||!('IntersectionObserver' in window)){cards.forEach(function(c){c.classList.add('efx-in');});return;}
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){
-    if(e.isIntersecting){var vis=[...document.querySelectorAll('.efx-card:not(.oculto)')];
-      var i=Math.max(0,vis.indexOf(e.target));
-      setTimeout(function(){e.target.classList.add('efx-in');},i*110);io.unobserve(e.target);}});},{threshold:.15});
-  cards.forEach(function(c){io.observe(c);});
-}
-revelar([...document.querySelectorAll('.efx-card:not(.oculto)')]);
-
-// Búsqueda + filtro + cargar más (lógica combinada)
-var chips=[...document.querySelectorAll('.chip')];
-var inputBuscar=document.getElementById('buscar');
-var cargarZona=document.getElementById('cargar');
-var sinRes=document.getElementById('sinResultados');
-var todasCards=[...document.querySelectorAll('#grid .efx-card')];
-
-function temaActivo(){var a=document.querySelector('.chip.activo');return a?a.dataset.filtro:'todos';}
-
-function aplicar(){
-  var f=temaActivo();
-  var q=(inputBuscar.value||'').trim().toLowerCase();
-  var filtrando=(f!=='todos' || q!=='');
-  var visibles=0;
-  todasCards.forEach(function(card){
-    var okTema = f==='todos' || (card.dataset.tema||'').split(' ').includes(f);
-    var okQ = q==='' || card.textContent.toLowerCase().includes(q);
-    var mostrar;
-    if(filtrando){ mostrar = okTema && okQ; }                 // busca en todos los lotes
-    else { mostrar = !(card.dataset.lote==='2' && !cargarZona.classList.contains('agotado')); }
-    card.classList.toggle('oculto', !mostrar);
-    if(mostrar) visibles++;
-  });
-  cargarZona.style.display = filtrando ? 'none' : '';          // paginar solo sin filtro
-  if(sinRes) sinRes.hidden = visibles!==0;
-  revelar([...document.querySelectorAll('#grid .efx-card:not(.oculto)')].filter(function(c){return !c.classList.contains('efx-in');}));
-}
-
-chips.forEach(function(chip){
-  chip.addEventListener('click',function(){
-    chips.forEach(function(c){c.classList.remove('activo');});
-    chip.classList.add('activo');aplicar();
-  });
-});
-inputBuscar.addEventListener('input',aplicar);
-
-// Cargar más
-document.getElementById('btnCargar').addEventListener('click',function(){
-  cargarZona.classList.add('agotado');
-  aplicar();
-});
-</script>
+<!-- JS · primitivos → componentes → página (rutas relativas, sin GSAP) -->
+<script src="../../js/primitivos/paramita-reveal.js" defer></script>
+<script src="../../js/componentes/paramita-bar.js" defer></script>
+<script src="../../js/componentes/paramita-hero.js" defer></script>
+<script src="../../js/componentes/paramita-fluido.js" defer></script>
+<script src="../../js/componentes/paramita-footer-lotos.js" defer></script>
+<script src="../../js/componentes/paramita-suscripcion.js" defer></script>
+<script src="../../js/componentes/paramita-chat.js" defer></script>
+<!-- Componentes · vídeo ANTES de curso.js (marca el flag y curso.js cede) + bloque de testimonios -->
+<script src="../../js/componentes/paramita-video.js" defer></script>
+<script src="../../js/componentes/paramita-testimonios.js" defer></script>
+<script src="../../js/paginas/paramita-curso.js" defer></script>
 <!-- TEMA · listener del toggle · compartido (sync) -->
-<script src="../js/componentes/paramita-tema.js" defer></script>
+<script src="../../js/componentes/paramita-tema.js" defer></script>
 <!-- MENÚ · acordeón de submenús en móvil · compartido (sync) -->
-<script src="../js/componentes/paramita-menu.js" defer></script>
-<script src="../js/componentes/paramita-footer-lotos.js" defer></script>
-<script src="../js/componentes/paramita-suscripcion.js" defer></script>
+<script src="../../js/componentes/paramita-menu.js" defer></script>
+
 </body>
 </html>

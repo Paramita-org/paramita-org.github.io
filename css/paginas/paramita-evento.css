@@ -128,6 +128,34 @@
   .cuidado h3{ margin:0 0 .5rem; font-size:1.1rem; }
   .cuidado p{ margin:0; color:var(--texto-suave); }
 
+  /* ── RECORRIDO · el mapa del día como pasos numerados (igual que retiro) ──── */
+  .recorrido{ list-style:none; margin:var(--espacio-contenido) 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:1.6rem; position:relative; }
+  .recorrido::before{ content:""; position:absolute; top:1.1rem; left:12%; right:12%; height:1px; z-index:0;
+    background:linear-gradient(90deg, transparent, color-mix(in oklch,var(--dorado) 55%,transparent), transparent); }
+  .recorrido__paso{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; text-align:center; gap:.45rem; }
+  .recorrido__n{ width:2.2rem; height:2.2rem; border-radius:50%; display:grid; place-items:center; flex:none;
+    font-family:var(--display); font-size:1.05rem; color:var(--azul-oscuro);
+    background:var(--card); border:1.5px solid color-mix(in oklch,var(--dorado) 55%,var(--hair)); }
+  .recorrido__paso h3{ font-family:var(--display); font-weight:var(--wght-presencia); font-size:1.05rem; margin:.25rem 0 0; line-height:1.2; }
+  .recorrido__paso p{ font-size:.9rem; color:var(--texto-suave); line-height:1.45; margin:0; max-width:22ch; }
+
+  /* ── RITMO · el ritmo del día como línea de tiempo (igual que retiro) ─────── */
+  .ritmo__lista{ list-style:none; margin:var(--espacio-contenido) 0 0; padding:0; }
+  .ritmo__item{ display:grid; grid-template-columns:6rem 1fr; gap:1.2rem; }
+  .ritmo__hora{ font-family:var(--body); font-variant-numeric:tabular-nums; color:var(--texto-suave); font-size:.95rem; text-align:right; padding-top:.05rem; }
+  .ritmo__cuerpo{ position:relative; border-left:1px solid var(--hair); padding:0 0 1.4rem 1.4rem; }
+  .ritmo__cuerpo::before{ content:""; position:absolute; left:-5px; top:.3rem; width:9px; height:9px; border-radius:50%; background:var(--card); border:2px solid var(--dorado); }
+  .ritmo__item:last-child .ritmo__cuerpo{ border-color:transparent; padding-bottom:0; }
+  .ritmo__cuerpo h3{ font-size:1.05rem; margin:0 0 .2rem; line-height:1.3; }
+  .ritmo__cuerpo p{ margin:0; color:var(--texto-suave); font-size:.95rem; line-height:1.5; }
+  .ritmo__item--descanso .ritmo__cuerpo::before{ border-color:var(--azul-sutil); }
+  .ritmo__item--descanso .ritmo__cuerpo h3{ color:var(--texto-suave); font-weight:var(--wght-presencia); }
+
+  /* ── OFRENDA · contribución libre (no es un precio numérico) ──────────────── */
+  .plan__ofrenda{ font-family:var(--display); font-size:1.5rem; color:var(--antracita); line-height:1.1; }
+  .plan__ofrenda small{ font-family:var(--body); font-size:.95rem; color:var(--texto-suave); font-weight:400; }
+  .plan__ofrenda span{ display:block; font-family:var(--body); font-size:.85rem; color:var(--texto-suave); margin-top:.3rem; }
+
   /* ── CTA FINAL · tono sereno (no gigante) ────────────────────────────────── */
   .cta-final{ padding-block: clamp(3.5rem, 8vh, 6rem); }
   .cta-final__title{ font-size:clamp(1.9rem,4.2vw,3rem); max-width:18ch; margin-inline:auto; }
@@ -138,5 +166,11 @@
     .momento{ grid-template-columns:1fr; }
     .ramas{ grid-template-columns:1fr; }
     .horario li{ grid-template-columns:5.5rem 1fr; gap:.9rem; }
+    .recorrido{ grid-template-columns:1fr; gap:1.1rem; }
+    .recorrido::before{ display:none; }
+    .recorrido__paso{ flex-direction:row; text-align:left; align-items:flex-start; gap:.9rem; }
+    .recorrido__paso > div{ padding-top:.15rem; }
+    .recorrido__paso p{ max-width:none; }
+    .ritmo__item{ grid-template-columns:4.5rem 1fr; gap:.9rem; }
   }
 }

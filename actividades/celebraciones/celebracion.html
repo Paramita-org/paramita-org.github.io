@@ -1,52 +1,97 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Diario · Paramita</title>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- TEMA · anti-FOUC (sync) · aplica la penumbra guardada ANTES de pintar -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Losar · Paramita</title>
+  <meta name="description" content="Celebra Losar, el Año Nuevo Tibetano, con la comunidad del Centro Budista Sakya de Pedreguer. Sábado 18 de febrero de 2027, presencial y en directo por YouTube. Acceso libre, todos bienvenidos.">
+  <link rel="canonical" href="https://paramita.org/actividades/celebraciones/celebracion.html">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- TEMA · anti-FOUC (sync) · aplica la penumbra guardada ANTES de pintar -->
   <script>
     try { if (localStorage.getItem('paramita-tema') === 'oscuro') document.documentElement.setAttribute('data-tema','oscuro'); } catch(e){}
   </script>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<!-- marca JS activo cuanto antes (gate de los revelados) -->
-<script>document.documentElement.classList.add('js')</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- TOKENS -->
-<link rel="stylesheet" href="../css/tokens/paramita-color.css">
-<link rel="stylesheet" href="../css/tokens/paramita-tipografia.css">
-<link rel="stylesheet" href="../css/tokens/paramita-layout.css">
-<link rel="stylesheet" href="../css/tokens/paramita-movimiento.css">
-<!-- BASE -->
-<link rel="stylesheet" href="../css/base/paramita-reset.css">
-<link rel="stylesheet" href="../css/base/paramita-base.css">
-<!-- COMPONENTES -->
-<link rel="stylesheet" href="../css/componentes/paramita-bar.css">
-<link rel="stylesheet" href="../css/componentes/paramita-menu.css">
-<link rel="stylesheet" href="../css/componentes/paramita-pictogramas.css">
-<link rel="stylesheet" href="../css/componentes/paramita-cta.css">
-<link rel="stylesheet" href="../css/componentes/paramita-sections.css">
-<link rel="stylesheet" href="../css/componentes/paramita-extras.css">
-<link rel="stylesheet" href="../css/componentes/paramita-footer.css">
-  <link rel="stylesheet" href="../css/componentes/paramita-suscripcion.css">
-<link rel="stylesheet" href="../css/componentes/paramita-chat.css">
-<!-- PÁGINA · blog (grid del Diario + entrada) -->
-<link rel="stylesheet" href="../css/paginas/paramita-blog.css">
-<!-- Responsive común (al final) -->
-<link rel="stylesheet" href="../css/base/paramita-responsive.css">
+  <!-- marca JS activo cuanto antes (gate de los revelados) -->
+  <script>document.documentElement.classList.add('js')</script>
+
+  <!-- TOKENS -->
+  <link rel="stylesheet" href="../../css/tokens/paramita-color.css">
+  <link rel="stylesheet" href="../../css/tokens/paramita-tipografia.css">
+  <link rel="stylesheet" href="../../css/tokens/paramita-layout.css">
+  <link rel="stylesheet" href="../../css/tokens/paramita-movimiento.css">
+  <!-- BASE -->
+  <link rel="stylesheet" href="../../css/base/paramita-reset.css">
+  <link rel="stylesheet" href="../../css/base/paramita-base.css">
+  <!-- COMPONENTES -->
+  <link rel="stylesheet" href="../../css/componentes/paramita-fluido.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-bar.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-menu.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-cta.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-hero.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-sections.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-cursos.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-pictogramas.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-modal.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-extras.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-footer.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-suscripcion.css">
+  <!-- PÁGINA -->
+  <link rel="stylesheet" href="../../css/paginas/paramita-curso.css">
+  <link rel="stylesheet" href="../../css/paginas/paramita-celebracion.css">
+  <!-- Componentes reutilizables · vídeo + bloque de testimonios · unlayered, ganan sobre curso.css -->
+  <link rel="stylesheet" href="../../css/componentes/paramita-video.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-testimonios.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-chat.css">
+  <!-- Responsive común (al final) -->
+  <link rel="stylesheet" href="../../css/base/paramita-responsive.css">
   <!-- TEMA · penumbra/luz · el ÚLTIMO para ganar la cascada (sync) -->
-  <link rel="stylesheet" href="../css/componentes/paramita-tema.css">
+  <link rel="stylesheet" href="../../css/componentes/paramita-tema.css">
 </head>
-<body>
-<!-- sync: navbar=publico prefooter -->
+<body data-estado="anonimo">
+<!-- sync: navbar=publico current="Actividades" prefooter -->
 
-<!-- ── Navbar ── -->
+<!-- FONDO GLOBAL · lienzo del fluido WebGL -->
+<canvas id="fluido" aria-hidden="true"></canvas>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     PARAMITA · FUNDACIÓN SAKYA
+     partials/navbar-publico.html — Navbar público (usuarios sin sesión)
+     ───────────────────────────────────────────────────────────────────────────
+
+     CAMBIO FASE 7 · añadido .btn-acceso
+     ────────────────────────────────────
+     Añadido el círculo .btn-acceso al final del .bar-inner (fuera del .menu)
+     para dar entrada al login. Cuando el usuario se autentica, este mismo
+     círculo se sustituye por el .avatar-menu del navbar-practicante (misma
+     posición, mismo tamaño, misma familia lumínica) — continuidad visual
+     entre ambos navbars.
+
+     REORDENACIÓN DEL DOM
+     ────────────────────
+     El .burger se mueve al final del .bar-inner (antes estaba en 3ª posición).
+     El .btn-acceso queda como penúltimo hijo, justo antes del burger, para:
+       · En desktop: aparecer al final de la fila, después de los CTAs.
+       · En móvil: quedar visible en la barra sin abrir el hamburguesa.
+
+     La reordenación no rompe el sibling selector `.nt:checked ~ .menu`
+     porque el input.nt sigue estando ANTES del .menu en el DOM. El label
+     .burger[for="nt"] funciona por atributo, no por proximidad.
+
+     Depende de estos CSS del sistema (ya cargados):
+       · paramita-bar.css     → contenedor sticky, glass, logo
+       · paramita-menu.css    → menú horizontal, links, submenús, caret
+       · paramita-cta.css     → .btn-secundario, .btn-primario, .btn-acceso
+       · paramita-responsive.css → burger + comportamiento móvil
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
 <!-- ═══════════════════════════════════════════════════════════════════════════
      PARAMITA · FUNDACIÓN SAKYA
      partials/navbar-publico.html — Navbar público (usuarios sin sesión)
@@ -112,7 +157,7 @@
 
         <!-- 3 · Actividades · enlace plano (sin desplegable) -->
         <li>
-          <a class="navlink" href="/actividades/actividades.html">Actividades</a>
+          <a class="navlink" href="/actividades/actividades.html" aria-current="page">Actividades</a>
         </li>
 
         <!-- 4 · Blog · enlace plano (sin desplegable) -->
@@ -250,232 +295,199 @@
   </div>
 </header>
 
-<!-- ── Cabecera de la grilla ── -->
-<section class="hero-grid">
-  <div class="wrap">
-    <div class="s-head">
-      <div>
-        <span class="eyebrow">Diario</span>
-        <h1>Historias, enseñanzas y <em>vida de práctica</em></h1>
-      </div>
-      <p>Textos de la tradición Sakya para acompañar el camino. Sin prisa, a tu ritmo.</p>
+<main>
+
+  <!-- ═══ 01 · HERO-INVITACIÓN ═══ -->
+  <section class="hero" id="hero">
+    <div class="hero__bg" aria-hidden="true">
+      <div class="hero__bg-fallback"></div>
+      <div class="hero__bg-img" style="background-image:url('../../assets/img/hero-celebracion.jpg')"></div>
     </div>
-    <!-- Búsqueda por palabras + filtro por temas (provisional) -->
-    <div class="filtro-zona">
-      <div class="busqueda">
-        <input id="buscar" type="text" autocomplete="off" placeholder="Busca por palabra… meditación, linaje, mérito" aria-label="Buscar artículos por palabra">
-        <span class="lupa" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21" stroke-linecap="round"></line></svg></span>
+    <div class="wrap hero__inner">
+      <p class="eyebrow">Celebración en comunidad</p>
+      <h1>Losar: el <em>Año Nuevo</em> Tibetano</h1>
+      <p class="lede">Un día de renovación y buenos auspicios para abrir el año. Celébralo con nuestra comunidad —en el centro o en directo desde donde estés—.</p>
+
+      <div class="actions">
+        <a class="btn-primario" href="#participar">Unirme a la celebración</a>
+        <span class="meta"><span class="pulse" aria-hidden="true"></span>Sábado <b>18 de febrero de 2027</b> · desde las 17:00</span>
       </div>
-      <div class="filtro" role="group" aria-label="Filtrar por tema">
-        <button class="chip activo" data-filtro="todos">Todos</button>
-        <button class="chip" data-filtro="meditacion">Meditación</button>
-        <button class="chip" data-filtro="filosofia">Filosofía</button>
-        <button class="chip" data-filtro="historia">Historia</button>
-        <button class="chip" data-filtro="maestros">Maestros</button>
-        <button class="chip" data-filtro="practica">Práctica</button>
-        <button class="chip" data-filtro="textos">Textos</button>
+
+      <ul class="curso-chips" aria-label="Detalles de la celebración">
+        <li><span class="pico pico--sm" data-pico="reloj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <circle cx="12" cy="12" r="8"/>
+  <path d="M12 4.4 L12 5.6 M19.6 12 L18.4 12 M12 19.6 L12 18.4 M4.4 12 L5.6 12"/>
+  <path class="acc" d="M12 7.6 L12 12 L15 13.6"/>
+</svg></span>17:00 (hora española)</li>
+        <li><span class="pico pico--sm" data-pico="ubicacion" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M12 21 C12 21 5.5 14.8 5.5 10.2 C5.5 6.5 8.4 3.6 12 3.6 C15.6 3.6 18.5 6.5 18.5 10.2 C18.5 14.8 12 21 12 21 Z"/>
+  <circle class="acc" cx="12" cy="10" r="2.3"/>
+</svg></span>Pedreguer y online</li>
+        <li><span class="pico pico--sm" data-pico="en-linea" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="11" rx="1.5"/><path d="M9 20h6M12 16v4"/><path class="acc" d="M8 11c1.3-1.5 2.7-1.5 4 0s2.7 1.5 4 0"/></svg></span>En vivo por YouTube</li>
+        <li>Acceso libre</li>
+        <li>Todos bienvenidos</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══ 02 · ASPIRACIÓN · ancla espiritual ═══ -->
+  <section class="section wrap aspiracion difusor" aria-label="Aspiración">
+    <blockquote data-reveal>Que en este nuevo año todos los seres encuentren la felicidad y sus causas, y se liberen del sufrimiento y sus causas.</blockquote>
+    <cite data-reveal>Los Cuatro Inconmensurables · aspiración tradicional</cite>
+  </section>
+
+  <!-- ═══ 03 · EL SIGNIFICADO ═══ -->
+  <section class="section wrap split" id="significado" aria-labelledby="sig-t">
+    <div class="split__media">
+      <figure class="retrato">
+        <img src="../../assets/img/celebracion/losar-altar.jpg" alt="Altar preparado para la celebración de Losar" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
+      </figure>
+    </div>
+    <div class="split__body">
+      <span class="eyebrow" data-reveal="1">El significado de Losar</span>
+      <h2 id="sig-t" data-reveal="2">Un año que <em>empieza limpio</em>.</h2>
+      <p>Losar es el Año Nuevo Tibetano: el momento de cerrar el ciclo que termina y abrir el que llega con buenos auspicios. En la tradición se purifica lo viejo, se hacen ofrendas y se cultiva la virtud para que el año nuevo florezca en salud y sabiduría.</p>
+      <p class="merito">Cada acto de bondad y generosidad en este día multiplica el mérito y despierta la sabiduría interior.</p>
+      <p>Es un momento para <b>renovar la práctica</b>, recordar la interconexión de todos los seres y comenzar el año con el corazón orientado hacia el bien.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 04 · CÓMO LO CELEBRAREMOS · la práctica ═══ -->
+  <section class="section wrap zona-luz" id="practica" aria-labelledby="pra-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">¿Cómo lo celebraremos en Paramita?</span>
+      <h2 id="pra-t" data-reveal="2">Una <em>puya</em> de año nuevo, y después la fiesta.</h2>
+      <p class="lede">Celebrar este día juntos fortalece la Sangha y multiplica los beneficios de la práctica. El corazón del día es una ceremonia; alrededor, la comunidad.</p>
+    </div>
+
+    <ul class="checks checks--dos">
+      <li><b>Ofrendas reales y visualizadas.</b> Preparamos el altar y ofrecemos luz, agua e incienso.</li>
+      <li><b>Recitación de mantra.</b> Unificamos la mente con el sonido para recibir las bendiciones.</li>
+      <li><b>Aspiraciones de año nuevo.</b> Un espacio para formular deseos para el año que empieza.</li>
+      <li><b>Dedicación del mérito.</b> Ofrecemos el bien acumulado por el beneficio de todos los seres.</li>
+    </ul>
+
+    <ul class="jornada">
+      <li data-reveal><span class="jornada__hora">17:00</span><div class="jornada__t"><h3>Puya de año nuevo</h3><p>La ceremonia central, abierta a todos. También en directo.</p></div></li>
+      <li data-reveal><span class="jornada__hora">18:00</span><div class="jornada__t"><h3>Ofrendas y aspiraciones</h3><p>Un momento para ofrecer y desear el bien para el año.</p></div></li>
+      <li data-reveal><span class="jornada__hora">19:00</span><div class="jornada__t"><h3>Comida compartida</h3><p>Banquete comunitario para quien esté en el centro. Trae algo si quieres.</p></div></li>
+      <li data-reveal><span class="jornada__hora">20:30</span><div class="jornada__t"><h3>Música y despedida</h3><p>Cantos y brindis de buenos auspicios.</p></div></li>
+    </ul>
+
+    <div class="ambiente" data-reveal>
+      <figure class="ambiente__fig ambiente__fig--ancha" data-vacio="La comunidad reunida en el Losar anterior">
+        <img src="../../assets/img/celebracion/losar-comunidad.jpg" alt="La comunidad reunida celebrando Losar" loading="lazy" onerror="this.closest('.ambiente__fig').classList.add('is-vacio')">
+        <figcaption>El Losar del año pasado</figcaption>
+      </figure>
+      <figure class="ambiente__fig" data-vacio="Ofrendas y lámparas">
+        <img src="../../assets/img/celebracion/losar-ofrendas.jpg" alt="Ofrendas y lámparas de mantequilla" loading="lazy" onerror="this.closest('.ambiente__fig').classList.add('is-vacio')">
+        <figcaption>Ofrendas y lámparas</figcaption>
+      </figure>
+      <figure class="ambiente__fig" data-vacio="La comida compartida">
+        <img src="../../assets/img/celebracion/losar-comida.jpg" alt="La mesa de la comida compartida" loading="lazy" onerror="this.closest('.ambiente__fig').classList.add('is-vacio')">
+        <figcaption>La mesa compartida</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═══ 05 · QUIÉN GUÍA ═══ -->
+  <section class="section wrap split split--inv difusor" id="guia" aria-labelledby="gui-t">
+    <div class="split__media">
+      <figure class="retrato">
+        <img src="../../assets/img/khenpo-luz-dorada-low.jpg" alt="Ven. Khenpo Rinchen Gyaltsen" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
+      </figure>
+    </div>
+    <div class="split__body">
+      <span class="eyebrow" data-reveal="1">¿Quién guiará la práctica?</span>
+      <h2 id="gui-t" data-reveal="2">Ven. Khenpo Rinchen <em>Gyaltsen</em>.</h2>
+      <p>Maestro residente del Centro Budista Sakya en España. Con más de 25 años guiando grupos de meditación, formado por maestros tibetanos, transmite las enseñanzas del Buddha en un lenguaje claro, cercano y profundamente práctico.</p>
+      <ul class="checks">
+        <li>Formación tradicional tibetana.</li>
+        <li>Acompañamiento cercano y accesible.</li>
+        <li>Claridad, profundidad y sentido del humor.</li>
+      </ul>
+      <a class="t-link" href="/sobre/khenpo/khenpo.html"><span class="txt">Conocer a Khenpo Rinchen</span> <span class="arw" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <!-- ═══ 06 · CÓMO PARTICIPAR · híbrido ═══ -->
+  <section class="section wrap" id="participar" aria-labelledby="par-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">¿Cómo participar?</span>
+      <h2 id="par-t" data-reveal="2">En el centro o <em>desde tu casa</em>.</h2>
+      <p class="lede">Ven en persona a Pedreguer o únete al directo estés donde estés. Sin reservar ni pagar nada.</p>
+    </div>
+
+    <div class="modos">
+      <div class="modo" data-reveal>
+        <div class="modo__cab">
+          <span class="modo__ico"><span class="pico" data-pico="ubicacion" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M12 21 C12 21 5.5 14.8 5.5 10.2 C5.5 6.5 8.4 3.6 12 3.6 C15.6 3.6 18.5 6.5 18.5 10.2 C18.5 14.8 12 21 12 21 Z"/>
+  <circle class="acc" cx="12" cy="10" r="2.3"/>
+</svg></span></span>
+          <div><span class="modo__tag">En el centro</span><h3>Presencialmente</h3></div>
+        </div>
+        <p class="modo__lugar"><b>Paramita · Centro Budista Sakya</b><br>Av. de l'Alcoià 4c, Muntanya de la Sella · Pedreguer (Alicante)</p>
+        <a class="btn-primario" href="#">Quiero asistir</a>
+      </div>
+
+      <div class="modo modo--online" data-reveal>
+        <div class="modo__cab">
+          <span class="modo__ico"><span class="pico" data-pico="en-linea" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="11" rx="1.5"/><path d="M9 20h6M12 16v4"/><path class="acc" d="M8 11c1.3-1.5 2.7-1.5 4 0s2.7 1.5 4 0"/></svg></span></span>
+          <div><span class="modo__tag">Desde donde estés</span><h3>En línea, en vivo</h3></div>
+        </div>
+        <p>Seguimos la puya en directo por YouTube. Este es el horario internacional:</p>
+        <ul class="horario-intl">
+          <li><b>17:00</b><span>España</span></li>
+          <li><b>13:00</b><span>Argentina y Uruguay</span></li>
+          <li><b>12:00</b><span>Chile, Venezuela y Bolivia</span></li>
+          <li><b>11:00</b><span>Perú, Colombia y Ecuador</span></li>
+          <li><b>10:00</b><span>México (CDMX) y Centroamérica</span></li>
+        </ul>
+        <a class="btn-secundario" href="#">Ver en YouTube</a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── Destacado ── -->
-<div class="destacado-wrap"><div class="wrap">
-  <article class="destacado" data-tema="historia maestros">
-    <div class="d-img">
-      <span class="d-flag">Destacado</span>
-      <div class="pic" style="background-image:url('/assets/img/blog-1-color.jpg'),linear-gradient(150deg,#EBDEC4,#E4D9C4)"></div>
+  <!-- ═══ 07 · TODOS BIENVENIDOS ═══ -->
+  <section class="section wrap zona-luz" id="bienvenida" aria-labelledby="bie-t">
+    <div class="bienvenida" data-reveal>
+      <span class="eyebrow">La puerta abierta</span>
+      <h2 id="bie-t">No hace falta ser <em>budista</em>.</h2>
+      <p>Losar es una fiesta, y las fiestas se disfrutan más cuando somos más. Vengas de donde vengas y sepas lo que sepas, tienes un sitio. Ven con curiosidad, ven con tu familia, ven por primera vez.</p>
+      <ul class="bienvenida__puntos">
+        <li>Budista o no</li>
+        <li>Con niños y familia</li>
+        <li>Tu primera vez</li>
+        <li>Solo o acompañado</li>
+      </ul>
     </div>
-    <div class="d-body">
-      <span class="kicker">Maestras del linaje</span>
-      <h2>Mandarava: la mujer que emergió <em>del fuego</em></h2>
-      <p>Tres veces intentaron apagarla. Tres veces emergió más luminosa. La historia de la princesa que renunció a todo por seguir su llamada.</p>
-      <span class="meta-min">Anahí Yanez Pagans · 13 min de lectura</span>
-      <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer el artículo <span aria-hidden="true">→</span></a>
+  </section>
+
+  <!-- ═══ 08 · OFRENDA SUAVE · dāna opcional ═══ -->
+  <section class="section wrap" id="ofrenda" aria-labelledby="ofr-t">
+    <div class="ofrenda-suave" data-reveal>
+      <h3 id="ofr-t">Si quieres, una ofrenda</h3>
+      <p>La celebración es de acceso libre —siempre lo será—. Quien desee contribuir con un donativo ayuda a sostener el templo y a que estas fiestas sigan siendo posibles. Es del todo opcional: tu presencia ya es un regalo.</p>
+      <a class="t-link" href="/contribuir/contribuir.html"><span class="txt">Cómo contribuir</span> <span class="arw" aria-hidden="true">→</span></a>
     </div>
-  </article>
-</div></div>
+  </section>
 
-<!-- ── Rejilla ── -->
-<div class="rejilla"><div class="wrap">
-  <div class="grid-cards" id="grid">
-
-    <article class="efx-card" data-tema="filosofia practica">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-2-color.jpg'),linear-gradient(150deg,#EBDEC4,#E4D9C4)"></div></div>
-      <span class="ghost" aria-hidden="true">道</span>
-      <div class="body">
-        <span class="kicker">Caminos</span>
-        <h3>Vajrayana: cómo recorrer el camino tántrico</h3>
-        <p>Una introducción serena al vehículo del diamante y sus métodos de transformación.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
+  <!-- ═══ CIERRE CÁLIDO ═══ -->
+  <section class="cta-final" id="cta-final" aria-labelledby="ctaf-t">
+    <div class="wrap cta-final__inner">
+      <p class="eyebrow" data-reveal="1">18 de febrero · te esperamos</p>
+      <h2 class="cta-final__title" id="ctaf-t" data-reveal="2">Empecemos el año<br><em>juntos</em>.</h2>
+      <div class="actions actions--centro">
+        <a class="btn-primario" href="#participar">Unirme a la celebración</a>
       </div>
-    </article>
+    </div>
+  </section>
 
-    <article class="efx-card" data-tema="historia maestros">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-3-color.jpg'),linear-gradient(150deg,#E4D9C4,#EBDEC4)"></div></div>
-      <span class="ghost" aria-hidden="true">源</span>
-      <div class="body">
-        <span class="kicker">Fundadores</span>
-        <h3>Sachen Kunga Ñingpo, el primer maestro Sakya</h3>
-        <p>El origen del linaje Sakya y la transmisión que aún nos acompaña hoy.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
+</main>
 
-    <article class="efx-card" data-tema="filosofia">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-4-color.jpg'),linear-gradient(150deg,#EBDEC4,#EFE8DB)"></div></div>
-      <span class="ghost" aria-hidden="true">壇</span>
-      <div class="body">
-        <span class="kicker">Filosofía</span>
-        <h3>Ofrenda de Mandala: el método supremo para acumular mérito</h3>
-        <p>La quinta práctica fundamental del Ngöndro de la tradición Sakya, explicada con calma.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
-
-    <article class="efx-card" data-tema="practica">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-1-color.jpg'),linear-gradient(150deg,#E4D9C4,#EBDEC4)"></div></div>
-      <span class="ghost" aria-hidden="true">行</span>
-      <div class="body">
-        <span class="kicker">Práctica</span>
-        <h3><em>Kora</em> budista: la circunvalación sagrada, paso a paso</h3>
-        <p>El sentido de caminar en círculo alrededor de lo sagrado, y cómo hacerlo.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
-
-    <article class="efx-card" data-tema="filosofia">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-2-color.jpg'),linear-gradient(150deg,#EBDEC4,#E4D9C4)"></div></div>
-      <span class="ghost" aria-hidden="true">供</span>
-      <div class="body">
-        <span class="kicker">Filosofía</span>
-        <h3>El arte de la ofrenda perfecta: intención, mérito y dedicación</h3>
-        <p>Qué convierte un gesto sencillo en una práctica que genera mérito.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
-
-    <article class="efx-card" data-tema="textos">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-3-color.jpg'),linear-gradient(150deg,#E4D9C4,#EBDEC4)"></div></div>
-      <span class="ghost" aria-hidden="true">輪</span>
-      <div class="body">
-        <span class="kicker">Textos</span>
-        <h3><em>La rueda de las armas afiladas</em>: el texto que cambia la mirada</h3>
-        <p>Una obra del lojong que da la vuelta a cómo entendemos la adversidad.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
-
-    <!-- Ocultas hasta "Cargar más" -->
-    <article class="efx-card oculto" data-lote="2" data-tema="meditacion">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-4-color.jpg'),linear-gradient(150deg,#EBDEC4,#EFE8DB)"></div></div>
-      <span class="ghost" aria-hidden="true">禪</span>
-      <div class="body">
-        <span class="kicker">Meditación</span>
-        <h3>Shamatha: cómo empezar a calmar la mente de verdad</h3>
-        <p>Los primeros pasos de la meditación de calma mental, sin idealizaciones.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
-
-    <article class="efx-card oculto" data-lote="2" data-tema="meditacion practica">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-1-color.jpg'),linear-gradient(150deg,#EBDEC4,#E4D9C4)"></div></div>
-      <span class="ghost" aria-hidden="true">觀</span>
-      <div class="body">
-        <span class="kicker">Vida de práctica</span>
-        <h3>La sangha como espejo: practicar en comunidad</h3>
-        <p>Por qué la comunidad no es un accesorio, sino parte del camino.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
-
-    <article class="efx-card oculto" data-lote="2" data-tema="historia">
-      <div class="bar-img"><div class="pic" style="background-image:url('/assets/img/blog-2-color.jpg'),linear-gradient(150deg,#E4D9C4,#EFE8DB)"></div></div>
-      <span class="ghost" aria-hidden="true">慧</span>
-      <div class="body">
-        <span class="kicker">Historia</span>
-        <h3>Sakya en el siglo XI: por qué aquel linaje importa hoy</h3>
-        <p>Un recorrido breve por los orígenes de una tradición viva.</p>
-        <a class="efx-card__more" href="maqueta-blog-entrada.html">Leer más <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
-
-  </div>
-
-  <p class="sin-resultados" id="sinResultados" hidden>No hay artículos que coincidan. Prueba otra palabra o tema.</p>
-
-  <!-- Cargar más -->
-  <div class="cargar" id="cargar">
-    <button class="btn-secundario" id="btnCargar" type="button">Cargar más artículos</button>
-  </div>
-</div></div>
-
-<!-- ── Footer ── -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
 <!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en
-     paramita-footer.css (.foot__hero .suscribe · variante por contexto).
-     El endpoint del formulario lo conecta Alberto; hasta entonces, mock. -->
 <!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en
-     paramita-footer.css (.foot__hero .suscribe · variante por contexto).
-     El endpoint del formulario lo conecta Alberto; hasta entonces, mock. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- prefooter · sincronizado con partials/prefooter.html -->
 <!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
@@ -565,70 +577,22 @@
   </div>
 </footer>
 
-<script>
-document.documentElement.classList.add('js');
-var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-var bar=document.getElementById('bar');
-addEventListener('scroll',function(){bar.classList.toggle('scrolled',scrollY>8);},{passive:true});
-
-// Cascada de entrada (emula paramita-blog-cascada.js · stagger 110ms)
-function revelar(cards){
-  if(reduce||!('IntersectionObserver' in window)){cards.forEach(function(c){c.classList.add('efx-in');});return;}
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){
-    if(e.isIntersecting){var vis=[...document.querySelectorAll('.efx-card:not(.oculto)')];
-      var i=Math.max(0,vis.indexOf(e.target));
-      setTimeout(function(){e.target.classList.add('efx-in');},i*110);io.unobserve(e.target);}});},{threshold:.15});
-  cards.forEach(function(c){io.observe(c);});
-}
-revelar([...document.querySelectorAll('.efx-card:not(.oculto)')]);
-
-// Búsqueda + filtro + cargar más (lógica combinada)
-var chips=[...document.querySelectorAll('.chip')];
-var inputBuscar=document.getElementById('buscar');
-var cargarZona=document.getElementById('cargar');
-var sinRes=document.getElementById('sinResultados');
-var todasCards=[...document.querySelectorAll('#grid .efx-card')];
-
-function temaActivo(){var a=document.querySelector('.chip.activo');return a?a.dataset.filtro:'todos';}
-
-function aplicar(){
-  var f=temaActivo();
-  var q=(inputBuscar.value||'').trim().toLowerCase();
-  var filtrando=(f!=='todos' || q!=='');
-  var visibles=0;
-  todasCards.forEach(function(card){
-    var okTema = f==='todos' || (card.dataset.tema||'').split(' ').includes(f);
-    var okQ = q==='' || card.textContent.toLowerCase().includes(q);
-    var mostrar;
-    if(filtrando){ mostrar = okTema && okQ; }                 // busca en todos los lotes
-    else { mostrar = !(card.dataset.lote==='2' && !cargarZona.classList.contains('agotado')); }
-    card.classList.toggle('oculto', !mostrar);
-    if(mostrar) visibles++;
-  });
-  cargarZona.style.display = filtrando ? 'none' : '';          // paginar solo sin filtro
-  if(sinRes) sinRes.hidden = visibles!==0;
-  revelar([...document.querySelectorAll('#grid .efx-card:not(.oculto)')].filter(function(c){return !c.classList.contains('efx-in');}));
-}
-
-chips.forEach(function(chip){
-  chip.addEventListener('click',function(){
-    chips.forEach(function(c){c.classList.remove('activo');});
-    chip.classList.add('activo');aplicar();
-  });
-});
-inputBuscar.addEventListener('input',aplicar);
-
-// Cargar más
-document.getElementById('btnCargar').addEventListener('click',function(){
-  cargarZona.classList.add('agotado');
-  aplicar();
-});
-</script>
+<!-- JS · primitivos → componentes → página (rutas relativas, sin GSAP) -->
+<script src="../../js/primitivos/paramita-reveal.js" defer></script>
+<script src="../../js/componentes/paramita-bar.js" defer></script>
+<script src="../../js/componentes/paramita-hero.js" defer></script>
+<script src="../../js/componentes/paramita-fluido.js" defer></script>
+<script src="../../js/componentes/paramita-footer-lotos.js" defer></script>
+<script src="../../js/componentes/paramita-suscripcion.js" defer></script>
+<script src="../../js/componentes/paramita-chat.js" defer></script>
+<!-- Componentes · vídeo ANTES de curso.js (marca el flag y curso.js cede) + bloque de testimonios -->
+<script src="../../js/componentes/paramita-video.js" defer></script>
+<script src="../../js/componentes/paramita-testimonios.js" defer></script>
+<script src="../../js/paginas/paramita-curso.js" defer></script>
 <!-- TEMA · listener del toggle · compartido (sync) -->
-<script src="../js/componentes/paramita-tema.js" defer></script>
+<script src="../../js/componentes/paramita-tema.js" defer></script>
 <!-- MENÚ · acordeón de submenús en móvil · compartido (sync) -->
-<script src="../js/componentes/paramita-menu.js" defer></script>
-<script src="../js/componentes/paramita-footer-lotos.js" defer></script>
-<script src="../js/componentes/paramita-suscripcion.js" defer></script>
+<script src="../../js/componentes/paramita-menu.js" defer></script>
+
 </body>
 </html>

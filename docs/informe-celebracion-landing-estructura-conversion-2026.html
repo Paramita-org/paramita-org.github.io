@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La puerta abierta — Estudio de la plantilla de celebración · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;--paper-2:#FBFAF7;--ink:#191A1C;--slate:#63656B;
+    --ink-deep:#132239;--ink-deep-2:#0E1A2C;--gold:#A8823F;--gold-lite:#C9A96E;
+    --rule:#DAD6CC;--rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));--wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.45;letter-spacing:-.01em;margin:2.6rem 0 0;color:var(--ink)}
+
+  section{padding:clamp(3rem,7vh,5rem) 0}
+  .sec-head{margin:0 0 2rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.2em;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(1.85rem,3.6vw,2.85rem);line-height:1.08;letter-spacing:-.012em;margin:0}
+  h3{font-family:"Hanken Grotesk",sans-serif;font-weight:650;font-size:1.18rem;letter-spacing:.005em;margin:2.6rem 0 .6rem;line-height:1.3}
+  p{margin:0 0 1.15rem}
+  a{color:var(--ink-deep);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;text-decoration-thickness:1px}
+  strong{font-weight:650}em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:var(--paper-2);border:1px solid var(--rule-soft);padding:.06em .35em;border-radius:3px}
+  .drop::first-letter{font-family:"Fraunces",serif;font-weight:500;float:left;font-size:3.5em;line-height:.72;padding:.06em .09em 0 0;color:var(--ink-deep)}
+
+  .pull{font-family:"Fraunces",serif;font-style:italic;font-weight:400;font-size:clamp(1.35rem,2.4vw,1.9rem);line-height:1.32;letter-spacing:-.01em;color:var(--ink-deep);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:1.6rem 0;margin:2.4rem 0}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .stat{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.9rem,3vw,2.6rem);line-height:1;letter-spacing:-.02em;color:var(--ink-deep)}
+  .stat .n small{font-size:.5em;color:var(--gold);font-weight:500}
+  .stat .l{font-size:.9rem;line-height:1.35;color:var(--ink);margin-top:.6rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.66rem;color:var(--slate);margin-top:.5rem;letter-spacing:.02em}
+
+  .note{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:1.3rem 1.4rem;margin:1.8rem 0;font-size:.98rem;line-height:1.62}
+  .note .k{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+
+  .tbl-wrap{margin:2rem 0;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.9rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:.8rem}
+  th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  thead th{border-bottom:1.5px solid var(--ink);font-weight:650;font-size:.8rem}
+  tbody td:first-child{font-weight:600}
+  tbody tr:hover td{background:var(--paper-2)}
+  .bk{font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--gold);white-space:nowrap}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .split > div{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .split h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.25rem;margin:0 0 .3rem}
+  .split .role{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+  .split ul{margin:0;padding-left:1.05em;font-size:.94rem;line-height:1.55}
+  .split li{margin-bottom:.5rem}
+
+  .verdict{background:var(--ink-deep-2);color:var(--paper);padding:clamp(3rem,7vh,5rem) 0}
+  .verdict h2{color:var(--paper)}
+  .verdict .eyebrow{color:var(--gold-lite)}
+  .verdict p{color:#C3CAD6}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2rem}
+  .checks h4{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 1rem;padding-bottom:.6rem;border-bottom:1px solid rgba(255,255,255,.15)}
+  .checks .yes h4{color:#9ECBA8}
+  .checks .no h4{color:#D98C8C}
+  .checks ul{list-style:none;margin:0;padding:0;font-size:.94rem;line-height:1.5}
+  .checks li{padding-left:1.5em;position:relative;margin-bottom:.9rem;color:#D6DBE3}
+  .checks .yes li::before{content:"\2713";position:absolute;left:0;color:#9ECBA8;font-weight:700}
+  .checks .no li::before{content:"\2715";position:absolute;left:0;color:#D98C8C;font-weight:700}
+
+  .typehead{border-top:2px solid var(--ink);padding-top:1.4rem;margin-top:1rem}
+  .typehead .kind{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.76rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:620px){.split{grid-template-columns:1fr}.checks{grid-template-columns:1fr}.cover h1{font-size:clamp(2.3rem,10vw,3rem)}}
+  @media (prefers-reduced-motion:reduce){.sheen::after{animation:none;transform:translateX(80%)}.reveal{opacity:1;transform:none;transition:none}*{scroll-behavior:auto}}
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe · Plantilla de celebración · Estructura y conversión · 2026</p>
+  <h1>La puerta <em>abierta</em></h1>
+  <p class="deck">El estudio a fondo del cuarto y último tipo de actividad: la celebración. La de menor fricción de todas —y por eso, la más fácil de hacer mal—. No es una transacción: es una invitación.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Encargo</b> · Estudio de tipo · datos contrastados</span>
+    <span><b>Fecha</b> · Agosto 2026</span>
+    <span><b>Lectura</b> · ~16 min</span>
+  </div>
+  <p class="lede">La tesis de la celebración: aquí no se vende ni se convierte. Losar, Saga Dawa, Chötrul Düchen, Lhabab Düchen —las grandes fechas del calendario— son días abiertos, de acceso libre o de dāna. La página no tiene que vencer una objeción de precio; tiene que hacer dos cosas más sutiles: que la persona <em>quiera</em> venir y que se <em>acuerde</em> de venir.</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 01 ===================== -->
+<section class="flow" id="s1">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — El encargo</span>
+    <h2>Por qué la celebración es otro trabajo</h2>
+  </div>
+
+  <p class="drop reveal">Cierra el gradiente por abajo: es el tipo de menor compromiso. No hay barrera de pago, no hay checkout, no hay "plaza que reservar" en el sentido comercial. Una celebración —el Año Nuevo tibetano (Losar), el día más sagrado del año (Saga Dawa Düchen), el Día de los Milagros (Chötrul Düchen), el Descenso del Buda (Lhabab Düchen)— es una puerta que se abre a la comunidad y a cualquiera que quiera asomarse.</p>
+
+  <p class="reveal">Eso cambia por completo el trabajo de la página. En el retiro, el evento y la gira, el freno era racional —dormir, viajar, pagar, la logística—. Aquí el freno es otro: la <em>levedad</em>. Precisamente porque es gratis, abierto y sin compromiso, es fácil que nadie sienta que importa lo suficiente como para aparecer. El enemigo de la celebración no es la objeción; es la indiferencia amable —"qué bonito, quizá me pase"— que nunca se convierte en presencia.</p>
+
+  <p class="pull reveal">La celebración no pide vencer una objeción. Pide encender un deseo y sostener una intención hasta el día señalado.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 ===================== -->
+<section class="flow" id="s2">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — La tesis</span>
+    <h2>La baja fricción es el riesgo, no la ventaja</h2>
+  </div>
+
+  <p class="drop reveal">Los datos del sector de eventos son constantes y algo brutales: los eventos <strong>gratuitos</strong> pierden entre el 40% y el 60% de quienes se apuntan —no se presentan—, mientras que los de pago rondan un no-show del 8–15%. La razón no es que la gente sea informal: es que un "sí" sin coste ni consecuencia apenas pesa. "Cojo un sitio gratis" no crea el compromiso que sí crea cualquier inversión, por pequeña que sea.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">40–60<small>%</small></div><div class="l">no-show típico en eventos gratuitos (vs. 8–15% en los de pago)</div><div class="src">Datos de sector (VenueSight, Addmi, Glue Up)</div></div>
+    <div class="stat"><div class="n">~30<small>%</small></div><div class="l">menos ausencias con una secuencia de recordatorios / reconfirmación</div><div class="src">Datos de sector</div></div>
+    <div class="stat"><div class="n">38→14<small>%</small></div><div class="l">caída del no-show al pedir un gesto de compromiso (ej. depósito simbólico)</div><div class="src">Eventtia 2024 · caso indicativo</div></div>
+  </div>
+
+  <p class="reveal">La lección para Paramita tiene un matiz importante: la respuesta convencional del sector —cobrar una entrada o un depósito reembolsable— <em>choca</em> con el espíritu de una celebración de dāna y hospitalidad. No vamos a poner precio a la puerta de un día sagrado. Así que el reto es lograr el mismo efecto —que el "sí" pese— con herramientas honestas y coherentes con la casa: un RSVP ligero, recordatorios, y sobre todo, <strong>significado</strong>. La gente aparece a lo que siente suyo.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 ===================== -->
+<section class="flow" id="s3">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — El perfil</span>
+    <h2>Del curioso al miembro de la Sangha</h2>
+  </div>
+
+  <p class="drop reveal">La celebración atrae al espectro más amplio de los cuatro tipos: desde el vecino curioso que vio un cartel hasta el practicante veterano para quien esa fecha es sagrada. Su objeción no es "¿podré?", sino dos dudas más blandas.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Perfiles y la duda que frena</caption>
+      <thead><tr><th>Perfil</th><th>La duda, en sus palabras</th><th>Qué la disuelve</th></tr></thead>
+      <tbody>
+        <tr><td>El curioso</td><td>"¿Tengo que ser budista? ¿Me sentiré fuera de lugar?"</td><td>Bienvenida radical: es una fiesta abierta, no un rito cerrado</td></tr>
+        <tr><td>El respetuoso</td><td>"No sé cómo comportarme, no quiero molestar"</td><td>Explicar con calidez qué es y cómo será, sin solemnidad intimidante</td></tr>
+        <tr><td>El de intención blanda</td><td>"Qué bonito… quizá me pase" (y nunca aparece)</td><td>RSVP ligero + recordatorio + añadir al calendario</td></tr>
+        <tr><td>El de la Sangha</td><td>(ninguna: ya vendría) </td><td>Darle un papel: traer algo, ayudar, invitar a alguien</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="reveal">El insight clave: para el miembro de la Sangha, la celebración no necesita persuasión —necesita <em>participación</em>—. Y darle un papel (traer un plato, encender una lámpara, recibir a los nuevos) no solo lo compromete a él: convierte la fiesta en algo hecho por la comunidad, que es justo lo que atrae al curioso.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 04 ===================== -->
+<section class="flow" id="dos-trabajos">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 — Los dos trabajos</span>
+    <h2>Que quiera venir. Que se acuerde de venir.</h2>
+  </div>
+
+  <div class="split reveal">
+    <div>
+      <div class="role">Trabajo 1 · El deseo</div>
+      <h4>Transmitir significado y pertenencia</h4>
+      <ul>
+        <li>Por qué <em>esta</em> fecha importa: el sentido de la festividad, contado con calidez.</li>
+        <li>Qué se celebra y cómo será: imágenes de años anteriores, ambiente, comunidad.</li>
+        <li>Bienvenida explícita: cualquiera es bienvenido, budista o no.</li>
+        <li>Es la conversión real de la celebración: la gente aparece a lo que siente suyo.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="role">Trabajo 2 · La intención</div>
+      <h4>Sostener el «sí» hasta el día</h4>
+      <ul>
+        <li>RSVP ligero (opcional pero invitado): un gesto que hace pesar la intención.</li>
+        <li>Añadir al calendario: cierra el hueco entre el "sí" y el "aparecer".</li>
+        <li>Recordatorio cálido unos días antes (la palanca gratuita más eficaz).</li>
+        <li>Micro-compromiso: "¿traes algo para compartir?", "¿vienes con alguien?".</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="reveal">Los dos trabajos se refuerzan: el significado hace que la persona diga "sí"; las herramientas de intención hacen que ese "sí" llegue al día. Ninguna funciona sola —un recordatorio sin deseo se ignora; un deseo sin recordatorio se olvida—.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 05 ===================== -->
+<section class="flow" id="honestidad">
+  <div class="sec-head reveal">
+    <span class="sec-num">05 — La honestidad</span>
+    <h2>Contra el no-show, sin traicionar la hospitalidad</h2>
+  </div>
+
+  <p class="drop reveal">Aquí es donde la doctrina de la casa marca la diferencia. El sector resuelve el no-show de eventos gratuitos con fricción monetaria —una entrada de 5 €, un depósito reembolsable—. Es eficaz, pero para una celebración de dāna sería una contradicción: poner un torno a la puerta de un día sagrado. Paramita renuncia a esa palanca a propósito.</p>
+
+  <div class="note reveal">
+    <span class="k">Lo que NO haremos</span>
+    Ni entrada, ni depósito, ni "plazas que vuelan", ni contador de cuenta atrás, ni culpa por no asistir. La puerta de una celebración no se cierra ni se tasa. El compromiso que buscamos es de pertenencia, no de bolsillo.
+  </div>
+
+  <div class="note reveal">
+    <span class="k">Lo que SÍ haremos</span>
+    RSVP ligero y opcional (para hacernos una idea y para que el "sí" pese) · botón de añadir al calendario · una secuencia breve de recordatorios cálidos · micro-compromisos con sentido (traer un plato típico, encender una lámpara de mantequilla, acompañar a alguien nuevo). Todo esto compromete sin cobrar.
+  </div>
+
+  <p class="reveal">El micro-compromiso es la joya honesta: pedir un gesto —no dinero— activa el mismo mecanismo psicológico de compromiso y coherencia. Quien se ha ofrecido a llevar un plato para Losar ya no es un "quizá"; ha empezado a pertenecer a la fiesta antes de que empiece.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 06 ===================== -->
+<section class="flow" id="significado">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — El motor</span>
+    <h2>El significado es la conversión</h2>
+  </div>
+
+  <p class="drop reveal">En los otros tres tipos, el contenido informa; en la celebración, el contenido <em>emociona</em>. Cada festividad tiene un porqué que, bien contado, es más persuasivo que cualquier técnica: Losar abre el año con renovación y buenos auspicios; Saga Dawa Düchen conmemora el nacimiento, la iluminación y el parinirvana del Buda —el día en que el mérito de toda acción se multiplica—; Chötrul Düchen celebra sus milagros; Lhabab Düchen, su descenso de vuelta al mundo. La página que explica ese sentido con calidez ya ha hecho el 80% del trabajo.</p>
+
+  <p class="reveal">Por eso la plantilla de celebración invierte su peso donde los otros tipos lo reparten: menos logística, mucho más <em>relato y ambiente</em>. Fotografías reales de años anteriores (nunca stock), la comunidad reunida, la luz de las lámparas, la comida compartida. Se vende una pertenencia, no una entrada.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 07 · ESTRUCTURA ===================== -->
+<section class="flow" id="estructura">
+  <div class="sec-head reveal">
+    <span class="sec-num">07 — La estructura</span>
+    <h2>Bloque a bloque: una invitación, no un checkout</h2>
+  </div>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>La plantilla de celebración · orden y función</caption>
+      <thead><tr><th>#</th><th>Bloque</th><th>Qué hace / trabajo que cumple</th></tr></thead>
+      <tbody>
+        <tr><td class="bk">01</td><td>Hero-invitación</td><td>Nombre de la fiesta, fecha, tono cálido y festivo. "Estás invitado/a", no "reserva". Sin <code>data-reveal</code> en el h1.</td></tr>
+        <tr><td class="bk">02</td><td>Qué celebramos y por qué</td><td>El significado de la festividad, contado con calidez. El motor del deseo. (§06)</td></tr>
+        <tr><td class="bk">03</td><td>Cómo será el día</td><td>Programa ligero y ambiente: pujas, ofrendas, comida compartida, música. Fotos reales de años anteriores.</td></tr>
+        <tr><td class="bk">04</td><td>Todos bienvenidos</td><td>Inclusión radical: budista o no, con niños, primera vez. Disuelve al curioso y al respetuoso. (§03)</td></tr>
+        <tr><td class="bk">05</td><td>Cómo participar</td><td>RSVP ligero + añadir al calendario + "¿traes algo?". El trabajo de la intención, sin barrera. (§04, §05)</td></tr>
+        <tr><td class="bk">06</td><td>Ofrenda / dāna (opcional)</td><td>Cómo contribuir si se desea —siempre opcional—. Sostiene el templo, no es entrada.</td></tr>
+        <tr><td class="bk">07</td><td>Voces / galería</td><td>Ambiente de celebraciones pasadas. Rostros de la comunidad, no estrellas.</td></tr>
+        <tr><td class="bk">08</td><td>Cierre cálido</td><td>Última invitación afectuosa, con la fecha y "te esperamos" a la vista.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="reveal">Es la plantilla más corta y más cálida de las cuatro. No lleva sticky de compra, ni tabla de precios, ni formulario largo. Su centro de gravedad es el bloque de significado y las imágenes; su acción, un gesto ligero. Reutiliza del sistema las voces del sendero, el marco dāna (aquí más suave que nunca) y el movimiento; añade poco CSS propio —sobre todo la galería de ambiente y el bloque de participación—.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 08 · AUDITORÍA ===================== -->
+<section class="verdict">
+  <div class="flow">
+    <div class="sec-head reveal">
+      <span class="eyebrow">08 — Auditoría</span>
+      <h2>Tu previa de celebración, contrastada</h2>
+    </div>
+    <p class="reveal">La previa ya intuía el tono de invitación. Lo que el estudio aporta es nombrar el riesgo real —el compromiso blando— y darle una respuesta coherente con el dāna.</p>
+
+    <div class="checks reveal">
+      <div class="yes">
+        <h4>Se conserva</h4>
+        <ul>
+          <li>El tono de invitación cálida, no de venta.</li>
+          <li>El significado de la festividad como bloque central.</li>
+          <li>Acceso libre / dāna opcional, sin barrera de pago.</li>
+          <li>La bienvenida radical (cualquiera, budista o no).</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h4>Se ajusta / se añade</h4>
+        <ul>
+          <li>Añadir el RSVP ligero + calendario + recordatorio (contra el no-show, sin cobrar).</li>
+          <li>El micro-compromiso ("¿traes algo?") como palanca honesta de asistencia.</li>
+          <li>Fotos reales de años anteriores, nunca stock.</li>
+          <li>Cero urgencia fabricada: la puerta no se cierra ni se tasa.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 09 · CIERRE ===================== -->
+<section class="flow" id="cierre">
+  <div class="sec-head reveal">
+    <span class="sec-num">09 — Cierre</span>
+    <h2>La celebración, y las cuatro plantillas</h2>
+  </div>
+  <p class="reveal">La celebración es la plantilla de la puerta abierta. Su decisión de diseño no es vencer una objeción, sino encender el deseo (significado y pertenencia) y sostener la intención (RSVP ligero, calendario, recordatorio, micro-compromiso) sin traicionar la hospitalidad del dāna —nada de entradas, depósitos ni urgencia—. Es la más corta y cálida; su peso está en el relato y las imágenes.</p>
+  <p class="reveal">Con ella se cierra la familia de actividades, ordenada por compromiso: <strong>retiro</strong> (inmersión residencial), <strong>evento</strong> (encuentro presencial u online), <strong>gira</strong> (el maestro por ciudades, en dos variantes) y <strong>celebración</strong> (la fiesta abierta de la comunidad). Cuatro plantillas, un mismo sistema —escaneo honesto, escasez real, voces del sendero, marco dāna, movimiento contemplativo—, calibrado en cada caso al peso de lo que se pide. El siguiente paso es la <strong>muestra HTML</strong> de la celebración.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== REFERENCIAS ===================== -->
+<section class="flow refs">
+  <div class="sec-head reveal">
+    <span class="sec-num">R — Fuentes</span>
+    <h2>De dónde salen los datos</h2>
+  </div>
+  <ol class="reveal">
+    <li><b>Datos de no-show en eventos gratuitos</b> — VenueSight, Addmi, Glue Up, eventcloud: 40–60% de no-show en gratuitos frente a 8–15% en los de pago. Cifras de sector, convergentes entre fuentes; indicativas.</li>
+    <li><b>Recordatorios y reconfirmación</b> — reducción del orden del 30% de las ausencias con secuencias de recordatorio (datos de sector).</li>
+    <li><b>Micro-compromiso y depósito</b> — Eventtia 2024 (caída del no-show del 38% al 14% con un gesto de compromiso simbólico); efecto de compromiso y coherencia. Caso indicativo, no de investigación primaria.</li>
+    <li><b>Calendario de festividades</b> — Losar, Chötrul Düchen, Saga Dawa Düchen, Lhabab Düchen (calendario budista tibetano), según el propio calendario de actividades de Paramita.</li>
+    <li><b>Doctrina interna Paramita</b> — Informe maestro de plantillas de actividad; Estudios de retiro, evento y gira; Donativo vs. membresía (dāna); Testimonios y vídeo; Espectáculo vs. Conversión.</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Estudio de la plantilla de celebración · Fundació Sakya Paramita · Agosto 2026 · Datos verificados en fuentes citadas · Documento autocontenido</div>
+</footer>
+
+<script>
+  var pb=document.getElementById('progress');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;pb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  } else {document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});}
+</script>
+</body>
+</html>

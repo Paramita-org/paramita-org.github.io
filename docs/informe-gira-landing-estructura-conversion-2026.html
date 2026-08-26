@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El mapa y la ciudad — Estudio de la plantilla de gira · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;--paper-2:#FBFAF7;--ink:#191A1C;--slate:#63656B;
+    --ink-deep:#132239;--ink-deep-2:#0E1A2C;--gold:#A8823F;--gold-lite:#C9A96E;
+    --rule:#DAD6CC;--rule-soft:#E5E2D9;
+    --col: min(680px, calc(100% - 2.5rem));--wide: min(1080px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:clamp(1.02rem,0.55vw + 0.9rem,1.16rem);line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:50;transition:width .08s linear}
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .flow > .wide{grid-column:1/-1;width:var(--wide);margin-inline:auto}
+
+  .cover{padding:clamp(3.5rem,9vh,7rem) 0 clamp(2.5rem,6vh,4rem)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4rem}
+  .cover h1{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.0;letter-spacing:-.015em;margin:0 0 1.4rem}
+  .cover h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:clamp(1.15rem,1.4vw,1.4rem);line-height:1.5;color:var(--slate);max-width:34em;margin:0 0 2.4rem;font-weight:400}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2.4rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6.5s cubic-bezier(.45,0,.15,1) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--slate);letter-spacing:.02em}
+  .meta b{color:var(--ink);font-weight:500}
+  .lede{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.45;letter-spacing:-.01em;margin:2.6rem 0 0;color:var(--ink)}
+
+  section{padding:clamp(3rem,7vh,5rem) 0}
+  .sec-head{margin:0 0 2rem}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.2em;color:var(--gold);display:block;margin-bottom:.7rem}
+  h2{font-family:"Fraunces",serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(1.85rem,3.6vw,2.85rem);line-height:1.08;letter-spacing:-.012em;margin:0}
+  h3{font-family:"Hanken Grotesk",sans-serif;font-weight:650;font-size:1.18rem;letter-spacing:.005em;margin:2.6rem 0 .6rem;line-height:1.3}
+  h3 .tag{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--gold);letter-spacing:.14em;vertical-align:.35em;margin-right:.55em;text-transform:uppercase}
+  p{margin:0 0 1.15rem}
+  a{color:var(--ink-deep);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;text-decoration-thickness:1px}
+  strong{font-weight:650}em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:var(--paper-2);border:1px solid var(--rule-soft);padding:.06em .35em;border-radius:3px}
+  .drop::first-letter{font-family:"Fraunces",serif;font-weight:500;float:left;font-size:3.5em;line-height:.72;padding:.06em .09em 0 0;color:var(--ink-deep)}
+
+  .pull{font-family:"Fraunces",serif;font-style:italic;font-weight:400;font-size:clamp(1.35rem,2.4vw,1.9rem);line-height:1.32;letter-spacing:-.01em;color:var(--ink-deep);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:1.6rem 0;margin:2.4rem 0}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .stat{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .stat .n{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.9rem,3vw,2.6rem);line-height:1;letter-spacing:-.02em;color:var(--ink-deep)}
+  .stat .n small{font-size:.5em;color:var(--gold);font-weight:500}
+  .stat .l{font-size:.9rem;line-height:1.35;color:var(--ink);margin-top:.6rem}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:.66rem;color:var(--slate);margin-top:.5rem;letter-spacing:.02em}
+
+  .note{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:1.3rem 1.4rem;margin:1.8rem 0;font-size:.98rem;line-height:1.62}
+  .note .k{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+
+  .tbl-wrap{margin:2rem 0;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.9rem}
+  caption{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:.8rem}
+  th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  thead th{border-bottom:1.5px solid var(--ink);font-weight:650;font-size:.8rem}
+  tbody td:first-child{font-weight:600}
+  tbody tr:hover td{background:var(--paper-2)}
+  .bk{font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--gold);white-space:nowrap}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+  .split > div{background:var(--paper-2);padding:1.5rem 1.4rem}
+  .split h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.25rem;margin:0 0 .3rem}
+  .split .role{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+  .split ul{margin:0;padding-left:1.05em;font-size:.94rem;line-height:1.55}
+  .split li{margin-bottom:.5rem}
+
+  .verdict{background:var(--ink-deep-2);color:var(--paper);padding:clamp(3rem,7vh,5rem) 0}
+  .verdict h2{color:var(--paper)}
+  .verdict .eyebrow{color:var(--gold-lite)}
+  .verdict p{color:#C3CAD6}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2rem}
+  .checks h4{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 1rem;padding-bottom:.6rem;border-bottom:1px solid rgba(255,255,255,.15)}
+  .checks .yes h4{color:#9ECBA8}
+  .checks .no h4{color:#D98C8C}
+  .checks ul{list-style:none;margin:0;padding:0;font-size:.94rem;line-height:1.5}
+  .checks li{padding-left:1.5em;position:relative;margin-bottom:.9rem;color:#D6DBE3}
+  .checks .yes li::before{content:"\2713";position:absolute;left:0;color:#9ECBA8;font-weight:700}
+  .checks .no li::before{content:"\2715";position:absolute;left:0;color:#D98C8C;font-weight:700}
+
+  .typehead{border-top:2px solid var(--ink);padding-top:1.4rem;margin-top:1rem}
+  .typehead .kind{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+
+  .refs{padding:clamp(3rem,6vh,4.5rem) 0 5rem}
+  .refs ol{font-family:"JetBrains Mono",monospace;font-size:.76rem;line-height:1.7;color:var(--slate);padding-left:1.6em}
+  .refs li{margin-bottom:.55rem}
+  .refs b{color:var(--ink);font-weight:500}
+
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate);letter-spacing:.02em}
+  .divider{border:0;border-top:1px solid var(--rule);margin:0}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:620px){.split{grid-template-columns:1fr}.checks{grid-template-columns:1fr}.cover h1{font-size:clamp(2.3rem,10vw,3rem)}}
+  @media (prefers-reduced-motion:reduce){.sheen::after{animation:none;transform:translateX(80%)}.reveal{opacity:1;transform:none;transition:none}*{scroll-behavior:auto}}
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ===================== COVER ===================== -->
+<header class="flow cover">
+  <p class="eyebrow">Informe · Plantilla de gira · Estructura y conversión · 2026</p>
+  <h1>El mapa y la <em>ciudad</em></h1>
+  <p class="deck">El estudio a fondo del tercer tipo de actividad: la gira. Un maestro que cruza países y ciudades —y por eso, la única plantilla con dos variantes: el catálogo de sedes y la conversión local.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="meta">
+    <span><b>Autor</b> · Claude (Anthropic)</span>
+    <span><b>Encargo</b> · Estudio de tipo · datos contrastados</span>
+    <span><b>Fecha</b> · Agosto 2026</span>
+    <span><b>Lectura</b> · ~18 min</span>
+  </div>
+  <p class="lede">La tesis de la gira: su unidad no es una fecha, es un <em>calendario</em>. Un mismo maestro se despliega por muchas ciudades, y el usuario llega con una única pregunta —"¿viene a mi tierra?"—. La plantilla responde en dos tiempos: primero el mapa (¿dónde va?), luego la ciudad (aquí, así, contigo).</p>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== 01 ===================== -->
+<section class="flow" id="s1">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 — El encargo</span>
+    <h2>Por qué la gira necesita dos plantillas</h2>
+  </div>
+
+  <p class="drop reveal">El retiro y el evento giran en torno a una fecha y un lugar únicos. La gira, no: es un acontecimiento raro —un maestro que recorre varias ciudades, a veces varios países, en una ventana de tiempo—. Su unidad natural es el <em>calendario</em>, no el día. Eso obliga a resolver dos trabajos muy distintos con dos variantes de una misma familia.</p>
+
+  <p class="reveal">La primera, <strong>genérica</strong>, responde a "¿dónde va?": es un catálogo de destinos —en el fondo, un buscador de sedes— donde cada ciudad tiene su estado (inscripciones abiertas, próximamente, lista de espera). La segunda, <strong>de país específico</strong>, responde a "¿y en mi ciudad, cómo?": es el punto de conversión local, donde se elimina toda duda de logística, moneda y organización para que el sí sea inmediato. Intentar meter ambas en una sola página produciría una genérica sobrecargada de logística local o una local diluida por el mapa global. Por eso, dos.</p>
+
+  <p class="pull reveal">La gira se comunica en dos movimientos: el mapa que despierta la ilusión, y la ciudad que la convierte en un sí.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 02 ===================== -->
+<section class="flow" id="s2">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 — Las dos variantes</span>
+    <h2>El catálogo y la conversión, de un vistazo</h2>
+  </div>
+
+  <div class="split reveal">
+    <div>
+      <div class="role">Variante A · Genérica</div>
+      <h4>El catálogo de ilusión</h4>
+      <ul>
+        <li>Responde a "¿a dónde va el maestro?".</li>
+        <li>Es un buscador de sedes: lista de ciudades con estado.</li>
+        <li>Objetivo: que cada visitante encuentre su ciudad —o pida aviso si aún no está—.</li>
+        <li>Emoción: la fortuna de que algo raro pasa cerca.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="role">Variante B · País específico</div>
+      <h4>La guía local</h4>
+      <ul>
+        <li>Responde a "¿en mi ciudad, cómo y cuánto?".</li>
+        <li>Anclaje local: el maestro en tu ciudad, la sala concreta.</li>
+        <li>Objetivo: eliminar la fricción de logística, moneda y confianza.</li>
+        <li>Emoción: la cercanía —sabiduría milenaria en tu idioma, a tu lado—.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 03 ===================== -->
+<section class="flow" id="s3">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 — Los perfiles</span>
+    <h2>El afortunado y el que ya busca su ciudad</h2>
+  </div>
+
+  <p class="drop reveal">La gira, más que ningún otro tipo, atrae a mucha gente nueva —personas que sienten que algo valioso y poco frecuente pasa cerca—. Conviene distinguir dos momentos, porque la variante genérica sirve al primero y la de país al segundo.</p>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Perfiles y objeción dominante</caption>
+      <thead>
+        <tr><th>Perfil</th><th>La duda, en sus palabras</th><th>Qué la disuelve</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>El afortunado (genérica)</td><td>"¿Realmente viene a mi tierra? ¿Cuándo?"</td><td>Catálogo claro de ciudades con estado + aviso "cuando abra en mi ciudad"</td></tr>
+        <tr><td>El intimidado (genérica)</td><td>"¿Es para alguien como yo? No sé lo suficiente"</td><td>Inclusión radical; el maestro como puente cercano, no distante</td></tr>
+        <tr><td>El tentado por el online</td><td>"Mejor lo veo en streaming desde casa"</td><td>El valor de lo presencial: transmisión y Sangha local (rima con el evento)</td></tr>
+        <tr><td>El decidido local (país)</td><td>"¿Cómo llego? ¿Dónde me alojo? ¿Cuánto en mi moneda?"</td><td>Logística local, precio en moneda local, organización local visible</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="reveal">El activo diferencial de Paramita aquí es Khenpo Rinchen Gyaltsen: su origen latino desactiva la "distancia cultural" —no es un maestro lejano al que hay que descifrar, sino alguien que enseña en el propio idioma—. Es exactamente el tipo de cercanía (un rostro y una voz concretos) que, con las cautelas ya fijadas sobre el efecto modesto del rostro identificable, hace que la invitación no suene ajena.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 04 · GENÉRICA ===================== -->
+<section class="flow" id="generica">
+  <div class="typehead reveal">
+    <span class="kind">Variante A · Genérica</span>
+    <h2>El catálogo es, en el fondo, un buscador de sedes</h2>
+  </div>
+
+  <p class="drop reveal">Y los buscadores de ubicaciones se hacen mal con frecuencia, así que conviene apoyarse en lo que la investigación ya sabe. Nielsen Norman Group, tras varios estudios de localizadores, es tajante en dos cosas: la vista por defecto debe ser la <em>lista</em>, no el mapa —da más densidad de información y hace más rápido elegir; los mapas embebidos en móvil son difíciles de manipular y diferencian mal las opciones—; y la <em>geolocalización</em> ("usar mi ubicación") ahorra tecleo y la mayoría de usuarios la acepta. La práctica del sector añade un matiz útil: detectar la ubicación por IP primero (sin pedir permiso, precisión de ciudad) y ofrecer el mapa solo como alternativa conmutable.</p>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="n">Lista</div><div class="l">vista por defecto sobre el mapa (más densidad, elección más rápida)</div><div class="src">Nielsen Norman Group</div></div>
+    <div class="stat"><div class="n">63<small>%</small></div><div class="l">acierto al encontrar la sede adecuada en localizadores mal diseñados</div><div class="src">Nielsen Norman Group</div></div>
+    <div class="stat"><div class="n">5–10</div><div class="l">resultados a la vez; 100+ abruma y hace zoom inmediato</div><div class="src">Investigación de localizadores (MetaLocator)</div></div>
+  </div>
+
+  <p class="reveal">Traducido a la gira: un clúster de ciudades presentado como <strong>lista escaneable</strong> (no un mapa mundi como pantalla principal), con "usar mi ubicación" para acercar la ciudad más próxima, un <strong>estado honesto</strong> por sede (abiertas / próximamente / lista de espera), y —clave para quien no encuentra su ciudad— una <strong>suscripción</strong> tipo "avísame cuando abra en mi zona". Ese aviso es el que rescata al afortunado que llega pronto.</p>
+
+  <div class="note reveal">
+    <span class="k">Escasez en la gira</span>
+    Como en retiro y evento, la única escasez legítima es el aforo real del local de cada ciudad. "Quedan N plazas en Madrid" es honesto porque la sala tiene un aforo. El estado "lista de espera" también lo es. Nada de contadores fabricados.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 05 · PAÍS ===================== -->
+<section class="flow" id="pais">
+  <div class="typehead reveal">
+    <span class="kind">Variante B · País específico</span>
+    <h2>La conversión es local o no es</h2>
+  </div>
+
+  <p class="drop reveal">Cuando el afortunado ya sabe que el maestro viene a su ciudad, la página cambia de trabajo: deja de despertar ilusión y pasa a <em>quitar fricción</em>. Todo lo que en la genérica era panorámico, aquí es concreto: la sala exacta, cómo llegar, dónde alojarse, y —un detalle que decide más de lo que parece— el precio en <strong>moneda local</strong>. La investigación de localizadores lo dice en negativo: mostrar a un usuario una vista o unos datos de otro país (otra moneda, otra logística) rompe la relevancia; lo local convierte.</p>
+
+  <p class="reveal">Y hay una palanca de confianza propia de la gira: la <strong>organización local visible</strong>. Que se vea quién acoge el evento en esa ciudad —el grupo o centro anfitrión— convierte a un maestro "de fuera" en un acontecimiento "de aquí". Sumado a la cercanía de Khenpo (el idioma, el origen compartido), disuelve la distancia que frena al intimidado.</p>
+
+  <div class="note reveal">
+    <span class="k">Rima con el evento</span>
+    La objeción "mejor lo veo online" es la misma que en el evento. La respuesta también: el valor del "en vivo" —transmisión y Sangha reunida— justifica el desplazamiento. La gira hereda ese bloque del estudio de evento, adaptado a lo local.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 06 · ESTRUCTURA ===================== -->
+<section class="flow" id="estructura">
+  <div class="sec-head reveal">
+    <span class="sec-num">06 — La estructura</span>
+    <h2>Bloque a bloque, en las dos variantes</h2>
+  </div>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Variante genérica · orden y función</caption>
+      <thead><tr><th>#</th><th>Bloque</th><th>Qué hace</th></tr></thead>
+      <tbody>
+        <tr><td class="bk">01</td><td>Hero</td><td>Establece la rareza del acontecimiento (un despliegue que ocurre pocas veces), sin FOMO fabricado.</td></tr>
+        <tr><td class="bk">02</td><td>El maestro y el propósito</td><td>Quién viaja y por qué: fortalecer la Sangha local, la transmisión presencial.</td></tr>
+        <tr><td class="bk">03</td><td><strong>Clúster de sedes</strong></td><td>Lista escaneable por ciudad, "usar mi ubicación", estado honesto por sede. El corazón de la variante.</td></tr>
+        <tr><td class="bk">04</td><td>El valor del «en vivo»</td><td>Por qué asistir y no ver el streaming. Heredado del evento.</td></tr>
+        <tr><td class="bk">05</td><td>Voces del sendero</td><td>Testimonios de giras anteriores, con nombre y rostro.</td></tr>
+        <tr><td class="bk">06</td><td>Aviso de apertura</td><td>Suscripción "avísame cuando abra en mi ciudad". Rescata a quien no tiene fecha aún.</td></tr>
+        <tr><td class="bk">07</td><td>FAQ</td><td>Idioma, para quién es, cómo funcionan las inscripciones por ciudad.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <caption>Variante país específico · orden y función</caption>
+      <thead><tr><th>#</th><th>Bloque</th><th>Qué hace</th></tr></thead>
+      <tbody>
+        <tr><td class="bk">01</td><td>Hero local</td><td>El maestro en tu ciudad: fecha, sala, un ancla concreta. CTA de inscripción.</td></tr>
+        <tr><td class="bk">02</td><td>Temario de esa sede</td><td>Qué se enseñará aquí (puede variar por ciudad).</td></tr>
+        <tr><td class="bk">03</td><td>Programa y horarios</td><td>Ritmo del día, como en el evento.</td></tr>
+        <tr><td class="bk">04</td><td><strong>Logística local</strong></td><td>Dirección, mapa, transporte, alojamiento cercano. Aforo real de la sala.</td></tr>
+        <tr><td class="bk">05</td><td>Organización local</td><td>Quién acoge: el grupo/centro anfitrión. Confianza de "aquí".</td></tr>
+        <tr><td class="bk">06</td><td>Precio / ofrenda</td><td>En <strong>moneda local</strong>. Marco dāna, becas si aplica.</td></tr>
+        <tr><td class="bk">07</td><td>Voces + FAQ</td><td>Testimonios locales; dudas prácticas de esa ciudad.</td></tr>
+        <tr><td class="bk">08</td><td>Cierre / CTA</td><td>Última invitación, con la sala y la fecha a la vista.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="reveal">Buena parte de la variante de país reutiliza piezas ya resueltas: el programa y el valor del "en vivo" vienen del evento; la logística local rima con la del retiro; el precio/ofrenda con el marco dāna. Lo genuinamente nuevo es el <em>clúster de sedes</em> de la genérica y el <em>anclaje local</em> (moneda, organización) de la de país.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== 07 · AUDITORÍA ===================== -->
+<section class="verdict">
+  <div class="flow">
+    <div class="sec-head reveal">
+      <span class="eyebrow">07 — Auditoría</span>
+      <h2>Tu previa de giras, contrastada</h2>
+    </div>
+    <p class="reveal">La previa ya separaba bien la genérica de la de país, que es la decisión clave. Los ajustes son los mismos de siempre: escasez honesta y voz de la casa.</p>
+
+    <div class="checks reveal">
+      <div class="yes">
+        <h4>Se conserva</h4>
+        <ul>
+          <li>La separación en dos variantes: catálogo de sedes + página de país.</li>
+          <li>El clúster de destinos con estado (abiertas / próximamente / lista de espera).</li>
+          <li>Moneda local y organización local visible en la variante de país.</li>
+          <li>Khenpo como puente de cercanía cultural.</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h4>Se ajusta</h4>
+        <ul>
+          <li>El "contador de plazas" solo si es aforo real del local; nunca fabricado.</li>
+          <li>El clúster como <em>lista</em> por defecto, no un mapa mundi (dato NN/g).</li>
+          <li>Cualquier "oportunidad única" se apoya en la rareza real del viaje, sin FOMO.</li>
+          <li>El valor del "en vivo" reutiliza el bloque del evento, no se reinventa.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 08 · CIERRE ===================== -->
+<section class="flow" id="cierre">
+  <div class="sec-head reveal">
+    <span class="sec-num">08 — Cierre</span>
+    <h2>La plantilla de gira en una página</h2>
+  </div>
+  <p class="reveal">La gira es la plantilla del mapa y la ciudad. Su decisión de arquitectura son las dos variantes: la genérica como buscador de sedes (lista por defecto, geolocalización, estado honesto, aviso de apertura) y la de país como conversión local (anclaje, moneda local, organización local, con Khenpo de puente). La escasez es real (aforo de cada sala), y casi todo lo demás lo hereda del evento y del retiro —programa, valor del "en vivo", logística, dāna, voces del sendero—.</p>
+  <p class="reveal">Con esto fijado, el siguiente paso sería la <strong>muestra HTML</strong>, empezando por la variante que decidas —yo propondría la genérica primero, porque el clúster de sedes es la pieza nueva; la de país reutiliza casi todo lo ya construido—.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== REFERENCIAS ===================== -->
+<section class="flow refs">
+  <div class="sec-head reveal">
+    <span class="sec-num">R — Fuentes</span>
+    <h2>De dónde salen los datos</h2>
+  </div>
+  <ol class="reveal">
+    <li><b>Nielsen Norman Group</b> — «Store Finders and Locators» y «Maps and Location Finders on Mobile»: lista como vista por defecto sobre el mapa; geolocalización aceptada por la mayoría; ~50–58 guías; acierto del 63% en localizadores mal diseñados.</li>
+    <li><b>Baymard Institute</b> — colección de ejemplos y guías de «Store Locator» (volumen de e-commerce UX).</li>
+    <li><b>Investigación de localizadores (industria)</b> — MetaLocator, Storemapper, Bullseye: detección por IP primero, geolocalización del navegador como refinamiento; evitar la vista global/de otro país; mostrar 5–10 resultados a la vez; refinar al mover el mapa. Cifras indicativas de fuentes de sector.</li>
+    <li><b>Doctrina interna Paramita</b> — Informe maestro de plantillas de actividad; Estudios de retiro y de evento; Espectáculo vs. Conversión (cursos y actividades); Testimonios y vídeo; Donativo vs. membresía; Crowdfunding y neuromarketing (rostro identificable, warm glow).</li>
+  </ol>
+</section>
+
+<footer class="flow">
+  <div>Estudio de la plantilla de gira · Fundació Sakya Paramita · Agosto 2026 · Datos verificados en fuentes citadas · Documento autocontenido</div>
+</footer>
+
+<script>
+  var pb=document.getElementById('progress');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;pb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  } else {document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});}
+</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-gira.css — Página de gira · variante GENÉRICA (actividad · Tipo D-A)
+   ───────────────────────────────────────────────────────────────────────────
+   Reutiliza el vocabulario de landing de paramita-curso.css y los pictos del
+   evento. Añade lo propio de la gira genérica:
+     · .sedes / .sede  — clúster de destinos como LISTA escaneable (no mapa),
+                          con estado honesto por sede (abierta/próximamente/espera)
+     · .geoloc         — barra «usar mi ubicación» (acerca la sede más próxima)
+     · .aviso          — suscripción «avísame cuando abra en mi ciudad»
+   Colores solo por tokens OKLCH de paramita-color.css.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer paginas {
+
+  /* ── SEPARACIÓN ENTRE BLOQUES · velos en degradado a sangre ───────────────── */
+  .zona-luz{ position:relative; isolation:isolate; }
+  .zona-luz::before{
+    content:""; position:absolute; top:0; bottom:0; left:50%; margin-left:-50vw;
+    width:100vw; z-index:-1; background:
+      radial-gradient(78% 66% at 82% 6%, color-mix(in oklch,var(--calido-zen) 60%,transparent), transparent 58%),
+      linear-gradient(180deg, var(--lino), color-mix(in oklch,var(--arena) 30%, var(--lino)) 50%, var(--lino));
+  }
+  .difusor{ position:relative; isolation:isolate; }
+  .difusor::before{
+    content:""; position:absolute; top:0; bottom:0; left:50%; margin-left:-50vw;
+    width:100vw; z-index:-1; background:
+      radial-gradient(56% 96% at 0% 42%,  color-mix(in oklch,var(--calido-zen) 84%,transparent), transparent 62%),
+      radial-gradient(56% 96% at 100% 46%,color-mix(in oklch,var(--calido-zen) 72%,transparent), transparent 62%),
+      radial-gradient(42% 58% at 6% 96%,  color-mix(in oklch,var(--dorado) 13%,transparent),     transparent 60%),
+      linear-gradient(180deg, color-mix(in oklch,var(--calido-zen) 42%, var(--lino)), var(--lino));
+  }
+
+  /* ── AFORO · píldora honesta de plazas reales ────────────────────────────── */
+  .aforo{ display:inline-flex; align-items:center; gap:.5rem; font-family:var(--body); font-size:.9rem; color:var(--antracita);
+    background:color-mix(in oklch, var(--dorado) 12%, var(--card)); border:1px solid color-mix(in oklch, var(--dorado) 40%, transparent);
+    padding:.35rem .8rem; border-radius:999px; font-variant-numeric:tabular-nums; }
+  .aforo__dot{ width:7px; height:7px; border-radius:50%; background:var(--dorado); flex:none; }
+  .aforo b{ font-weight:var(--wght-asertivo); }
+
+  /* ── CARDS CON PICTOGRAMAS · el valor del «en vivo» (pictos del evento) ───── */
+  .pictos{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:var(--espacio-contenido); }
+  .picto{ position:relative; isolation:isolate; overflow:hidden; background:var(--card); border:1px solid var(--hair); border-radius:18px; padding:1.6rem 1.4rem;
+    transition:transform var(--t-revelacion,.5s) var(--ease-suave,ease), box-shadow var(--t-revelacion,.5s) var(--ease-suave,ease), border-color var(--t-revelacion,.5s) var(--ease-suave,ease); }
+  .picto::before{ content:""; position:absolute; inset:0; z-index:0; opacity:0; transition:opacity var(--t-revelacion,.5s) ease;
+    background:radial-gradient(62% 58% at 50% 26%, color-mix(in oklch,var(--dorado) 16%,transparent), transparent 70%); }
+  .picto > *{ position:relative; z-index:1; }
+  .picto:hover{ transform:translateY(-5px); border-color:color-mix(in oklch,var(--dorado) 45%,var(--hair)); box-shadow:0 22px 48px -30px var(--antracita); }
+  .picto:hover::before{ opacity:1; }
+  .picto .pico{ display:block; width:2.6rem; height:2.6rem; margin-bottom:1rem; color:color-mix(in oklch,var(--antracita) 62%,transparent);
+    transition:color var(--t-revelacion,.5s) ease, transform var(--t-revelacion,.5s) ease; }
+  .picto .pico svg{ width:100%; height:100%; display:block; }
+  .pictos .pico .acc{ stroke:var(--dorado); }
+  .picto:hover .pico{ color:var(--antracita); transform:scale(1.09); }
+  .picto h3{ font-family:var(--display); font-weight:var(--wght-presencia,400); font-size:1.15rem; margin:0 0 .35rem; line-height:1.2; }
+  .picto p{ font-size:.92rem; color:var(--texto-suave); line-height:1.5; margin:0; }
+  .picto .pico svg path, .picto .pico svg circle{ stroke-dasharray:var(--pl,140); stroke-dashoffset:var(--pl,140); }
+  .picto.is-in .pico svg path, .picto.is-in .pico svg circle{ stroke-dashoffset:0; transition:stroke-dashoffset 1.15s var(--ease-suave,ease); }
+
+  /* ── CLÚSTER DE SEDES · lista escaneable (no mapa · dato NN/g) ─────────────── */
+  .geoloc{ display:flex; flex-wrap:wrap; align-items:center; gap:.9rem; margin-top:var(--espacio-contenido); }
+  .geoloc__btn{ display:inline-flex; align-items:center; gap:.55rem; font-family:var(--body); font-size:.95rem; color:var(--azul-oscuro);
+    background:var(--card); border:1px solid color-mix(in oklch,var(--dorado) 40%,var(--hair)); padding:.55rem 1.1rem; border-radius:999px; cursor:pointer;
+    transition:border-color var(--t-fast,.2s) var(--ease), background var(--t-fast,.2s) var(--ease); }
+  .geoloc__btn:hover{ border-color:var(--dorado); background:color-mix(in oklch,var(--dorado) 8%,var(--card)); }
+  .geoloc__btn svg{ width:1.05rem; height:1.05rem; }
+  .geoloc__nota{ font-size:.88rem; color:var(--texto-suave); }
+
+  .sedes{ list-style:none; margin:var(--espacio-contenido) 0 0; padding:0; display:flex; flex-direction:column; gap:.8rem; }
+  .sede{ display:grid; grid-template-columns:1.5fr 1fr 1.3fr auto; gap:1.2rem; align-items:center;
+    padding:1.15rem 1.3rem; border:1px solid var(--hair); border-left:3px solid var(--hair); border-radius:16px; background:var(--card);
+    transition:transform var(--t-revelacion,.5s) var(--ease-suave,ease), box-shadow var(--t-revelacion,.5s) var(--ease-suave,ease), border-color var(--t-revelacion,.5s) var(--ease-suave,ease); }
+  .sede:hover{ transform:translateY(-2px); box-shadow:0 20px 44px -34px var(--antracita); }
+  .sede--abierta{ border-left-color:var(--dorado); }
+  .sede--proximamente{ border-left-color:color-mix(in oklch,var(--azul-sutil) 60%,var(--hair)); }
+  .sede--espera{ border-left-color:color-mix(in oklch,var(--antracita) 22%,transparent); background:color-mix(in oklch,var(--arena) 45%,var(--card)); }
+  .sede__ciudad h3{ font-family:var(--display); font-weight:var(--wght-presencia,400); font-size:1.28rem; margin:0; line-height:1.15; }
+  .sede__ciudad p{ margin:.15rem 0 0; font-size:.86rem; color:var(--texto-suave); }
+  .sede__fecha{ font-family:var(--body); font-variant-numeric:tabular-nums; color:var(--antracita); font-size:.95rem; }
+  .sede__estado{ display:flex; flex-direction:column; gap:.3rem; }
+  .estado{ display:inline-flex; align-items:center; gap:.45rem; align-self:flex-start; font-family:var(--mono); font-size:.66rem; letter-spacing:.1em; text-transform:uppercase;
+    padding:.28rem .65rem; border-radius:999px; }
+  .estado::before{ content:""; width:6px; height:6px; border-radius:50%; }
+  .estado--abierta{ color:color-mix(in oklch,var(--dorado) 82%,var(--antracita)); background:color-mix(in oklch,var(--dorado) 14%,var(--card)); }
+  .estado--abierta::before{ background:var(--dorado); }
+  .estado--proximamente{ color:color-mix(in oklch,var(--azul-oscuro) 78%,var(--antracita)); background:color-mix(in oklch,var(--azul-sutil) 16%,var(--card)); }
+  .estado--proximamente::before{ background:var(--azul-sutil); }
+  .estado--espera{ color:var(--texto-suave); background:color-mix(in oklch,var(--antracita) 8%,var(--card)); }
+  .estado--espera::before{ background:var(--texto-tenue); }
+  .sede__plazas{ font-size:.82rem; color:var(--texto-suave); font-variant-numeric:tabular-nums; }
+  .sede__cta{ justify-self:end; white-space:nowrap; }
+  .sede__cta.is-muted{ opacity:.55; pointer-events:none; }
+
+  /* ── AVISO DE APERTURA · suscripción «avísame en mi ciudad» ───────────────── */
+  .aviso{ margin-top:var(--espacio-contenido); background:var(--card); border:1px solid var(--hair); border-radius:20px; padding:var(--espacio-contenido);
+    display:grid; grid-template-columns:1fr auto; gap:1.2rem 2rem; align-items:center; }
+  .aviso__texto h3{ margin:0 0 .3rem; font-size:1.2rem; }
+  .aviso__texto p{ margin:0; color:var(--texto-suave); font-size:.95rem; }
+  .aviso__form{ display:flex; flex-wrap:wrap; gap:.6rem; }
+  .aviso__form input{ font-family:var(--body); font-size:.95rem; padding:.6rem .9rem; border:1px solid var(--hair); border-radius:10px; background:var(--lino); color:var(--antracita); min-width:12rem; }
+  .aviso__form input:focus-visible{ outline:2px solid var(--dorado); outline-offset:1px; }
+
+  /* ── CTA FINAL · tono sereno ──────────────────────────────────────────────── */
+  .cta-final{ padding-block: clamp(3.5rem, 8vh, 6rem); }
+  .cta-final__title{ font-size:clamp(1.9rem,4.2vw,3rem); max-width:20ch; margin-inline:auto; }
+
+  /* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
+  @media (max-width:760px){
+    .pictos{ grid-template-columns:1fr; }
+    .sede{ grid-template-columns:1fr auto; grid-auto-rows:auto; gap:.5rem 1rem; }
+    .sede__ciudad{ grid-column:1 / -1; }
+    .sede__fecha{ grid-column:1; align-self:center; }
+    .sede__estado{ grid-column:2; align-items:flex-end; }
+    .sede__cta{ grid-column:1 / -1; justify-self:stretch; text-align:center; }
+    .aviso{ grid-template-columns:1fr; }
+    .aviso__form input{ flex:1; min-width:0; }
+  }
+}

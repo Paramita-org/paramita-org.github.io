@@ -1,0 +1,124 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PARAMITA · FUNDACIÓN SAKYA
+   paramita-celebracion.css — Página de celebración (actividad · Tipo C)
+   ───────────────────────────────────────────────────────────────────────────
+   Alineada al contenido real de las celebraciones de Paramita: invitación cálida
+   + una PRÁCTICA/PUYA como corazón + participación HÍBRIDA (presencial y online
+   en vivo con horario internacional). Reutiliza el vocabulario de landing
+   (curso.css) y añade lo propio:
+     · .aspiracion  — cita/aspiración como ancla espiritual
+     · .merito      — realce del sentido del día (el mérito se multiplica)
+     · .jornada     — momentos del día
+     · .ambiente    — galería de años anteriores (fotos reales)
+     · .modos/.modo — participación híbrida (presencial · online en vivo)
+     · .horario-intl— horario internacional por países (público latino)
+     · .bienvenida  — inclusión radical
+     · .ofrenda-suave — dāna opcional, sin barrera
+   Sin precio, sin sticky de compra. Colores solo por tokens OKLCH.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer paginas {
+
+  /* ── SEPARACIÓN ENTRE BLOQUES · velos en degradado a sangre ───────────────── */
+  .zona-luz{ position:relative; isolation:isolate; }
+  .zona-luz::before{
+    content:""; position:absolute; top:0; bottom:0; left:50%; margin-left:-50vw;
+    width:100vw; z-index:-1; background:
+      radial-gradient(78% 66% at 82% 6%, color-mix(in oklch,var(--calido-zen) 60%,transparent), transparent 58%),
+      linear-gradient(180deg, var(--lino), color-mix(in oklch,var(--arena) 30%, var(--lino)) 50%, var(--lino));
+  }
+  .difusor{ position:relative; isolation:isolate; }
+  .difusor::before{
+    content:""; position:absolute; top:0; bottom:0; left:50%; margin-left:-50vw;
+    width:100vw; z-index:-1; background:
+      radial-gradient(56% 96% at 0% 42%,  color-mix(in oklch,var(--calido-zen) 84%,transparent), transparent 62%),
+      radial-gradient(56% 96% at 100% 46%,color-mix(in oklch,var(--calido-zen) 72%,transparent), transparent 62%),
+      radial-gradient(42% 58% at 6% 96%,  color-mix(in oklch,var(--dorado) 16%,transparent),     transparent 60%),
+      linear-gradient(180deg, color-mix(in oklch,var(--calido-zen) 46%, var(--lino)), var(--lino));
+  }
+
+  /* ── ASPIRACIÓN · cita como ancla espiritual ─────────────────────────────── */
+  .aspiracion{ text-align:center; padding-block:clamp(1rem,3vw,2rem); }
+  .aspiracion blockquote{ font-family:var(--display); font-style:italic; font-weight:400; font-size:clamp(1.4rem,3vw,2.1rem);
+    line-height:1.4; color:var(--azul-oscuro); max-width:26ch; margin:0 auto; }
+  .aspiracion cite{ display:block; margin-top:1.1rem; font-family:var(--mono); font-style:normal; font-size:.7rem;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--texto-tenue); }
+
+  /* ── MÉRITO · realce del sentido del día ─────────────────────────────────── */
+  .merito{ font-family:var(--display); font-style:italic; font-size:clamp(1.1rem,1.6vw,1.28rem); line-height:1.4;
+    color:var(--azul-oscuro); border-left:2px solid var(--dorado); padding-left:1.1rem; margin:1.5rem 0; }
+
+  /* ── CÓMO SERÁ EL DÍA · momentos de la jornada ───────────────────────────── */
+  .jornada{ list-style:none; margin:var(--espacio-contenido) 0 0; padding:0; display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; }
+  .jornada li{ display:flex; gap:.9rem; align-items:flex-start; background:var(--card); border:1px solid var(--hair); border-radius:14px; padding:1.1rem 1.2rem; }
+  .jornada__hora{ font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; color:var(--dorado); padding-top:.2rem; white-space:nowrap; }
+  .jornada__t h3{ margin:0 0 .1rem; font-size:1.02rem; line-height:1.25; }
+  .jornada__t p{ margin:0; color:var(--texto-suave); font-size:.92rem; line-height:1.45; }
+
+  /* ── GALERÍA DE AMBIENTE · fotos reales de años anteriores ────────────────── */
+  .ambiente{ display:grid; grid-template-columns:repeat(4,1fr); gap:.7rem; margin-top:var(--espacio-contenido); }
+  .ambiente__fig{ position:relative; margin:0; overflow:hidden; border-radius:16px; background:var(--arena); aspect-ratio:4/3; }
+  .ambiente__fig--ancha{ grid-column:span 2; aspect-ratio:16/9; }
+  .ambiente__fig img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .6s var(--ease); }
+  .ambiente__fig:hover img{ transform:scale(1.05); }
+  .ambiente__fig figcaption{ position:absolute; inset:auto 0 0 0; padding:.7rem .9rem; font-family:var(--body); font-size:.8rem; color:var(--lino);
+    background:linear-gradient(to top, color-mix(in oklch,var(--antracita) 80%,transparent), transparent); }
+  .ambiente__fig.is-vacio img{ opacity:0; }
+  .ambiente__fig.is-vacio::after{ content:attr(data-vacio); position:absolute; inset:0; display:grid; place-items:center; padding:1rem; text-align:center;
+    color:var(--texto-tenue); font-family:var(--body); font-size:.82rem; }
+
+  /* ── PARTICIPACIÓN HÍBRIDA · presencial · online en vivo ─────────────────── */
+  .modos{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:var(--espacio-contenido); align-items:start; }
+  .modo{ border-radius:20px; border:1px solid var(--hair); background:var(--card); padding:1.8rem 1.7rem 1.9rem; }
+  .modo--online{ background:color-mix(in oklch,var(--azul-sutil) 8%, var(--card)); }
+  .modo__cab{ display:flex; align-items:center; gap:.8rem; margin-bottom:1.1rem; }
+  .modo__ico{ width:2.6rem; height:2.6rem; border-radius:50%; flex:none; display:grid; place-items:center;
+    background:color-mix(in oklch,var(--dorado) 12%,var(--card)); color:color-mix(in oklch,var(--antracita) 70%,transparent); }
+  .modo__ico .pico{ width:1.35rem; height:1.35rem; }
+  .modo__ico .acc{ stroke:var(--dorado); }
+  .modo__tag{ font-family:var(--mono); font-size:.64rem; letter-spacing:.12em; text-transform:uppercase; color:var(--texto-tenue); display:block; margin-bottom:.1rem; }
+  .modo h3{ font-family:var(--display); font-weight:var(--wght-presencia,400); font-size:1.28rem; margin:0; line-height:1.15; }
+  .modo p{ color:var(--texto-suave); font-size:.95rem; line-height:1.5; margin:0 0 1rem; }
+  .modo .btn-primario, .modo .btn-secundario{ width:100%; justify-content:center; text-align:center; }
+  .modo__lugar{ font-size:.95rem; color:var(--antracita); margin:0 0 1rem; }
+  .modo__lugar b{ font-weight:var(--wght-asertivo); }
+
+  /* horario internacional por países */
+  .horario-intl{ list-style:none; margin:0 0 1rem; padding:0; display:flex; flex-direction:column; gap:0; }
+  .horario-intl li{ display:flex; justify-content:space-between; gap:1rem; font-size:.9rem; padding:.4rem 0; border-bottom:1px dashed var(--hair); }
+  .horario-intl li:last-child{ border-bottom:0; }
+  .horario-intl b{ font-variant-numeric:tabular-nums; color:var(--antracita); font-weight:var(--wght-asertivo); white-space:nowrap; }
+  .horario-intl span{ color:var(--texto-suave); text-align:right; }
+
+  /* ── TODOS BIENVENIDOS · inclusión radical ───────────────────────────────── */
+  .bienvenida{ position:relative; isolation:isolate; text-align:center; border-radius:24px; padding:clamp(2rem,5vw,3.4rem);
+    background:
+      radial-gradient(60% 80% at 50% 0%, color-mix(in oklch,var(--dorado) 12%,transparent), transparent 70%),
+      color-mix(in oklch,var(--calido-zen) 40%, var(--card));
+    border:1px solid color-mix(in oklch,var(--dorado) 22%,var(--hair)); }
+  .bienvenida h2{ margin:0 auto .8rem; max-width:20ch; }
+  .bienvenida p{ margin:0 auto; max-width:44ch; color:var(--texto-suave); }
+  .bienvenida__puntos{ list-style:none; margin:var(--espacio-contenido) auto 0; padding:0; display:flex; flex-wrap:wrap; justify-content:center; gap:.7rem 1rem; }
+  .bienvenida__puntos li{ font-family:var(--body); font-size:.92rem; color:var(--antracita); background:var(--card);
+    border:1px solid var(--hair); border-radius:999px; padding:.45rem 1rem; }
+  .bienvenida__puntos li::before{ content:"✦"; color:var(--dorado); margin-right:.5rem; }
+
+  /* ── OFRENDA SUAVE · dāna opcional, sin barrera ───────────────────────────── */
+  .ofrenda-suave{ margin-top:var(--espacio-contenido); text-align:center; background:var(--card); border:1px solid var(--hair);
+    border-radius:18px; padding:var(--espacio-contenido); }
+  .ofrenda-suave h3{ margin:0 0 .5rem; font-size:1.15rem; }
+  .ofrenda-suave p{ margin:0 auto 1.1rem; max-width:46ch; color:var(--texto-suave); }
+  .ofrenda-suave .t-link{ justify-content:center; }
+
+  /* ── CTA FINAL · cálido y sereno ──────────────────────────────────────────── */
+  .cta-final{ padding-block: clamp(3.5rem, 8vh, 6rem); }
+  .cta-final__title{ font-size:clamp(1.9rem,4.2vw,3rem); max-width:20ch; margin-inline:auto; }
+
+  /* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
+  @media (max-width:760px){
+    .jornada{ grid-template-columns:1fr; }
+    .ambiente{ grid-template-columns:1fr 1fr; }
+    .ambiente__fig--ancha{ grid-column:span 2; aspect-ratio:16/9; }
+    .modos{ grid-template-columns:1fr; }
+  }
+}
