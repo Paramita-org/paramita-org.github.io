@@ -2,7 +2,7 @@
 
 Rediseño completo del sitio de la **Fundació Sakya Paramita**, tradición budista tibetana (escuela Sakya) con sede en Pedreguer (Monte Sella), Alicante, y comunidades por España y Latinoamérica.
 
-Sitio estático (HTML/CSS/JS *vanilla*) servido en **GitHub Pages** desde el repositorio de organización `Paramita-org/paramita-org.github.io` (patrón de *organization site*: se sirve en la raíz del dominio). Audiencia hispanohablante. Estado actual: **Fase 7+**.
+Sitio estático (HTML/CSS/JS *vanilla*) servido en **GitHub Pages** desde el repositorio de organización `Paramita-org/paramita-org.github.io` (patrón de *organization site*: se sirve en la raíz del dominio). Audiencia hispanohablante. Estado actual: **Fase 8** (cierre y refinamiento, agosto 2026).
 
 > `www.paramita.org` es el sitio vivo actual de la fundación, gestionado por Alberto. No se toca desde este repositorio.
 
@@ -51,7 +51,12 @@ Rutas absolutas desde la raíz del dominio. Cada página vive en su carpeta y si
     emi-1-calma-y-lucidez.html   Ficha de curso (prototipo canónico)
     inscripcion.html             Alta en el curso
 /formacion-logueado/             formacion-logueado.html          Área de formación (logueado)
-/actividades/                    actividades.html
+/actividades/                    actividades.html                 Catálogo (10 tarjetas + calendario)
+/actividades/retiros/            retiro.html                      Plantilla · retiro
+/actividades/eventos/            evento.html                      Plantilla · evento
+/actividades/giras/              gira.html                        Plantilla · gira (índice de ciudades)
+                                 gira-madrid.html                 Plantilla · gira (página de ciudad)
+/actividades/celebraciones/      celebracion.html                 Plantilla · celebración
 /blog/                           blog.html
 /sobre/khenpo/                   khenpo.html
 /sobre/maestros/                 maestros.html
@@ -210,7 +215,22 @@ Orden estable, sin saltarse pasos:
 
 **Construidas y estables**
 
-`index` (home pública) · `meditacion` · `formacion-publica` · `formacion-logueado` · `emi-1-calma-y-lucidez` (ficha) · `inscripcion` · `khenpo` · `maestros` · `sangha-monastica` · `la-fundacion` · `actividades` · `blog` · `preguntas-frecuentes` · `grupos` · `voluntariado` · `contribuir` · `crowdfunding` · `politica-de-privacidad`.
+`index` (home pública) · `meditacion` · `formacion-publica` · `formacion-logueado` · `emi-1-calma-y-lucidez` (ficha) · `inscripcion` · `khenpo` · `maestros` · `sangha-monastica` · `la-fundacion` · `blog` · `preguntas-frecuentes` · `grupos` · `voluntariado` · `contribuir` · `crowdfunding` · `politica-de-privacidad`.
+
+**Familia de actividades — construida, revisión no cerrada al 100%**
+
+El carril de actividades es un **catálogo + cuatro plantillas** ordenadas por compromiso descendente (retiro → evento → gira → celebración), todas sobre el sistema de diseño y compartiendo el vocabulario de landing de `paramita-curso.css`; cada una añade en su hoja propia solo lo específico. La gira tiene dos variantes (índice de ciudades y página de ciudad). El catálogo `actividades.html` (10 tarjetas + 11 entradas de calendario) enlaza a la plantilla de muestra de cada tipo con enlace estirado inline. Cada plantilla tiene su estudio de estructura y conversión como respaldo.
+
+| Plantilla | URL en vivo | Bloque distintivo | CSS |
+|---|---|---|---|
+| Catálogo | [actividades.html](https://paramita-org.github.io/actividades/actividades.html) | 10 tarjetas + calendario | `paramita-actividades.css` |
+| Retiro | [retiros/retiro.html](https://paramita-org.github.io/actividades/retiros/retiro.html) | Inmersión residencial: recorrido de práctica, ritmo del día, idoneidad sí/no, planes | `paramita-retiro.css` |
+| Evento | [eventos/evento.html](https://paramita-org.github.io/actividades/eventos/evento.html) | Doble carril presencial/online: logística en dos ramas, valor del «en vivo», becas | `paramita-evento.css` |
+| Gira · índice | [giras/gira.html](https://paramita-org.github.io/actividades/giras/gira.html) | Catálogo de sedes como lista (no mapa), estado por ciudad, aviso de apertura | `paramita-gira.css` |
+| Gira · ciudad | [giras/gira-madrid.html](https://paramita-org.github.io/actividades/giras/gira-madrid.html) | Conversión local: logística, organización local, precio en moneda local, dāna | `paramita-gira-ciudad.css` |
+| Celebración | [celebraciones/celebracion.html](https://paramita-org.github.io/actividades/celebraciones/celebracion.html) | Invitación (no venta): significado + mérito, la práctica/puya, participación híbrida con horario internacional | `paramita-celebracion.css` |
+
+> **Estas landings no están revisadas al 100%.** Están construidas y desplegadas, pero les falta el pase final: copy aún provisional, imágenes y enlaces por conectar, y QA visual (desktop/móvil, modo penumbra) sin cerrar. Trátense como muestra funcional, no como versión definitiva.
 
 **En curso / dependientes de backend**
 
@@ -228,6 +248,7 @@ Orden estable, sin saltarse pasos:
 
 **Por construir / resolver**
 
+- **Revisión final de la familia de actividades** — las cinco plantillas y el catálogo están construidos pero sin revisión cerrada: cierre del copy, imágenes y enlaces definitivos, y QA visual (desktop/móvil, penumbra) en cada uno.
 - **Hub de «Únete»** — la sección tiene ya su primer *spoke* (grupos) y voluntariado; falta consolidar el hub (`/unete/`): decidir si existe página índice, rutas y copy.
 - **Área logueada** en conjunto (`home-logueado`, navbar de practicante, resolución de `/cuenta`, `/logout`, `/mi-progreso`): bloqueada en las decisiones de LMS/sesión.
 - **Enlaces a páginas que aún no existen** (construir o retirar el enlace): `/contacto/` (desde `actividades`), `/mi-progreso` (navbar practicante, home y formación logueadas), y el índice `/unete/`.
@@ -245,6 +266,7 @@ En `crowdfunding`, el `submit`, la barra de progreso (`data-fill`), los métodos
 **Coherencia / limpieza**
 
 - **Fuentes del área logueada** — `home-logueado`, `formacion-logueado` y `cuenta` cargan Fraunces/Hanken desde Google Fonts en lugar de las woff2 autoalojadas del sitio público. Divergencia de rendimiento y de render a unificar.
+- **Preload de fuentes con rutas inconsistentes** — el `<link rel="preload">` de las fuentes usa hasta cuatro rutas distintas según la página (`assets/…`, `../assets/…`, `../../assets/…` y la correcta `/assets/fonts/`). Las relativas dan 404 en subcarpetas y provocan el warning «preloaded but not used». Unificar todas a `/assets/fonts/` (regla de rutas absolutas).
 - **Cyan heredado** — `#00C7E5` hardcodeado en el shader del fluido WebGL, por migrar al token `--azul-sutil`.
 - **Favicon en páginas nuevas** — como `sync.py` no toca el `<head>`, cada página futura necesita el bloque de favicon a mano.
 - **Aliases legacy** — de motion (`--t-fast`/`--t-med`/`--t-slow`) y de CTA (`.btn-amigo`/`.btn-umbral`), migrados página a página al tocarlas.

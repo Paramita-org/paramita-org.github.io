@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recorrido rápido por la web · Paramita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --lino:#F8F4EB; --arena:#EFE8DB; --calido-zen:#EBDEC4; --card:#FDFAF3;
+    --antracita:#1D1F26; --texto-suave:#6f7079; --texto-tenue:#9a9ba1;
+    --azul:#1F4E8F; --dorado:#ECAC55; --dorado-hondo:#c9812f;
+    --hair:rgba(29,31,38,.10); --hair-fuerte:rgba(29,31,38,.18);
+    --display:"Fraunces",Georgia,serif; --body:"Hanken Grotesk",system-ui,sans-serif;
+    --wrap:44rem;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--lino); color:var(--antracita);
+    font-family:var(--body); font-weight:400; font-size:1.02rem; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(58% 42% at 90% -4%, color-mix(in srgb,var(--calido-zen) 70%,transparent), transparent 60%),
+      radial-gradient(46% 34% at 4% 2%, color-mix(in srgb,var(--dorado) 10%,transparent), transparent 60%);
+    background-repeat:no-repeat;
+  }
+  .wrap{max-width:var(--wrap); margin-inline:auto; padding-inline:clamp(1.2rem,5vw,2rem);}
+  a{color:var(--azul); text-decoration:none; text-underline-offset:3px; transition:color .18s ease;}
+  a:hover{color:var(--dorado-hondo); text-decoration:underline;}
+  a:focus-visible{outline:2px solid var(--dorado); outline-offset:3px; border-radius:3px;}
+  em{font-family:var(--display); font-style:italic; font-weight:400; color:var(--dorado-hondo);}
+  strong{font-weight:600;}
+
+  /* ── HERO ─────────────────────────────────────────── */
+  header.hero{padding-block:clamp(3.5rem,9vh,6rem) clamp(2rem,5vh,3rem);}
+  .eyebrow{font-family:var(--body); font-size:.74rem; font-weight:600; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--texto-tenue); margin:0 0 1.1rem;}
+  h1{font-family:var(--display); font-weight:340; font-size:clamp(2.4rem,7vw,3.9rem);
+    line-height:1.04; letter-spacing:-.01em; margin:0 0 1.2rem;}
+  .hero .lede{font-family:var(--body); font-weight:400; font-size:1.14rem; color:var(--texto-suave);
+    max-width:38ch; margin:0 0 1.9rem;}
+  .live{display:inline-flex; align-items:center; gap:.6rem; font-weight:600; font-size:.98rem;
+    background:var(--antracita); color:var(--lino); padding:.7rem 1.15rem; border-radius:999px;}
+  .live:hover{background:var(--azul); color:var(--lino); text-decoration:none;}
+  .live .dot{width:.5rem; height:.5rem; border-radius:50%; background:var(--dorado);}
+  .intro{color:var(--texto-suave); margin-top:1.9rem; max-width:60ch;}
+
+  /* ── SECCIONES ────────────────────────────────────── */
+  .rule{border:0; height:1px; background:var(--hair); margin:clamp(2.4rem,6vh,3.6rem) 0;}
+  section{scroll-margin-top:1.5rem;}
+  .sec-num{font-family:var(--display); font-style:italic; font-weight:400; color:var(--dorado);
+    font-size:1.05rem; display:block; margin-bottom:.15rem;}
+  h2{font-family:var(--display); font-weight:360; font-size:clamp(1.5rem,3.6vw,2.05rem);
+    line-height:1.14; letter-spacing:-.005em; margin:.1rem 0 1rem;}
+  h3{font-family:var(--body); font-weight:600; font-size:1.02rem; margin:1.6rem 0 .4rem;
+    color:var(--antracita);}
+  p{margin:0 0 1rem;}
+  ul,ol{margin:0 0 1rem; padding-left:1.25rem;}
+  li{margin-bottom:.55rem;}
+  ol.pasos{counter-reset:paso; list-style:none; padding-left:0;}
+  ol.pasos li{position:relative; padding-left:2.3rem; margin-bottom:.85rem;}
+  ol.pasos li::before{counter-increment:paso; content:counter(paso); position:absolute; left:0; top:.05rem;
+    width:1.6rem; height:1.6rem; border-radius:50%; background:var(--card); border:1px solid var(--hair-fuerte);
+    display:grid; place-items:center; font-family:var(--display); font-size:.85rem; color:var(--dorado-hondo);}
+
+  /* ── CALLOUT ──────────────────────────────────────── */
+  .callout{background:color-mix(in srgb,var(--calido-zen) 55%,var(--card));
+    border:1px solid color-mix(in srgb,var(--dorado) 34%,var(--hair));
+    border-left:3px solid var(--dorado); border-radius:12px; padding:1.1rem 1.25rem; margin:1.3rem 0;}
+  .callout p{margin:0;}
+  .callout p+p{margin-top:.6rem;}
+  .nota{color:var(--texto-suave); font-size:.95rem;}
+
+  /* ── LISTA DE PÁGINAS ─────────────────────────────── */
+  .paginas{list-style:none; padding:0; margin:.4rem 0 1rem;}
+  .paginas li{margin:0; border-bottom:1px solid var(--hair);}
+  .paginas li:first-child{border-top:1px solid var(--hair);}
+  .paginas a.fila{display:flex; flex-wrap:wrap; align-items:baseline; gap:.2rem .7rem;
+    padding:.7rem .2rem; color:var(--antracita);}
+  .paginas a.fila:hover{color:var(--azul); text-decoration:none; background:color-mix(in srgb,var(--card) 70%,transparent);}
+  .paginas .nom{font-weight:600;}
+  .paginas .desc{color:var(--texto-suave); font-size:.9rem;}
+  .paginas a.fila::after{content:"↗"; margin-left:auto; color:var(--texto-tenue); font-size:.85rem; align-self:center;}
+  .grupo-tit{font-family:var(--body); font-weight:600; font-size:.76rem; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--texto-tenue); margin:1.4rem 0 .3rem;}
+
+  /* ── FORMULARIOS / CLARO (definición) ─────────────── */
+  dl{margin:.6rem 0 1rem;}
+  dt{font-weight:600; margin-top:.9rem;}
+  dd{margin:.15rem 0 0; color:var(--texto-suave);}
+  .clave{list-style:none; padding:0;}
+  .clave li{position:relative; padding-left:1.35rem;}
+  .clave li::before{content:""; position:absolute; left:0; top:.62rem; width:.42rem; height:.42rem;
+    border-radius:50%; background:var(--dorado);}
+
+  /* ── PIE ──────────────────────────────────────────── */
+  footer{margin-top:clamp(3rem,7vh,4.5rem); padding-block:2rem 3rem; color:var(--texto-tenue);
+    font-size:.9rem; border-top:1px solid var(--hair);}
+  footer em{color:var(--texto-suave);}
+
+  @media (max-width:520px){
+    .paginas a.fila::after{display:none;}
+    .hero .lede{max-width:none;}
+  }
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} *{transition:none!important;} }
+</style>
+</head>
+<body>
+
+<header class="hero wrap">
+  <p class="eyebrow">Equipo web · act. 26 ago 2026</p>
+  <h1>Recorrido rápido<br>por <em>la web</em>.</h1>
+  <p class="lede">Un paseo de diez minutos por el sitio, sin abrir la documentación. Ábrelo al lado y ve clicando cada sección conforme lees.</p>
+  <a class="live" href="https://paramita-org.github.io/" target="_blank" rel="noopener"><span class="dot" aria-hidden="true"></span>Abrir la web en vivo</a>
+  <p class="intro">Todo lo que aparece aquí ya está publicado y se puede ver ahora mismo. Es un sitio <strong>estático</strong> (HTML/CSS/JS a mano, sin framework), servido desde GitHub Pages. La barra de arriba, el pie y algunas piezas comunes son las mismas en todas las páginas —se propagan solas—, así que lo que aprendas de una zona vale para el resto.</p>
+</header>
+
+<main class="wrap">
+
+  <hr class="rule">
+  <section id="barra">
+    <span class="sec-num">01</span>
+    <h2>La barra de arriba <em>(en todas las páginas)</em>.</h2>
+    <p>De izquierda a derecha, en la versión pública: el <strong>logo</strong> (vuelve al inicio) y los apartados <strong>Meditación</strong>, <strong>Cursos</strong>, <strong>Actividades</strong> y <strong>Blog</strong>, que son enlaces directos. Después vienen dos apartados con desplegable:</p>
+    <ul>
+      <li><strong>Sobre</strong> abre cinco entradas: Maestros, Khenpo Rinchen Gyaltsen, Comunidad Monástica, La Fundación y Preguntas Frecuentes.</li>
+      <li><strong>Únete</strong> abre dos: Grupos y Voluntariado.</li>
+    </ul>
+    <p>A la derecha del todo hay tres cosas: el botón <strong>Contribuir</strong> (la única acción del navbar), un <strong>sol/luna</strong> para cambiar de modo y un <strong>círculo con silueta</strong> que lleva al acceso de cuenta.</p>
+    <p>En móvil, los apartados se pliegan dentro del <strong>menú hamburguesa</strong>, pero el sol y el círculo se quedan siempre visibles en la barra para estar a un toque.</p>
+  </section>
+
+  <hr class="rule">
+  <section id="penumbra">
+    <span class="sec-num">02</span>
+    <h2>Modo <em>penumbra</em> (el "dark mode").</h2>
+    <p>Es el botón del <strong>sol</strong>, arriba a la derecha. Al pulsarlo el sitio pasa a "penumbra" (tonos oscuros) y al volver a pulsar regresa a "luz". Tres cosas que conviene saber:</p>
+    <p>Arranca siempre en luz —la penumbra es <strong>opt-in</strong>, nadie la tiene activada sin haberla pedido—. Una vez elegida, <strong>se recuerda</strong> entre páginas y entre visitas (queda guardada en el navegador). Y es <strong>global</strong>: el mismo botón está en todas las páginas, así que la preferencia de lectura te acompaña por todo el sitio. Pruébalo en cualquier página y navega: verás que no se resetea.</p>
+  </section>
+
+  <hr class="rule">
+  <section id="home">
+    <span class="sec-num">03</span>
+    <h2>La home pública, <em>por scroll</em>.</h2>
+    <p>Baja despacio desde arriba. El orden es este:</p>
+    <ol class="pasos">
+      <li><strong>Hero</strong> — El titular tiene una palabra en dorado cursiva que va <strong>rotando sola</strong> ("sabiduría interior", "mejor versión", "paz interior"…). Mueve el ratón por encima del hero: hay un <strong>efecto de fluido</strong> que sigue al cursor. Dos botones: "Aprende a meditar" (va al aula) y "Explorar los cursos".</li>
+      <li><strong>Bienvenida</strong> — el puente entre la sabiduría de los Himalayas y el mundo hispanohablante.</li>
+      <li><strong>Vídeo</strong> — "Conoce Paramita en dos minutos": al pulsar abre el vídeo en un <strong>modal</strong>.</li>
+      <li><strong>El camino / Cursos</strong> — tres puertas de entrada al sendero (empiezo hoy · ya practico · vengo a profundizar), que enlazan a los niveles del catálogo.</li>
+      <li><strong>Participa</strong> — tres vías: practicar en comunidad (Grupos), ofrecer tu tiempo (Voluntariado) y apoyar el proyecto (Contribuir).</li>
+      <li><strong>Crowdfunding</strong> — bloque del futuro centro de retiros, con acceso a su landing.</li>
+      <li><strong>Una tradición viva</strong> — Khenpo, el linaje Sakya y los hitos (siglo XI · 2008 · +1 millón), con fotos de la sangha y del centro.</li>
+      <li><strong>Diario / Blog</strong> — cuatro artículos destacados. Pasa el cursor por una tarjeta: la <strong>imagen crece y el título asoma</strong> desde el fondo.</li>
+      <li><strong>Boletín</strong> — formulario de newsletter. Al suscribirte muestra el estado "Gracias, te has suscrito correctamente".</li>
+      <li><strong>Pie</strong> — redes, navegación, contacto y dirección del centro.</li>
+    </ol>
+    <p>Casi todos los bloques <strong>aparecen con una animación suave al entrar en pantalla</strong> conforme haces scroll.</p>
+  </section>
+
+  <hr class="rule">
+  <section id="logueada">
+    <span class="sec-num">04</span>
+    <h2>El área logueada <em>(con sesión iniciada)</em>.</h2>
+    <p>Pulsa el <strong>círculo</strong> de la barra: te lleva a la <a href="https://paramita-org.github.io/home-logueado/home-logueado.html" target="_blank" rel="noopener">home logueada ("Mi espacio")</a>.</p>
+    <div class="callout">
+      <p><strong>Ojo:</strong> hoy no hay login real todavía. El círculo lleva directo a la home logueada como demo. El sistema de sesión (quién entra, cómo y a dónde redirige) está pendiente de las decisiones de LMS; hasta entonces todo el área logueada es una maqueta funcional.</p>
+    </div>
+    <p>Cuando hay sesión, <strong>la barra cambia</strong>: donde ponía "Cursos" ahora pone <strong>"Mi formación"</strong>, desaparece el botón de Contribuir que tenía en su sitio y el círculo pasa a mostrar la <strong>inicial del usuario</strong> (ahora "J" de ejemplo). Al pulsar esa inicial se abre un desplegable con: Mi cuenta, Mi formación, Ir al aula (LMS) y Cerrar sesión. El resto del menú (Meditación, Actividades, Blog, Sobre, Únete) es igual que en público.</p>
+    <p>La <strong>home logueada</strong>, de arriba abajo: un <strong>saludo que cambia según la hora</strong> ("Buenas tardes, Jana…"), un mini-mapa del sendero, próximos encuentros, un bloque de enseñanza, novedades, lecturas que acompañan y un cierre con el siguiente paso.</p>
+    <p class="nota">Relacionadas: <a href="https://paramita-org.github.io/formacion-logueado/formacion-logueado.html" target="_blank" rel="noopener">Mi formación</a> (catálogo logueado, con estado de cada curso) y <a href="https://paramita-org.github.io/cuenta/cuenta.html" target="_blank" rel="noopener">Mi cuenta</a>.</p>
+  </section>
+
+  <hr class="rule">
+  <section id="actividades">
+    <span class="sec-num">05</span>
+    <h2>Actividades y sus plantillas <em>(recién montadas · en revisión)</em>.</h2>
+    <p>Actividades es el segundo carril del sitio, distinto del de cursos: aquí la lógica no es temario, sino <strong>fecha, lugar, aforo y reserva</strong>. La página índice reúne el calendario y las tarjetas de cada actividad, y de ella cuelgan cinco plantillas —una por tipo— montadas todas sobre el mismo sistema de diseño (igual que la ficha de curso EMI es la muestra del carril de formación).</p>
+    <div class="callout">
+      <p><strong>Importante:</strong> estas landings están <strong>recién construidas y todavía no revisadas al 100%</strong>. Úsalas como muestra del formato, no como versión final: textos, fechas, fotos y algún enlace son provisionales, y falta rematar el cableado de algunas tarjetas del índice y el repaso en móvil.</p>
+    </div>
+    <ul class="paginas">
+      <li><a class="fila" href="https://paramita-org.github.io/actividades/actividades.html" target="_blank" rel="noopener"><span class="nom">Índice de Actividades</span> <span class="desc">calendario + tarjetas</span></a></li>
+      <li><a class="fila" href="https://paramita-org.github.io/actividades/retiros/retiro.html" target="_blank" rel="noopener"><span class="nom">Plantilla · Retiro</span> <span class="desc">multi-día, residencial, con aforo y reserva</span></a></li>
+      <li><a class="fila" href="https://paramita-org.github.io/actividades/eventos/evento.html" target="_blank" rel="noopener"><span class="nom">Plantilla · Evento</span> <span class="desc">sesión suelta, compromiso ligero</span></a></li>
+      <li><a class="fila" href="https://paramita-org.github.io/actividades/giras/gira.html" target="_blank" rel="noopener"><span class="nom">Plantilla · Gira genérica</span> <span class="desc">un maestro, varias fechas/ciudades</span></a></li>
+      <li><a class="fila" href="https://paramita-org.github.io/actividades/giras/gira-madrid.html" target="_blank" rel="noopener"><span class="nom">Plantilla · Gira por ciudad</span> <span class="desc">ejemplo Madrid</span></a></li>
+      <li><a class="fila" href="https://paramita-org.github.io/actividades/celebraciones/celebracion.html" target="_blank" rel="noopener"><span class="nom">Plantilla · Celebración</span> <span class="desc">festividad de acceso libre, dāna opcional</span></a></li>
+    </ul>
+    <p>Igual que la inscripción a cursos, la <strong>reserva de actividades</strong> todavía no tiene backend: los botones de reserva apuntan a vacío hasta que se conecte.</p>
+  </section>
+
+  <hr class="rule">
+  <section id="paginas">
+    <span class="sec-num">06</span>
+    <h2>El resto de páginas, <em>para clicar</em>.</h2>
+
+    <p class="grupo-tit">Públicas</p>
+    <ul class="paginas">
+      <li><a class="fila" href="https://paramita-org.github.io/meditacion/meditacion.html" target="_blank" rel="noopener"><span class="nom">Meditación</span></a></li>
+      <li><a class="fila" href="https://paramita-org.github.io/formacion/formacion-publica.html" target="_blank" rel="noopener"><span class="nom">Cursos</span> <span class="desc">catálogo público</span></a></li>
+      <li><a class="fila" href="https://paramita-org.github.io/blog/blog.html" target="_blank" rel="noopener"><span class="nom">Blog</span></a></li>
+      <li><a class="fila" href="https://paramita-org.github.io/blog/maqueta-blog-entrada.html" target="_blank" rel="noopener"><span class="nom">Blog · entrada de ejemplo</span></a></li>
+    </ul>
+
+    <p class="grupo-tit">Sobre</p>
+    <ul class="paginas">
+      <li><a class="fila" href="https://paramita-org.github.io/sobre/maestros/maestros.html" target="_blank" rel="noopener"><span class="nom">Maestros</span></a></li>
+      <li><a class="fila" href="https://paramita-org.github.io/sobre/khenpo/khenpo.html" target="_blank" rel="noopener"><span class="nom">Khenpo Rinchen Gyaltsen</span></a></li>
+      <li><a class="fila" href="https://paramita-org.github.io/sobre/sangha-monastica/sangha-monastica.html" target="_blank" rel="noopener"><span class="nom">Comunidad Monástica</span></a></li>
+      <li><a class="fila" href="https://paramita-org.github.io/sobre/la-fundacion/la-fundacion.html" target="_blank" rel="noopener"><span class="nom">La Fundación</span></a></li>
+      <li><a class="fila" href="https://paramita-org.github.io/sobre/preguntas-frecuentes/preguntas-frecuentes.html" target="_blank" rel="noopener"><span class="nom">Preguntas Frecuentes</span></a></li>
+    </ul>
+
+    <p class="grupo-tit">Únete y apoyo</p>
+    <ul class="paginas">
+      <li><a class="fila" href="https://paramita-org.github.io/unete/grupos/grupos.html" target="_blank" rel="noopener"><span class="nom">Grupos</span></a></li>
+      <li><a class="fila" href="https://paramita-org.github.io/unete/voluntariado/voluntariado.html" target="_blank" rel="noopener"><span class="nom">Voluntariado</span></a></li>
+      <li><a class="fila" href="https://paramita-org.github.io/contribuir/contribuir.html" target="_blank" rel="noopener"><span class="nom">Contribuir</span></a></li>
+      <li><a class="fila" href="https://paramita-org.github.io/crowdfunding/crowdfunding.html" target="_blank" rel="noopener"><span class="nom">Crowdfunding</span></a></li>
+    </ul>
+  </section>
+
+  <hr class="rule">
+  <section id="formularios">
+    <span class="sec-num">07</span>
+    <h2>Formularios y <em>en qué punto</em> están.</h2>
+    <p>El sitio tiene tres "vías" de transacción separadas, sin carrito de la compra: <strong>donativo</strong> (Contribuir), <strong>inscripción a cursos</strong> e <strong>inscripción a actividades</strong>. Cada una es de un solo elemento.</p>
+    <dl>
+      <dt>Newsletter <span class="nota">(home y pie)</span></dt>
+      <dd>Completo a nivel de interfaz: valida, muestra el estado de éxito y el aviso de privacidad.</dd>
+      <dt>Voluntariado</dt>
+      <dd>Hay página de puertas (Voluntariado) y una página de solicitud con su formulario de campos. La interfaz está montada.</dd>
+      <dt>Grupos</dt>
+      <dd>Página de grupos y una solicitud de nuevo grupo con formulario.</dd>
+      <dt>Inscripción a cursos</dt>
+      <dd>Pantalla de inscripción montada; el flujo real es: pago en paramita.org → alta por API en el aula (LearnWorlds, en <code>cursos.paramita.org</code>, URL provisional).</dd>
+      <dt>Contribuir</dt>
+      <dd>La página está, pero sus botones de aportación apuntan de momento a vacío: esperan la pasarela de pago y los endpoints.</dd>
+    </dl>
+    <p>En resumen: <strong>el frontend de los formularios está</strong>; lo que falta es conectar el backend (pasarela y endpoints de envío).</p>
+  </section>
+
+  <hr class="rule">
+  <section id="movimiento">
+    <span class="sec-num">08</span>
+    <h2>Cómo se comporta <em>el movimiento</em>.</h2>
+    <p>Hay dos familias de animación, a propósito:</p>
+    <ul>
+      <li><strong>De ambiente</strong> — cosas lentas que están siempre (gradientes que fluyen, el fluido del cursor). Marcan identidad y no distraen.</li>
+      <li><strong>Por interacción tuya</strong> — al hacer scroll (los bloques aparecen), al pasar el ratón (tarjetas del blog), al abrir el acordeón de las FAQ, al reproducir el vídeo, al desplegar un menú.</li>
+    </ul>
+    <p>Lo que <strong>no</strong> vas a ver, y es deliberado: carruseles que avanzan solos, contadores de urgencia ni animaciones infinitas fuera de la familia de ambiente. Además, si alguien tiene activado en su sistema el "reducir movimiento", el sitio lo respeta y baja las animaciones.</p>
+  </section>
+
+  <hr class="rule">
+  <section id="claro">
+    <span class="sec-num">09</span>
+    <h2>Cosas que conviene <em>tener claras</em>.</h2>
+    <ul class="clave">
+      <li>El sitio ya tiene <strong>favicon propio</strong>: la flor de loto del logo, en degradado de los azules de marca. Lo verás en la pestaña del navegador.</li>
+      <li><strong><code>www.paramita.org</code> es la web viva actual</strong> (la que gestiona Alberto). Esto de GitHub Pages es el rediseño nuevo. No se toca la web viva.</li>
+      <li>El <strong>aula</strong> (<code>cursos.paramita.org</code>) es una URL provisional hasta que lance el sitio nuevo.</li>
+      <li>Toda el <strong>área logueada</strong> (home logueada y su barra) está a la espera de las decisiones de sesión/LMS.</li>
+      <li>El sitio es <strong>responsive</strong>, pero la revisión a fondo en móvil está <strong>aún en curso</strong>: puede haber ajustes de espaciado, tipografía o algún bloque puntual pendientes de pulir en pantallas pequeñas.</li>
+      <li>Los <strong>textos son provisionales</strong>: pueden cambiar sin que cambie la estructura.</li>
+      <li>Las <strong>imágenes son provisionales</strong>: fotos de muestra que se sustituirán por las definitivas.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>Si algo no se ve bien en GitHub Pages, el primer paso casi siempre es recargar forzando caché (<em>Cmd/Ctrl + Shift + R</em>): la web se cachea de forma agresiva.</p>
+</footer>
+
+</body>
+</html>

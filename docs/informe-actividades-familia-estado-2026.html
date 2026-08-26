@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La familia de actividades — Estado y arquitectura · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;--paper-2:#FBFAF7;--ink:#191A1C;--slate:#63656B;
+    --ink-deep:#132239;--ink-deep-2:#0E1A2C;--gold:#A8823F;--gold-lite:#C9A96E;
+    --rule:#DAD6CC;--rule-soft:#E5E2D9;
+    --col: min(760px, calc(100% - 2.5rem));
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:1.04rem;line-height:1.68;-webkit-font-smoothing:antialiased}
+  .flow{display:grid;grid-template-columns:1fr var(--col) 1fr}
+  .flow > *{grid-column:2}
+  .cover{padding:clamp(3rem,8vh,5.5rem) 0 2rem}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 1.2rem}
+  h1{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(2.3rem,6vw,3.8rem);line-height:1.02;letter-spacing:-.015em;margin:0 0 1.1rem}
+  h1 em{font-style:italic;font-weight:400;color:var(--ink-deep)}
+  .deck{font-size:1.2rem;line-height:1.5;color:var(--slate);max-width:36em;margin:0}
+  .sheen{height:2px;position:relative;overflow:hidden;background:var(--rule);margin:2rem 0}
+  .sheen::after{content:"";position:absolute;inset:0;width:38%;background:linear-gradient(90deg,transparent,var(--gold-lite),var(--gold),transparent);animation:sweep 6s ease-in-out infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(360%)}}
+  .meta{font-family:"JetBrains Mono",monospace;font-size:.74rem;color:var(--slate);letter-spacing:.02em}
+  section{padding:2.4rem 0}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;color:var(--gold);display:block;margin-bottom:.5rem}
+  h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.1;letter-spacing:-.01em;margin:0 0 1rem}
+  h3{font-weight:650;font-size:1.04rem;margin:1.6rem 0 .4rem}
+  p{margin:0 0 1rem}
+  strong{font-weight:650}em{font-style:italic}
+  code{font-family:"JetBrains Mono",monospace;font-size:.85em;background:var(--paper-2);border:1px solid var(--rule-soft);padding:.05em .35em;border-radius:3px}
+  a{color:var(--ink-deep)}
+  .tbl-wrap{margin:1.2rem 0;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.86rem}
+  th,td{text-align:left;padding:.6rem .7rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  thead th{border-bottom:1.5px solid var(--ink);font-weight:650;font-size:.76rem}
+  tbody td:first-child{font-weight:600;white-space:nowrap}
+  tbody tr:hover td{background:var(--paper-2)}
+  .mono{font-family:"JetBrains Mono",monospace;font-size:.82em;color:var(--ink-deep)}
+  .pill{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.06em;padding:.12em .5em;border-radius:4px;background:color-mix(in oklch,var(--gold) 15%,var(--paper-2));border:1px solid color-mix(in oklch,var(--gold) 35%,transparent);color:var(--ink)}
+  ul.tight{margin:.3rem 0 1rem;padding-left:1.2em}
+  ul.tight li{margin-bottom:.35rem}
+  .check{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--gold);border-radius:4px;padding:1.1rem 1.3rem;margin:1.2rem 0}
+  .check h3{margin:.2rem 0 .6rem;font-size:.95rem}
+  .check ol{margin:0;padding-left:1.3em;font-size:.92rem}
+  .check li{margin-bottom:.4rem}
+  hr{border:0;border-top:1px solid var(--rule);margin:0}
+  footer{border-top:1px solid var(--rule);padding:2rem 0 3.5rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--slate)}
+  @media (prefers-reduced-motion:reduce){.sheen::after{animation:none;transform:translateX(80%)}}
+</style>
+</head>
+<body>
+
+<header class="flow cover">
+  <p class="eyebrow">Informe de contexto · Familia de actividades · 2026</p>
+  <h1>La familia de <em>actividades</em></h1>
+  <p class="deck">Estado y arquitectura de las cuatro plantillas de actividad y su catálogo. Documento breve de contexto para retomar el trabajo.</p>
+  <div class="sheen" aria-hidden="true"></div>
+  <p class="meta">Agosto 2026 · Fundació Sakya Paramita</p>
+</header>
+
+<hr>
+
+<section class="flow">
+  <span class="sec-num">01 — El sistema</span>
+  <h2>Un catálogo y cuatro plantillas</h2>
+  <p>Las actividades se organizan por <strong>compromiso descendente</strong>: retiro (inmersión residencial) → evento (encuentro presencial u online) → gira (el maestro por ciudades) → celebración (fiesta abierta de la comunidad). Cada tipo tiene <strong>una plantilla</strong>, todas sobre el mismo sistema de diseño (escaneo honesto, escasez real solo por aforo, voces del sendero, marco dāna, movimiento contemplativo), calibrado al peso de lo que cada una pide.</p>
+  <p>El <strong>catálogo</strong> (<code>actividades.html</code>) es la puerta: lista tarjetas y un calendario, y cada entrada enlaza a la plantilla de muestra de su tipo. La gira, además, tiene <strong>dos variantes</strong> —el índice de ciudades y la página de ciudad—.</p>
+</section>
+
+<hr>
+
+<section class="flow">
+  <span class="sec-num">02 — Las plantillas</span>
+  <h2>Qué es cada una</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Plantilla</th><th>Ruta</th><th>Qué es · bloque distintivo</th><th>CSS</th></tr></thead>
+      <tbody>
+        <tr><td>Retiro</td><td class="mono">actividades/retiros/retiro.html</td><td>Inmersión residencial. Recorrido de práctica, ritmo del día, idoneidad sí/no, planes.</td><td class="mono">paramita-retiro.css</td></tr>
+        <tr><td>Evento</td><td class="mono">actividades/eventos/evento.html</td><td>Doble carril presencial/online. Logística en dos ramas, valor del «en vivo», becas.</td><td class="mono">paramita-evento.css</td></tr>
+        <tr><td>Gira · índice</td><td class="mono">actividades/giras/gira.html</td><td>Catálogo de sedes como <em>lista</em> (no mapa), estado por ciudad, aviso de apertura.</td><td class="mono">paramita-gira.css</td></tr>
+        <tr><td>Gira · ciudad</td><td class="mono">actividades/giras/gira-madrid.html</td><td>Conversión local: logística, organización local, precio en moneda local, dāna.</td><td class="mono">paramita-gira-ciudad.css</td></tr>
+        <tr><td>Celebración</td><td class="mono">actividades/celebraciones/celebracion.html</td><td>Invitación (no venta). Significado + mérito, la práctica/puya, participación <em>híbrida</em> con horario internacional.</td><td class="mono">paramita-celebracion.css</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Cada plantilla comparte el vocabulario de landing de <code>paramita-curso.css</code> y añade en su hoja propia solo lo específico. Cada una tiene su <strong>estudio</strong> (informe de estructura y conversión con datos contrastados) como respaldo de las decisiones.</p>
+</section>
+
+<hr>
+
+<section class="flow">
+  <span class="sec-num">03 — El catálogo y el cableado</span>
+  <h2>Cómo se conecta todo</h2>
+  <p><code>actividades.html</code> tiene <strong>10 tarjetas</strong> (3 retiro, 2 evento, 2 gira, 3 celebración) y <strong>11 entradas de calendario</strong>. Todas están cableadas con <strong>enlace estirado inline</strong> (la tarjeta pasa a <code>position:relative</code> con un <code>&lt;a&gt;</code> transparente a <code>inset:0</code>, sin depender de CSS externo) a la plantilla de su tipo. Desde la gira índice, las ciudades abiertas abren la página de ciudad.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Origen</th><th>Destino</th></tr></thead>
+      <tbody>
+        <tr><td>Cards + calendario (por tipo)</td><td class="mono">→ retiro / evento / gira / celebracion .html</td></tr>
+        <tr><td>Gira índice · ciudades abiertas</td><td class="mono">→ gira-madrid.html</td></tr>
+        <tr><td>Gira ciudad · «‹ Todas las ciudades»</td><td class="mono">→ gira.html</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><span class="pill">Nota</span> Cada tarjeta apunta a la <em>muestra</em> de su tipo. En producción, cuando cada actividad real tenga su página, solo se cambia el <code>href</code> de esa tarjeta.</p>
+</section>
+
+<hr>
+
+<section class="flow">
+  <span class="sec-num">04 — Assets y sistema</span>
+  <h2>Lo que hace que se vea bien</h2>
+  <h3>Pictogramas (aparte, en <code>partials/pictogramas/</code>)</h3>
+  <p>Siete SVG <strong>dedicados</strong> autorados según canon (viewBox 24, stroke 1.5, un trazo <code>.acc</code> dorado): <span class="mono">retiro-base · -claridad · -descanso · -comunidad</span> y <span class="mono">evento-transmision · -sangha · -dialogo</span>. La gira y la celebración <strong>no añaden pictos</strong>: reutilizan canon (ubicacion, reloj, comunidad, en-linea) y los del evento. <code>sync.py</code> rellena cada <code>data-pico</code> desde estos archivos; si falta uno, <strong>aborta la página entera</strong>.</p>
+  <h3>Logo y lotos (en <code>assets/img/</code>)</h3>
+  <p><code>logo.svg</code> (silueta del imagotipo, para la máscara del navbar/footer) y <code>flor-loto.svg</code> (el imagotipo real, extraído del logo) — sin este último, los lotos del prefooter salen como bolas. Fix global de todo el sitio; <code>sync</code> no los toca, los carga el navegador.</p>
+  <h3>sync.py y las páginas</h3>
+  <p>Las cinco plantillas se autodeclaran con <code>&lt;!-- sync: navbar=publico current="Actividades" prefooter --&gt;</code>. En <code>--all</code>, sync las descubre (rglob, carpetas no excluidas) e inyecta navbar, footer, <strong>prefooter</strong> (que trae el lienzo de lotos + suscripción) y pictogramas. Rutas siempre absolutas (<code>/css/</code>, <code>/assets/</code>) porque las páginas están a dos niveles.</p>
+</section>
+
+<hr>
+
+<section class="flow">
+  <span class="sec-num">05 — Estado y pendientes</span>
+  <h2>Dónde está y qué falta</h2>
+  <ul class="tight">
+    <li><strong>Hecho:</strong> las 4 plantillas (5 páginas) + sus CSS + sus estudios; catálogo cableado; 7 pictos dedicados; logo y flor-loto; canonical de retiro corregido.</li>
+    <li><strong>Copy provisional</strong> hasta validación de Ale (textos, cita de la celebración, testimonios).</li>
+    <li><strong>Imágenes pendientes:</strong> <code>hero-*</code> restantes y <code>assets/img/celebracion/</code> (hay marcadores de reserva mientras).</li>
+    <li><strong>Enlaces reales pendientes:</strong> YouTube en vivo y mapa del centro (celebración), inscripción/pagos (Alberto) — ahora en <code>#</code>.</li>
+    <li><strong>Menor:</strong> el resaltado <code>aria-current="Actividades"</code> solo aplica si ese ítem del navbar es un <code>&lt;a&gt;</code> (no si es disparador de desplegable).</li>
+  </ul>
+
+  <div class="check">
+    <h3>Checklist de despliegue (orden importa)</h3>
+    <ol>
+      <li>Copiar al árbol: 5 plantillas → sus carpetas · 5 CSS → <code>css/paginas/</code> · 7 pictos → <code>partials/pictogramas/</code> · <code>logo.svg</code> + <code>flor-loto.svg</code> → <code>assets/img/</code> · <code>actividades.html</code> + <code>retiro.html</code> (canonical).</li>
+      <li><code>git pull --rebase origin main</code></li>
+      <li><code>python3 partials/sync.py --all</code> <strong>desde la raíz</strong>; revisar que no salga ningún <code>[!] … aborta</code>.</li>
+      <li><code>git add -A</code> → <code>git commit -m "…"</code> (comillas rectas) → <code>git push origin main</code>.</li>
+    </ol>
+  </div>
+</section>
+
+<footer class="flow">
+  Informe de contexto · Familia de actividades · Fundació Sakya Paramita · Agosto 2026
+</footer>
+
+</body>
+</html>
