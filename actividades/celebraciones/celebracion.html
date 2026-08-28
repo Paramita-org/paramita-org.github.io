@@ -337,10 +337,10 @@
   </section>
 
   <!-- ═══ 03 · EL SIGNIFICADO ═══ -->
-  <section class="section wrap split" id="significado" aria-labelledby="sig-t">
+  <section class="section wrap split split--inv" id="significado" aria-labelledby="sig-t">
     <div class="split__media">
       <figure class="retrato">
-        <img src="../../assets/img/celebracion/losar-altar.jpg" alt="Altar preparado para la celebración de Losar" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
+        <img src="../../assets/img/hero-celebracion.jpg" alt="Losar, el Año Nuevo Tibetano" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
       </figure>
     </div>
     <div class="split__body">
@@ -352,12 +352,34 @@
     </div>
   </section>
 
+  <!-- ═══ 03b · POR QUÉ JUNTOS · pictogramas ═══ -->
+  <section class="section wrap" id="por-que" aria-labelledby="pq-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Por qué lo celebramos juntos</span>
+      <h2 id="pq-t" data-reveal="2">Tres frutos de <em>celebrar en comunidad</em>.</h2>
+    </div>
+    <div class="pictos">
+      <div class="picto" data-reveal>
+        <span class="pico" data-pico="celebracion-merito" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V10"/><path d="M12 14C9 14 6.5 12 6.5 8.5C10 8.5 12 10.5 12 14Z"/><path class="acc" d="M12 11C12 7.5 14 5.5 17.5 5.5C17.5 9 15 11 12 11Z"/></svg></span>
+        <h3>El mérito se multiplica</h3><p>Cada acto de bondad en este día florece y se acumula.</p>
+      </div>
+      <div class="picto" data-reveal>
+        <span class="pico" data-pico="celebracion-sangha" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="8.6" r="2"/><circle cx="17" cy="8.6" r="2"/><circle class="acc" cx="12" cy="7" r="2.3"/><path d="M4 18C4 13.8 7.8 12 12 12C16.2 12 20 13.8 20 18"/></svg></span>
+        <h3>La Sangha se fortalece</h3><p>Practicar juntos teje la comunidad que sostiene el camino.</p>
+      </div>
+      <div class="picto" data-reveal>
+        <span class="pico" data-pico="celebracion-renovacion" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18"/><path class="acc" d="M8 18a4 4 0 0 1 8 0"/><path d="M12 7V4M6 9.5L4.3 7.8M18 9.5l1.7-1.7M4.5 13.5H2.5M19.5 13.5h2"/></svg></span>
+        <h3>Renovar la práctica</h3><p>Un nuevo ciclo para reorientar el corazón hacia el bien.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ═══ 04 · CÓMO LO CELEBRAREMOS · la práctica ═══ -->
   <section class="section wrap zona-luz" id="practica" aria-labelledby="pra-t">
     <div class="seccion-head" data-reveal="1">
       <span class="eyebrow">¿Cómo lo celebraremos en Paramita?</span>
-      <h2 id="pra-t" data-reveal="2">Una <em>puya</em> de año nuevo, y después la fiesta.</h2>
-      <p class="lede">Celebrar este día juntos fortalece la Sangha y multiplica los beneficios de la práctica. El corazón del día es una ceremonia; alrededor, la comunidad.</p>
+      <h2 id="pra-t" data-reveal="2">Una <em>puya</em> de año nuevo.</h2>
+      <p class="lede">El corazón del día es la puya de año nuevo. Esto es lo que la compone.</p>
     </div>
 
     <ul class="checks checks--dos">
@@ -367,12 +389,9 @@
       <li><b>Dedicación del mérito.</b> Ofrecemos el bien acumulado por el beneficio de todos los seres.</li>
     </ul>
 
-    <ul class="jornada">
-      <li data-reveal><span class="jornada__hora">17:00</span><div class="jornada__t"><h3>Puya de año nuevo</h3><p>La ceremonia central, abierta a todos. También en directo.</p></div></li>
-      <li data-reveal><span class="jornada__hora">18:00</span><div class="jornada__t"><h3>Ofrendas y aspiraciones</h3><p>Un momento para ofrecer y desear el bien para el año.</p></div></li>
-      <li data-reveal><span class="jornada__hora">19:00</span><div class="jornada__t"><h3>Comida compartida</h3><p>Banquete comunitario para quien esté en el centro. Trae algo si quieres.</p></div></li>
-      <li data-reveal><span class="jornada__hora">20:30</span><div class="jornada__t"><h3>Música y despedida</h3><p>Cantos y brindis de buenos auspicios.</p></div></li>
-    </ul>
+    <p class="practica__pdf" data-reveal>
+      <a class="btn-secundario" href="#">Descargar la puya en PDF</a>
+    </p>
 
     <div class="ambiente" data-reveal>
       <figure class="ambiente__fig ambiente__fig--ancha" data-vacio="La comunidad reunida en el Losar anterior">
@@ -383,30 +402,26 @@
         <img src="../../assets/img/celebracion/losar-ofrendas.jpg" alt="Ofrendas y lámparas de mantequilla" loading="lazy" onerror="this.closest('.ambiente__fig').classList.add('is-vacio')">
         <figcaption>Ofrendas y lámparas</figcaption>
       </figure>
-      <figure class="ambiente__fig" data-vacio="La comida compartida">
-        <img src="../../assets/img/celebracion/losar-comida.jpg" alt="La mesa de la comida compartida" loading="lazy" onerror="this.closest('.ambiente__fig').classList.add('is-vacio')">
-        <figcaption>La mesa compartida</figcaption>
+      <figure class="ambiente__fig" data-vacio="La comunidad en la puya">
+        <img src="../../assets/img/celebracion/losar-puya.jpg" alt="La comunidad reunida durante la puya" loading="lazy" onerror="this.closest('.ambiente__fig').classList.add('is-vacio')">
+        <figcaption>La puya en comunidad</figcaption>
       </figure>
     </div>
   </section>
 
   <!-- ═══ 05 · QUIÉN GUÍA ═══ -->
-  <section class="section wrap split split--inv difusor" id="guia" aria-labelledby="gui-t">
+  <section class="section wrap split" id="guia" aria-labelledby="gui-t">
     <div class="split__media">
       <figure class="retrato">
-        <img src="../../assets/img/khenpo-luz-dorada-low.jpg" alt="Ven. Khenpo Rinchen Gyaltsen" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
+        <img src="../../assets/img/khenpo-luz-dorada-low.jpg" alt="Un maestro de la comunidad monástica de Paramita" loading="lazy" onerror="this.closest('.retrato').classList.add('is-vacio')">
       </figure>
     </div>
     <div class="split__body">
-      <span class="eyebrow" data-reveal="1">¿Quién guiará la práctica?</span>
-      <h2 id="gui-t" data-reveal="2">Ven. Khenpo Rinchen <em>Gyaltsen</em>.</h2>
-      <p>Maestro residente del Centro Budista Sakya en España. Con más de 25 años guiando grupos de meditación, formado por maestros tibetanos, transmite las enseñanzas del Buddha en un lenguaje claro, cercano y profundamente práctico.</p>
-      <ul class="checks">
-        <li>Formación tradicional tibetana.</li>
-        <li>Acompañamiento cercano y accesible.</li>
-        <li>Claridad, profundidad y sentido del humor.</li>
-      </ul>
-      <a class="t-link" href="/sobre/khenpo/khenpo.html"><span class="txt">Conocer a Khenpo Rinchen</span> <span class="arw" aria-hidden="true">→</span></a>
+      <span class="eyebrow" data-reveal="1">Quién guía</span>
+      <h2 id="gui-t" data-reveal="2">En manos de la <em>comunidad monástica</em>.</h2>
+      <p class="split__sub">Cercanía, claridad y linaje.</p>
+      <p>La puya la guía un maestro o maestra de nuestra comunidad monástica —a veces el propio Khenpo Rinchen, a veces otro de sus miembros—. Todos comparten la formación en el linaje Sakya y la vocación de transmitir la práctica con cercanía y claridad.</p>
+      <a class="t-link" href="/sobre/sangha-monastica/sangha-monastica.html"><span class="txt">Conocer a la comunidad monástica</span> <span class="arw" aria-hidden="true">→</span></a>
     </div>
   </section>
 
@@ -454,7 +469,7 @@
     <div class="bienvenida" data-reveal>
       <span class="eyebrow">La puerta abierta</span>
       <h2 id="bie-t">No hace falta ser <em>budista</em>.</h2>
-      <p>Losar es una fiesta, y las fiestas se disfrutan más cuando somos más. Vengas de donde vengas y sepas lo que sepas, tienes un sitio. Ven con curiosidad, ven con tu familia, ven por primera vez.</p>
+      <p>Losar es una celebración de comunidad, y se vive mejor acompañado. Vengas de donde vengas y sepas lo que sepas, tienes un sitio. Ven con curiosidad, ven con tu familia, ven por primera vez.</p>
       <ul class="bienvenida__puntos">
         <li>Budista o no</li>
         <li>Con niños y familia</li>
@@ -473,6 +488,64 @@
     </div>
   </section>
 
+  <!-- ═══ 09 · VOCES DEL SENDERO ═══ -->
+  <section class="section wrap bloque-voces zona-luz" id="voces" aria-labelledby="voc-t">
+    <div class="bloque-voces__head">
+      <span class="eyebrow">Voces del sendero</span>
+      <h2 id="voc-t">Del Losar <em>anterior</em>.</h2>
+      <p class="bloque-voces__sub">Quienes vinieron —algunos por primera vez— lo cuentan.</p>
+    </div>
+    <div class="voces">
+      <figure class="voz">
+        <blockquote class="voz__q">Vine sin conocer a nadie y me fui sintiéndome de la familia.</blockquote>
+        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">LM</span><span><span class="voz__n">Lucía Márquez</span><span class="voz__meta">primera vez · Losar 2026</span></span></figcaption>
+      </figure>
+      <figure class="voz">
+        <blockquote class="voz__q">Seguí la puya online desde México y sentí el centro cerca.</blockquote>
+        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">DR</span><span><span class="voz__n">Diego Ramírez</span><span class="voz__meta">en línea · Losar 2026</span></span></figcaption>
+      </figure>
+      <figure class="voz">
+        <blockquote class="voz__q">Para quienes practicamos todo el año, es el día en que la Sangha se abraza.</blockquote>
+        <figcaption class="voz__who"><span class="voz__av" aria-hidden="true">MT</span><span><span class="voz__n">Marta Tur</span><span class="voz__meta">Sangha · Losar 2026</span></span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═══ 10 · FAQ ═══ -->
+  <section class="section wrap faq difusor" id="faq" aria-labelledby="faq-t">
+    <div class="seccion-head" data-reveal="1">
+      <span class="eyebrow">Antes de venir</span>
+      <h2 id="faq-t" data-reveal="2">Las dudas <em>más habituales</em>.</h2>
+    </div>
+    <div class="faq__buscador" data-reveal="2">
+      <input id="faqBuscar" type="text" autocomplete="off" placeholder="Busca por palabra… gratis, niños, online" aria-label="Buscar en las preguntas frecuentes">
+      <span class="faq__buscador__icono" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21" stroke-linecap="round"></line></svg></span>
+    </div>
+    <div class="faq__lista">
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="cel1">¿Hay que pagar algo?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="cel1" role="region"><div class="faq__inner"><p>No. La celebración es de <b>acceso libre</b>. Si quieres, puedes dejar un donativo (dāna), pero es del todo opcional.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="cel2">¿Tengo que ser budista o saber algo?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="cel2" role="region"><div class="faq__inner"><p>Para nada. Vengas de donde vengas, tienes un sitio. Solo se pide respeto y ganas de compartir el día.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="cel3">¿Puedo ir con niños o en familia?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="cel3" role="region"><div class="faq__inner"><p>Sí, las familias son bienvenidas. Es un buen modo de acercar a los más pequeños a otra cultura.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="cel4">¿Cómo sigo la celebración online?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="cel4" role="region"><div class="faq__inner"><p>La puya se emite en directo por YouTube. El enlace se publica en esta página y en el boletín unos días antes.</p></div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button" aria-expanded="false" aria-controls="cel5">¿Hace falta inscribirse?<span class="faq__sign" aria-hidden="true"></span></button>
+        <div class="faq__panel" id="cel5" role="region"><div class="faq__inner"><p>No es obligatorio: la puerta está abierta. Si nos avisas de que vienes, nos ayudas a preparar el espacio.</p></div></div>
+      </div>
+    </div>
+    <p class="faq__vacio" id="faqVacio" hidden>Ninguna pregunta coincide con eso. Escríbenos y te orientamos.</p>
+  </section>
+
   <!-- ═══ CIERRE CÁLIDO ═══ -->
   <section class="cta-final" id="cta-final" aria-labelledby="ctaf-t">
     <div class="wrap cta-final__inner">
@@ -488,18 +561,6 @@
 
 <!-- prefooter · sincronizado con partials/prefooter.html -->
 <!-- footer · sincronizado con partials/footer.html -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
-<!-- footer · sincronizado con partials/footer.html -->
-<!-- prefooter · sincronizado con partials/prefooter.html -->
-<!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
-     Se inyecta antes del footer en las páginas marcadas `prefooter`.
-     COPY PROVISIONAL. El estilado sobre azul vive en paramita-footer.css
-     (.foot__hero .suscribe). El endpoint del formulario lo conecta el backend. -->
 <!-- footer · sincronizado con partials/footer.html -->
 <!-- prefooter · sincronizado con partials/prefooter.html -->
 <!-- Banda de suscripción (Fase 8) · zona azul con lotos + componente .suscribe.
